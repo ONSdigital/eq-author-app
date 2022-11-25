@@ -17,7 +17,6 @@ import MultipleChoiceAnswerOptionsSelector from "./MultipleChoiceAnswerOptionsSe
 import NumberAnswerSelector from "./NumberAnswerSelector";
 
 import { binaryExpressionErrors } from "constants/validationMessages";
-
 import { OR } from "constants/routingOperators";
 
 jest.mock("@apollo/react-hooks", () => ({
@@ -136,6 +135,8 @@ describe("BinaryExpressionEditor", () => {
 
     const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
     wrapper.find(byTestAttr("btn-remove")).simulate("click");
+    const deleteConfirmModal = wrapper.find("Modal");
+    deleteConfirmModal.simulate("confirm");
     expect(defaultProps.deleteBinaryExpression).toHaveBeenCalledWith(
       defaultProps.expression.id,
       expect.any(Function)
@@ -145,13 +146,28 @@ describe("BinaryExpressionEditor", () => {
   it("should call deleteSkipCondition when remove button is clicked, expressions length is 1 and conditionType is skip", () => {
     const deleteSkipCondition = jest.fn();
     defaultProps.conditionType = "skip";
-    useMutation.mockImplementationOnce(jest.fn(() => [deleteSkipCondition]));
+    useMutation.mockImplementation(jest.fn(() => [deleteSkipCondition]));
 
     const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
     wrapper.find(byTestAttr("btn-remove")).simulate("click");
+    const deleteConfirmModal = wrapper.find("Modal");
+    deleteConfirmModal.simulate("confirm");
     expect(deleteSkipCondition).toHaveBeenCalledWith({
       variables: { input: { id: defaultProps.expressionGroup.id } },
     });
+  });
+
+  it("should close delete modal", () => {
+    const deleteSkipCondition = jest.fn();
+    useMutation.mockImplementation(jest.fn(() => [deleteSkipCondition]));
+
+    const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
+    wrapper.find(byTestAttr("btn-remove")).simulate("click");
+    expect(wrapper.find("Modal").prop("isOpen")).toBe(true);
+
+    wrapper.find("Modal").simulate("close");
+    expect(deleteSkipCondition).not.toHaveBeenCalled();
+    expect(wrapper.find("Modal").prop("isOpen")).toBe(false);
   });
 
   it("should correctly submit from RoutingAnswerContentPicker", () => {

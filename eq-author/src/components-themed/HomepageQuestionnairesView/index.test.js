@@ -260,8 +260,8 @@ describe("QuestionnairesView", () => {
       );
       const deleteButton = getAllByTestId("btn-delete-questionnaire")[0];
       fireEvent.click(deleteButton);
-      const confirmButton = getByTestId("btn-delete-modal");
-      fireEvent.click(confirmButton);
+      const confirmDeleteButton = getByTestId("btn-modal-positive");
+      fireEvent.click(confirmDeleteButton);
 
       expect(props.onDeleteQuestionnaire).toHaveBeenCalledWith(
         "questionnaire1"
@@ -275,8 +275,8 @@ describe("QuestionnairesView", () => {
 
       const deleteButton = getAllByTestId("btn-delete-questionnaire")[0];
       fireEvent.click(deleteButton);
-      const confirmButton = getByTestId("btn-delete-modal");
-      fireEvent.click(confirmButton);
+      const confirmDeleteButton = getByTestId("btn-modal-positive");
+      fireEvent.click(confirmDeleteButton);
 
       rerender(
         <QuestionnairesView
@@ -296,8 +296,8 @@ describe("QuestionnairesView", () => {
 
       const deleteButton = getAllByTestId("btn-delete-questionnaire")[2];
       fireEvent.click(deleteButton);
-      const confirmButton = getByTestId("btn-delete-modal");
-      fireEvent.click(confirmButton);
+      const confirmDeleteButton = getByTestId("btn-modal-positive");
+      fireEvent.click(confirmDeleteButton);
       rerender(
         <QuestionnairesView
           {...props}
@@ -317,8 +317,8 @@ describe("QuestionnairesView", () => {
 
       const deleteButton = getAllByTestId("btn-delete-questionnaire")[0];
       fireEvent.click(deleteButton);
-      const confirmButton = getByTestId("btn-delete-modal");
-      fireEvent.click(confirmButton);
+      const confirmDeleteButton = getByTestId("btn-modal-positive");
+      fireEvent.click(confirmDeleteButton);
 
       expect(document.body).toEqual(document.activeElement);
     });
@@ -340,8 +340,8 @@ describe("QuestionnairesView", () => {
       // Delete the only questionnaire on the page
       const deleteButton = getAllByTestId("btn-delete-questionnaire")[0];
       fireEvent.click(deleteButton);
-      const confirmButton = getByTestId("btn-delete-modal");
-      fireEvent.click(confirmButton);
+      const confirmDeleteButton = getByTestId("btn-modal-positive");
+      fireEvent.click(confirmDeleteButton);
 
       rerender(
         <QuestionnairesView
@@ -370,15 +370,16 @@ describe("QuestionnairesView", () => {
     });
 
     it("should not delete the questionnaire if the close button is clicked", async () => {
-      const { getByLabelText, getByTestId, getAllByTestId } = render(
+      const { queryByTestId, getByTestId, getAllByTestId } = render(
         <QuestionnairesView {...props} />
       );
       const deleteButton = getAllByTestId("btn-delete-questionnaire")[0];
       fireEvent.click(deleteButton);
-      const closeButton = getByLabelText("Close");
+      expect(queryByTestId("btn-modal-positive")).not.toBeNull();
+      const closeButton = getByTestId("btn-modal-close");
       fireEvent.click(closeButton);
 
-      await waitForElementToBeRemoved(() => getByTestId("btn-delete-modal"));
+      expect(queryByTestId("btn-modal-positive")).toBeNull();
 
       expect(props.onDeleteQuestionnaire).not.toHaveBeenCalled();
     });
@@ -399,10 +400,10 @@ describe("QuestionnairesView", () => {
       // Delete Questionnaire 2
       const deleteButton = getAllByTestId("btn-delete-questionnaire")[1];
       fireEvent.click(deleteButton);
-      const confirmButton = getByTestId("btn-delete-modal");
-      fireEvent.click(confirmButton);
+      const confirmDeleteButton = getByTestId("btn-modal-positive");
+      fireEvent.click(confirmDeleteButton);
 
-      expect(queryByTestId("btn-delete-modal")).toBeNull();
+      expect(queryByTestId("btn-modal-positive")).toBeNull();
 
       expect(getAllByTestId("anchor-questionnaire-title")[2]).toHaveFocus();
     });
@@ -424,8 +425,8 @@ describe("QuestionnairesView", () => {
       // Delete the last one on the page - the other one is focused
       const deleteButton = getAllByTestId("btn-delete-questionnaire")[1];
       fireEvent.click(deleteButton);
-      const confirmButton = getByTestId("btn-delete-modal");
-      fireEvent.click(confirmButton);
+      const confirmDeleteButton = getByTestId("btn-modal-positive");
+      fireEvent.click(confirmDeleteButton);
 
       rerender(
         <QuestionnairesView
@@ -464,8 +465,8 @@ describe("QuestionnairesView", () => {
       // Delete the last one on the page - the other one is focused
       const deleteButton = getAllByTestId("btn-delete-questionnaire")[1];
       fireEvent.click(deleteButton);
-      const confirmButton = getByTestId("btn-delete-modal");
-      fireEvent.click(confirmButton);
+      const confirmDeleteButton = getByTestId("btn-modal-positive");
+      fireEvent.click(confirmDeleteButton);
 
       rerender(
         <QuestionnairesView
@@ -491,8 +492,8 @@ describe("QuestionnairesView", () => {
       // Delete the last one on the page - the other one is focused
       const deleteButton = getAllByTestId("btn-delete-questionnaire")[0];
       fireEvent.click(deleteButton);
-      const confirmButton = getByTestId("btn-delete-modal");
-      fireEvent.click(confirmButton);
+      const confirmDeleteButton = getByTestId("btn-modal-positive");
+      fireEvent.click(confirmDeleteButton);
 
       rerender(
         <QuestionnairesView

@@ -1,13 +1,7 @@
 import UnwrappedListCollectorPageEditor from ".";
 
 import React from "react";
-import {
-  render,
-  screen,
-  act,
-  fireEvent,
-  queryByAttribute,
-} from "tests/utils/rtl";
+import { render, fireEvent } from "tests/utils/rtl";
 import { useQuery } from "@apollo/react-hooks";
 
 jest.mock("components/NavigationCallbacks", () => ({
@@ -44,8 +38,6 @@ useQuery.mockImplementation(() => ({
 }));
 
 describe("List Collector Page Editor", () => {
-  let wrapper;
-
   let mockHandlers;
   let page;
   let section;
@@ -111,6 +103,8 @@ describe("List Collector Page Editor", () => {
       title: "List Names",
       alias: "Who am I?",
       drivingQuestion: "",
+      additionalGuidancePanelSwitch: false,
+      additionalGuidancePanel: "",
       drivingPositive: "Yes",
       drivingNegative: "No",
       drivingPositiveDescription: "",
@@ -210,6 +204,32 @@ describe("List Collector Page Editor", () => {
       expect(getByTestId("list-page-editor")).toBeVisible();
       const listSelect = getByTestId("list-select");
       expect(listSelect.value).toBe("list1");
+    });
+
+    it("should update Additional Guidance Panel Switch", async () => {
+      const { getByTestId } = await renderListCollector();
+
+      const additionalGuidancePanelSwitch = getByTestId(
+        "additionalGuidancePanelSwitch-input"
+      );
+      expect(additionalGuidancePanelSwitch.checked).toBe(false);
+
+      fireEvent.change(additionalGuidancePanelSwitch, {
+        target: { checked: true },
+      });
+      expect(additionalGuidancePanelSwitch.checked).toBe(true);
+    });
+
+    it("should show Additional Guidance Panel when toggle is set", async () => {
+      const { container } = renderListCollector(
+        (page.additionalGuidancePanelSwitch = true),
+        (page.additionalGuidancePanel = "Additional Guidance Text")
+      );
+
+      const additionalGuidancePanel = container.querySelector(
+        '[data-testid="txt-collapsible-additionalGuidancePanel"]'
+      );
+      expect(additionalGuidancePanel).toBeInTheDocument();
     });
 
     it("update a positive answer label", () => {

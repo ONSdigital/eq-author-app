@@ -110,6 +110,7 @@
     "draftjs-filters": "^2.5.0",
     "firebase": "latest",
     "firebaseui": "latest",
+    "focus-trap-react": "^10.0.0",
     "graphql": "latest",
     "graphql-anywhere": "latest",
     "graphql-tag": "latest",

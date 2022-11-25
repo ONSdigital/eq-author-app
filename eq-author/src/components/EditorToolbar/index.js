@@ -8,24 +8,18 @@ import ShortCodeEditor from "components/ShortCodeEditor";
 import DuplicateButton from "components/buttons/DuplicateButton";
 import MoveButton from "components/buttons/MovePageButton";
 import DeleteButton from "components/buttons/IconButtonDelete";
-import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 import MoveFolderModal from "App/page/Design/MoveEntityModal";
 
-import iconFolder from "assets/icon-dialog-folder.svg";
+import Modal from "components-themed/Modal";
 
-const deleteAlertText = {
-  folder:
-    "All questions in this folder will also be removed. This may affect piping and routing rules elsewhere.",
-};
-
-const icons = {
-  folder: iconFolder,
-};
+import {
+  DELETE_FOLDER_TITLE,
+  DELETE_FOLDER_WARNING,
+  DELETE_BUTTON_TEXT,
+} from "constants/modal-content";
 
 const EditorToolbar = ({
   shortCode,
-  title,
-  pageType,
   shortCodeOnUpdate,
   onMove,
   onDuplicate,
@@ -37,6 +31,12 @@ const EditorToolbar = ({
 }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showMoveFolderModal, setMoveFolderModal] = useState(false);
+
+  const handleDeleteButtonClick = () => {
+    setShowDeleteModal(false);
+    onDelete();
+  };
+
   return (
     <>
       <Toolbar>
@@ -60,17 +60,13 @@ const EditorToolbar = ({
         </Buttons>
       </Toolbar>
 
-      <DeleteConfirmDialog
+      <Modal
+        title={DELETE_FOLDER_TITLE}
+        warningMessage={DELETE_FOLDER_WARNING}
+        positiveButtonText={DELETE_BUTTON_TEXT}
         isOpen={showDeleteModal}
+        onConfirm={() => handleDeleteButtonClick()}
         onClose={() => setShowDeleteModal(false)}
-        onDelete={() => {
-          setShowDeleteModal(false);
-          onDelete();
-        }}
-        title={shortCode || title || `Untitled ${pageType}`}
-        alertText={deleteAlertText[pageType]}
-        icon={icons[pageType]}
-        data-test={`delete-${pageType}-modal`}
       />
       <MoveFolderModal
         isOpen={showMoveFolderModal}

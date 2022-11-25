@@ -137,7 +137,7 @@ describe("Folder design page", () => {
 
       fireEvent.click(getByTestId("btn-delete-folder"));
 
-      expect(getByTestId("delete-confirm-modal")).toBeVisible();
+      expect(getByTestId("modal")).toBeVisible();
     });
 
     it("should delete a folder when the delete button is clicked", () => {
@@ -146,11 +146,23 @@ describe("Folder design page", () => {
       const { getByTestId } = renderFolderDesignPage();
 
       fireEvent.click(getByTestId("btn-delete-folder"));
-      fireEvent.click(getByTestId("btn-delete-modal"));
+      fireEvent.click(getByTestId("btn-modal-positive"));
 
       expect(deleteFolder).toHaveBeenCalledWith({
         variables: { input: { id: "1.1" } },
       });
+    });
+
+    it("should close delete modal when cancel button is clicked", () => {
+      const deleteFolder = jest.fn();
+      useMutation.mockImplementation(jest.fn(() => [deleteFolder]));
+      const { getByTestId, queryByTestId } = renderFolderDesignPage();
+
+      fireEvent.click(getByTestId("btn-delete-folder"));
+      fireEvent.click(getByTestId("btn-modal-negative"));
+
+      expect(deleteFolder).not.toHaveBeenCalled();
+      expect(queryByTestId("modal")).not.toBeInTheDocument();
     });
 
     it("Should add question page inside folder", () => {

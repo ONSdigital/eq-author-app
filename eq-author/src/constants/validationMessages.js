@@ -23,6 +23,11 @@ export const LIST_COLLECTOR_ERRORS = [
     message: "Enter a driving question",
   },
   {
+    field: "additionalGuidancePanel",
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Enter additional guidance content",
+  },
+  {
     field: "drivingPositive",
     errorCode: "ERR_VALID_REQUIRED",
     message: "Enter a positive answer label",

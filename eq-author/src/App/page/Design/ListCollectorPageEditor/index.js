@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import gql from "graphql-tag";
 import Collapsible from "components/Collapsible";
@@ -22,15 +21,12 @@ import { find, some } from "lodash";
 import ValidationError from "components/ValidationError";
 import Icon from "assets/icon-select.svg";
 import CommentFragment from "graphql/fragments/comment.graphql";
+import ToggleSwitch from "components/buttons/ToggleSwitch";
 
 const propTypes = {
   match: CustomPropTypes.match.isRequired,
   history: CustomPropTypes.history.isRequired,
   page: CustomPropTypes.page.isRequired,
-  onChange: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func.isRequired,
-  enableValidationMessage: PropTypes.bool,
-  onUpdateListCollectorPage: PropTypes.func,
 };
 
 const inputFilter = gql`
@@ -39,6 +35,8 @@ const inputFilter = gql`
     title
     listId
     drivingQuestion
+    additionalGuidancePanel
+    additionalGuidancePanelSwitch
     drivingPositive
     drivingNegative
     drivingPositiveDescription
@@ -163,6 +161,15 @@ const RadionIndicator = styled.div`
 const RadioAnswerWrapper = styled.div`
   display: inline-block;
   width: 95%;
+`;
+
+const InlineField = styled(Field)`
+  display: flex;
+  align-items: center;
+  margin-bottom: ${(props) => (props.open ? "0.4em" : "2em")};
+  > * {
+    margin-bottom: 0;
+  }
 `;
 
 const renderErrors = (errors, field) => {
@@ -428,6 +435,45 @@ const UnwrappedListCollectorPageEditor = (props) => {
               })}
             />
             {renderErrors(page.validationErrorInfo.errors, "drivingQuestion")}
+            <InlineField open={entity.additionalGuidancePanelSwitch}>
+              <Label htmlFor="toggle-additional-guidance-panel">
+                Additional guidance panel
+              </Label>
+
+              <ToggleSwitch
+                id="additionalGuidancePanelSwitch"
+                name="additionalGuidancePanelSwitch"
+                data-test={`additional-guidance-panel-switch`}
+                hideLabels={false}
+                onChange={handleOnUpdate}
+                checked={entity.additionalGuidancePanelSwitch}
+              />
+            </InlineField>
+            {entity.additionalGuidancePanelSwitch ? (
+              <StyledRichTextEditor
+                id={`details-additionalGuidancePanel-${entity.id}`}
+                name="additionalGuidancePanel"
+                data-test={`additional-guidance-panel-input`}
+                value={entity.additionalGuidancePanel}
+                label=""
+                onUpdate={handleOnUpdate}
+                multiline
+                controls={{
+                  heading: true,
+                  list: true,
+                  bold: true,
+                  link: true,
+                }}
+                hasError={some(page.validationErrorInfo.errors, {
+                  field: "additionalGuidancePanel",
+                })}
+                testSelector="txt-collapsible-additionalGuidancePanel"
+              />
+            ) : null}
+            {renderErrors(
+              page.validationErrorInfo.errors,
+              "additionalGuidancePanel"
+            )}
             <RadioContainer>
               <Field>
                 <RadionIndicator />
@@ -665,6 +711,8 @@ UnwrappedListCollectorPageEditor.fragments = {
       listId
       position
       drivingQuestion
+      additionalGuidancePanel
+      additionalGuidancePanelSwitch
       drivingPositive
       drivingNegative
       drivingPositiveDescription

@@ -7,6 +7,8 @@ const createListCollectorPage = (input = {}) => ({
   title: "",
   listId: "",
   drivingQuestion: "",
+  additionalGuidancePanel: "",
+  additionalGuidancePanelSwitch: false,
   drivingPositive: "Yes",
   drivingNegative: "No",
   drivingPositiveDescription: "",

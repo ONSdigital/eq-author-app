@@ -16,6 +16,12 @@ import VisuallyHidden from "components/VisuallyHidden";
 import Tooltip from "components/Forms/Tooltip";
 import CommentEditor from "components/Comments/CommentEditor";
 import CommentHighlight from "components/Comments/CommentHighlight";
+import Modal from "components-themed/Modal";
+
+import {
+  DELETE_COMMENT_TITLE,
+  DELETE_BUTTON_TEXT,
+} from "constants/modal-content";
 
 import iconEdit from "assets/icon-edit.svg";
 import iconClose from "assets/icon-close.svg";
@@ -44,7 +50,7 @@ const IconButton = ({
     mask: url(${icon});
     width: 2em;
     height: 2em;
-    background-color: ${colors.grey};
+    background-color: ${colors.commentIcon};
     border: none;
     display: block;
 
@@ -86,11 +92,12 @@ const ColumnWrapper = styled.div``;
 
 const Text = styled.p`
   border: 0.0625em solid ${colors.lightGrey};
-  background-color: ${colors.lighterGrey};
+  background-color: ${colors.commentBackground};
   padding: 0.5em 1em;
   margin: 0;
   margin-bottom: 0.3125em;
   overflow-wrap: break-word;
+  color: ${colors.text};
 `;
 
 const Avatar = styled.p`
@@ -112,7 +119,7 @@ const Author = styled.p`
 
 const Date = styled.p`
   font-size: 0.8em;
-  color: ${colors.grey};
+  color: ${colors.commentDate};
   margin: 0;
 `;
 
@@ -151,6 +158,7 @@ const Comment = ({
   const userReadComment = readBy?.some((id) => id === me.id);
 
   const [editing, setEditing] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const authorInitials = authorName
     .match(/\b(\w)/g)
@@ -274,6 +282,13 @@ const Comment = ({
         </CommentHighlight>
       ) : (
         <Wrapper data-test="Comment">
+          <Modal
+            title={DELETE_COMMENT_TITLE}
+            positiveButtonText={DELETE_BUTTON_TEXT}
+            isOpen={showDeleteModal}
+            onConfirm={onDeleteComment}
+            onClose={() => setShowDeleteModal(false)}
+          />
           <Header data-test="Comment__Header">
             <Avatar data-test="Comment__Avatar">{authorInitials}</Avatar>
             <ColumnWrapper>
@@ -299,7 +314,7 @@ const Comment = ({
                 <IconButton
                   data-test="Comment__DeleteCommentBtn"
                   icon={iconClose}
-                  onClick={() => onDeleteComment()}
+                  onClick={() => setShowDeleteModal(true)}
                 >
                   Delete comment
                 </IconButton>

@@ -5,6 +5,7 @@ import { find } from "lodash";
 import PropTypes from "prop-types";
 import WrappingInput from "components/Forms/WrappingInput";
 import { Label } from "components/Forms";
+import Modal from "components-themed/Modal";
 
 import { colors } from "constants/theme";
 import Collapsible from "components/CollapsibleMoveable";
@@ -12,6 +13,10 @@ import AnswersEditor from "App/page/Design/QuestionPageEditor/AnswersEditor";
 import AnswerTypeSelector from "components/AnswerTypeSelector";
 import { listErrors } from "../../constants/validationMessages";
 import focusOnEntity from "utils/focusOnEntity";
+import {
+  DELETE_BUTTON_TEXT,
+  DELETE_LIST_ITEM_TITLE,
+} from "constants/modal-content";
 
 const StyledGrid = styled.div`
   display: flex;
@@ -65,23 +70,35 @@ const CollectionListItem = ({
 }) => {
   const { id, displayName, listName, answers, metadata } = list;
   const [tempListName, setListName] = useState(listName);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
   useEffect(() => {
     setListName(listName);
   }, [listName]);
+
   let multipleAnswers = false;
   multipleAnswers = answers?.length > 1;
+
   const listnameError = find(list.validationErrorInfo.errors, {
     errorCode: "LISTNAME_MISSING",
   });
+
   return (
     <StyledGrid>
+      <Modal
+        title={DELETE_LIST_ITEM_TITLE}
+        positiveButtonText={DELETE_BUTTON_TEXT}
+        isOpen={showDeleteModal}
+        onConfirm={handleDeleteList}
+        onClose={() => setShowDeleteModal(false)}
+      />
       <ListItem>
         <Collapsible
           id={list.id}
           className="listCollapsible"
           withoutHideThis
           title={displayName}
-          handleDelete={handleDeleteList}
+          handleDelete={() => setShowDeleteModal(true)}
           hasError={Boolean(list.validationErrorInfo.errors.length)}
           defaultOpen
         >

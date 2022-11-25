@@ -41,7 +41,7 @@ export const SubmissionDesign = () => {
 };
 
 SubmissionDesign.propTypes = {
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool,
   error: PropTypes.object, // eslint-disable-line
   data: PropTypes.shape({
     submission: PropTypes.shape({
