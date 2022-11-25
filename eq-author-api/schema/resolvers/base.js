@@ -1,5 +1,4 @@
 const { GraphQLDate, GraphQLDateTime } = require("graphql-iso-date");
-const { SOCIAL } = require("../../constants/questionnaireTypes");
 const {
   includes,
   isNil,
@@ -1897,18 +1896,16 @@ const Resolvers = {
       returnValidationErrors(ctx, id, ({ type }) =>
         ["theme", "themeSettings"].includes(type)
       ),
-    themes: ({ themes: savedThemes }, _args, ctx) => {
+    themes: (_root, _args, ctx) => {
       // Return all themes as disabled by default
       // If present in questionnaire, override with actual attributes
-      return ctx.questionnaire.type === SOCIAL
-        ? savedThemes
-        : THEME_SHORT_NAMES.map((shortName) => ({
-            shortName,
-            id: shortName,
-            enabled: false,
-            legalBasisCode: "NOTICE_1",
-            ...(getThemeByShortName(ctx, shortName) ?? {}),
-          }));
+      return THEME_SHORT_NAMES.map((shortName) => ({
+        shortName,
+        id: shortName,
+        enabled: false,
+        legalBasisCode: "NOTICE_1",
+        ...(getThemeByShortName(ctx, shortName) ?? {}),
+      }));
     },
   },
 
