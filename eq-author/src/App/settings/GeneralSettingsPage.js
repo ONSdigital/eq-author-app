@@ -116,7 +116,7 @@ Pill.propTypes = {
 };
 
 const GeneralSettingsPage = ({ questionnaire }) => {
-  const { title, shortTitle, type, id, qcodes, hub, summary, introduction } =
+  const { title, shortTitle, id, qcodes, hub, summary, introduction } =
     questionnaire;
 
   const showOnHub = introduction?.showOnHub;
@@ -159,7 +159,6 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                 cols={2.5}
                 tabItems={tabItems({
                   params,
-                  type,
                   themeErrorCount: getThemeSettingsErrorCount(questionnaire),
                 })}
               />
