@@ -1,3 +1,4 @@
+// Add `social` if required in future
 const THEME_SHORT_NAMES = [
   "default",
   "northernireland",
@@ -7,7 +8,6 @@ const THEME_SHORT_NAMES = [
   "ukis",
   "ukis_ni",
   "orr",
-  "social",
 ];
 
 module.exports = { THEME_SHORT_NAMES };
