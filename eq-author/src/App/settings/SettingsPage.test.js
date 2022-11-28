@@ -568,20 +568,6 @@ describe("Settings page", () => {
       expect(hubIntroductionToggle).toBeInTheDocument();
     });
 
-    it("Should not display hub introduction toggle switch on social questionnaire type", async () => {
-      mockQuestionnaire.type = "Social";
-
-      const { queryByTestId } = renderSettingsPage(
-        mockQuestionnaire,
-        user,
-        mocks
-      );
-
-      const hubIntroductionToggle = queryByTestId("toggle-hub-introduction");
-
-      expect(hubIntroductionToggle).not.toBeInTheDocument();
-    });
-
     it("Should enable/disable hub introduction when toggled", async () => {
       mockQuestionnaire.hub = true;
 
