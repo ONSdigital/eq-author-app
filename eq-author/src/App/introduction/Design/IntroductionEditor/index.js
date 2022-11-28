@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { noop } from "lodash/fp";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import { useMutation } from "@apollo/react-hooks";
@@ -151,8 +150,22 @@ const IntroductionEditor = ({ introduction, history }) => {
             multiline
             value={title}
             size="large"
-            disabled
-            onUpdate={noop}
+            onUpdate={({ value }) =>
+              updateQuestionnaireIntroduction({
+                variables: {
+                  input: {
+                    title: value,
+                  },
+                },
+              })
+            }
+            controls={{
+              heading: true,
+              bold: true,
+              link: true,
+              emphasis: true,
+              piping: true,
+            }}
             testSelector="txt-intro-title"
             withoutMargin
           />
