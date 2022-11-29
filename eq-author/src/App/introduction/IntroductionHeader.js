@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useMutation } from "@apollo/react-hooks";
 import CustomPropTypes from "custom-prop-types";
+import { useParams } from "react-router-dom";
 
-import { useQuestionnaire } from "components/QuestionnaireContext";
 import { Toolbar, ToolbarButtonContainer } from "components/Toolbar";
 import IconButtonDelete from "components/buttons/IconButtonDelete";
 import Modal from "components-themed/Modal";
 
-import { buildSectionPath } from "utils/UrlUtils";
+import { buildQuestionnairePath } from "utils/UrlUtils";
 
 import DELETE_INTRODUCTION from "graphql/deleteIntroductionPage.graphql";
 import {
@@ -21,21 +21,19 @@ const IntroductionToolbar = styled(Toolbar)`
 `;
 
 const IntroductionHeader = ({ history }) => {
-  const { questionnaire } = useQuestionnaire();
-  const [deleteIntroduction] = useMutation(DELETE_INTRODUCTION);
+  const { questionnaireId } = useParams();
+
+  const [deleteIntroduction] = useMutation(DELETE_INTRODUCTION, {
+    onCompleted: () => {
+      history.push(
+        buildQuestionnairePath({
+          questionnaireId,
+        })
+      );
+    },
+  });
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-
-  const onDeleteIntroduction = () => {
-    deleteIntroduction();
-
-    const sectionPath = buildSectionPath({
-      questionnaireId: questionnaire.id,
-      sectionId: questionnaire.sections[0].id,
-    });
-
-    history.push(sectionPath);
-  };
 
   return (
     <>
@@ -43,7 +41,7 @@ const IntroductionHeader = ({ history }) => {
         title={DELETE_INTRODUCTION_PAGE_TITLE}
         positiveButtonText={DELETE_BUTTON_TEXT}
         isOpen={showDeleteModal}
-        onConfirm={() => onDeleteIntroduction()}
+        onConfirm={() => deleteIntroduction()}
         onClose={() => setShowDeleteModal(false)}
       />
       <IntroductionToolbar>
