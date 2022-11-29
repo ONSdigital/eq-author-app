@@ -287,11 +287,14 @@ const saveQuestionnaire = async (changedQuestionnaire) => {
     const { sections } = updatedQuestionnaire;
 
     const baseDoc = db.collection("questionnaires").doc(id);
-    baseDoc.update({ ...justListFields(updatedQuestionnaire), updatedAt });
+    await baseDoc.update({
+      ...justListFields(updatedQuestionnaire),
+      updatedAt,
+    });
 
     const versionDoc = baseDoc.collection("versions").doc(uuidv4());
 
-    versionDoc.set({
+    await versionDoc.set({
       ...omit(updatedQuestionnaire, "sections"),
       updatedAt,
       createdAt: new Date(),
@@ -305,7 +308,7 @@ const saveQuestionnaire = async (changedQuestionnaire) => {
       throw error;
     }
 
-    versionDoc.update({
+    await versionDoc.update({
       documentStatus: "clean",
     });
 
