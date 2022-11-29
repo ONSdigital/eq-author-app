@@ -45,8 +45,11 @@ const IntroductionHeader = ({ history }) => {
         onClose={() => setShowDeleteModal(false)}
       />
       <IntroductionToolbar>
-        <ToolbarButtonContainer>
-          <IconButtonDelete onClick={() => setShowDeleteModal(true)}>
+        <ToolbarButtonContainer data-test="introduction-toolbar-button-container">
+          <IconButtonDelete
+            data-test="btn-delete-introduction"
+            onClick={() => setShowDeleteModal(true)}
+          >
             Delete
           </IconButtonDelete>
         </ToolbarButtonContainer>
