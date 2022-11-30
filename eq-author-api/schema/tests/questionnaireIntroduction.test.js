@@ -8,7 +8,9 @@ const {
 } = require("../../tests/utils/contextBuilder/questionnaireIntroduction");
 
 const { BUSINESS } = require("../../constants/questionnaireTypes");
-const createQuestionnaireIntroduction = require("../../utils/createQuestionnaireIntroduction");
+const {
+  createIntroductionPage,
+} = require("../../tests/utils/contextBuilder/questionnaireIntroduction/createIntroductionPage.js");
 
 describe("questionnaire", () => {
   let ctx, questionnaire;
@@ -50,27 +52,16 @@ describe("questionnaire", () => {
     it("should create a questionnaire introduction", async () => {
       ctx.questionnaire.introduction = undefined;
 
-      const introduction = await createQuestionnaireIntroduction(
-        questionnaire.metadata
-      );
+      const introduction = await createIntroductionPage(ctx);
 
       expect(introduction).toEqual({
         id: expect.any(String),
-        title: expect.any(String),
-        description: expect.any(String),
-        additionalGuidancePanel: expect.any(String),
-        additionalGuidancePanelSwitch: expect.any(Boolean),
-        contactDetailsEmailSubject: expect.any(String),
-        contactDetailsIncludeRuRef: expect.any(Boolean),
-        secondaryTitle: expect.any(String),
-        legalBasis: expect.any(String),
-        showOnHub: expect.any(Boolean),
-        secondaryDescription: expect.any(String),
-        collapsibles: expect.any(Array),
-        tertiaryTitle: expect.any(String),
-        tertiaryDescription: expect.any(String),
-        contactDetailsPhoneNumber: expect.any(String),
-        contactDetailsEmailAddress: expect.any(String),
+        questionnaire: {
+          id: expect.any(String),
+          introduction: {
+            id: expect.any(String),
+          },
+        },
       });
     });
   });
