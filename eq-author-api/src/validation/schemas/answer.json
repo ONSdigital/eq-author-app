@@ -7,7 +7,7 @@
         "properties": {
           "type": {
             "not": {
-              "enum": ["Checkbox", "Radio", "MutuallyExclusive"]
+              "enum": ["Checkbox", "Radio", "MutuallyExclusive", "Select"]
             }
           }
         }
@@ -50,6 +50,18 @@
       },
       "then": {
         "$ref": "#/definitions/radioAnswer"
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "Select"
+          }
+        }
+      },
+      "then": {
+        "$ref": "#/definitions/selectAnswer"
       }
     },
     {
@@ -148,6 +160,18 @@
       "required": ["options"]
     },
     "radioAnswer": {
+      "type": "object",
+      "properties": {
+        "options": {
+          "$ref": "#/definitions/options"
+        },
+        "mutuallyExclusiveOption": {
+          "$ref": "option.json"
+        }
+      },
+      "required": ["options"]
+    },
+    "selectAnswer": {
       "type": "object",
       "properties": {
         "options": {
