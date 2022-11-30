@@ -162,6 +162,8 @@ export const UnwrappedMultipleChoiceAnswer = ({
               <Option
                 {...otherProps}
                 {...props}
+                // eslint-disable-next-line react/prop-types
+                label={`Label ${props.index + 1}`}
                 type={type}
                 option={option}
                 onDelete={handleOptionDelete}
