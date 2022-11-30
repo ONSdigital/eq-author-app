@@ -90,31 +90,6 @@ const PageContainer = styled.div`
   }
 `;
 
-const Pill = ({ children, testId }) => {
-  const Container = styled.div`
-    width: 4em;
-    padding: 0.5em 1em;
-    box-sizing: content-box;
-    background-color: ${colors.lightMediumGrey};
-    text-align: center;
-
-    p {
-      margin: 0;
-      font-weight: bold;
-    }
-  `;
-  return (
-    <Container>
-      <p data-test={testId}>{children}</p>
-    </Container>
-  );
-};
-
-Pill.propTypes = {
-  children: PropTypes.string.isRequired,
-  testId: PropTypes.string.isRequired,
-};
-
 const GeneralSettingsPage = ({ questionnaire }) => {
   const { title, shortTitle, id, qcodes, hub, summary, introduction } =
     questionnaire;
