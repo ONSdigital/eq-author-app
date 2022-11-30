@@ -21,6 +21,7 @@ import {
   TEXTFIELD,
   CHECKBOX,
   MUTUALLY_EXCLUSIVE,
+  SELECT,
 } from "constants/answer-types";
 import SplitButton from "components/buttons/SplitButton";
 import Dropdown from "components/buttons/SplitButton/Dropdown";
@@ -206,7 +207,7 @@ export const UnwrappedMultipleChoiceAnswer = ({
           </Collapsible>
         )}
         <div>
-          {answer.type !== MUTUALLY_EXCLUSIVE ? (
+          {answer.type !== MUTUALLY_EXCLUSIVE && answer.type !== SELECT ? (
             <StyledSplitButton
               onPrimaryAction={handleAddOption}
               primaryText={
