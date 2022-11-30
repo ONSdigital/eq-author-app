@@ -133,18 +133,18 @@ describe("questionnaire", () => {
       });
     });
 
-    it("should give social questionnaires the 'social' theme when questionnaire created", async () => {
+    it("should give social questionnaires the 'default' theme when questionnaire created", async () => {
       const questionnaire = await createQuestionnaire(ctx, {
         ...config,
         type: SOCIAL,
       });
       expect(questionnaire).toMatchObject({
         themeSettings: {
-          previewTheme: "social",
+          previewTheme: "default",
           themes: expect.arrayContaining([
             expect.objectContaining({
               id: expect.any(String),
-              shortName: "social",
+              shortName: "default",
               legalBasisCode: "NOTICE_1",
               eqId: "",
               formType: "",
