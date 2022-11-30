@@ -1,9 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { Field, Input, Label } from "components/Forms";
-import { colors } from "constants/theme";
+import { Field, Label } from "components/Forms";
+import { colors, radius } from "constants/theme";
 import Collapsible from "components/Collapsible";
+import ValidationError from "components/ValidationError";
+import { pageDescriptionErrors } from "constants/validationMessages";
+import ExternalLink from "components-themed/ExternalLink";
 
 const PageTitleContent = styled.div`
   color: ${colors.black};
@@ -20,6 +23,10 @@ const StyledInput = styled.input`
   width: 100%;
   font-size: 1em;
   color: ${colors.black};
+  border: thin solid ${colors.grey};
+  border-radius: ${radius};
+  padding: 0.5em;
+  outline: thin solid transparent;
   ${({ hasError }) =>
     hasError &&
     `
@@ -41,7 +48,7 @@ const Justification = styled(Collapsible)`
   margin-bottom: 1em;
 `;
 
-const PageTitleInput = ({ onChange, onUpdate, pageDescription }) => (
+const PageTitleInput = ({ onChange, onUpdate, pageDescription, error }) => (
   <PageTitleContent>
     <Heading>Descriptions and definitions</Heading>
     <p>
@@ -50,14 +57,10 @@ const PageTitleInput = ({ onChange, onUpdate, pageDescription }) => (
     </p>
     <p>
       For help writing a page description, see our{" "}
-      <a
-        href="https://ons-design-system.netlify.app/guidance/page-titles-and-urls/#page-titles"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        design system guidance on page titles
-      </a>
-      .
+      <ExternalLink
+        url="https://ons-design-system.netlify.app/guidance/page-titles-and-urls/#page-titles"
+        linkText="design system guidance on page titles"
+      />
     </p>
     <Justification
       title="Why do I need a page description?"
@@ -81,13 +84,20 @@ const PageTitleInput = ({ onChange, onUpdate, pageDescription }) => (
         onChange={(e) => onChange(e.target)}
         onBlur={(e) => onUpdate(e.target)}
         value={pageDescription || ""}
+        hasError={error}
       />
+      {error && (
+        <ValidationError>
+          {pageDescriptionErrors.PAGE_DESCRIPTION_MISSING}
+        </ValidationError>
+      )}
     </Field>
   </PageTitleContent>
 );
 
 PageTitleInput.propTypes = {
   pageDescription: PropTypes.string,
+  error: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
 };

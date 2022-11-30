@@ -1294,6 +1294,7 @@ input CreateQuestionPageInput {
   additionalInfoLabel: String
   additionalInfoContent: String
   additionalInfoEnabled: Boolean
+  pageDescription: String
 }
 
 input UpdateQuestionPageInput {
@@ -1310,6 +1311,7 @@ input UpdateQuestionPageInput {
   additionalInfoLabel: String
   additionalInfoContent: String
   additionalInfoEnabled: Boolean
+  pageDescription: String
 }
 
 input CreateCalculatedSummaryPageInput {

@@ -28,6 +28,11 @@
         }
       ]
     },
+    "pageDescription": {
+      "type": "string",
+      "pattern": "\\w+",
+      "errorMessage": "PAGE_DESCRIPTION_MISSING"
+    },
     "confirmation": {
       "$ref": "confirmationPage.json"
     },

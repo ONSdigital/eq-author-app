@@ -53,6 +53,7 @@ const getPageQuery = `
       ... on QuestionPage {
         description
         descriptionEnabled
+        pageDescription
         guidance
         guidanceEnabled
         answers {

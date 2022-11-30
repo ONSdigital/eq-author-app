@@ -277,6 +277,7 @@ exports.getQuestionnaire = `
             ... on QuestionPage {
               description
               descriptionEnabled
+              pageDescription
               guidance
               guidanceEnabled
               definitionLabel

@@ -5,11 +5,6 @@ import Collapsible from "components/Collapsible";
 
 import PageTitleInput from "./PageTitleInput";
 
-import { flowRight } from "lodash";
-import { withQuestionnaire } from "components/QuestionnaireContext";
-import gql from "graphql-tag";
-import { propType } from "graphql-anywhere";
-
 const PageTitleContainerWithoutCollapsible = styled.div``;
 
 const PageTitleContainerWithCollapsible = styled.div`
@@ -19,7 +14,8 @@ const PageTitleContainerWithCollapsible = styled.div`
 
 export class PageTitleContainer extends React.Component {
   render() {
-    const { inCollapsible, page, onChange, onUpdate } = this.props;
+    const { inCollapsible, pageDescription, error, onChange, onUpdate } =
+      this.props;
 
     if (inCollapsible) {
       return (
@@ -32,9 +28,10 @@ export class PageTitleContainer extends React.Component {
         >
           <PageTitleContainerWithCollapsible>
             <PageTitleInput
-              pageDescription={page.pageDescription}
+              pageDescription={pageDescription}
               onUpdate={onUpdate}
               onChange={onChange}
+              error={error}
             />
           </PageTitleContainerWithCollapsible>
         </Collapsible>
@@ -43,7 +40,8 @@ export class PageTitleContainer extends React.Component {
     return (
       <PageTitleContainerWithoutCollapsible>
         <PageTitleInput
-          pageDescription={page.pageDescription}
+          pageDescription={pageDescription}
+          error={error}
           onUpdate={onUpdate}
           onChange={onChange}
         />
@@ -52,19 +50,12 @@ export class PageTitleContainer extends React.Component {
   }
 }
 
-PageTitleContainer.fragments = {
-  PageTitleContainer: gql`
-    fragment Page on Page {
-      pageDescription
-    }
-  `,
-};
-
 PageTitleContainer.propTypes = {
   inCollapsible: PropTypes.bool,
+  pageDescription: PropTypes.string,
+  error: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  page: propType(PageTitleContainer.fragments.PageTitleContainer),
 };
 
-export default flowRight(withQuestionnaire)(PageTitleContainer);
+export default PageTitleContainer;
