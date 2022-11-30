@@ -331,10 +331,12 @@ export const StatelessOption = ({
         {!option.dynamicAnswer && (
           <>
             <Flex>
-              <DummyMultipleChoice
-                type={type}
-                hasMultipleOptions={hasMultipleOptions}
-              />
+              {type !== "Select" && (
+                <DummyMultipleChoice
+                  type={type}
+                  hasMultipleOptions={hasMultipleOptions}
+                />
+              )}
               <OptionField>
                 <Label htmlFor={`option-label-${option.id}`}>
                   {label || "Label"}
@@ -354,21 +356,23 @@ export const StatelessOption = ({
                 />
               </OptionField>
             </Flex>
-            <OptionField>
-              <Label htmlFor={`option-description-${option.id}`}>
-                Description (optional)
-              </Label>
-              <WrappingInput
-                id={`option-description-${option.id}`}
-                name="description"
-                value={option.description}
-                placeholder={descriptionPlaceholder}
-                onChange={onChange}
-                onBlur={onUpdate}
-                onKeyDown={handleKeyDown}
-                data-test="option-description"
-              />
-            </OptionField>
+            {type !== "Select" && (
+              <OptionField>
+                <Label htmlFor={`option-description-${option.id}`}>
+                  Description (optional)
+                </Label>
+                <WrappingInput
+                  id={`option-description-${option.id}`}
+                  name="description"
+                  value={option.description}
+                  placeholder={descriptionPlaceholder}
+                  onChange={onChange}
+                  onBlur={onUpdate}
+                  onKeyDown={handleKeyDown}
+                  data-test="option-description"
+                />
+              </OptionField>
+            )}
           </>
         )}
         {type === "Radio" && !option.additionalAnswer && (
