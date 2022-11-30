@@ -87,6 +87,8 @@ export const UnwrappedMultipleChoiceAnswer = ({
   optionErrorMsg,
   errorLabel,
   type,
+  descriptionText,
+  descriptionPlaceholder,
   onDeleteOption,
   onAddOption,
   ...otherProps
@@ -144,6 +146,24 @@ export const UnwrappedMultipleChoiceAnswer = ({
                     requiredMsg: errorMsg,
                   })
             }
+          />
+        </Field>
+      )}
+      {type === SELECT && (
+        <Field>
+          <Label htmlFor={`answer-description-${answer.id}`}>
+            {descriptionText}
+          </Label>
+          <WrappingInput
+            id={`answer-description-${answer.id}`}
+            name="description"
+            cols="30"
+            rows="5"
+            onChange={onChange}
+            onBlur={onUpdate}
+            value={answer.description}
+            placeholder={descriptionPlaceholder}
+            data-test="txt-answer-description"
           />
         </Field>
       )}
@@ -249,6 +269,7 @@ UnwrappedMultipleChoiceAnswer.defaultProps = {
   errorLabel: "Answer label",
   autoFocus: true,
   getValidationError: () => {},
+  descriptionText: "Description (optional)",
   type: TEXTFIELD,
 };
 
@@ -262,6 +283,8 @@ UnwrappedMultipleChoiceAnswer.propTypes = {
   onAddExclusive: PropTypes.func.isRequired,
   onMoveOption: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
+  descriptionText: PropTypes.string,
+  descriptionPlaceholder: PropTypes.string,
   autoFocus: PropTypes.bool,
   getValidationError: PropTypes.func.isRequired,
   optionErrorMsg: PropTypes.string,
