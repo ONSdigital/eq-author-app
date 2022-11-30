@@ -34,6 +34,7 @@ const {
   CHECKBOX,
   RADIO,
   MUTUALLY_EXCLUSIVE,
+  SELECT,
 } = require("../../constants/answerTypes");
 
 const pubsub = require("../../db/pubSub");
@@ -876,7 +877,9 @@ const Resolvers = {
         }
       });
 
-      if (![CHECKBOX, RADIO, MUTUALLY_EXCLUSIVE].includes(answer.type)) {
+      if (
+        ![CHECKBOX, RADIO, MUTUALLY_EXCLUSIVE, SELECT].includes(answer.type)
+      ) {
         delete answer.options;
       }
 
