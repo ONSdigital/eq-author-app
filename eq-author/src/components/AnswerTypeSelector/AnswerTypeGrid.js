@@ -18,6 +18,7 @@ import {
   RADIO,
   CHECKBOX,
   MUTUALLY_EXCLUSIVE,
+  SELECT,
 } from "constants/answer-types";
 
 const Menu = styled.div`
@@ -59,6 +60,7 @@ export const buttons = [
   { type: RADIO, title: "Radio" },
   { type: CHECKBOX, title: "Checkbox" },
   { type: MUTUALLY_EXCLUSIVE, title: "OR answer" },
+  { type: SELECT, title: "Select" },
 ];
 
 class AnswerTypeGrid extends React.Component {

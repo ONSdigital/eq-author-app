@@ -9,6 +9,7 @@ export const DATE = "Date";
 export const DATE_RANGE = "DateRange";
 export const UNIT = "Unit";
 export const DURATION = "Duration";
+export const SELECT = "Select";
 
 export const ROUTING_ANSWER_TYPES = [
   RADIO,
@@ -17,10 +18,12 @@ export const ROUTING_ANSWER_TYPES = [
   PERCENTAGE,
   CHECKBOX,
   UNIT,
+  SELECT,
 ];
 
 export const RADIO_OPTION = "RadioOption";
 export const CHECKBOX_OPTION = "CheckboxOption";
+export const SELECT_OPTION = "SelectOption";
 export const MUTUALLY_EXCLUSIVE = "MutuallyExclusive";
 export const MUTUALLY_EXCLUSIVE_OPTION = "MutuallyExclusiveOption";
 
@@ -36,4 +39,5 @@ export default [
   DATE_RANGE,
   UNIT,
   DURATION,
+  SELECT,
 ];
