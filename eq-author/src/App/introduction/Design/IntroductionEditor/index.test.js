@@ -3,7 +3,7 @@ import { shallow } from "enzyme";
 
 import IntroductionEditor from "./";
 
-import { contactDetailsErrors } from "constants/validationMessages";
+import { introductionErrors } from "constants/validationMessages";
 import { useParams } from "react-router-dom";
 import config from "config";
 import { useMutation } from "@apollo/react-hooks";
@@ -55,7 +55,7 @@ describe("IntroductionEditor", () => {
     }));
   });
 
-  const { PHONE_NOT_ENTERED, EMAIL_NOT_ENTERED } = contactDetailsErrors;
+  const { PHONE_NOT_ENTERED, EMAIL_NOT_ENTERED } = introductionErrors;
 
   it("should render", () => {
     expect(shallow(<IntroductionEditor {...props} />)).toMatchSnapshot();
