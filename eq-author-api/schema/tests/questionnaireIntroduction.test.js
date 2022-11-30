@@ -11,6 +11,9 @@ const { BUSINESS } = require("../../constants/questionnaireTypes");
 const {
   createIntroductionPage,
 } = require("../../tests/utils/contextBuilder/questionnaireIntroduction/createIntroductionPage.js");
+const {
+  deleteIntroductionPage,
+} = require("../../tests/utils/contextBuilder/questionnaireIntroduction/deleteIntroductionPage.js");
 
 describe("questionnaire", () => {
   let ctx, questionnaire;
@@ -63,6 +66,14 @@ describe("questionnaire", () => {
           },
         },
       });
+    });
+  });
+
+  describe("delete", () => {
+    it("should delete a questionnaire introduction", async () => {
+      await deleteIntroductionPage(ctx);
+
+      expect(questionnaire.introduction).toBeUndefined();
     });
   });
 
