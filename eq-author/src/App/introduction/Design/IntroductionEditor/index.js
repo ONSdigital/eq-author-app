@@ -6,7 +6,7 @@ import { useMutation } from "@apollo/react-hooks";
 import { useParams, Link } from "react-router-dom";
 
 import { colors } from "constants/theme";
-import { contactDetailsErrors } from "constants/validationMessages";
+import { introductionErrors } from "constants/validationMessages";
 
 import { buildSettingsPath } from "utils/UrlUtils";
 
@@ -122,7 +122,8 @@ const IntroductionEditor = ({ introduction, history }) => {
 
   const { errors } = validationErrorInfo;
 
-  const { PHONE_NOT_ENTERED, EMAIL_NOT_ENTERED } = contactDetailsErrors;
+  const { TITLE_NOT_ENTERED, PHONE_NOT_ENTERED, EMAIL_NOT_ENTERED } =
+    introductionErrors;
 
   const hasErrors = (requiredField) => {
     const result = errors.some(({ field }) => field === requiredField);
@@ -159,6 +160,7 @@ const IntroductionEditor = ({ introduction, history }) => {
                 },
               })
             }
+            errorValidationMsg={hasErrors("title") && TITLE_NOT_ENTERED}
             controls={{
               heading: true,
               bold: true,
