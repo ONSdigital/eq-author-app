@@ -17,6 +17,7 @@ export const ROUTING_ANSWER_TYPES = [
   PERCENTAGE,
   CHECKBOX,
   UNIT,
+  DATE,
 ];
 
 export const RADIO_OPTION = "RadioOption";

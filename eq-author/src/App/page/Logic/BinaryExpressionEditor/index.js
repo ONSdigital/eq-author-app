@@ -12,6 +12,7 @@ import {
   PERCENTAGE,
   UNIT,
   CHECKBOX,
+  DATE,
 } from "constants/answer-types";
 
 import {
@@ -59,6 +60,7 @@ import {
   DELETE_LOGIC_CONDITION_TITLE,
   DELETE_BUTTON_TEXT,
 } from "constants/modal-content";
+// import { DATE } from "../../../../../../eq-author-api/constants/answerTypes";
 
 const ANSWER_PICKER_ERROR_SITUATIONS = [
   {
@@ -107,6 +109,7 @@ const ANSWER_TYPE_TO_RIGHT_EDITOR = {
   [PERCENTAGE]: NumberAnswerSelector,
   [CURRENCY]: NumberAnswerSelector,
   [UNIT]: NumberAnswerSelector,
+  [DATE]: NumberAnswerSelector,
 };
 
 export const UnwrappedBinaryExpressionEditor = ({
