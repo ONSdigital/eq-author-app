@@ -64,6 +64,13 @@ const OptionLabel = styled.div`
   margin: 0;
 `;
 
+const MissingOptionLabel = styled.div`
+  border: 2px dashed ${colors.previewError};
+  border-radius: 2px;
+  padding-left: 0.5em;
+  margin-top: -0.5em;
+`;
+
 const SelectAnswer = ({ answer }) => {
   return (
     <Field>
@@ -74,9 +81,15 @@ const SelectAnswer = ({ answer }) => {
       </SelectContainer>
 
       <OptionLabelContainer>
-        {answer.options.map((option, index) => (
-          <OptionLabel key={option.id}>{option.label}</OptionLabel>
-        ))}
+        {answer.options.map((option, index) =>
+          option.label !== "" ? (
+            <OptionLabel key={option.id}>{option.label}</OptionLabel>
+          ) : (
+            <OptionLabel key={option.id}>
+              <MissingOptionLabel>Missing label</MissingOptionLabel>
+            </OptionLabel>
+          )
+        )}
       </OptionLabelContainer>
     </Field>
   );
