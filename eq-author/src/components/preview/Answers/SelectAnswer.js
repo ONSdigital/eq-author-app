@@ -68,8 +68,20 @@ const MissingOptionLabel = styled.div`
   border: 2px dashed ${colors.previewError};
   border-radius: 2px;
   padding-left: 0.5em;
-  margin-top: -0.5em;
+  margin-top: ${(props) => !props.firstElement && `-0.5em`};
+  margin-bottom: ${(props) => props.lastElement && `-0.5em`};
 `;
+
+const isLastMissingLabelElement = (index, options) => {
+  let lastElement = false;
+
+  // if index is not last option in array and the label of the option after index is not empty
+  if (index !== options.length - 1 && options[index + 1].label !== "") {
+    lastElement = true;
+  }
+
+  return lastElement;
+};
 
 const SelectAnswer = ({ answer }) => {
   return (
@@ -86,7 +98,12 @@ const SelectAnswer = ({ answer }) => {
             <OptionLabel key={option.id}>{option.label}</OptionLabel>
           ) : (
             <OptionLabel key={option.id}>
-              <MissingOptionLabel>Missing label</MissingOptionLabel>
+              <MissingOptionLabel
+                firstElement={index === 0}
+                lastElement={isLastMissingLabelElement(index, answer.options)}
+              >
+                Missing label
+              </MissingOptionLabel>
             </OptionLabel>
           )
         )}
