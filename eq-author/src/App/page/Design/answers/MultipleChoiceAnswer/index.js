@@ -168,6 +168,18 @@ export const UnwrappedMultipleChoiceAnswer = ({
         </Field>
       )}
       <AnswerProperties answer={answer} updateAnswer={updateAnswer} />
+      {type === SELECT && (
+        <Collapsible title="Why is there a minimum requirement of 25 labels?">
+          <CollapsibleContent>
+            In accordance with usability considerations, the select answer type
+            should only be used for long lists of 25 items or more.
+          </CollapsibleContent>
+          <CollapsibleContent>
+            For shorter lists of less than 25 items, the radio answer type
+            should be used.
+          </CollapsibleContent>
+        </Collapsible>
+      )}
       <AnswerWrapper>
         <TransitionGroup
           component={Options}

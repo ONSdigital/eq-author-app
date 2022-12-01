@@ -112,4 +112,8 @@ const SelectAnswer = ({ answer }) => {
   );
 };
 
+SelectAnswer.propTypes = {
+  answer: PropTypes.object, //eslint-disable-line
+};
+
 export default SelectAnswer;
