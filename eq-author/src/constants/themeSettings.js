@@ -1,3 +1,4 @@
+// Add `social: "Social theme"` if required in future
 export const THEME_TITLES = {
   default: "GB theme",
   northernireland: "NI theme",

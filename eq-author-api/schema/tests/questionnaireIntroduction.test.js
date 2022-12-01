@@ -8,6 +8,12 @@ const {
 } = require("../../tests/utils/contextBuilder/questionnaireIntroduction");
 
 const { BUSINESS } = require("../../constants/questionnaireTypes");
+const {
+  createIntroductionPage,
+} = require("../../tests/utils/contextBuilder/questionnaireIntroduction/createIntroductionPage.js");
+const {
+  deleteIntroductionPage,
+} = require("../../tests/utils/contextBuilder/questionnaireIntroduction/deleteIntroductionPage.js");
 
 describe("questionnaire", () => {
   let ctx, questionnaire;
@@ -42,6 +48,32 @@ describe("questionnaire", () => {
         contactDetailsEmailAddress: expect.any(String),
         validationErrorInfo: expect.any(Object),
       });
+    });
+  });
+
+  describe("create", () => {
+    it("should create a questionnaire introduction", async () => {
+      ctx.questionnaire.introduction = undefined;
+
+      const introduction = await createIntroductionPage(ctx);
+
+      expect(introduction).toEqual({
+        id: expect.any(String),
+        questionnaire: {
+          id: expect.any(String),
+          introduction: {
+            id: expect.any(String),
+          },
+        },
+      });
+    });
+  });
+
+  describe("delete", () => {
+    it("should delete a questionnaire introduction", async () => {
+      await deleteIntroductionPage(ctx);
+
+      expect(questionnaire.introduction).toBeUndefined();
     });
   });
 
