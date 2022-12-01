@@ -12,7 +12,6 @@ const Legend = styled.div`
 
 const SelectContainer = styled.div`
   font-size: 1em;
-  background: #fff;
   border: 1px solid ${colors.grey};
   border-radius: 0.2em;
   width: fit-content;
@@ -45,6 +44,23 @@ const Chevron = styled.span`
   }
 `;
 
+const OptionLabel = styled.div`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  border-right: 1px solid ${colors.grey};
+  border-left: 1px solid ${colors.grey};
+  border-top: ${(props) => props.first && `0.5px solid ${colors.grey}`};
+  border-bottom: ${(props) => props.last && `1px solid ${colors.grey}`};
+  width: 20em;
+  font-size: 1em;
+  color: inherit;
+  font-weight: inherit;
+  padding: 0.7em 1em 0.7em 1em;
+  margin: 0;
+`;
+
 const SelectAnswer = ({ answer }) => {
   return (
     <Field>
@@ -54,15 +70,15 @@ const SelectAnswer = ({ answer }) => {
         Select an option <Chevron id="select-chevron" />
       </SelectContainer>
 
-      {/* {answer.options.map((option, index) => (
-        <Option
-          key={option.id || index}
-          option={option}
-          type={answer.type}
-          answer={option.additionalAnswer}
-          answerOptions={answer.options}
-        />
-      ))} */}
+      {answer.options.map((option, index) => (
+        <OptionLabel
+          key={option.id}
+          first={index === 0}
+          last={index === answer.options.length - 1}
+        >
+          {option.label}
+        </OptionLabel>
+      ))}
     </Field>
   );
 };
