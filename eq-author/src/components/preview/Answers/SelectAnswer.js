@@ -44,15 +44,18 @@ const Chevron = styled.span`
   }
 `;
 
+const OptionLabelContainer = styled.div`
+  width: 20em;
+  border: solid ${colors.grey};
+  border-width: 0.5px 1px 1px 1px;
+  box-shadow: 0 3px 3px 0 ${colors.grey};
+`;
+
 const OptionLabel = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   display: block;
-  border-right: 1px solid ${colors.grey};
-  border-left: 1px solid ${colors.grey};
-  border-top: ${(props) => props.first && `0.5px solid ${colors.grey}`};
-  border-bottom: ${(props) => props.last && `1px solid ${colors.grey}`};
   width: 20em;
   font-size: 1em;
   color: inherit;
@@ -70,15 +73,11 @@ const SelectAnswer = ({ answer }) => {
         Select an option <Chevron id="select-chevron" />
       </SelectContainer>
 
-      {answer.options.map((option, index) => (
-        <OptionLabel
-          key={option.id}
-          first={index === 0}
-          last={index === answer.options.length - 1}
-        >
-          {option.label}
-        </OptionLabel>
-      ))}
+      <OptionLabelContainer>
+        {answer.options.map((option, index) => (
+          <OptionLabel key={option.id}>{option.label}</OptionLabel>
+        ))}
+      </OptionLabelContainer>
     </Field>
   );
 };
