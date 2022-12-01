@@ -81,6 +81,8 @@ const CustomInlineField = styled(InlineField)`
 
 const CollapsibleContent = styled.p``;
 
+var NonDynamicOptions = [];
+
 StyledOption.defaultProps = {
   duration: 200,
 };
@@ -296,6 +298,9 @@ export const StatelessOption = ({
     ) && ADDITIONAL_LABEL_MISSING;
 
   const onUpdateFormat = (value) => {
+    console.log("answer", answer);
+    console.log("options", answer.options);
+
     updateOption({
       variables: {
         input: {
@@ -377,7 +382,7 @@ export const StatelessOption = ({
               <CustomInlineField
                 id={`dynamic-option-toggle-switch-${option.id}`}
                 name="Dynamic Option"
-                label="Dynamic Option"
+                label="Dynamic OptionXXX"
                 disabled={
                   !option.dynamicAnswer &&
                   (checkDynamicOption() || getCheckboxAnswers().length === 0)
