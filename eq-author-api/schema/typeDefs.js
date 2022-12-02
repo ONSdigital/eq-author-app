@@ -674,6 +674,8 @@ enum LogicCondition {
   NotAnyOf
   NotAllOf
   Unanswered
+  Before
+  After
 }
 
 type BinaryExpression2 {

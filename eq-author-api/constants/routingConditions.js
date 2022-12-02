@@ -12,6 +12,8 @@ const NOT_ALL_OF = "NotAllOf";
 const NOT_ANY_OF = "NotAnyOf";
 const UNANSWERED = "Unanswered";
 const COUNT_OF = "CountOf";
+const BEFORE = "Before";
+const AFTER = "After";
 
 module.exports = {
   SELECT,
@@ -28,4 +30,6 @@ module.exports = {
   NOT_ANY_OF,
   UNANSWERED,
   COUNT_OF,
+  BEFORE,
+  AFTER,
 };
