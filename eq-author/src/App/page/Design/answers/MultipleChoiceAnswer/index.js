@@ -194,8 +194,9 @@ export const UnwrappedMultipleChoiceAnswer = ({
               <Option
                 {...otherProps}
                 {...props}
-                // eslint-disable-next-line react/prop-types
-                label={`Label ${props.index + 1}`}
+                label={
+                  answer.type === SELECT ? `Label ${props.index + 1}` : `Label` //eslint-disable-line react/prop-types
+                }
                 type={type}
                 option={option}
                 onDelete={handleOptionDelete}
