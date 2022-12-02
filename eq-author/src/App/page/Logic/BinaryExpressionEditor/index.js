@@ -45,6 +45,7 @@ import withUpdateRightSide from "./withUpdateRightSide";
 import withUpdateBinaryExpression from "./withUpdateBinaryExpression";
 import MultipleChoiceAnswerOptionsSelector from "./MultipleChoiceAnswerOptionsSelector";
 import NumberAnswerSelector from "./NumberAnswerSelector";
+import DateAnswerSelector from "./DateAnswerSelector";
 
 import DELETE_SKIP_CONDITION from "../../../shared/Logic/SkipLogic/deleteSkipCondition.graphql";
 
@@ -109,7 +110,7 @@ const ANSWER_TYPE_TO_RIGHT_EDITOR = {
   [PERCENTAGE]: NumberAnswerSelector,
   [CURRENCY]: NumberAnswerSelector,
   [UNIT]: NumberAnswerSelector,
-  [DATE]: NumberAnswerSelector,
+  [DATE]: DateAnswerSelector,
 };
 
 export const UnwrappedBinaryExpressionEditor = ({
@@ -132,6 +133,7 @@ export const UnwrappedBinaryExpressionEditor = ({
   const [deleteSkipCondition] = useMutation(DELETE_SKIP_CONDITION);
 
   const handleLeftSideChange = (contentPickerResult) => {
+    console.log("contentPickerResult :>> ", contentPickerResult);
     expression.left.id !== contentPickerResult.value.id &&
       updateLeftSide(expression, contentPickerResult.value.id);
   };
