@@ -95,7 +95,7 @@ const SelectAnswer = ({ answer }) => {
       <DisplayNameContent>{description}</DisplayNameContent>
 
       <SelectContainer>
-        Select an option <Chevron id="select-chevron" />
+        Select an answer <Chevron id="select-chevron" />
       </SelectContainer>
 
       <OptionLabelContainer>
