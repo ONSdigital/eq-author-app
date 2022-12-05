@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropType from "prop-types";
 import styled from "styled-components";
 
@@ -6,8 +6,13 @@ import { colors, focusStyle } from "constants/theme";
 
 import Truncated from "components/Truncated";
 import { MenuItemType } from "components/ContentPickerv2/Menu";
+import Modal from "components-themed/Modal";
 
 import { ReactComponent as IconClose } from "assets/icon-close.svg";
+import {
+  DELETE_BUTTON_TEXT,
+  DELETE_CALC_SUM_ANSWER_TITLE,
+} from "constants/modal-content";
 
 const Wrapper = styled.div`
   background: ${colors.primary};
@@ -73,15 +78,30 @@ const SelectedAnswer = ({
   onRemove,
 }) => {
   const unitType = properties.unit || false;
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
   return (
-    <Wrapper>
-      <Title>{displayName}</Title>
-      {unitType && <Chip data-test="unit-type">{unitType}</Chip>}
-      <Chip>{answerType}</Chip>
-      <CloseButton data-test="remove-answer-button" onClick={onRemove}>
-        <IconClose />
-      </CloseButton>
-    </Wrapper>
+    <>
+      <Modal
+        title={DELETE_CALC_SUM_ANSWER_TITLE}
+        positiveButtonText={DELETE_BUTTON_TEXT}
+        isOpen={showDeleteModal}
+        onConfirm={onRemove}
+        onClose={() => setShowDeleteModal(false)}
+      />
+      <Wrapper>
+        <Title>{displayName}</Title>
+        {unitType && <Chip data-test="unit-type">{unitType}</Chip>}
+        <Chip>{answerType}</Chip>
+        <CloseButton
+          data-test="remove-answer-button"
+          onClick={() => setShowDeleteModal(true)}
+        >
+          <IconClose />
+        </CloseButton>
+      </Wrapper>
+    </>
   );
 };
 

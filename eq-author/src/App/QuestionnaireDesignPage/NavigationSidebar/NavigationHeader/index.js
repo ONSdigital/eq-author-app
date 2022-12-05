@@ -16,12 +16,14 @@ import AddMenu from "../AddMenu/AddMenu";
 
 import withCreateSection from "enhancers/withCreateSection";
 import withCreateQuestionConfirmation from "../../withCreateQuestionConfirmation";
+import withCreateIntroductionPage from "../../withCreateIntroductionPage";
 
 import { QuestionPage } from "constants/page-types";
 
 export const UnwrappedNavigationHeader = ({
   onCreateQuestionConfirmation,
   onAddSection,
+  onAddIntroductionPage,
 }) => {
   const [openMenu, setOpenMenu] = useState(false);
   const [importingContent, setImportingContent] = useState(false);
@@ -53,6 +55,10 @@ export const UnwrappedNavigationHeader = ({
       page?.pageType === QuestionPage && !page?.confirmation;
   }
 
+  const canAddIntroductionPage =
+    !questionnaire?.introduction &&
+    [PAGE, FOLDER, SECTION].includes(entityName);
+
   const canImportContent = [PAGE, FOLDER, SECTION].includes(entityName);
 
   const handleAddQuestionPage = (createInsideFolder) => {
@@ -67,6 +73,11 @@ export const UnwrappedNavigationHeader = ({
 
   const handleAddQuestionConfirmation = () => {
     onCreateQuestionConfirmation(entityId);
+    setOpenMenu(!openMenu);
+  };
+
+  const handleAddIntroductionPage = () => {
+    onAddIntroductionPage();
     setOpenMenu(!openMenu);
   };
 
@@ -107,6 +118,7 @@ export const UnwrappedNavigationHeader = ({
         onAddQuestionConfirmation={handleAddQuestionConfirmation}
         onAddFolder={handleAddFolder}
         onAddListCollectorPage={handleAddListCollectorPage}
+        onAddIntroductionPage={handleAddIntroductionPage}
         onStartImportingContent={handleStartImportingContent}
         canAddQuestionPage={canAddQuestionCalculatedSummmaryPagesAndFolder}
         canAddCalculatedSummaryPage={
@@ -114,6 +126,7 @@ export const UnwrappedNavigationHeader = ({
         }
         canAddQuestionConfirmation={canAddQuestionConfirmation}
         canAddListCollectorPage={canAddQuestionCalculatedSummmaryPagesAndFolder}
+        canAddIntroductionPage={canAddIntroductionPage}
         canAddFolder={canAddQuestionCalculatedSummmaryPagesAndFolder}
         canAddSection={canAddSection}
         canImportContent={canImportContent}
@@ -134,6 +147,7 @@ export const UnwrappedNavigationHeader = ({
 UnwrappedNavigationHeader.propTypes = {
   onAddSection: PropTypes.func.isRequired,
   onCreateQuestionConfirmation: PropTypes.func.isRequired,
+  onAddIntroductionPage: PropTypes.func.isRequired,
 };
 
 UnwrappedNavigationHeader.fragments = {
@@ -149,6 +163,7 @@ UnwrappedNavigationHeader.fragments = {
 const WrappedHeader = flowRight([
   withCreateQuestionConfirmation,
   withCreateSection,
+  withCreateIntroductionPage,
 ])(UnwrappedNavigationHeader);
 
 // needed for addSection()

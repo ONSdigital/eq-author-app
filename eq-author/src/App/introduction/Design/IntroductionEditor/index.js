@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { noop } from "lodash/fp";
 import PropTypes from "prop-types";
+import CustomPropTypes from "custom-prop-types";
 import { useMutation } from "@apollo/react-hooks";
 import { useParams, Link } from "react-router-dom";
 
 import { colors } from "constants/theme";
-import { contactDetailsErrors } from "constants/validationMessages";
+import { introductionErrors } from "constants/validationMessages";
 
 import { buildSettingsPath } from "utils/UrlUtils";
 
@@ -16,6 +16,7 @@ import { InformationPanel } from "components/Panel";
 import { Field, Input, Label } from "components/Forms";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import Panel from "components-themed/panels";
+import IntroductionHeader from "../../IntroductionHeader";
 
 import CollapsiblesEditor from "./CollapsiblesEditor";
 
@@ -91,7 +92,7 @@ const StyledInput = styled(Input)`
   `}
 `;
 
-const IntroductionEditor = ({ introduction }) => {
+const IntroductionEditor = ({ introduction, history }) => {
   const {
     id,
     collapsibles,
@@ -121,7 +122,8 @@ const IntroductionEditor = ({ introduction }) => {
 
   const { errors } = validationErrorInfo;
 
-  const { PHONE_NOT_ENTERED, EMAIL_NOT_ENTERED } = contactDetailsErrors;
+  const { TITLE_NOT_ENTERED, PHONE_NOT_ENTERED, EMAIL_NOT_ENTERED } =
+    introductionErrors;
 
   const hasErrors = (requiredField) => {
     const result = errors.some(({ field }) => field === requiredField);
@@ -132,9 +134,10 @@ const IntroductionEditor = ({ introduction }) => {
 
   return (
     <>
+      <IntroductionHeader history={history} />
       <Section>
         <Padding>
-          <SectionTitle style={{ marginBottom: "0" }}>
+          <SectionTitle style={{ marginTop: "-2em", marginBottom: "0" }}>
             Introduction content
           </SectionTitle>
           <SectionDescription>
@@ -148,8 +151,23 @@ const IntroductionEditor = ({ introduction }) => {
             multiline
             value={title}
             size="large"
-            disabled
-            onUpdate={noop}
+            onUpdate={({ value }) =>
+              updateQuestionnaireIntroduction({
+                variables: {
+                  input: {
+                    title: value,
+                  },
+                },
+              })
+            }
+            errorValidationMsg={hasErrors("title") && TITLE_NOT_ENTERED}
+            controls={{
+              heading: true,
+              bold: true,
+              link: true,
+              emphasis: true,
+              piping: true,
+            }}
             testSelector="txt-intro-title"
             withoutMargin
           />
@@ -479,6 +497,7 @@ IntroductionEditor.propTypes = {
     tertiaryTitle: PropTypes.string,
     tertiaryDescription: PropTypes.string,
   }),
+  history: CustomPropTypes.history,
 };
 
 export default IntroductionEditor;

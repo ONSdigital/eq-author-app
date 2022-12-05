@@ -33,6 +33,11 @@ import messageTemplate, {
 import UPDATE_OPTION_MUTATION from "graphql/updateOption.graphql";
 import ContentPickerSelect from "components/ContentPickerSelect";
 import { DYNAMIC_ANSWER } from "components/ContentPickerSelect/content-types";
+import Modal from "components-themed/Modal/modal";
+import {
+  DELETE_BUTTON_TEXT,
+  DELETE_OPTION_TITLE,
+} from "constants/modal-content";
 
 const ENTER_KEY = 13;
 
@@ -107,6 +112,7 @@ export const StatelessOption = ({
   const [otherLabelValue, setOtherLabelValue] = useState(
     option?.additionalAnswer?.label ?? ""
   );
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [updateOption] = useMutation(UPDATE_OPTION_MUTATION);
   const { questionnaire } = useQuestionnaire();
   const id = useCurrentPageId();
@@ -179,54 +185,67 @@ export const StatelessOption = ({
 
   const renderToolbar = () => {
     return (
-      <ButtonsContainer>
-        {!hideMoveButtons && (
-          <>
-            <Tooltip
-              content="Move answer up"
-              place="top"
-              offset={{ top: 0, bottom: 10 }}
-            >
-              <MoveButton
-                disabled={!canMoveUp}
-                onClick={onMoveUp}
-                data-test="btn-move-answer-up"
-                tabIndex={!canMoveUp ? -1 : undefined}
-                aria-label={"Move option up"}
+      <>
+        <Modal
+          title={DELETE_OPTION_TITLE}
+          positiveButtonText={DELETE_BUTTON_TEXT}
+          isOpen={showDeleteModal}
+          onConfirm={handleDeleteClick}
+          onClose={() => setShowDeleteModal(false)}
+        />
+        <ButtonsContainer>
+          {!hideMoveButtons && (
+            <>
+              <Tooltip
+                content="Move answer up"
+                place="top"
+                offset={{ top: 0, bottom: 10 }}
               >
-                <IconUp />
-              </MoveButton>
-            </Tooltip>
-            <Tooltip
-              content="Move answer down"
-              place="top"
-              offset={{ top: 0, bottom: 10 }}
-            >
-              <MoveButton
-                disabled={!canMoveDown}
-                onClick={onMoveDown}
-                data-test="btn-move-answer-down"
-                tabIndex={!canMoveDown ? -1 : undefined}
-                aria-label={"Move option down"}
+                <MoveButton
+                  disabled={!canMoveUp}
+                  onClick={onMoveUp}
+                  data-test="btn-move-answer-up"
+                  tabIndex={!canMoveUp ? -1 : undefined}
+                  aria-label={"Move option up"}
+                >
+                  <IconUp />
+                </MoveButton>
+              </Tooltip>
+              <Tooltip
+                content="Move answer down"
+                place="top"
+                offset={{ top: 0, bottom: 10 }}
               >
-                <IconDown />
-              </MoveButton>
+                <MoveButton
+                  disabled={!canMoveDown}
+                  onClick={onMoveDown}
+                  data-test="btn-move-answer-down"
+                  tabIndex={!canMoveDown ? -1 : undefined}
+                  aria-label={"Move option down"}
+                >
+                  <IconDown />
+                </MoveButton>
+              </Tooltip>
+            </>
+          )}
+          {(hasDeleteButton || !hideMoveButtons) && (
+            <Tooltip
+              content="Delete option"
+              place="top"
+              offset={{ bottom: 10 }}
+            >
+              <DeleteButton
+                size="medium"
+                aria-label="Delete option"
+                onClick={() => setShowDeleteModal(true)}
+                data-test="btn-delete-option"
+                disabled={!hasDeleteButton && isDeleteDisabled()}
+                tabIndex={!hasDeleteButton ? -1 : undefined}
+              />
             </Tooltip>
-          </>
-        )}
-        {(hasDeleteButton || !hideMoveButtons) && (
-          <Tooltip content="Delete option" place="top" offset={{ bottom: 10 }}>
-            <DeleteButton
-              size="medium"
-              aria-label="Delete option"
-              onClick={handleDeleteClick}
-              data-test="btn-delete-option"
-              disabled={!hasDeleteButton && isDeleteDisabled()}
-              tabIndex={!hasDeleteButton ? -1 : undefined}
-            />
-          </Tooltip>
-        )}
-      </ButtonsContainer>
+          )}
+        </ButtonsContainer>
+      </>
     );
   };
 

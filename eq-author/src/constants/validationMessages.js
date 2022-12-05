@@ -23,6 +23,11 @@ export const LIST_COLLECTOR_ERRORS = [
     message: "Enter a driving question",
   },
   {
+    field: "additionalGuidancePanel",
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Enter additional guidance content",
+  },
+  {
     field: "drivingPositive",
     errorCode: "ERR_VALID_REQUIRED",
     message: "Enter a positive answer label",
@@ -108,7 +113,8 @@ export const richTextEditorErrors = {
   },
 };
 
-export const contactDetailsErrors = {
+export const introductionErrors = {
+  TITLE_NOT_ENTERED: "Enter a title",
   PHONE_NOT_ENTERED: "Enter a phone number",
   EMAIL_NOT_ENTERED: "Enter an email address",
 };

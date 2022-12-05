@@ -9,22 +9,26 @@ import CustomPropTypes from "custom-prop-types";
 
 import IconButtonDelete from "components/buttons/IconButtonDelete";
 import DuplicateButton from "components/buttons/DuplicateButton";
-import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 import Truncated from "components/Truncated";
 import Button from "components/buttons/Button";
 
 import { colors } from "constants/theme";
 import { WRITE } from "constants/questionnaire-permissions";
 import * as Headings from "constants/table-headings";
+import {
+  DELETE_QUESTIONNAIRE_TITLE,
+  DELETE_QUESTIONNAIRE_WARNING,
+  DELETE_BUTTON_TEXT,
+} from "constants/modal-content.js";
 
 import FormattedDate from "./FormattedDate.js";
-import questionConfirmationIcon from "assets/icon-questionnaire.svg";
 import { ReactComponent as StarredIcon } from "assets/icon-starred.svg";
 import { ReactComponent as UnstarredIcon } from "assets/icon-unstarred.svg";
 import { ReactComponent as LockedIcon } from "assets/icon-locked.svg";
 import { ReactComponent as UnlockedIcon } from "assets/icon-unlocked.svg";
 
 import useToggleQuestionnaireStarred from "hooks/useToggleQuestionnaireStarred";
+import Modal from "components-themed/Modal";
 
 export const QuestionnaireLink = styled.span`
   color: ${colors.blueLink};
@@ -433,14 +437,15 @@ export const Row = ({
       >
         {tableHeadings.map(renderEnabled)}
       </TR>
-      <DeleteConfirmDialog
+      <Modal
+        title={DELETE_QUESTIONNAIRE_TITLE}
+        subtitle={displayName}
+        warningMessage={DELETE_QUESTIONNAIRE_WARNING}
+        positiveButtonText={DELETE_BUTTON_TEXT}
         isOpen={showDeleteModal}
+        onConfirm={handleModalConfirm}
         onClose={handleModalClose}
-        onDelete={handleModalConfirm}
-        title={displayName}
-        alertText="This questionnaire including all sections and questions will be deleted."
-        icon={questionConfirmationIcon}
-        data-test="delete-questionnaire"
+        updatedFontTheme //TODO: Remove updatedFontTheme when theme container is fixed for font size 18px
       />
     </>
   );

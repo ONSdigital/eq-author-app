@@ -90,6 +90,18 @@
       }
     }
   },
+  "if": {
+     "properties": {
+       "additionalGuidancePanelSwitch": { "const": true }
+     }
+   },
+   "then": {
+    "properties": {
+        "additionalGuidancePanel": {
+          "$ref": "definitions.json#/definitions/populatedString"
+      }
+    }
+   },
   "required": [
     "id",
     "title",

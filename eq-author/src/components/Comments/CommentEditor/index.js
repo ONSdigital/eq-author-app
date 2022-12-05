@@ -117,7 +117,7 @@ const CommentEditor = ({
           <Button
             data-test="CommentEditor__ConfirmBtn"
             type="submit"
-            variant="greyed"
+            variant="primary"
             small-medium
             disabled={commentText.trim().length === 0}
             onClick={() => {

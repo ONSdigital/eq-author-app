@@ -7,6 +7,12 @@ import {
 } from "tests/utils/createMockQuestionnaire";
 import MovePageModal from "App/page/Design/MoveEntityModal";
 
+import {
+  DELETE_QUESTION_PAGE_TITLE,
+  DELETE_CALCULATED_SUMMARY_TITLE,
+  DELETE_LIST_COLLECTOR_TITLE,
+} from "constants/modal-content";
+
 describe("Question Page Editor", () => {
   let wrapper, mockHandlers, page, mockEvent, questionnaire, match;
 
@@ -72,7 +78,7 @@ describe("Question Page Editor", () => {
     beforeEach(() => {
       wrapper = render();
       wrapper.setState({ showDeleteConfirmDialog: true });
-      deleteConfirmDialog = wrapper.find("DeleteConfirmDialog");
+      deleteConfirmDialog = wrapper.find("Modal");
     });
 
     it("should display delete confirm dialog", () => {
@@ -80,13 +86,51 @@ describe("Question Page Editor", () => {
     });
 
     it("should call handler when confirmed", () => {
-      deleteConfirmDialog.simulate("delete");
+      deleteConfirmDialog.simulate("confirm");
       expect(mockHandlers.onDeletePage).toHaveBeenCalled();
     });
 
     it("should call handler when closed", () => {
       deleteConfirmDialog.simulate("close");
       expect(wrapper.state("showDeleteConfirmDialog")).toEqual(false);
+    });
+
+    describe("Modal title", () => {
+      it("should display correct QuestionPage modal title", () => {
+        page.pageType = "QuestionPage";
+        wrapper = render(page);
+        deleteConfirmDialog = wrapper.find("Modal");
+        expect(deleteConfirmDialog.props().title).toBe(
+          DELETE_QUESTION_PAGE_TITLE
+        );
+      });
+
+      it("should display correct CalculatedSummaryPage modal title", () => {
+        page.pageType = "CalculatedSummaryPage";
+        wrapper = render(page);
+        deleteConfirmDialog = wrapper.find("Modal");
+        expect(deleteConfirmDialog.props().title).toBe(
+          DELETE_CALCULATED_SUMMARY_TITLE
+        );
+      });
+
+      it("should display correct ListCollectorPage modal title", () => {
+        page.pageType = "ListCollectorPage";
+        wrapper = render(page);
+        deleteConfirmDialog = wrapper.find("Modal");
+        expect(deleteConfirmDialog.props().title).toBe(
+          DELETE_LIST_COLLECTOR_TITLE
+        );
+      });
+
+      it("should display correct default modal title when pageType is not an expected type", () => {
+        page.pageType = "TestPageType";
+        wrapper = render(page);
+        deleteConfirmDialog = wrapper.find("Modal");
+        expect(deleteConfirmDialog.props().title).toBe(
+          DELETE_QUESTION_PAGE_TITLE
+        );
+      });
     });
   });
 

@@ -87,7 +87,16 @@ describe("MetadataTable", () => {
 
   it("should call onDelete event handler when deleting a metadata", () => {
     wrapper.find(DeleteRowButton).simulate("click");
+    const deleteConfirmModal = wrapper.find("Modal");
+    deleteConfirmModal.simulate("confirm");
     expect(props.onDelete).toHaveBeenCalledWith(questionnaireId, metadata.id);
+  });
+
+  it("should close delete modal when close button is clicked", () => {
+    wrapper.find(DeleteRowButton).simulate("click");
+    expect(wrapper.find("Modal").prop("isOpen")).toBe(true);
+    wrapper.find("Modal").simulate("close");
+    expect(wrapper.find("Modal").prop("isOpen")).toBe(false);
   });
 
   it("should generate list of possible fallback metadata correctly", () => {

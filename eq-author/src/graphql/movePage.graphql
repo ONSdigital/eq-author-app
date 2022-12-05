@@ -1,6 +1,7 @@
 #import "./fragments/questionnaire.graphql"
 #import "./fragments/validationErrorInfo.graphql"
 #import "./fragments/answer.graphql"
+#import "graphql/fragments/comment.graphql"
 
 mutation MovePage($input: MovePageInput!) {
   movePage(input: $input) {
@@ -54,6 +55,9 @@ mutation MovePage($input: MovePageInput!) {
             }
             confirmation {
               id
+            }
+            comments {
+              ...Comment
             }
           }
           validationErrorInfo {

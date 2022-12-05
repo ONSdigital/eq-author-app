@@ -13,12 +13,15 @@ const ToastContext = createContext({
 const Toasts = ({ children }) => {
   const [toasts, setToasts] = useState([]);
   const handleDismissToast = (idToRemove) => {
-    setToasts(toasts.filter(({ id }) => id !== idToRemove));
+    setToasts((prevToasts) => prevToasts.filter(({ id }) => id !== idToRemove));
+  };
+  const handleAddToast = (message) => {
+    setToasts((prevToasts) => [...prevToasts, { message, id: ++id }]);
   };
   return (
     <ToastContext.Provider
       value={{
-        showToast: (message) => setToasts([...toasts, { message, id: ++id }]),
+        showToast: (message) => handleAddToast(message),
       }}
     >
       {children}

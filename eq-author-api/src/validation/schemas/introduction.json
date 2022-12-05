@@ -2,6 +2,9 @@
   "$id": "http://example.com/schemas/introduction.json",
   "type": "object",
   "properties": {
+    "title": {
+      "$ref": "definitions.json#/definitions/populatedString"
+    },
     "contactDetailsPhoneNumber": {
       "$ref": "definitions.json#/definitions/populatedString"
     },

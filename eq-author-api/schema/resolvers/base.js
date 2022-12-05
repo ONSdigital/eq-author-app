@@ -1,5 +1,4 @@
 const { GraphQLDate, GraphQLDateTime } = require("graphql-iso-date");
-const { SOCIAL } = require("../../constants/questionnaireTypes");
 const {
   includes,
   isNil,
@@ -138,7 +137,7 @@ const deleteLastPageRouting = require("../../src/businessLogic/deleteLastPageRou
 
 const createNewQuestionnaire = (input) => {
   const defaultTheme = createTheme({
-    shortName: input.type === BUSINESS ? "default" : "social",
+    shortName: "default",
   });
   const defaultQuestionnaire = {
     id: uuidv4(),
@@ -579,6 +578,32 @@ const Resolvers = {
       await saveMetadata(metadata);
       return metadata.history;
     },
+    createIntroductionPage: createMutation((root, args, ctx) => {
+      const questionnaire = ctx.questionnaire;
+      const metadata = questionnaire.metadata;
+      const introduction = createQuestionnaireIntroduction(metadata);
+      ctx.questionnaire.introduction = introduction;
+
+      logger.info(
+        { qid: ctx.questionnaire.id },
+        `New Introduction created with ID ${introduction.id}`
+      );
+
+      return introduction;
+    }),
+    deleteIntroductionPage: createMutation((root, args, ctx) => {
+      const questionnaire = ctx.questionnaire;
+      const introduction = questionnaire.introduction;
+
+      logger.info(
+        { qid: ctx.questionnaire.id },
+        `Removed introduction with ID: ${introduction.id} from questionnaire: ${ctx.questionnaire.id}`
+      );
+
+      questionnaire.introduction = undefined;
+
+      return questionnaire;
+    }),
     createSection: createMutation((root, { input }, ctx) => {
       const section = createSection(input);
       ctx.questionnaire.sections.push(section);
@@ -1545,6 +1570,7 @@ const Resolvers = {
   },
 
   QuestionnaireIntroduction: {
+    questionnaire: (root, args, ctx) => ctx.questionnaire,
     validationErrorInfo: ({ id }, _, ctx) =>
       returnValidationErrors(ctx, id, ({ type }) => type === "introduction"),
     comments: ({ id }, args, ctx) => ctx.comments[id],
@@ -1875,18 +1901,16 @@ const Resolvers = {
       returnValidationErrors(ctx, id, ({ type }) =>
         ["theme", "themeSettings"].includes(type)
       ),
-    themes: ({ themes: savedThemes }, _args, ctx) => {
+    themes: (_root, _args, ctx) => {
       // Return all themes as disabled by default
       // If present in questionnaire, override with actual attributes
-      return ctx.questionnaire.type === SOCIAL
-        ? savedThemes
-        : THEME_SHORT_NAMES.map((shortName) => ({
-            shortName,
-            id: shortName,
-            enabled: false,
-            legalBasisCode: "NOTICE_1",
-            ...(getThemeByShortName(ctx, shortName) ?? {}),
-          }));
+      return THEME_SHORT_NAMES.map((shortName) => ({
+        shortName,
+        id: shortName,
+        enabled: false,
+        legalBasisCode: "NOTICE_1",
+        ...(getThemeByShortName(ctx, shortName) ?? {}),
+      }));
     },
   },
 

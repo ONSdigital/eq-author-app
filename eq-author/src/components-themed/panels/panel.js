@@ -105,8 +105,8 @@ const SpanIcon = styled.span`
 `;
 
 const WarningIcon = styled.div`
-  height: 2rem;
-  width: 2rem;
+  min-height: 2rem;
+  min-width: 2rem;
   line-height: 2rem;
   background-color: ${({ theme }) => theme.colors.black};
   color: ${({ theme }) => theme.colors.white};
@@ -142,7 +142,7 @@ const StyledPanel = styled.div`
   display: block;
   border-radius: 0;
   position: relative;
-  margin-bottom: 1rem;
+  margin-bottom: ${(props) => props.withPanelMargin && `1rem`};
   border-left: ${(props) => props.withLeftBorder && `8px solid transparent;`};
 
   ${(props) => props.variant === "info" && infoPanel};
@@ -160,9 +160,14 @@ const Panel = ({
   withList,
   handleLinkToAnchor,
   innerRef,
+  withPanelMargin,
 }) => {
   return (
-    <StyledPanel variant={variant} withLeftBorder={withLeftBorder}>
+    <StyledPanel
+      variant={variant}
+      withPanelMargin={withPanelMargin}
+      withLeftBorder={withLeftBorder}
+    >
       {variant === "errorWithHeader" && (
         <>
           <Header>
@@ -220,11 +225,13 @@ Panel.propTypes = {
   handleLinkToAnchor: PropType.func,
   // eslint-disable-next-line react/forbid-prop-types
   innerRef: PropType.object,
+  withPanelMargin: PropType.bool,
 };
 
 Panel.defaultProps = {
   variant: "info",
   withList: false,
+  withPanelMargin: true,
 };
 
 export default Panel;
