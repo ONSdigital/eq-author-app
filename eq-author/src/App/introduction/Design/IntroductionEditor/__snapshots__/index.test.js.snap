@@ -2,12 +2,14 @@
 
 exports[`IntroductionEditor should render 1`] = `
 <Fragment>
+  <IntroductionHeader />
   <IntroductionEditor__Section>
     <IntroductionEditor__Padding>
       <IntroductionEditor__SectionTitle
         style={
           Object {
             "marginBottom": "0",
+            "marginTop": "-2em",
           }
         }
       >
@@ -18,7 +20,17 @@ exports[`IntroductionEditor should render 1`] = `
       </IntroductionEditor__SectionDescription>
       <RichTextEditor
         autoFocus={false}
-        disabled={true}
+        controls={
+          Object {
+            "bold": true,
+            "emphasis": true,
+            "heading": true,
+            "link": true,
+            "piping": true,
+          }
+        }
+        disabled={false}
+        errorValidationMsg={false}
         id="intro-title"
         label="Title"
         maxHeight={12}

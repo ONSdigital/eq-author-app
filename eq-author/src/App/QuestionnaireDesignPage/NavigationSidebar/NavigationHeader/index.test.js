@@ -28,9 +28,11 @@ useParams.mockImplementation(() => ({
 function defaultSetup(changes) {
   const onCreateQuestionConfirmation = jest.fn();
   const onAddSection = jest.fn();
+  const onAddIntroductionPage = jest.fn();
   const props = {
     onCreateQuestionConfirmation,
     onAddSection,
+    onAddIntroductionPage,
     ...changes,
   };
   const questionnaire = buildQuestionnaire({ folderCount: 2 });
@@ -40,7 +42,12 @@ function defaultSetup(changes) {
     </QuestionnaireContext.Provider>
   );
 
-  return { ...utils, onCreateQuestionConfirmation, onAddSection };
+  return {
+    ...utils,
+    onCreateQuestionConfirmation,
+    onAddSection,
+    onAddIntroductionPage,
+  };
 }
 
 function openSetup() {
@@ -48,6 +55,7 @@ function openSetup() {
   const menuButton = utils.getByTestId("btn-add-menu");
   fireEvent.click(menuButton);
   const section = utils.getByTestId("btn-add-section");
+  const introduction = utils.getByTestId("btn-add-introduction");
   const question = utils.getByTestId("btn-add-question-page");
   const folder = utils.getByTestId("btn-add-folder");
   const calculated = utils.getByTestId("btn-add-calculated-summary");
@@ -57,6 +65,7 @@ function openSetup() {
     ...utils,
     menuButton,
     section,
+    introduction,
     question,
     folder,
     calculated,
@@ -108,6 +117,13 @@ describe("NavigationHeader", () => {
       fireEvent.click(confirmation);
       expect(confirmation).toBeDisabled();
     });
+
+    it("should close after adding introduction page", () => {
+      const { menuButton, introduction, onAddIntroductionPage } = openSetup();
+      fireEvent.click(introduction);
+      expect(onAddIntroductionPage).toHaveBeenCalledTimes(1);
+      expect(menuButton.getAttribute("aria-expanded")).toEqual("false");
+    });
   });
 
   describe("when entityName is Page", () => {
@@ -116,11 +132,8 @@ describe("NavigationHeader", () => {
         entityName: "page",
         entityId: "1.1.1",
       }));
-      const {
-        menuButton,
-        confirmation,
-        onCreateQuestionConfirmation,
-      } = openSetup();
+      const { menuButton, confirmation, onCreateQuestionConfirmation } =
+        openSetup();
       fireEvent.click(confirmation);
       expect(onCreateQuestionConfirmation).toHaveBeenCalledTimes(1);
       expect(menuButton.getAttribute("aria-expanded")).toEqual("false");
