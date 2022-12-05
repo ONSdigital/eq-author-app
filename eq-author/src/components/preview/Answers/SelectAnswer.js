@@ -91,19 +91,29 @@ const SelectAnswer = ({ answer }) => {
 
   return (
     <Field>
-      <Legend>{displayName}</Legend>
-      <DisplayNameContent>{description}</DisplayNameContent>
+      <Legend data-test="preview-select-label">{displayName}</Legend>
+      <DisplayNameContent data-test="preview-select-description">
+        {description}
+      </DisplayNameContent>
 
-      <SelectContainer>
+      <SelectContainer data-test="preview-select-answer-container">
         Select an answer <Chevron id="select-chevron" />
       </SelectContainer>
 
-      <OptionLabelContainer>
+      <OptionLabelContainer data-test="preview-select-option-label-container">
         {answer.options.map((option, index) =>
           option.label !== "" ? (
-            <OptionLabel key={option.id}>{option.label}</OptionLabel>
+            <OptionLabel
+              key={option.id}
+              data-test={`preview-select-option-label-${index}`}
+            >
+              {option.label}
+            </OptionLabel>
           ) : (
-            <OptionLabel key={option.id}>
+            <OptionLabel
+              key={option.id}
+              data-test={`preview-select-missing-option-label-${index}`}
+            >
               <MissingOptionLabel
                 firstElement={index === 0}
                 lastElement={isLastMissingLabelElement(index, answer.options)}
