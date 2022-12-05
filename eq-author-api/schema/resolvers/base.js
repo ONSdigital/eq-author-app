@@ -956,9 +956,14 @@ const Resolvers = {
       };
     }),
     updateQuestionConfirmation: createMutation(
-      (_, { input: { positive, negative, id, title, qCode } }, ctx) => {
+      (
+        _,
+        { input: { positive, negative, id, title, pageDescription, qCode } },
+        ctx
+      ) => {
         const newValues = {
           title,
+          pageDescription,
           positive,
           negative,
           qCode,

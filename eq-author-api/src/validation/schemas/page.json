@@ -252,5 +252,5 @@
       }
     }
   ],
-  "required": ["id", "title"]
+  "required": ["id", "title", "pageDescription"]
 }

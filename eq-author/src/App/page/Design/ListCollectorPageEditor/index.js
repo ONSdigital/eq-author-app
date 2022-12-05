@@ -23,6 +23,8 @@ import ValidationError from "components/ValidationError";
 import Icon from "assets/icon-select.svg";
 import CommentFragment from "graphql/fragments/comment.graphql";
 
+import PageTitleContainer from "components/PageTitle";
+
 const propTypes = {
   match: CustomPropTypes.match.isRequired,
   history: CustomPropTypes.history.isRequired,
@@ -39,6 +41,7 @@ const inputFilter = gql`
     title
     listId
     drivingQuestion
+    pageDescription
     drivingPositive
     drivingNegative
     drivingPositiveDescription
@@ -163,6 +166,12 @@ const RadionIndicator = styled.div`
 const RadioAnswerWrapper = styled.div`
   display: inline-block;
   width: 95%;
+`;
+
+const HorizontalRule = styled.hr`
+  border: 0;
+  border-top: 0.0625em solid ${colors.lightMediumGrey};
+  margin: 1.2em 0;
 `;
 
 const renderErrors = (errors, field) => {
@@ -495,6 +504,13 @@ const UnwrappedListCollectorPageEditor = (props) => {
                 />
               </Field>
             </RadioContainer>
+            <HorizontalRule />
+            <PageTitleContainer
+              pageDescription={entity.pageDescription}
+              errors={page.validationErrorInfo.errors}
+              onChange={handleOnChange}
+              onUpdate={handleOnUpdate}
+            />
           </Collapsible>
 
           <Collapsible
@@ -665,6 +681,7 @@ UnwrappedListCollectorPageEditor.fragments = {
       listId
       position
       drivingQuestion
+      pageDescription
       drivingPositive
       drivingNegative
       drivingPositiveDescription

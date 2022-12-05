@@ -7,6 +7,7 @@ mutation UpdateCalculatedSummaryPage(
   updateCalculatedSummaryPage(input: $input) {
     id
     title
+    pageDescription
     totalTitle
     displayName
     alias

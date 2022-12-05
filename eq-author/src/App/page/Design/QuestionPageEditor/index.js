@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import gql from "graphql-tag";
-import { flowRight, find } from "lodash";
+import { flowRight } from "lodash";
 
 import getIdForObject from "utils/getIdForObject";
 import withChangeUpdate from "enhancers/withChangeUpdate";
@@ -104,10 +104,6 @@ export const UnwrappedQuestionPageEditor = (props) => {
     ERR_REFERENCE_DELETED,
   };
 
-  const pageDescriptionError = find(page.validationErrorInfo.errors, {
-    errorCode: "PAGE_DESCRIPTION_MISSING",
-  });
-
   return (
     <div data-test="question-page-editor">
       <PageHeader
@@ -130,7 +126,7 @@ export const UnwrappedQuestionPageEditor = (props) => {
         <PageTitleContainer
           inCollapsible
           pageDescription={page.pageDescription}
-          error={Boolean(pageDescriptionError?.errorCode)}
+          errors={page.validationErrorInfo.errors}
           onChange={onChange}
           onUpdate={onUpdate}
         />

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
 import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
-import { get, flip, partial, find } from "lodash";
+import { get, flip, partial } from "lodash";
 
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 import RichTextEditor from "components/RichTextEditor";
@@ -129,10 +129,6 @@ export class SectionEditor extends React.Component {
 
     const hasHub = section?.questionnaire?.hub;
 
-    const pageDescriptionError = find(section.validationErrorInfo.errors, {
-      errorCode: "PAGE_DESCRIPTION_MISSING",
-    });
-
     return (
       <SectionCanvas data-test="section-editor" id={getIdForObject(section)}>
         <DeleteConfirmDialog
@@ -238,7 +234,7 @@ export class SectionEditor extends React.Component {
           <HorizontalRule />
           <PageTitleContainer
             pageDescription={section?.pageDescription}
-            error={Boolean(pageDescriptionError?.errorCode)}
+            errors={section.validationErrorInfo.errors}
             onChange={onChange}
             onUpdate={onUpdate}
           />

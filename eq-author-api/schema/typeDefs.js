@@ -243,6 +243,7 @@ type ListCollectorPage implements Page & Skippable & Routable {
   folder: Folder!
   position: Int!
   drivingQuestion: String
+  pageDescription: String
   drivingPositive: String
   drivingNegative: String
   drivingPositiveDescription: String
@@ -274,6 +275,7 @@ type CalculatedSummaryPage implements Page & Skippable & Routable {
   answers: [Answer]
   summaryAnswers: [Answer!]!
   type: String
+  pageDescription: String
   totalTitle: String
   validationErrorInfo: ValidationErrorInfo
   routing: Routing2
@@ -974,6 +976,7 @@ input CreateListCollectorPageInput {
   folderId: ID!
   listId: ID
   drivingQuestion: String
+  pageDescription: String
   drivingPositive: String
   drivingNegative: String
   drivingPositiveDescription: String
@@ -991,6 +994,7 @@ input UpdateListCollectorPageInput {
   title: String
   listId: ID
   drivingQuestion: String!
+  pageDescription: String!
   drivingPositive: String!
   drivingNegative: String!
   drivingPositiveDescription: String
@@ -1323,6 +1327,7 @@ input UpdateCalculatedSummaryPageInput {
   id: ID!
   alias: String
   title: String
+  pageDescription: String
   totalTitle: String
   qCode: String
   summaryAnswers: [ID!]
@@ -1526,6 +1531,7 @@ input ConfirmationOptionInput {
 input UpdateQuestionConfirmationInput {
   id: ID!
   title: String
+  pageDescription: String
   positive: ConfirmationOptionInput
   negative: ConfirmationOptionInput
   qCode: String

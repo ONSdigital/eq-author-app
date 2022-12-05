@@ -7,6 +7,7 @@ const createListCollectorPage = (input = {}) => ({
   title: "",
   listId: "",
   drivingQuestion: "",
+  pageDescription: "",
   drivingPositive: "Yes",
   drivingNegative: "No",
   drivingPositiveDescription: "",

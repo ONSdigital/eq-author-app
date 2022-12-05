@@ -48,6 +48,7 @@ const getPageQuery = `
         summaryAnswers {
           id
         }
+        pageDescription
         totalTitle
       }
       ... on QuestionPage {

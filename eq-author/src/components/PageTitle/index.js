@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import Collapsible from "components/Collapsible";
+import { find } from "lodash";
 
 import PageTitleInput from "./PageTitleInput";
 
@@ -14,8 +15,12 @@ const PageTitleContainerWithCollapsible = styled.div`
 
 export class PageTitleContainer extends React.Component {
   render() {
-    const { inCollapsible, pageDescription, error, onChange, onUpdate } =
+    const { inCollapsible, pageDescription, errors, onChange, onUpdate } =
       this.props;
+
+    const pageDescriptionError = find(errors, {
+      errorCode: "PAGE_DESCRIPTION_MISSING",
+    });
 
     if (inCollapsible) {
       return (
@@ -31,7 +36,7 @@ export class PageTitleContainer extends React.Component {
               pageDescription={pageDescription}
               onUpdate={onUpdate}
               onChange={onChange}
-              error={error}
+              error={Boolean(pageDescriptionError?.errorCode)}
             />
           </PageTitleContainerWithCollapsible>
         </Collapsible>
@@ -41,7 +46,7 @@ export class PageTitleContainer extends React.Component {
       <PageTitleContainerWithoutCollapsible>
         <PageTitleInput
           pageDescription={pageDescription}
-          error={error}
+          error={Boolean(pageDescriptionError?.errorCode)}
           onUpdate={onUpdate}
           onChange={onChange}
         />
@@ -53,7 +58,7 @@ export class PageTitleContainer extends React.Component {
 PageTitleContainer.propTypes = {
   inCollapsible: PropTypes.bool,
   pageDescription: PropTypes.string,
-  error: PropTypes.bool,
+  errors: PropTypes.arrayOf(PropTypes.object),
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
 };

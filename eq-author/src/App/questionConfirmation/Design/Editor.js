@@ -13,6 +13,8 @@ import { richTextEditorErrors } from "constants/validationMessages";
 
 import ConfirmationOption from "./ConfirmationOption";
 
+import PageTitleContainer from "components/PageTitle";
+
 const Wrapper = styled.div`
   padding: 1em 2em 2em;
 `;
@@ -44,7 +46,7 @@ export class UnwrappedEditor extends React.Component {
 
   render() {
     const {
-      confirmation: { title, positive, negative },
+      confirmation: { title, pageDescription, positive, negative },
       onChange,
       onUpdate,
     } = this.props;
@@ -66,6 +68,13 @@ export class UnwrappedEditor extends React.Component {
             label: "Confirmation Question title",
             requiredMsg: richTextEditorErrors.CONFIRMATION_TITLE_NOT_ENTERED,
           })}
+        />
+        <PageTitleContainer
+          inCollapsible
+          pageDescription={pageDescription}
+          errors={this.props.getValidationError}
+          onChange={onChange}
+          onUpdate={onUpdate}
         />
         <OptionsWrapper>
           <ConfirmationOption

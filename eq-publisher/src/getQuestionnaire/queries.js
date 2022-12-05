@@ -289,6 +289,7 @@ exports.getQuestionnaire = `
               confirmation {
                 id
                 title
+                pageDescription
                 qCode
                 positive {
                   label

@@ -111,6 +111,7 @@ describe("List Collector Page Editor", () => {
       title: "List Names",
       alias: "Who am I?",
       drivingQuestion: "",
+      pageDescription: "",
       drivingPositive: "Yes",
       drivingNegative: "No",
       drivingPositiveDescription: "",

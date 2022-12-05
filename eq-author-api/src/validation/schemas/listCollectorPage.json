@@ -11,6 +11,11 @@
     "drivingQuestion": {
       "$ref": "definitions.json#/definitions/populatedString"
     },
+    "pageDescription": {
+      "type": "string",
+      "pattern": "\\w+",
+      "errorMessage": "PAGE_DESCRIPTION_MISSING"
+    },
     "drivingPositive": {
       "if": {
         "$ref": "definitions.json#/definitions/populatedString"
@@ -89,6 +94,7 @@
     "id",
     "title",
     "drivingQuestion",
+    "pageDescription",
     "addItemTitle",
     "anotherPositive",
     "anotherNegative",
