@@ -7,7 +7,7 @@ import { noop } from "lodash";
 import { useQuestionnaire } from "components/QuestionnaireContext";
 
 import DialogHeader from "components/Dialog/DialogHeader";
-import { Message, Heading } from "components/Dialog/DialogMessage";
+import { Message } from "components/Dialog/DialogMessage";
 import Modal from "components/modals/Modal";
 import QuestionnaireMeta from "./QuestionnaireMeta";
 
@@ -19,9 +19,10 @@ const defaultQuestionnaire = {
   navigation: false,
 };
 
-const CenteredHeading = styled(Heading)`
-  text-align: center;
-  margin-bottom: 2.5rem;
+const Title = styled.h2`
+  margin-bottom: 0.1em;
+  margin-top: 0em;
+  padding-top: 0em;
 `;
 
 const StyledModal = styled(Modal)`
@@ -46,7 +47,7 @@ const QuestionnaireSettingsModal = ({
     >
       <DialogHeader>
         <Message>
-          <CenteredHeading>Questionnaire settings</CenteredHeading>
+          <Title>New questionnaire</Title>
         </Message>
       </DialogHeader>
       <QuestionnaireMeta
