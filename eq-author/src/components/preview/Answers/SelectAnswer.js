@@ -7,7 +7,6 @@ import { colors } from "constants/theme";
 
 const Legend = styled.div`
   font-weight: bold;
-  margin-bottom: 0.5em;
 `;
 
 const SelectContainer = styled.div`
@@ -72,6 +71,10 @@ const MissingOptionLabel = styled.div`
   margin-bottom: ${(props) => props.lastElement && `-0.5em`};
 `;
 
+const DisplayNameContent = styled.div`
+  margin-bottom: 0.5em;
+`;
+
 const isLastMissingLabelElement = (index, options) => {
   let lastElement = false;
 
@@ -84,9 +87,12 @@ const isLastMissingLabelElement = (index, options) => {
 };
 
 const SelectAnswer = ({ answer }) => {
+  const { displayName, description } = answer;
+
   return (
     <Field>
-      <Legend>Select codes</Legend>
+      <Legend>{displayName}</Legend>
+      <DisplayNameContent>{description}</DisplayNameContent>
 
       <SelectContainer>
         Select an option <Chevron id="select-chevron" />
