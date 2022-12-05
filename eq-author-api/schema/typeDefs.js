@@ -294,6 +294,7 @@ type QuestionConfirmation implements Skippable {
   id: ID!
   displayName: String!
   title: String
+  pageDescription: String
   page: QuestionPage!
   qCode: String
   positive: ConfirmationOption!
@@ -1180,6 +1181,7 @@ input createHistoryNoteInput {
 input CreateSectionInput {
   title: String!
   alias: String
+  pageDescription: String
   questionnaireId: ID!
   position: Int
   requiredCompleted: Boolean
