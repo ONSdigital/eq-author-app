@@ -6,11 +6,15 @@ const { NOTICE_1 } = require("../constants/legalBases");
 module.exports = (metadata) => {
   return {
     id: uuidv4(),
-    title: `<p>You are completing this for <span data-piped="metadata" data-id="${
-      find(metadata, { key: "ru_name" }).id
-    }">ru_name</span> (<span data-piped="metadata" data-id="${
-      find(metadata, { key: "trad_as" }).id
-    }">trad_as</span>)</p>`,
+    title:
+      find(metadata, { key: "ru_name" })?.id &&
+      find(metadata, { key: "trad_as" })?.id
+        ? `<p>You are completing this for <span data-piped="metadata" data-id="${
+            find(metadata, { key: "ru_name" }).id
+          }">ru_name</span> (<span data-piped="metadata" data-id="${
+            find(metadata, { key: "trad_as" }).id
+          }">trad_as</span>)</p>`
+        : "",
     contactDetailsPhoneNumber: "0300 1234 931",
     contactDetailsEmailAddress: "surveys@ons.gov.uk",
     contactDetailsEmailSubject: "Change of details",

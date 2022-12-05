@@ -1,6 +1,7 @@
 import React from "react";
 import { useQuery } from "@apollo/react-hooks";
 import { isEmpty } from "lodash/fp";
+import CustomPropTypes from "custom-prop-types";
 
 import Loading from "components/Loading";
 import Error from "components/Error";
@@ -10,7 +11,7 @@ import IntroductionLayout from "../IntroductionLayout";
 import IntroductionEditor from "./IntroductionEditor";
 import GET_INTRODUCTION_QUERY from "graphql/getQuestionnaireIntroduction.graphql";
 
-export const IntroductionDesign = () => {
+export const IntroductionDesign = ({ history }) => {
   const { loading, error, data } = useQuery(GET_INTRODUCTION_QUERY, {
     fetchPolicy: "cache-and-network",
   });
@@ -33,9 +34,13 @@ export const IntroductionDesign = () => {
 
   return (
     <IntroductionLayout comments={comments}>
-      <IntroductionEditor introduction={introduction} />
+      <IntroductionEditor introduction={introduction} history={history} />
     </IntroductionLayout>
   );
+};
+
+IntroductionDesign.propTypes = {
+  history: CustomPropTypes.history,
 };
 
 export default IntroductionDesign;

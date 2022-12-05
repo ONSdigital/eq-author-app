@@ -359,19 +359,17 @@ describe("Settings page", () => {
   it("Should initially render with the current questionnaire settings displayed", () => {
     const { getByTestId } = renderSettingsPage(mockQuestionnaire, user, mocks);
 
-    const { title, shortTitle, summary, type } = mockQuestionnaire;
+    const { title, shortTitle, summary } = mockQuestionnaire;
 
     const questionnaiteTitleInput = getByTestId("change-questionnaire-title");
     const questionnaireShortTitleInput = getByTestId(
       "change-questionnaire-short-title"
     );
-    const questionnaireTypePill = getByTestId("questionnaire-type");
     const questionnaireSummaryToggle = getByTestId("toggle-answer-summary")
       .children[0];
 
     expect(questionnaiteTitleInput.value).toBe(title);
     expect(questionnaireShortTitleInput.value).toBe(shortTitle);
-    expect(questionnaireTypePill.textContent).toBe(type);
     expect(questionnaireSummaryToggle.checked).toBe(summary);
   });
 
@@ -568,20 +566,6 @@ describe("Settings page", () => {
       const hubIntroductionToggle = queryByTestId("toggle-hub-introduction");
 
       expect(hubIntroductionToggle).toBeInTheDocument();
-    });
-
-    it("Should not display hub introduction toggle switch on social questionnaire type", async () => {
-      mockQuestionnaire.type = "Social";
-
-      const { queryByTestId } = renderSettingsPage(
-        mockQuestionnaire,
-        user,
-        mocks
-      );
-
-      const hubIntroductionToggle = queryByTestId("toggle-hub-introduction");
-
-      expect(hubIntroductionToggle).not.toBeInTheDocument();
     });
 
     it("Should enable/disable hub introduction when toggled", async () => {
