@@ -1136,6 +1136,136 @@ exports[`Answer Editor should render Radio 1`] = `
 </AnswerEditor__Answer>
 `;
 
+exports[`Answer Editor should render Select 1`] = `
+<AnswerEditor__Answer
+  aria-label="Select answer"
+  className="answer"
+  data-test="answer-editor"
+>
+  <Modal
+    isOpen={false}
+    negativeButtonText="Cancel"
+    onClose={[Function]}
+    onConfirm={[Function]}
+    positiveButtonText="Delete"
+    title="Delete select answer"
+  />
+  <AnswerEditor__AnswerHeader>
+    <AnswerEditor__AnswerTypePanel>
+      <AnswerEditor__AnswerType
+        data-test="answer-type"
+      >
+        Select
+         answer
+      </AnswerEditor__AnswerType>
+      <AnswerEditor__Buttons>
+        <Tooltip
+          content="Move answer up"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
+          }
+          place="top"
+        >
+          <MoveButton
+            aria-label="Move answer up"
+            color="white"
+            data-test="btn-move-answer-up"
+            disabled={false}
+            onClick={[MockFunction]}
+          >
+            <Component />
+          </MoveButton>
+        </Tooltip>
+        <Tooltip
+          content="Move answer down"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
+          }
+          place="top"
+        >
+          <MoveButton
+            aria-label="Move answer down"
+            color="white"
+            data-test="btn-move-answer-down"
+            disabled={false}
+            onClick={[MockFunction]}
+          >
+            <Component />
+          </MoveButton>
+        </Tooltip>
+        <Tooltip
+          content="Delete answer"
+          offset={
+            Object {
+              "bottom": 10,
+              "top": 0,
+            }
+          }
+          place="top"
+        >
+          <DeleteButton
+            aria-label="Delete answer"
+            color="white"
+            data-test="btn-delete-answer"
+            onClick={[Function]}
+            size="medium"
+            type="button"
+          />
+        </Tooltip>
+      </AnswerEditor__Buttons>
+    </AnswerEditor__AnswerTypePanel>
+  </AnswerEditor__AnswerHeader>
+  <AnswerEditor__Padding>
+    <withValidationError(Connect(withEntityEditor(Apollo(UnwrappedMultipleChoiceAnswer))))
+      answer={
+        Object {
+          "advancedProperties": false,
+          "description": "",
+          "displayName": "",
+          "guidance": "",
+          "id": "1",
+          "label": "",
+          "options": Array [
+            Object {
+              "description": "",
+              "id": "1",
+              "label": "",
+            },
+          ],
+          "properties": Object {},
+          "qCode": "",
+          "secondaryLabel": "",
+          "secondaryLabelDefault": "",
+          "title": "",
+          "type": "Select",
+        }
+      }
+      canMoveDown={true}
+      canMoveUp={true}
+      enableValidationMessage={true}
+      minOptions={25}
+      multipleAnswers={false}
+      onAddExclusive={[MockFunction]}
+      onAddOption={[MockFunction]}
+      onChange={[MockFunction]}
+      onDeleteAnswer={[MockFunction]}
+      onDeleteOption={[MockFunction]}
+      onMoveDown={[MockFunction]}
+      onMoveUp={[MockFunction]}
+      onUpdate={[MockFunction]}
+      onUpdateOption={[MockFunction]}
+      type="Select"
+    />
+  </AnswerEditor__Padding>
+</AnswerEditor__Answer>
+`;
+
 exports[`Answer Editor should render TextArea 1`] = `
 <AnswerEditor__Answer
   aria-label="TextArea answer"
