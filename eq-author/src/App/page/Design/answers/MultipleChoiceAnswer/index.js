@@ -124,7 +124,7 @@ export const UnwrappedMultipleChoiceAnswer = ({
       {type !== MUTUALLY_EXCLUSIVE && (
         <Field>
           <Label htmlFor={`answer-label-${answer.id}`}>
-            {"Label (optional)"}
+            {answer.type === SELECT ? `Label` : `Label (optional)`}
           </Label>
           <WrappingInput
             id={`answer-label-${answer.id}`}
