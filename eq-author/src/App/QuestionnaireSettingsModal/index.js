@@ -27,7 +27,7 @@ const Title = styled.h2`
 
 const StyledModal = styled(Modal)`
   .Modal {
-    width: 37em;
+    width: 45em;
   }
 `;
 
