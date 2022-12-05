@@ -38,6 +38,8 @@ const InlineField = styled(Field)`
   }
 `;
 
+const Paragraph = styled.p``;
+
 const EnableDisableWrapper = styled.div`
   opacity: ${(props) => (props.disabled ? "0.6" : "1")};
   pointer-events: ${(props) => (props.disabled ? "none" : "auto")};
@@ -64,20 +66,24 @@ export const StatelessQuestionnaireMeta = ({
           data-test="txt-questionnaire-title"
         />
       </Field>
-      <Grid>
-        <Column cols={6}>
-          <Field>
-            <Label htmlFor="shortTitle">Short title (optional)</Label>
-            <Input
-              id="shortTitle"
-              defaultValue={questionnaire.shortTitle}
-              onChange={onChange}
-              data-test="txt-questionnaire-short-title"
-            />
-          </Field>
-        </Column>
-        <Column cols={6}>
-          <Field disabled={!canEditType}>
+      {/* <Grid>
+        <Column cols={6}> */}
+      <Field>
+        <Label htmlFor="shortTitle">Short title (optional)</Label>
+        <Paragraph>
+          *This title is only viewable internally, respondents never see the
+          short title*
+        </Paragraph>
+        <Input
+          id="shortTitle"
+          defaultValue={questionnaire.shortTitle}
+          onChange={onChange}
+          data-test="txt-questionnaire-short-title"
+        />
+      </Field>
+      {/* </Column>
+        <Column cols={6}> */}
+      {/* <Field disabled={!canEditType}>
             <Label htmlFor="type">Questionnaire type</Label>
             <Select
               id="type"
@@ -92,13 +98,13 @@ export const StatelessQuestionnaireMeta = ({
               <option value="Business">Business</option>
               <option value="Social">Social</option>
             </Select>
-          </Field>
-        </Column>
-      </Grid>
+          </Field> */}
+      {/* </Column>
+      </Grid> */}
 
-      <HorizontalSeparator style={{ marginTop: "0.5em" }} />
+      {/* <HorizontalSeparator style={{ marginTop: "0.5em" }} /> */}
 
-      <ToggleWrapper>
+      {/* <ToggleWrapper>
         <EnableDisableWrapper disabled={questionnaire.summary}>
           <InlineField>
             <Label>Hub navigation</Label>
@@ -133,7 +139,7 @@ export const StatelessQuestionnaireMeta = ({
             questionnaire.
           </InformationPanel>
         </EnableDisableWrapper>
-      </ToggleWrapper>
+      </ToggleWrapper> */}
       <ButtonGroup horizontal align="right">
         <Button onClick={onCancel} variant="secondary" type="button">
           Cancel
