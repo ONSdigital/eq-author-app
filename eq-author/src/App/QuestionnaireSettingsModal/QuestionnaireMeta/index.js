@@ -8,6 +8,7 @@ import Theme from "contexts/themeContext";
 import { Form, Field, Input, Label, Select } from "components/Forms";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import withEntityEditor from "components/withEntityEditor";
+import ValidationError from "components/ValidationError";
 // import ButtonGroup from "components/buttons/ButtonGroup";
 import Button from "components-themed/buttons";
 import { Grid, Column } from "components/Grid";
@@ -80,11 +81,15 @@ export const StatelessQuestionnaireMeta = ({
             required
             data-test="txt-questionnaire-title"
           />
+          {!questionnaire.title && (
+            <ValidationError>Questionnaire title required</ValidationError>
+          )}
         </Field>
         {/* <Grid>
         <Column cols={6}> */}
         <Field>
           <Label htmlFor="shortTitle">Short title (optional)</Label>
+
           <Paragraph>
             *This title is only viewable internally, respondents never see the
             short title*
