@@ -133,7 +133,6 @@ export const UnwrappedBinaryExpressionEditor = ({
   const [deleteSkipCondition] = useMutation(DELETE_SKIP_CONDITION);
 
   const handleLeftSideChange = (contentPickerResult) => {
-    console.log("contentPickerResult :>> ", contentPickerResult);
     expression.left.id !== contentPickerResult.value.id &&
       updateLeftSide(expression, contentPickerResult.value.id);
   };

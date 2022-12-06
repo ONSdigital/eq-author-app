@@ -4,7 +4,13 @@ import PropTypes from "prop-types";
 import { clamp, isNaN } from "lodash";
 
 import Input from "components/Forms/Input";
-import { NUMBER, PERCENTAGE, CURRENCY, UNIT } from "constants/answer-types";
+import {
+  NUMBER,
+  PERCENTAGE,
+  CURRENCY,
+  UNIT,
+  DATE,
+} from "constants/answer-types";
 import { unitConversion } from "constants/unit-types";
 import { radius } from "constants/theme";
 
@@ -139,7 +145,7 @@ Number.propTypes = {
   min: PropTypes.number,
   max: PropTypes.number.isRequired,
   default: PropTypes.number,
-  type: PropTypes.oneOf([CURRENCY, PERCENTAGE, NUMBER, UNIT]),
+  type: PropTypes.oneOf([CURRENCY, PERCENTAGE, NUMBER, UNIT, DATE]),
   "data-test": PropTypes.string,
   className: PropTypes.string,
   unit: PropTypes.string,

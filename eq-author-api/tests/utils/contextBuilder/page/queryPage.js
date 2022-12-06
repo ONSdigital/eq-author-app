@@ -116,6 +116,11 @@ const getPageQuery = `
                         label
                       }
                     }
+                    ... on OffsetDate {
+                      date {
+                        years
+                      }
+                    }
                   }
                   validationErrorInfo {
                     id

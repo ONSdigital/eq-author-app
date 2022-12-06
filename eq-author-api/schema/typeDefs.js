@@ -650,7 +650,7 @@ type NoLeftSide {
 
 union LeftSide2 = BasicAnswer | MultipleChoiceAnswer | NoLeftSide
 
-union RightSide2 = SelectedOptions2 | CustomValue2
+union RightSide2 = SelectedOptions2 | CustomValue2 | OffsetDate
 
 type CustomValue2 {
   number: Int
@@ -1125,6 +1125,11 @@ input UpdateRightSide2Input {
   expressionId: ID!
   customValue: CustomRightSideInput
   selectedOptions: [ID!]
+  date: OffsetDate
+}
+
+input OffsetDate {
+  years: Int
 }
 
 input DeleteBinaryExpression2Input {

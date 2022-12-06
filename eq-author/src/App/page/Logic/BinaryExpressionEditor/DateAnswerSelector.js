@@ -14,24 +14,21 @@ import {
 import ValidationError from "components/ValidationError";
 
 const conditions = {
-  SELECT: null,
-  EQUAL: "Equal",
-  NOT_EQUAL: "NotEqual",
-  GREATER_THAN: "GreaterThan",
-  LESS_THAN: "LessThan",
-  GREATER_OR_EQUAL: "GreaterOrEqual",
-  LESS_OR_EQUAL: "LessOrEqual",
+  BEFORE: "Before",
+  AFTER: "After",
   UNANSWERED: "Unanswered",
 };
 
 export const ConditionSelector = styled(Select)`
-  width: auto;
+  width: 8em;
+  flex: 1 1 auto;
+  display: flex;
+  position: relative;
 `;
 
 const Value = styled.div`
   flex: 1 1 auto;
   display: flex;
-  margin-left: 1em;
   align-items: center;
   position: relative;
 `;
@@ -52,6 +49,11 @@ const DateAnswerRoutingSelector = styled.div`
     border-radius: 4px;
     margin-bottom: 0.5em;
   `}
+`;
+
+const RuleText = styled.div`
+  margin-left: 1em;
+  margin-right: 1em;
 `;
 
 class DateAnswerSelector extends React.Component {
@@ -77,7 +79,9 @@ class DateAnswerSelector extends React.Component {
   handleRightChange = ({ value }) => this.setState(() => ({ number: value }));
 
   handleRightBlur = () => {
-    this.props.onRightChange({ customValue: { number: this.state.number } });
+    this.props.onRightChange({
+      date: { years: this.state.number },
+    });
   };
 
   handleConditionChange = ({ value }) => {
@@ -113,8 +117,8 @@ class DateAnswerSelector extends React.Component {
   };
 
   render() {
-    console.log("DateAnswerSelector called.... :>> ");
     const { expression, groupErrorMessage } = this.props;
+    console.log("expression.left.type :>> ", expression.left.type);
 
     const hasError =
       expression.validationErrorInfo.errors.length > 0 || groupErrorMessage;
@@ -122,33 +126,7 @@ class DateAnswerSelector extends React.Component {
     return (
       <>
         <DateAnswerRoutingSelector hasError={hasError}>
-          <VisuallyHidden>
-            <Label htmlFor={`expression-condition-${expression.id}`}>
-              Operator
-            </Label>
-          </VisuallyHidden>
-          <ConditionSelector
-            id={`expression-condition-${expression.id}`}
-            onChange={this.handleConditionChange}
-            name="condition-select"
-            value={expression.condition}
-            data-test="condition-selector"
-          >
-            {!expression.condition && (
-              <option value={conditions.SELECT}>Select an operator</option>
-            )}
-            <option value={conditions.EQUAL}>(=) Equal to</option>
-            <option value={conditions.NOT_EQUAL}>(&ne;) Not equal to</option>
-            <option value={conditions.GREATER_THAN}>(&gt;) More than</option>
-            <option value={conditions.LESS_THAN}>(&lt;) Less than</option>
-            <option value={conditions.GREATER_OR_EQUAL}>
-              (&ge;) More than or equal to
-            </option>
-            <option value={conditions.LESS_OR_EQUAL}>
-              (&le;) Less than or equal to
-            </option>
-            <option value={conditions.UNANSWERED}>Unanswered</option>
-          </ConditionSelector>
+          <RuleText>is</RuleText>
           {expression.condition !== conditions.UNANSWERED &&
             expression.condition !== conditions.SELECT && (
               <>
@@ -169,13 +147,30 @@ class DateAnswerSelector extends React.Component {
                     onChange={this.handleRightChange}
                     onBlur={this.handleRightBlur}
                     data-test="number-value-input"
-                    type={expression.left.type}
+                    type="Date"
                     unit={get(expression.left, "properties.unit", null)}
                   />
-                  <div>Hello</div>
+                  <RuleText>years</RuleText>
                 </Value>
               </>
             )}
+          <VisuallyHidden>
+            <Label htmlFor={`expression-condition-${expression.id}`}>
+              Operator
+            </Label>
+          </VisuallyHidden>
+          <ConditionSelector
+            id={`expression-condition-${expression.id}`}
+            onChange={this.handleConditionChange}
+            name="condition-select"
+            value={expression.condition}
+            data-test="condition-selector"
+          >
+            <option value={conditions.BEFORE}> Before</option>
+            <option value={conditions.AFTER}> After</option>
+            <option value={conditions.UNANSWERED}> Unanswered</option>
+          </ConditionSelector>
+          <RuleText>response date</RuleText>
         </DateAnswerRoutingSelector>
         {hasError && this.handleError()}
       </>

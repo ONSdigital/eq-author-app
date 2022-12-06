@@ -35,12 +35,14 @@ const isLeftSideAnswerTypeCompatible = (
     [answerTypes.UNIT]: "Custom",
     [answerTypes.RADIO]: "SelectedOptions",
     [answerTypes.CHECKBOX]: "SelectedOptions",
+    [answerTypes.DATE]: "Date",
   };
 
   if (secondaryCondition) {
     return true;
   }
-
+  console.log("leftSideType :>> ", leftSideType);
+  console.log("rightSideType :>> ", rightSideType);
   return AnswerTypesToRightTypes[leftSideType] === rightSideType;
 };
 
@@ -90,11 +92,15 @@ Resolvers.LeftSide2 = {
 
 Resolvers.RightSide2 = {
   __resolveType: (right) => {
+    console.log("right.type :>> ", right.type);
     if (right.type === "Custom") {
       return "CustomValue2";
     }
     if (right.type === "SelectedOptions") {
       return "SelectedOptions2";
+    }
+    if (right.type === "Date") {
+      return "OffsetDate";
     }
   },
 };
@@ -195,8 +201,8 @@ Resolvers.Mutation = {
     if (input.customValue && input.selectedOptions) {
       throw new Error("Too many right side inputs");
     }
-    const { expressionId, customValue, selectedOptions } = input;
-
+    const { expressionId, customValue, date, selectedOptions } = input;
+    console.log("input :>> ", input);
     const expression = getExpressionById(ctx, expressionId);
 
     let type, newRightProperties;
@@ -206,6 +212,14 @@ Resolvers.Mutation = {
         type,
         customValue,
       };
+    } else if (date) {
+      console.log("offset is present :>> ");
+      type = "Date";
+      newRightProperties = {
+        type,
+        date,
+      };
+      console.log("newRightProperties :>> ", newRightProperties);
     } else {
       type = "SelectedOptions";
       newRightProperties = {
