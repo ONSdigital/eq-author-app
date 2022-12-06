@@ -11,7 +11,12 @@ import CustomPropTypes from "custom-prop-types";
 import DeleteButton from "components/buttons/DeleteButton";
 import Tooltip from "components/Forms/Tooltip";
 import MoveButton, { IconUp, IconDown } from "components/buttons/MoveButton";
-import { CHECKBOX, RADIO, MUTUALLY_EXCLUSIVE } from "constants/answer-types";
+import {
+  CHECKBOX,
+  RADIO,
+  MUTUALLY_EXCLUSIVE,
+  SELECT,
+} from "constants/answer-types";
 import DummyMultipleChoice from "../dummy/MultipleChoice";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import InlineField from "components/AnswerContent/Format/InlineField";
@@ -331,7 +336,7 @@ export const StatelessOption = ({
         {!option.dynamicAnswer && (
           <>
             <Flex>
-              {type !== "Select" && (
+              {type !== SELECT && (
                 <DummyMultipleChoice
                   type={type}
                   hasMultipleOptions={hasMultipleOptions}
@@ -356,7 +361,7 @@ export const StatelessOption = ({
                 />
               </OptionField>
             </Flex>
-            {type !== "Select" && (
+            {type !== SELECT && (
               <OptionField>
                 <Label htmlFor={`option-description-${option.id}`}>
                   Description (optional)
@@ -375,7 +380,7 @@ export const StatelessOption = ({
             )}
           </>
         )}
-        {type === "Radio" && !option.additionalAnswer && (
+        {type === RADIO && !option.additionalAnswer && (
           <>
             <Flex>
               <CustomInlineField
