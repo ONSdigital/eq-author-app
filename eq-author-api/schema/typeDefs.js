@@ -650,7 +650,7 @@ type NoLeftSide {
 
 union LeftSide2 = BasicAnswer | MultipleChoiceAnswer | NoLeftSide
 
-union RightSide2 = SelectedOptions2 | CustomValue2 | OffsetDate
+union RightSide2 = SelectedOptions2 | CustomValue2 | DateValue
 
 type CustomValue2 {
   number: Int
@@ -658,6 +658,10 @@ type CustomValue2 {
 
 type SelectedOptions2 {
   options: [Option!]!
+}
+
+type DateValue {
+  offset: Int
 }
 
 enum LogicCondition {
@@ -1125,11 +1129,11 @@ input UpdateRightSide2Input {
   expressionId: ID!
   customValue: CustomRightSideInput
   selectedOptions: [ID!]
-  date: OffsetDate
+  dateValue: DateValueInput
 }
 
-input OffsetDate {
-  years: Int
+input DateValueInput {
+  offset: Int
 }
 
 input DeleteBinaryExpression2Input {

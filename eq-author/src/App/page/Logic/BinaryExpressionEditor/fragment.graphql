@@ -48,10 +48,8 @@ fragment BinaryExpressionEditor on BinaryExpression2 {
     ... on CustomValue2 {
       number
     }
-    ... on OffsetDate {
-      date {
-        years
-      }
+    ... on DateValue {
+      offset
     }
   }
   validationErrorInfo {

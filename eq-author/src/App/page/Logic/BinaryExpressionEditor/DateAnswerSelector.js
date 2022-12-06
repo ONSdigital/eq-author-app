@@ -80,7 +80,9 @@ class DateAnswerSelector extends React.Component {
 
   handleRightBlur = () => {
     this.props.onRightChange({
-      date: { years: this.state.number },
+      dateValue: {
+        offset: this.state.number,
+      },
     });
   };
 

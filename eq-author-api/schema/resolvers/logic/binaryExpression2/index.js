@@ -35,7 +35,7 @@ const isLeftSideAnswerTypeCompatible = (
     [answerTypes.UNIT]: "Custom",
     [answerTypes.RADIO]: "SelectedOptions",
     [answerTypes.CHECKBOX]: "SelectedOptions",
-    [answerTypes.DATE]: "Date",
+    [answerTypes.DATE]: "DateValue",
   };
 
   if (secondaryCondition) {
@@ -56,7 +56,10 @@ Resolvers.BinaryExpression2 = {
     return { sideType: left.type, reason: left.nullReason };
   },
   right: async ({ right }) => {
-    if (right && ["Custom", "SelectedOptions"].includes(right.type)) {
+    if (
+      right &&
+      ["Custom", "SelectedOptions", "DateValue"].includes(right.type)
+    ) {
       return right;
     }
 
@@ -78,6 +81,7 @@ Resolvers.BinaryExpression2 = {
 
 Resolvers.LeftSide2 = {
   __resolveType: ({ type, sideType }) => {
+    console.log("leftside");
     if (sideType === "Answer") {
       if ([answerTypes.RADIO, answerTypes.CHECKBOX].includes(type)) {
         return "MultipleChoiceAnswer";
@@ -92,15 +96,14 @@ Resolvers.LeftSide2 = {
 
 Resolvers.RightSide2 = {
   __resolveType: (right) => {
-    console.log("right.type :>> ", right.type);
     if (right.type === "Custom") {
       return "CustomValue2";
     }
     if (right.type === "SelectedOptions") {
       return "SelectedOptions2";
     }
-    if (right.type === "Date") {
-      return "OffsetDate";
+    if (right.type === "DateValue") {
+      return "DateValue";
     }
   },
 };
@@ -116,6 +119,13 @@ Resolvers.SelectedOptions2 = {
       getOptions(ctx),
       map((optionId) => ({ id: optionId }), right.optionIds)
     );
+  },
+};
+
+Resolvers.DateValue = {
+  offset: ({ dateValue: { offset } }) => {
+    console.log(offset);
+    return offset;
   },
 };
 
@@ -201,7 +211,7 @@ Resolvers.Mutation = {
     if (input.customValue && input.selectedOptions) {
       throw new Error("Too many right side inputs");
     }
-    const { expressionId, customValue, date, selectedOptions } = input;
+    const { expressionId, customValue, dateValue, selectedOptions } = input;
     console.log("input :>> ", input);
     const expression = getExpressionById(ctx, expressionId);
 
@@ -212,12 +222,12 @@ Resolvers.Mutation = {
         type,
         customValue,
       };
-    } else if (date) {
-      console.log("offset is present :>> ");
-      type = "Date";
+    } else if (dateValue) {
+      console.log("offset is present :>> ", dateValue);
+      type = "DateValue";
       newRightProperties = {
         type,
-        date,
+        dateValue,
       };
       console.log("newRightProperties :>> ", newRightProperties);
     } else {
@@ -262,7 +272,7 @@ Resolvers.Mutation = {
     }
 
     expression.right = updatedRightSide;
-
+    console.log("expression: ", expression);
     return expression;
   }),
   deleteBinaryExpression2: createMutation((root, { input }, ctx) => {
