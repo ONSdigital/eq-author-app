@@ -20,14 +20,17 @@ const defaultQuestionnaire = {
 };
 
 const Title = styled.h2`
-  margin-bottom: 0.1em;
-  margin-top: 0em;
+  margin-left: 0em 0em 0em 0.1em;
   padding-top: 0em;
+  padding-bottom: 1em;
+  top: 0;
 `;
 
 const StyledModal = styled(Modal)`
   .Modal {
-    width: 45em;
+    width: 40em;
+    padding: 24px;
+    padding-top: 0;
   }
 `;
 

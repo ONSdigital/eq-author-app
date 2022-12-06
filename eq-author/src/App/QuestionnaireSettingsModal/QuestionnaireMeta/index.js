@@ -19,11 +19,18 @@ import { colors } from "constants/theme";
 import questionnaireFragment from "graphql/fragments/questionnaire.graphql";
 
 const StyledScrollPane = styled(ScrollPane)`
-  padding: 5px;
+  padding: 0px 3px;
+  margin: 0px;
 `;
 
 const ToggleWrapper = styled.div`
   margin: 0 0 1em;
+`;
+
+const StyledInput = styled(Input)`
+  &:invalid {
+    border: 0.15em solid ${colors.errorPrimary};
+  }
 `;
 
 const HorizontalSeparator = styled.hr`
@@ -42,7 +49,7 @@ const InlineField = styled(Field)`
 `;
 
 const StyledButton = styled(Button)`
-  margin-top: 3em;
+  margin-top: 1em;
   margin-right: ${(props) => props.margin && `0.5em`};
 `;
 
@@ -51,7 +58,9 @@ const ButtonContainer = styled.div`
   padding-bottom: 0.3em;
 `;
 
-const Paragraph = styled.p``;
+const Paragraph = styled.p`
+  font-size: 0.8em;
+`;
 
 const EnableDisableWrapper = styled.div`
   opacity: ${(props) => (props.disabled ? "0.6" : "1")};
@@ -67,42 +76,43 @@ export const StatelessQuestionnaireMeta = ({
   canEditType,
   // TODO: remove updatedFontTheme when theme container is fixed for fontSize 18px
   updatedFontTheme,
-}) => (
-  <StyledScrollPane>
-    <Form onSubmit={onSubmit}>
-      <Field>
-        <Label htmlFor="title">Questionnaire title</Label>
-        <Input
-          id="title"
-          autoFocus
-          defaultValue={questionnaire.title}
-          onChange={onChange}
-          required
-          data-test="txt-questionnaire-title"
-        />
-        {!questionnaire.title && (
-          <ValidationError>Questionnaire title required</ValidationError>
-        )}
-      </Field>
-      {/* <Grid>
+}) => {
+  return (
+    <StyledScrollPane>
+      <Form onSubmit={onSubmit}>
+        <Field>
+          <Label htmlFor="title">Questionnaire title</Label>
+          <StyledInput
+            id="title"
+            autoFocus
+            defaultValue={questionnaire.title}
+            onChange={onChange}
+            required
+            data-test="txt-questionnaire-title"
+          />
+          {!questionnaire.title && (
+            <ValidationError>Questionnaire title required</ValidationError>
+          )}
+        </Field>
+        {/* <Grid>
         <Column cols={6}> */}
-      <Field>
-        <Label htmlFor="shortTitle">Short title (optional)</Label>
+        <Field>
+          <Label htmlFor="shortTitle">Short title (optional)</Label>
 
-        <Paragraph>
-          *This title is only viewable internally, respondents never see the
-          short title*
-        </Paragraph>
-        <Input
-          id="shortTitle"
-          defaultValue={questionnaire.shortTitle}
-          onChange={onChange}
-          data-test="txt-questionnaire-short-title"
-        />
-      </Field>
-      {/* </Column>
+          <Paragraph>
+            *This title is only viewable internally, respondents never see the
+            short title*
+          </Paragraph>
+          <Input
+            id="shortTitle"
+            defaultValue={questionnaire.shortTitle}
+            onChange={onChange}
+            data-test="txt-questionnaire-short-title"
+          />
+        </Field>
+        {/* </Column>
         <Column cols={6}> */}
-      {/* <Field disabled={!canEditType}>
+        {/* <Field disabled={!canEditType}>
             <Label htmlFor="type">Questionnaire type</Label>
             <Select
               id="type"
@@ -118,12 +128,12 @@ export const StatelessQuestionnaireMeta = ({
               <option value="Social">Social</option>
             </Select>
           </Field> */}
-      {/* </Column>
+        {/* </Column>
       </Grid> */}
 
-      {/* <HorizontalSeparator style={{ marginTop: "0.5em" }} /> */}
+        {/* <HorizontalSeparator style={{ marginTop: "0.5em" }} /> */}
 
-      {/* <ToggleWrapper>
+        {/* <ToggleWrapper>
         <EnableDisableWrapper disabled={questionnaire.summary}>
           <InlineField>
             <Label>Hub navigation</Label>
@@ -159,32 +169,33 @@ export const StatelessQuestionnaireMeta = ({
           </InformationPanel>
         </EnableDisableWrapper>
       </ToggleWrapper> */}
-      <Theme themeName={updatedFontTheme ? "ons" : "onsLegacyFont"}>
-        <ButtonContainer>
-          <StyledButton
-            onClick={onCancel}
-            margin
-            variant="secondary"
-            type="button"
-          >
-            Cancel
-          </StyledButton>
-          <StyledButton
-            type="submit"
-            variant="primary"
-            disabled={!questionnaire.title}
-            data-test="questionnaire-submit-button"
-          >
-            {confirmText}
-          </StyledButton>
-        </ButtonContainer>
-      </Theme>
-    </Form>
-  </StyledScrollPane>
-);
+        <Theme themeName={updatedFontTheme ? "ons" : "onsLegacyFont"}>
+          <ButtonContainer>
+            <StyledButton
+              onClick={onCancel}
+              margin
+              variant="secondary"
+              type="button"
+            >
+              Cancel
+            </StyledButton>
+            <StyledButton
+              type="submit"
+              variant="primary"
+              disabled={!questionnaire.title}
+              data-test="questionnaire-submit-button"
+            >
+              {confirmText}
+            </StyledButton>
+          </ButtonContainer>
+        </Theme>
+      </Form>
+    </StyledScrollPane>
+  );
+};
 
 StatelessQuestionnaireMeta.defaultProps = {
-  canEditType: true,
+  canEditType: false,
 };
 
 StatelessQuestionnaireMeta.propTypes = {
