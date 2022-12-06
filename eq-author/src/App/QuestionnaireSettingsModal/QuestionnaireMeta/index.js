@@ -68,42 +68,41 @@ export const StatelessQuestionnaireMeta = ({
   // TODO: remove updatedFontTheme when theme container is fixed for fontSize 18px
   updatedFontTheme,
 }) => (
-  <Theme themeName={updatedFontTheme ? "ons" : "onsLegacyFont"}>
-    <StyledScrollPane>
-      <Form onSubmit={onSubmit}>
-        <Field>
-          <Label htmlFor="title">Questionnaire title</Label>
-          <Input
-            id="title"
-            autoFocus
-            defaultValue={questionnaire.title}
-            onChange={onChange}
-            required
-            data-test="txt-questionnaire-title"
-          />
-          {!questionnaire.title && (
-            <ValidationError>Questionnaire title required</ValidationError>
-          )}
-        </Field>
-        {/* <Grid>
+  <StyledScrollPane>
+    <Form onSubmit={onSubmit}>
+      <Field>
+        <Label htmlFor="title">Questionnaire title</Label>
+        <Input
+          id="title"
+          autoFocus
+          defaultValue={questionnaire.title}
+          onChange={onChange}
+          required
+          data-test="txt-questionnaire-title"
+        />
+        {!questionnaire.title && (
+          <ValidationError>Questionnaire title required</ValidationError>
+        )}
+      </Field>
+      {/* <Grid>
         <Column cols={6}> */}
-        <Field>
-          <Label htmlFor="shortTitle">Short title (optional)</Label>
+      <Field>
+        <Label htmlFor="shortTitle">Short title (optional)</Label>
 
-          <Paragraph>
-            *This title is only viewable internally, respondents never see the
-            short title*
-          </Paragraph>
-          <Input
-            id="shortTitle"
-            defaultValue={questionnaire.shortTitle}
-            onChange={onChange}
-            data-test="txt-questionnaire-short-title"
-          />
-        </Field>
-        {/* </Column>
+        <Paragraph>
+          *This title is only viewable internally, respondents never see the
+          short title*
+        </Paragraph>
+        <Input
+          id="shortTitle"
+          defaultValue={questionnaire.shortTitle}
+          onChange={onChange}
+          data-test="txt-questionnaire-short-title"
+        />
+      </Field>
+      {/* </Column>
         <Column cols={6}> */}
-        {/* <Field disabled={!canEditType}>
+      {/* <Field disabled={!canEditType}>
             <Label htmlFor="type">Questionnaire type</Label>
             <Select
               id="type"
@@ -119,12 +118,12 @@ export const StatelessQuestionnaireMeta = ({
               <option value="Social">Social</option>
             </Select>
           </Field> */}
-        {/* </Column>
+      {/* </Column>
       </Grid> */}
 
-        {/* <HorizontalSeparator style={{ marginTop: "0.5em" }} /> */}
+      {/* <HorizontalSeparator style={{ marginTop: "0.5em" }} /> */}
 
-        {/* <ToggleWrapper>
+      {/* <ToggleWrapper>
         <EnableDisableWrapper disabled={questionnaire.summary}>
           <InlineField>
             <Label>Hub navigation</Label>
@@ -160,7 +159,7 @@ export const StatelessQuestionnaireMeta = ({
           </InformationPanel>
         </EnableDisableWrapper>
       </ToggleWrapper> */}
-
+      <Theme themeName={updatedFontTheme ? "ons" : "onsLegacyFont"}>
         <ButtonContainer>
           <StyledButton
             onClick={onCancel}
@@ -173,15 +172,15 @@ export const StatelessQuestionnaireMeta = ({
           <StyledButton
             type="submit"
             variant="primary"
-            disabled={!(questionnaire.title && questionnaire.type)}
+            disabled={!questionnaire.title}
             data-test="questionnaire-submit-button"
           >
             {confirmText}
           </StyledButton>
         </ButtonContainer>
-      </Form>
-    </StyledScrollPane>
-  </Theme>
+      </Theme>
+    </Form>
+  </StyledScrollPane>
 );
 
 StatelessQuestionnaireMeta.defaultProps = {
