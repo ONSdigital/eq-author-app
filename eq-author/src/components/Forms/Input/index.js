@@ -72,6 +72,7 @@ const StyledInput = styled.input`
   ${sharedStyles};
   ${(props) => props.type === "checkbox" && checkBox};
   ${(props) => props.type === "radio" && radioButton};
+  border-radius: 0.15em;
 `;
 
 export const UncontrolledInput = (props) => {
