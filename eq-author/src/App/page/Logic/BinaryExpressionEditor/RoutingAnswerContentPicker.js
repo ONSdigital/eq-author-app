@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 
 import ContentPickerSelect from "components/ContentPickerSelect";
-import { ANSWER } from "components/ContentPickerSelect/content-types";
+import { ANSWER, METADATA } from "components/ContentPickerSelect/content-types";
 
 import { useCurrentPageId } from "components/RouterContext";
 import { useQuestionnaire } from "components/QuestionnaireContext";
@@ -31,7 +31,7 @@ const RoutingAnswerContentPicker = ({ includeSelf, ...otherProps }) => {
   return (
     <ContentPickerSelect
       name="answerId"
-      contentTypes={[ANSWER]}
+      contentTypes={[ANSWER, METADATA]}
       answerData={previousAnswers}
       {...otherProps}
     />

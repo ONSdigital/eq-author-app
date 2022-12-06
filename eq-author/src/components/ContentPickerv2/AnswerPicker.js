@@ -39,7 +39,7 @@ const MenuContainer = styled.div`
   height: 25em;
 `;
 
-const AnswerPicker = ({ data, ...otherProps }) => {
+const AnswerPicker = ({ data, contentView, setContentView, ...otherProps }) => {
   const [option, setOption] = useState(
     data.length > 1 ? OPTION_SECTIONS : OPTION_ANSWERS
   );
@@ -72,7 +72,10 @@ const AnswerPicker = ({ data, ...otherProps }) => {
     <>
       <ModalHeader>
         <ModalTitle>Select an answer</ModalTitle>
-        <RadioToolbar />
+        <RadioToolbar
+          selectedRadio={contentView}
+          setContentView={(contentView) => setContentView(contentView)}
+        />
         <ModalToolbar>
           <SearchBar onChange={({ value }) => setSearchTerm(value)} />
           <Options

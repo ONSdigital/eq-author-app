@@ -89,6 +89,7 @@ colors.commentDate = colors.grey75;
 colors.commentIcon = colors.grey75;
 colors.commentBackground = colors.grey5;
 colors.greyedButton = colors.grey15;
+colors.input = colors.black;
 
 export const radius = "4px";
 

@@ -53,6 +53,7 @@ const ContentPicker = ({
   startingSelectedAnswers,
   multiselect,
   onSubmit,
+  setContentView,
 }) => {
   const [selectedItems, setSelectedItems] = useState(
     startingSelectedAnswers || []
@@ -129,6 +130,8 @@ const ContentPicker = ({
             isSelected={isSelected}
             data={data}
             multiselect={multiselect}
+            contentView={contentType}
+            setContentView={(contentView) => setContentView(contentView)}
             firstSelectedItemId={getFirstSelectedItemId()}
           />
         );

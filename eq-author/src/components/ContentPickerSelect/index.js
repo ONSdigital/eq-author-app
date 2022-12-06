@@ -102,6 +102,11 @@ const ContentPickerSelect = ({
     contentTypes[0] === ANSWER || contentTypes[0] === DYNAMIC_ANSWER
       ? [answerData, selectedContentDisplayName]
       : [metadataData, selectedMetadataDisplayName];
+  const [contentView, setContentView] = useState(ANSWER);
+
+  const getContentView = (contentView) => {
+    return contentTypes.find((contentType) => contentType === contentView);
+  };
 
   const buildTitle = useCallback(
     (selectedContent) =>
@@ -176,7 +181,8 @@ const ContentPickerSelect = ({
         onSubmit={handlePickerSubmit}
         data-test={contentPickerID}
         singleItemSelect
-        contentType={contentTypes[0]}
+        contentType={getContentView(contentView)}
+        setContentView={(contentView) => setContentView(contentView)}
       />
     </>
   );

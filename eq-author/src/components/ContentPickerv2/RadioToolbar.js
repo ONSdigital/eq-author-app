@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import Input from "components-themed/Input";
 import { Field, Label } from "components/Forms";
+import { ANSWER, METADATA } from "../ContentPickerSelect/content-types";
 
 const StyledRadioInput = styled(Input)`
   position: relative;
@@ -29,8 +30,8 @@ const RadioToolbar = ({ selectedRadio, setContentView }) => {
       <StyledRadioInput
         id="answer-picker-answer-radio"
         type="radio"
-        checked
-        onChange={() => console.log("radio answer clicked")}
+        checked={selectedRadio === ANSWER}
+        onChange={() => setContentView(ANSWER)}
       />
       <StyledLabel htmlFor="answer-picker-answer-radio" bold={false}>
         Answer
@@ -38,7 +39,8 @@ const RadioToolbar = ({ selectedRadio, setContentView }) => {
       <StyledRadioInput
         id="answer-picker-metadata-radio"
         type="radio"
-        onChange={() => console.log("radio metadata clicked")}
+        checked={selectedRadio === METADATA}
+        onChange={() => setContentView(METADATA)}
       />
       <StyledLabel htmlFor="answer-picker-metadata-radio" bold={false}>
         Metadata
