@@ -64,7 +64,7 @@ class DateAnswerSelector extends React.Component {
         type: PropTypes.string.isRequired,
       }).isRequired,
       right: PropTypes.shape({
-        number: PropTypes.number,
+        offset: PropTypes.number,
       }),
     }).isRequired,
     onRightChange: PropTypes.func.isRequired,
@@ -73,7 +73,7 @@ class DateAnswerSelector extends React.Component {
   };
 
   state = {
-    number: get(this.props.expression, "right.number", null),
+    offset: get(this.props.expression, "right.offset", null),
   };
 
   handleRightChange = ({ value }) => this.setState(() => ({ number: value }));
@@ -81,7 +81,7 @@ class DateAnswerSelector extends React.Component {
   handleRightBlur = () => {
     this.props.onRightChange({
       dateValue: {
-        offset: this.state.number,
+        offset: this.state.offset,
       },
     });
   };
@@ -144,12 +144,12 @@ class DateAnswerSelector extends React.Component {
                     min={-99999999}
                     max={999999999}
                     placeholder="Value"
-                    value={this.state.number}
+                    value={this.state.offset}
                     name={`expression-right-${expression.id}`}
                     onChange={this.handleRightChange}
                     onBlur={this.handleRightBlur}
                     data-test="number-value-input"
-                    type="Date"
+                    type="Number"
                     unit={get(expression.left, "properties.unit", null)}
                   />
                   <RuleText>years</RuleText>
