@@ -16,8 +16,8 @@ export const CloseButton = styled(UnstyledCloseButton).attrs({
   size: "medium",
 })`
   position: absolute;
-  top: 0.25em;
-  right: 0.5em;
+  top: 0.2em;
+  right: 0.25em;
   padding: 0;
 `;
 
