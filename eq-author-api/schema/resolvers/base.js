@@ -91,8 +91,6 @@ const onFolderDeleted = require("../../src/businessLogic/onFolderDeleted");
 const addPrefix = require("../../utils/addPrefix");
 const onQuestionnaireUpdated = require("../../src/businessLogic/onQuestionnaireUpdated");
 
-const { BUSINESS } = require("../../constants/questionnaireTypes");
-
 const {
   createQuestionnaire,
   saveQuestionnaire,
@@ -168,7 +166,7 @@ const createNewQuestionnaire = (input) => {
   };
 
   let changes = {};
-  if (input.type === BUSINESS) {
+  if (input) {
     const metadata = createDefaultBusinessSurveyMetadata();
     changes = {
       metadata,
