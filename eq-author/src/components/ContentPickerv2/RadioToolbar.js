@@ -23,17 +23,22 @@ const InlineField = styled(Field)`
   }
 `;
 
-const RadioToolbar = () => {
+const RadioToolbar = ({ selectedRadio, setContentView }) => {
   return (
     <InlineField>
-      <StyledRadioInput id="answer-picker-answer-radio" type="radio" />
+      <StyledRadioInput
+        id="answer-picker-answer-radio"
+        type="radio"
+        checked
+        onChange={() => console.log("radio answer clicked")}
+      />
       <StyledLabel htmlFor="answer-picker-answer-radio" bold={false}>
         Answer
       </StyledLabel>
       <StyledRadioInput
         id="answer-picker-metadata-radio"
-        htmlFor="answer-picker-answer-radio"
         type="radio"
+        onChange={() => console.log("radio metadata clicked")}
       />
       <StyledLabel htmlFor="answer-picker-metadata-radio" bold={false}>
         Metadata
