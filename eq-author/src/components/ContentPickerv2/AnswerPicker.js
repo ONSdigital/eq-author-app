@@ -12,6 +12,8 @@ import Options, { OPTION_ANSWERS, OPTION_SECTIONS } from "./Options";
 import { FlatSectionMenu } from "./Menu";
 import ScrollPane from "components/ScrollPane";
 import SearchBar from "components/SearchBar";
+import { Field, Label } from "components/Forms";
+import Input from "components-themed/Input";
 
 import searchByAnswerTitleQuestionTitleShortCode from "utils/searchFunctions/searchByAnswerTitleQuestionTitleShortCode";
 import { getPages } from "utils/questionnaireUtils";
@@ -36,6 +38,25 @@ const ModalToolbar = styled.div`
 const MenuContainer = styled.div`
   overflow: hidden;
   height: 25em;
+`;
+
+const StyledRadioInput = styled(Input)`
+  position: relative;
+  margin-right: 0.5em;
+`;
+
+const StyledLabel = styled(Label)`
+  margin-top: 0.3em;
+  margin-right: 2em;
+`;
+
+const InlineField = styled(Field)`
+  display: flex;
+  align-items: center;
+  margin-bottom: ${(props) => (props.open ? "0.4em" : "2em")};
+  > * {
+    margin-bottom: 0;
+  }
 `;
 
 const AnswerPicker = ({ data, ...otherProps }) => {
@@ -71,6 +92,12 @@ const AnswerPicker = ({ data, ...otherProps }) => {
     <>
       <ModalHeader>
         <ModalTitle>Select an answer</ModalTitle>
+        <InlineField>
+          <StyledRadioInput type="radio" />
+          <StyledLabel bold={false}>Answer</StyledLabel>
+          <StyledRadioInput type="radio" />
+          <StyledLabel bold={false}>Metadata</StyledLabel>
+        </InlineField>
         <ModalToolbar>
           <SearchBar onChange={({ value }) => setSearchTerm(value)} />
           <Options
