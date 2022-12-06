@@ -66,7 +66,7 @@ type Questionnaire {
   collapsibleSummary: Boolean
   questionnaireInfo: QuestionnaireInfo
   metadata: [Metadata!]!
-  type: QuestionnaireType!
+  type: QuestionnaireType
   shortTitle: String
   displayName: String!
   introduction: QuestionnaireIntroduction
@@ -1143,7 +1143,7 @@ input CreateQuestionnaireInput {
   hub: Boolean
   surveyId: String!
   summary: Boolean
-  type: QuestionnaireType!
+  type: QuestionnaireType
   shortTitle: String
   isPublic: Boolean
 }
