@@ -24,6 +24,8 @@ import {
 const Menu = styled.div`
   filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.16));
   text-align: initial;
+  margin-left: -3em;
+  width: 30em;
   position: relative;
   &::before {
     content: "";
