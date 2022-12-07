@@ -120,7 +120,6 @@ class DateAnswerSelector extends React.Component {
 
   render() {
     const { expression, groupErrorMessage } = this.props;
-    console.log("expression.left.type :>> ", expression.left.type);
 
     const hasError =
       expression.validationErrorInfo.errors.length > 0 || groupErrorMessage;

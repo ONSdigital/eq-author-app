@@ -41,8 +41,6 @@ const isLeftSideAnswerTypeCompatible = (
   if (secondaryCondition) {
     return true;
   }
-  console.log("leftSideType :>> ", leftSideType);
-  console.log("rightSideType :>> ", rightSideType);
   return AnswerTypesToRightTypes[leftSideType] === rightSideType;
 };
 
@@ -81,7 +79,6 @@ Resolvers.BinaryExpression2 = {
 
 Resolvers.LeftSide2 = {
   __resolveType: ({ type, sideType }) => {
-    console.log("leftside");
     if (sideType === "Answer") {
       if ([answerTypes.RADIO, answerTypes.CHECKBOX].includes(type)) {
         return "MultipleChoiceAnswer";
@@ -124,7 +121,6 @@ Resolvers.SelectedOptions2 = {
 
 Resolvers.DateValue = {
   offset: ({ dateValue: { offset } }) => {
-    console.log(offset);
     return offset;
   },
 };
@@ -212,7 +208,6 @@ Resolvers.Mutation = {
       throw new Error("Too many right side inputs");
     }
     const { expressionId, customValue, dateValue, selectedOptions } = input;
-    console.log("input :>> ", input);
     const expression = getExpressionById(ctx, expressionId);
 
     let type, newRightProperties;
@@ -223,13 +218,11 @@ Resolvers.Mutation = {
         customValue,
       };
     } else if (dateValue) {
-      console.log("offset is present :>> ", dateValue);
       type = "DateValue";
       newRightProperties = {
         type,
         dateValue,
       };
-      console.log("newRightProperties :>> ", newRightProperties);
     } else {
       type = "SelectedOptions";
       newRightProperties = {
@@ -272,7 +265,6 @@ Resolvers.Mutation = {
     }
 
     expression.right = updatedRightSide;
-    console.log("expression: ", expression);
     return expression;
   }),
   deleteBinaryExpression2: createMutation((root, { input }, ctx) => {
