@@ -11,6 +11,7 @@ exports[`components/Forms/Input Text should render correctly 1`] = `
   -webkit-transition: outline-color 100ms ease-in,border-color 100ms ease-in;
   transition: outline-color 100ms ease-in,border-color 100ms ease-in;
   outline: thin solid transparent;
+  border-radius: 0.15em;
 }
 
 .c0:hover {
@@ -104,7 +105,7 @@ exports[`components/Forms/Input Text should render correctly 1`] = `
                 [Function],
                 ";",
                 [Function],
-                ";",
+                ";border-radius:0.15em;",
               ],
             },
             "displayName": "Input__StyledInput",

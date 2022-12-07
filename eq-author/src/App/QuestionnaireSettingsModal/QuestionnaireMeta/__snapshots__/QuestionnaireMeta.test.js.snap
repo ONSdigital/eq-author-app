@@ -15,7 +15,7 @@ exports[`QuestionnaireMeta should render 1`] = `
       >
         Questionnaire title
       </Label>
-      <withChangeHandler(UncontrolledInput)
+      <QuestionnaireMeta__StyledInput
         autoFocus={true}
         data-test="txt-questionnaire-title"
         defaultValue="I am the title"
@@ -24,139 +24,47 @@ exports[`QuestionnaireMeta should render 1`] = `
         required={true}
       />
     </Field>
-    <Grid
-      align="top"
-      fillHeight={true}
-      horizontalAlign="start"
+    <Field
+      disabled={false}
+      last={false}
     >
-      <Column
-        cols={6}
+      <Label
+        bold={true}
+        htmlFor="shortTitle"
       >
-        <Field
-          disabled={false}
-          last={false}
-        >
-          <Label
-            bold={true}
-            htmlFor="shortTitle"
-          >
-            Short title (optional)
-          </Label>
-          <withChangeHandler(UncontrolledInput)
-            data-test="txt-questionnaire-short-title"
-            defaultValue="I am the shortTitle"
-            id="shortTitle"
-            onChange={[MockFunction]}
-          />
-        </Field>
-      </Column>
-      <Column
-        cols={6}
-      >
-        <Field
-          disabled={false}
-          last={false}
-        >
-          <Label
-            bold={true}
-            htmlFor="type"
-          >
-            Questionnaire type
-          </Label>
-          <withChangeHandler(Select__SimpleSelect)
-            data-test="select-questionnaire-type"
-            defaultValue=""
-            disabled={false}
-            id="type"
-            onChange={[MockFunction]}
-          >
-            <option
-              disabled={true}
-              value=""
-            >
-              Please select...
-            </option>
-            <option
-              value="Business"
-            >
-              Business
-            </option>
-            <option
-              value="Social"
-            >
-              Social
-            </option>
-          </withChangeHandler(Select__SimpleSelect)>
-        </Field>
-      </Column>
-    </Grid>
-    <QuestionnaireMeta__HorizontalSeparator
-      style={
-        Object {
-          "marginTop": "0.5em",
-        }
-      }
-    />
-    <QuestionnaireMeta__ToggleWrapper>
-      <QuestionnaireMeta__EnableDisableWrapper>
-        <QuestionnaireMeta__InlineField>
-          <Label
-            bold={true}
-          >
-            Hub navigation
-          </Label>
-          <ToggleSwitch
-            checked={false}
-            hideLabels={false}
-            id="hub"
-            name="hub"
-            onChange={[MockFunction]}
-          />
-        </QuestionnaireMeta__InlineField>
-        <InformationPanel>
-          Let respondents access different sections of the survey from a single central "hub" screen.
-        </InformationPanel>
-      </QuestionnaireMeta__EnableDisableWrapper>
-      <QuestionnaireMeta__HorizontalSeparator />
-      <QuestionnaireMeta__EnableDisableWrapper>
-        <QuestionnaireMeta__InlineField>
-          <Label
-            bold={true}
-          >
-            Answers summary
-          </Label>
-          <ToggleSwitch
-            checked={false}
-            hideLabels={false}
-            id="summary"
-            name="summary"
-            onChange={[MockFunction]}
-          />
-        </QuestionnaireMeta__InlineField>
-        <InformationPanel>
-          Let respondents check their answers before submitting their questionnaire.
-        </InformationPanel>
-      </QuestionnaireMeta__EnableDisableWrapper>
-    </QuestionnaireMeta__ToggleWrapper>
-    <ButtonGroup
-      align="right"
-      horizontal={true}
+        Short title (optional)
+      </Label>
+      <QuestionnaireMeta__Paragraph>
+        *This title is only viewable internally, respondents never see the short title*
+      </QuestionnaireMeta__Paragraph>
+      <QuestionnaireMeta__StyledInput
+        data-test="txt-questionnaire-short-title"
+        defaultValue="I am the shortTitle"
+        id="shortTitle"
+        onChange={[MockFunction]}
+      />
+    </Field>
+    <Theme
+      themeName="onsLegacyFont"
     >
-      <Button
-        type="button"
-        variant="secondary"
-      >
-        Cancel
-      </Button>
-      <Button
-        data-test="questionnaire-submit-button"
-        disabled={true}
-        type="submit"
-        variant="primary"
-      >
-        Create
-      </Button>
-    </ButtonGroup>
+      <QuestionnaireMeta__ButtonContainer>
+        <QuestionnaireMeta__StyledButton
+          margin={true}
+          type="button"
+          variant="secondary"
+        >
+          Cancel
+        </QuestionnaireMeta__StyledButton>
+        <QuestionnaireMeta__StyledButton
+          data-test="questionnaire-submit-button"
+          disabled={false}
+          type="submit"
+          variant="primary"
+        >
+          Create
+        </QuestionnaireMeta__StyledButton>
+      </QuestionnaireMeta__ButtonContainer>
+    </Theme>
   </Form>
 </QuestionnaireMeta__StyledScrollPane>
 `;

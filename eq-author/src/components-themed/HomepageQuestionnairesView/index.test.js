@@ -118,9 +118,6 @@ describe("QuestionnairesView", () => {
       fireEvent.change(getByLabelText("Questionnaire title"), {
         target: { value: "Questionnaire title" },
       });
-      fireEvent.change(getByLabelText("Questionnaire type"), {
-        target: { value: "Business" },
-      });
       fireEvent.click(getByText("Create"));
 
       expect(props.onCreateQuestionnaire).toHaveBeenCalled();
@@ -177,9 +174,6 @@ describe("QuestionnairesView", () => {
 
       fireEvent.change(getByLabelText("Questionnaire title"), {
         target: { value: "Questionnaire title" },
-      });
-      fireEvent.change(getByLabelText("Questionnaire type"), {
-        target: { value: "Business" },
       });
       fireEvent.click(getByText("Create"));
 

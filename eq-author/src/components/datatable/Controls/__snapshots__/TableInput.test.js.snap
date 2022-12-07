@@ -12,6 +12,7 @@ exports[`TableInput should render 1`] = `
   -webkit-transition: outline-color 100ms ease-in,border-color 100ms ease-in;
   transition: outline-color 100ms ease-in,border-color 100ms ease-in;
   outline: thin solid transparent;
+  border-radius: 0.15em;
 }
 
 .c0:hover {
