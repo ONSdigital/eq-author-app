@@ -22,8 +22,7 @@ export const CloseButton = styled.button`
   background: none;
   margin: 0;
   margin-top: 0.1rem;
-  padding-right: 0.3em;
-  padding-left: 0.3em;
+  margin-right: 0.05em;
 `;
 
 const ReactModalAdapter = ({ className, modalClassName, ...props }) => (

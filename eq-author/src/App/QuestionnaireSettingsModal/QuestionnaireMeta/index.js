@@ -173,7 +173,7 @@ export const StatelessQuestionnaireMeta = ({
           </InformationPanel>
         </EnableDisableWrapper>
       </ToggleWrapper> */}
-        <Theme themeName={"ons"}>
+        <Theme themeName={"onsLegacyFont"}>
           <ButtonContainer>
             <StyledButton
               onClick={onCancel}
