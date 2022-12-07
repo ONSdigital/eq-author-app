@@ -82,6 +82,10 @@ export const contentPickerID = "content-picker";
 export const defaultContentName = "Select an answer";
 export const defaultMetadataName = "Select metadata";
 
+const getContentView = (contentTypes, contentView) => {
+  return contentTypes.find((contentType) => contentType === contentView);
+};
+
 const ContentPickerSelect = ({
   loading,
   error,
@@ -98,15 +102,12 @@ const ContentPickerSelect = ({
 }) => {
   const [isPickerOpen, setPickerOpen] = useState(false);
   const [isTruncated, elementToTruncate] = useTruncation();
+  const [contentView, setContentView] = useState(ANSWER);
   const [data, contentSelectButtonText] =
-    contentTypes[0] === ANSWER || contentTypes[0] === DYNAMIC_ANSWER
+    getContentView(contentTypes, contentView) === ANSWER ||
+    getContentView(contentTypes, contentView) === DYNAMIC_ANSWER
       ? [answerData, selectedContentDisplayName]
       : [metadataData, selectedMetadataDisplayName];
-  const [contentView, setContentView] = useState(ANSWER);
-
-  const getContentView = (contentView) => {
-    return contentTypes.find((contentType) => contentType === contentView);
-  };
 
   const buildTitle = useCallback(
     (selectedContent) =>
@@ -181,7 +182,7 @@ const ContentPickerSelect = ({
         onSubmit={handlePickerSubmit}
         data-test={contentPickerID}
         singleItemSelect
-        contentType={getContentView(contentView)}
+        contentType={getContentView(contentTypes, contentView)}
         setContentView={(contentView) => setContentView(contentView)}
       />
     </>
