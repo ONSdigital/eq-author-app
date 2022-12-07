@@ -28,8 +28,12 @@ const ToggleWrapper = styled.div`
 `;
 
 const StyledInput = styled(Input)`
+  margin-top: 1em;
   &:invalid {
     border: 0.15em solid ${colors.errorPrimary};
+  }
+  &:focus {
+    outline: 3px solid ${colors.primary};
   }
 `;
 
@@ -103,7 +107,7 @@ export const StatelessQuestionnaireMeta = ({
             *This title is only viewable internally, respondents never see the
             short title*
           </Paragraph>
-          <Input
+          <StyledInput
             id="shortTitle"
             defaultValue={questionnaire.shortTitle}
             onChange={onChange}
@@ -169,7 +173,7 @@ export const StatelessQuestionnaireMeta = ({
           </InformationPanel>
         </EnableDisableWrapper>
       </ToggleWrapper> */}
-        <Theme themeName={updatedFontTheme ? "ons" : "onsLegacyFont"}>
+        <Theme themeName={"ons"}>
           <ButtonContainer>
             <StyledButton
               onClick={onCancel}
