@@ -127,6 +127,15 @@ const ContentPickerSelect = ({
     [elementToTruncate, contentTypes]
   );
 
+  const handlePickerClose = (logic) => {
+    if (logic) {
+      setContentView(ANSWER);
+      setPickerOpen(false);
+    } else {
+      setPickerOpen(false);
+    }
+  };
+
   const contentSelectButton = useCallback(
     () => (
       <ContentSelectButton
@@ -179,7 +188,7 @@ const ContentPickerSelect = ({
         isOpen={isPickerOpen}
         data={data || []}
         startingSelectedAnswers={[]}
-        onClose={() => setPickerOpen(false)}
+        onClose={() => handlePickerClose(logic)}
         onSubmit={handlePickerSubmit}
         data-test={contentPickerID}
         singleItemSelect
