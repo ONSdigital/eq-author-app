@@ -22,15 +22,17 @@ const defaultQuestionnaire = {
 const Title = styled.h2`
   margin-left: 0em 0em 0em 0.1em;
   padding-top: 0em;
-  padding-bottom: 1em;
+  padding-bottom: 0.8em;
   top: 0;
 `;
 
 const StyledModal = styled(Modal)`
   .Modal {
+    top: 17%;
     width: 40em;
     padding: 24px;
     padding-top: 0;
+    box-shadow: 0px 0px 10px black;
   }
 `;
 
