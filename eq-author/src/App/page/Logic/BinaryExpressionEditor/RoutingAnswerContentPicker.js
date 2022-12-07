@@ -9,6 +9,7 @@ import { useQuestionnaire } from "components/QuestionnaireContext";
 import getContentBeforeEntity from "utils/getContentBeforeEntity";
 
 import { ROUTING_ANSWER_TYPES } from "constants/answer-types";
+import { TEXT, TEXT_OPTIONAL } from "constants/metadata-types";
 
 export const preprocessAnswers = (answer) =>
   ROUTING_ANSWER_TYPES.includes(answer.type) ? answer : [];
@@ -28,11 +29,17 @@ const RoutingAnswerContentPicker = ({ includeSelf, ...otherProps }) => {
     [questionnaire, pageId, includeSelf]
   );
 
+  const metadata =
+    questionnaire?.metadata?.filter(
+      ({ type }) => type === TEXT.value || type === TEXT_OPTIONAL.value
+    ) || [];
+
   return (
     <ContentPickerSelect
       name="answerId"
       contentTypes={[ANSWER, METADATA]}
       answerData={previousAnswers}
+      metadataData={metadata}
       logic
       {...otherProps}
     />
