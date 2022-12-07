@@ -130,7 +130,11 @@ export const UnwrappedBinaryExpressionEditor = ({
 
   const handleLeftSideChange = (contentPickerResult) => {
     expression.left.id !== contentPickerResult.value.id &&
-      updateLeftSide(expression, contentPickerResult.value.id);
+      updateLeftSide(
+        expression,
+        contentPickerResult.value.id,
+        contentPickerResult.name
+      );
   };
 
   const handleDeleteClick = () => {
