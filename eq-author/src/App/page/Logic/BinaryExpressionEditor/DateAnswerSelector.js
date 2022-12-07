@@ -76,7 +76,7 @@ class DateAnswerSelector extends React.Component {
     offset: get(this.props.expression, "right.offset", null),
   };
 
-  handleRightChange = ({ value }) => this.setState(() => ({ number: value }));
+  handleRightChange = ({ value }) => this.setState(() => ({ offset: value }));
 
   handleRightBlur = () => {
     this.props.onRightChange({
