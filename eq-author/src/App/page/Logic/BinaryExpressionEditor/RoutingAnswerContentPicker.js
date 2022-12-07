@@ -33,6 +33,7 @@ const RoutingAnswerContentPicker = ({ includeSelf, ...otherProps }) => {
       name="answerId"
       contentTypes={[ANSWER, METADATA]}
       answerData={previousAnswers}
+      logic
       {...otherProps}
     />
   );

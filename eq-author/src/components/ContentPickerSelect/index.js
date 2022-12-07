@@ -96,6 +96,7 @@ const ContentPickerSelect = ({
   name,
   selectedContentDisplayName = defaultContentName,
   selectedMetadataDisplayName = defaultMetadataName,
+  logic,
   onSubmit,
   hasError,
   ...otherProps
@@ -182,6 +183,7 @@ const ContentPickerSelect = ({
         onSubmit={handlePickerSubmit}
         data-test={contentPickerID}
         singleItemSelect
+        logic={logic}
         contentType={getContentView(contentTypes, contentView)}
         setContentView={(contentView) => setContentView(contentView)}
       />

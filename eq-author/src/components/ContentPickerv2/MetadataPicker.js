@@ -8,6 +8,7 @@ import { colors } from "constants/theme";
 
 import { ErrorMessage } from "./ErrorMessage";
 import { SubMenuItem, MenuItemType } from "./Menu";
+import RadioToolbar from "./RadioToolbar";
 
 import ScrollPane from "components/ScrollPane";
 
@@ -15,6 +16,7 @@ const ModalTitle = styled.div`
   font-weight: bold;
   font-size: 1.2em;
   color: ${colors.textLight};
+  margin-bottom: ${(props) => props.logic && `1em`};
 `;
 
 const ModalHeader = styled.div`
@@ -66,7 +68,14 @@ const MetaDataItemList = styled.ul`
   padding: 0;
 `;
 
-const MetaDataPicker = ({ data, isSelected, onSelected }) => {
+const MetaDataPicker = ({
+  data,
+  isSelected,
+  onSelected,
+  logic,
+  contentView,
+  setContentView,
+}) => {
   const onEnterUp = (event, item) => {
     if (event.keyCode === 13) {
       //13 is the enter keycode
@@ -76,7 +85,15 @@ const MetaDataPicker = ({ data, isSelected, onSelected }) => {
   return (
     <>
       <ModalHeader>
-        <ModalTitle>Select metadata</ModalTitle>
+        <ModalTitle logic={logic}>
+          {logic ? "Select an answer or metadata" : "Select metadata"}
+        </ModalTitle>
+        {logic && (
+          <RadioToolbar
+            selectedRadio={contentView}
+            setContentView={(contentView) => setContentView(contentView)}
+          />
+        )}
       </ModalHeader>
       <MenuContainer>
         <ScrollPane>

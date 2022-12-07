@@ -52,6 +52,7 @@ const ContentPicker = ({
   isOpen,
   startingSelectedAnswers,
   multiselect,
+  logic,
   onSubmit,
   setContentView,
 }) => {
@@ -117,6 +118,9 @@ const ContentPicker = ({
             }
             isSelected={isSelected}
             data={data}
+            contentView={contentType}
+            logic={logic}
+            setContentView={(contentView) => setContentView(contentView)}
           />
         );
 
@@ -131,6 +135,7 @@ const ContentPicker = ({
             data={data}
             multiselect={multiselect}
             contentView={contentType}
+            logic={logic}
             setContentView={(contentView) => setContentView(contentView)}
             firstSelectedItemId={getFirstSelectedItemId()}
           />
