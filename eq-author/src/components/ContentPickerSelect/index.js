@@ -97,13 +97,14 @@ const ContentPickerSelect = ({
   selectedContentDisplayName = defaultContentName,
   selectedMetadataDisplayName = defaultMetadataName,
   logic,
+  contentView,
+  setContentView,
   onSubmit,
   hasError,
   ...otherProps
 }) => {
   const [isPickerOpen, setPickerOpen] = useState(false);
   const [isTruncated, elementToTruncate] = useTruncation();
-  const [contentView, setContentView] = useState(ANSWER);
   const [data, contentSelectButtonText] =
     getContentView(contentTypes, contentView) === ANSWER ||
     getContentView(contentTypes, contentView) === DYNAMIC_ANSWER

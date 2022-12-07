@@ -72,6 +72,11 @@ const ContentPicker = ({
     return selectedItems[0].id;
   };
 
+  const updateContentView = (contentView) => {
+    setSelectedItems([]);
+    setContentView(contentView);
+  };
+
   const updateSelectedItemsSingle = (item) => {
     const updatedSelectedItems =
       !item ||
@@ -120,7 +125,7 @@ const ContentPicker = ({
             data={data}
             contentView={contentType}
             logic={logic}
-            setContentView={(contentView) => setContentView(contentView)}
+            setContentView={(contentView) => updateContentView(contentView)}
           />
         );
 
@@ -136,7 +141,7 @@ const ContentPicker = ({
             multiselect={multiselect}
             contentView={contentType}
             logic={logic}
-            setContentView={(contentView) => setContentView(contentView)}
+            setContentView={(contentView) => updateContentView(contentView)}
             firstSelectedItemId={getFirstSelectedItemId()}
           />
         );

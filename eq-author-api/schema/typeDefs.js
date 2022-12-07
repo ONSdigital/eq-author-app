@@ -1117,6 +1117,7 @@ input UpdateBinaryExpression2Input {
 input UpdateLeftSide2Input {
   expressionId: ID!
   answerId: ID
+  metadataId: ID
 }
 
 input UpdateRightSide2Input {

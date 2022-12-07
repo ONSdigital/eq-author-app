@@ -168,7 +168,7 @@ Resolvers.Mutation = {
   ),
 
   updateLeftSide2: createMutation((root, { input }, ctx) => {
-    const { expressionId, answerId } = input;
+    const { expressionId, answerId, metadataId } = input;
 
     const expression = getExpressionById(ctx, expressionId);
 

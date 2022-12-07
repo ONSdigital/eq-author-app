@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import PropTypes from "prop-types";
 
 import ContentPickerSelect from "components/ContentPickerSelect";
@@ -14,9 +14,18 @@ import { TEXT, TEXT_OPTIONAL } from "constants/metadata-types";
 export const preprocessAnswers = (answer) =>
   ROUTING_ANSWER_TYPES.includes(answer.type) ? answer : [];
 
+const getName = (contentView) => {
+  if (contentView === ANSWER) {
+    return "answerId";
+  } else {
+    return "metadataId";
+  }
+};
+
 const RoutingAnswerContentPicker = ({ includeSelf, ...otherProps }) => {
   const { questionnaire } = useQuestionnaire();
   const pageId = useCurrentPageId();
+  const [contentView, setContentView] = useState(ANSWER);
 
   const previousAnswers = useMemo(
     () =>
@@ -36,10 +45,12 @@ const RoutingAnswerContentPicker = ({ includeSelf, ...otherProps }) => {
 
   return (
     <ContentPickerSelect
-      name="answerId"
+      name={getName(contentView)}
       contentTypes={[ANSWER, METADATA]}
       answerData={previousAnswers}
       metadataData={metadata}
+      contentView={contentView}
+      setContentView={(contentView) => setContentView(contentView)}
       logic
       {...otherProps}
     />
