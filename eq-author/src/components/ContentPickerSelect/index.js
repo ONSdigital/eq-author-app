@@ -160,6 +160,7 @@ const ContentPickerSelect = ({
   );
 
   const handlePickerSubmit = (selected) => {
+    setContentView(ANSWER);
     setPickerOpen(false);
     onSubmit({ name, value: selected });
   };
