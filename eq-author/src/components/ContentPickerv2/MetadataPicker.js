@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 
@@ -11,6 +11,7 @@ import { SubMenuItem, MenuItemType } from "./Menu";
 import RadioToolbar from "./RadioToolbar";
 
 import ScrollPane from "components/ScrollPane";
+import SearchBar from "components/SearchBar";
 
 const ModalTitle = styled.div`
   font-weight: bold;
@@ -20,7 +21,7 @@ const ModalTitle = styled.div`
 `;
 
 const ModalHeader = styled.div`
-  padding: 2em 1em;
+  padding: 2em 1em ${(props) => props.logic && `1em`};
   border-bottom: 1px solid ${colors.bordersLight};
 `;
 
@@ -76,23 +77,30 @@ const MetaDataPicker = ({
   contentView,
   setContentView,
 }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+
   const onEnterUp = (event, item) => {
     if (event.keyCode === 13) {
       //13 is the enter keycode
       onSelected(item);
     }
   };
+
+  // TODO: Make search bar functional
   return (
     <>
-      <ModalHeader>
+      <ModalHeader logic={logic}>
         <ModalTitle logic={logic}>
           {logic ? "Select an answer or metadata" : "Select metadata"}
         </ModalTitle>
         {logic && (
-          <RadioToolbar
-            selectedRadio={contentView}
-            setContentView={(contentView) => setContentView(contentView)}
-          />
+          <>
+            <RadioToolbar
+              selectedRadio={contentView}
+              setContentView={(contentView) => setContentView(contentView)}
+            />
+            <SearchBar onChange={({ value }) => setSearchTerm(value)} />
+          </>
         )}
       </ModalHeader>
       <MenuContainer>
