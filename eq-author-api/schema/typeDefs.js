@@ -648,7 +648,7 @@ type NoLeftSide {
   reason: NoLeftSideReason!
 }
 
-union LeftSide2 = BasicAnswer | MultipleChoiceAnswer | NoLeftSide
+union LeftSide2 = BasicAnswer | MultipleChoiceAnswer | NoLeftSide | Metadata
 
 union RightSide2 = SelectedOptions2 | CustomValue2
 
@@ -674,6 +674,7 @@ enum LogicCondition {
   NotAnyOf
   NotAllOf
   Unanswered
+  Matches
 }
 
 type BinaryExpression2 {

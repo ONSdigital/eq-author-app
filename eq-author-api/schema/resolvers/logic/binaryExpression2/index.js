@@ -82,6 +82,9 @@ Resolvers.LeftSide2 = {
       }
       return "BasicAnswer";
     }
+    if (sideType === "Metadata") {
+      return "Metadata";
+    }
     if (sideType === "Null") {
       return "NoLeftSide";
     }
@@ -172,24 +175,44 @@ Resolvers.Mutation = {
 
     const expression = getExpressionById(ctx, expressionId);
 
-    const answer = getAnswerById(ctx, answerId);
+    if (answerId) {
+      const answer = getAnswerById(ctx, answerId);
 
-    const updatedLeftSide = {
-      ...expression.left,
-      answerId,
-      type: "Answer",
-    };
-    delete updatedLeftSide.nullReason;
+      const updatedLeftSide = {
+        ...expression.left,
+        answerId,
+        type: "Answer",
+      };
+      delete updatedLeftSide.nullReason;
 
-    const getRightSide = {
-      ...expression.right,
-    };
+      const getRightSide = {
+        ...expression.right,
+      };
 
-    expression.left = updatedLeftSide;
-    expression.right = getRightSide;
-    expression.condition = answerTypeToConditions.getDefault(answer.type);
+      expression.left = updatedLeftSide;
+      expression.right = getRightSide;
+      expression.condition = answerTypeToConditions.getDefault(answer.type);
 
-    return expression;
+      return expression;
+    }
+    if (metadataId) {
+      const updatedLeftSide = {
+        ...expression.left,
+        metadataId,
+        type: "Metadata",
+      };
+      delete updatedLeftSide.nullReason;
+
+      const getRightSide = {
+        ...expression.right,
+      };
+
+      expression.left = updatedLeftSide;
+      expression.right = getRightSide;
+      expression.condition = "Matches";
+
+      return expression;
+    }
   }),
   updateRightSide2: createMutation((root, { input }, ctx) => {
     if (input.customValue && input.selectedOptions) {
