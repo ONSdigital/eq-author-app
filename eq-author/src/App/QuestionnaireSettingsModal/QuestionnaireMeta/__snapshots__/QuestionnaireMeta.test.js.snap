@@ -44,27 +44,23 @@ exports[`QuestionnaireMeta should render 1`] = `
         onChange={[MockFunction]}
       />
     </Field>
-    <Theme
-      themeName="onsLegacyFont"
-    >
-      <QuestionnaireMeta__ButtonContainer>
-        <QuestionnaireMeta__StyledButton
-          margin={true}
-          type="button"
-          variant="secondary"
-        >
-          Cancel
-        </QuestionnaireMeta__StyledButton>
-        <QuestionnaireMeta__StyledButton
-          data-test="questionnaire-submit-button"
-          disabled={false}
-          type="submit"
-          variant="primary"
-        >
-          Create
-        </QuestionnaireMeta__StyledButton>
-      </QuestionnaireMeta__ButtonContainer>
-    </Theme>
+    <QuestionnaireMeta__ButtonContainer>
+      <QuestionnaireMeta__StyledButton
+        margin={true}
+        type="button"
+        variant="secondary"
+      >
+        Cancel
+      </QuestionnaireMeta__StyledButton>
+      <QuestionnaireMeta__StyledButton
+        data-test="questionnaire-submit-button"
+        disabled={false}
+        type="submit"
+        variant="primary"
+      >
+        Create
+      </QuestionnaireMeta__StyledButton>
+    </QuestionnaireMeta__ButtonContainer>
   </Form>
 </QuestionnaireMeta__StyledScrollPane>
 `;

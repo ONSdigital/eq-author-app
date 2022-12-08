@@ -20,6 +20,8 @@ import { useLockUnlockQuestionnaire } from "hooks/useSetQuestionnaireLocked";
 
 import suppressConsoleMessage from "tests/utils/supressConsol";
 
+import Theme from "contexts/themeContext";
+
 /*
  * @description Suppresses specific messages from being logged in the Console.
  */
@@ -109,7 +111,9 @@ describe("QuestionnairesView", () => {
 
     it("should allow you to create a questionnaire", () => {
       const { getByText, getByLabelText } = render(
-        <QuestionnairesView {...props} />
+        <Theme themeName={"onsLegacyFont"}>
+          <QuestionnairesView {...props} />
+        </Theme>
       );
 
       const createButton = getByText("Create a questionnaire");
@@ -125,7 +129,9 @@ describe("QuestionnairesView", () => {
 
     it("should be possible to cancel creating a questionnaire", async () => {
       const { getByText, queryByLabelText } = render(
-        <QuestionnairesView {...props} />
+        <Theme themeName={"onsLegacyFont"}>
+          <QuestionnairesView {...props} />
+        </Theme>
       );
 
       const createButton = getByText("Create a questionnaire");
@@ -166,7 +172,9 @@ describe("QuestionnairesView", () => {
 
     it("should allow you to create a questionnaire", () => {
       const { getByText, getByLabelText } = render(
-        <QuestionnairesView {...props} />
+        <Theme themeName={"onsLegacyFont"}>
+          <QuestionnairesView {...props} />
+        </Theme>
       );
 
       const createButton = getByText("Create questionnaire");
@@ -182,7 +190,9 @@ describe("QuestionnairesView", () => {
 
     it("should be possible to cancel creating a questionnaire", async () => {
       const { getByText, queryByLabelText } = render(
-        <QuestionnairesView {...props} />
+        <Theme themeName={"onsLegacyFont"}>
+          <QuestionnairesView {...props} />
+        </Theme>
       );
 
       const createButton = getByText("Create questionnaire");
