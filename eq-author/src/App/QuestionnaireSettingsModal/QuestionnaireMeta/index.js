@@ -8,7 +8,6 @@ import Theme from "contexts/themeContext";
 import { Form, Field, Input, Label } from "components/Forms";
 import withEntityEditor from "components/withEntityEditor";
 import ValidationError from "components/ValidationError";
-// import ButtonGroup from "components/buttons/ButtonGroup";
 import Button from "components-themed/buttons";
 import ScrollPane from "components/ScrollPane";
 import { colors } from "constants/theme";

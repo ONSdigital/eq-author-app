@@ -166,13 +166,11 @@ const createNewQuestionnaire = (input) => {
   };
 
   let changes = {};
-  if (input) {
-    const metadata = createDefaultBusinessSurveyMetadata();
-    changes = {
-      metadata,
-      introduction: createQuestionnaireIntroduction(metadata),
-    };
-  }
+  const metadata = createDefaultBusinessSurveyMetadata();
+  changes = {
+    metadata,
+    introduction: createQuestionnaireIntroduction(metadata),
+  };
 
   return {
     ...defaultQuestionnaire,
