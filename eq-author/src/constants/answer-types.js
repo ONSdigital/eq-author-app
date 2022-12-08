@@ -27,6 +27,12 @@ export const SELECT_OPTION = "SelectOption";
 export const MUTUALLY_EXCLUSIVE = "MutuallyExclusive";
 export const MUTUALLY_EXCLUSIVE_OPTION = "MutuallyExclusiveOption";
 
+export const ANSWER_OPTION_TYPES = {
+  [RADIO]: RADIO_OPTION,
+  [SELECT]: SELECT_OPTION,
+  [CHECKBOX]: CHECKBOX_OPTION,
+};
+
 export default [
   CHECKBOX,
   RADIO,
