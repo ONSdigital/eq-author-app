@@ -45,11 +45,13 @@ const inputFilter = gql`
     drivingPositiveDescription
     drivingNegativeDescription
     anotherTitle
+    anotherPageDescription
     anotherPositive
     anotherNegative
     anotherPositiveDescription
     anotherNegativeDescription
     addItemTitle
+    addItemPageDescription
     alias
   }
 `;
@@ -309,11 +311,11 @@ const UnwrappedListCollectorPageEditor = (props) => {
             </ListItem>
             <ListItem>
               Select the Add an answer option and choose a Text answer type from
-              the menu.These are the answers that will be collected for the
+              the menu. These are the answers that will be collected for the
               list.
             </ListItem>
             <ListItem>
-              nter the label First name in the answer container.
+              Enter the label First name in the answer container.
             </ListItem>
             <ListItem>
               Select the Add another answer option and again choose a Text
@@ -590,6 +592,15 @@ const UnwrappedListCollectorPageEditor = (props) => {
               })}
             />
             {renderErrors(page.validationErrorInfo.errors, "addItemTitle")}
+            <HorizontalRule />
+            <PageTitleContainer
+              pageDescription={entity.addItemPageDescription}
+              altFieldName="addItemPageDescription"
+              altError="ADD_ITEM_PAGE_DESCRIPTION_MISSING"
+              errors={page.validationErrorInfo.errors}
+              onChange={handleOnChange}
+              onUpdate={handleOnUpdate}
+            />
           </Collapsible>
 
           <Collapsible
@@ -705,6 +716,15 @@ const UnwrappedListCollectorPageEditor = (props) => {
                 </Field>
               </RadioContainer>
             </CollapsibleContent>
+            <HorizontalRule />
+            <PageTitleContainer
+              pageDescription={entity.anotherPageDescription}
+              altFieldName="anotherPageDescription"
+              altError="ANOTHER_PAGE_DESCRIPTION_MISSING"
+              errors={page.validationErrorInfo.errors}
+              onChange={handleOnChange}
+              onUpdate={handleOnUpdate}
+            />
           </Collapsible>
         </QuestionRender>
       ) : (
@@ -735,11 +755,13 @@ UnwrappedListCollectorPageEditor.fragments = {
       drivingPositiveDescription
       drivingNegativeDescription
       anotherTitle
+      anotherPageDescription
       anotherPositive
       anotherNegative
       anotherPositiveDescription
       anotherNegativeDescription
       addItemTitle
+      addItemPageDescription
       alias
       comments {
         ...Comment

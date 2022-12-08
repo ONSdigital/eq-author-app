@@ -191,6 +191,7 @@ CalculatedSummaryPageEditor.fragments = {
     fragment CalculatedSummaryPage on CalculatedSummaryPage {
       id
       title
+      pageDescription
       alias
       totalTitle
       pageType

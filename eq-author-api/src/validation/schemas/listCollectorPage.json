@@ -51,8 +51,18 @@
     "addItemTitle": {
       "$ref": "definitions.json#/definitions/populatedString"
     },
+    "addItemPageDescription": {
+      "type": "string",
+      "pattern": "\\w+",
+      "errorMessage": "ADD_ITEM_PAGE_DESCRIPTION_MISSING"
+    },
     "anotherTitle": {
       "$ref": "definitions.json#/definitions/populatedString"
+    },
+    "anotherPageDescription": {
+      "type": "string",
+      "pattern": "\\w+",
+      "errorMessage": "ANOTHER_PAGE_DESCRIPTION_MISSING"
     },
     "listId": {
       "$ref": "definitions.json#/definitions/populatedString"
@@ -108,9 +118,11 @@
     "drivingQuestion",
     "pageDescription",
     "addItemTitle",
+    "addItemPageDescription",
     "anotherPositive",
     "anotherNegative",
     "anotherTitle",
+    "anotherPageDescription",
     "listId"
   ]
 }

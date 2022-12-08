@@ -48,7 +48,13 @@ const Justification = styled(Collapsible)`
   margin-bottom: 1em;
 `;
 
-const PageTitleInput = ({ onChange, onUpdate, pageDescription, error }) => (
+const PageTitleInput = ({
+  onChange,
+  onUpdate,
+  pageDescription,
+  altFieldName,
+  error,
+}) => (
   <PageTitleContent>
     <Heading>Descriptions and definitions</Heading>
     <p>
@@ -73,13 +79,15 @@ const PageTitleInput = ({ onChange, onUpdate, pageDescription, error }) => (
       </p>
     </Justification>
     <Field>
-      <Label htmlFor="pageDescription">Page description</Label>
+      <Label htmlFor={altFieldName ? altFieldName : "pageDescription"}>
+        Page description
+      </Label>
       <StyledInput
-        id="pageDescription"
+        id={altFieldName ? altFieldName : "pageDescription"}
         type="text"
         data-test="txt-page-description"
         autoComplete="off"
-        name="pageDescription"
+        name={altFieldName ? altFieldName : "pageDescription"}
         placeholder=""
         onChange={(e) => onChange(e.target)}
         onBlur={(e) => onUpdate(e.target)}
@@ -97,6 +105,7 @@ const PageTitleInput = ({ onChange, onUpdate, pageDescription, error }) => (
 
 PageTitleInput.propTypes = {
   pageDescription: PropTypes.string,
+  altFieldName: PropTypes.string,
   error: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,

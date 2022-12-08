@@ -25,8 +25,9 @@ const Wrapper = styled.div`
     margin: 0 2em 1em;
     border: 1px solid ${colors.grey};
   `}
+
   ${({ variant }) =>
-    variant === "properties" &&
+    (variant === "properties" || variant === "marginlessContent") &&
     `
     border: 1px solid ${colors.grey};
   `}
@@ -36,7 +37,7 @@ const Header = styled.div`
   margin: 0;
   ${({ isOpen }) => isOpen && `margin: 0 0 1em;`}
   ${({ variant }) =>
-    variant === "content" &&
+    (variant === "content" || variant === "marginlessContent") &&
     `
     height: 100%;
     width: 100%;
@@ -65,7 +66,8 @@ export const Title = styled.h2`
   ${Badge} {
     margin-left: 1em;
   }
-  ${({ variant }) => variant === "content" && `padding: 0;`}
+  ${({ variant }) =>
+    (variant === "content" || variant === "marginlessContent") && `padding: 0;`}
   ${({ variant }) => variant === "properties" && `padding: 0;`}
 `;
 
@@ -78,7 +80,9 @@ export const Body = styled.div`
     margin-top: 0;
   }
   ${({ variant }) =>
-    (variant === "content" || variant === "properties") &&
+    (variant === "content" ||
+      variant === "properties" ||
+      variant === "marginlessContent") &&
     `
     margin-top: 0;
     border-left: none;
@@ -104,7 +108,9 @@ export const ToggleCollapsibleButton = styled.button`
   text-decoration: underline;
   margin-left: 0;
   ${({ variant }) =>
-    (variant === "content" || variant === "properties") &&
+    (variant === "content" ||
+      variant === "properties" ||
+      variant === "marginlessContent") &&
     `
     color: ${colors.white};
     text-decoration: none;
@@ -113,7 +119,10 @@ export const ToggleCollapsibleButton = styled.button`
   &:focus {
     outline: 2px solid ${colors.orange};
     ${({ variant }) =>
-      (variant === "content" || variant === "properties") && `outline: none;`}
+      (variant === "content" ||
+        variant === "properties" ||
+        variant === "marginlessContent") &&
+      `outline: none;`}
   }
   &::before {
     content: "";
@@ -124,7 +133,8 @@ export const ToggleCollapsibleButton = styled.button`
     margin-top: 0.2em;
     margin-left: -0.5em;
     ${({ variant }) =>
-      variant === "content" && `background-color: ${colors.white}`}
+      (variant === "content" || variant === "marginlessContent") &&
+      `background-color: ${colors.white}`}
     ${({ variant }) =>
       variant === "properties" && `background-color: ${colors.white}`}
   }
@@ -270,7 +280,12 @@ Collapsible.propTypes = {
   /**
    * Value controlling the styling applied to the collapsible.
    */
-  variant: PropTypes.oneOf(["default", "content"]),
+  variant: PropTypes.oneOf([
+    "default",
+    "content",
+    "marginlessContent",
+    "properties",
+  ]),
   errorCount: PropTypes.number,
 };
 

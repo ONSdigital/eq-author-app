@@ -15,12 +15,21 @@ const PageTitleContainerWithCollapsible = styled.div`
 
 export class PageTitleContainer extends React.Component {
   render() {
-    const { inCollapsible, pageDescription, errors, onChange, onUpdate } =
-      this.props;
+    const {
+      inCollapsible,
+      marginless,
+      pageDescription,
+      altFieldName,
+      altError,
+      errors,
+      onChange,
+      onUpdate,
+    } = this.props;
 
-    const pageDescriptionError = find(errors, {
-      errorCode: "PAGE_DESCRIPTION_MISSING",
-    });
+    const pageDescriptionError =
+      altFieldName && altError
+        ? find(errors, { errorCode: altError })
+        : find(errors, { errorCode: "PAGE_DESCRIPTION_MISSING" });
 
     if (inCollapsible) {
       return (
@@ -29,11 +38,13 @@ export class PageTitleContainer extends React.Component {
           className="pageDescriptionCollapsible"
           defaultOpen
           withoutHideThis
-          variant="content"
+          variant={marginless ? "marginlessContent" : "content"}
+          // variant="content"
         >
           <PageTitleContainerWithCollapsible>
             <PageTitleInput
               pageDescription={pageDescription}
+              altFieldName={altFieldName}
               onUpdate={onUpdate}
               onChange={onChange}
               error={Boolean(pageDescriptionError?.errorCode)}
@@ -46,6 +57,7 @@ export class PageTitleContainer extends React.Component {
       <PageTitleContainerWithoutCollapsible>
         <PageTitleInput
           pageDescription={pageDescription}
+          altFieldName={altFieldName}
           error={Boolean(pageDescriptionError?.errorCode)}
           onUpdate={onUpdate}
           onChange={onChange}
@@ -57,7 +69,10 @@ export class PageTitleContainer extends React.Component {
 
 PageTitleContainer.propTypes = {
   inCollapsible: PropTypes.bool,
+  marginless: PropTypes.bool,
   pageDescription: PropTypes.string,
+  altFieldName: PropTypes.string,
+  altError: PropTypes.string,
   errors: PropTypes.arrayOf(PropTypes.object),
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
