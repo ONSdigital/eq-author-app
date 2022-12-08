@@ -16,7 +16,6 @@ import ValidationError from "components/ValidationError";
 const conditions = {
   BEFORE: "Before",
   AFTER: "After",
-  UNANSWERED: "Unanswered",
 };
 
 export const ConditionSelector = styled(Select)`
@@ -128,33 +127,32 @@ class DateAnswerSelector extends React.Component {
       <>
         <DateAnswerRoutingSelector hasError={hasError}>
           <RuleText>is</RuleText>
-          {expression.condition !== conditions.UNANSWERED &&
-            expression.condition !== conditions.SELECT && (
-              <>
-                <Value>
-                  <VisuallyHidden>
-                    <Label htmlFor={`expression-right-${expression.id}`}>
-                      Value
-                    </Label>
-                  </VisuallyHidden>
-                  <Number
-                    default={null}
-                    id={`expression-right-${expression.id}`}
-                    min={-99999999}
-                    max={999999999}
-                    placeholder="Value"
-                    value={this.state.offset}
-                    name={`expression-right-${expression.id}`}
-                    onChange={this.handleRightChange}
-                    onBlur={this.handleRightBlur}
-                    data-test="number-value-input"
-                    type="Number"
-                    unit={get(expression.left, "properties.unit", null)}
-                  />
-                  <RuleText>years</RuleText>
-                </Value>
-              </>
-            )}
+          {expression.condition !== conditions.SELECT && (
+            <>
+              <Value>
+                <VisuallyHidden>
+                  <Label htmlFor={`expression-right-${expression.id}`}>
+                    Value
+                  </Label>
+                </VisuallyHidden>
+                <Number
+                  default={null}
+                  id={`expression-right-${expression.id}`}
+                  min={-99999999}
+                  max={999999999}
+                  placeholder="Value"
+                  value={this.state.offset}
+                  name={`expression-right-${expression.id}`}
+                  onChange={this.handleRightChange}
+                  onBlur={this.handleRightBlur}
+                  data-test="number-value-input"
+                  type="Number"
+                  unit={get(expression.left, "properties.unit", null)}
+                />
+                <RuleText>years</RuleText>
+              </Value>
+            </>
+          )}
           <VisuallyHidden>
             <Label htmlFor={`expression-condition-${expression.id}`}>
               Operator
@@ -169,7 +167,6 @@ class DateAnswerSelector extends React.Component {
           >
             <option value={conditions.BEFORE}> Before</option>
             <option value={conditions.AFTER}> After</option>
-            <option value={conditions.UNANSWERED}> Unanswered</option>
           </ConditionSelector>
           <RuleText>response date</RuleText>
         </DateAnswerRoutingSelector>
