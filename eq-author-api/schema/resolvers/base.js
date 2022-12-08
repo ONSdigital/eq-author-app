@@ -1863,6 +1863,7 @@ const Resolvers = {
       return new Date(dateValue);
     },
     displayName: (metadata) => getName(metadata, "Metadata"),
+    __resolveType: "Metadata",
   },
 
   QuestionConfirmation: {

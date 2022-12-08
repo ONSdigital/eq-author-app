@@ -32,6 +32,13 @@ fragment BinaryExpressionEditor on BinaryExpression2 {
         label
       }
     }
+    ... on Metadata {
+      id
+      displayName
+      type
+      key
+      textValue
+    }
     ... on NoLeftSide {
       reason
     }
