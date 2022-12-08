@@ -42,6 +42,7 @@ const QuestionnaireSettingsModal = ({
   onSubmit,
   confirmText,
   canEditType,
+  title,
 }) => {
   const { questionnaire } = useQuestionnaire();
   return (
@@ -52,7 +53,7 @@ const QuestionnaireSettingsModal = ({
     >
       <DialogHeader>
         <Message>
-          <Title>New questionnaire</Title>
+          <Title>{title}</Title>
         </Message>
       </DialogHeader>
       <QuestionnaireMeta
@@ -73,11 +74,13 @@ QuestionnaireSettingsModal.propTypes = {
   onClose: PropTypes.func,
   confirmText: PropTypes.string.isRequired,
   canEditType: PropTypes.bool,
+  title: PropTypes.string.isRequired,
 };
 
 QuestionnaireSettingsModal.defaultProps = {
   questionnaire: defaultQuestionnaire,
   canEditType: true,
+  title: "New questionnaire",
 };
 
 QuestionnaireSettingsModal.fragments = {

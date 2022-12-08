@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import CustomPropTypes from "custom-prop-types";
 
-import Theme from "contexts/themeContext";
-
 import { Form, Field, Input, Label } from "components/Forms";
 import withEntityEditor from "components/withEntityEditor";
 import ValidationError from "components/ValidationError";
@@ -81,26 +79,24 @@ export const StatelessQuestionnaireMeta = ({
             data-test="txt-questionnaire-short-title"
           />
         </Field>
-        <Theme themeName={"onsLegacyFont"}>
-          <ButtonContainer>
-            <StyledButton
-              onClick={onCancel}
-              margin
-              variant="secondary"
-              type="button"
-            >
-              Cancel
-            </StyledButton>
-            <StyledButton
-              type="submit"
-              variant="primary"
-              disabled={!questionnaire.title}
-              data-test="questionnaire-submit-button"
-            >
-              {confirmText}
-            </StyledButton>
-          </ButtonContainer>
-        </Theme>
+        <ButtonContainer>
+          <StyledButton
+            onClick={onCancel}
+            margin
+            variant="secondary"
+            type="button"
+          >
+            Cancel
+          </StyledButton>
+          <StyledButton
+            type="submit"
+            variant="primary"
+            disabled={!questionnaire.title}
+            data-test="questionnaire-submit-button"
+          >
+            {confirmText}
+          </StyledButton>
+        </ButtonContainer>
       </Form>
     </StyledScrollPane>
   );
