@@ -155,6 +155,16 @@
                     "errorMessage": "ERR_RIGHTSIDE_NO_VALUE"
                   }
                 }
+              },
+              "dateValue": {
+                "type": "object",
+                "properties": {
+                  "offset": {
+                    "type": "number",
+                    "nullable": false,
+                    "errorMessage": "ERR_RIGHTSIDE_NO_VALUE"
+                  }
+                }
               }
             },
             "required": ["type"],
