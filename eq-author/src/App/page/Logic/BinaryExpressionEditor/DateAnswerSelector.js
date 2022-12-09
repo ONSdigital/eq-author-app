@@ -68,6 +68,7 @@ class DateAnswerSelector extends React.Component {
       }).isRequired,
       right: PropTypes.shape({
         offset: PropTypes.number,
+        offsetDirection: PropTypes.string,
       }),
     }).isRequired,
     onRightChange: PropTypes.func.isRequired,
@@ -77,14 +78,26 @@ class DateAnswerSelector extends React.Component {
 
   state = {
     offset: get(this.props.expression, "right.offset", null),
+    offsetDirection: get(this.props.expression, "right.offsetDirection", null),
   };
 
-  handleRightChange = ({ value }) => this.setState(() => ({ offset: value }));
+  handleRightOffsetChange = ({ value }) => this.setState({ offset: value });
+
+  handleRightOffsetDirectionChange = ({ value }) => {
+    this.setState({ offsetDirection: value });
+    this.props.onRightChange({
+      dateValue: {
+        offset: this.state.offset,
+        offsetDirection: this.state.offsetDirection,
+      },
+    });
+  };
 
   handleRightBlur = () => {
     this.props.onRightChange({
       dateValue: {
         offset: this.state.offset,
+        offsetDirection: this.state.offsetDirection,
       },
     });
   };
@@ -165,7 +178,7 @@ class DateAnswerSelector extends React.Component {
                   placeholder="Value"
                   value={this.state.offset}
                   name={`expression-right-${expression.id}`}
-                  onChange={this.handleRightChange}
+                  onChange={this.handleRightOffsetChange}
                   onBlur={this.handleRightBlur}
                   data-test="number-value-input"
                   type="Number"
@@ -182,13 +195,14 @@ class DateAnswerSelector extends React.Component {
           </VisuallyHidden>
           <ConditionSelector
             id={`expression-condition-right-${expression.id}`}
-            onChange={this.handleConditionChange}
+            onChange={this.handleRightOffsetDirectionChange}
+            onUpdate={this.handleRightBlur}
             name="right-condition-select"
-            value={expression.condition}
+            value={expression.right.offsetDirection}
             data-test="right-condition-selector"
           >
-            <option value={conditions.BEFORE}> Before</option>
-            <option value={conditions.AFTER}> After</option>
+            <option>Before</option>
+            <option>After</option>
           </ConditionSelector>
           <RuleText>response date</RuleText>
         </DateAnswerRoutingSelector>

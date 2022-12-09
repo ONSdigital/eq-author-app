@@ -662,6 +662,7 @@ type SelectedOptions2 {
 
 type DateValue {
   offset: Int
+  offsetDirection: String
 }
 
 enum LogicCondition {
@@ -1134,6 +1135,7 @@ input UpdateRightSide2Input {
 
 input DateValueInput {
   offset: Int
+  offsetDirection: String
 }
 
 input DeleteBinaryExpression2Input {

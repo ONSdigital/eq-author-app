@@ -123,6 +123,9 @@ Resolvers.DateValue = {
   offset: ({ dateValue: { offset } }) => {
     return offset;
   },
+  offsetDirection: ({ dateValue: { offsetDirection } }) => {
+    return offsetDirection;
+  },
 };
 
 Resolvers.Mutation = {
