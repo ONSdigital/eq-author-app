@@ -111,7 +111,7 @@ describe("QuestionnairesView", () => {
 
     it("should allow you to create a questionnaire", () => {
       const { getByText, getByLabelText } = render(
-        <Theme themeName={"onsLegacyFont"}>
+        <Theme themeName={"ons"}>
           <QuestionnairesView {...props} />
         </Theme>
       );
@@ -129,7 +129,7 @@ describe("QuestionnairesView", () => {
 
     it("should be possible to cancel creating a questionnaire", async () => {
       const { getByText, queryByLabelText } = render(
-        <Theme themeName={"onsLegacyFont"}>
+        <Theme themeName={"ons"}>
           <QuestionnairesView {...props} />
         </Theme>
       );
@@ -172,7 +172,7 @@ describe("QuestionnairesView", () => {
 
     it("should allow you to create a questionnaire", () => {
       const { getByText, getByLabelText } = render(
-        <Theme themeName={"onsLegacyFont"}>
+        <Theme themeName={"ons"}>
           <QuestionnairesView {...props} />
         </Theme>
       );
@@ -190,7 +190,7 @@ describe("QuestionnairesView", () => {
 
     it("should be possible to cancel creating a questionnaire", async () => {
       const { getByText, queryByLabelText } = render(
-        <Theme themeName={"onsLegacyFont"}>
+        <Theme themeName={"ons"}>
           <QuestionnairesView {...props} />
         </Theme>
       );
