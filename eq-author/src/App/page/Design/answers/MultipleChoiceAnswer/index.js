@@ -21,6 +21,7 @@ import {
   TEXTFIELD,
   CHECKBOX,
   MUTUALLY_EXCLUSIVE,
+  SELECT,
 } from "constants/answer-types";
 import SplitButton from "components/buttons/SplitButton";
 import Dropdown from "components/buttons/SplitButton/Dropdown";
@@ -86,6 +87,8 @@ export const UnwrappedMultipleChoiceAnswer = ({
   optionErrorMsg,
   errorLabel,
   type,
+  descriptionText,
+  descriptionPlaceholder,
   onDeleteOption,
   onAddOption,
   ...otherProps
@@ -121,7 +124,7 @@ export const UnwrappedMultipleChoiceAnswer = ({
       {type !== MUTUALLY_EXCLUSIVE && (
         <Field>
           <Label htmlFor={`answer-label-${answer.id}`}>
-            {"Label (optional)"}
+            {answer.type === SELECT ? `Label` : `Label (optional)`}
           </Label>
           <WrappingInput
             id={`answer-label-${answer.id}`}
@@ -146,7 +149,37 @@ export const UnwrappedMultipleChoiceAnswer = ({
           />
         </Field>
       )}
+      {type === SELECT && (
+        <Field>
+          <Label htmlFor={`answer-description-${answer.id}`}>
+            {descriptionText}
+          </Label>
+          <WrappingInput
+            id={`answer-description-${answer.id}`}
+            name="description"
+            cols="30"
+            rows="5"
+            onChange={onChange}
+            onBlur={onUpdate}
+            value={answer.description}
+            placeholder={descriptionPlaceholder}
+            data-test="txt-answer-description"
+          />
+        </Field>
+      )}
       <AnswerProperties answer={answer} updateAnswer={updateAnswer} />
+      {type === SELECT && (
+        <Collapsible title="Why is there a minimum requirement of 25 labels?">
+          <CollapsibleContent>
+            In accordance with usability considerations, the select answer type
+            should only be used for long lists of 25 items or more.
+          </CollapsibleContent>
+          <CollapsibleContent>
+            For shorter lists of less than 25 items, the radio answer type
+            should be used.
+          </CollapsibleContent>
+        </Collapsible>
+      )}
       <AnswerWrapper>
         <TransitionGroup
           component={Options}
@@ -161,6 +194,9 @@ export const UnwrappedMultipleChoiceAnswer = ({
               <Option
                 {...otherProps}
                 {...props}
+                label={
+                  answer.type === SELECT ? `Label ${props.index + 1}` : `Label` //eslint-disable-line react/prop-types
+                }
                 type={type}
                 option={option}
                 onDelete={handleOptionDelete}
@@ -206,7 +242,7 @@ export const UnwrappedMultipleChoiceAnswer = ({
           </Collapsible>
         )}
         <div>
-          {answer.type !== MUTUALLY_EXCLUSIVE ? (
+          {answer.type !== MUTUALLY_EXCLUSIVE && answer.type !== SELECT ? (
             <StyledSplitButton
               onPrimaryAction={handleAddOption}
               primaryText={
@@ -246,6 +282,7 @@ UnwrappedMultipleChoiceAnswer.defaultProps = {
   errorLabel: "Answer label",
   autoFocus: true,
   getValidationError: () => {},
+  descriptionText: "Description (optional)",
   type: TEXTFIELD,
 };
 
@@ -259,6 +296,8 @@ UnwrappedMultipleChoiceAnswer.propTypes = {
   onAddExclusive: PropTypes.func.isRequired,
   onMoveOption: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
+  descriptionText: PropTypes.string,
+  descriptionPlaceholder: PropTypes.string,
   autoFocus: PropTypes.bool,
   getValidationError: PropTypes.func.isRequired,
   optionErrorMsg: PropTypes.string,

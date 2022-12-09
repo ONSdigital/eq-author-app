@@ -14,6 +14,7 @@ import {
   PERCENTAGE,
   UNIT,
   DURATION,
+  SELECT,
   MUTUALLY_EXCLUSIVE,
 } from "constants/answer-types";
 
@@ -25,10 +26,12 @@ import TextAnswer from "./TextAnswer";
 import TextAreaAnswer from "./TextAreaAnswer";
 import AnswerTrailingUnit from "./AnswerTrailingUnit";
 import DurationAnswer from "./DurationAnswer";
+import SelectAnswer from "./SelectAnswer";
 
 export const answerComponents = {
   [CHECKBOX]: MultipleChoiceAnswer,
   [RADIO]: MultipleChoiceAnswer,
+  [SELECT]: SelectAnswer,
   [CURRENCY]: CurrencyAnswer,
   [NUMBER]: TextAnswer,
   [TEXTFIELD]: TextAnswer,

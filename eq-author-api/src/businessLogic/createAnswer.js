@@ -41,7 +41,8 @@ module.exports = (answer, page) => {
   if (
     answer.type === "Checkbox" ||
     answer.type === "Radio" ||
-    answer.type === "MutuallyExclusive"
+    answer.type === "MutuallyExclusive" ||
+    answer.type === "Select"
   ) {
     const createOption = require("./createOption");
 
@@ -50,6 +51,11 @@ module.exports = (answer, page) => {
 
     if (answer.type === "Radio") {
       defaultOptions.push(createOption());
+    }
+    if (answer.type === "Select") {
+      for (let i = 0; i < 24; i++) {
+        defaultOptions.push(createOption());
+      }
     }
     logger.info(
       `Checkbox or Radio created with Options ${JSON.stringify(defaultOptions)}`
