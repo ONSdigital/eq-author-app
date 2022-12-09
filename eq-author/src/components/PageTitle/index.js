@@ -21,6 +21,7 @@ export class PageTitleContainer extends React.Component {
       pageDescription,
       altFieldName,
       altError,
+      error,
       errors,
       onChange,
       onUpdate,
@@ -31,6 +32,11 @@ export class PageTitleContainer extends React.Component {
         ? find(errors, { errorCode: altError })
         : find(errors, { errorCode: "PAGE_DESCRIPTION_MISSING" });
 
+    const displayError =
+      error === "PAGE_DESCRIPTION_MISSING"
+        ? true
+        : Boolean(pageDescriptionError?.errorCode);
+
     if (inCollapsible) {
       return (
         <Collapsible
@@ -39,7 +45,6 @@ export class PageTitleContainer extends React.Component {
           defaultOpen
           withoutHideThis
           variant={marginless ? "marginlessContent" : "content"}
-          // variant="content"
         >
           <PageTitleContainerWithCollapsible>
             <PageTitleInput
@@ -47,7 +52,7 @@ export class PageTitleContainer extends React.Component {
               altFieldName={altFieldName}
               onUpdate={onUpdate}
               onChange={onChange}
-              error={Boolean(pageDescriptionError?.errorCode)}
+              error={displayError}
             />
           </PageTitleContainerWithCollapsible>
         </Collapsible>
@@ -58,7 +63,7 @@ export class PageTitleContainer extends React.Component {
         <PageTitleInput
           pageDescription={pageDescription}
           altFieldName={altFieldName}
-          error={Boolean(pageDescriptionError?.errorCode)}
+          error={displayError}
           onUpdate={onUpdate}
           onChange={onChange}
         />
@@ -73,6 +78,7 @@ PageTitleContainer.propTypes = {
   pageDescription: PropTypes.string,
   altFieldName: PropTypes.string,
   altError: PropTypes.string,
+  error: PropTypes.string,
   errors: PropTypes.arrayOf(PropTypes.object),
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
