@@ -85,10 +85,6 @@ Resolvers.BinaryExpression2 = {
 
 Resolvers.LeftSide2 = {
   __resolveType: ({ type, sideType }) => {
-    console.log("-----");
-    console.log("type", type);
-    console.log("sideType", sideType);
-    console.log("-----");
     if (sideType === "Answer") {
       if ([answerTypes.RADIO, answerTypes.CHECKBOX].includes(type)) {
         return "MultipleChoiceAnswer";

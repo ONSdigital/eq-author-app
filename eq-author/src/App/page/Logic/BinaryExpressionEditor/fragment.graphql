@@ -35,7 +35,7 @@ fragment BinaryExpressionEditor on BinaryExpression2 {
     ... on Metadata {
       id
       displayName
-      type
+      metadataType: type
       key
       textValue
     }

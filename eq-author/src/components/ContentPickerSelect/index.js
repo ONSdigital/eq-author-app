@@ -115,12 +115,20 @@ const ContentPickerSelect = ({
     (selectedContent) =>
       typeof selectedContent === "string" ? (
         selectedContent
-      ) : (
+      ) : selectedContent.type ? ( // read as `if selected content is answer type` - `type` attribute is only assigned to answer type
         <>
           <ContentSelectedTitle ref={elementToTruncate}>
             {contentTypes[0] === DYNAMIC_ANSWER
               ? stripHtmlToText(selectedContent.questionTitle)
               : formatTitle(selectedContent)}
+          </ContentSelectedTitle>
+          <span>{`${selectedContent.displayName}`}</span>
+        </>
+      ) : (
+        // currently only runs for metadata type - if more content types are added in the future, this line will be `selectedContent.metadataType ? ...`
+        <>
+          <ContentSelectedTitle ref={elementToTruncate}>
+            {selectedContent.key}
           </ContentSelectedTitle>
           <span>{`${selectedContent.displayName}`}</span>
         </>
