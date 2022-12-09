@@ -16,13 +16,16 @@ import ValidationError from "components/ValidationError";
 const conditions = {
   BEFORE: "Before",
   AFTER: "After",
+  LESS_THAN: "LessThan",
+  GREATER_THAN: "GreaterThan",
 };
 
 export const ConditionSelector = styled(Select)`
-  width: 8em;
+  width: ${(props) => (props.name === "left-condition-select" ? `7em` : `5em`)};
   flex: 1 1 auto;
   display: flex;
   position: relative;
+  margin-right: 1em;
 `;
 
 const Value = styled.div`
@@ -30,6 +33,8 @@ const Value = styled.div`
   display: flex;
   align-items: center;
   position: relative;
+  width: 3em;
+  margin-right: 1em;
 `;
 
 const DateAnswerRoutingSelector = styled.div`
@@ -51,7 +56,6 @@ const DateAnswerRoutingSelector = styled.div`
 `;
 
 const RuleText = styled.div`
-  margin-left: 1em;
   margin-right: 1em;
 `;
 
@@ -127,6 +131,24 @@ class DateAnswerSelector extends React.Component {
       <>
         <DateAnswerRoutingSelector hasError={hasError}>
           <RuleText>is</RuleText>
+          <VisuallyHidden>
+            <Label htmlFor={`expression-condition-left-${expression.id}`}>
+              Operator
+            </Label>
+          </VisuallyHidden>
+          <ConditionSelector
+            id={`expression-condition-left-${expression.id}`}
+            onChange={this.handleConditionChange}
+            name="left-condition-select"
+            value={expression.condition}
+            data-test="left-condition-selector"
+          >
+            {!expression.condition && (
+              <option value={conditions.SELECT}>Select an operator</option>
+            )}
+            <option value={conditions.LESS_THAN}>(&lt;) Less than</option>
+            <option value={conditions.GREATER_THAN}>(&gt;) More than</option>
+          </ConditionSelector>
           {expression.condition !== conditions.SELECT && (
             <>
               <Value>
@@ -149,21 +171,21 @@ class DateAnswerSelector extends React.Component {
                   type="Number"
                   unit={get(expression.left, "properties.unit", null)}
                 />
-                <RuleText>years</RuleText>
               </Value>
+              <RuleText>years</RuleText>
             </>
           )}
           <VisuallyHidden>
-            <Label htmlFor={`expression-condition-${expression.id}`}>
+            <Label htmlFor={`expression-condition-right-${expression.id}`}>
               Operator
             </Label>
           </VisuallyHidden>
           <ConditionSelector
-            id={`expression-condition-${expression.id}`}
+            id={`expression-condition-right-${expression.id}`}
             onChange={this.handleConditionChange}
-            name="condition-select"
+            name="right-condition-select"
             value={expression.condition}
-            data-test="condition-selector"
+            data-test="right-condition-selector"
           >
             <option value={conditions.BEFORE}> Before</option>
             <option value={conditions.AFTER}> After</option>
