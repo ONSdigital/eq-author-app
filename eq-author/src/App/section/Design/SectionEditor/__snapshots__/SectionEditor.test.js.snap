@@ -104,6 +104,12 @@ exports[`SectionEditor should render 1`] = `
         value="Intro content"
       />
     </SectionEditor__IntroCanvas>
+    <SectionEditor__HorizontalRule />
+    <PageTitleContainer
+      errors={Array []}
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+    />
   </SectionEditor__Padding>
 </SectionEditor__SectionCanvas>
 `;
@@ -212,6 +218,12 @@ exports[`SectionEditor should render 2`] = `
         value="Intro content"
       />
     </SectionEditor__IntroCanvas>
+    <SectionEditor__HorizontalRule />
+    <PageTitleContainer
+      errors={Array []}
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+    />
   </SectionEditor__Padding>
 </SectionEditor__SectionCanvas>
 `;

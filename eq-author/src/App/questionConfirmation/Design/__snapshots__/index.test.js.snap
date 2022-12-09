@@ -3,6 +3,7 @@
 exports[`QuestionConfirmationRoute should render 1`] = `
 <EditorLayout
   logic={true}
+  pageDescription=""
   preview={true}
   title="My first displayname"
 >
@@ -66,6 +67,7 @@ exports[`QuestionConfirmationRoute should render 1`] = `
 exports[`QuestionConfirmationRoute should show error info when there is an error 1`] = `
 <EditorLayout
   logic={true}
+  pageDescription=""
   preview={true}
   title="My first displayname"
 >
@@ -80,6 +82,7 @@ exports[`QuestionConfirmationRoute should show error info when there is an error
 exports[`QuestionConfirmationRoute should show loading info when loading 1`] = `
 <EditorLayout
   logic={true}
+  pageDescription=""
   preview={true}
   title="My first displayname"
 >
