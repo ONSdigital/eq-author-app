@@ -2647,7 +2647,7 @@ Array [
                     <p
                       class=""
                     >
-                      Radio answer options can be set to be dynamic to use answers from a previous checkbox question. Note, if only one checkbox answer exists then the radio answer question is skipped.
+                      The dynamic option will use answers the respondant has chosen from a previous checkbox question. If only one checkbox answer was chosen then this question will be skipped.
                     </p>
                     <p
                       class=""
