@@ -11,7 +11,12 @@ import CustomPropTypes from "custom-prop-types";
 import DeleteButton from "components/buttons/DeleteButton";
 import Tooltip from "components/Forms/Tooltip";
 import MoveButton, { IconUp, IconDown } from "components/buttons/MoveButton";
-import { CHECKBOX, RADIO, MUTUALLY_EXCLUSIVE } from "constants/answer-types";
+import {
+  CHECKBOX,
+  RADIO,
+  MUTUALLY_EXCLUSIVE,
+  SELECT,
+} from "constants/answer-types";
 import DummyMultipleChoice from "../dummy/MultipleChoice";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import InlineField from "components/AnswerContent/Format/InlineField";
@@ -336,10 +341,12 @@ export const StatelessOption = ({
         {!option.dynamicAnswer && (
           <>
             <Flex>
-              <DummyMultipleChoice
-                type={type}
-                hasMultipleOptions={hasMultipleOptions}
-              />
+              {type !== SELECT && (
+                <DummyMultipleChoice
+                  type={type}
+                  hasMultipleOptions={hasMultipleOptions}
+                />
+              )}
               <OptionField>
                 <Label htmlFor={`option-label-${option.id}`}>
                   {label || "Label"}
@@ -359,24 +366,26 @@ export const StatelessOption = ({
                 />
               </OptionField>
             </Flex>
-            <OptionField>
-              <Label htmlFor={`option-description-${option.id}`}>
-                Description (optional)
-              </Label>
-              <WrappingInput
-                id={`option-description-${option.id}`}
-                name="description"
-                value={option.description}
-                placeholder={descriptionPlaceholder}
-                onChange={onChange}
-                onBlur={onUpdate}
-                onKeyDown={handleKeyDown}
-                data-test="option-description"
-              />
-            </OptionField>
+            {type !== SELECT && (
+              <OptionField>
+                <Label htmlFor={`option-description-${option.id}`}>
+                  Description (optional)
+                </Label>
+                <WrappingInput
+                  id={`option-description-${option.id}`}
+                  name="description"
+                  value={option.description}
+                  placeholder={descriptionPlaceholder}
+                  onChange={onChange}
+                  onBlur={onUpdate}
+                  onKeyDown={handleKeyDown}
+                  data-test="option-description"
+                />
+              </OptionField>
+            )}
           </>
         )}
-        {type === "Radio" && !option.additionalAnswer && (
+        {type === RADIO && !option.additionalAnswer && (
           <>
             <Flex>
               <CustomInlineField

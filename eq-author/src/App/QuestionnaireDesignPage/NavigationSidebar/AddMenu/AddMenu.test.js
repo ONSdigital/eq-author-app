@@ -8,9 +8,11 @@ const defaultProps = () => ({
   canAddCalculatedSummaryPage: true,
   canAddQuestionPage: true,
   canAddSection: true,
+  canAddIntroductionPage: true,
   onAddMenuToggle: jest.fn(),
   onAddQuestionPage: jest.fn(),
   onAddSection: jest.fn(),
+  onAddIntroductionPage: jest.fn(),
   onAddQuestionConfirmation: jest.fn(),
   onAddCalculatedSummaryPage: jest.fn(),
   onAddFolder: jest.fn(),
@@ -24,6 +26,7 @@ const defaultSetup = (newProps = {}) => {
   const addQuestion = "btn-add-question-page";
   const addQuestionInside = "btn-add-question-page-inside";
   const addSection = "btn-add-section";
+  const addIntroduction = "btn-add-introduction";
   const addConfirmation = "btn-add-question-confirmation";
   const addCalcSum = "btn-add-calculated-summary";
   const addCalcSumInside = "btn-add-calculated-summary-inside";
@@ -38,6 +41,7 @@ const defaultSetup = (newProps = {}) => {
     addQuestion,
     addQuestionInside,
     addSection,
+    addIntroduction,
     addConfirmation,
     addCalcSum,
     addCalcSumInside,
@@ -72,12 +76,23 @@ describe("AddMenu", () => {
     expect(onAddSection).toHaveBeenCalled();
   });
 
+  it("should allow an introduction page to be added", () => {
+    const { getByTestId, onAddIntroductionPage, addIntroduction } =
+      defaultSetup();
+    fireEvent.click(getByTestId(addIntroduction));
+    expect(onAddIntroductionPage).toHaveBeenCalled();
+  });
+
+  it("should disable the add introduction page button when you cannot add introduction", () => {
+    const { getByTestId, addIntroduction } = defaultSetup({
+      canAddIntroductionPage: false,
+    });
+    expect(getByTestId(addIntroduction)).toBeDisabled();
+  });
+
   it("should allow a question confirmation to be added", () => {
-    const {
-      getByTestId,
-      onAddQuestionConfirmation,
-      addConfirmation,
-    } = defaultSetup();
+    const { getByTestId, onAddQuestionConfirmation, addConfirmation } =
+      defaultSetup();
     fireEvent.click(getByTestId(addConfirmation));
     expect(onAddQuestionConfirmation).toHaveBeenCalled();
   });
@@ -90,11 +105,8 @@ describe("AddMenu", () => {
   });
 
   it("should allow a calculated summary to be added", () => {
-    const {
-      getByTestId,
-      onAddCalculatedSummaryPage,
-      addCalcSum,
-    } = defaultSetup();
+    const { getByTestId, onAddCalculatedSummaryPage, addCalcSum } =
+      defaultSetup();
     fireEvent.click(getByTestId(addCalcSum));
     expect(onAddCalculatedSummaryPage).toHaveBeenCalled();
   });
@@ -115,13 +127,10 @@ describe("AddMenu", () => {
   });
 
   it("should allow a calculated summary to be added inside a folder", () => {
-    const {
-      getByTestId,
-      onAddCalculatedSummaryPage,
-      addCalcSumInside,
-    } = defaultSetup({
-      isFolder: true,
-    });
+    const { getByTestId, onAddCalculatedSummaryPage, addCalcSumInside } =
+      defaultSetup({
+        isFolder: true,
+      });
     fireEvent.click(getByTestId(addCalcSumInside));
     expect(onAddCalculatedSummaryPage).toHaveBeenCalledWith(true);
   });

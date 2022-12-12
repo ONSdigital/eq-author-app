@@ -20,8 +20,6 @@ import Header from "components/EditorLayout/Header";
 import ScrollPane from "components/ScrollPane";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 
-import { BUSINESS } from "constants/questionnaire-types";
-
 const StyledPanel = styled.div`
   max-width: 97.5%;
   padding: 1.3em;
@@ -92,33 +90,8 @@ const PageContainer = styled.div`
   }
 `;
 
-const Pill = ({ children, testId }) => {
-  const Container = styled.div`
-    width: 4em;
-    padding: 0.5em 1em;
-    box-sizing: content-box;
-    background-color: ${colors.lightMediumGrey};
-    text-align: center;
-
-    p {
-      margin: 0;
-      font-weight: bold;
-    }
-  `;
-  return (
-    <Container>
-      <p data-test={testId}>{children}</p>
-    </Container>
-  );
-};
-
-Pill.propTypes = {
-  children: PropTypes.string.isRequired,
-  testId: PropTypes.string.isRequired,
-};
-
 const GeneralSettingsPage = ({ questionnaire }) => {
-  const { title, shortTitle, type, id, qcodes, hub, summary, introduction } =
+  const { title, shortTitle, id, qcodes, hub, summary, introduction } =
     questionnaire;
 
   const showOnHub = introduction?.showOnHub;
@@ -161,7 +134,6 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                 cols={2.5}
                 tabItems={tabItems({
                   params,
-                  type,
                   themeErrorCount: getThemeSettingsErrorCount(questionnaire),
                 })}
               />
@@ -200,11 +172,6 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                       />
                     </Field>
                     <HorizontalSeparator />
-                    <Field>
-                      <Label>Questionnaire type</Label>
-                      <Pill testId="questionnaire-type">{type}</Pill>
-                    </Field>
-                    <HorizontalSeparator />
                     <InlineField>
                       <Label htmlFor="toggle-qcodes">QCodes</Label>
                       <ToggleSwitch
@@ -227,31 +194,29 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                     </Caption>
                     <HorizontalSeparator />
                     <>
-                      {type === BUSINESS && (
-                        <EnableDisableWrapper
-                          data-test="toggle-hub-introduction-wrapper"
-                          disabled={!hub}
-                        >
-                          <InlineField disabled={!hub}>
-                            <Label htmlFor="toggle-hub-introduction">
-                              Show introduction page on hub
-                            </Label>
-                            <ToggleSwitch
-                              id="toggle-hub-introduction"
-                              name="toggle-hub-introduction"
-                              hideLabels={false}
-                              onChange={({ value }) =>
-                                updateQuestionnaireIntroduction({
-                                  variables: {
-                                    input: { showOnHub: value },
-                                  },
-                                })
-                              }
-                              checked={showOnHub}
-                            />
-                          </InlineField>
-                        </EnableDisableWrapper>
-                      )}
+                      <EnableDisableWrapper
+                        data-test="toggle-hub-introduction-wrapper"
+                        disabled={!introduction || !hub}
+                      >
+                        <InlineField disabled={!hub}>
+                          <Label htmlFor="toggle-hub-introduction">
+                            Show introduction page on hub
+                          </Label>
+                          <ToggleSwitch
+                            id="toggle-hub-introduction"
+                            name="toggle-hub-introduction"
+                            hideLabels={false}
+                            onChange={({ value }) =>
+                              updateQuestionnaireIntroduction({
+                                variables: {
+                                  input: { showOnHub: value },
+                                },
+                              })
+                            }
+                            checked={showOnHub}
+                          />
+                        </InlineField>
+                      </EnableDisableWrapper>
                     </>
                     <HorizontalSeparator />
                     <Label>Summary page</Label>

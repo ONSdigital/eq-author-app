@@ -542,6 +542,7 @@ enum AnswerType {
   TextField
   Unit
   MutuallyExclusive
+  Select
 }
 
 enum ThemeShortName {
@@ -716,6 +717,7 @@ type QuestionnaireIntroduction {
   tertiaryTitle: String!
   tertiaryDescription: String!
   previewQuestions: Boolean
+  questionnaire: Questionnaire
   validationErrorInfo: ValidationErrorInfo
   comments: [Comment]
 }
@@ -888,6 +890,9 @@ type Mutation {
   deleteSection(input: DeleteSectionInput!): Questionnaire
   moveSection(input: MoveSectionInput!): Questionnaire
   duplicateSection(input: DuplicateSectionInput!): Section
+
+  createIntroductionPage: QuestionnaireIntroduction
+  deleteIntroductionPage: Questionnaire
 
   createFolder(input: CreateFolderInput!): Folder
   updateFolder(input: UpdateFolderInput!): Folder

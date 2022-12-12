@@ -1,9 +1,9 @@
 // Delete questionnaire and page modal titles
 export const DELETE_QUESTIONNAIRE_TITLE = "Delete questionnaire";
 export const DELETE_QUESTION_PAGE_TITLE = "Delete question page";
+export const DELETE_INTRODUCTION_PAGE_TITLE = "Delete introduction page";
 export const DELETE_SECTION_TITLE = "Delete section";
 export const DELETE_FOLDER_TITLE = "Delete folder";
-export const DELETE_INTRODUCTION_PAGE_TITLE = "Delete introduction page";
 export const DELETE_CONFIRMATION_QUESTION_TITLE =
   "Delete confirmation question";
 export const DELETE_CALCULATED_SUMMARY_TITLE = "Delete calculated summary";

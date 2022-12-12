@@ -2710,3 +2710,944 @@ Array [
   </div>,
 ]
 `;
+
+exports[`radio should render a select 1`] = `
+Array [
+  .c1 {
+  display: block;
+  margin-bottom: 0.4em;
+  font-weight: bold;
+  vertical-align: middle;
+  color: #222222;
+  line-height: 1.3;
+}
+
+.c0 {
+  display: block;
+  margin-bottom: 1em;
+  position: relative;
+}
+
+.c2 {
+  font-weight: bold;
+}
+
+.c3 {
+  font-size: 1em;
+  border: thin solid #999999;
+  padding: 0.5em;
+  color: #222222;
+  display: block;
+  width: 100%;
+  -webkit-transition: outline-color 100ms ease-in,border-color 100ms ease-in;
+  transition: outline-color 100ms ease-in,border-color 100ms ease-in;
+  outline: thin solid transparent;
+  font-weight: inherit;
+  border-radius: 4px;
+  resize: none;
+  overflow: hidden;
+}
+
+.c3:hover {
+  border-color: #3B7A9E;
+  box-shadow: 0 0 0 1pt #3B7A9E;
+}
+
+.c3:focus,
+.c3:focus-within {
+  border-color: transparent;
+  outline: 3px solid #FDBD56;
+  box-shadow: 0 0 0 3px #FDBD56;
+}
+
+.c3::-webkit-input-placeholder {
+  color: #a3a3a3;
+}
+
+.c3::-moz-placeholder {
+  color: #a3a3a3;
+}
+
+.c3:-ms-input-placeholder {
+  color: #a3a3a3;
+}
+
+.c3::placeholder {
+  color: #a3a3a3;
+}
+
+.c3:focus {
+  outline: none;
+  border-style: solid;
+  border-color: #3B7A9E;
+}
+
+.c3[disabled] {
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+<div
+    class="c0"
+  >
+    <label
+      class="c1"
+      for="answer-label-ansID1"
+    >
+      Label
+    </label>
+    <div
+      class="c2"
+    >
+      <textarea
+        aria-invalid="false"
+        class="c3"
+        data-autofocus="true"
+        data-test="txt-answer-label"
+        id="answer-label-ansID1"
+        name="label"
+        placeholder=""
+      />
+    </div>
+  </div>,
+  .c1 {
+  display: block;
+  margin-bottom: 0.4em;
+  font-weight: bold;
+  vertical-align: middle;
+  color: #222222;
+  line-height: 1.3;
+}
+
+.c0 {
+  display: block;
+  margin-bottom: 1em;
+  position: relative;
+}
+
+.c2 {
+  font-weight: regular;
+}
+
+.c3 {
+  font-size: 1em;
+  border: thin solid #999999;
+  padding: 0.5em;
+  color: #222222;
+  display: block;
+  width: 100%;
+  -webkit-transition: outline-color 100ms ease-in,border-color 100ms ease-in;
+  transition: outline-color 100ms ease-in,border-color 100ms ease-in;
+  outline: thin solid transparent;
+  font-weight: inherit;
+  border-radius: 4px;
+  resize: none;
+  overflow: hidden;
+}
+
+.c3:hover {
+  border-color: #3B7A9E;
+  box-shadow: 0 0 0 1pt #3B7A9E;
+}
+
+.c3:focus,
+.c3:focus-within {
+  border-color: transparent;
+  outline: 3px solid #FDBD56;
+  box-shadow: 0 0 0 3px #FDBD56;
+}
+
+.c3::-webkit-input-placeholder {
+  color: #a3a3a3;
+}
+
+.c3::-moz-placeholder {
+  color: #a3a3a3;
+}
+
+.c3:-ms-input-placeholder {
+  color: #a3a3a3;
+}
+
+.c3::placeholder {
+  color: #a3a3a3;
+}
+
+.c3:focus {
+  outline: none;
+  border-style: solid;
+  border-color: #3B7A9E;
+}
+
+.c3[disabled] {
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+<div
+    class="c0"
+  >
+    <label
+      class="c1"
+      for="answer-description-ansID1"
+    >
+      Description (optional)
+    </label>
+    <div
+      class="c2"
+    >
+      <textarea
+        aria-invalid="false"
+        class="c3"
+        cols="30"
+        data-test="txt-answer-description"
+        id="answer-description-ansID1"
+        name="description"
+        rows="5"
+      >
+        Radio description
+      </textarea>
+    </div>
+  </div>,
+  .c2 {
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: bold;
+  vertical-align: middle;
+  color: #222222;
+  line-height: 1.3;
+}
+
+.c6 {
+  font-size: 1em;
+  border: thin solid #999999;
+  padding: 0.5em;
+  color: #222222;
+  display: block;
+  width: 100%;
+  -webkit-transition: outline-color 100ms ease-in,border-color 100ms ease-in;
+  transition: outline-color 100ms ease-in,border-color 100ms ease-in;
+  outline: thin solid transparent;
+  display: inline-block;
+  width: 1.1em;
+  height: 1.1em;
+  padding: 0;
+  margin: 0 1em 0 0;
+  vertical-align: middle;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  font-size: 1em;
+}
+
+.c6:hover {
+  border-color: #3B7A9E;
+  box-shadow: 0 0 0 1pt #3B7A9E;
+}
+
+.c6:focus,
+.c6:focus-within {
+  border-color: transparent;
+  outline: 3px solid #FDBD56;
+  box-shadow: 0 0 0 3px #FDBD56;
+}
+
+.c6::-webkit-input-placeholder {
+  color: #a3a3a3;
+}
+
+.c6::-moz-placeholder {
+  color: #a3a3a3;
+}
+
+.c6:-ms-input-placeholder {
+  color: #a3a3a3;
+}
+
+.c6::placeholder {
+  color: #a3a3a3;
+}
+
+.c6:focus {
+  outline: none;
+  border-style: solid;
+  border-color: #3B7A9E;
+}
+
+.c6[disabled] {
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.c6:checked {
+  background: url(SvgrURL) no-repeat center;
+  background-size: 0.8em auto;
+}
+
+.c0 {
+  display: block;
+  margin-bottom: 1em;
+  position: relative;
+}
+
+.c9 {
+  height: 1em;
+  width: 1.5em;
+  top: 0.6000000000000001em;
+  background: #FFFFFF;
+  border-radius: 2em;
+  position: absolute;
+  border: 1px solid #666666;
+  -webkit-transition: background 100ms ease-out,border-color 100ms ease-in;
+  transition: background 100ms ease-out,border-color 100ms ease-in;
+  outline: 1px solid transparent;
+  cursor: pointer;
+}
+
+.c9:hover {
+  border-color: #3B7A9E;
+}
+
+.c10 {
+  display: inline-block;
+  height: 1em;
+  width: 1em;
+  background: #FFFFFF;
+  top: calc(42% - 1em / 2);
+  left: calc(32% - 1em / 2);
+  position: relative;
+  will-change: transform;
+  -webkit-transform: translateX( 0em );
+  -ms-transform: translateX( 0em );
+  transform: translateX( 0em );
+  border-radius: 50%;
+  -webkit-transition: -webkit-transform 100ms ease-in-out;
+  -webkit-transition: transform 100ms ease-in-out;
+  transition: transform 100ms ease-in-out;
+  border: inherit;
+}
+
+.c7 {
+  opacity: 0;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  cursor: pointer;
+}
+
+.c7:focus + .c8 {
+  box-shadow: 0 0 0 2px #FDBD56;
+}
+
+.c7:hover + .c8 {
+  border-color: #3B7A9E;
+}
+
+.c5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 2.2em;
+  width: 2em;
+  position: relative;
+}
+
+.c4 {
+  padding: 0 1em;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  color: #222222;
+  font-weight: 600;
+}
+
+.c4:first-of-type {
+  padding-right: 0.5em;
+}
+
+.c4:last-of-type {
+  padding-left: 0.5em;
+}
+
+.c11 {
+  padding: 0 1em;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  color: #999999;
+  font-weight: 600;
+}
+
+.c11:first-of-type {
+  padding-right: 0.5em;
+}
+
+.c11:last-of-type {
+  padding-left: 0.5em;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 0.2em;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c3 {
+  margin-right: 0.2em;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+<div
+    class="c0 c1"
+  >
+    <label
+      class="c2 c3"
+      for="ansID1"
+    >
+      Answer required
+    </label>
+    <div
+      checked=""
+      class="c4"
+    >
+      Off
+    </div>
+    <div
+      aria-checked="false"
+      class="c5"
+      data-test="ansID1"
+      role="switch"
+    >
+      <input
+        aria-checked="false"
+        aria-label="Answer required"
+        class="c6 c7"
+        data-test="ansID1-input"
+        id="ansID1"
+        name="ansID1"
+        role="checkbox"
+        type="checkbox"
+      />
+      <div
+        class="c8 c9"
+        role="presentation"
+      >
+        <div
+          class="c10"
+        />
+      </div>
+    </div>
+    <div
+      class="c11"
+    >
+      On
+    </div>
+  </div>,
+  .c0 {
+  margin: 0;
+}
+
+.c1 {
+  margin: 0;
+}
+
+.c2 {
+  vertical-align: middle;
+  text-align: left;
+  margin: 0;
+  padding: 0.25em 0 0.5em;
+  font-size: inherit;
+}
+
+.c2 .c6 {
+  margin-left: 1em;
+}
+
+.c4 {
+  display: none;
+  margin-top: -1em;
+  border-left: 3px solid #d6d8da;
+  padding: 1em;
+}
+
+.c4 p {
+  margin-top: 0;
+}
+
+.c3 {
+  border: none;
+  font-size: 1em;
+  font-weight: bold;
+  margin: 0;
+  padding: 0.25em 0.25em 0.25em 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+  background: transparent;
+  cursor: pointer;
+  color: #3B7A9E;
+  -webkit-text-decoration: underline;
+  text-decoration: underline;
+  margin-left: 0;
+}
+
+.c3:focus {
+  outline: 2px solid #FDBD56;
+}
+
+.c3::before {
+  content: "";
+  background-color: #3B7A9E;
+  -webkit-mask: url(SvgrURL);
+  mask: url(SvgrURL);
+  width: 1.5em;
+  height: 1.5em;
+  margin-top: 0.2em;
+  margin-left: -0.5em;
+}
+
+.c3:hover {
+  color: #003c57;
+}
+
+.c3:hover::before {
+  background-color: #003c57;
+}
+
+.c5 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  padding: 0.75em 2em;
+  border-radius: 4px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  line-height: 1;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  -webkit-transition: all 100ms ease-out;
+  transition: all 100ms ease-out;
+  -webkit-letter-spacing: 0;
+  -moz-letter-spacing: 0;
+  -ms-letter-spacing: 0;
+  letter-spacing: 0;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-bg);
+  --color-text: #FFFFFF;
+  --color-bg: #3B7A9E;
+  position: relative;
+  border: none;
+  padding: 0.4em 0.8em;
+  color: black;
+  background-color: #d6d8da;
+  font-weight: normal;
+}
+
+.c5[disabled] {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.c5:focus-within {
+  border-color: transparent;
+  outline: 3px solid #FDBD56;
+  box-shadow: 0 0 0 3px #FDBD56;
+}
+
+.c5:hover {
+  --color-text: #FFFFFF;
+  --color-bg: #2d5d79;
+  border-color: var(--color-bg);
+}
+
+.c5:hover {
+  background-color: #999999;
+}
+
+.c5:focus {
+  border-color: transparent;
+  outline: 3px solid #FDBD56;
+  box-shadow: 0 0 0 3px #FDBD56;
+}
+
+<div
+    class="c0"
+    data-test="collapsible"
+  >
+    <div
+      class="c1 collapsible-header"
+      data-test="collapsible-header"
+    >
+      <h2
+        class="c2 collapsible-title"
+        data-test="collapsible-title"
+      >
+        <button
+          aria-controls="collapsible-body"
+          class="c3 collapsible-toggle-Collapsible-Button"
+          data-test="collapsible-toggle-button"
+        >
+          Why is there a minimum requirement of 25 labels?
+        </button>
+      </h2>
+    </div>
+    <div
+      aria-hidden="true"
+      class="c4 collapsible-body"
+      data-test="collapsible-body"
+    >
+      <p
+        class=""
+      >
+        In accordance with usability considerations, the select answer type should only be used for long lists of 25 items or more.
+      </p>
+      <p
+        class=""
+      >
+        For shorter lists of less than 25 items, the radio answer type should be used.
+      </p>
+      <button
+        class="c5"
+        data-test="collapsible-hide-button"
+        type="button"
+      >
+        Hide this
+      </button>
+    </div>
+  </div>,
+  .c9 {
+  display: block;
+  margin-bottom: 0.4em;
+  font-weight: bold;
+  vertical-align: middle;
+  color: #222222;
+  line-height: 1.3;
+}
+
+.c7 {
+  display: block;
+  margin-bottom: 1em;
+  position: relative;
+}
+
+.c10 {
+  font-weight: bold;
+}
+
+.c11 {
+  font-size: 1em;
+  border: thin solid #999999;
+  padding: 0.5em;
+  color: #222222;
+  display: block;
+  width: 100%;
+  -webkit-transition: outline-color 100ms ease-in,border-color 100ms ease-in;
+  transition: outline-color 100ms ease-in,border-color 100ms ease-in;
+  outline: thin solid transparent;
+  font-weight: inherit;
+  border-radius: 4px;
+  resize: none;
+  overflow: hidden;
+}
+
+.c11:hover {
+  border-color: #3B7A9E;
+  box-shadow: 0 0 0 1pt #3B7A9E;
+}
+
+.c11:focus,
+.c11:focus-within {
+  border-color: transparent;
+  outline: 3px solid #FDBD56;
+  box-shadow: 0 0 0 3px #FDBD56;
+}
+
+.c11::-webkit-input-placeholder {
+  color: #a3a3a3;
+}
+
+.c11::-moz-placeholder {
+  color: #a3a3a3;
+}
+
+.c11:-ms-input-placeholder {
+  color: #a3a3a3;
+}
+
+.c11::placeholder {
+  color: #a3a3a3;
+}
+
+.c11:focus {
+  outline: none;
+  border-style: solid;
+  border-color: #3B7A9E;
+}
+
+.c11[disabled] {
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.c5 {
+  position: absolute;
+  left: 10px;
+  top: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  z-index: 2;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  margin-top: 1.5em;
+}
+
+.c8 {
+  margin-bottom: 1.5em;
+}
+
+.c4 {
+  border: 1px solid #d6d8da;
+  padding: 1em 1em 0;
+  border-radius: 4px;
+  position: relative;
+  margin-bottom: 1em;
+}
+
+.c3 {
+  position: relative;
+}
+
+.c3.option-enter {
+  opacity: 0;
+  -webkit-transform: scale(0.9);
+  -ms-transform: scale(0.9);
+  transform: scale(0.9);
+  z-index: 200;
+}
+
+.c3.option-enter-active {
+  opacity: 1;
+  -webkit-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+  -webkit-transition: opacity 200ms ease-out,-webkit-transform 200ms cubic-bezier(0.175,0.885,0.32,1.275);
+  -webkit-transition: opacity 200ms ease-out,transform 200ms cubic-bezier(0.175,0.885,0.32,1.275);
+  transition: opacity 200ms ease-out,transform 200ms cubic-bezier(0.175,0.885,0.32,1.275);
+}
+
+.c3.option-exit {
+  opacity: 1;
+  -webkit-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+}
+
+.c3.option-exit-active {
+  opacity: 0;
+  height: 0 !important;
+  -webkit-transform: scale(0.9);
+  -ms-transform: scale(0.9);
+  transform: scale(0.9);
+  -webkit-transition: opacity 100ms ease-out,height 100ms ease-in 100ms,-webkit-transform 100ms ease-in;
+  -webkit-transition: opacity 100ms ease-out,height 100ms ease-in 100ms,transform 100ms ease-in;
+  transition: opacity 100ms ease-out,height 100ms ease-in 100ms,transform 100ms ease-in;
+}
+
+.c2 {
+  -webkit-transform-origin: 50% 50%;
+  -ms-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+}
+
+.c0 {
+  margin: 1em 0 0;
+  width: 85%;
+}
+
+.c1 {
+  margin: 0 0 1em;
+}
+
+.c12 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  padding: 0.75em 2em;
+  border-radius: 4px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  line-height: 1;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  -webkit-transition: all 100ms ease-out;
+  transition: all 100ms ease-out;
+  -webkit-letter-spacing: 0;
+  -moz-letter-spacing: 0;
+  -ms-letter-spacing: 0;
+  letter-spacing: 0;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-bg);
+  --color-text: #3B7A9E;
+  --color-bg: #FFFFFF;
+  border: 1px solid var(--color-text);
+  width: 100%;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.c12[disabled] {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.c12:focus-within {
+  border-color: transparent;
+  outline: 3px solid #FDBD56;
+  box-shadow: 0 0 0 3px #FDBD56;
+}
+
+.c12:hover {
+  --color-text: #FFFFFF;
+  --color-bg: #3B7A9E;
+  border-color: var(--color-bg);
+}
+
+<div
+    class="c0"
+  >
+    <div
+      class="c1"
+      data-test="multiple-choice-options"
+    >
+      <div>
+        <div
+          class="c2 c3"
+        >
+          <div
+            class="c4"
+          >
+            <div>
+              <div
+                class="c5"
+              />
+              <div
+                class="c6"
+              >
+                <div
+                  class="c7 c8"
+                >
+                  <label
+                    class="c9"
+                    for="option-label-1"
+                  >
+                    Label 1
+                  </label>
+                  <div
+                    class="c10"
+                  >
+                    <textarea
+                      aria-invalid="false"
+                      class="c11"
+                      data-autofocus="true"
+                      data-test="option-label"
+                      id="option-label-1"
+                      invalid=""
+                      name="label"
+                      placeholder=""
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button
+        class="c12"
+        type="button"
+      >
+        Add another option
+      </button>
+    </div>
+  </div>,
+]
+`;
