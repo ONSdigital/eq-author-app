@@ -841,7 +841,7 @@ const Resolvers = {
         const optionsToDelete = [];
 
         answer.options.forEach((tmpOption) => {
-          if (!tmpOption.dynamicAnswer) {
+          if (!tmpOption.dynamicAnswer && !tmpOption.label) {
             optionsToDelete.push(tmpOption);
           }
         });
