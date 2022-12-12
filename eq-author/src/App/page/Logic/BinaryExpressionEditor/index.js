@@ -12,6 +12,7 @@ import {
   PERCENTAGE,
   UNIT,
   CHECKBOX,
+  SELECT,
 } from "constants/answer-types";
 
 import { TEXT, TEXT_OPTIONAL } from "constants/metadata-types";
@@ -105,6 +106,7 @@ const ANSWER_PICKER_ERROR_SITUATIONS = [
 
 const ANSWER_TYPE_TO_RIGHT_EDITOR = {
   [RADIO]: MultipleChoiceAnswerOptionsSelector,
+  [SELECT]: MultipleChoiceAnswerOptionsSelector,
   [CHECKBOX]: MultipleChoiceAnswerOptionsSelector,
   [NUMBER]: NumberAnswerSelector,
   [PERCENTAGE]: NumberAnswerSelector,
