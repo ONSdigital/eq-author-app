@@ -837,6 +837,31 @@ const Resolvers = {
       }
       merge(option, input);
 
+      if (option.dynamicAnswer && answer.options.length > 1) {
+        const optionsToDelete = [];
+
+        answer.options.forEach((tmpOption) => {
+          if (!tmpOption.dynamicAnswer) {
+            optionsToDelete.push(tmpOption);
+          }
+        });
+
+        optionsToDelete.forEach((tmpOption) => {
+          const removedOption = first(
+            remove(answer.options, { id: tmpOption.id })
+          );
+
+          getExpressions(ctx).forEach((expression) => {
+            if (expression.right && expression.right.optionIds) {
+              remove(
+                expression.right.optionIds,
+                (value) => value === removedOption.id
+              );
+            }
+          });
+        });
+      }
+
       return option;
     }),
     deleteOption: createMutation((_, { input }, ctx) => {

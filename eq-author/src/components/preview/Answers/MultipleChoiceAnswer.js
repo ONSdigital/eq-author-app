@@ -133,7 +133,7 @@ export const Option = ({ option, type, answer, answerOptions }) => (
     />
     <OptionLabel>
       {option.dynamicAnswer
-        ? "Dynamic optionPREVIEW"
+        ? "Dynamic options"
         : option.label || "Missing label"}
       {option.description && (
         <OptionDescription>{option.description}</OptionDescription>

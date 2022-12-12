@@ -37,6 +37,9 @@ import Modal from "components-themed/Modal/modal";
 import {
   DELETE_BUTTON_TEXT,
   DELETE_OPTION_TITLE,
+  CONFIRM_DYNAMIC_OPTION_TITLE,
+  CONFIRM_DYNAMIC_OPTION_WARNING,
+  CONFIRM_BUTTON_TEXT,
 } from "constants/modal-content";
 
 const ENTER_KEY = 13;
@@ -81,8 +84,6 @@ const CustomInlineField = styled(InlineField)`
 
 const CollapsibleContent = styled.p``;
 
-var NonDynamicOptions = [];
-
 StyledOption.defaultProps = {
   duration: 200,
 };
@@ -115,6 +116,7 @@ export const StatelessOption = ({
     option?.additionalAnswer?.label ?? ""
   );
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showConfirmDynamicModal, setShowConfirmDynamicModal] = useState(false);
   const [updateOption] = useMutation(UPDATE_OPTION_MUTATION);
   const { questionnaire } = useQuestionnaire();
   const id = useCurrentPageId();
@@ -298,9 +300,6 @@ export const StatelessOption = ({
     ) && ADDITIONAL_LABEL_MISSING;
 
   const onUpdateFormat = (value) => {
-    console.log("answer", answer);
-    console.log("options", answer.options);
-
     updateOption({
       variables: {
         input: {
@@ -310,6 +309,7 @@ export const StatelessOption = ({
         },
       },
     });
+    setShowConfirmDynamicModal(false);
   };
 
   const handlePickerSubmit = (item) => {
@@ -382,18 +382,32 @@ export const StatelessOption = ({
               <CustomInlineField
                 id={`dynamic-option-toggle-switch-${option.id}`}
                 name="Dynamic Option"
-                label="Dynamic OptionXXX"
+                label="Dynamic Option"
                 disabled={
                   !option.dynamicAnswer &&
                   (checkDynamicOption() || getCheckboxAnswers().length === 0)
                 }
               >
+                <Modal
+                  title={CONFIRM_DYNAMIC_OPTION_TITLE}
+                  warningMessage={CONFIRM_DYNAMIC_OPTION_WARNING}
+                  positiveButtonText={CONFIRM_BUTTON_TEXT}
+                  isOpen={showConfirmDynamicModal}
+                  onConfirm={() => {
+                    onUpdateFormat(!option.dynamicAnswer);
+                  }}
+                  onClose={() => setShowConfirmDynamicModal(false)}
+                />
                 <ToggleSwitch
                   id={`dynamic-option-toggle-switch-${option.id}`}
                   name="Dynamic Option"
-                  onChange={() => {
-                    onUpdateFormat(!option.dynamicAnswer);
-                  }}
+                  onChange={
+                    (!option.dynamicAnswer &&
+                      (() => setShowConfirmDynamicModal(true))) ||
+                    (() => {
+                      onUpdateFormat(!option.dynamicAnswer);
+                    })
+                  }
                   checked={option.dynamicAnswer || false}
                   hideLabels={false}
                   ariaLabel="Dynamic Option"
@@ -425,9 +439,9 @@ export const StatelessOption = ({
                 key={`dynamic-answer-collapsible${option.id}`}
               >
                 <CollapsibleContent>
-                  Radio answer options can be set to be dynamic to use answers
-                  from a previous checkbox question. Note, if only one checkbox
-                  answer exists then the radio answer question is skipped.
+                  The dynamic option will use answers the respondant has chosen
+                  from a previous checkbox question. If only one checkbox answer
+                  was chosen then this question will be skipped.
                 </CollapsibleContent>
                 <CollapsibleContent>
                   Question titles can include piped dynamic option answers.

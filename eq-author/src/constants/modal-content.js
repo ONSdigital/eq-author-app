@@ -34,3 +34,9 @@ export const DELETE_FOLDER_WARNING =
 
 // Delete button text
 export const DELETE_BUTTON_TEXT = "Delete";
+
+// Confirm button text
+export const CONFIRM_DYNAMIC_OPTION_TITLE = "Dynamic Option Confirmation";
+export const CONFIRM_DYNAMIC_OPTION_WARNING =
+  "All other radio options on this answer type will be deleted if dynamic option is switched on";
+export const CONFIRM_BUTTON_TEXT = "Confirm";
