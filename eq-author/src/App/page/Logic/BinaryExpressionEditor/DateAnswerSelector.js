@@ -198,7 +198,7 @@ class DateAnswerSelector extends React.Component {
             onChange={this.handleRightOffsetDirectionChange}
             onUpdate={this.handleRightBlur}
             name="right-condition-select"
-            value={expression.right.offsetDirection}
+            value={this.state.offsetDirection}
             data-test="right-condition-selector"
           >
             <option>Before</option>
