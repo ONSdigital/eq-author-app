@@ -163,6 +163,11 @@
                     "type": "number",
                     "nullable": false,
                     "errorMessage": "ERR_RIGHTSIDE_NO_VALUE"
+                  },
+                  "offsetDirection": {
+                    "type": "string",
+                    "nullable": false,
+                    "errorMessage": "ERR_RIGHTSIDE_NO_CONDITION"
                   }
                 }
               }

@@ -27,6 +27,7 @@ export const ConditionSelector = styled(Select)`
   display: flex;
   position: relative;
   margin-right: 1em;
+  max-width: 15em;
 `;
 
 const Value = styled.div`
@@ -132,6 +133,14 @@ class DateAnswerSelector extends React.Component {
       message = rightSideErrors.ERR_RIGHTSIDE_NO_VALUE.message;
     }
 
+    if (
+      some(expression.validationErrorInfo.errors, {
+        errorCode: rightSideErrors.ERR_RIGHTSIDE_NO_CONDITION.errorCode,
+      })
+    ) {
+      message = rightSideErrors.ERR_RIGHTSIDE_NO_CONDITION.message;
+    }
+
     return <ValidationError>{message || groupErrorMessage}</ValidationError>;
   };
 
@@ -197,6 +206,7 @@ class DateAnswerSelector extends React.Component {
                 onChange={this.handleOffsetDirectionChange}
                 name="right-condition-select"
                 data-test="right-condition-selector"
+                value={this.state.offsetDirection}
               >
                 {(!expression.right || !expression.right.offsetDirection) && (
                   <option value={conditions.SELECT}>Select an operator</option>
