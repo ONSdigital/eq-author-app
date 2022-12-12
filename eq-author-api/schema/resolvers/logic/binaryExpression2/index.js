@@ -205,6 +205,7 @@ Resolvers.Mutation = {
       };
 
       expression.left = updatedLeftSide;
+      expression.left.metadataId = "";
       expression.right = getRightSide;
       expression.condition = answerTypeToConditions.getDefault(answer.type);
 
@@ -223,6 +224,7 @@ Resolvers.Mutation = {
       };
 
       expression.left = updatedLeftSide;
+      expression.left.answerId = "";
       expression.right = getRightSide;
       expression.condition = "Matches";
 
