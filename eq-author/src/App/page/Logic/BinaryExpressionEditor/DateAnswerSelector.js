@@ -30,6 +30,15 @@ export const ConditionSelector = styled(Select)`
   max-width: 15em;
 `;
 
+export const OffsetSelector = styled(Select)`
+  width: ${(props) => (props.name === "left-condition-select" ? `7em` : `5em`)};
+  flex: 1 1 auto;
+  display: flex;
+  position: relative;
+  margin-right: 1em;
+  max-width: 15em;
+`;
+
 const Value = styled.div`
   flex: 1 1 auto;
   display: flex;
@@ -201,7 +210,7 @@ class DateAnswerSelector extends React.Component {
                   Operator
                 </Label>
               </VisuallyHidden>
-              <ConditionSelector
+              <OffsetSelector
                 id={`expression-condition-right-${expression.id}`}
                 onChange={this.handleOffsetDirectionChange}
                 name="right-condition-select"
@@ -213,7 +222,7 @@ class DateAnswerSelector extends React.Component {
                 )}
                 <option value={conditions.BEFORE}>Before</option>
                 <option value={conditions.AFTER}>After</option>
-              </ConditionSelector>
+              </OffsetSelector>
               <RuleText>response date</RuleText>
             </>
           )}

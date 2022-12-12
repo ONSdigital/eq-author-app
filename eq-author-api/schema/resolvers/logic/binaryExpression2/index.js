@@ -121,11 +121,9 @@ Resolvers.SelectedOptions2 = {
 
 Resolvers.DateValue = {
   offset: ({ dateValue: { offset } }) => {
-    console.log("offset :>> ", offset);
     return offset;
   },
   offsetDirection: ({ dateValue: { offsetDirection } }) => {
-    console.log("offsetDirection :>> ", offsetDirection);
     return offsetDirection;
   },
 };
