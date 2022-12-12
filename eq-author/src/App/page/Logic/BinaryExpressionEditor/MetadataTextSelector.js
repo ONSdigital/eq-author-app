@@ -1,9 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useMutation } from "@apollo/react-hooks";
 import styled from "styled-components";
 import { colors, radius } from "constants/theme.js";
 
 import WrappingInput from "components/Forms/WrappingInput";
+
+import UPDATE_RIGHT_SIDE from "graphql/updateRightSide.graphql";
 
 const RoutingSelectorContainer = styled.div`
   display: flex;
@@ -24,6 +27,9 @@ const RoutingSelectorContainer = styled.div`
 `;
 
 const MetadataTextSelector = ({ expression }) => {
+  const rightSideText = expression?.right?.text;
+  const [updateRightSide] = useMutation(UPDATE_RIGHT_SIDE);
+
   return (
     <RoutingSelectorContainer>
       <p>{expression.condition}</p>
@@ -31,8 +37,17 @@ const MetadataTextSelector = ({ expression }) => {
         id="metadata-match-input"
         name="label"
         data-test="metadata-match-input"
-        // onChange={onChange}
-        // onBlur={onUpdate}
+        value={rightSideText}
+        onChange={({ value }) =>
+          updateRightSide({
+            variables: {
+              input: {
+                expressionId: expression.id,
+                customValue: { text: value },
+              },
+            },
+          })
+        }
       />
     </RoutingSelectorContainer>
   );

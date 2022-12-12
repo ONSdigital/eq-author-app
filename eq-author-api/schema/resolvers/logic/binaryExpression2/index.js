@@ -118,6 +118,7 @@ Resolvers.RightSide2 = {
 
 Resolvers.CustomValue2 = {
   number: ({ customValue: { number } }) => number,
+  text: ({ customValue: { text } }) => text,
 };
 
 Resolvers.SelectedOptions2 = {

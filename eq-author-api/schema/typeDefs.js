@@ -655,6 +655,7 @@ union RightSide2 = SelectedOptions2 | CustomValue2
 
 type CustomValue2 {
   number: Int
+  text: String
 }
 
 type SelectedOptions2 {
@@ -1134,6 +1135,7 @@ input DeleteBinaryExpression2Input {
 
 input CustomRightSideInput {
   number: Int
+  text: String
 }
 
 input CreateQuestionnaireInput {
