@@ -81,9 +81,9 @@ class DateAnswerSelector extends React.Component {
     offsetDirection: get(this.props.expression, "right.offsetDirection", null),
   };
 
-  handleRightOffsetChange = ({ value }) => this.setState({ offset: value });
+  handleOffsetChange = ({ value }) => this.setState({ offset: value });
 
-  handleRightOffsetDirectionChange = ({ value }) => {
+  handleOffsetDirectionChange = ({ value }) => {
     this.setState({ offsetDirection: value });
     this.props.onRightChange({
       dateValue: {
@@ -178,7 +178,7 @@ class DateAnswerSelector extends React.Component {
                   placeholder="Value"
                   value={this.state.offset}
                   name={`expression-right-${expression.id}`}
-                  onChange={this.handleRightOffsetChange}
+                  onChange={this.handleOffsetChange}
                   onBlur={this.handleRightBlur}
                   data-test="number-value-input"
                   type="Number"
@@ -195,10 +195,8 @@ class DateAnswerSelector extends React.Component {
           </VisuallyHidden>
           <ConditionSelector
             id={`expression-condition-right-${expression.id}`}
-            onChange={this.handleRightOffsetDirectionChange}
-            onUpdate={this.handleRightBlur}
+            onChange={this.handleOffsetDirectionChange}
             name="right-condition-select"
-            value={this.state.offsetDirection}
             data-test="right-condition-selector"
           >
             <option>Before</option>
