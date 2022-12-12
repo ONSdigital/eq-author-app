@@ -2941,6 +2941,7 @@ Array [
   -moz-appearance: none;
   appearance: none;
   font-size: 1em;
+  border-radius: 0.15em;
 }
 
 .c6:hover {
