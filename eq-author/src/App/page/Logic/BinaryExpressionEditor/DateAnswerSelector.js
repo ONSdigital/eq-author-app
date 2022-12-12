@@ -14,6 +14,7 @@ import {
 import ValidationError from "components/ValidationError";
 
 const conditions = {
+  SELECT: null,
   BEFORE: "Before",
   AFTER: "After",
   LESS_THAN: "LessThan",
@@ -88,7 +89,7 @@ class DateAnswerSelector extends React.Component {
     this.props.onRightChange({
       dateValue: {
         offset: this.state.offset,
-        offsetDirection: this.state.offsetDirection,
+        offsetDirection: value,
       },
     });
   };
@@ -186,23 +187,26 @@ class DateAnswerSelector extends React.Component {
                 />
               </Value>
               <RuleText>years</RuleText>
+              <VisuallyHidden>
+                <Label htmlFor={`expression-condition-right-${expression.id}`}>
+                  Operator
+                </Label>
+              </VisuallyHidden>
+              <ConditionSelector
+                id={`expression-condition-right-${expression.id}`}
+                onChange={this.handleOffsetDirectionChange}
+                name="right-condition-select"
+                data-test="right-condition-selector"
+              >
+                {(!expression.right || !expression.right.offsetDirection) && (
+                  <option value={conditions.SELECT}>Select an operator</option>
+                )}
+                <option value={conditions.BEFORE}>Before</option>
+                <option value={conditions.AFTER}>After</option>
+              </ConditionSelector>
+              <RuleText>response date</RuleText>
             </>
           )}
-          <VisuallyHidden>
-            <Label htmlFor={`expression-condition-right-${expression.id}`}>
-              Operator
-            </Label>
-          </VisuallyHidden>
-          <ConditionSelector
-            id={`expression-condition-right-${expression.id}`}
-            onChange={this.handleOffsetDirectionChange}
-            name="right-condition-select"
-            data-test="right-condition-selector"
-          >
-            <option>Before</option>
-            <option>After</option>
-          </ConditionSelector>
-          <RuleText>response date</RuleText>
         </DateAnswerRoutingSelector>
         {hasError && this.handleError()}
       </>
