@@ -26,13 +26,17 @@ const RoutingSelectorContainer = styled.div`
   `}
 `;
 
+const ConditionContent = styled.span`
+  margin-right: 1em;
+`;
+
 const MetadataTextSelector = ({ expression }) => {
   const rightSideText = expression?.right?.text;
   const [updateRightSide] = useMutation(UPDATE_RIGHT_SIDE);
 
   return (
     <RoutingSelectorContainer>
-      <p>{expression.condition}</p>
+      <ConditionContent>{expression.condition}</ConditionContent>
       <WrappingInput
         id="metadata-match-input"
         name="label"
