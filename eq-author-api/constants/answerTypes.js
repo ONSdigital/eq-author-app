@@ -10,6 +10,7 @@ const RADIO = "Radio";
 const CHECKBOX = "Checkbox";
 const DURATION = "Duration";
 const MUTUALLY_EXCLUSIVE = "MutuallyExclusive";
+const SELECT = "Select";
 
 const BASIC_ANSWERS = [NUMBER, CURRENCY, UNIT, DURATION, TEXTAREA, TEXTFIELD];
 const NON_RADIO_ANSWERS = [
@@ -36,4 +37,5 @@ module.exports = {
   BASIC_ANSWERS,
   MUTUALLY_EXCLUSIVE,
   NON_RADIO_ANSWERS,
+  SELECT,
 };

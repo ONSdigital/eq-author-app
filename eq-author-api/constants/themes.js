@@ -1,3 +1,4 @@
+// Add `social` if required in future
 const THEME_SHORT_NAMES = [
   "default",
   "northernireland",

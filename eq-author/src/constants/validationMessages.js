@@ -113,7 +113,8 @@ export const richTextEditorErrors = {
   },
 };
 
-export const contactDetailsErrors = {
+export const introductionErrors = {
+  TITLE_NOT_ENTERED: "Enter a title",
   PHONE_NOT_ENTERED: "Enter a phone number",
   EMAIL_NOT_ENTERED: "Enter an email address",
 };

@@ -20,7 +20,7 @@ import Button from "components/buttons/Button";
 
 import Section from "./Section";
 
-import PageIcon from "assets/icon-survey-intro.svg?inline";
+import IntroductionIcon from "assets/icon-introduction-page.svg?inline";
 import SubmissionIcon from "assets/icon-submission-page.svg?inline";
 
 import MOVE_PAGE_MUTATION from "graphql/movePage.graphql";
@@ -145,7 +145,7 @@ const NavigationSidebar = ({ questionnaire }) => {
                       questionnaire.introduction.id,
                       entityId
                     )}
-                    icon={PageIcon}
+                    icon={IntroductionIcon}
                     errorCount={
                       questionnaire.introduction.validationErrorInfo.totalCount
                     }

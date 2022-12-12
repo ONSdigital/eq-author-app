@@ -7,7 +7,6 @@ import Error from "components/Error";
 import GET_GENERAL_SETTINGS_QUERY from "graphql/getGeneralSettings.graphql";
 import GET_THEME_SETTINGS_QUERY from "graphql/getThemeSettings.graphql";
 import { buildSettingsPath } from "utils/UrlUtils";
-import { SOCIAL } from "constants/questionnaire-types";
 
 export default [
   <Route
@@ -59,10 +58,6 @@ export default [
 
           if (error) {
             return <Error>Error fetching questionnaire from database</Error>;
-          }
-
-          if (data.questionnaire.type === SOCIAL) {
-            return <Redirect to={buildSettingsPath(props.match.params)} />;
           }
 
           if (data) {
