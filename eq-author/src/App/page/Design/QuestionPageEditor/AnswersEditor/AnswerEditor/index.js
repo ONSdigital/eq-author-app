@@ -19,6 +19,7 @@ import {
   UNIT,
   DURATION,
   MUTUALLY_EXCLUSIVE,
+  SELECT,
 } from "constants/answer-types";
 import { unitConversion } from "constants/unit-types";
 import { durationConversion } from "constants/duration-types";
@@ -115,6 +116,11 @@ class AnswerEditor extends React.Component {
     if (type === RADIO) {
       return (
         <MultipleChoiceAnswer minOptions={2} type={type} {...this.props} />
+      );
+    }
+    if (type === SELECT) {
+      return (
+        <MultipleChoiceAnswer minOptions={25} type={type} {...this.props} />
       );
     }
     if (type === MUTUALLY_EXCLUSIVE) {
