@@ -15,7 +15,7 @@ const Button = styled.button`
   opacity: 1;
   transition: all 200ms ease-in-out;
   outline: none;
-  flex: 1 1 auto;
+  flex: 0 1 auto;
 
   order: ${(props) => props.order};
 

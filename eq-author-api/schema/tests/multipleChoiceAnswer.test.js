@@ -23,7 +23,7 @@ const {
 
 const { queryPage } = require("../../tests/utils/contextBuilder/page");
 
-const { RADIO, CHECKBOX } = require("../../constants/answerTypes");
+const { RADIO, CHECKBOX, SELECT } = require("../../constants/answerTypes");
 
 const getPage = get("sections[0].folders[0].pages[0]");
 const getAnswer = flow(getPage, get("answers[0]"));
@@ -110,6 +110,34 @@ describe("multiple choice answer", () => {
           id: createdAnswer.id,
         },
         additionalAnswer: null,
+      });
+    });
+
+    it("should create a select answer with 25 options", async () => {
+      ctx = await buildContext({
+        sections: [
+          {
+            folders: [
+              {
+                pages: [{}],
+              },
+            ],
+          },
+        ],
+      });
+      const questionnaire = ctx.questionnaire;
+
+      const createdAnswer = await createAnswer(ctx, {
+        type: SELECT,
+        questionPageId: getPage(questionnaire).id,
+      });
+
+      expect(createdAnswer.options).toHaveLength(25);
+      expect(createdAnswer.mutuallyExclusiveOption).toBeNull();
+      expect(createdAnswer.options[0]).toMatchObject({
+        id: expect.any(String),
+        label: "",
+        qCode: "",
       });
     });
   });

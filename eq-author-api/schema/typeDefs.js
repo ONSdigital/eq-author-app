@@ -542,6 +542,7 @@ enum AnswerType {
   TextField
   Unit
   MutuallyExclusive
+  Select
 }
 
 enum ThemeShortName {

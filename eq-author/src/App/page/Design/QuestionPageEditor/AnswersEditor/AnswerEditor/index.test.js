@@ -15,6 +15,7 @@ import {
   PERCENTAGE,
   UNIT,
   DURATION,
+  SELECT,
   MUTUALLY_EXCLUSIVE,
 } from "constants/answer-types";
 
@@ -133,6 +134,14 @@ describe("Answer Editor", () => {
         ...mockMultipleChoiceAnswer,
         type: RADIO,
       },
+      ...mockMutations,
+    });
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it("should render Select", () => {
+    const wrapper = createWrapper({
+      answer: { ...mockMultipleChoiceAnswer, type: SELECT },
       ...mockMutations,
     });
     expect(wrapper).toMatchSnapshot();

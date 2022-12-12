@@ -2,7 +2,12 @@ import React from "react";
 
 import { UnwrappedMultipleChoiceAnswer } from "./";
 import { render } from "enzyme";
-import { CHECKBOX, RADIO, MUTUALLY_EXCLUSIVE } from "constants/answer-types";
+import {
+  CHECKBOX,
+  RADIO,
+  SELECT,
+  MUTUALLY_EXCLUSIVE,
+} from "constants/answer-types";
 import createMockStore from "tests/utils/createMockStore";
 import suppressConsoleMessage from "tests/utils/supressConsol";
 
@@ -83,6 +88,12 @@ describe("radio", () => {
   it("should render a checkbox", () => {
     props.answer.type = CHECKBOX;
     props.type = CHECKBOX;
+    expect(createMultipleChoice(props)).toMatchSnapshot();
+  });
+
+  it("should render a select", () => {
+    props.answer.type = SELECT;
+    props.type = SELECT;
     expect(createMultipleChoice(props)).toMatchSnapshot();
   });
 
