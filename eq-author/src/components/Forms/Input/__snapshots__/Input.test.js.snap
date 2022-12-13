@@ -2,6 +2,7 @@
 
 exports[`components/Forms/Input Text should render correctly 1`] = `
 .c0 {
+  border-radius: 4px;
   font-size: 1em;
   border: thin solid #999999;
   padding: 0.5em;
@@ -11,7 +12,6 @@ exports[`components/Forms/Input Text should render correctly 1`] = `
   -webkit-transition: outline-color 100ms ease-in,border-color 100ms ease-in;
   transition: outline-color 100ms ease-in,border-color 100ms ease-in;
   outline: thin solid transparent;
-  border-radius: 0.15em;
 }
 
 .c0:hover {
@@ -82,6 +82,9 @@ exports[`components/Forms/Input Text should render correctly 1`] = `
               "isStatic": false,
               "lastClassName": "c0",
               "rules": Array [
+                "border-radius:",
+                "4px",
+                ";",
                 "font-size:1em;border:thin solid ",
                 "#999999",
                 ";padding:0.5em;color:",
@@ -105,7 +108,7 @@ exports[`components/Forms/Input Text should render correctly 1`] = `
                 [Function],
                 ";",
                 [Function],
-                ";border-radius:0.15em;",
+                ";",
               ],
             },
             "displayName": "Input__StyledInput",

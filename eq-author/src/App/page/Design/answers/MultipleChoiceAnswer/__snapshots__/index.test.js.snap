@@ -109,6 +109,7 @@ Array [
 }
 
 .c6 {
+  border-radius: 4px;
   font-size: 1em;
   border: thin solid #999999;
   padding: 0.5em;
@@ -128,7 +129,6 @@ Array [
   -moz-appearance: none;
   appearance: none;
   font-size: 1em;
-  border-radius: 0.15em;
 }
 
 .c6:hover {
@@ -1490,6 +1490,7 @@ Array [
 }
 
 .c6 {
+  border-radius: 4px;
   font-size: 1em;
   border: thin solid #999999;
   padding: 0.5em;
@@ -1509,7 +1510,6 @@ Array [
   -moz-appearance: none;
   appearance: none;
   font-size: 1em;
-  border-radius: 0.15em;
 }
 
 .c6:hover {
@@ -1762,6 +1762,7 @@ Array [
 }
 
 .c21 {
+  border-radius: 4px;
   font-size: 1em;
   border: thin solid #999999;
   padding: 0.5em;
@@ -1781,7 +1782,6 @@ Array [
   -moz-appearance: none;
   appearance: none;
   font-size: 1em;
-  border-radius: 0.15em;
 }
 
 .c21:hover {
@@ -2922,6 +2922,7 @@ Array [
 }
 
 .c6 {
+  border-radius: 4px;
   font-size: 1em;
   border: thin solid #999999;
   padding: 0.5em;
@@ -2941,7 +2942,6 @@ Array [
   -moz-appearance: none;
   appearance: none;
   font-size: 1em;
-  border-radius: 0.15em;
 }
 
 .c6:hover {
