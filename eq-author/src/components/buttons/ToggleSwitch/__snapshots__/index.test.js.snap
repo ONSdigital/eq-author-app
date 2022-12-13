@@ -27,7 +27,6 @@ exports[`ToggleSwitch should render 1`] = `
     Off
   </div>
   .c1 {
-  border-radius: 4px;
   font-size: 1em;
   border: thin solid #999999;
   padding: 0.5em;
@@ -243,7 +242,6 @@ exports[`ToggleSwitch should render a large toggle button 1`] = `
     Off
   </div>
   .c1 {
-  border-radius: 4px;
   font-size: 1em;
   border: thin solid #999999;
   padding: 0.5em;

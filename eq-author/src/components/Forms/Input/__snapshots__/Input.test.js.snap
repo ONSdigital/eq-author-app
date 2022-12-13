@@ -2,7 +2,6 @@
 
 exports[`components/Forms/Input Text should render correctly 1`] = `
 .c0 {
-  border-radius: 4px;
   font-size: 1em;
   border: thin solid #999999;
   padding: 0.5em;
@@ -82,9 +81,6 @@ exports[`components/Forms/Input Text should render correctly 1`] = `
               "isStatic": false,
               "lastClassName": "c0",
               "rules": Array [
-                "border-radius:",
-                "4px",
-                ";",
                 "font-size:1em;border:thin solid ",
                 "#999999",
                 ";padding:0.5em;color:",
