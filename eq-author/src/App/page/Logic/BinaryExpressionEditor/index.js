@@ -61,7 +61,6 @@ import {
   DELETE_LOGIC_CONDITION_TITLE,
   DELETE_BUTTON_TEXT,
 } from "constants/modal-content";
-// import { DATE } from "../../../../../../eq-author-api/constants/answerTypes";
 
 const ANSWER_PICKER_ERROR_SITUATIONS = [
   {

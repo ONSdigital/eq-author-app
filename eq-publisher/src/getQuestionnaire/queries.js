@@ -77,12 +77,7 @@ exports.getQuestionnaire = `
               id
               label
             }
-          }
-          ... on OffsetDate {
-            date {
-              years
-            }
-          }          
+          }      
         }
       }
     }
