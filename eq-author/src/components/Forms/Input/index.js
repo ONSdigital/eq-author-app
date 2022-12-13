@@ -5,7 +5,7 @@ import { sharedStyles } from "components/Forms/css";
 import iconCheckbox from "assets/icon-checkbox.svg";
 import withChangeHandler from "components/Forms/withChangeHandler";
 
-import { colors } from "constants/theme";
+import { colors, radius } from "constants/theme";
 
 const multipleChoiceOption = css`
   display: inline-block;
@@ -69,10 +69,10 @@ const radioButton = css`
 `;
 
 const StyledInput = styled.input`
+  border-radius: ${radius};
   ${sharedStyles};
   ${(props) => props.type === "checkbox" && checkBox};
   ${(props) => props.type === "radio" && radioButton};
-  border-radius: 0.15em;
 `;
 
 export const UncontrolledInput = (props) => {
