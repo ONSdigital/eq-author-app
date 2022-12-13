@@ -36,6 +36,7 @@ const isLeftSideAnswerTypeCompatible = (
     [answerTypes.RADIO]: "SelectedOptions",
     [answerTypes.CHECKBOX]: "SelectedOptions",
     [answerTypes.DATE]: "DateValue",
+    [answerTypes.SELECT]: "SelectedOptions",
   };
 
   if (secondaryCondition) {
@@ -80,7 +81,11 @@ Resolvers.BinaryExpression2 = {
 Resolvers.LeftSide2 = {
   __resolveType: ({ type, sideType }) => {
     if (sideType === "Answer") {
-      if ([answerTypes.RADIO, answerTypes.CHECKBOX].includes(type)) {
+      if (
+        [answerTypes.RADIO, answerTypes.CHECKBOX, answerTypes.SELECT].includes(
+          type
+        )
+      ) {
         return "MultipleChoiceAnswer";
       }
       return "BasicAnswer";

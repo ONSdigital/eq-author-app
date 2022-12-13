@@ -30,6 +30,7 @@ const answerConditions = {
     conditions.UNANSWERED,
     conditions.COUNT_OF,
   ],
+  [answerTypes.SELECT]: [conditions.ONE_OF, conditions.UNANSWERED],
 };
 
 const isAnswerTypeSupported = (answerType) =>

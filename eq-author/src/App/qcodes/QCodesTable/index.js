@@ -37,6 +37,8 @@ import {
   CHECKBOX_OPTION,
   MUTUALLY_EXCLUSIVE,
   MUTUALLY_EXCLUSIVE_OPTION,
+  SELECT,
+  SELECT_OPTION,
 } from "constants/answer-types";
 import {
   QCODE_IS_NOT_UNIQUE,
@@ -76,6 +78,7 @@ const QcodeValidationError = styled(ValidationError)`
 const TYPE_TO_DESCRIPTION = {
   [RADIO_OPTION]: "Radio option",
   [CHECKBOX_OPTION]: "Checkbox option",
+  [SELECT_OPTION]: "Select option",
   [MUTUALLY_EXCLUSIVE_OPTION]: "Mutually exclusive option",
   [MUTUALLY_EXCLUSIVE]: "Mutually exclusive",
   [CHECKBOX]: "Checkbox",
@@ -89,6 +92,7 @@ const TYPE_TO_DESCRIPTION = {
   [DATE_RANGE]: "Date range",
   [UNIT]: "Unit",
   [DURATION]: "Duration",
+  [SELECT]: "Select",
 };
 
 const mutationVariables = (inputValues) => ({
@@ -151,7 +155,7 @@ const Row = memo((props) => {
       )}
       <SpacedTableColumn>{TYPE_TO_DESCRIPTION[type]}</SpacedTableColumn>
       <SpacedTableColumn>{label}</SpacedTableColumn>
-      {[CHECKBOX, RADIO_OPTION].includes(type) ? (
+      {[CHECKBOX, RADIO_OPTION, SELECT_OPTION].includes(type) ? (
         <EmptyTableColumn />
       ) : (
         <SpacedTableColumn>

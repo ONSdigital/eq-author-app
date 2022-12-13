@@ -18,6 +18,7 @@ import textfieldIcon from "./icons/textfield.svg";
 import radioIcon from "./icons/radio.svg";
 import checkboxIcon from "./icons/checkbox.svg";
 import mutuallyExclusiveIcon from "./icons/or-answer.svg";
+import selectIcon from "./icons/select.svg";
 
 export const icons = {
   [AnswerTypes.NUMBER]: numberIcon,
@@ -32,6 +33,7 @@ export const icons = {
   [AnswerTypes.RADIO]: radioIcon,
   [AnswerTypes.CHECKBOX]: checkboxIcon,
   [AnswerTypes.MUTUALLY_EXCLUSIVE]: mutuallyExclusiveIcon,
+  [AnswerTypes.SELECT]: selectIcon,
 };
 
 export default class AnswerTypeButton extends React.Component {
