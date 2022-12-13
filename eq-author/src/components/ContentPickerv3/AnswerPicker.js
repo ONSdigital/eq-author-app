@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { colors } from "constants/theme";
 
 import { ErrorMessage } from "./ErrorMessage";
+import RadioToolbar from "./RadioToolbar";
 import NoSearchResults from "components/NoSearchResults";
 import SectionMenu from "./SectionMenu";
 import Options, { OPTION_ANSWERS, OPTION_SECTIONS } from "./Options";
@@ -38,7 +39,13 @@ const MenuContainer = styled.div`
   height: 25em;
 `;
 
-const AnswerPicker = ({ data, ...otherProps }) => {
+const AnswerPicker = ({
+  data,
+  contentView,
+  setContentView,
+  logic,
+  ...otherProps
+}) => {
   const [option, setOption] = useState(
     data.length > 1 ? OPTION_SECTIONS : OPTION_ANSWERS
   );
@@ -70,7 +77,15 @@ const AnswerPicker = ({ data, ...otherProps }) => {
   return (
     <>
       <ModalHeader>
-        <ModalTitle>Select an answer</ModalTitle>
+        <ModalTitle>
+          {logic ? "Select an answer or metadata" : "Select an answer"}
+        </ModalTitle>
+        {logic && (
+          <RadioToolbar
+            selectedRadio={contentView}
+            setContentView={(contentView) => setContentView(contentView)}
+          />
+        )}
         <ModalToolbar>
           <SearchBar onChange={({ value }) => setSearchTerm(value)} />
           <Options

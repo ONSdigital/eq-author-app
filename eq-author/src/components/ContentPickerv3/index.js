@@ -52,7 +52,9 @@ const ContentPicker = ({
   isOpen,
   startingSelectedAnswers,
   multiselect,
+  logic,
   onSubmit,
+  setContentView,
 }) => {
   const [selectedItems, setSelectedItems] = useState(
     startingSelectedAnswers || []
@@ -68,6 +70,11 @@ const ContentPicker = ({
     }
 
     return selectedItems[0].id;
+  };
+
+  const updateContentView = (contentView) => {
+    setSelectedItems([]);
+    setContentView(contentView);
   };
 
   const updateSelectedItemsSingle = (item) => {
@@ -116,6 +123,9 @@ const ContentPicker = ({
             }
             isSelected={isSelected}
             data={data}
+            contentView={contentType}
+            logic={logic}
+            setContentView={(contentView) => updateContentView(contentView)}
           />
         );
 
@@ -129,6 +139,9 @@ const ContentPicker = ({
             isSelected={isSelected}
             data={data}
             multiselect={multiselect}
+            contentView={contentType}
+            logic={logic}
+            setContentView={(contentView) => updateContentView(contentView)}
             firstSelectedItemId={getFirstSelectedItemId()}
           />
         );

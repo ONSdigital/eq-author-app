@@ -82,6 +82,10 @@ export const contentPickerID = "content-picker";
 export const defaultContentName = "Select an answer";
 export const defaultMetadataName = "Select metadata";
 
+const getContentView = (contentTypes, contentView) => {
+  return contentTypes.find((contentType) => contentType === contentView);
+};
+
 const ContentPickerSelect = ({
   loading,
   error,
@@ -92,6 +96,9 @@ const ContentPickerSelect = ({
   name,
   selectedContentDisplayName = defaultContentName,
   selectedMetadataDisplayName = defaultMetadataName,
+  logic,
+  contentView,
+  setContentView,
   onSubmit,
   hasError,
   ...otherProps
@@ -99,7 +106,8 @@ const ContentPickerSelect = ({
   const [isPickerOpen, setPickerOpen] = useState(false);
   const [isTruncated, elementToTruncate] = useTruncation();
   const [data, contentSelectButtonText] =
-    contentTypes[0] === ANSWER || contentTypes[0] === DYNAMIC_ANSWER
+    getContentView(contentTypes, contentView) === ANSWER ||
+    getContentView(contentTypes, contentView) === DYNAMIC_ANSWER
       ? [answerData, selectedContentDisplayName]
       : [metadataData, selectedMetadataDisplayName];
 
@@ -107,7 +115,7 @@ const ContentPickerSelect = ({
     (selectedContent) =>
       typeof selectedContent === "string" ? (
         selectedContent
-      ) : (
+      ) : selectedContent.type ? ( // read as `if selected content is answer type` - `type` attribute is only assigned to answer type
         <>
           <ContentSelectedTitle ref={elementToTruncate}>
             {contentTypes[0] === DYNAMIC_ANSWER
@@ -116,9 +124,26 @@ const ContentPickerSelect = ({
           </ContentSelectedTitle>
           <span>{`${selectedContent.displayName}`}</span>
         </>
+      ) : (
+        // currently only runs for metadata type - if more content types are added in the future, this line will be `selectedContent.metadataType ? ...`
+        <>
+          <ContentSelectedTitle ref={elementToTruncate}>
+            {selectedContent.key}
+          </ContentSelectedTitle>
+          <span>{`${selectedContent.displayName}`}</span>
+        </>
       ),
     [elementToTruncate, contentTypes]
   );
+
+  const handlePickerClose = (logic) => {
+    if (logic) {
+      setContentView(ANSWER);
+      setPickerOpen(false);
+    } else {
+      setPickerOpen(false);
+    }
+  };
 
   const contentSelectButton = useCallback(
     () => (
@@ -144,6 +169,7 @@ const ContentPickerSelect = ({
   );
 
   const handlePickerSubmit = (selected) => {
+    setContentView(ANSWER);
     setPickerOpen(false);
     onSubmit({ name, value: selected });
   };
@@ -172,11 +198,13 @@ const ContentPickerSelect = ({
         isOpen={isPickerOpen}
         data={data || []}
         startingSelectedAnswers={[]}
-        onClose={() => setPickerOpen(false)}
+        onClose={() => handlePickerClose(logic)}
         onSubmit={handlePickerSubmit}
         data-test={contentPickerID}
         singleItemSelect
-        contentType={contentTypes[0]}
+        logic={logic}
+        contentType={getContentView(contentTypes, contentView)}
+        setContentView={(contentView) => setContentView(contentView)}
       />
     </>
   );
