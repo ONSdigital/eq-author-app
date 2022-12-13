@@ -6,7 +6,7 @@ import { isNil } from "lodash";
 
 import { stripHtmlToText } from "utils/stripHTML";
 
-import ContentPicker from "components/ContentPickerv2";
+import ContentPicker from "components/ContentPickerv3";
 import Button from "components/buttons/Button";
 import Truncated from "components/Truncated";
 import Tooltip from "components/Forms/Tooltip";
