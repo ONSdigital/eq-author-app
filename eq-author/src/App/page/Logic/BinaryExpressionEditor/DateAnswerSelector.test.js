@@ -48,7 +48,10 @@ describe("DateAnswerSelector", () => {
   it("should call the correct handlers when the condition is changed", () => {
     const wrapper = shallow(<DateAnswerSelector {...defaultProps} />);
 
-    wrapper.find(ConditionSelector).simulate("change", { value: "LessThan" });
+    wrapper
+      .find(ConditionSelector)
+      .first()
+      .simulate("change", { value: "LessThan" });
 
     expect(defaultProps.onConditionChange).toHaveBeenCalledWith("LessThan");
   });
