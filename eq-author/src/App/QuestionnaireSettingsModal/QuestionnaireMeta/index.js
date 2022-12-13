@@ -8,7 +8,7 @@ import withEntityEditor from "components/withEntityEditor";
 import ValidationError from "components/ValidationError";
 import Button from "components-themed/buttons";
 import ScrollPane from "components/ScrollPane";
-import { colors } from "constants/theme";
+import { colors, radius } from "constants/theme";
 
 import questionnaireFragment from "graphql/fragments/questionnaire.graphql";
 
@@ -18,6 +18,7 @@ const StyledScrollPane = styled(ScrollPane)`
 `;
 
 const StyledInput = styled(Input)`
+  border-radius: ${radius};
   margin-top: 1em;
   &:invalid {
     border: 0.15em solid ${colors.errorPrimary};
