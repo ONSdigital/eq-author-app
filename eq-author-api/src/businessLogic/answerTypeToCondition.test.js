@@ -15,6 +15,7 @@ const VALID_TYPES = [
   answerTypes.UNIT,
   answerTypes.CHECKBOX,
   answerTypes.DATE,
+  answerTypes.SELECT,
 ];
 
 describe("AnswerTypeToCondition", () => {
@@ -37,6 +38,7 @@ describe("AnswerTypeToCondition", () => {
         [answerTypes.UNIT]: conditions.SELECT,
         [answerTypes.CHECKBOX]: conditions.ALL_OF,
         [answerTypes.DATE]: conditions.SELECT,
+        [answerTypes.SELECT]: conditions.ONE_OF,
       };
       VALID_TYPES.forEach((type) => {
         expect(getDefault(type)).toEqual(expectedDefaults[type]);

@@ -9,6 +9,7 @@ import DateProperties from "./DateProperties";
 import DateRangeProperties from "./DateRangeProperties";
 import RadioProperties from "./RadioProperties";
 import CheckboxProperties from "./CheckboxProperties";
+import SelectProperties from "./SelectProperties";
 import {
   TEXTFIELD,
   NUMBER,
@@ -21,6 +22,7 @@ import {
   UNIT,
   DURATION,
   DATE,
+  SELECT,
 } from "constants/answer-types";
 
 const AnswerProperties = (props) => {
@@ -51,7 +53,9 @@ const AnswerProperties = (props) => {
   if ([CHECKBOX].includes(props.answer.type)) {
     return <CheckboxProperties {...props} />;
   }
-
+  if ([SELECT].includes(props.answer.type)) {
+    return <SelectProperties {...props} />;
+  }
   return null;
 };
 

@@ -2,7 +2,10 @@ import React, { createContext, useContext, useMemo } from "react";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import { getPages } from "utils/questionnaireUtils";
-import { RADIO, MUTUALLY_EXCLUSIVE } from "constants/answer-types";
+import {
+  MUTUALLY_EXCLUSIVE,
+  ANSWER_OPTION_TYPES,
+} from "constants/answer-types";
 
 export const QCodeContext = createContext();
 
@@ -11,6 +14,7 @@ export const QCodeContext = createContext();
 // - Answer
 // - (If present) Answer's options (inc. mutually exclusive option)
 // - (If present) Answer's embedded secondary answer
+
 export const flattenAnswer = (answer) =>
   [
     answer,
@@ -18,7 +22,7 @@ export const flattenAnswer = (answer) =>
       (option) =>
         answer.type !== MUTUALLY_EXCLUSIVE && {
           ...option,
-          type: answer.type === RADIO ? "RadioOption" : "CheckboxOption",
+          type: ANSWER_OPTION_TYPES[answer.type],
           option: true,
         }
     ) ?? []),
