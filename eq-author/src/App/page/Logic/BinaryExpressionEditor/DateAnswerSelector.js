@@ -22,21 +22,11 @@ const conditions = {
 };
 
 export const ConditionSelector = styled(Select)`
-  width: ${(props) => (props.name === "left-condition-select" ? `7em` : `5em`)};
   flex: 1 1 auto;
   display: flex;
   position: relative;
   margin-right: 1em;
-  max-width: 15em;
-`;
-
-export const OffsetSelector = styled(Select)`
-  width: ${(props) => (props.name === "left-condition-select" ? `7em` : `5em`)};
-  flex: 1 1 auto;
-  display: flex;
-  position: relative;
-  margin-right: 1em;
-  max-width: 15em;
+  min-width: 12em;
 `;
 
 const Value = styled.div`
@@ -50,7 +40,7 @@ const Value = styled.div`
 
 const DateAnswerRoutingSelector = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   border: 1px solid ${colors.lightGrey};
   margin: 1em 0;
   border-radius: ${radius};
@@ -66,8 +56,26 @@ const DateAnswerRoutingSelector = styled.div`
   `}
 `;
 
+const ContentRow = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5em;
+`;
+
+const ContentColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const ContentItem = styled.div`
+  flex: 1 1 auto;
+  margin-right: 0.5em;
+`;
+
 const RuleText = styled.div`
+  margin-top: 0.5em;
   margin-right: 1em;
+  flex: 1 1 auto;
 `;
 
 class DateAnswerSelector extends React.Component {
@@ -162,70 +170,92 @@ class DateAnswerSelector extends React.Component {
     return (
       <>
         <DateAnswerRoutingSelector hasError={hasError}>
-          <RuleText>is</RuleText>
-          <VisuallyHidden>
-            <Label htmlFor={`expression-condition-left-${expression.id}`}>
-              Operator
-            </Label>
-          </VisuallyHidden>
-          <ConditionSelector
-            id={`expression-condition-left-${expression.id}`}
-            onChange={this.handleConditionChange}
-            name="left-condition-select"
-            value={expression.condition}
-            data-test="left-condition-selector"
-          >
-            {!expression.condition && (
-              <option value={conditions.SELECT}>Select an operator</option>
-            )}
-            <option value={conditions.LESS_THAN}>(&lt;) Less than</option>
-            <option value={conditions.GREATER_THAN}>(&gt;) More than</option>
-          </ConditionSelector>
-          {expression.condition !== conditions.SELECT && (
-            <>
-              <Value>
+          <ContentColumn>
+            <RuleText>is</RuleText>
+          </ContentColumn>
+          <ContentColumn>
+            <ContentRow>
+              <ContentItem>
                 <VisuallyHidden>
-                  <Label htmlFor={`expression-right-${expression.id}`}>
-                    Value
+                  <Label htmlFor={`expression-condition-left-${expression.id}`}>
+                    Operator
                   </Label>
                 </VisuallyHidden>
-                <Number
-                  default={null}
-                  id={`expression-right-${expression.id}`}
-                  min={-99999999}
-                  max={999999999}
-                  placeholder="Value"
-                  value={this.state.offset}
-                  name={`expression-right-${expression.id}`}
-                  onChange={this.handleOffsetChange}
-                  onBlur={this.handleRightBlur}
-                  data-test="number-value-input"
-                  type="Number"
-                  unit={get(expression.left, "properties.unit", null)}
-                />
-              </Value>
-              <RuleText>years</RuleText>
-              <VisuallyHidden>
-                <Label htmlFor={`expression-condition-right-${expression.id}`}>
-                  Operator
-                </Label>
-              </VisuallyHidden>
-              <OffsetSelector
-                id={`expression-condition-right-${expression.id}`}
-                onChange={this.handleOffsetDirectionChange}
-                name="right-condition-select"
-                data-test="right-condition-selector"
-                value={this.state.offsetDirection}
-              >
-                {(!expression.right || !expression.right.offsetDirection) && (
-                  <option value={conditions.SELECT}>Select an operator</option>
-                )}
-                <option value={conditions.BEFORE}>Before</option>
-                <option value={conditions.AFTER}>After</option>
-              </OffsetSelector>
-              <RuleText>response date</RuleText>
-            </>
-          )}
+                <ConditionSelector
+                  id={`expression-condition-left-${expression.id}`}
+                  onChange={this.handleConditionChange}
+                  name="left-condition-select"
+                  value={expression.condition}
+                  data-test="left-condition-selector"
+                >
+                  {!expression.condition && (
+                    <option value={conditions.SELECT}>
+                      Select an operator
+                    </option>
+                  )}
+                  <option value={conditions.LESS_THAN}>(&lt;) Less than</option>
+                  <option value={conditions.GREATER_THAN}>
+                    (&gt;) More than
+                  </option>
+                </ConditionSelector>
+              </ContentItem>
+              {expression.condition !== conditions.SELECT && (
+                <>
+                  <Value>
+                    <VisuallyHidden>
+                      <Label htmlFor={`expression-right-${expression.id}`}>
+                        Value
+                      </Label>
+                    </VisuallyHidden>
+                    <Number
+                      default={null}
+                      id={`expression-right-${expression.id}`}
+                      min={-99999999}
+                      max={999999999}
+                      value={this.state.offset}
+                      name={`expression-right-${expression.id}`}
+                      onChange={this.handleOffsetChange}
+                      onBlur={this.handleRightBlur}
+                      data-test="number-value-input"
+                      type="Number"
+                      unit={get(expression.left, "properties.unit", null)}
+                    />
+                  </Value>
+                  <ContentItem>years</ContentItem>
+                </>
+              )}
+            </ContentRow>
+            {expression.condition !== conditions.SELECT && (
+              <ContentRow>
+                <ContentItem>
+                  <VisuallyHidden>
+                    <Label
+                      htmlFor={`expression-condition-right-${expression.id}`}
+                    >
+                      Operator
+                    </Label>
+                  </VisuallyHidden>
+                  <ConditionSelector
+                    id={`expression-condition-right-${expression.id}`}
+                    onChange={this.handleOffsetDirectionChange}
+                    name="right-condition-select"
+                    data-test="right-condition-selector"
+                    value={this.state.offsetDirection}
+                  >
+                    {(!expression.right ||
+                      !expression.right.offsetDirection) && (
+                      <option value={conditions.SELECT}>
+                        Select an operator
+                      </option>
+                    )}
+                    <option value={conditions.BEFORE}>Before</option>
+                    <option value={conditions.AFTER}>After</option>
+                  </ConditionSelector>
+                </ContentItem>
+                <ContentItem>response date</ContentItem>
+              </ContentRow>
+            )}
+          </ContentColumn>
         </DateAnswerRoutingSelector>
         {hasError && this.handleError()}
       </>
