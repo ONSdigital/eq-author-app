@@ -26,7 +26,7 @@ export const ConditionSelector = styled(Select)`
   display: flex;
   position: relative;
   margin-right: 1em;
-  min-width: 12em;
+  width: 12em;
 `;
 
 const Value = styled.div`
@@ -60,6 +60,7 @@ const ContentRow = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 0.5em;
+  gap: 0.1em;
 `;
 
 const ContentColumn = styled.div`
