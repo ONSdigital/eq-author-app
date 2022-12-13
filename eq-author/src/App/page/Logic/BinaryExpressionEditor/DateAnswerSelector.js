@@ -194,10 +194,8 @@ class DateAnswerSelector extends React.Component {
                       Select an operator
                     </option>
                   )}
-                  <option value={conditions.LESS_THAN}>(&lt;) Less than</option>
-                  <option value={conditions.GREATER_THAN}>
-                    (&gt;) More than
-                  </option>
+                  <option value={conditions.LESS_THAN}>Earlier than</option>
+                  <option value={conditions.GREATER_THAN}>Later than</option>
                 </ConditionSelector>
               </ContentItem>
               {expression.condition !== conditions.SELECT && (

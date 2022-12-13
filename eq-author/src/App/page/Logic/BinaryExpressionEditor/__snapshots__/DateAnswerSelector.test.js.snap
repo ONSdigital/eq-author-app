@@ -33,12 +33,12 @@ exports[`DateAnswerSelector should render 1`] = `
             <option
               value="LessThan"
             >
-              (&lt;) Less than
+              Earlier than
             </option>
             <option
               value="GreaterThan"
             >
-              (&gt;) More than
+              Later than
             </option>
           </DateAnswerSelector__ConditionSelector>
         </DateAnswerSelector__ContentItem>
@@ -146,12 +146,12 @@ exports[`DateAnswerSelector should render a Date 1`] = `
             <option
               value="LessThan"
             >
-              (&lt;) Less than
+              Earlier than
             </option>
             <option
               value="GreaterThan"
             >
-              (&gt;) More than
+              Later than
             </option>
           </DateAnswerSelector__ConditionSelector>
         </DateAnswerSelector__ContentItem>
