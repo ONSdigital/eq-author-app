@@ -66,7 +66,7 @@ describe("DateAnswerSelector", () => {
     });
   });
 
-  it("should not show the number input field when unanswered is chosen on a numeric type", () => {
+  it("should show the number input field when the condition is selected", () => {
     [DATE].forEach((type) => {
       defaultProps.expression.left.type = type;
 
@@ -76,13 +76,6 @@ describe("DateAnswerSelector", () => {
         <DateAnswerSelector {...defaultProps} />
       );
       expect(wrapperWithShownInput.find(Number)).toHaveLength(1);
-
-      // Ensure that the input field is hidden after user chooses 'Unanswered'
-      defaultProps.expression.condition = null;
-      const wrapperWithHiddenInput = shallow(
-        <DateAnswerSelector {...defaultProps} />
-      );
-      expect(wrapperWithHiddenInput.find(Number)).toHaveLength(0);
     });
   });
 
@@ -103,7 +96,7 @@ describe("DateAnswerSelector", () => {
     expect(getByText(errorMessage)).toHaveStyleRule("width", "100%");
   });
 
-  it("should show error message when right side empty", () => {
+  it("should show error message when number is empty", () => {
     defaultProps.expression.left.type = DATE;
     defaultProps.expression.right = null;
     defaultProps.expression.validationErrorInfo.errors[0] = {
@@ -137,5 +130,32 @@ describe("DateAnswerSelector", () => {
 
     expect(getByText(OPERATOR_REQUIRED)).toHaveStyleRule("width", "100%");
     expect(getByText(OPERATOR_REQUIRED)).toBeTruthy();
+  });
+
+  it("should show error message when offset direction is empty", () => {
+    defaultProps.expression.left.type = DATE;
+    defaultProps.expression.right = {
+      dateValue: {
+        offset: 5,
+        offsetDirection: null,
+      },
+    };
+    defaultProps.expression.validationErrorInfo.errors[0] = {
+      errorCode: rightSideErrors.ERR_RIGHTSIDE_NO_CONDITION.errorCode,
+      field: "right",
+      id: "expression-routing-1-right",
+      type: "expressions",
+    };
+
+    const { getByText } = render(
+      <DateAnswerSelector hasError {...defaultProps} />
+    );
+
+    expect(
+      getByText(rightSideErrors.ERR_RIGHTSIDE_NO_CONDITION.message)
+    ).toHaveStyleRule("width", "100%");
+    expect(
+      getByText(rightSideErrors.ERR_RIGHTSIDE_NO_CONDITION.message)
+    ).toBeTruthy();
   });
 });
