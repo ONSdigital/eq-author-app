@@ -261,6 +261,7 @@ Resolvers.Mutation = {
     const leftSideAnswer = getAnswerById(ctx, leftSide.answerId);
 
     if (
+      leftSide.answerId &&
       !isLeftSideAnswerTypeCompatible(
         leftSideAnswer.type,
         type,
