@@ -77,7 +77,7 @@ exports.getQuestionnaire = `
               id
               label
             }
-          }      
+          }
         }
       }
     }
