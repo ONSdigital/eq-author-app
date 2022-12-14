@@ -2,6 +2,8 @@ import React from "react";
 
 import { sortBy } from "lodash";
 
+import Theme from "contexts/themeContext";
+
 import {
   render,
   fireEvent,
@@ -109,7 +111,9 @@ describe("QuestionnairesView", () => {
 
     it("should allow you to create a questionnaire", () => {
       const { getByText, getByLabelText } = render(
-        <QuestionnairesView {...props} />
+        <Theme themeName={"onsLegacyFont"}>
+          <QuestionnairesView {...props} />
+        </Theme>
       );
 
       const createButton = getByText("Create a questionnaire");
@@ -118,9 +122,6 @@ describe("QuestionnairesView", () => {
       fireEvent.change(getByLabelText("Questionnaire title"), {
         target: { value: "Questionnaire title" },
       });
-      fireEvent.change(getByLabelText("Questionnaire type"), {
-        target: { value: "Business" },
-      });
       fireEvent.click(getByText("Create"));
 
       expect(props.onCreateQuestionnaire).toHaveBeenCalled();
@@ -128,7 +129,9 @@ describe("QuestionnairesView", () => {
 
     it("should be possible to cancel creating a questionnaire", async () => {
       const { getByText, queryByLabelText } = render(
-        <QuestionnairesView {...props} />
+        <Theme themeName={"onsLegacyFont"}>
+          <QuestionnairesView {...props} />
+        </Theme>
       );
 
       const createButton = getByText("Create a questionnaire");
@@ -169,7 +172,9 @@ describe("QuestionnairesView", () => {
 
     it("should allow you to create a questionnaire", () => {
       const { getByText, getByLabelText } = render(
-        <QuestionnairesView {...props} />
+        <Theme themeName={"onsLegacyFont"}>
+          <QuestionnairesView {...props} />
+        </Theme>
       );
 
       const createButton = getByText("Create questionnaire");
@@ -178,9 +183,6 @@ describe("QuestionnairesView", () => {
       fireEvent.change(getByLabelText("Questionnaire title"), {
         target: { value: "Questionnaire title" },
       });
-      fireEvent.change(getByLabelText("Questionnaire type"), {
-        target: { value: "Business" },
-      });
       fireEvent.click(getByText("Create"));
 
       expect(props.onCreateQuestionnaire).toHaveBeenCalled();
@@ -188,7 +190,9 @@ describe("QuestionnairesView", () => {
 
     it("should be possible to cancel creating a questionnaire", async () => {
       const { getByText, queryByLabelText } = render(
-        <QuestionnairesView {...props} />
+        <Theme themeName={"onsLegacyFont"}>
+          <QuestionnairesView {...props} />
+        </Theme>
       );
 
       const createButton = getByText("Create questionnaire");

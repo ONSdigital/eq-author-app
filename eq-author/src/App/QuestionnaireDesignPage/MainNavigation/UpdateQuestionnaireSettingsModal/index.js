@@ -6,18 +6,23 @@ import pipeP from "utils/pipeP";
 
 import withUpdateQuestionnaire from "./withUpdateQuestionnaire";
 
+import Theme from "contexts/themeContext";
+
 const UpdateQuestionnaireSettingsModal = ({
   onClose,
   onUpdateQuestionnaire,
   ...otherProps
 }) => (
-  <QuestionnaireSettingsModal
-    onSubmit={pipeP(onUpdateQuestionnaire, onClose)}
-    confirmText="Apply"
-    canEditType={false}
-    onClose={onClose}
-    {...otherProps}
-  />
+  <Theme themeName={"onsLegacyFont"}>
+    <QuestionnaireSettingsModal
+      onSubmit={pipeP(onUpdateQuestionnaire, onClose)}
+      confirmText="Create duplicate"
+      canEditType={false}
+      onClose={onClose}
+      title="Duplicate questionnaire"
+      {...otherProps}
+    />
+  </Theme>
 );
 UpdateQuestionnaireSettingsModal.propTypes = {
   onClose: PropTypes.func.isRequired,
