@@ -82,6 +82,7 @@ const MetaDataPicker = ({
   contentType,
   contentTypes,
   setContentType,
+  contentPickerTitle,
 }) => {
   const [searchResults, setSearchResults] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -109,15 +110,10 @@ const MetaDataPicker = ({
     }
   }, [searchTerm, data]);
 
-  // TODO: Make search bar functional
   return (
     <>
       <ModalHeader>
-        <ModalTitle>
-          {contentTypes.length > 1
-            ? "Select an answer or metadata"
-            : "Select metadata"}
-        </ModalTitle>
+        <ModalTitle>{contentPickerTitle}</ModalTitle>
         {contentTypes.length > 1 && (
           <ContentTypeSelector
             contentType={contentType}
@@ -176,6 +172,10 @@ const MetaDataPicker = ({
   );
 };
 
+MetaDataPicker.defaultProps = {
+  contentPickerTitle: "Select metadata",
+};
+
 MetaDataPicker.propTypes = {
   data: PropTypes.arrayOf(CustomPropTypes.metadata),
   onSelected: PropTypes.func.isRequired,
@@ -183,6 +183,7 @@ MetaDataPicker.propTypes = {
   contentType: PropTypes.string,
   contentTypes: PropTypes.arrayOf(PropTypes.string),
   setContentType: PropTypes.func,
+  contentPickerTitle: PropTypes.string,
 };
 
 export default MetaDataPicker;

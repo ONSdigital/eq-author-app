@@ -55,6 +55,7 @@ const ContentPicker = ({
   startingSelectedAnswers,
   multiselect,
   onSubmit,
+  contentPickerTitle,
 }) => {
   const [selectedItems, setSelectedItems] = useState(
     startingSelectedAnswers || []
@@ -126,6 +127,7 @@ const ContentPicker = ({
             contentType={contentType}
             contentTypes={contentTypes}
             setContentType={handleSetContentType}
+            contentPickerTitle={contentPickerTitle}
           />
         );
 
@@ -143,6 +145,7 @@ const ContentPicker = ({
             contentTypes={contentTypes}
             setContentType={handleSetContentType}
             firstSelectedItemId={getFirstSelectedItemId()}
+            contentPickerTitle={contentPickerTitle}
           />
         );
 
@@ -235,6 +238,7 @@ ContentPicker.propTypes = {
   setContentType: PropTypes.func,
   multiselect: PropTypes.bool,
   pageType: PropTypes.string,
+  contentPickerTitle: PropTypes.string,
 };
 
 export default ContentPicker;

@@ -91,6 +91,7 @@ const ContentPickerSelect = ({
   selectedId,
   onSubmit,
   hasError,
+  contentPickerTitle,
   ...otherProps
 }) => {
   const [isPickerOpen, setPickerOpen] = useState(false);
@@ -199,6 +200,7 @@ const ContentPickerSelect = ({
         onSubmit={handlePickerSubmit}
         data-test={contentPickerID}
         singleItemSelect
+        contentPickerTitle={contentPickerTitle}
       />
     </>
   );
@@ -230,6 +232,7 @@ ContentPickerSelect.propTypes = {
   selectedMetadataDisplayName: PropTypes.string,
   contentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   hasError: PropTypes.bool,
+  contentPickerTitle: PropTypes.string,
 };
 
 export default ContentPickerSelect;

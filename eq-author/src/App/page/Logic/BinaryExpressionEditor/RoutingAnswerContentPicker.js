@@ -43,6 +43,7 @@ const RoutingAnswerContentPicker = ({ includeSelf, ...otherProps }) => {
     <ContentPickerSelect
       contentTypes={[ANSWER, METADATA]}
       data={data}
+      contentPickerTitle="Select an answer or metadata"
       {...otherProps}
     />
   );

@@ -44,6 +44,7 @@ const AnswerPicker = ({
   contentType,
   contentTypes,
   setContentType,
+  contentPickerTitle,
   ...otherProps
 }) => {
   const [option, setOption] = useState(
@@ -77,11 +78,7 @@ const AnswerPicker = ({
   return (
     <>
       <ModalHeader>
-        <ModalTitle>
-          {contentTypes.length > 1
-            ? "Select an answer or metadata"
-            : "Select an answer"}
-        </ModalTitle>
+        <ModalTitle>{contentPickerTitle}</ModalTitle>
         {contentTypes.length > 1 && (
           <ContentTypeSelector
             contentType={contentType}
@@ -121,11 +118,16 @@ const AnswerPicker = ({
   );
 };
 
+AnswerPicker.defaultProps = {
+  contentPickerTitle: "Select an answer",
+};
+
 AnswerPicker.propTypes = {
   data: PropTypes.arrayOf(CustomPropTypes.section),
   contentType: PropTypes.string,
   contentTypes: PropTypes.arrayOf(PropTypes.string),
   setContentType: PropTypes.func,
+  contentPickerTitle: PropTypes.string,
 };
 
 export default AnswerPicker;
