@@ -31,6 +31,10 @@ mutation createRouting2($input: CreateRouting2Input!) {
               ... on CustomValue2 {
                 number
               }
+              ... on DateValue {
+                offset
+                offsetDirection
+              }
             }
           }  
         }

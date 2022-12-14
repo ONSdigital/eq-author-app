@@ -116,6 +116,10 @@ const getPageQuery = `
                         label
                       }
                     }
+                    ... on DateValue {
+                      offset
+                      offsetDirection
+                    }                    
                   }
                   validationErrorInfo {
                     id
