@@ -95,13 +95,26 @@
         },
         "left": {
           "type": "object",
-          "properties": {
-            "answerId": {
-              "type": "string",
-              "pattern": "\\w+"
+          "anyOf": [
+            {
+              "properties": {
+                "answerId": {
+                  "type": "string",
+                  "pattern": "\\w+"
+                }
+              },
+              "required": ["answerId"]
+            },
+            {
+              "properties": {
+                "metadataId": {
+                  "type": "string",
+                  "pattern": "\\w+"
+                }
+              },
+              "required": ["metadataId"]
             }
-          },
-          "required": ["answerId"],
+          ],
           "if": {
             "properties": {
               "answerId": {
@@ -187,6 +200,16 @@
                 }
               },
               "required": ["answerId"]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "metadataId": {
+                  "type": "string",
+                  "pattern": "\\w+"
+                }
+              },
+              "required": ["metadataId"]
             }
           ],
           "errorMessage": "ERR_ANSWER_NOT_SELECTED"
