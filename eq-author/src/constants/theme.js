@@ -202,6 +202,7 @@ export const themes = {
       modalContainer: colors.white,
       modalBackground: colors.black,
       modalSubtitle: colors.oceanBlue,
+      modalCloseButton: colors.black,
     },
     radius: "3px",
     fonts: "'Open Sans',Helvetica,'Helvetica Neue',arial,sans-serif",
