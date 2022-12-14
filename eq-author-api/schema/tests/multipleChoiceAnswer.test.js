@@ -392,10 +392,6 @@ describe("multiple choice answer", () => {
             label: "additonal-answer-label",
           },
         };
-        console.log(questionnaire.sections[0].folders[0].pages[0].answers);
-        console.log(
-          questionnaire.sections[0].folders[0].pages[0].answers[0].options
-        );
         const updatedOption = await updateOption(ctx, update);
         expect(updatedOption).toEqual(expect.objectContaining(update));
       });
