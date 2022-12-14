@@ -392,8 +392,63 @@ describe("multiple choice answer", () => {
             label: "additonal-answer-label",
           },
         };
+        console.log(questionnaire.sections[0].folders[0].pages[0].answers);
+        console.log(
+          questionnaire.sections[0].folders[0].pages[0].answers[0].options
+        );
         const updatedOption = await updateOption(ctx, update);
         expect(updatedOption).toEqual(expect.objectContaining(update));
+      });
+    });
+
+    describe("update", () => {
+      it("should update options", async () => {
+        ctx = await buildContext({
+          sections: [
+            {
+              folders: [
+                {
+                  pages: [
+                    {
+                      answers: [
+                        {
+                          type: RADIO,
+                          options: [
+                            {
+                              id: 1,
+                              label: "Dynamic Answer",
+                            },
+                            {
+                              id: 2,
+                              label: "Keep Me",
+                            },
+                            {
+                              id: 3,
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        });
+        const questionnaire = ctx.questionnaire;
+
+        const option = getOption(questionnaire);
+        const update = {
+          id: option.id,
+          dynamicAnswer: true,
+        };
+
+        const updatedOption = await updateOption(ctx, update);
+        expect(updatedOption).toEqual(expect.objectContaining(update));
+        expect(
+          questionnaire.sections[0].folders[0].pages[0].answers[0].options
+            .length
+        ).toEqual(2);
       });
     });
 
