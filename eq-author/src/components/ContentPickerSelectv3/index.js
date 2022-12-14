@@ -109,6 +109,9 @@ const ContentPickerSelect = ({
 
   const buildTitle = useCallback(
     (selectedContent) => {
+      if (typeof selectedContent === "string") {
+        return selectedContent;
+      }
       if (selectedContent.__typename === "Metadata") {
         return (
           <>
