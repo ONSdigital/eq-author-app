@@ -1,8 +1,8 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import CustomPropTypes from "custom-prop-types";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { isNil } from "lodash";
+import { isNil, some } from "lodash";
 
 import { stripHtmlToText } from "utils/stripHTML";
 
@@ -15,7 +15,7 @@ import iconChevron from "components/ContentPickerSelect/icon-chevron.svg";
 
 import { useTruncation } from "./useTruncation";
 
-import { ANSWER, DYNAMIC_ANSWER } from "./content-types";
+import { ANSWER, DYNAMIC_ANSWER, CONTENT_TYPE_FIELDS } from "./content-types";
 import { colors, focusStyle } from "constants/theme";
 
 export const ContentSelectButton = styled(Button).attrs({
@@ -82,40 +82,44 @@ export const contentPickerID = "content-picker";
 export const defaultContentName = "Select an answer";
 export const defaultMetadataName = "Select metadata";
 
-const getContentView = (contentTypes, contentView) => {
-  return contentTypes.find((contentType) => contentType === contentView);
-};
-
 const ContentPickerSelect = ({
   loading,
   error,
   disabled,
-  answerData,
-  metadataData,
+  data,
   contentTypes,
-  name,
   selectedContentDisplayName = defaultContentName,
-  selectedMetadataDisplayName = defaultMetadataName,
-  logic,
-  contentView,
-  setContentView,
+  selectedId,
   onSubmit,
   hasError,
   ...otherProps
 }) => {
   const [isPickerOpen, setPickerOpen] = useState(false);
   const [isTruncated, elementToTruncate] = useTruncation();
-  const [data, contentSelectButtonText] =
-    getContentView(contentTypes, contentView) === ANSWER ||
-    getContentView(contentTypes, contentView) === DYNAMIC_ANSWER
-      ? [answerData, selectedContentDisplayName]
-      : [metadataData, selectedMetadataDisplayName];
+  const contentSelectButtonText = selectedContentDisplayName;
+  const [contentType, setContentType] = useState(contentTypes[0] || ANSWER);
+
+  useEffect(() => {
+    contentTypes.forEach((contentType) => {
+      if (some(data[contentType], { id: selectedId })) {
+        setContentType(contentType);
+      }
+    });
+  }, [contentTypes, data, selectedId]);
 
   const buildTitle = useCallback(
-    (selectedContent) =>
-      typeof selectedContent === "string" ? (
-        selectedContent
-      ) : selectedContent.type ? ( // read as `if selected content is answer type` - `type` attribute is only assigned to answer type
+    (selectedContent) => {
+      if (selectedContent.__typename === "Metadata") {
+        return (
+          <>
+            <ContentSelectedTitle ref={elementToTruncate}>
+              {selectedContent.key}
+            </ContentSelectedTitle>
+            <span>{`${selectedContent.displayName}`}</span>
+          </>
+        );
+      }
+      return (
         <>
           <ContentSelectedTitle ref={elementToTruncate}>
             {contentTypes[0] === DYNAMIC_ANSWER
@@ -124,25 +128,13 @@ const ContentPickerSelect = ({
           </ContentSelectedTitle>
           <span>{`${selectedContent.displayName}`}</span>
         </>
-      ) : (
-        // currently only runs for metadata type - if more content types are added in the future, this line will be `selectedContent.metadataType ? ...`
-        <>
-          <ContentSelectedTitle ref={elementToTruncate}>
-            {selectedContent.key}
-          </ContentSelectedTitle>
-          <span>{`${selectedContent.displayName}`}</span>
-        </>
-      ),
+      );
+    },
     [elementToTruncate, contentTypes]
   );
 
-  const handlePickerClose = (logic) => {
-    if (logic) {
-      setContentView(ANSWER);
-      setPickerOpen(false);
-    } else {
-      setPickerOpen(false);
-    }
+  const handlePickerClose = () => {
+    setPickerOpen(false);
   };
 
   const contentSelectButton = useCallback(
@@ -169,9 +161,8 @@ const ContentPickerSelect = ({
   );
 
   const handlePickerSubmit = (selected) => {
-    setContentView(ANSWER);
     setPickerOpen(false);
-    onSubmit({ name, value: selected });
+    onSubmit({ name: CONTENT_TYPE_FIELDS[contentType], value: selected });
   };
 
   return (
@@ -196,15 +187,15 @@ const ContentPickerSelect = ({
 
       <ContentPicker
         isOpen={isPickerOpen}
-        data={data || []}
-        startingSelectedAnswers={[]}
-        onClose={() => handlePickerClose(logic)}
+        contentType={contentType}
+        contentTypes={contentTypes}
+        setContentType={setContentType}
+        data={data[contentType] || []}
+        startingSelectedAnswers={selectedId ? [{ id: selectedId }] : []}
+        onClose={handlePickerClose}
         onSubmit={handlePickerSubmit}
         data-test={contentPickerID}
         singleItemSelect
-        logic={logic}
-        contentType={getContentView(contentTypes, contentView)}
-        setContentView={(contentView) => setContentView(contentView)}
       />
     </>
   );
@@ -234,10 +225,7 @@ ContentPickerSelect.propTypes = {
     PropTypes.object,
   ]),
   selectedMetadataDisplayName: PropTypes.string,
-  name: PropTypes.string.isRequired,
   contentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
-  answerData: PropTypes.arrayOf(PropTypes.shape(idAndName)),
-  metadataData: PropTypes.arrayOf(PropTypes.shape(idAndName)),
   hasError: PropTypes.bool,
 };
 

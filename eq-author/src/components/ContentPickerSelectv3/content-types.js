@@ -4,3 +4,13 @@ export const METADATA = "Metadata";
 export const DESTINATION = "Destination";
 export const VARIABLES = "Variables";
 export const DYNAMIC_ANSWER = "DynamicAnswer";
+
+export const CONTENT_TYPE_FIELDS = {
+  [ANSWER]: "answerId",
+  [METADATA]: "metadataId",
+};
+
+export const CONTENT_TYPE_LABELS = {
+  [ANSWER]: "Answer",
+  [METADATA]: "Metadata",
+};

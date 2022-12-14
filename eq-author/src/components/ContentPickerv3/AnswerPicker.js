@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { colors } from "constants/theme";
 
 import { ErrorMessage } from "./ErrorMessage";
-import RadioToolbar from "./RadioToolbar";
+import ContentTypeSelector from "./ContentTypeSelector";
 import NoSearchResults from "components/NoSearchResults";
 import SectionMenu from "./SectionMenu";
 import Options, { OPTION_ANSWERS, OPTION_SECTIONS } from "./Options";
@@ -17,15 +17,15 @@ import SearchBar from "components/SearchBar";
 import searchByAnswerTitleQuestionTitleShortCode from "utils/searchFunctions/searchByAnswerTitleQuestionTitleShortCode";
 import { getPages } from "utils/questionnaireUtils";
 
-const ModalTitle = styled.h2`
+const ModalTitle = styled.div`
   font-weight: bold;
   font-size: 1.2em;
   color: ${colors.textLight};
-  margin-top: 0;
+  margin-bottom: 0.5em;
 `;
 
 const ModalHeader = styled.div`
-  padding: 4em 1em 1em;
+  padding: 2em 1em 1em;
   border-bottom: 1px solid ${colors.bordersLight};
 `;
 
@@ -41,9 +41,9 @@ const MenuContainer = styled.div`
 
 const AnswerPicker = ({
   data,
-  contentView,
-  setContentView,
-  logic,
+  contentType,
+  contentTypes,
+  setContentType,
   ...otherProps
 }) => {
   const [option, setOption] = useState(
@@ -78,16 +78,22 @@ const AnswerPicker = ({
     <>
       <ModalHeader>
         <ModalTitle>
-          {logic ? "Select an answer or metadata" : "Select an answer"}
+          {contentTypes.length > 1
+            ? "Select an answer or metadata"
+            : "Select an answer"}
         </ModalTitle>
-        {logic && (
-          <RadioToolbar
-            selectedRadio={contentView}
-            setContentView={(contentView) => setContentView(contentView)}
+        {contentTypes.length > 1 && (
+          <ContentTypeSelector
+            contentType={contentType}
+            contentTypes={contentTypes}
+            setContentType={(contentType) => setContentType(contentType)}
           />
         )}
         <ModalToolbar>
-          <SearchBar onChange={({ value }) => setSearchTerm(value)} />
+          <SearchBar
+            onChange={({ value }) => setSearchTerm(value)}
+            placeholder="Search answers"
+          />
           <Options
             onChange={(e) => setOption(e.target.value)}
             option={option}
@@ -117,6 +123,9 @@ const AnswerPicker = ({
 
 AnswerPicker.propTypes = {
   data: PropTypes.arrayOf(CustomPropTypes.section),
+  contentType: PropTypes.string,
+  contentTypes: PropTypes.arrayOf(PropTypes.string),
+  setContentType: PropTypes.func,
 };
 
 export default AnswerPicker;

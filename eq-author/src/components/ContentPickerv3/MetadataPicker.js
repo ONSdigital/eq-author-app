@@ -8,21 +8,27 @@ import { colors } from "constants/theme";
 
 import { ErrorMessage } from "./ErrorMessage";
 import { SubMenuItem, MenuItemType } from "./Menu";
-import RadioToolbar from "./RadioToolbar";
+import ContentTypeSelector from "./ContentTypeSelector";
 
 import ScrollPane from "components/ScrollPane";
 import SearchBar from "components/SearchBar";
+import searchMetadata from "utils/searchFunctions/searchMetadata";
 
 const ModalTitle = styled.div`
   font-weight: bold;
   font-size: 1.2em;
   color: ${colors.textLight};
-  margin-bottom: ${(props) => props.logic && `1em`};
+  margin-bottom: 0.5em;
 `;
 
 const ModalHeader = styled.div`
-  padding: 2em 1em ${(props) => props.logic && `1em`};
+  padding: 2em 1em 1em;
   border-bottom: 1px solid ${colors.bordersLight};
+`;
+
+const ModalToolbar = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const MenuContainer = styled.div`
@@ -73,10 +79,11 @@ const MetaDataPicker = ({
   data,
   isSelected,
   onSelected,
-  logic,
-  contentView,
-  setContentView,
+  contentType,
+  contentTypes,
+  setContentType,
 }) => {
+  const [searchResults, setSearchResults] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
   const onEnterUp = (event, item) => {
@@ -86,26 +93,48 @@ const MetaDataPicker = ({
     }
   };
 
+  useEffect(() => {
+    if (data) {
+      setSearchResults(data);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (searchTerm && searchTerm !== "" && searchTerm !== " ") {
+      const results = searchMetadata(data, searchTerm);
+
+      setSearchResults(results);
+    } else {
+      setSearchResults(data);
+    }
+  }, [searchTerm, data]);
+
   // TODO: Make search bar functional
   return (
     <>
-      <ModalHeader logic={logic}>
-        <ModalTitle logic={logic}>
-          {logic ? "Select an answer or metadata" : "Select metadata"}
+      <ModalHeader>
+        <ModalTitle>
+          {contentTypes.length > 1
+            ? "Select an answer or metadata"
+            : "Select metadata"}
         </ModalTitle>
-        {logic && (
-          <>
-            <RadioToolbar
-              selectedRadio={contentView}
-              setContentView={(contentView) => setContentView(contentView)}
-            />
-            <SearchBar onChange={({ value }) => setSearchTerm(value)} />
-          </>
+        {contentTypes.length > 1 && (
+          <ContentTypeSelector
+            contentType={contentType}
+            contentTypes={contentTypes}
+            setContentType={(contentType) => setContentType(contentType)}
+          />
         )}
+        <ModalToolbar>
+          <SearchBar
+            onChange={({ value }) => setSearchTerm(value)}
+            placeholder="Search metadata"
+          />
+        </ModalToolbar>
       </ModalHeader>
       <MenuContainer>
         <ScrollPane>
-          {data.length ? (
+          {searchResults.length ? (
             <Table>
               <TableHeader>
                 <TableHeadCol>Key</TableHeadCol>
@@ -115,7 +144,7 @@ const MetaDataPicker = ({
               </TableHeader>
 
               <MetaDataItemList>
-                {data.map((metadata) => {
+                {searchResults.map((metadata) => {
                   return (
                     <MetaDataItem
                       key={metadata.id}
@@ -151,6 +180,9 @@ MetaDataPicker.propTypes = {
   data: PropTypes.arrayOf(CustomPropTypes.metadata),
   onSelected: PropTypes.func.isRequired,
   isSelected: PropTypes.func.isRequired,
+  contentType: PropTypes.string,
+  contentTypes: PropTypes.arrayOf(PropTypes.string),
+  setContentType: PropTypes.func,
 };
 
 export default MetaDataPicker;

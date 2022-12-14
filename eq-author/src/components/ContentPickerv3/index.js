@@ -46,15 +46,15 @@ const Container = styled.div`
 const ContentPicker = ({
   pageType,
   contentType,
+  contentTypes,
+  setContentType,
   data,
   onOpen,
   onClose,
   isOpen,
   startingSelectedAnswers,
   multiselect,
-  logic,
   onSubmit,
-  setContentView,
 }) => {
   const [selectedItems, setSelectedItems] = useState(
     startingSelectedAnswers || []
@@ -70,11 +70,6 @@ const ContentPicker = ({
     }
 
     return selectedItems[0].id;
-  };
-
-  const updateContentView = (contentView) => {
-    setSelectedItems([]);
-    setContentView(contentView);
   };
 
   const updateSelectedItemsSingle = (item) => {
@@ -112,6 +107,11 @@ const ContentPicker = ({
     ? updateSelectedItemsMultiple
     : updateSelectedItemsSingle;
 
+  const handleSetContentType = (value) => {
+    setSelectedItems([]);
+    setContentType(value);
+  };
+
   const renderPicker = () => {
     switch (contentType) {
       case METADATA:
@@ -123,9 +123,9 @@ const ContentPicker = ({
             }
             isSelected={isSelected}
             data={data}
-            contentView={contentType}
-            logic={logic}
-            setContentView={(contentView) => updateContentView(contentView)}
+            contentType={contentType}
+            contentTypes={contentTypes}
+            setContentType={handleSetContentType}
           />
         );
 
@@ -139,9 +139,9 @@ const ContentPicker = ({
             isSelected={isSelected}
             data={data}
             multiselect={multiselect}
-            contentView={contentType}
-            logic={logic}
-            setContentView={(contentView) => updateContentView(contentView)}
+            contentType={contentType}
+            contentTypes={contentTypes}
+            setContentType={handleSetContentType}
             firstSelectedItemId={getFirstSelectedItemId()}
           />
         );
@@ -231,6 +231,8 @@ ContentPicker.propTypes = {
   onClose: PropTypes.func,
   onSubmit: PropTypes.func,
   contentType: PropTypes.string,
+  contentTypes: PropTypes.arrayOf(PropTypes.string),
+  setContentType: PropTypes.func,
   multiselect: PropTypes.bool,
   pageType: PropTypes.string,
 };
