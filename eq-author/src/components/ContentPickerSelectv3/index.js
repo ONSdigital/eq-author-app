@@ -80,7 +80,6 @@ const formatTitle = ({ page: { alias = "", title } = {} }) =>
 export const contentPickerSelectID = "content-picker-select";
 export const contentPickerID = "content-picker";
 export const defaultContentName = "Select an answer";
-export const defaultMetadataName = "Select metadata";
 
 const ContentPickerSelect = ({
   loading,
@@ -96,7 +95,6 @@ const ContentPickerSelect = ({
 }) => {
   const [isPickerOpen, setPickerOpen] = useState(false);
   const [isTruncated, elementToTruncate] = useTruncation();
-  const contentSelectButtonText = selectedContentDisplayName;
   const [contentType, setContentType] = useState(contentTypes[0] || ANSWER);
 
   useEffect(() => {
@@ -149,12 +147,14 @@ const ContentPickerSelect = ({
         hasError={hasError}
         {...otherProps}
       >
-        <ContentSelected>{buildTitle(contentSelectButtonText)}</ContentSelected>
+        <ContentSelected>
+          {buildTitle(selectedContentDisplayName)}
+        </ContentSelected>
       </ContentSelectButton>
     ),
     [
       loading,
-      contentSelectButtonText,
+      selectedContentDisplayName,
       error,
       disabled,
       hasError,
@@ -173,9 +173,9 @@ const ContentPickerSelect = ({
       {isTruncated ? (
         <Tooltip
           content={
-            contentSelectButtonText?.page
-              ? formatTitle(contentSelectButtonText)
-              : contentSelectButtonText
+            selectedContentDisplayName?.page
+              ? formatTitle(selectedContentDisplayName)
+              : selectedContentDisplayName
           }
           place="top"
           offset={{ top: 0, bottom: 10 }}
