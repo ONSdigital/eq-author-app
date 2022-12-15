@@ -251,8 +251,7 @@ describe("metadata", () => {
       questionnaire = ctx.questionnaire;
 
       const queriedMetadata = await queryMetadata(ctx);
-
-      expect(queriedMetadata[0]).toMatchObject({
+      expect(last(queriedMetadata)).toMatchObject({
         type: DATE,
         dateValue: "2019-01-01",
         regionValue: null,
@@ -348,18 +347,18 @@ describe("metadata", () => {
     });
 
     it("should delete a metadata entry", async () => {
-      expect(await queryMetadata(ctx)).toHaveLength(2);
+      expect(await queryMetadata(ctx)).toHaveLength(7);
       await deleteMetadata(ctx, questionnaire.metadata[0].id);
       const deletedMetadata = await queryMetadata(ctx);
-      expect(deletedMetadata).toHaveLength(1);
+      expect(deletedMetadata).toHaveLength(6);
     });
 
     it("should remove fallbackKey references to deleted metadata entries", async () => {
-      ctx.questionnaire.metadata[1].fallbackKey = questionnaire.metadata[0].key;
-      expect((await queryMetadata(ctx))[1].fallbackKey).toEqual("skeleton");
-      await deleteMetadata(ctx, questionnaire.metadata[0].id);
+      ctx.questionnaire.metadata[6].fallbackKey = questionnaire.metadata[5].key;
+      expect((await queryMetadata(ctx))[6].fallbackKey).toEqual("skeleton");
+      await deleteMetadata(ctx, questionnaire.metadata[5].id);
       const deletedMetadata = await queryMetadata(ctx);
-      expect(deletedMetadata[0].fallbackKey).toBeNull();
+      expect(deletedMetadata[5].fallbackKey).toBeNull();
     });
   });
 });

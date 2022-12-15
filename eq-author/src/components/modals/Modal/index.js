@@ -3,7 +3,6 @@ import ReactModal from "react-modal";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { colors } from "constants/theme";
-import UnstyledCloseButton from "components/buttons/CloseButton";
 import ScrollPane from "components/ScrollPane";
 
 const ANIMATION_DURATION = 100;
@@ -12,13 +11,17 @@ const StyledScrollPane = styled(ScrollPane)`
   max-height: 100vh;
 `;
 
-export const CloseButton = styled(UnstyledCloseButton).attrs({
-  size: "medium",
-})`
-  position: absolute;
-  top: 0.25em;
-  right: 0.5em;
-  padding: 0;
+export const CloseButton = styled.button`
+  color: ${colors.modalCloseButton};
+  float: right;
+  font-size: 32px;
+  /* Removes default button styling */
+  cursor: pointer;
+  border: none;
+  background: none;
+  margin: 0;
+  margin-top: 0.1rem;
+  margin-right: 0.05em;
 `;
 
 const ReactModalAdapter = ({ className, modalClassName, ...props }) => (
@@ -61,7 +64,7 @@ const StyledModal = styled(ReactModalAdapter).attrs({
     opacity: 0;
 
     &:focus {
-      outline: 3px solid ${colors.tertiary};
+      outline: 3px solid ${colors.primary};
     }
 
     &--after-open {
@@ -156,7 +159,9 @@ class Modal extends React.Component {
       >
         <StyledScrollPane>
           {hasCloseButton && (
-            <CloseButton onClick={onClose}>&times;</CloseButton>
+            <CloseButton role="button" onClick={onClose} aria-label="Close">
+              &times;
+            </CloseButton>
           )}
           {children}
         </StyledScrollPane>
