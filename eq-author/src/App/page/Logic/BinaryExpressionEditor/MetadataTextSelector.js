@@ -51,6 +51,7 @@ const MetadataTextSelector = ({ expression }) => {
 
     return message;
   };
+
   return (
     <>
       <RoutingSelectorContainer hasError={hasError}>
@@ -76,6 +77,10 @@ const MetadataTextSelector = ({ expression }) => {
       {hasError && <ValidationError>{handleError()}</ValidationError>}
     </>
   );
+};
+
+MetadataTextSelector.propTypes = {
+  expression: PropTypes.object, //eslint-disable-line
 };
 
 export default MetadataTextSelector;
