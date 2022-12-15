@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useMutation } from "@apollo/react-hooks";
 import styled from "styled-components";
@@ -31,8 +31,9 @@ const ConditionContent = styled.span`
 `;
 
 const MetadataTextSelector = ({ expression }) => {
-  const rightSideText = expression?.right?.text;
+  const { text: rightSideText } = expression.right;
   const [updateRightSide] = useMutation(UPDATE_RIGHT_SIDE);
+  const [metadataMatchText, updateMetadataMatchText] = useState(rightSideText);
 
   return (
     <RoutingSelectorContainer>
@@ -41,13 +42,14 @@ const MetadataTextSelector = ({ expression }) => {
         id="metadata-match-input"
         name="label"
         data-test="metadata-match-input"
-        value={rightSideText}
-        onChange={({ value }) =>
+        value={metadataMatchText}
+        onChange={({ value }) => updateMetadataMatchText(value)}
+        onBlur={() =>
           updateRightSide({
             variables: {
               input: {
                 expressionId: expression.id,
-                customValue: { text: value },
+                customValue: { text: metadataMatchText },
               },
             },
           })
