@@ -42,6 +42,7 @@ export class PageTitleContainer extends React.Component {
         <Collapsible
           title="Page description"
           className="pageDescriptionCollapsible"
+          dataTestIdPrefix="page-title-"
           defaultOpen
           withoutHideThis
           variant={marginless ? "marginlessContent" : "content"}

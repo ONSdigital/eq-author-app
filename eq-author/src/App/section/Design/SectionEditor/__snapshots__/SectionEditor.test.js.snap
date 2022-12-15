@@ -109,6 +109,7 @@ exports[`SectionEditor should render 1`] = `
       errors={Array []}
       onChange={[MockFunction]}
       onUpdate={[MockFunction]}
+      pageDescription="Section 1 page title"
     />
   </SectionEditor__Padding>
 </SectionEditor__SectionCanvas>
@@ -223,6 +224,7 @@ exports[`SectionEditor should render 2`] = `
       errors={Array []}
       onChange={[MockFunction]}
       onUpdate={[MockFunction]}
+      pageDescription="Section 2 page title"
     />
   </SectionEditor__Padding>
 </SectionEditor__SectionCanvas>

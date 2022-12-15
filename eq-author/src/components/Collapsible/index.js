@@ -168,6 +168,7 @@ const Collapsible = ({
   children,
   variant = "default",
   errorCount,
+  dataTestIdPrefix,
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
@@ -184,14 +185,20 @@ const Collapsible = ({
   return (
     <Wrapper
       className={className}
-      data-test="collapsible"
+      data-test={
+        dataTestIdPrefix ? `${dataTestIdPrefix}collapsible` : "collapsible"
+      }
       variant={variant}
       hasError={errorCount}
       isOpen={isOpen}
     >
       <Header
         className="collapsible-header"
-        data-test="collapsible-header"
+        data-test={
+          dataTestIdPrefix
+            ? `${dataTestIdPrefix}collapsible-header`
+            : "collapsible-header"
+        }
         isOpen={isOpen}
         variant={variant}
         onClick={
@@ -202,7 +209,11 @@ const Collapsible = ({
       >
         <Title
           className="collapsible-title"
-          data-test="collapsible-title"
+          data-test={
+            dataTestIdPrefix
+              ? `${dataTestIdPrefix}collapsible-title`
+              : "collapsible-title"
+          }
           variant={variant}
         >
           <ToggleCollapsibleButton
@@ -214,7 +225,11 @@ const Collapsible = ({
             }
             aria-expanded={isOpen}
             aria-controls="collapsible-body"
-            data-test="collapsible-toggle-button"
+            data-test={
+              dataTestIdPrefix
+                ? `${dataTestIdPrefix}collapsible-toggle-button`
+                : "collapsible-toggle-button"
+            }
             className="collapsible-toggle-Collapsible-Button"
             variant={variant}
           >
@@ -232,7 +247,11 @@ const Collapsible = ({
       </Header>
       <Body
         className="collapsible-body"
-        data-test="collapsible-body"
+        data-test={
+          dataTestIdPrefix
+            ? `${dataTestIdPrefix}collapsible-body`
+            : "collapsible-body"
+        }
         isOpen={isOpen}
         aria-hidden={!isOpen}
         variant={variant}
@@ -242,7 +261,11 @@ const Collapsible = ({
           <HideThisButton
             medium
             onClick={() => setIsOpen(false)}
-            data-test="collapsible-hide-button"
+            data-test={
+              dataTestIdPrefix
+                ? `${dataTestIdPrefix}collapsible-hide-button`
+                : "collapsible-hide-button"
+            }
           >
             Hide this
           </HideThisButton>
@@ -287,6 +310,7 @@ Collapsible.propTypes = {
     "properties",
   ]),
   errorCount: PropTypes.number,
+  dataTestIdPrefix: PropTypes.string,
 };
 
 export default Collapsible;

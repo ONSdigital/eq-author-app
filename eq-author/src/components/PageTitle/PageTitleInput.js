@@ -56,7 +56,9 @@ const PageTitleInput = ({
   error,
 }) => (
   <PageTitleContent>
-    <Heading>Descriptions and definitions</Heading>
+    <Heading data-test="page-title-input-heading">
+      Descriptions and definitions
+    </Heading>
     <p>
       The page description is the first part of the page title. Page titles
       follow the structure: ‘page description – questionnaire title’.
@@ -78,8 +80,11 @@ const PageTitleInput = ({
         page titles in the tab at the top of your browser.
       </p>
     </Justification>
-    <Field>
-      <Label htmlFor={altFieldName ? altFieldName : "pageDescription"}>
+    <Field data-test="page-title-missing-error">
+      <Label
+        data-test="page-title-input-field-label"
+        htmlFor={altFieldName ? altFieldName : "pageDescription"}
+      >
         Page description
       </Label>
       <StyledInput
