@@ -12,9 +12,9 @@ exports[`QuestionnaireSettingsModal should render 1`] = `
 >
   <DialogHeader___default>
     <DialogMessage__Message>
-      <QuestionnaireSettingsModal__CenteredHeading>
-        Questionnaire settings
-      </QuestionnaireSettingsModal__CenteredHeading>
+      <QuestionnaireSettingsModal__Title>
+        New questionnaire
+      </QuestionnaireSettingsModal__Title>
     </DialogMessage__Message>
   </DialogHeader___default>
   <Connect(withEntityEditor(StatelessQuestionnaireMeta))

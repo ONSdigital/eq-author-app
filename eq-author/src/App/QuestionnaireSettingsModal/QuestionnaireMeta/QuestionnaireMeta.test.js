@@ -50,34 +50,19 @@ describe("QuestionnaireMeta", () => {
   });
 
   it("should not enable the submit button until you have a type and a title", () => {
+    wrapper.setProps({
+      questionnaire: { ...questionnaire, title: "" },
+    });
     expect(
       wrapper.find('[data-test="questionnaire-submit-button"]').prop("disabled")
     ).toBe(true);
 
     wrapper.setProps({
-      questionnaire: { ...questionnaire, title: "hello", type: "Business" },
+      questionnaire: { ...questionnaire, title: "hello" },
     });
 
     expect(
       wrapper.find('[data-test="questionnaire-submit-button"]').prop("disabled")
     ).toBe(false);
-  });
-
-  it("should not able to change the type of the questionnaire when canEditType is false", () => {
-    wrapper = shallow(
-      <StatelessQuestionnaireMeta
-        questionnaire={questionnaire}
-        onChange={handleChange}
-        onUpdate={handleUpdate}
-        onSubmit={handleSubmit}
-        onBlur={handleBlur}
-        confirmText="Create"
-        canEditType={false}
-      />
-    );
-
-    expect(
-      wrapper.find('[data-test="select-questionnaire-type"]').prop("disabled")
-    ).toBe(true);
   });
 });
