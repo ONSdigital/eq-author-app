@@ -245,6 +245,10 @@ export const rightSideErrors = {
     message: "Enter a valid number",
     optionsMessage: "Select at least one option",
   },
+  ERR_RIGHTSIDE_TEXT_NO_VALUE: {
+    errorCode: "ERR_RIGHTSIDE_TEXT_NO_VALUE",
+    message: "Value required",
+  },
   ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED: {
     errorCode: "ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED",
     message: "All of not allowed in rule with checkbox OR option",
