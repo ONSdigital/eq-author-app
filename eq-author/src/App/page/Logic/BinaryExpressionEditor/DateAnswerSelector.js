@@ -66,6 +66,7 @@ const ContentRow = styled.div`
 const ContentColumn = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 0.1em;
 `;
 
 const ContentItem = styled.div`
