@@ -31,9 +31,10 @@ const ConditionContent = styled.span`
 `;
 
 const MetadataTextSelector = ({ expression }) => {
-  const { text: rightSideText } = expression.right;
   const [updateRightSide] = useMutation(UPDATE_RIGHT_SIDE);
-  const [metadataMatchText, updateMetadataMatchText] = useState(rightSideText);
+  const [metadataMatchText, updateMetadataMatchText] = useState(
+    expression?.right?.text
+  );
 
   return (
     <RoutingSelectorContainer>
