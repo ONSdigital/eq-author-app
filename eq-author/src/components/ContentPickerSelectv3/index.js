@@ -11,7 +11,7 @@ import Button from "components/buttons/Button";
 import Truncated from "components/Truncated";
 import Tooltip from "components/Forms/Tooltip";
 
-import iconChevron from "components/ContentPickerSelect/icon-chevron.svg";
+import iconChevron from "components/ContentPickerSelectv3/icon-chevron.svg";
 
 import { useTruncation } from "./useTruncation";
 

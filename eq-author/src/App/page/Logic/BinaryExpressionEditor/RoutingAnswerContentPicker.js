@@ -14,7 +14,11 @@ import { TEXT, TEXT_OPTIONAL } from "constants/metadata-types";
 export const preprocessAnswers = (answer) =>
   ROUTING_ANSWER_TYPES.includes(answer.type) ? answer : [];
 
-const RoutingAnswerContentPicker = ({ includeSelf, ...otherProps }) => {
+const RoutingAnswerContentPicker = ({
+  includeSelf,
+  selectedContentDisplayName,
+  ...otherProps
+}) => {
   const { questionnaire } = useQuestionnaire();
   const pageId = useCurrentPageId();
 
@@ -44,6 +48,9 @@ const RoutingAnswerContentPicker = ({ includeSelf, ...otherProps }) => {
       contentTypes={[ANSWER, METADATA]}
       data={data}
       contentPickerTitle="Select an answer or metadata"
+      selectedContentDisplayName={
+        selectedContentDisplayName || "Select an answer or metadata"
+      }
       {...otherProps}
     />
   );
@@ -51,6 +58,8 @@ const RoutingAnswerContentPicker = ({ includeSelf, ...otherProps }) => {
 
 RoutingAnswerContentPicker.propTypes = {
   includeSelf: PropTypes.bool,
+  // eslint-disable-next-line react/forbid-prop-types
+  selectedContentDisplayName: PropTypes.object,
 };
 
 export default RoutingAnswerContentPicker;
