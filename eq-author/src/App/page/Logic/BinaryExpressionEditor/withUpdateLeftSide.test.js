@@ -20,11 +20,12 @@ describe("withUpdateLeftSide", () => {
           id: "id",
           foo: "bar",
         },
-        "answerId"
+        "answer-1", //contentId parameter
+        "answerId" //contentType parameter
       );
       expect(mutate).toHaveBeenCalledWith({
         refetchQueries: ["GetQuestionnaire"],
-        variables: { input: { expressionId: "id", answerId: "answerId" } },
+        variables: { input: { expressionId: "id", answerId: "answer-1" } },
       });
     });
   });
