@@ -4,12 +4,15 @@ import { render, fireEvent } from "tests/utils/rtl";
 import ContentPickerSelect, {
   contentPickerSelectID,
   defaultContentName,
-  defaultMetadataName,
-} from "components/ContentPickerSelect";
+} from "components/ContentPickerSelectv3";
 
 import { useTruncation } from "./useTruncation";
 
-import { ANSWER, METADATA } from "components/ContentPickerSelect/content-types";
+import {
+  ANSWER,
+  METADATA,
+  CONTENT_TYPE_FIELDS,
+} from "components/ContentPickerSelectv3/content-types";
 import { CURRENCY, NUMBER } from "constants/answer-types";
 
 jest.mock("./useTruncation", () => ({
@@ -68,7 +71,7 @@ const metadataData = [
     type: "Region",
   },
 ];
-
+const data = {};
 const defaultSetup = (props) => {
   const onSubmit = jest.fn();
 
@@ -77,7 +80,6 @@ const defaultSetup = (props) => {
   const select = utils.getByTestId(contentPickerSelectID);
   const selectAnswer = "Select an answer";
   const confirm = "Confirm";
-
   return { onSubmit, select, selectAnswer, confirm, ...utils };
 };
 
@@ -88,26 +90,29 @@ const modifiedSetup = (newProps) => {
 
 const answerSetup = ({
   selectedContentDisplayName = undefined,
+  answerData,
   ...extra
 } = {}) => {
+  data[ANSWER] = answerData;
   const utils = modifiedSetup({
     contentTypes: [ANSWER],
     answerTypes: [NUMBER, CURRENCY],
     selectedContentDisplayName,
+    data,
     ...extra,
   });
   return { ...utils };
 };
 
 const metadataSetup = () => {
+  data[METADATA] = metadataData;
   const utils = modifiedSetup({
     contentTypes: [METADATA],
-    metadataData,
+    selectedContentDisplayName: "Select metadata",
+    data,
   });
-
-  const selectMetadata = defaultMetadataName;
-
-  return { selectMetadata, ...utils };
+  const pickerDisplayName = "Select metadata";
+  return { pickerDisplayName, ...utils };
 };
 
 describe("ContentPickerSelect", () => {
@@ -176,7 +181,7 @@ describe("ContentPickerSelect", () => {
       fireEvent.click(getByText(confirm));
 
       expect(onSubmit).toHaveBeenCalledWith({
-        name: props.name,
+        name: CONTENT_TYPE_FIELDS[ANSWER],
         value: {
           displayName: "Answer 1",
           id: "answer-1",
@@ -251,10 +256,10 @@ describe("ContentPickerSelect", () => {
 
   describe("metadata types", () => {
     it("should render", () => {
-      const { select, selectMetadata, getAllByText } = metadataSetup();
+      const { select, pickerDisplayName, getAllByText } = metadataSetup();
       fireEvent.click(select);
 
-      expect(getAllByText(selectMetadata)).toHaveLength(2);
+      expect(getAllByText(pickerDisplayName)).toHaveLength(2);
     });
   });
 });
