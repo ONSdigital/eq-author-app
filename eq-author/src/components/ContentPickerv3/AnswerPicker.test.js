@@ -75,6 +75,7 @@ describe("Content Picker Answer Picker", () => {
   beforeEach(() => {
     props = {
       data: [section1],
+      contentTypes: [],
       isSelected: jest.fn(),
       onSelected: jest.fn(),
       isSectionSelected: jest.fn(),
