@@ -177,10 +177,13 @@ describe("BinaryExpressionEditor", () => {
       value: {
         id: "999",
       },
+      name: "answerId",
     });
+
     expect(defaultProps.updateLeftSide).toHaveBeenCalledWith(
       defaultProps.expression,
-      "999"
+      "999",
+      "answerId"
     );
   });
 
