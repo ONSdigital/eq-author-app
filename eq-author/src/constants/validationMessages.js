@@ -247,7 +247,7 @@ export const rightSideErrors = {
   },
   ERR_RIGHTSIDE_TEXT_NO_VALUE: {
     errorCode: "ERR_RIGHTSIDE_TEXT_NO_VALUE",
-    message: "Value required",
+    message: "Enter a metadata value",
   },
   ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED: {
     errorCode: "ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED",
