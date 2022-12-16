@@ -10,7 +10,7 @@ import {
 
 import ContentPicker from "./";
 
-import { EndOfQuestionnaire, NextPage } from "constants/destinations";
+import { NextPage } from "constants/destinations";
 
 import { useQuestionnaire } from "components/QuestionnaireContext";
 
@@ -19,13 +19,20 @@ jest.mock("components/QuestionnaireContext", () => ({
 }));
 
 describe("Content picker", () => {
-  let data, onClose, onSubmit, startingSelectedAnswers, questionnaire, props;
+  let data,
+    contentTypes,
+    onClose,
+    onSubmit,
+    startingSelectedAnswers,
+    questionnaire,
+    props;
 
   beforeEach(() => {
     onClose = jest.fn();
     onSubmit = jest.fn();
     startingSelectedAnswers = [];
     questionnaire = { hub: false };
+    contentTypes = [];
     data = [
       {
         id: "section 1",
@@ -84,7 +91,7 @@ describe("Content picker", () => {
 
     useQuestionnaire.mockImplementation(() => ({ questionnaire }));
 
-    props = { data, onClose, onSubmit, startingSelectedAnswers };
+    props = { data, contentTypes, onClose, onSubmit, startingSelectedAnswers };
   });
 
   const renderContentPicker = (args) =>
