@@ -249,6 +249,11 @@ export const rightSideErrors = {
     errorCode: "ERR_RIGHTSIDE_TEXT_NO_VALUE",
     message: "Enter a metadata value",
   },
+  ERR_RIGHTSIDE_NO_CONDITION: {
+    errorCode: "ERR_RIGHTSIDE_NO_CONDITION",
+    message: "Select a condition",
+    optionsMessage: "Select a condition",
+  },
   ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED: {
     errorCode: "ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED",
     message: "All of not allowed in rule with checkbox OR option",

@@ -56,6 +56,10 @@ fragment BinaryExpressionEditor on BinaryExpression2 {
       number
       text
     }
+    ... on DateValue {
+      offset
+      offsetDirection
+    }
   }
   validationErrorInfo {
     id

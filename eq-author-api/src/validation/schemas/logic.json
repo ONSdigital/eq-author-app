@@ -150,7 +150,7 @@
             "type": "object",
             "properties": {
               "type": {
-                "enum": ["Custom", "SelectedOptions"]
+                "enum": ["Custom", "SelectedOptions", "DateValue"]
               },
               "optionIds": {
                 "type": "array",
@@ -171,6 +171,21 @@
                     "type": "string",
                     "pattern": "\\w+",
                     "errorMessage": "ERR_RIGHTSIDE_NO_VALUE"
+                  }
+                }
+              },
+              "dateValue": {
+                "type": "object",
+                "properties": {
+                  "offset": {
+                    "type": "number",
+                    "nullable": false,
+                    "errorMessage": "ERR_RIGHTSIDE_NO_VALUE"
+                  },
+                  "offsetDirection": {
+                    "type": "string",
+                    "nullable": false,
+                    "errorMessage": "ERR_RIGHTSIDE_NO_CONDITION"
                   }
                 }
               }

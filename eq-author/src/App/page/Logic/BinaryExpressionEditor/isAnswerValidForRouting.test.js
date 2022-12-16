@@ -8,6 +8,7 @@ describe("isAnswerValidForRouting", () => {
       answerTypes.NUMBER,
       answerTypes.CURRENCY,
       answerTypes.RADIO,
+      answerTypes.DATE,
     ];
     Object.values(answerTypes).forEach((type) => {
       expect(isAnswerValidForRouting({ type })).toEqual(

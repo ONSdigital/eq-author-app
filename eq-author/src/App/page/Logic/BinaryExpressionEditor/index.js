@@ -12,6 +12,7 @@ import {
   PERCENTAGE,
   UNIT,
   CHECKBOX,
+  DATE,
   SELECT,
 } from "constants/answer-types";
 
@@ -48,6 +49,7 @@ import withUpdateRightSide from "./withUpdateRightSide";
 import withUpdateBinaryExpression from "./withUpdateBinaryExpression";
 import MultipleChoiceAnswerOptionsSelector from "./MultipleChoiceAnswerOptionsSelector";
 import NumberAnswerSelector from "./NumberAnswerSelector";
+import DateAnswerSelector from "./DateAnswerSelector";
 
 import DELETE_SKIP_CONDITION from "../../../shared/Logic/SkipLogic/deleteSkipCondition.graphql";
 
@@ -112,6 +114,7 @@ const ANSWER_TYPE_TO_RIGHT_EDITOR = {
   [PERCENTAGE]: NumberAnswerSelector,
   [CURRENCY]: NumberAnswerSelector,
   [UNIT]: NumberAnswerSelector,
+  [DATE]: DateAnswerSelector,
 };
 
 const METADATA_TYPE_TO_RIGHT_EDITOR = {
