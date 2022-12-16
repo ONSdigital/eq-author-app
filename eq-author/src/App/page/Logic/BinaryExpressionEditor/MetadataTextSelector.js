@@ -54,7 +54,10 @@ const MetadataTextSelector = ({ expression }) => {
 
   return (
     <>
-      <RoutingSelectorContainer hasError={hasError}>
+      <RoutingSelectorContainer
+        hasError={hasError}
+        data-test="routing-selector-container-metadata"
+      >
         <ConditionContent>{expression.condition}</ConditionContent>
         <WrappingInput
           id="metadata-match-input"
