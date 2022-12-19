@@ -9,10 +9,22 @@ export const mapMutateToProps = ({ mutate }) => ({
     alias,
     introductionTitle,
     introductionContent,
+    repeatingSection,
+    repeatingSectionlistId,
+    repeatingSectionTitle,
   }) {
     return mutate({
       variables: {
-        input: { id, title, alias, introductionTitle, introductionContent },
+        input: {
+          id,
+          title,
+          alias,
+          introductionTitle,
+          introductionContent,
+          repeatingSection,
+          repeatingSectionlistId,
+          repeatingSectionTitle,
+        },
       },
     });
   },

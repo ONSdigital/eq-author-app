@@ -8,6 +8,9 @@ fragment Section on Section {
   showOnHub
   sectionSummary
   collapsibleSummary
+  repeatingSection
+  repeatingSectionlistId
+  repeatingSectionTitle
   questionnaire {
     id
     navigation

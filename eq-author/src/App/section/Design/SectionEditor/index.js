@@ -11,6 +11,7 @@ import { Label } from "components/Forms";
 import Modal from "components-themed/Modal";
 import HubSettings from "./HubSettings";
 import SectionSummary from "./SectionSummary";
+import RepeatingSection from "./RepeatingSection";
 
 import { colors, radius } from "constants/theme";
 
@@ -230,6 +231,13 @@ export class SectionEditor extends React.Component {
               }
             />
           </IntroCanvas>
+          <HorizontalRule />
+          <RepeatingSection
+            section={section}
+            onChange={onChange}
+            onUpdate={onUpdate}
+            handleUpdate={handleUpdate}
+          />
         </Padding>
       </SectionCanvas>
     );
