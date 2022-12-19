@@ -469,7 +469,7 @@ describe("multiple choice answer", () => {
         ).toEqual(2);
       });
 
-      it.only("should remove deleted options from routing rules", async () => {
+      it("should remove deleted options from routing rules", async () => {
         const { questionnaire } = ctx;
 
         const dynamicOption =
