@@ -455,7 +455,9 @@ describe("multiple choice answer", () => {
       it("should update options", async () => {
         const questionnaire = ctx.questionnaire;
 
-        const option = getOption(questionnaire);
+        const option =
+          questionnaire.sections[0].folders[0].pages[1].answers[0].options[0];
+
         const update = {
           id: option.id,
           dynamicAnswer: true,
@@ -463,8 +465,9 @@ describe("multiple choice answer", () => {
 
         const updatedOption = await updateOption(ctx, update);
         expect(updatedOption).toEqual(expect.objectContaining(update));
+
         expect(
-          questionnaire.sections[0].folders[0].pages[0].answers[0].options
+          questionnaire.sections[0].folders[0].pages[1].answers[0].options
             .length
         ).toEqual(2);
       });
