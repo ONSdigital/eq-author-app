@@ -14,7 +14,9 @@ exports[`components/Modal should render its children 1`] = `
 >
   <Modal__StyledScrollPane>
     <Modal__CloseButton
+      aria-label="Close"
       onClick={[MockFunction]}
+      role="button"
     >
       ×
     </Modal__CloseButton>

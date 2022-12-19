@@ -7,7 +7,7 @@ import { noop } from "lodash";
 import { useQuestionnaire } from "components/QuestionnaireContext";
 
 import DialogHeader from "components/Dialog/DialogHeader";
-import { Message, Heading } from "components/Dialog/DialogMessage";
+import { Message } from "components/Dialog/DialogMessage";
 import Modal from "components/modals/Modal";
 import QuestionnaireMeta from "./QuestionnaireMeta";
 
@@ -19,14 +19,20 @@ const defaultQuestionnaire = {
   navigation: false,
 };
 
-const CenteredHeading = styled(Heading)`
-  text-align: center;
-  margin-bottom: 2.5rem;
+const Title = styled.h2`
+  margin-left: 0em 0em 0em 0.1em;
+  padding-top: 0em;
+  padding-bottom: 0.8em;
+  top: 0;
 `;
 
 const StyledModal = styled(Modal)`
   .Modal {
-    width: 37em;
+    top: 17%;
+    width: 40em;
+    padding: 24px;
+    padding-top: 0;
+    box-shadow: 0px 0px 10px black;
   }
 `;
 
@@ -36,6 +42,7 @@ const QuestionnaireSettingsModal = ({
   onSubmit,
   confirmText,
   canEditType,
+  title,
 }) => {
   const { questionnaire } = useQuestionnaire();
   return (
@@ -46,7 +53,7 @@ const QuestionnaireSettingsModal = ({
     >
       <DialogHeader>
         <Message>
-          <CenteredHeading>Questionnaire settings</CenteredHeading>
+          <Title>{title}</Title>
         </Message>
       </DialogHeader>
       <QuestionnaireMeta
@@ -67,11 +74,13 @@ QuestionnaireSettingsModal.propTypes = {
   onClose: PropTypes.func,
   confirmText: PropTypes.string.isRequired,
   canEditType: PropTypes.bool,
+  title: PropTypes.string.isRequired,
 };
 
 QuestionnaireSettingsModal.defaultProps = {
   questionnaire: defaultQuestionnaire,
   canEditType: true,
+  title: "New questionnaire",
 };
 
 QuestionnaireSettingsModal.fragments = {

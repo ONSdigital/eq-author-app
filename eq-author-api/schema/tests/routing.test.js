@@ -1,5 +1,5 @@
 const { buildContext } = require("../../tests/utils/contextBuilder");
-const { RADIO, NUMBER } = require("../../constants/answerTypes");
+const { RADIO, NUMBER, DATE } = require("../../constants/answerTypes");
 
 const executeQuery = require("../../tests/utils/executeQuery");
 const {
@@ -20,6 +20,7 @@ const {
 const {
   ERR_ANSWER_NOT_SELECTED,
   ERR_RIGHTSIDE_NO_VALUE,
+  ERR_RIGHTSIDE_NO_CONDITION,
 } = require("../../constants/validationErrorCodes");
 
 const {
@@ -595,6 +596,187 @@ describe("routing", () => {
           .validationErrorInfo.errors;
       expect(errors).toHaveLength(1);
       expect(errors[0].errorCode).toBe(ERR_RIGHTSIDE_NO_VALUE);
+    });
+
+    it("should validate the right side for date routing if the number value is null or empty", async () => {
+      config.sections[0].folders[0].pages[0].routing = {
+        rules: [{ expressionGroup: { expressions: [{}] } }],
+      };
+      config.sections[0].folders[0].pages[0].answers = [
+        {
+          type: DATE,
+        },
+      ];
+
+      const ctx = await buildContext(config);
+      const { questionnaire } = ctx;
+
+      const firstPage = questionnaire.sections[0].folders[0].pages[0];
+      const firstAnswer =
+        questionnaire.sections[0].folders[0].pages[0].answers[0];
+      const expression =
+        firstPage.routing.rules[0].expressionGroup.expressions[0];
+
+      await executeQuery(
+        updateLeftSideMutation,
+        {
+          input: {
+            expressionId: expression.id,
+            answerId: firstAnswer.id,
+          },
+        },
+        ctx
+      );
+      await executeQuery(
+        updateBinaryExpressionMutation,
+        {
+          input: {
+            id: expression.id,
+            condition: "LessThan",
+          },
+        },
+        ctx
+      );
+      await executeQuery(
+        updateRightSideMutation,
+        {
+          input: {
+            expressionId: expression.id,
+            dateValue: {
+              offset: null,
+              offsetDirection: "Before",
+            },
+          },
+        },
+        ctx
+      );
+
+      const result = await queryPage(ctx, firstPage.id);
+
+      const errors =
+        result.routing.rules[0].expressionGroup.expressions[0]
+          .validationErrorInfo.errors;
+      expect(errors).toHaveLength(1);
+      expect(errors[0].errorCode).toBe(ERR_RIGHTSIDE_NO_VALUE);
+    });
+
+    it("should validate the right side for date routing if the offset direction is null or empty", async () => {
+      config.sections[0].folders[0].pages[0].routing = {
+        rules: [{ expressionGroup: { expressions: [{}] } }],
+      };
+      config.sections[0].folders[0].pages[0].answers = [
+        {
+          type: DATE,
+        },
+      ];
+
+      const ctx = await buildContext(config);
+      const { questionnaire } = ctx;
+
+      const firstPage = questionnaire.sections[0].folders[0].pages[0];
+      const firstAnswer =
+        questionnaire.sections[0].folders[0].pages[0].answers[0];
+      const expression =
+        firstPage.routing.rules[0].expressionGroup.expressions[0];
+
+      await executeQuery(
+        updateLeftSideMutation,
+        {
+          input: {
+            expressionId: expression.id,
+            answerId: firstAnswer.id,
+          },
+        },
+        ctx
+      );
+      await executeQuery(
+        updateBinaryExpressionMutation,
+        {
+          input: {
+            id: expression.id,
+            condition: "LessThan",
+          },
+        },
+        ctx
+      );
+      await executeQuery(
+        updateRightSideMutation,
+        {
+          input: {
+            expressionId: expression.id,
+            dateValue: {
+              offset: 5,
+              offsetDirection: null,
+            },
+          },
+        },
+        ctx
+      );
+
+      const result = await queryPage(ctx, firstPage.id);
+
+      const errors =
+        result.routing.rules[0].expressionGroup.expressions[0]
+          .validationErrorInfo.errors;
+      expect(errors).toHaveLength(1);
+      expect(errors[0].errorCode).toBe(ERR_RIGHTSIDE_NO_CONDITION);
+    });
+
+    it("for date routing, should be able to enter a number in the right", async () => {
+      config.sections[0].folders[0].pages[0].routing = {
+        rules: [{ expressionGroup: { expressions: [{}] } }],
+      };
+      config.sections[0].folders[0].pages[0].answers = [
+        {
+          type: DATE,
+        },
+      ];
+      const ctx = await buildContext(config);
+      const { questionnaire } = ctx;
+      const datePage = questionnaire.sections[0].folders[0].pages[0];
+      const dateAnswer =
+        questionnaire.sections[0].folders[0].pages[0].answers[0];
+      const expression =
+        datePage.routing.rules[0].expressionGroup.expressions[0];
+
+      await executeQuery(
+        updateLeftSideMutation,
+        {
+          input: {
+            expressionId: expression.id,
+            answerId: dateAnswer.id,
+          },
+        },
+        ctx
+      );
+      await executeQuery(
+        updateBinaryExpressionMutation,
+        {
+          input: {
+            id: expression.id,
+            condition: "LessThan",
+          },
+        },
+        ctx
+      );
+      await executeQuery(
+        updateRightSideMutation,
+        {
+          input: {
+            expressionId: expression.id,
+            dateValue: {
+              offset: 5,
+              offsetDirection: "Before",
+            },
+          },
+        },
+        ctx
+      );
+
+      const result = await queryPage(ctx, datePage.id);
+      expect(
+        result.routing.rules[0].expressionGroup.expressions[0].right.offset
+      ).toEqual(5);
     });
 
     it("should be able to update the selected options array", async () => {

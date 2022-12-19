@@ -218,11 +218,11 @@ describe("schema validation", () => {
       expect(errors[0].errorCode).toBe(ERR_INVALID);
     });
 
-    it("shouldn't return an error if survey ID is missing on a social survey", () => {
+    it("should return an error if survey ID is missing on a social survey", () => {
       questionnaire.surveyId = null;
       questionnaire.type = "Social";
       const errors = validation(questionnaire);
-      expect(errors).toHaveLength(0);
+      expect(errors[0].errorCode).toBe(ERR_VALID_REQUIRED);
     });
   });
 
