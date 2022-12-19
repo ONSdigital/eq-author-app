@@ -398,7 +398,7 @@ describe("multiple choice answer", () => {
     });
 
     describe("update", () => {
-      it("should update options", async () => {
+      beforeEach(async () => {
         ctx = await buildContext({
           sections: [
             {
@@ -408,18 +408,37 @@ describe("multiple choice answer", () => {
                     {
                       answers: [
                         {
+                          id: "checkbox-id",
+                          type: CHECKBOX,
+                          options: [{}],
+                        },
+                      ],
+                      routing: {
+                        rules: [
+                          {
+                            expressionGroup: {
+                              expressions: [{}],
+                            },
+                          },
+                        ],
+                      },
+                    },
+                    {
+                      answers: [
+                        {
                           type: RADIO,
                           options: [
                             {
-                              id: 1,
-                              label: "Dynamic Answer",
+                              id: "dynamic-answer",
+                              dynamicAnswer: true,
+                              dynamicAnswerID: "checkbox-id",
                             },
                             {
-                              id: 2,
-                              label: "Keep Me",
+                              id: "option-2",
+                              label: "keep-me",
                             },
                             {
-                              id: 3,
+                              id: "option-3",
                             },
                           ],
                         },
@@ -431,6 +450,9 @@ describe("multiple choice answer", () => {
             },
           ],
         });
+      });
+
+      it("should update options", async () => {
         const questionnaire = ctx.questionnaire;
 
         const option = getOption(questionnaire);
@@ -445,6 +467,31 @@ describe("multiple choice answer", () => {
           questionnaire.sections[0].folders[0].pages[0].answers[0].options
             .length
         ).toEqual(2);
+      });
+
+      it.only("should remove deleted options from routing rules", async () => {
+        const { questionnaire } = ctx;
+
+        const dynamicOption =
+          questionnaire.sections[0].folders[0].pages[1].answers[0].options[0];
+        const thirdOption =
+          questionnaire.sections[0].folders[0].pages[1].answers[0].options[2];
+
+        const expression =
+          questionnaire.sections[0].folders[0].pages[0].routing.rules[0]
+            .expressionGroup.expressions[0];
+        expression.right = {
+          optionIds: [thirdOption.id],
+        };
+
+        const update = {
+          id: dynamicOption.id,
+          dynamicAnswer: true,
+        };
+
+        await updateOption(ctx, update);
+
+        expect(expression.right.optionIds.length).toBe(0);
       });
     });
 
