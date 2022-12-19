@@ -30,6 +30,7 @@ const ContentTypeSelector = ({ contentType, contentTypes, setContentType }) => {
           <>
             <StyledRadioInput
               id={`content-type-selector-${selectorContentType}`}
+              data-test={`content-type-selector-${selectorContentType}`}
               type="radio"
               checked={contentType === selectorContentType}
               onChange={() => setContentType(selectorContentType)}
