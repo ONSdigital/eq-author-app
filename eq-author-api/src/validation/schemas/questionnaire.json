@@ -12,9 +12,9 @@
       "$ref": "themeSettings.json"
     },
     "introduction": {
-       "$ref": "introduction.json"
+      "$ref": "introduction.json"
     },
-    "collectionLists" : {
+    "collectionLists": {
       "type": "object",
       "properties": {
         "lists": {
@@ -24,36 +24,20 @@
           }
         }
       }
-    }
-  },
-  "anyOf": [
-    {
-      "properties": {
-        "type": {
-          "const": "Social"
-        }
-      }
     },
-    {
-      "properties": {
-        "type": {
-          "const": "Business"
-        },
-        "surveyId": {
-          "if": {
-            "type": "string",
-            "minLength": 1
-          },
-          "then": {
-            "type": "string",
-            "pattern": "^\\d{3}$",
-            "errorMessage": "ERR_INVALID"
-          },
-          "else": {
-            "$ref": "definitions.json#/definitions/populatedString"
-          }
-        }
+    "surveyId": {
+      "if": {
+        "type": "string",
+        "minLength": 1
+      },
+      "then": {
+        "type": "string",
+        "pattern": "^\\d{3}$",
+        "errorMessage": "ERR_INVALID"
+      },
+      "else": {
+        "$ref": "definitions.json#/definitions/populatedString"
       }
     }
-  ]
+  }
 }

@@ -1,0 +1,227 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DateAnswerSelector should render 1`] = `
+<Fragment>
+  <DateAnswerSelector__DateAnswerRoutingSelector>
+    <DateAnswerSelector__ContentColumn>
+      <DateAnswerSelector__RuleText>
+        is
+      </DateAnswerSelector__RuleText>
+    </DateAnswerSelector__ContentColumn>
+    <DateAnswerSelector__ContentColumn>
+      <DateAnswerSelector__ContentRow>
+        <DateAnswerSelector__ContentItem>
+          <VisuallyHidden>
+            <Label
+              bold={true}
+              htmlFor="expression-condition-left-1"
+            >
+              Operator
+            </Label>
+          </VisuallyHidden>
+          <DateAnswerSelector__ConditionSelector
+            data-test="left-condition-selector"
+            id="expression-condition-left-1"
+            name="left-condition-select"
+            onChange={[Function]}
+          >
+            <option
+              value={null}
+            >
+              Select an operator
+            </option>
+            <option
+              value="LessThan"
+            >
+              Earlier than
+            </option>
+            <option
+              value="GreaterThan"
+            >
+              Later than
+            </option>
+          </DateAnswerSelector__ConditionSelector>
+        </DateAnswerSelector__ContentItem>
+        <DateAnswerSelector__Value>
+          <VisuallyHidden>
+            <Label
+              bold={true}
+              htmlFor="expression-right-1"
+            >
+              Value
+            </Label>
+          </VisuallyHidden>
+          <Number
+            data-test="number-value-input"
+            default={null}
+            id="expression-right-1"
+            max={999999999}
+            min={-99999999}
+            name="expression-right-1"
+            onBlur={[Function]}
+            onChange={[Function]}
+            step={1}
+            type="Number"
+            unit={null}
+            value={null}
+          />
+        </DateAnswerSelector__Value>
+        <DateAnswerSelector__ContentItem>
+          years
+        </DateAnswerSelector__ContentItem>
+      </DateAnswerSelector__ContentRow>
+      <DateAnswerSelector__ContentRow>
+        <DateAnswerSelector__ContentItem>
+          <VisuallyHidden>
+            <Label
+              bold={true}
+              htmlFor="expression-condition-right-1"
+            >
+              Operator
+            </Label>
+          </VisuallyHidden>
+          <DateAnswerSelector__ConditionSelector
+            data-test="right-condition-selector"
+            id="expression-condition-right-1"
+            name="right-condition-select"
+            onChange={[Function]}
+            value={null}
+          >
+            <option
+              value={null}
+            >
+              Select an operator
+            </option>
+            <option
+              value="Before"
+            >
+              Before
+            </option>
+            <option
+              value="After"
+            >
+              After
+            </option>
+          </DateAnswerSelector__ConditionSelector>
+        </DateAnswerSelector__ContentItem>
+        <DateAnswerSelector__ContentItem>
+          response date
+        </DateAnswerSelector__ContentItem>
+      </DateAnswerSelector__ContentRow>
+    </DateAnswerSelector__ContentColumn>
+  </DateAnswerSelector__DateAnswerRoutingSelector>
+</Fragment>
+`;
+
+exports[`DateAnswerSelector should render a Date 1`] = `
+<Fragment>
+  <DateAnswerSelector__DateAnswerRoutingSelector>
+    <DateAnswerSelector__ContentColumn>
+      <DateAnswerSelector__RuleText>
+        is
+      </DateAnswerSelector__RuleText>
+    </DateAnswerSelector__ContentColumn>
+    <DateAnswerSelector__ContentColumn>
+      <DateAnswerSelector__ContentRow>
+        <DateAnswerSelector__ContentItem>
+          <VisuallyHidden>
+            <Label
+              bold={true}
+              htmlFor="expression-condition-left-1"
+            >
+              Operator
+            </Label>
+          </VisuallyHidden>
+          <DateAnswerSelector__ConditionSelector
+            data-test="left-condition-selector"
+            id="expression-condition-left-1"
+            name="left-condition-select"
+            onChange={[Function]}
+          >
+            <option
+              value={null}
+            >
+              Select an operator
+            </option>
+            <option
+              value="LessThan"
+            >
+              Earlier than
+            </option>
+            <option
+              value="GreaterThan"
+            >
+              Later than
+            </option>
+          </DateAnswerSelector__ConditionSelector>
+        </DateAnswerSelector__ContentItem>
+        <DateAnswerSelector__Value>
+          <VisuallyHidden>
+            <Label
+              bold={true}
+              htmlFor="expression-right-1"
+            >
+              Value
+            </Label>
+          </VisuallyHidden>
+          <Number
+            data-test="number-value-input"
+            default={null}
+            id="expression-right-1"
+            max={999999999}
+            min={-99999999}
+            name="expression-right-1"
+            onBlur={[Function]}
+            onChange={[Function]}
+            step={1}
+            type="Number"
+            unit={null}
+            value={null}
+          />
+        </DateAnswerSelector__Value>
+        <DateAnswerSelector__ContentItem>
+          years
+        </DateAnswerSelector__ContentItem>
+      </DateAnswerSelector__ContentRow>
+      <DateAnswerSelector__ContentRow>
+        <DateAnswerSelector__ContentItem>
+          <VisuallyHidden>
+            <Label
+              bold={true}
+              htmlFor="expression-condition-right-1"
+            >
+              Operator
+            </Label>
+          </VisuallyHidden>
+          <DateAnswerSelector__ConditionSelector
+            data-test="right-condition-selector"
+            id="expression-condition-right-1"
+            name="right-condition-select"
+            onChange={[Function]}
+            value={null}
+          >
+            <option
+              value={null}
+            >
+              Select an operator
+            </option>
+            <option
+              value="Before"
+            >
+              Before
+            </option>
+            <option
+              value="After"
+            >
+              After
+            </option>
+          </DateAnswerSelector__ConditionSelector>
+        </DateAnswerSelector__ContentItem>
+        <DateAnswerSelector__ContentItem>
+          response date
+        </DateAnswerSelector__ContentItem>
+      </DateAnswerSelector__ContentRow>
+    </DateAnswerSelector__ContentColumn>
+  </DateAnswerSelector__DateAnswerRoutingSelector>
+</Fragment>
+`;

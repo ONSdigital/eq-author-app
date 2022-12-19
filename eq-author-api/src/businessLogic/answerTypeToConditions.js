@@ -18,6 +18,11 @@ const answerConditions = {
   [answerTypes.PERCENTAGE]: NUMERIC_COMPARISONS,
   [answerTypes.RADIO]: [conditions.ONE_OF, conditions.UNANSWERED],
   [answerTypes.UNIT]: NUMERIC_COMPARISONS,
+  [answerTypes.DATE]: [
+    conditions.SELECT,
+    conditions.LESS_THAN,
+    conditions.GREATER_THAN,
+  ],
   [answerTypes.CHECKBOX]: [
     conditions.ALL_OF,
     conditions.ANY_OF,

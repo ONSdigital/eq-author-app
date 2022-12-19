@@ -66,7 +66,7 @@ type Questionnaire {
   collapsibleSummary: Boolean
   questionnaireInfo: QuestionnaireInfo
   metadata: [Metadata!]!
-  type: QuestionnaireType!
+  type: QuestionnaireType
   shortTitle: String
   displayName: String!
   introduction: QuestionnaireIntroduction
@@ -651,7 +651,7 @@ type NoLeftSide {
 
 union LeftSide2 = BasicAnswer | MultipleChoiceAnswer | NoLeftSide
 
-union RightSide2 = SelectedOptions2 | CustomValue2
+union RightSide2 = SelectedOptions2 | CustomValue2 | DateValue
 
 type CustomValue2 {
   number: Int
@@ -659,6 +659,11 @@ type CustomValue2 {
 
 type SelectedOptions2 {
   options: [Option!]!
+}
+
+type DateValue {
+  offset: Int
+  offsetDirection: String
 }
 
 enum LogicCondition {
@@ -1124,6 +1129,12 @@ input UpdateRightSide2Input {
   expressionId: ID!
   customValue: CustomRightSideInput
   selectedOptions: [ID!]
+  dateValue: DateValueInput
+}
+
+input DateValueInput {
+  offset: Int
+  offsetDirection: String
 }
 
 input DeleteBinaryExpression2Input {
@@ -1144,7 +1155,7 @@ input CreateQuestionnaireInput {
   hub: Boolean
   surveyId: String!
   summary: Boolean
-  type: QuestionnaireType!
+  type: QuestionnaireType
   shortTitle: String
   isPublic: Boolean
 }
