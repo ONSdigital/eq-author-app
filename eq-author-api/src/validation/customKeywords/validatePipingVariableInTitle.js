@@ -61,7 +61,7 @@ module.exports = (ajv) =>
       };
 
       for (const pipedId of pipedIdList) {
-        if (!idExists({ questionnaire }, pipedId)) {
+        if (pipedId !== "total" && !idExists({ questionnaire }, pipedId)) {
           return hasError(PIPING_TITLE_DELETED);
         }
 
