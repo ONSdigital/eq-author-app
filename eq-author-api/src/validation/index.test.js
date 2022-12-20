@@ -2092,6 +2092,16 @@ describe("schema validation", () => {
       expect(errors[0].errorCode).toBe(PIPING_TITLE_DELETED);
     });
 
+    it("should not return errors for calculated summary variable in its own title", () => {
+      const piping = validation(questionnaire);
+      expect(piping).toHaveLength(0);
+
+      questionnaire.sections[0].folders[0].pages[0].title = `<p><span data-piped="variable" data-id="total" data-type="Number">[number]</span></p>`;
+
+      const errors = validation(questionnaire);
+      expect(errors).toHaveLength(0);
+    });
+
     it("should not return errors for valid piping answers in title", () => {
       const piping = validation(questionnaire);
       expect(piping).toHaveLength(0);
