@@ -107,8 +107,6 @@ exports[`SectionEditor should render 1`] = `
     <SectionEditor__HorizontalRule />
     <RepeatingSection
       handleUpdate={[Function]}
-      onChange={[MockFunction]}
-      onUpdate={[MockFunction]}
       section={
         Object {
           "alias": "alias",
@@ -248,8 +246,6 @@ exports[`SectionEditor should render 2`] = `
     <SectionEditor__HorizontalRule />
     <RepeatingSection
       handleUpdate={[Function]}
-      onChange={[MockFunction]}
-      onUpdate={[MockFunction]}
       section={
         Object {
           "alias": "alias",
