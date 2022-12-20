@@ -104,6 +104,39 @@ exports[`SectionEditor should render 1`] = `
         value="Intro content"
       />
     </SectionEditor__IntroCanvas>
+    <SectionEditor__HorizontalRule />
+    <RepeatingSection
+      handleUpdate={[Function]}
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      section={
+        Object {
+          "alias": "alias",
+          "collapsibleSummary": false,
+          "comments": Array [
+            Object {},
+          ],
+          "id": "section-1",
+          "introductionContent": "Intro content",
+          "introductionTitle": "Intro title",
+          "questionnaire": Object {
+            "collapsibleSummary": false,
+            "hub": false,
+            "id": "2",
+            "navigation": true,
+          },
+          "requiredCompleted": true,
+          "sectionSummary": false,
+          "showOnHub": true,
+          "title": "Section 1",
+          "validationErrorInfo": Object {
+            "errors": Array [],
+            "id": "3",
+            "totalCount": 0,
+          },
+        }
+      }
+    />
   </SectionEditor__Padding>
 </SectionEditor__SectionCanvas>
 `;
@@ -212,6 +245,39 @@ exports[`SectionEditor should render 2`] = `
         value="Intro content"
       />
     </SectionEditor__IntroCanvas>
+    <SectionEditor__HorizontalRule />
+    <RepeatingSection
+      handleUpdate={[Function]}
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      section={
+        Object {
+          "alias": "alias",
+          "collapsibleSummary": false,
+          "comments": Array [
+            Object {},
+          ],
+          "id": "section-2",
+          "introductionContent": "Intro content",
+          "introductionTitle": "Intro title",
+          "questionnaire": Object {
+            "collapsibleSummary": false,
+            "hub": false,
+            "id": "2",
+            "navigation": true,
+          },
+          "requiredCompleted": true,
+          "sectionSummary": false,
+          "showOnHub": true,
+          "title": "Section 2",
+          "validationErrorInfo": Object {
+            "errors": Array [],
+            "id": "3",
+            "totalCount": 0,
+          },
+        }
+      }
+    />
   </SectionEditor__Padding>
 </SectionEditor__SectionCanvas>
 `;
