@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, fireEvent, act, waitFor } from "tests/utils/rtl";
+import { render, screen, fireEvent, waitFor } from "tests/utils/rtl";
 import userEvent from "@testing-library/user-event";
 
 import PageTitleContainer from ".";
@@ -90,13 +90,8 @@ describe("Page title input block", () => {
 });
 
 const mockMutations = {
-  handleBlur: jest.fn(),
   handleChange: jest.fn(),
   handleUpdate: jest.fn(),
-  handleFocus: jest.fn(),
-  handleDelete: jest.fn(),
-  handleEnterKey: jest.fn(),
-  handleSubmit: jest.fn(),
 };
 
 const setup = (props) =>
