@@ -10,7 +10,7 @@ export const mapMutateToProps = ({ mutate }) => ({
     introductionTitle,
     introductionContent,
     repeatingSection,
-    repeatingSectionlistId,
+    repeatingSectionListId,
     repeatingSectionTitle,
   }) {
     return mutate({
@@ -22,7 +22,7 @@ export const mapMutateToProps = ({ mutate }) => ({
           introductionTitle,
           introductionContent,
           repeatingSection,
-          repeatingSectionlistId,
+          repeatingSectionListId,
           repeatingSectionTitle,
         },
       },

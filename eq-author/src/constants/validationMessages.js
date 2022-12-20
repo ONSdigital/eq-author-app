@@ -8,6 +8,11 @@ export default {
 
 export const LIST_COLLECTOR_ERRORS = [
   {
+    field: "repeatingSectionListId",
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Select a list",
+  },
+  {
     field: "title",
     errorCode: "ERR_VALID_REQUIRED",
     message: "Enter list collector name",

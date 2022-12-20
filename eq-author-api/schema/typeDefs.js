@@ -179,7 +179,7 @@ type Section {
   introductionContent: String
   validationErrorInfo: ValidationErrorInfo
   repeatingSection: Boolean
-  repeatingSectionlistId: ID
+  repeatingSectionListId: ID
   repeatingSectionTitle: String
   comments: [Comment]
 }
@@ -1217,7 +1217,7 @@ input UpdateSectionInput {
   sectionSummary: Boolean
   collapsibleSummary: Boolean
   repeatingSection: Boolean
-  repeatingSectionlistId: ID
+  repeatingSectionListId: ID
   repeatingSectionTitle: String
 }
 

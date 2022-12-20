@@ -1,12 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Field, Label } from "components/Forms";
 import RichTextEditor from "components/RichTextEditor";
 import { useQuery } from "@apollo/react-hooks";
 import COLLECTION_LISTS from "graphql/lists/collectionLists.graphql";
 import Icon from "assets/icon-select.svg";
 import Loading from "components/Loading";
+import { find, some } from "lodash";
+import { colors } from "constants/theme";
+import { LIST_COLLECTOR_ERRORS } from "constants/validationMessages";
+import ValidationError from "components/ValidationError";
 
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 
@@ -43,6 +47,24 @@ const SummaryLabel = styled.label`
   font-weight: bold;
 `;
 
+const errorCSS = css`
+  ${({ hasError }) =>
+    hasError &&
+    css`
+      border-color: ${colors.errorPrimary};
+      &:focus,
+      &:focus-within {
+        border-color: ${colors.errorPrimary};
+        outline-color: ${colors.errorPrimary};
+        box-shadow: 0 0 0 2px ${colors.errorPrimary};
+      }
+      &:hover {
+        border-color: ${colors.errorPrimary};
+        outline-color: ${colors.errorPrimary};
+      }
+    `}
+`;
+
 const CustomSelect = styled.select`
   font-size: 1em;
   border: 2px solid #d6d8da;
@@ -57,11 +79,26 @@ const CustomSelect = styled.select`
   display: block;
   min-width: 30%;
   margin-bottom: 1rem;
+  ${errorCSS}
 
   &:hover {
     outline: none;
   }
 `;
+
+const renderErrors = (errors, field) => {
+  const errorList = errors.filter((error) => error.field === field);
+  return errorList.map((error, index) => (
+    <ValidationError key={index}>
+      {
+        find(LIST_COLLECTOR_ERRORS, {
+          errorCode: error.errorCode,
+          field: error.field,
+        }).message
+      }
+    </ValidationError>
+  ));
+};
 
 const RepeatingSection = ({ section, handleUpdate }) => {
   const { loading, data } = useQuery(COLLECTION_LISTS, {
@@ -100,18 +137,21 @@ const RepeatingSection = ({ section, handleUpdate }) => {
       </InlineField>
       {section?.repeatingSection && (
         <>
-          <Label htmlFor="repeatingSectionlistId">Linked collection list</Label>
+          <Label htmlFor="repeatingSectionListId">Linked collection list</Label>
           <CustomSelect
-            id="repeatingSectionlistId"
-            name="repeatingSectionlistId"
+            id="repeatingSectionListId"
+            name="repeatingSectionListId"
             data-test="list-select"
             onChange={({ target }) => {
               handleUpdate({
-                name: "repeatingSectionlistId",
+                name: "repeatingSectionListId",
                 value: target.value,
               });
             }}
-            value={section?.repeatingSectionlistId}
+            value={section?.repeatingSectionListId}
+            hasError={some(section.validationErrorInfo.errors, {
+              field: "repeatingSectionListId",
+            })}
           >
             <option value="">Select list</option>
             {lists.map((list) => (
@@ -120,6 +160,10 @@ const RepeatingSection = ({ section, handleUpdate }) => {
               </option>
             ))}
           </CustomSelect>
+          {renderErrors(
+            section.validationErrorInfo.errors,
+            "repeatingSectionListId"
+          )}
           <Label htmlFor="repeatingSectiontitle">Hub section label</Label>
           <Description>
             This is how the label for each item in the collection list will

@@ -13,7 +13,7 @@ mutation UpdateSection($input: UpdateSectionInput!) {
     sectionSummary
     collapsibleSummary
     repeatingSection
-    repeatingSectionlistId
+    repeatingSectionListId
     repeatingSectionTitle
     validationErrorInfo {
       ...ValidationErrorInfo
