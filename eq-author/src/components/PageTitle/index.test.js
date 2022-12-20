@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, fireEvent, act } from "tests/utils/rtl";
+import { render, screen, fireEvent, act, waitFor } from "tests/utils/rtl";
 import userEvent from "@testing-library/user-event";
 
 import PageTitleContainer from ".";
@@ -89,36 +89,46 @@ describe("Page title input block", () => {
   });
 });
 
-// describe("Page title text field", () => {
-//   it("Should update the page title on blur if the value is not an empty string", async () => {
+const mockMutations = {
+  handleBlur: jest.fn(),
+  handleChange: jest.fn(),
+  handleUpdate: jest.fn(),
+  handleFocus: jest.fn(),
+  handleDelete: jest.fn(),
+  handleEnterKey: jest.fn(),
+  handleSubmit: jest.fn(),
+};
 
-//     const user = userEvent.setup()
+const setup = (props) =>
+  render(
+    <PageTitleInput
+      pageDescription="Initial page title"
+      onUpdate={mockMutations.handleUpdate}
+      onChange={mockMutations.handleChange}
+      {...props}
+    />
+  );
 
-//     render(
-//       <PageTitleInput
-//         pageDescription="Initial page title"
-//         onUpdate={jest.fn()}
-//         onChange={jest.fn()}
-//       />
-//     );
+describe("Page title text field", () => {
+  it("Should call Change and Update correctly", async () => {
+    setup();
 
-//     const renderedPageTitleInput = screen.getByTestId('txt-page-description');
+    const renderedPageTitleInput = screen.getByLabelText("Page description");
 
-//     expect(renderedPageTitleInput.value).toBe("Initial page title");
+    expect(renderedPageTitleInput.value).toBe("Initial page title");
 
-//     await user.type(renderedPageTitleInput, "Updated page title");
+    userEvent.type(renderedPageTitleInput, "Updated page title");
 
-//     screen.debug();
+    await waitFor(() => {
+      expect(mockMutations.handleChange).toHaveBeenCalledTimes(18);
+      expect(mockMutations.handleUpdate).toHaveBeenCalledTimes(0);
+    });
 
-//     expect(renderedPageTitleInput.value).toBe("Updated page title");
+    fireEvent.blur(renderedPageTitleInput);
 
-//     // expect(queryWasCalled).toBeFalsy();
-
-//     // await act(async () => {
-//     //   fireEvent.blur(pageTitleInput);
-//     // });
-
-//     // expect(queryWasCalled).toBeTruthy();
-//   });
-
-// });
+    await waitFor(() => {
+      expect(mockMutations.handleChange).toHaveBeenCalledTimes(18);
+      expect(mockMutations.handleUpdate).toHaveBeenCalledTimes(1);
+    });
+  });
+});
