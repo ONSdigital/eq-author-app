@@ -14,7 +14,6 @@ mutation UpdateSection($input: UpdateSectionInput!) {
     collapsibleSummary
     repeatingSection
     repeatingSectionListId
-    repeatingSectionTitle
     validationErrorInfo {
       ...ValidationErrorInfo
     }

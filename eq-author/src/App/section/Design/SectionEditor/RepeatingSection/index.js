@@ -164,20 +164,6 @@ const RepeatingSection = ({ section, handleUpdate }) => {
             section.validationErrorInfo.errors,
             "repeatingSectionListId"
           )}
-          <Label htmlFor="repeatingSectiontitle">Hub section label</Label>
-          <Description>
-            This is how the label for each item in the collection list will
-            appear in the Hub.
-          </Description>
-          <RichTextEditor
-            id="repeatingSectionTitle"
-            name="repeatingSectionTitle"
-            onUpdate={handleUpdate}
-            size="large"
-            testSelector="txt-repeating-section-title"
-            value={section?.repeatingSectionTitle}
-            controls={{ piping: true }}
-          />
         </>
       )}
     </>

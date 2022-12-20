@@ -11,7 +11,6 @@ export const mapMutateToProps = ({ mutate }) => ({
     introductionContent,
     repeatingSection,
     repeatingSectionListId,
-    repeatingSectionTitle,
   }) {
     return mutate({
       variables: {
@@ -23,7 +22,6 @@ export const mapMutateToProps = ({ mutate }) => ({
           introductionContent,
           repeatingSection,
           repeatingSectionListId,
-          repeatingSectionTitle,
         },
       },
     });
