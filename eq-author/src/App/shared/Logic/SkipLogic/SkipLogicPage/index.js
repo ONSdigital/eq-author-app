@@ -16,11 +16,6 @@ const SkipLogicPage = ({ page }) => {
   const createSkipCondition = useCreateSkipCondition({ parentId: page.id });
   const isFolder = page?.__typename === "Folder";
 
-  const isFirst =
-    page?.position === 0 &&
-    page?.section?.position === 0 &&
-    (isFolder || page?.folder?.position === 0);
-
   const noun = isFolder ? "folder" : "question";
 
   return (
@@ -42,21 +37,10 @@ const SkipLogicPage = ({ page }) => {
               <NoSkipConditions
                 onAddSkipConditions={createSkipCondition}
                 data-test="skip-condition-set-empty-msg"
-                title={
-                  isFirst
-                    ? `Skip logic not available for this ${noun}`
-                    : `No skip conditions exist for this ${noun}`
-                }
-                paragraph={
-                  isFirst
-                    ? `You can't add skip logic to the first ${noun} in a questionnaire`
-                    : `All users will see ${
-                        isFolder
-                          ? "the questions in this folder"
-                          : "this question"
-                      } if no skip logic is added`
-                }
-                disabled={isFirst}
+                title={`No skip conditions exist for this ${noun}`}
+                paragraph={`All users will see ${
+                  isFolder ? "the questions in this folder" : "this question"
+                } if no skip logic is added`}
               >
                 All users will see this question if no skip logic is added.
               </NoSkipConditions>
