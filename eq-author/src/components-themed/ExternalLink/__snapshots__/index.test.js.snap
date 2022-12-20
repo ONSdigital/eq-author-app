@@ -1,49 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Inline external link render should render as expected 1`] = `
-Object {
-  "asFragment": [Function],
-  "baseElement": .c3 {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.c1 {
-  position: absolute;
-  bottom: 0;
-  text-align: center;
-  min-width: 10em;
-  margin-bottom: 0;
-  z-index: 99999999;
-}
-
-.c2 {
-  display: inline-block;
-  text-align: initial;
-}
-
-.c0 {
-  width: 100%;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-}
-
-.c4 {
+<DocumentFragment>
+  .c0 {
   visibility: hidden;
   white-space: nowrap;
 }
 
-.c5 {
+.c1 {
   vertical-align: middle;
   width: 1rem;
   height: 1rem;
@@ -52,7 +16,7 @@ Object {
   visibility: visible;
 }
 
-.c6 {
+.c2 {
   border: 0;
   -webkit-clip: rect(0 0 0 0);
   clip: rect(0 0 0 0);
@@ -71,182 +35,39 @@ Object {
   width: 1px;
 }
 
-<body>
-    <div
-      id="toast"
+<a
+    href="https://www.google.com/"
+    rel="noopener noreferrer"
+    target="_blank"
+  >
+    <span>
+      link to google
+    </span>
+    <span
+      class="c0"
     >
-      <div
-        class="c0"
+       
+      <svg
+        class="c1"
+        id="external-link"
+        viewBox="0 0 12 12"
+        xmlns="http://www.w3.org/2000/svg"
       >
-        <div
-          class="c1"
-        >
-          <div
-            class="c2"
-          >
-            <ol
-              aria-live="assertive"
-              aria-relevant="additions removals"
-              class="c3"
-              role="alert"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div>
-      <a
-        href="https://www.google.com/"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <span>
-          link to google
-        </span>
-        <span
-          class="c4"
-        >
-           
-          <svg
-            class="c5"
-            id="external-link"
-            viewBox="0 0 12 12"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M13.5,9H13a.5.5,0,0,0-.5.5v3h-9v-9h3A.5.5,0,0,0,7,3V2.5A.5.5,0,0,0,6.5,2h-4a.5.5,0,0,0-.5.5v11a.5.5,0,0,0,.5.5h11a.5.5,0,0,0,.5-.5v-4A.5.5,0,0,0,13.5,9Z"
-              transform="translate(-2 -1.99)"
-            />
-            <path
-              d="M8.83,7.88a.51.51,0,0,0,.71,0l2.31-2.32,1.28,1.28A.51.51,0,0,0,14,6.49v-4a.52.52,0,0,0-.5-.5h-4A.51.51,0,0,0,9,2.52a.58.58,0,0,0,.14.33l1.28,1.28L8.12,6.46a.51.51,0,0,0,0,.71Z"
-              transform="translate(-2 -1.99)"
-            />
-          </svg>
-        </span>
-        <span
-          class="c6"
-        >
-           (opens in a new tab)
-        </span>
-      </a>
-    </div>
-  </body>,
-  "container": <div>
-    <a
-      href="https://www.google.com/"
-      rel="noopener noreferrer"
-      target="_blank"
+        <path
+          d="M13.5,9H13a.5.5,0,0,0-.5.5v3h-9v-9h3A.5.5,0,0,0,7,3V2.5A.5.5,0,0,0,6.5,2h-4a.5.5,0,0,0-.5.5v11a.5.5,0,0,0,.5.5h11a.5.5,0,0,0,.5-.5v-4A.5.5,0,0,0,13.5,9Z"
+          transform="translate(-2 -1.99)"
+        />
+        <path
+          d="M8.83,7.88a.51.51,0,0,0,.71,0l2.31-2.32,1.28,1.28A.51.51,0,0,0,14,6.49v-4a.52.52,0,0,0-.5-.5h-4A.51.51,0,0,0,9,2.52a.58.58,0,0,0,.14.33l1.28,1.28L8.12,6.46a.51.51,0,0,0,0,.71Z"
+          transform="translate(-2 -1.99)"
+        />
+      </svg>
+    </span>
+    <span
+      class="c2"
     >
-      <span>
-        link to google
-      </span>
-      <span
-        class="ExternalLink__IconContainer-jbkyyd-0 iyisdy"
-      >
-         
-        <svg
-          class="ExternalLink__ExternalIcon-jbkyyd-1 ktvDYI"
-          id="external-link"
-          viewBox="0 0 12 12"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M13.5,9H13a.5.5,0,0,0-.5.5v3h-9v-9h3A.5.5,0,0,0,7,3V2.5A.5.5,0,0,0,6.5,2h-4a.5.5,0,0,0-.5.5v11a.5.5,0,0,0,.5.5h11a.5.5,0,0,0,.5-.5v-4A.5.5,0,0,0,13.5,9Z"
-            transform="translate(-2 -1.99)"
-          />
-          <path
-            d="M8.83,7.88a.51.51,0,0,0,.71,0l2.31-2.32,1.28,1.28A.51.51,0,0,0,14,6.49v-4a.52.52,0,0,0-.5-.5h-4A.51.51,0,0,0,9,2.52a.58.58,0,0,0,.14.33l1.28,1.28L8.12,6.46a.51.51,0,0,0,0,.71Z"
-            transform="translate(-2 -1.99)"
-          />
-        </svg>
-      </span>
-      <span
-        class="ExternalLink__VisualHidden-jbkyyd-2 mbLWN"
-      >
-         (opens in a new tab)
-      </span>
-    </a>
-  </div>,
-  "debug": [Function],
-  "findAllByAltText": [Function],
-  "findAllByDisplayValue": [Function],
-  "findAllByLabelText": [Function],
-  "findAllByPlaceholderText": [Function],
-  "findAllByRole": [Function],
-  "findAllByTestId": [Function],
-  "findAllByText": [Function],
-  "findAllByTitle": [Function],
-  "findByAltText": [Function],
-  "findByDisplayValue": [Function],
-  "findByLabelText": [Function],
-  "findByPlaceholderText": [Function],
-  "findByRole": [Function],
-  "findByTestId": [Function],
-  "findByText": [Function],
-  "findByTitle": [Function],
-  "getAllByAltText": [Function],
-  "getAllByDisplayValue": [Function],
-  "getAllByLabelText": [Function],
-  "getAllByPlaceholderText": [Function],
-  "getAllByRole": [Function],
-  "getAllByTestId": [Function],
-  "getAllByText": [Function],
-  "getAllByTitle": [Function],
-  "getByAltText": [Function],
-  "getByDisplayValue": [Function],
-  "getByLabelText": [Function],
-  "getByPlaceholderText": [Function],
-  "getByRole": [Function],
-  "getByTestId": [Function],
-  "getByText": [Function],
-  "getByTitle": [Function],
-  "history": Object {
-    "action": "POP",
-    "block": [Function],
-    "canGo": [Function],
-    "createHref": [Function],
-    "entries": Array [
-      Object {
-        "hash": "",
-        "key": "iok28e",
-        "pathname": "/",
-        "search": "",
-        "state": undefined,
-      },
-    ],
-    "go": [Function],
-    "goBack": [Function],
-    "goForward": [Function],
-    "index": 0,
-    "length": 1,
-    "listen": [Function],
-    "location": Object {
-      "hash": "",
-      "key": "iok28e",
-      "pathname": "/",
-      "search": "",
-      "state": undefined,
-    },
-    "push": [Function],
-    "replace": [Function],
-  },
-  "queryAllByAltText": [Function],
-  "queryAllByDisplayValue": [Function],
-  "queryAllByLabelText": [Function],
-  "queryAllByPlaceholderText": [Function],
-  "queryAllByRole": [Function],
-  "queryAllByTestId": [Function],
-  "queryAllByText": [Function],
-  "queryAllByTitle": [Function],
-  "queryByAltText": [Function],
-  "queryByDisplayValue": [Function],
-  "queryByLabelText": [Function],
-  "queryByPlaceholderText": [Function],
-  "queryByRole": [Function],
-  "queryByTestId": [Function],
-  "queryByText": [Function],
-  "queryByTitle": [Function],
-  "rerender": [Function],
-  "unmount": [Function],
-}
+       (opens in a new tab)
+    </span>
+  </a>
+</DocumentFragment>
 `;
