@@ -13,65 +13,61 @@ const PageTitleContainerWithCollapsible = styled.div`
   margin-right: 1em;
 `;
 
-export class PageTitleContainer extends React.Component {
-  render() {
-    const {
-      inCollapsible,
-      marginless,
-      pageDescription,
-      altFieldName,
-      altError,
-      error,
-      errors,
-      onChange,
-      onUpdate,
-    } = this.props;
+const PageTitleContainer = ({
+  inCollapsible,
+  marginless,
+  pageDescription,
+  altFieldName,
+  altError,
+  error,
+  errors,
+  onChange,
+  onUpdate,
+}) => {
+  const pageDescriptionError =
+    altFieldName && altError
+      ? find(errors, { errorCode: altError })
+      : find(errors, { errorCode: "PAGE_DESCRIPTION_MISSING" });
 
-    const pageDescriptionError =
-      altFieldName && altError
-        ? find(errors, { errorCode: altError })
-        : find(errors, { errorCode: "PAGE_DESCRIPTION_MISSING" });
+  const displayError =
+    error === "PAGE_DESCRIPTION_MISSING"
+      ? true
+      : Boolean(pageDescriptionError?.errorCode);
 
-    const displayError =
-      error === "PAGE_DESCRIPTION_MISSING"
-        ? true
-        : Boolean(pageDescriptionError?.errorCode);
-
-    if (inCollapsible) {
-      return (
-        <Collapsible
-          title="Page description"
-          className="pageDescriptionCollapsible"
-          dataTestIdPrefix="page-title-"
-          defaultOpen
-          withoutHideThis
-          variant={marginless ? "marginlessContent" : "content"}
-        >
-          <PageTitleContainerWithCollapsible>
-            <PageTitleInput
-              pageDescription={pageDescription}
-              altFieldName={altFieldName}
-              onUpdate={onUpdate}
-              onChange={onChange}
-              error={displayError}
-            />
-          </PageTitleContainerWithCollapsible>
-        </Collapsible>
-      );
-    }
+  if (inCollapsible) {
     return (
-      <PageTitleContainerWithoutCollapsible>
-        <PageTitleInput
-          pageDescription={pageDescription}
-          altFieldName={altFieldName}
-          error={displayError}
-          onUpdate={onUpdate}
-          onChange={onChange}
-        />
-      </PageTitleContainerWithoutCollapsible>
+      <Collapsible
+        title="Page description"
+        className="pageDescriptionCollapsible"
+        dataTestIdPrefix="page-title-"
+        defaultOpen
+        withoutHideThis
+        variant={marginless ? "marginlessContent" : "content"}
+      >
+        <PageTitleContainerWithCollapsible>
+          <PageTitleInput
+            pageDescription={pageDescription}
+            altFieldName={altFieldName}
+            onUpdate={onUpdate}
+            onChange={onChange}
+            error={displayError}
+          />
+        </PageTitleContainerWithCollapsible>
+      </Collapsible>
     );
   }
-}
+  return (
+    <PageTitleContainerWithoutCollapsible>
+      <PageTitleInput
+        pageDescription={pageDescription}
+        altFieldName={altFieldName}
+        error={displayError}
+        onUpdate={onUpdate}
+        onChange={onChange}
+      />
+    </PageTitleContainerWithoutCollapsible>
+  );
+};
 
 PageTitleContainer.propTypes = {
   inCollapsible: PropTypes.bool,
