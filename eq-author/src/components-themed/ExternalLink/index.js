@@ -31,10 +31,15 @@ const VisualHidden = styled.span`
   width: 1px;
 `;
 
-function ExternalLink(props) {
+const ExternalLink = ({ url, linkText }) => {
   return (
-    <a href={props.url} target="_blank" rel="noopener noreferrer">
-      <span>{props.linkText}</span>
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-test="external-link-href"
+    >
+      <span data-test="external-link-text">{linkText}</span>
       <IconContainer>
         &nbsp;
         <ExternalIcon
@@ -52,10 +57,13 @@ function ExternalLink(props) {
           />
         </ExternalIcon>
       </IconContainer>
-      <VisualHidden> (opens in a new tab)</VisualHidden>
+      <VisualHidden data-test="external-link-screen-reader-text">
+        {" "}
+        (opens in a new tab)
+      </VisualHidden>
     </a>
   );
-}
+};
 
 ExternalLink.propTypes = {
   url: PropTypes.string.isRequired,
