@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
 import { Field, Label } from "components/Forms";
-import RichTextEditor from "components/RichTextEditor";
 import { useQuery } from "@apollo/react-hooks";
 import COLLECTION_LISTS from "graphql/lists/collectionLists.graphql";
 import Icon from "assets/icon-select.svg";
@@ -11,6 +10,7 @@ import { find, some } from "lodash";
 import { colors } from "constants/theme";
 import { LIST_COLLECTOR_ERRORS } from "constants/validationMessages";
 import ValidationError from "components/ValidationError";
+import CustomPropTypes from "custom-prop-types";
 
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 
@@ -31,13 +31,6 @@ const Caption = styled.p`
   margin-bottom: 1.5rem;
   margin-left: 0;
   font-size: 0.85em;
-`;
-
-const Description = styled.p`
-  margin-top: 0.3rem;
-  margin-left: 0;
-  font-size: 0.85em;
-  margin-bottom: 0.5em;
 `;
 
 const SummaryLabel = styled.label`
@@ -171,10 +164,7 @@ const RepeatingSection = ({ section, handleUpdate }) => {
 };
 
 RepeatingSection.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  section: PropTypes.object,
-  onChange: PropTypes.func,
-  onUpdate: PropTypes.func,
+  section: CustomPropTypes.section,
   handleUpdate: PropTypes.func,
 };
 

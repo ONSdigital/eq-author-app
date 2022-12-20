@@ -232,12 +232,7 @@ export class SectionEditor extends React.Component {
             />
           </IntroCanvas>
           <HorizontalRule />
-          <RepeatingSection
-            section={section}
-            onChange={onChange}
-            onUpdate={onUpdate}
-            handleUpdate={handleUpdate}
-          />
+          <RepeatingSection section={section} handleUpdate={handleUpdate} />
         </Padding>
       </SectionCanvas>
     );
