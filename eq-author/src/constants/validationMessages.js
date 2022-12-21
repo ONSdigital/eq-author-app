@@ -8,6 +8,11 @@ export default {
 
 export const LIST_COLLECTOR_ERRORS = [
   {
+    field: "repeatingSectionListId",
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Select a list",
+  },
+  {
     field: "title",
     errorCode: "ERR_VALID_REQUIRED",
     message: "Enter list collector name",
@@ -248,6 +253,11 @@ export const rightSideErrors = {
     errorCode: "ERR_RIGHTSIDE_NO_VALUE",
     message: "Enter a valid number",
     optionsMessage: "Select at least one option",
+  },
+  ERR_RIGHTSIDE_NO_CONDITION: {
+    errorCode: "ERR_RIGHTSIDE_NO_CONDITION",
+    message: "Select a condition",
+    optionsMessage: "Select a condition",
   },
   ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED: {
     errorCode: "ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED",

@@ -14,6 +14,8 @@ const VALID_TYPES = [
   answerTypes.RADIO,
   answerTypes.UNIT,
   answerTypes.CHECKBOX,
+  answerTypes.DATE,
+  answerTypes.SELECT,
 ];
 
 describe("AnswerTypeToCondition", () => {
@@ -35,6 +37,8 @@ describe("AnswerTypeToCondition", () => {
         [answerTypes.RADIO]: conditions.ONE_OF,
         [answerTypes.UNIT]: conditions.SELECT,
         [answerTypes.CHECKBOX]: conditions.ALL_OF,
+        [answerTypes.DATE]: conditions.SELECT,
+        [answerTypes.SELECT]: conditions.ONE_OF,
       };
       VALID_TYPES.forEach((type) => {
         expect(getDefault(type)).toEqual(expectedDefaults[type]);
@@ -53,6 +57,7 @@ describe("AnswerTypeToCondition", () => {
         },
         { answerType: answerTypes.NUMBER, condition: conditions.LESS_OR_EQUAL },
         { answerType: answerTypes.CURRENCY, condition: conditions.NOT_EQUAL },
+        { answerType: answerTypes.DATE, condition: conditions.LESS_THAN },
       ].forEach(({ answerType, condition }) => {
         expect(isValid(answerType, condition)).toBe(true);
       });

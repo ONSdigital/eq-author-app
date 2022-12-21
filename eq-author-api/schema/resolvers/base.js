@@ -33,6 +33,7 @@ const {
   CHECKBOX,
   RADIO,
   MUTUALLY_EXCLUSIVE,
+  SELECT,
 } = require("../../constants/answerTypes");
 
 const pubsub = require("../../db/pubSub");
@@ -90,8 +91,6 @@ const onSectionDeleted = require("../../src/businessLogic/onSectionDeleted");
 const onFolderDeleted = require("../../src/businessLogic/onFolderDeleted");
 const addPrefix = require("../../utils/addPrefix");
 const onQuestionnaireUpdated = require("../../src/businessLogic/onQuestionnaireUpdated");
-
-const { BUSINESS } = require("../../constants/questionnaireTypes");
 
 const {
   createQuestionnaire,
@@ -168,13 +167,11 @@ const createNewQuestionnaire = (input) => {
   };
 
   let changes = {};
-  if (input.type === BUSINESS) {
-    const metadata = createDefaultBusinessSurveyMetadata();
-    changes = {
-      metadata,
-      introduction: createQuestionnaireIntroduction(metadata),
-    };
-  }
+  const metadata = createDefaultBusinessSurveyMetadata();
+  changes = {
+    metadata,
+    introduction: createQuestionnaireIntroduction(metadata),
+  };
 
   return {
     ...defaultQuestionnaire,
@@ -901,7 +898,9 @@ const Resolvers = {
         }
       });
 
-      if (![CHECKBOX, RADIO, MUTUALLY_EXCLUSIVE].includes(answer.type)) {
+      if (
+        ![CHECKBOX, RADIO, MUTUALLY_EXCLUSIVE, SELECT].includes(answer.type)
+      ) {
         delete answer.options;
       }
 
@@ -1618,7 +1617,9 @@ const Resolvers = {
 
   Answer: {
     __resolveType: ({ type }) => {
-      if (includes(["Checkbox", "Radio", "MutuallyExclusive"], type)) {
+      if (
+        includes(["Checkbox", "Radio", "MutuallyExclusive", "Select"], type)
+      ) {
         return "MultipleChoiceAnswer";
       } else {
         return "BasicAnswer";

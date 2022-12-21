@@ -129,6 +129,7 @@ const Reorder = ({ list, onMove, children, Transition }) => {
               ? index < renderedItems.length - 2
               : index < renderedItems.length - 1),
           isMoving: isTransitioning,
+          index,
         };
         return (
           <InnerWrapper key={getIdForObject(item)}>

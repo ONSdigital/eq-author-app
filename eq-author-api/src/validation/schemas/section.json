@@ -42,6 +42,20 @@
       "errorMessage": "PAGE_DESCRIPTION_MISSING"
     }
   },
+  "if": {
+    "properties": {
+      "repeatingSection": {
+        "const": true
+      }
+    }
+  },
+  "then": {
+    "properties": {
+        "repeatingSectionListId": {
+          "$ref": "definitions.json#/definitions/populatedString"
+      }
+    }
+   },
   "anyOf": [
     {
       "properties": {

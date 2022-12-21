@@ -35,12 +35,13 @@ const isLeftSideAnswerTypeCompatible = (
     [answerTypes.UNIT]: "Custom",
     [answerTypes.RADIO]: "SelectedOptions",
     [answerTypes.CHECKBOX]: "SelectedOptions",
+    [answerTypes.DATE]: "DateValue",
+    [answerTypes.SELECT]: "SelectedOptions",
   };
 
   if (secondaryCondition) {
     return true;
   }
-
   return AnswerTypesToRightTypes[leftSideType] === rightSideType;
 };
 
@@ -54,7 +55,10 @@ Resolvers.BinaryExpression2 = {
     return { sideType: left.type, reason: left.nullReason };
   },
   right: async ({ right }) => {
-    if (right && ["Custom", "SelectedOptions"].includes(right.type)) {
+    if (
+      right &&
+      ["Custom", "SelectedOptions", "DateValue"].includes(right.type)
+    ) {
       return right;
     }
 
@@ -77,7 +81,11 @@ Resolvers.BinaryExpression2 = {
 Resolvers.LeftSide2 = {
   __resolveType: ({ type, sideType }) => {
     if (sideType === "Answer") {
-      if ([answerTypes.RADIO, answerTypes.CHECKBOX].includes(type)) {
+      if (
+        [answerTypes.RADIO, answerTypes.CHECKBOX, answerTypes.SELECT].includes(
+          type
+        )
+      ) {
         return "MultipleChoiceAnswer";
       }
       return "BasicAnswer";
@@ -96,6 +104,9 @@ Resolvers.RightSide2 = {
     if (right.type === "SelectedOptions") {
       return "SelectedOptions2";
     }
+    if (right.type === "DateValue") {
+      return "DateValue";
+    }
   },
 };
 
@@ -110,6 +121,15 @@ Resolvers.SelectedOptions2 = {
       getOptions(ctx),
       map((optionId) => ({ id: optionId }), right.optionIds)
     );
+  },
+};
+
+Resolvers.DateValue = {
+  offset: ({ dateValue: { offset } }) => {
+    return offset;
+  },
+  offsetDirection: ({ dateValue: { offsetDirection } }) => {
+    return offsetDirection;
   },
 };
 
@@ -195,8 +215,7 @@ Resolvers.Mutation = {
     if (input.customValue && input.selectedOptions) {
       throw new Error("Too many right side inputs");
     }
-    const { expressionId, customValue, selectedOptions } = input;
-
+    const { expressionId, customValue, dateValue, selectedOptions } = input;
     const expression = getExpressionById(ctx, expressionId);
 
     let type, newRightProperties;
@@ -205,6 +224,12 @@ Resolvers.Mutation = {
       newRightProperties = {
         type,
         customValue,
+      };
+    } else if (dateValue) {
+      type = "DateValue";
+      newRightProperties = {
+        type,
+        dateValue,
       };
     } else {
       type = "SelectedOptions";
@@ -248,7 +273,6 @@ Resolvers.Mutation = {
     }
 
     expression.right = updatedRightSide;
-
     return expression;
   }),
   deleteBinaryExpression2: createMutation((root, { input }, ctx) => {
