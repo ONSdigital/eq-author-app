@@ -25,7 +25,6 @@ const Search = styled.div`
 
 const SearchInput = styled(Input).attrs({
   type: "search",
-  placeholder: "Search questionnaire titles",
 })`
   width: ${(props) => (props.size === "large" ? "27em" : "20em")};
   padding: ${(props) => (props.paddingType === "large" ? "0.6em" : "0.4em")};
@@ -44,7 +43,7 @@ const SearchInput = styled(Input).attrs({
   }
 `;
 
-const SearchBar = ({ onChange, size, paddingType }) => {
+const SearchBar = ({ onChange, size, paddingType, placeholder }) => {
   return (
     <>
       <Search paddingType={paddingType}>
@@ -58,16 +57,22 @@ const SearchBar = ({ onChange, size, paddingType }) => {
           paddingType={paddingType}
           size={size}
           data-test="search-bar"
+          placeholder={placeholder}
         />
       </Search>
     </>
   );
 };
 
+SearchBar.defaultProps = {
+  placeholder: "Search questionnaire titles",
+};
+
 SearchBar.propTypes = {
   onChange: PropTypes.func,
   size: PropTypes.string,
   paddingType: PropTypes.string,
+  placeholder: PropTypes.string,
 };
 
 export default SearchBar;
