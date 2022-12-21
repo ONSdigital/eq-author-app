@@ -12,6 +12,8 @@ mutation UpdateSection($input: UpdateSectionInput!) {
     showOnHub
     sectionSummary
     collapsibleSummary
+    repeatingSection
+    repeatingSectionListId
     validationErrorInfo {
       ...ValidationErrorInfo
     }
