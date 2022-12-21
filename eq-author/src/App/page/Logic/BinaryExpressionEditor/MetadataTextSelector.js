@@ -28,7 +28,7 @@ const RoutingSelectorContainer = styled.div`
   `}
 `;
 
-const ConditionContent = styled.span`
+const ConditionContent = styled.label`
   margin-right: 1em;
 `;
 
@@ -58,7 +58,9 @@ const MetadataTextSelector = ({ expression }) => {
         hasError={hasError}
         data-test="routing-selector-container-metadata"
       >
-        <ConditionContent>{expression.condition}</ConditionContent>
+        <ConditionContent htmlFor="metadata-match-input">
+          {expression.condition}
+        </ConditionContent>
         <WrappingInput
           id="metadata-match-input"
           name="label"
