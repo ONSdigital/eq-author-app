@@ -16,6 +16,17 @@ module.exports = (questionnaire) => {
     if (page.pageDescription === undefined) {
       page.pageDescription = null;
     }
+    if (
+      page.pageType === "ListCollectorPage" &&
+      page.addItemPageDescription === undefined
+    ) {
+      if (page.addItemPageDescription === undefined) {
+        page.addItemPageDescription = null;
+      }
+      if (page.anotherPageDescription === undefined) {
+        page.anotherPageDescription = null;
+      }
+    }
   });
 
   return questionnaire;
