@@ -308,6 +308,15 @@ Resolvers.Mutation = {
       updatedRightSide.optionIds = selectedOptions;
     }
 
+    // Prevents bug causing validation message not to be displayed when right side text is empty after text input's first click
+    if (
+      expression.left.type === "Metadata" &&
+      updatedRightSide.type === "Custom" &&
+      !updatedRightSide.customValue.text
+    ) {
+      updatedRightSide.customValue.text = "";
+    }
+
     expression.right = updatedRightSide;
     return expression;
   }),
