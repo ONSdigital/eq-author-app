@@ -178,6 +178,8 @@ type Section {
   introductionTitle: String
   introductionContent: String
   validationErrorInfo: ValidationErrorInfo
+  repeatingSection: Boolean
+  repeatingSectionListId: ID
   comments: [Comment]
 }
 
@@ -1213,6 +1215,8 @@ input UpdateSectionInput {
   showOnHub: Boolean
   sectionSummary: Boolean
   collapsibleSummary: Boolean
+  repeatingSection: Boolean
+  repeatingSectionListId: ID
 }
 
 input DeleteSectionInput {
