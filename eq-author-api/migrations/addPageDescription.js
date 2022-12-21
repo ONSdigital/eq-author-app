@@ -1,10 +1,12 @@
-const { getPages } = require("../schema/resolvers/utils");
+const { getPages, getConfirmations } = require("../schema/resolvers/utils");
 
 module.exports = (questionnaire) => {
   const ctx = {
     questionnaire,
   };
   const pages = getPages(ctx);
+
+  const confirmations = getConfirmations(ctx);
 
   questionnaire.sections.forEach((section) => {
     if (section.pageDescription === undefined) {
@@ -26,6 +28,12 @@ module.exports = (questionnaire) => {
       if (page.anotherPageDescription === undefined) {
         page.anotherPageDescription = null;
       }
+    }
+  });
+
+  confirmations.forEach((confirmation) => {
+    if (confirmation.pageDescription === undefined) {
+      confirmation.pageDescription = null;
     }
   });
 

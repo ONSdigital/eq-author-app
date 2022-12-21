@@ -16,6 +16,10 @@ describe("adding pageDescription to sections and pages", () => {
                 {
                   pageType: "ListCollectorPage",
                 },
+                {
+                  pageType: "QuestionPage",
+                  confirmation: [{}],
+                },
               ],
             },
           ],
@@ -34,6 +38,14 @@ describe("adding pageDescription to sections and pages", () => {
                   pageDescription: "Page level page title",
                   addItemPageDescription: "Add item page description",
                   anotherPageDescription: "Another page description",
+                },
+                {
+                  pageType: "QuestionPage",
+                  confirmation: [
+                    {
+                      pageDescription: "Confiramtion page title",
+                    },
+                  ],
                 },
               ],
             },
@@ -89,5 +101,19 @@ describe("adding pageDescription to sections and pages", () => {
     expect(update.sections[1].folders[0].pages[1].anotherPageDescription).toBe(
       "Another page description"
     );
+  });
+
+  it("should have a pageDescription, and it should be null on confirmation question pages", () => {
+    const update = addPageDescription(questionnaire);
+    expect(
+      update.sections[0].folders[0].pages[2].confirmation[0].pageDescription
+    ).toBeNull();
+  });
+
+  it("should keep existing pageDescription values on confirmation question pages", () => {
+    const update = addPageDescription(questionnaire);
+    expect(
+      update.sections[1].folders[0].pages[2].confirmation[0].pageDescription
+    ).toBe("Confiramtion page title");
   });
 });

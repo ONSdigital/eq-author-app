@@ -46,6 +46,13 @@ exports[`SectionEditor should render 1`] = `
       value="Section 1"
     />
     <SectionEditor__HorizontalRule />
+    <PageTitleContainer
+      errors={Array []}
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      pageDescription="Section 1 page title"
+    />
+    <SectionEditor__HorizontalRule />
     <SectionSummary
       id="section-1"
       sectionSummary={false}
@@ -104,13 +111,6 @@ exports[`SectionEditor should render 1`] = `
         value="Intro content"
       />
     </SectionEditor__IntroCanvas>
-    <SectionEditor__HorizontalRule />
-    <PageTitleContainer
-      errors={Array []}
-      onChange={[MockFunction]}
-      onUpdate={[MockFunction]}
-      pageDescription="Section 1 page title"
-    />
     <SectionEditor__HorizontalRule />
     <RepeatingSection
       handleUpdate={[Function]}
@@ -193,6 +193,13 @@ exports[`SectionEditor should render 2`] = `
       value="Section 2"
     />
     <SectionEditor__HorizontalRule />
+    <PageTitleContainer
+      errors={Array []}
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      pageDescription="Section 2 page title"
+    />
+    <SectionEditor__HorizontalRule />
     <SectionSummary
       id="section-2"
       sectionSummary={false}
@@ -251,13 +258,6 @@ exports[`SectionEditor should render 2`] = `
         value="Intro content"
       />
     </SectionEditor__IntroCanvas>
-    <SectionEditor__HorizontalRule />
-    <PageTitleContainer
-      errors={Array []}
-      onChange={[MockFunction]}
-      onUpdate={[MockFunction]}
-      pageDescription="Section 2 page title"
-    />
     <SectionEditor__HorizontalRule />
     <RepeatingSection
       handleUpdate={[Function]}
