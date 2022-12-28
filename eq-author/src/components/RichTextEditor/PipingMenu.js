@@ -1,8 +1,9 @@
 import React, { useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { find } from "lodash";
 
-import ContentPicker from "components/ContentPickerv2";
+import ContentPicker from "components/ContentPickerv3";
 import { useCurrentPageId } from "components/RouterContext";
 import { useQuestionnaire } from "components/QuestionnaireContext";
 import getContentBeforeEntity from "utils/getContentBeforeEntity";
@@ -16,7 +17,8 @@ import {
   ANSWER,
   METADATA,
   VARIABLES,
-} from "components/ContentPickerSelect/content-types";
+  LIST_ANSWER,
+} from "components/ContentPickerSelectv3/content-types";
 
 export const MenuButton = styled(ToolbarButton)`
   height: 100%;
@@ -33,6 +35,7 @@ const PipingMenuPropTypes = {
   canFocus: PropTypes.bool,
   allowableTypes: PropTypes.arrayOf(PropTypes.string),
   allCalculatedSummaryPages: PropTypes.array, //eslint-disable-line
+  listId: PropTypes.string,
 };
 
 const PipingMenu = ({
@@ -42,14 +45,21 @@ const PipingMenu = ({
   canFocus,
   allowableTypes = [ANSWER, METADATA],
   allCalculatedSummaryPages,
+  listId,
 }) => {
   const [pickerContent, setPickerContent] = useState(ANSWER);
+  const [contentTypes, setContentTypes] = useState([ANSWER]);
   const [isPickerOpen, setIsPickerOpen] = useState(false);
 
   const { questionnaire } = useQuestionnaire();
   const pageId = useCurrentPageId();
   const handleButtonClick = (pickerContent) => {
     setPickerContent(pickerContent);
+    if (pickerContent === ANSWER && listId) {
+      setContentTypes([ANSWER, LIST_ANSWER]);
+    } else {
+      setContentTypes([pickerContent]);
+    }
     setIsPickerOpen(true);
   };
 
@@ -72,6 +82,9 @@ const PipingMenu = ({
 
   const metadataData = questionnaire?.metadata || [];
 
+  const listAnswers =
+    find(questionnaire?.collectionLists.lists, { id: listId })?.answers || [];
+
   const handlePickerContent = (contentType) => {
     switch (contentType) {
       case METADATA:
@@ -80,6 +93,8 @@ const PipingMenu = ({
         return answerData;
       case VARIABLES:
         return allCalculatedSummaryPages;
+      case LIST_ANSWER:
+        return listAnswers;
       default:
         return answerData;
     }
@@ -137,6 +152,8 @@ const PipingMenu = ({
         data-test="picker"
         singleItemSelect
         contentType={pickerContent}
+        contentTypes={contentTypes}
+        setContentType={setPickerContent}
       />
     </>
   );

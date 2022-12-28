@@ -4,6 +4,7 @@ export const METADATA = "Metadata";
 export const DESTINATION = "Destination";
 export const VARIABLES = "Variables";
 export const DYNAMIC_ANSWER = "DynamicAnswer";
+export const LIST_ANSWER = "ListAnswer";
 
 export const CONTENT_TYPE_FIELDS = {
   [ANSWER]: "answerId",
@@ -13,4 +14,5 @@ export const CONTENT_TYPE_FIELDS = {
 export const CONTENT_TYPE_LABELS = {
   [ANSWER]: "Answer",
   [METADATA]: "Metadata",
+  [LIST_ANSWER]: "List Answer",
 };
