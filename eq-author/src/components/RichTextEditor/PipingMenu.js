@@ -83,7 +83,7 @@ const PipingMenu = ({
   const metadataData = questionnaire?.metadata || [];
 
   const listAnswers =
-    find(questionnaire?.collectionLists.lists, { id: listId })?.answers || [];
+    find(questionnaire?.collectionLists?.lists, { id: listId })?.answers || [];
 
   const handlePickerContent = (contentType) => {
     switch (contentType) {

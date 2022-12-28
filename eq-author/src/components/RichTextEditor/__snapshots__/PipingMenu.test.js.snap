@@ -34,6 +34,11 @@ exports[`PipingMenu should render 1`] = `
   </PipingMenu__MenuButton>
   <ContentPicker
     contentType="Custom"
+    contentTypes={
+      Array [
+        "Custom",
+      ]
+    }
     data={
       Array [
         Object {
@@ -113,6 +118,7 @@ exports[`PipingMenu should render 1`] = `
     isOpen={false}
     onClose={[Function]}
     onSubmit={[Function]}
+    setContentType={[Function]}
     singleItemSelect={true}
     startingSelectedAnswers={Array []}
   />
