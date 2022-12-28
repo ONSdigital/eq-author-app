@@ -105,7 +105,7 @@ const PipingMenu = ({
       {allowableTypes.includes(ANSWER) && (
         <MenuButton
           title="Pipe answer"
-          disabled={disabled || !answerData.length}
+          disabled={disabled || (!answerData.length && !listId)}
           onClick={() => handleButtonClick(ANSWER)}
           canFocus={canFocus}
           modalVisible={isPickerOpen}
