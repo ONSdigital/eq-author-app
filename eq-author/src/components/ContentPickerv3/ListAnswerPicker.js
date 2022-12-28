@@ -148,7 +148,7 @@ ListAnswerPicker.defaultProps = {
 };
 
 ListAnswerPicker.propTypes = {
-  data: PropTypes.arrayOf(CustomPropTypes.metadata),
+  data: PropTypes.arrayOf(CustomPropTypes.answer),
   onSelected: PropTypes.func.isRequired,
   isSelected: PropTypes.func.isRequired,
   pageType: PropTypes.string,

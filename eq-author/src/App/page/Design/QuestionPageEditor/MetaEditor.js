@@ -53,10 +53,7 @@ export class StatelessMetaEditor extends React.Component {
           defaultTab="variables"
           autoFocus={!page.title}
           allCalculatedSummaryPages={allCalculatedSummaryPages}
-          listId={
-            page.section.repeatingSection &&
-            get(page, "section.repeatingSectionListId", null)
-          }
+          listId={page.section?.repeatingSectionListId ?? null}
           errorValidationMsg={this.errorMsg("title")}
         />
       </div>
