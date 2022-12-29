@@ -84,6 +84,7 @@ export const StatelessAdditionalInfo = ({
             fetchAnswers={fetchAnswers}
             metadata={get(page, "section.questionnaire.metadata", [])}
             testSelector="txt-question-description"
+            listId={page.section?.repeatingSectionListId ?? null}
             errorValidationMsg={getMultipleErrorsByField(
               "description",
               page.validationErrorInfo.errors
