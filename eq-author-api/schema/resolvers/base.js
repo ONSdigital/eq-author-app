@@ -92,6 +92,7 @@ const onFolderDeleted = require("../../src/businessLogic/onFolderDeleted");
 const addPrefix = require("../../utils/addPrefix");
 const onQuestionnaireUpdated = require("../../src/businessLogic/onQuestionnaireUpdated");
 const onListDeleted = require("../../src/businessLogic/onListDeleted");
+const onSectionUpdated = require("../../src/businessLogic/onSectionUpdated");
 
 const {
   createQuestionnaire,
@@ -614,7 +615,9 @@ const Resolvers = {
     }),
     updateSection: createMutation((_, { input }, ctx) => {
       const section = getSectionById(ctx, input.id);
+      const oldSection = { ...section };
       merge(section, input);
+      onSectionUpdated(ctx, section, oldSection);
       logger.info(
         { qid: ctx.questionnaire.id },
         `Section Updated with ID - ${input.id}`

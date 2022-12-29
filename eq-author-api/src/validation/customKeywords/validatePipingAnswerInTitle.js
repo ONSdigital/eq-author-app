@@ -7,6 +7,8 @@ const createValidationError = require("../createValidationError");
 const {
   getAbsolutePositionById,
   idExists,
+  getSectionByPageId,
+  getListByAnswerId,
 } = require("../../../schema/resolvers/utils");
 
 const pipedAnswerIdRegex = /data-piped="answers" data-id="(.+?)"/gm;
@@ -63,6 +65,17 @@ module.exports = (ajv) =>
       for (const pipedId of pipedIdList) {
         if (!idExists({ questionnaire }, pipedId)) {
           return hasError(PIPING_TITLE_DELETED);
+        }
+
+        const list = getListByAnswerId({ questionnaire }, pipedId);
+        if (list) {
+          const section = getSectionByPageId({ questionnaire }, pageId);
+          if (
+            list.id !== section.repeatingSectionListId ||
+            !section.repeatingSection
+          ) {
+            return hasError(PIPING_TITLE_DELETED);
+          }
         }
 
         if (
