@@ -24,7 +24,7 @@ module.exports = (ajv) =>
       title,
       _parentSchema,
       {
-        parentData: { id: pageId },
+        parentData,
         parentDataProperty: fieldName,
         instancePath,
         rootData: questionnaire,
@@ -69,7 +69,10 @@ module.exports = (ajv) =>
 
         const list = getListByAnswerId({ questionnaire }, pipedId);
         if (list) {
-          const section = getSectionByPageId({ questionnaire }, pageId);
+          let section = parentData;
+          if (parentData.pageType) {
+            section = getSectionByPageId({ questionnaire }, parentData.id);
+          }
           if (
             list.id !== section.repeatingSectionListId ||
             !section.repeatingSection
@@ -80,7 +83,7 @@ module.exports = (ajv) =>
 
         if (
           getAbsolutePositionById({ questionnaire }, pipedId) >
-          getAbsolutePositionById({ questionnaire }, pageId)
+          getAbsolutePositionById({ questionnaire }, parentData.id)
         ) {
           return hasError(PIPING_TITLE_MOVED);
         }
