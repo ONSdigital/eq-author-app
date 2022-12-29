@@ -91,6 +91,7 @@ const onSectionDeleted = require("../../src/businessLogic/onSectionDeleted");
 const onFolderDeleted = require("../../src/businessLogic/onFolderDeleted");
 const addPrefix = require("../../utils/addPrefix");
 const onQuestionnaireUpdated = require("../../src/businessLogic/onQuestionnaireUpdated");
+const onListDeleted = require("../../src/businessLogic/onListDeleted");
 
 const {
   createQuestionnaire,
@@ -1054,7 +1055,10 @@ const Resolvers = {
       return list;
     }),
     deleteList: createMutation(async (root, { input }, ctx) => {
-      remove(ctx.questionnaire.collectionLists.lists, { id: input.id });
+      const removedList = first(
+        remove(ctx.questionnaire.collectionLists.lists, { id: input.id })
+      );
+      onListDeleted(ctx, removedList);
       logger.info(
         { qid: ctx.questionnaire.id },
         `List removed with ID - ${input.id}`
