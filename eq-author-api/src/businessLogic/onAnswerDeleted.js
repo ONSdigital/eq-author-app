@@ -6,7 +6,7 @@ const {
 const { NULL } = require("../../constants/routingNoLeftSide");
 const totalableAnswerTypes = require("../../constants/totalableAnswerTypes");
 const createGroupValidation = require("./createTotalValidation");
-const { getExpressions } = require("../../schema/resolvers/utils");
+const { getExpressions, getSections } = require("../../schema/resolvers/utils");
 
 const removeAnswerFromExpressions = (ctx, deletedAnswer) => {
   const expressions = filter(
@@ -51,11 +51,10 @@ const removeAnswerGroup = (page, deletedAnswer) => {
   page.totalValidation = null;
 };
 
-const removeAnswerFromPiping = (deletedAnswer, pages) => {
-  const deletedAnswerId = deletedAnswer.id;
+const removeAnswerFromPiping = (ctx, deletedAnswer, pages) => {
   pages.forEach((page) => {
     const { title, description } = page;
-    if (title?.includes(deletedAnswerId)) {
+    if (title?.includes(deletedAnswer.id)) {
       page.title = title.replace(deletedAnswer.label, "Deleted answer");
     }
 
@@ -66,12 +65,32 @@ const removeAnswerFromPiping = (deletedAnswer, pages) => {
       );
     }
   });
-  logger.info(`Removed Answer from Piping with Answer ID ${deletedAnswerId}`);
+
+  const sections = getSections(ctx);
+
+  sections.forEach((section) => {
+    const { introductionTitle, introductionContent } = section;
+    if (introductionTitle?.includes(deletedAnswer.id)) {
+      section.introductionTitle = introductionTitle.replace(
+        deletedAnswer.label,
+        "Deleted answer"
+      );
+    }
+
+    if (introductionContent?.includes(deletedAnswer.id)) {
+      section.introductionContent = introductionContent.replace(
+        deletedAnswer.label,
+        "Deleted answer"
+      );
+    }
+  });
+
+  logger.info(`Removed Answer from Piping with Answer ID ${deletedAnswer.id}`);
   return pages;
 };
 
 module.exports = (ctx, page, deletedAnswer, pages) => {
   removeAnswerFromExpressions(ctx, deletedAnswer);
   removeAnswerGroup(page, deletedAnswer);
-  removeAnswerFromPiping(deletedAnswer, pages);
+  removeAnswerFromPiping(ctx, deletedAnswer, pages);
 };
