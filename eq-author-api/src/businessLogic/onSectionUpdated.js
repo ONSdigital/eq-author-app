@@ -19,15 +19,35 @@ const updatePipingFromAnswer = (answer, pages, newValue) => {
   return pages;
 };
 
-const deletePiping = (answers, pages) => {
+const deletePiping = (answers, section, pages) => {
   answers.forEach((answer) => {
     updatePipingFromAnswer(answer, pages, "Deleted answer");
+    section.introductionTitle = updatePipingVaue(
+      section.introductionTitle,
+      answer.id,
+      "Deleted answer"
+    );
+    section.introductionContent = updatePipingVaue(
+      section.introductionContent,
+      answer.id,
+      "Deleted answer"
+    );
   });
 };
 
-const updatePiping = (answers, pages) => {
+const updatePiping = (answers, section, pages) => {
   answers.forEach((answer) => {
     updatePipingFromAnswer(answer, pages, answer.label || "Untitled answer");
+    section.introductionTitle = updatePipingVaue(
+      section.introductionTitle,
+      answer.id,
+      answer.label || "Untitled answer"
+    );
+    section.introductionContent = updatePipingVaue(
+      section.introductionContent,
+      answer.id,
+      answer.label || "Untitled answer"
+    );
   });
 };
 
@@ -41,7 +61,7 @@ module.exports = (ctx, section, oldSection) => {
     (oldSection?.repeatingSectionListId &&
       oldSection?.repeatingSectionListId !== section?.repeatingSectionListId)
   ) {
-    deletePiping(oldList.answers, pages);
+    deletePiping(oldList.answers, section, pages);
   }
 
   if (
@@ -50,6 +70,6 @@ module.exports = (ctx, section, oldSection) => {
     (oldSection?.repeatingSection !== section?.repeatingSection ||
       oldSection?.repeatingSectionListId !== section?.repeatingSectionListId)
   ) {
-    updatePiping(newList.answers, pages);
+    updatePiping(newList.answers, section, pages);
   }
 };
