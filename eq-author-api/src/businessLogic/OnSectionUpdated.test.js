@@ -70,7 +70,7 @@ describe("Update piping when repeating sections are used", () => {
     );
   });
 
-  it("Updates piped list answer text when list is changed back to existing lit", () => {
+  it("Updates piped list answer text when list is changed back to existing list", () => {
     section.folders[0].pages[0].title = `Hello <span data-id="answer_123">[Deleted answer]</span> employee`;
     section.introductionTitle = `Hello <span data-id="answer_123">[Deleted answer]</span> employee`;
     section.introductionContent = `Hello <span data-id="answer_123">[Deleted answer]</span> employee`;

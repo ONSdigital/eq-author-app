@@ -52,7 +52,7 @@ const removeAnswerGroup = (page, deletedAnswer) => {
   page.totalValidation = null;
 };
 
-const updatePipingVaue = (htmlText, answerId, newValue) => {
+const updatePipingValue = (htmlText, answerId, newValue) => {
   if (!htmlText) {
     return htmlText;
   }
@@ -66,12 +66,12 @@ const updatePipingVaue = (htmlText, answerId, newValue) => {
 
 const removeAnswerFromPiping = (ctx, deletedAnswer, pages) => {
   pages.forEach((page) => {
-    page.title = updatePipingVaue(
+    page.title = updatePipingValue(
       page.title,
       deletedAnswer.id,
       "Deleted answer"
     );
-    page.description = updatePipingVaue(
+    page.description = updatePipingValue(
       page.description,
       deletedAnswer.id,
       "Deleted answer"
@@ -81,12 +81,12 @@ const removeAnswerFromPiping = (ctx, deletedAnswer, pages) => {
   const sections = getSections(ctx);
 
   sections.forEach((section) => {
-    section.introductionTitle = updatePipingVaue(
+    section.introductionTitle = updatePipingValue(
       section.introductionTitle,
       deletedAnswer.id,
       "Deleted answer"
     );
-    section.introductionContent = updatePipingVaue(
+    section.introductionContent = updatePipingValue(
       section.introductionContent,
       deletedAnswer.id,
       "Deleted answer"

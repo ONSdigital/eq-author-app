@@ -2,7 +2,7 @@ const { getListById } = require("../../schema/resolvers/utils");
 const { flatMap } = require("lodash");
 const cheerio = require("cheerio");
 
-const updatePipingVaue = (htmlText, answerId, newValue) => {
+const updatePipingValue = (htmlText, answerId, newValue) => {
   if (!htmlText) {
     return htmlText;
   }
@@ -16,8 +16,8 @@ const updatePipingVaue = (htmlText, answerId, newValue) => {
 
 const updatePipingFromAnswer = (answer, pages, newValue) => {
   pages.forEach((page) => {
-    page.title = updatePipingVaue(page.title, answer.id, newValue);
-    page.description = updatePipingVaue(page.description, answer.id, newValue);
+    page.title = updatePipingValue(page.title, answer.id, newValue);
+    page.description = updatePipingValue(page.description, answer.id, newValue);
   });
   return pages;
 };
@@ -25,12 +25,12 @@ const updatePipingFromAnswer = (answer, pages, newValue) => {
 const deletePiping = (answers, section, pages) => {
   answers.forEach((answer) => {
     updatePipingFromAnswer(answer, pages, "Deleted answer");
-    section.introductionTitle = updatePipingVaue(
+    section.introductionTitle = updatePipingValue(
       section.introductionTitle,
       answer.id,
       "Deleted answer"
     );
-    section.introductionContent = updatePipingVaue(
+    section.introductionContent = updatePipingValue(
       section.introductionContent,
       answer.id,
       "Deleted answer"
@@ -41,12 +41,12 @@ const deletePiping = (answers, section, pages) => {
 const updatePiping = (answers, section, pages) => {
   answers.forEach((answer) => {
     updatePipingFromAnswer(answer, pages, answer.label || "Untitled answer");
-    section.introductionTitle = updatePipingVaue(
+    section.introductionTitle = updatePipingValue(
       section.introductionTitle,
       answer.id,
       answer.label || "Untitled answer"
     );
-    section.introductionContent = updatePipingVaue(
+    section.introductionContent = updatePipingValue(
       section.introductionContent,
       answer.id,
       answer.label || "Untitled answer"
