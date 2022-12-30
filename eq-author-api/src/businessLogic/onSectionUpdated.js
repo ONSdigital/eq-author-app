@@ -3,6 +3,9 @@ const { flatMap } = require("lodash");
 const cheerio = require("cheerio");
 
 const updatePipingVaue = (htmlText, answerId, newValue) => {
+  if (!htmlText) {
+    return htmlText;
+  }
   const htmlDoc = cheerio.load(htmlText, null, false);
   const dataSpan = htmlDoc(`span[data-id=${answerId}]`);
   dataSpan.each((i, elem) => {

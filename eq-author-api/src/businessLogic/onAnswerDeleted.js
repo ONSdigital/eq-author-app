@@ -7,6 +7,7 @@ const { NULL } = require("../../constants/routingNoLeftSide");
 const totalableAnswerTypes = require("../../constants/totalableAnswerTypes");
 const createGroupValidation = require("./createTotalValidation");
 const { getExpressions, getSections } = require("../../schema/resolvers/utils");
+const cheerio = require("cheerio");
 
 const removeAnswerFromExpressions = (ctx, deletedAnswer) => {
   const expressions = filter(
@@ -51,38 +52,45 @@ const removeAnswerGroup = (page, deletedAnswer) => {
   page.totalValidation = null;
 };
 
+const updatePipingVaue = (htmlText, answerId, newValue) => {
+  if (!htmlText) {
+    return htmlText;
+  }
+  const htmlDoc = cheerio.load(htmlText, null, false);
+  const dataSpan = htmlDoc(`span[data-id=${answerId}]`);
+  dataSpan.each((i, elem) => {
+    elem.children[0].data = `[${newValue}]`;
+  });
+  return htmlDoc.html();
+};
+
 const removeAnswerFromPiping = (ctx, deletedAnswer, pages) => {
   pages.forEach((page) => {
-    const { title, description } = page;
-    if (title?.includes(deletedAnswer.id)) {
-      page.title = title.replace(deletedAnswer.label, "Deleted answer");
-    }
-
-    if (description?.includes(deletedAnswer.id)) {
-      page.description = description.replace(
-        deletedAnswer.label,
-        "Deleted answer"
-      );
-    }
+    page.title = updatePipingVaue(
+      page.title,
+      deletedAnswer.id,
+      "Deleted answer"
+    );
+    page.description = updatePipingVaue(
+      page.description,
+      deletedAnswer.id,
+      "Deleted answer"
+    );
   });
 
   const sections = getSections(ctx);
 
   sections.forEach((section) => {
-    const { introductionTitle, introductionContent } = section;
-    if (introductionTitle?.includes(deletedAnswer.id)) {
-      section.introductionTitle = introductionTitle.replace(
-        deletedAnswer.label,
-        "Deleted answer"
-      );
-    }
-
-    if (introductionContent?.includes(deletedAnswer.id)) {
-      section.introductionContent = introductionContent.replace(
-        deletedAnswer.label,
-        "Deleted answer"
-      );
-    }
+    section.introductionTitle = updatePipingVaue(
+      section.introductionTitle,
+      deletedAnswer.id,
+      "Deleted answer"
+    );
+    section.introductionContent = updatePipingVaue(
+      section.introductionContent,
+      deletedAnswer.id,
+      "Deleted answer"
+    );
   });
 
   logger.info(`Removed Answer from Piping with Answer ID ${deletedAnswer.id}`);
