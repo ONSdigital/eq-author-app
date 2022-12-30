@@ -145,7 +145,7 @@ const DynamicAnswerPicker = ({ onSelected, isSelected, data }) => {
 };
 
 DynamicAnswerPicker.propTypes = {
-  data: PropTypes.arrayOf(CustomPropTypes.metadata),
+  data: PropTypes.arrayOf(CustomPropTypes.answer),
   onSelected: PropTypes.func.isRequired,
   isSelected: PropTypes.func.isRequired,
   pageType: PropTypes.string,

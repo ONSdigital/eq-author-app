@@ -113,9 +113,7 @@ exports[`SectionEditor should render 1`] = `
         Object {
           "alias": "alias",
           "collapsibleSummary": false,
-          "comments": Array [
-            Object {},
-          ],
+          "comments": Array [],
           "id": "section-1",
           "introductionContent": "Intro content",
           "introductionTitle": "Intro title",
@@ -125,6 +123,8 @@ exports[`SectionEditor should render 1`] = `
             "id": "2",
             "navigation": true,
           },
+          "repeatingSection": false,
+          "repeatingSectionListId": null,
           "requiredCompleted": true,
           "sectionSummary": false,
           "showOnHub": true,
@@ -254,9 +254,7 @@ exports[`SectionEditor should render 2`] = `
         Object {
           "alias": "alias",
           "collapsibleSummary": false,
-          "comments": Array [
-            Object {},
-          ],
+          "comments": Array [],
           "id": "section-2",
           "introductionContent": "Intro content",
           "introductionTitle": "Intro title",
@@ -266,6 +264,8 @@ exports[`SectionEditor should render 2`] = `
             "id": "2",
             "navigation": true,
           },
+          "repeatingSection": false,
+          "repeatingSectionListId": null,
           "requiredCompleted": true,
           "sectionSummary": false,
           "showOnHub": true,

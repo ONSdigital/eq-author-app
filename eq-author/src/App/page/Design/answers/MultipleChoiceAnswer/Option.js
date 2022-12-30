@@ -469,7 +469,8 @@ StatelessOption.propTypes = {
   onDelete: PropTypes.func.isRequired,
   onEnterKey: PropTypes.func,
   hasDeleteButton: PropTypes.bool.isRequired,
-  type: PropTypes.oneOf([RADIO, CHECKBOX, MUTUALLY_EXCLUSIVE]).isRequired,
+  type: PropTypes.oneOf([RADIO, CHECKBOX, MUTUALLY_EXCLUSIVE, SELECT])
+    .isRequired,
   labelPlaceholder: PropTypes.string,
   descriptionPlaceholder: PropTypes.string,
   autoFocus: PropTypes.bool,
