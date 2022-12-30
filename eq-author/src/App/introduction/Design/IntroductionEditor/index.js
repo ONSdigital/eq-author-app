@@ -160,7 +160,9 @@ const IntroductionEditor = ({ introduction, history }) => {
                 },
               })
             }
-            errorValidationMsg={hasErrors("title") && TITLE_NOT_ENTERED}
+            errorValidationMsg={
+              (hasErrors("title") && TITLE_NOT_ENTERED) || null
+            }
             controls={{
               heading: true,
               bold: true,

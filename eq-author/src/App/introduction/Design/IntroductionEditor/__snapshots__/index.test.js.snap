@@ -30,7 +30,7 @@ exports[`IntroductionEditor should render 1`] = `
           }
         }
         disabled={false}
-        errorValidationMsg={false}
+        errorValidationMsg={null}
         id="intro-title"
         label="Title"
         maxHeight={12}
