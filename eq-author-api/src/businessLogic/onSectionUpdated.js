@@ -64,7 +64,9 @@ module.exports = (ctx, section, oldSection) => {
     (oldSection?.repeatingSectionListId &&
       oldSection?.repeatingSectionListId !== section?.repeatingSectionListId)
   ) {
-    deletePiping(oldList.answers, section, pages);
+    if (oldList) {
+      deletePiping(oldList.answers, section, pages);
+    }
   }
 
   if (
@@ -73,6 +75,8 @@ module.exports = (ctx, section, oldSection) => {
     (oldSection?.repeatingSection !== section?.repeatingSection ||
       oldSection?.repeatingSectionListId !== section?.repeatingSectionListId)
   ) {
-    updatePiping(newList.answers, section, pages);
+    if (newList) {
+      updatePiping(newList.answers, section, pages);
+    }
   }
 };
