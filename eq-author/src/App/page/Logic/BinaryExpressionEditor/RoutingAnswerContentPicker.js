@@ -58,8 +58,10 @@ const RoutingAnswerContentPicker = ({
 
 RoutingAnswerContentPicker.propTypes = {
   includeSelf: PropTypes.bool,
-  // eslint-disable-next-line react/forbid-prop-types
-  selectedContentDisplayName: PropTypes.object,
+  selectedContentDisplayName: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.string,
+  ]),
 };
 
 export default RoutingAnswerContentPicker;

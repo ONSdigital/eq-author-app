@@ -53,7 +53,7 @@ describe("Import sections review modal", () => {
         questionnaire={mockQuestionnaire}
         isOpen
         startingSelectedSections={mockSections}
-        onSelectsections={mockOnSelectSections}
+        onSelectSections={mockOnSelectSections}
         onSelectQuestions={mockOnSelectQuestions}
         onConfirm={jest.fn()}
         onCancel={jest.fn()}

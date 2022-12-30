@@ -18,6 +18,7 @@ exports[`PreviewSectionRoute should render as loading when loading 1`] = `
 
 exports[`PreviewSectionRoute should show the section intro preview when it is finished loading and has a section 1`] = `
 <EditorLayout
+  comments={Array []}
   design={true}
   logic={true}
   preview={true}
@@ -36,6 +37,7 @@ exports[`PreviewSectionRoute should show the section intro preview when it is fi
       Object {
         "alias": "",
         "collapsibleSummary": false,
+        "comments": Array [],
         "id": "1",
         "introductionContent": "intro content",
         "introductionTitle": "intro title",
@@ -44,6 +46,8 @@ exports[`PreviewSectionRoute should show the section intro preview when it is fi
           "id": "2",
           "navigation": true,
         },
+        "repeatingSection": false,
+        "repeatingSectionListId": null,
         "requiredCompleted": false,
         "sectionSummary": false,
         "showOnHub": false,

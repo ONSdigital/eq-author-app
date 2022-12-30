@@ -7,6 +7,8 @@ const createValidationError = require("../createValidationError");
 const {
   getAbsolutePositionById,
   idExists,
+  getSectionByPageId,
+  getListByAnswerId,
 } = require("../../../schema/resolvers/utils");
 
 const pipedAnswerIdRegex = /data-piped="answers" data-id="(.+?)"/gm;
@@ -22,7 +24,7 @@ module.exports = (ajv) =>
       title,
       _parentSchema,
       {
-        parentData: { id: pageId },
+        parentData,
         parentDataProperty: fieldName,
         instancePath,
         rootData: questionnaire,
@@ -65,9 +67,23 @@ module.exports = (ajv) =>
           return hasError(PIPING_TITLE_DELETED);
         }
 
+        const list = getListByAnswerId({ questionnaire }, pipedId);
+        if (list) {
+          let section = parentData;
+          if (parentData.pageType) {
+            section = getSectionByPageId({ questionnaire }, parentData.id);
+          }
+          if (
+            list.id !== section.repeatingSectionListId ||
+            !section.repeatingSection
+          ) {
+            return hasError(PIPING_TITLE_DELETED);
+          }
+        }
+
         if (
           getAbsolutePositionById({ questionnaire }, pipedId) >
-          getAbsolutePositionById({ questionnaire }, pageId)
+          getAbsolutePositionById({ questionnaire }, parentData.id)
         ) {
           return hasError(PIPING_TITLE_MOVED);
         }
