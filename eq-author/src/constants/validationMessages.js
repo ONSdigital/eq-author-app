@@ -4,6 +4,7 @@ export default {
   ERR_UNIQUE_REQUIRED: ({ label }) => `${label} must be unique`,
   ERR_REQUIRED_WHEN_SETTING: ({ message }) => message,
   ERR_NO_ANSWERS: ({ message }) => message,
+  PIPING_TITLE_DELETED: ({ message }) => message,
 };
 
 export const LIST_COLLECTOR_ERRORS = [
