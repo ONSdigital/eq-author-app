@@ -4,6 +4,7 @@ import { render, flushPromises, act, screen } from "tests/utils/rtl";
 import { useMutation } from "@apollo/react-hooks";
 
 import { RADIO, CURRENCY, NUMBER, PERCENTAGE } from "constants/answer-types";
+import { TEXT } from "constants/metadata-types";
 import {
   NO_ROUTABLE_ANSWER_ON_PAGE,
   SELECTED_ANSWER_DELETED,
@@ -177,10 +178,13 @@ describe("BinaryExpressionEditor", () => {
       value: {
         id: "999",
       },
+      name: "answerId",
     });
+
     expect(defaultProps.updateLeftSide).toHaveBeenCalledWith(
       defaultProps.expression,
-      "999"
+      "999",
+      "answerId"
     );
   });
 
@@ -401,5 +405,15 @@ describe("BinaryExpressionEditor", () => {
     expect(
       screen.queryByText(binaryExpressionErrors.ERR_LOGICAL_AND)
     ).toBeNull();
+  });
+
+  it("should render MetadataEditor", () => {
+    expression.left.type = null;
+    expression.left.metadataType = TEXT.value;
+    render(
+      <BinaryExpressionEditor {...defaultProps} expression={expression} />
+    );
+
+    expect(screen.getByTestId("metadata-match-input")).toBeInTheDocument();
   });
 });

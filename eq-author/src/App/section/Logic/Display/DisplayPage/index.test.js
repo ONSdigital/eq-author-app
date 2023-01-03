@@ -42,22 +42,11 @@ describe("Section display rule", () => {
     expect(getByTestId("display-page-content")).toBeInTheDocument();
   });
 
-  it("should render the first section page when on first section", () => {
-    section.position = 0;
-
-    const { getByText } = render(<DisplayPage section={section} />);
-    expect(
-      getByText(
-        "You can't add display logic to the first section in a questionnaire"
-      )
-    ).toBeInTheDocument();
-  });
-
-  it("should disable create display logic button when on first section", () => {
+  it("should not disable create display logic button when on first section", () => {
     section.position = 0;
 
     const { getByTestId } = render(<DisplayPage section={section} />);
-    expect(getByTestId("btn-add-display")).toBeDisabled();
+    expect(getByTestId("btn-add-display")).not.toBeDisabled();
   });
 
   it("should display hub disabled content when questionnaire hub settings are disabled", () => {

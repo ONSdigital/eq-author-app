@@ -29,6 +29,9 @@ describe("CalculatedSummaryPreview", () => {
       title: "<p>Hello world</p>",
       totalTitle: "<p>Total be:</p>",
       alias: "Who am I?",
+      type: "Number",
+      answers: [],
+      comments: [],
       summaryAnswers: [
         { id: "1", displayName: "Answer 1" },
         { id: "2", displayName: "Answer 2" },

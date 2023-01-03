@@ -196,6 +196,7 @@ export class SectionEditor extends React.Component {
               testSelector="txt-introduction-title"
               value={section?.introductionTitle}
               controls={{ piping: true }}
+              listId={section?.repeatingSectionListId ?? null}
               errorValidationMsg={
                 section &&
                 this.props.getValidationError({
@@ -221,6 +222,7 @@ export class SectionEditor extends React.Component {
                 emphasis: true,
                 link: true,
               }}
+              listId={section?.repeatingSectionListId ?? null}
               errorValidationMsg={
                 section &&
                 this.props.getValidationError({

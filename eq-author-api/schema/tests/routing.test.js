@@ -497,6 +497,35 @@ describe("routing", () => {
         result.routing.rules[0].expressionGroup.expressions[0].left.id
       ).toEqual(firstAnswer.id);
     });
+
+    it("should be able to update the left to a new metadata", async () => {
+      config.sections[0].folders[0].pages[1].routing = {
+        rules: [{ expressionGroup: { expressions: [{}] } }],
+      };
+
+      const ctx = await buildContext(config);
+      const { questionnaire } = ctx;
+      const firstMetadata = questionnaire.metadata[0];
+      const secondPage = questionnaire.sections[0].folders[0].pages[1];
+      const expression =
+        secondPage.routing.rules[0].expressionGroup.expressions[0];
+
+      await executeQuery(
+        updateLeftSideMutation,
+        {
+          input: {
+            expressionId: expression.id,
+            metadataId: firstMetadata.id,
+          },
+        },
+        ctx
+      );
+
+      const result = await queryPage(ctx, secondPage.id);
+      expect(
+        result.routing.rules[0].expressionGroup.expressions[0].left.id
+      ).toEqual(firstMetadata.id);
+    });
   });
 
   describe("right sides", () => {

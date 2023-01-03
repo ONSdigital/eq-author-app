@@ -84,7 +84,10 @@ describe("PageRoute", () => {
         ...buildPages()[0],
         pageType: "CalculatedSummaryPage",
         totalTitle: "",
+        type: "",
+        answers: [],
         summaryAnswers: [],
+        comments: [],
       };
 
       useQuery.mockImplementationOnce(() => ({

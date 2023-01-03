@@ -250,6 +250,10 @@ export const rightSideErrors = {
     message: "Enter a valid number",
     optionsMessage: "Select at least one option",
   },
+  ERR_RIGHTSIDE_TEXT_NO_VALUE: {
+    errorCode: "ERR_RIGHTSIDE_TEXT_NO_VALUE",
+    message: "Enter a metadata value",
+  },
   ERR_RIGHTSIDE_NO_CONDITION: {
     errorCode: "ERR_RIGHTSIDE_NO_CONDITION",
     message: "Select a condition",

@@ -36,6 +36,7 @@ describe("page previews", () => {
       additionalInfoContent: "<p>Additional Info Content</p>",
       additionalInfoEnabled: true,
       validationErrorInfo: [],
+      comments: [],
       answers: [],
       folder: {
         id: "1",
@@ -44,6 +45,8 @@ describe("page previews", () => {
       section: {
         id: "1",
         position: "1",
+        repeatingSection: false,
+        repeatingSectionListId: null,
         questionnaire: {
           id: "1",
           metadata: [],
@@ -69,6 +72,9 @@ describe("page previews", () => {
       alias: "Who am I?",
       pageType: "CalculatedSummaryPage",
       totalTitle: "GrandTotal",
+      type: null,
+      answers: [],
+      comments: [],
       folder: {
         id: "1",
         position: "1",

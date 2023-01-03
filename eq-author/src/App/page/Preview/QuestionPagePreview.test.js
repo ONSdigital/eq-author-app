@@ -46,9 +46,12 @@ describe("QuestionPagePreview", () => {
       additionalInfoEnabled: true,
       validationErrorInfo: { totalCount: 0, errors: [] },
       answers: [{ id: "1", type: TEXTFIELD }],
+      comments: [],
       section: {
         id: "1",
         position: 0,
+        repeatingSection: true,
+        repeatingSectionListId: null,
         questionnaire: {
           id: "1",
           metadata: [],

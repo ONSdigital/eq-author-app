@@ -651,12 +651,13 @@ type NoLeftSide {
   reason: NoLeftSideReason!
 }
 
-union LeftSide2 = BasicAnswer | MultipleChoiceAnswer | NoLeftSide
+union LeftSide2 = BasicAnswer | MultipleChoiceAnswer | NoLeftSide | Metadata
 
 union RightSide2 = SelectedOptions2 | CustomValue2 | DateValue
 
 type CustomValue2 {
   number: Int
+  text: String
 }
 
 type SelectedOptions2 {
@@ -682,6 +683,7 @@ enum LogicCondition {
   NotAnyOf
   NotAllOf
   Unanswered
+  Matches
 }
 
 type BinaryExpression2 {
@@ -1125,6 +1127,7 @@ input UpdateBinaryExpression2Input {
 input UpdateLeftSide2Input {
   expressionId: ID!
   answerId: ID
+  metadataId: ID
 }
 
 input UpdateRightSide2Input {
@@ -1145,6 +1148,7 @@ input DeleteBinaryExpression2Input {
 
 input CustomRightSideInput {
   number: Int
+  text: String
 }
 
 input CreateQuestionnaireInput {

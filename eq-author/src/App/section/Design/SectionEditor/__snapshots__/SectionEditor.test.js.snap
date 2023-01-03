@@ -71,6 +71,7 @@ exports[`SectionEditor should render 1`] = `
         disabled={false}
         id="introduction-title"
         label="Introduction title"
+        listId={null}
         maxHeight={12}
         multiline={false}
         name="introductionTitle"
@@ -95,6 +96,7 @@ exports[`SectionEditor should render 1`] = `
         disabled={false}
         id="introduction-content"
         label="Introduction content"
+        listId={null}
         maxHeight={12}
         multiline={true}
         name="introductionContent"
@@ -111,9 +113,7 @@ exports[`SectionEditor should render 1`] = `
         Object {
           "alias": "alias",
           "collapsibleSummary": false,
-          "comments": Array [
-            Object {},
-          ],
+          "comments": Array [],
           "id": "section-1",
           "introductionContent": "Intro content",
           "introductionTitle": "Intro title",
@@ -123,6 +123,8 @@ exports[`SectionEditor should render 1`] = `
             "id": "2",
             "navigation": true,
           },
+          "repeatingSection": false,
+          "repeatingSectionListId": null,
           "requiredCompleted": true,
           "sectionSummary": false,
           "showOnHub": true,
@@ -210,6 +212,7 @@ exports[`SectionEditor should render 2`] = `
         disabled={false}
         id="introduction-title"
         label="Introduction title"
+        listId={null}
         maxHeight={12}
         multiline={false}
         name="introductionTitle"
@@ -234,6 +237,7 @@ exports[`SectionEditor should render 2`] = `
         disabled={false}
         id="introduction-content"
         label="Introduction content"
+        listId={null}
         maxHeight={12}
         multiline={true}
         name="introductionContent"
@@ -250,9 +254,7 @@ exports[`SectionEditor should render 2`] = `
         Object {
           "alias": "alias",
           "collapsibleSummary": false,
-          "comments": Array [
-            Object {},
-          ],
+          "comments": Array [],
           "id": "section-2",
           "introductionContent": "Intro content",
           "introductionTitle": "Intro title",
@@ -262,6 +264,8 @@ exports[`SectionEditor should render 2`] = `
             "id": "2",
             "navigation": true,
           },
+          "repeatingSection": false,
+          "repeatingSectionListId": null,
           "requiredCompleted": true,
           "sectionSummary": false,
           "showOnHub": true,

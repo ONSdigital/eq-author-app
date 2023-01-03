@@ -101,6 +101,7 @@ class ToolBar extends React.Component {
     linkCount: PropTypes.number,
     linkLimit: PropTypes.number,
     allCalculatedSummaryPages: PropTypes.array, //eslint-disable-line
+    listId: PropTypes.string,
   };
 
   renderButton = (button) => {
@@ -136,6 +137,7 @@ class ToolBar extends React.Component {
       linkCount,
       linkLimit,
       allCalculatedSummaryPages,
+      listId,
     } = this.props;
 
     const isPipingDisabled = !(piping && selectionIsCollapsed);
@@ -167,6 +169,7 @@ class ToolBar extends React.Component {
                 allowableTypes={allowableTypes}
                 defaultTab={defaultTab}
                 allCalculatedSummaryPages={allCalculatedSummaryPages}
+                listId={listId}
               />
             </>
           )}
