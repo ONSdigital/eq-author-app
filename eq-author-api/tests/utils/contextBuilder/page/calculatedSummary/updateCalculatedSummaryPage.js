@@ -5,6 +5,7 @@ const updateCalculatedSummaryPageMutation = `
     updateCalculatedSummaryPage(input: $input) {
         id
         title
+        pageDescription
         alias
         displayName
         pageType
