@@ -974,6 +974,7 @@ const Resolvers = {
       const questionConfirmation = {
         id: uuidv4(),
         title: "",
+        pageDescription: "",
         positive: { id: uuidv4(), label: "", description: "" },
         negative: { id: uuidv4(), label: "", description: "" },
       };

@@ -234,7 +234,6 @@ exports.getQuestionnaire = `
         title
         introductionTitle
         introductionContent
-        pageDescription
         sectionSummary
         collapsibleSummary
         summaryTitle
@@ -277,7 +276,6 @@ exports.getQuestionnaire = `
             ... on QuestionPage {
               description
               descriptionEnabled
-              pageDescription
               guidance
               guidanceEnabled
               definitionLabel
@@ -289,7 +287,6 @@ exports.getQuestionnaire = `
               confirmation {
                 id
                 title
-                pageDescription
                 qCode
                 positive {
                   label

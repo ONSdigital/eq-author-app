@@ -28,7 +28,6 @@ describe("Page Title container block", () => {
       />
     );
     expect(screen.queryByTestId("page-title-collapsible")).toBeInTheDocument();
-    // screen.debug();
   });
 });
 
@@ -85,7 +84,6 @@ describe("Page title input block", () => {
       "name",
       "alt-field-name"
     );
-    // screen.debug();
   });
 });
 

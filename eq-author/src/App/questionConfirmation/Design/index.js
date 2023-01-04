@@ -99,7 +99,6 @@ export const UnwrappedQuestionConfirmationRoute = ({
   return (
     <EditorLayout
       title={data?.questionConfirmation?.displayName || ""}
-      pageDescription={data?.questionConfirmation?.pageDescription || ""}
       preview
       logic
       validationErrorInfo={data?.questionConfirmation.validationErrorInfo}
