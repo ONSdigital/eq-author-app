@@ -15,7 +15,7 @@ require("ajv-errors")(ajv);
 const validate = ajv.addSchema(schemas.slice(1)).compile(schemas[0]);
 
 const formatErrorMessage = (error, questionnaire) => {
-  if (error.sectionId) {
+  if (error.sectionId || error.listId) {
     delete error.dataPath;
     delete error.schemaPath;
     delete error.keyword;
