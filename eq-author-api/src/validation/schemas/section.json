@@ -51,20 +51,26 @@
   },
   "then": {
     "properties": {
-        "repeatingSectionListId": {
-          "$ref": "definitions.json#/definitions/populatedString"
+      "repeatingSectionListId": {
+        "$ref": "definitions.json#/definitions/populatedString"
       }
     }
-   },
+  },
   "anyOf": [
     {
       "properties": {
         "introductionTitle": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "maxLength": 0
         },
         "introductionContent": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "maxLength": 0
         }
       }
@@ -72,10 +78,24 @@
     {
       "properties": {
         "introductionTitle": {
-          "$ref": "definitions.json#/definitions/populatedString"
+          "allOf": [
+            {
+              "$ref": "definitions.json#/definitions/populatedString"
+            },
+            {
+              "validatePipingAnswerInTitle": true
+            }
+          ]
         },
         "introductionContent": {
-          "$ref": "definitions.json#/definitions/populatedString"
+          "allOf": [
+            {
+              "$ref": "definitions.json#/definitions/populatedString"
+            },
+            {
+              "validatePipingAnswerInTitle": true
+            }
+          ]
         }
       }
     }

@@ -47,6 +47,8 @@ const section = {
   showOnHub: false,
   sectionSummary: false,
   collapsibleSummary: false,
+  repeatingSection: false,
+  repeatingSectionListId: null,
   comments: [],
   folders: [
     {

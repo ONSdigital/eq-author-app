@@ -102,6 +102,13 @@ const getPageQuery = `
                         id
                       }
                     }
+                    ... on Metadata {
+                      id
+                      displayName
+                      metadataType: type
+                      key
+                      textValue
+                    }
                     ... on NoLeftSide {
                       reason
                     }

@@ -18,5 +18,12 @@ mutation UpdateSection($input: UpdateSectionInput!) {
     validationErrorInfo {
       ...ValidationErrorInfo
     }
+    folders {
+      id
+      pages{
+        id
+        displayName
+      }
+    }
   }
 }

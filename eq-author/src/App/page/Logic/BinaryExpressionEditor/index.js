@@ -16,6 +16,8 @@ import {
   SELECT,
 } from "constants/answer-types";
 
+import { TEXT, TEXT_OPTIONAL } from "constants/metadata-types";
+
 import {
   NO_ROUTABLE_ANSWER_ON_PAGE,
   SELECTED_ANSWER_DELETED,
@@ -37,6 +39,7 @@ import IconMinus from "./icon-minus.svg?inline";
 import IconPlus from "./icon-plus.svg?inline";
 import WarningIcon from "constants/icon-warning.svg?inline";
 import Modal from "components-themed/Modal";
+import MetadataTextSelector from "./MetadataTextSelector";
 
 import fragment from "./fragment.graphql";
 import withUpdateLeftSide from "./withUpdateLeftSide";
@@ -114,6 +117,11 @@ const ANSWER_TYPE_TO_RIGHT_EDITOR = {
   [DATE]: DateAnswerSelector,
 };
 
+const METADATA_TYPE_TO_RIGHT_EDITOR = {
+  [TEXT.value]: MetadataTextSelector,
+  [TEXT_OPTIONAL.value]: MetadataTextSelector,
+};
+
 export const UnwrappedBinaryExpressionEditor = ({
   expression,
   expressionIndex,
@@ -135,7 +143,11 @@ export const UnwrappedBinaryExpressionEditor = ({
 
   const handleLeftSideChange = (contentPickerResult) => {
     expression.left.id !== contentPickerResult.value.id &&
-      updateLeftSide(expression, contentPickerResult.value.id);
+      updateLeftSide(
+        expression,
+        contentPickerResult.value.id,
+        contentPickerResult.name
+      );
   };
 
   const handleDeleteClick = () => {
@@ -173,10 +185,13 @@ export const UnwrappedBinaryExpressionEditor = ({
       )?.[0]?.errorCode
     ];
 
-  const Editor = ANSWER_TYPE_TO_RIGHT_EDITOR[expression?.left?.type];
+  const AnswerEditor = ANSWER_TYPE_TO_RIGHT_EDITOR[expression?.left?.type];
+  const MetadataEditor =
+    METADATA_TYPE_TO_RIGHT_EDITOR[expression?.left?.metadataType];
 
   const shouldRenderEditor =
-    Editor && !expression.left.reason && !answerPickerError;
+    (AnswerEditor && !expression.left.reason && !answerPickerError) ||
+    MetadataEditor;
 
   const isLastExpression =
     expressionIndex === expressionGroup.expressions.length - 1;
@@ -262,14 +277,15 @@ export const UnwrappedBinaryExpressionEditor = ({
             unmountOnExit
             timeout={400}
           >
-            {Editor && (
-              <Editor
+            {AnswerEditor && (
+              <AnswerEditor
                 expression={expression}
                 onRightChange={handleUpdateRightSide}
                 onConditionChange={handleUpdateCondition}
                 groupErrorMessage={groupErrorMessage}
               />
             )}
+            {MetadataEditor && <MetadataEditor expression={expression} />}
           </Transition>
         </Column>
         <Column cols={2.5} />

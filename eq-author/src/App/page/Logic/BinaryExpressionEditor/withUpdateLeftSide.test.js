@@ -14,17 +14,35 @@ describe("withUpdateLeftSide", () => {
       expect(props.updateLeftSide).toBeInstanceOf(Function);
     });
 
-    it("should call mutate", () => {
+    it("should call mutate for answerId contentType", () => {
       props.updateLeftSide(
+        // expression parameter
         {
           id: "id",
           foo: "bar",
         },
-        "answerId"
+        "answer-1", //contentId parameter
+        "answerId" //contentType parameter
       );
       expect(mutate).toHaveBeenCalledWith({
         refetchQueries: ["GetQuestionnaire"],
-        variables: { input: { expressionId: "id", answerId: "answerId" } },
+        variables: { input: { expressionId: "id", answerId: "answer-1" } },
+      });
+    });
+
+    it("should call mutate for metadataId contentType", () => {
+      props.updateLeftSide(
+        // expression parameter
+        {
+          id: "id",
+          foo: "bar",
+        },
+        "metadata-1", //contentId parameter
+        "metadataId" //contentType parameter
+      );
+      expect(mutate).toHaveBeenCalledWith({
+        refetchQueries: ["GetQuestionnaire"],
+        variables: { input: { expressionId: "id", metadataId: "metadata-1" } },
       });
     });
   });

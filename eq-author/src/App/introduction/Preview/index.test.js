@@ -112,6 +112,7 @@ describe("Introduction Preview", () => {
       match: {
         params: {
           questionnaireId: "1",
+          introductionId: "1",
         },
       },
     };
@@ -121,7 +122,7 @@ describe("Introduction Preview", () => {
     useQuery.mockImplementationOnce(() => ({
       loading: true,
     }));
-    const { getByTestId } = renderIntroductionPreviewPage();
+    const { getByTestId } = renderIntroductionPreviewPage(props.match);
     expect(getByTestId("loading")).toBeInTheDocument();
   });
 
@@ -129,7 +130,7 @@ describe("Introduction Preview", () => {
     useQuery.mockImplementationOnce(() => ({
       error: true,
     }));
-    const { getByTestId } = renderIntroductionPreviewPage();
+    const { getByTestId } = renderIntroductionPreviewPage(props.match);
     expect(getByTestId("error")).toBeInTheDocument();
   });
 
@@ -137,7 +138,7 @@ describe("Introduction Preview", () => {
     useQuery.mockImplementationOnce(() => ({
       data: {},
     }));
-    const { getByTestId } = renderIntroductionPreviewPage();
+    const { getByTestId } = renderIntroductionPreviewPage(props.match);
     expect(getByTestId("error")).toBeInTheDocument();
   });
 

@@ -12,6 +12,7 @@ const createSection = (input = {}) => ({
   showOnHub: true,
   sectionSummary: false,
   repeatingSection: false,
+  repeatingSectionListId: "",
   ...input,
 });
 

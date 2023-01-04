@@ -4,6 +4,7 @@ export default {
   ERR_UNIQUE_REQUIRED: ({ label }) => `${label} must be unique`,
   ERR_REQUIRED_WHEN_SETTING: ({ message }) => message,
   ERR_NO_ANSWERS: ({ message }) => message,
+  PIPING_TITLE_DELETED: ({ message }) => message,
 };
 
 export const LIST_COLLECTOR_ERRORS = [
@@ -253,6 +254,10 @@ export const rightSideErrors = {
     errorCode: "ERR_RIGHTSIDE_NO_VALUE",
     message: "Enter a valid number",
     optionsMessage: "Select at least one option",
+  },
+  ERR_RIGHTSIDE_TEXT_NO_VALUE: {
+    errorCode: "ERR_RIGHTSIDE_TEXT_NO_VALUE",
+    message: "Enter a metadata value",
   },
   ERR_RIGHTSIDE_NO_CONDITION: {
     errorCode: "ERR_RIGHTSIDE_NO_CONDITION",

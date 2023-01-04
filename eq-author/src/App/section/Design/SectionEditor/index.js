@@ -26,7 +26,10 @@ import getIdForObject from "utils/getIdForObject";
 
 import MoveSectionModal from "./MoveSectionModal";
 import MoveSectionQuery from "./MoveSectionModal/MoveSectionQuery";
-import { sectionErrors } from "constants/validationMessages";
+import {
+  sectionErrors,
+  richTextEditorErrors,
+} from "constants/validationMessages";
 import {
   DELETE_SECTION_TITLE,
   DELETE_PAGE_WARNING,
@@ -206,12 +209,14 @@ export class SectionEditor extends React.Component {
               testSelector="txt-introduction-title"
               value={section?.introductionTitle}
               controls={{ piping: true }}
+              listId={section?.repeatingSectionListId ?? null}
               errorValidationMsg={
                 section &&
                 this.props.getValidationError({
                   field: "introductionTitle",
                   label: "Introduction Title",
                   requiredMsg: sectionErrors.SECTION_INTRO_TITLE_NOT_ENTERED,
+                  message: richTextEditorErrors.PIPING_TITLE_DELETED.message,
                 })
               }
             />
@@ -231,12 +236,14 @@ export class SectionEditor extends React.Component {
                 emphasis: true,
                 link: true,
               }}
+              listId={section?.repeatingSectionListId ?? null}
               errorValidationMsg={
                 section &&
                 this.props.getValidationError({
                   field: "introductionContent",
                   label: "Introduction Content",
                   requiredMsg: sectionErrors.SECTION_INTRO_CONTENT_NOT_ENTERED,
+                  message: richTextEditorErrors.PIPING_TITLE_DELETED.message,
                 })
               }
             />

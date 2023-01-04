@@ -38,6 +38,8 @@ describe("SectionEditor", () => {
     showOnHub: true,
     sectionSummary: false,
     collapsibleSummary: false,
+    repeatingSection: false,
+    repeatingSectionListId: null,
     questionnaire: {
       id: "2",
       navigation: true,
@@ -49,7 +51,7 @@ describe("SectionEditor", () => {
       totalCount: 0,
       errors: [],
     },
-    comments: [{}],
+    comments: [],
   };
 
   const section2 = {
@@ -63,6 +65,8 @@ describe("SectionEditor", () => {
     showOnHub: true,
     sectionSummary: false,
     collapsibleSummary: false,
+    repeatingSection: false,
+    repeatingSectionListId: null,
     questionnaire: {
       id: "2",
       navigation: true,
@@ -74,7 +78,7 @@ describe("SectionEditor", () => {
       totalCount: 0,
       errors: [],
     },
-    comments: [{}],
+    comments: [],
   };
 
   const match = {

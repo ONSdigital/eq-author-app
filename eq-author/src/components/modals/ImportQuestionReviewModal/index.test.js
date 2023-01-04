@@ -25,6 +25,7 @@ describe("Import questions review modal", () => {
         questionnaire={mockQuestionnaire}
         isOpen
         onSelectQuestions={mockOnSelectQuestions}
+        onSelectSections={mockOnSelectSections}
         startingSelectedQuestions={[]}
         onConfirm={jest.fn()}
         onCancel={jest.fn()}
@@ -56,6 +57,7 @@ describe("Import questions review modal", () => {
         isOpen
         startingSelectedQuestions={mockQuestions}
         onSelectQuestions={mockOnSelectQuestions}
+        onSelectSections={mockOnSelectSections}
         onConfirm={jest.fn()}
         onCancel={jest.fn()}
         onBack={jest.fn()}
@@ -74,6 +76,7 @@ describe("Import questions review modal", () => {
         isOpen
         startingSelectedQuestions={mockQuestions}
         onSelectQuestions={mockOnSelectQuestions}
+        onSelectSections={mockOnSelectSections}
         onConfirm={jest.fn()}
         onCancel={jest.fn()}
         onBack={jest.fn()}
@@ -93,6 +96,7 @@ describe("Import questions review modal", () => {
         questionnaire={mockQuestionnaire}
         isOpen
         startingSelectedQuestions={mockQuestions}
+        onSelectSections={mockOnSelectSections}
         onSelectQuestions={mockOnSelectQuestions}
         onConfirm={jest.fn()}
         onCancel={jest.fn()}
@@ -113,6 +117,7 @@ describe("Import questions review modal", () => {
       <ImportQuestionReviewModal
         questionnaire={mockQuestionnaire}
         isOpen
+        onSelectSections={mockOnSelectSections}
         onSelectQuestions={mockOnSelectQuestions}
         startingSelectedQuestions={mockQuestions}
         onConfirm={mockHandleConfirm}

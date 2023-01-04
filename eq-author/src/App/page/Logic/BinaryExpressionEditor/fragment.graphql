@@ -34,6 +34,13 @@ fragment BinaryExpressionEditor on BinaryExpression2 {
         label
       }
     }
+    ... on Metadata {
+      id
+      displayName
+      metadataType: type
+      key
+      textValue
+    }
     ... on NoLeftSide {
       reason
     }
@@ -49,6 +56,7 @@ fragment BinaryExpressionEditor on BinaryExpression2 {
     }
     ... on CustomValue2 {
       number
+      text
     }
     ... on DateValue {
       offset

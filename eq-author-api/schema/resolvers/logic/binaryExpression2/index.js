@@ -52,6 +52,15 @@ Resolvers.BinaryExpression2 = {
       return { ...answer, sideType: left.type };
     }
 
+    if (left.type === "Metadata") {
+      const metadata = find(
+        { id: left.metadataId },
+        ctx.questionnaire.metadata
+      );
+
+      return { ...metadata, sideType: left.type };
+    }
+
     return { sideType: left.type, reason: left.nullReason };
   },
   right: async ({ right }) => {
@@ -90,6 +99,9 @@ Resolvers.LeftSide2 = {
       }
       return "BasicAnswer";
     }
+    if (sideType === "Metadata") {
+      return "Metadata";
+    }
     if (sideType === "Null") {
       return "NoLeftSide";
     }
@@ -112,6 +124,7 @@ Resolvers.RightSide2 = {
 
 Resolvers.CustomValue2 = {
   number: ({ customValue: { number } }) => number,
+  text: ({ customValue: { text } }) => text,
 };
 
 Resolvers.SelectedOptions2 = {
@@ -188,28 +201,50 @@ Resolvers.Mutation = {
   ),
 
   updateLeftSide2: createMutation((root, { input }, ctx) => {
-    const { expressionId, answerId } = input;
+    const { expressionId, answerId, metadataId } = input;
 
     const expression = getExpressionById(ctx, expressionId);
 
-    const answer = getAnswerById(ctx, answerId);
+    if (answerId) {
+      const answer = getAnswerById(ctx, answerId);
 
-    const updatedLeftSide = {
-      ...expression.left,
-      answerId,
-      type: "Answer",
-    };
-    delete updatedLeftSide.nullReason;
+      const updatedLeftSide = {
+        ...expression.left,
+        answerId,
+        type: "Answer",
+      };
+      delete updatedLeftSide.nullReason;
 
-    const getRightSide = {
-      ...expression.right,
-    };
+      const getRightSide = {
+        ...expression.right,
+      };
 
-    expression.left = updatedLeftSide;
-    expression.right = getRightSide;
-    expression.condition = answerTypeToConditions.getDefault(answer.type);
+      expression.left = updatedLeftSide;
+      expression.left.metadataId = "";
+      expression.right = getRightSide;
+      expression.condition = answerTypeToConditions.getDefault(answer.type);
 
-    return expression;
+      return expression;
+    }
+    if (metadataId) {
+      const updatedLeftSide = {
+        ...expression.left,
+        metadataId,
+        type: "Metadata",
+      };
+      delete updatedLeftSide.nullReason;
+
+      const getRightSide = {
+        ...expression.right,
+      };
+
+      expression.left = updatedLeftSide;
+      expression.left.answerId = "";
+      expression.right = getRightSide;
+      expression.condition = "Matches";
+
+      return expression;
+    }
   }),
   updateRightSide2: createMutation((root, { input }, ctx) => {
     if (input.customValue && input.selectedOptions) {
@@ -246,6 +281,7 @@ Resolvers.Mutation = {
     const leftSideAnswer = getAnswerById(ctx, leftSide.answerId);
 
     if (
+      leftSide.answerId &&
       !isLeftSideAnswerTypeCompatible(
         leftSideAnswer.type,
         type,
@@ -270,6 +306,15 @@ Resolvers.Mutation = {
     }
     if (updatedRightSide.type === "SelectedOptions") {
       updatedRightSide.optionIds = selectedOptions;
+    }
+
+    // Prevents bug causing validation message not to be displayed when right side text is empty after text input's first click
+    if (
+      expression.left.type === "Metadata" &&
+      updatedRightSide.type === "Custom" &&
+      !updatedRightSide.customValue.text
+    ) {
+      updatedRightSide.customValue.text = "";
     }
 
     expression.right = updatedRightSide;
