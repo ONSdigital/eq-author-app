@@ -18,6 +18,7 @@ import {
   TableHeadColumn,
 } from "components/datatable/Elements";
 import { TableInput } from "components/datatable/Controls";
+import { useQuestionnaire } from "components/QuestionnaireContext";
 
 import { colors } from "constants/theme";
 
@@ -116,6 +117,9 @@ const Row = memo((props) => {
     secondary,
   } = props;
 
+  const { questionnaire } = useQuestionnaire();
+  const { dataVersionThree } = questionnaire;
+
   const [qCode, setQcode] = useState(initialQcode);
   const [updateOption] = useMutation(UPDATE_OPTION_QCODE);
   const [updateAnswer] = useMutation(UPDATE_ANSWER_QCODE);
@@ -155,7 +159,25 @@ const Row = memo((props) => {
       )}
       <SpacedTableColumn>{TYPE_TO_DESCRIPTION[type]}</SpacedTableColumn>
       <SpacedTableColumn>{label}</SpacedTableColumn>
-      {[CHECKBOX, RADIO_OPTION, SELECT_OPTION].includes(type) ? (
+      {dataVersionThree ? (
+        [CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type) ? (
+          <EmptyTableColumn />
+        ) : (
+          <SpacedTableColumn>
+            <ErrorWrappedInput
+              name={`${id}-qcode-entry`}
+              data-test={`${id}${secondary ? "-secondary" : ""}-test-input`}
+              value={qCode}
+              onChange={(e) => setQcode(e.value)}
+              onBlur={() => handleBlur(qCode)}
+              hasError={Boolean(errorMessage)}
+            />
+            {errorMessage && (
+              <QcodeValidationError>{errorMessage}</QcodeValidationError>
+            )}
+          </SpacedTableColumn>
+        )
+      ) : [CHECKBOX, RADIO_OPTION, SELECT_OPTION].includes(type) ? (
         <EmptyTableColumn />
       ) : (
         <SpacedTableColumn>
