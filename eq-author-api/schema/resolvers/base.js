@@ -146,6 +146,7 @@ const createNewQuestionnaire = (input) => {
     qcodes: true,
     navigation: false,
     hub: false,
+    dataVersionThree: false,
     createdAt: new Date(),
     metadata: [],
     sections: [createSection()],
@@ -1045,6 +1046,8 @@ const Resolvers = {
         `List created with - ${JSON.stringify(list)}`
       );
       ctx.questionnaire.collectionLists.lists.push(list);
+      ctx.questionnaire.dataVersionThree =
+        ctx.questionnaire.collectionLists.lists.length > 0;
       return ctx.questionnaire.collectionLists;
     }),
     updateList: createMutation(async (root, { input }, ctx) => {
@@ -1066,6 +1069,8 @@ const Resolvers = {
         { qid: ctx.questionnaire.id },
         `List removed with ID - ${input.id}`
       );
+      ctx.questionnaire.dataVersionThree =
+        ctx.questionnaire.collectionLists.lists.length > 0;
 
       return ctx.questionnaire.collectionLists;
     }),
