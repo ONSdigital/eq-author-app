@@ -118,7 +118,7 @@ const Row = memo((props) => {
   } = props;
 
   const { questionnaire } = useQuestionnaire();
-  const { dataVersionThree } = questionnaire;
+  const { dataVersion } = questionnaire;
 
   const [qCode, setQcode] = useState(initialQcode);
   const [updateOption] = useMutation(UPDATE_OPTION_QCODE);
@@ -159,7 +159,7 @@ const Row = memo((props) => {
       )}
       <SpacedTableColumn>{TYPE_TO_DESCRIPTION[type]}</SpacedTableColumn>
       <SpacedTableColumn>{label}</SpacedTableColumn>
-      {dataVersionThree ? (
+      {dataVersion === "3" ? (
         [CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type) ? (
           <EmptyTableColumn />
         ) : (

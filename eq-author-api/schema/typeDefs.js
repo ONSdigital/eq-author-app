@@ -57,7 +57,7 @@ type Questionnaire {
   qcodes: Boolean
   navigation: Boolean
   hub: Boolean
-  dataVersionThree: Boolean
+  dataVersion: String
   createdAt: DateTime
   updatedAt: DateTime
   createdBy: User!
