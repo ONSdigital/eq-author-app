@@ -67,22 +67,21 @@ export const getFlattenedAnswerRows = (questionnaire) => {
 // getDuplicatedQCodes :: [AnswerRow] -> [QCode]
 // Return an array of qCodes which are duplicated in the given list of answer rows
 export const getDuplicatedQCodes = (flattenedAnswers, { dataVersion }) => {
+  // acc - accumulator
   const qCodeUsageMap = flattenedAnswers?.reduce(
     (acc, { qCode, type, additionalAnswer }) => {
       const { qCode: additionalAnswerQCode } = additionalAnswer || {};
 
       if (qCode) {
-        if (dataVersion !== "3") {
-          if (type !== CHECKBOX) {
-            const currentValue = acc.get(qCode);
-            acc.set(qCode, currentValue ? currentValue + 1 : 1);
-          }
+        // If dataVersion is 3, do not check if a QCode has the same value as a checkbox option's QCode
+        if (dataVersion === "3" && type !== CHECKBOX_OPTION) {
+          const currentValue = acc.get(qCode);
+          acc.set(qCode, currentValue ? currentValue + 1 : 1);
         }
-        if (dataVersion === "3") {
-          if (type !== CHECKBOX_OPTION) {
-            const currentValue = acc.get(qCode);
-            acc.set(qCode, currentValue ? currentValue + 1 : 1);
-          }
+        // If dataVersion is not 3, do not check if a QCode has the same value as a checkbox answer's QCode
+        else if (dataVersion !== "3" && type !== CHECKBOX) {
+          const currentValue = acc.get(qCode);
+          acc.set(qCode, currentValue ? currentValue + 1 : 1);
         }
       }
 
