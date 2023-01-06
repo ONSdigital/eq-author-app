@@ -1603,6 +1603,10 @@ const Resolvers = {
     comments: ({ id }, args, ctx) => ctx.comments[id],
   },
 
+  CollectionLists: {
+    questionnaire: (collectionLists, args, ctx) => ctx.questionnaire,
+  },
+
   Folder: {
     section: ({ id }, args, ctx) => getSectionByFolderId(ctx, id),
     position: ({ id }, args, ctx) => {

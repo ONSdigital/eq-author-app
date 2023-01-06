@@ -99,6 +99,7 @@ enum HistoryEventTypes {
 type CollectionLists {
   id: ID!
   lists: [List]
+  questionnaire: Questionnaire
 }
 
 type Theme {
