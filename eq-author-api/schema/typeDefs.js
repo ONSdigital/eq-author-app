@@ -558,6 +558,7 @@ enum ThemeShortName {
   epe
   epenorthernireland
   orr
+  beis
 }
 
 type Metadata {

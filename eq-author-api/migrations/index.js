@@ -37,6 +37,7 @@ const migrations = [
   require("./convertMutuallyExclusiveOptions"),
   require("./updateCalculatedSummary"),
   require("./updateMutuallyExclusive"),
+  require("./updateUKIStoBEISTheme"),
 ];
 
 const currentVersion = migrations.length;
