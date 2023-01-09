@@ -2,6 +2,7 @@ import React from "react";
 import { render, fireEvent } from "tests/utils/rtl";
 import { useMutation } from "@apollo/react-hooks";
 import { QCodeContextProvider } from "components/QCodeContext";
+import QuestionnaireContext from "components/QuestionnaireContext";
 import { QCodeTable } from "./index";
 import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 
@@ -24,7 +25,9 @@ useMutation.mockImplementation(jest.fn(() => [jest.fn()]));
 const renderWithContext = ({ questionnaire } = {}) =>
   render(
     <QCodeContextProvider questionnaire={questionnaire}>
-      <QCodeTable />
+      <QuestionnaireContext.Provider value={{ questionnaire }}>
+        <QCodeTable />
+      </QuestionnaireContext.Provider>
     </QCodeContextProvider>
   );
 
