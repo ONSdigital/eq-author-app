@@ -104,7 +104,7 @@ const textSetup = () => {
   return renderWithContext({ questionnaire });
 };
 
-const optionsSetup = () => {
+const optionsSetup = (dataVersion) => {
   const questionnaire = buildQuestionnaire({ answerCount: 2 });
   Object.assign(questionnaire.sections[0].folders[0].pages[0], {
     alias: "multiple-choice-answer-types-alias",
@@ -129,8 +129,10 @@ const optionsSetup = () => {
   // Checkbox answer with two options & mutually exclusive option
   Object.assign(
     questionnaire.sections[0].folders[0].pages[0].answers[1],
+    (questionnaire.dataVersion = dataVersion),
     generateAnswer({
       type: "Checkbox",
+      id: "checkbox-answer-id",
       options: [
         {
           id: "checkbox-option-1-id",
@@ -575,6 +577,7 @@ describe("Qcode Table", () => {
             expect(utils.getAllByText(/Checkbox option/)).toHaveLength(2);
             expect(utils.getByText(/Mutually exclusive/)).toBeVisible();
           });
+
           it("should display answer label", () => {
             expect(utils.getByText(/checkbox-option-1-label/)).toBeVisible();
             expect(utils.getByText(/checkbox-option-2-label/)).toBeVisible();
@@ -582,6 +585,7 @@ describe("Qcode Table", () => {
               utils.getByText(/Mutually-exclusive-option-label/)
             ).toBeVisible();
           });
+
           it("should display answer qCode", () => {
             expect(
               utils.getByTestId("checkbox-option-1-id-test-input").value
@@ -593,6 +597,7 @@ describe("Qcode Table", () => {
               utils.getByTestId("checkbox-option-3-id-test-input").value
             ).toEqual("mutually-exclusive-option");
           });
+
           it("should save qCode for option", () => {
             fireEvent.change(
               utils.getByTestId("checkbox-option-1-id-test-input"),
@@ -609,6 +614,7 @@ describe("Qcode Table", () => {
               },
             });
           });
+
           it("should save qCode for mutually exclusive option", () => {
             fireEvent.change(
               utils.getByTestId("checkbox-option-3-id-test-input"),
@@ -626,6 +632,56 @@ describe("Qcode Table", () => {
             });
           });
         });
+      });
+    });
+
+    describe("Data version 3", () => {
+      let utils, mock;
+
+      beforeEach(() => {
+        mock = jest.fn();
+        useMutation.mockImplementation(jest.fn(() => [mock]));
+        utils = optionsSetup("3");
+      });
+
+      it("should display answer qCodes without option qCodes for checkbox answers in data version 3", () => {
+        expect(
+          utils.queryByTestId("checkbox-option-1-id-test-input")
+        ).not.toBeInTheDocument();
+
+        expect(
+          utils.queryByTestId("checkbox-option-2-id-test-input")
+        ).not.toBeInTheDocument();
+
+        expect(
+          utils.getByTestId("checkbox-answer-id-test-input")
+        ).toBeInTheDocument();
+
+        expect(
+          utils.getByTestId("checkbox-option-3-id-test-input").value
+        ).toEqual("mutually-exclusive-option");
+      });
+
+      it("should save qCode for checkbox answer", () => {
+        fireEvent.change(utils.getByTestId("checkbox-answer-id-test-input"), {
+          target: { value: "123" },
+        });
+
+        fireEvent.blur(utils.getByTestId("checkbox-answer-id-test-input"));
+
+        expect(mock).toHaveBeenCalledWith({
+          variables: {
+            input: { id: "checkbox-answer-id", qCode: "123" },
+          },
+        });
+      });
+
+      it("should render a validation error when a qCode is missing in data version 3", () => {
+        const questionnaire = buildQuestionnaire({ answerCount: 1 });
+        questionnaire.sections[0].folders[0].pages[0].answers[0].qCode = "";
+        questionnaire.dataVersion = "3";
+        const { getAllByText } = renderWithContext({ questionnaire });
+        expect(getAllByText("Qcode required")).toBeTruthy();
       });
     });
   });
