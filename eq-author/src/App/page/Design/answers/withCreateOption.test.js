@@ -1,5 +1,4 @@
 import { mapMutateToProps } from "./withCreateOption";
-import fragment from "graphql/answerFragment.graphql";
 
 describe("containers/QuestionnaireDesignPage/withCreateOption", () => {
   const answer = {
