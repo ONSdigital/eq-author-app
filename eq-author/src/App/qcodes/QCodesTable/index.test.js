@@ -683,6 +683,15 @@ describe("Qcode Table", () => {
         const { getAllByText } = renderWithContext({ questionnaire });
         expect(getAllByText("Qcode required")).toBeTruthy();
       });
+
+      it("should render a validation error when duplicate qCodes are present in data version 3", () => {
+        const questionnaire = buildQuestionnaire({ answerCount: 2 });
+        questionnaire.sections[0].folders[0].pages[0].answers[0].qCode = "1";
+        questionnaire.sections[0].folders[0].pages[0].answers[1].qCode = "1";
+        questionnaire.dataVersion = "3";
+        const { getAllByText } = renderWithContext({ questionnaire });
+        expect(getAllByText(QCODE_IS_NOT_UNIQUE)).toBeTruthy();
+      });
     });
   });
 });
