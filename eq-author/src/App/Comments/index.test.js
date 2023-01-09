@@ -47,6 +47,25 @@ const mockUseQuery = {
           },
         ],
       },
+      {
+        id: "comment-3",
+        user: { id: "user-1", displayName: "Dina" },
+        commentText:
+          "If a tree falls and no-one is there to hear it, does it make a sound",
+        createdTime: "2021-04-30T14:49:00.000Z",
+        editedTime: null,
+        readBy: ["user-1"],
+        replies: [
+          {
+            id: "comment-2-reply-1",
+            user: { id: "user-2", displayName: "Amy" },
+            commentText: "Yes and no",
+            createdTime: "2021-04-30T15:01:00.000Z",
+            editedTime: null,
+            readBy: [],
+          },
+        ],
+      },
     ],
   },
 };
@@ -143,5 +162,18 @@ describe("Comments panel", () => {
 
     expect(queryByTestId("Comment__CommentText")).toBeFalsy();
     expect(commentPanel).toBeTruthy();
+  });
+
+  it.only("Shuld have status of hasNotRead", () => {
+    const { getByTestId } = renderPanel();
+
+    const { id, replies } = mockUseQuery.data.comments[2];
+
+    const commentWrapper = getByTestId(`Comment-${id}`);
+
+    const collapsible = queryByTestId(commentWrapper, "collapsible");
+
+    expect(replies.length).toBe(1);
+    expect(replies.readBy).toEqual(undefined);
   });
 });
