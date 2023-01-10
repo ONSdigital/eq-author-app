@@ -1025,7 +1025,7 @@ input UpdateListCollectorPageInput {
   drivingPositiveDescription: String
   drivingNegativeDescription: String
   anotherTitle: String!
-  anotherPageDescription: String!
+  anotherPageDescription: String
   anotherPositive: String!
   anotherNegative: String!
   anotherPositiveDescription: String
