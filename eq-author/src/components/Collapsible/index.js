@@ -202,7 +202,9 @@ const Collapsible = ({
         isOpen={isOpen}
         variant={variant}
         onClick={
-          variant === "content" || variant === "properties"
+          variant === "content" ||
+          variant === "marginlessContent" ||
+          variant === "properties"
             ? () => setIsOpen((isOpen) => !isOpen)
             : undefined
         }
