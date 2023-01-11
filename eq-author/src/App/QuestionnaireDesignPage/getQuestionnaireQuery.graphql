@@ -15,6 +15,7 @@ query GetQuestionnaire($input: QueryInput!) {
     totalErrorCount
     ...NavigationSidebar
     hub
+    dataVersion
     collectionLists {
       id
       lists {

@@ -57,6 +57,7 @@ type Questionnaire {
   qcodes: Boolean
   navigation: Boolean
   hub: Boolean
+  dataVersion: String
   createdAt: DateTime
   updatedAt: DateTime
   createdBy: User!
@@ -98,6 +99,7 @@ enum HistoryEventTypes {
 type CollectionLists {
   id: ID!
   lists: [List]
+  questionnaire: Questionnaire
 }
 
 type Theme {
