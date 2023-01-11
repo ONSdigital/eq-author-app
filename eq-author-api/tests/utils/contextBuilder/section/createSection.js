@@ -7,6 +7,7 @@ const createSectionMutation = `
     createSection(input: $input) {
       id
       title
+      pageDescription
       alias
       displayName
       position
@@ -31,6 +32,7 @@ const createSection = async (ctx, input) => {
         gql`
           {
             title
+            pageDescription
             alias
             questionnaireId
             position

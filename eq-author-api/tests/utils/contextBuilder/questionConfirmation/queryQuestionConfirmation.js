@@ -5,6 +5,7 @@ const getQuestionConfirmationQuery = `
     questionConfirmation(id: $id) {
       id
       title
+      pageDescription
       positive {
         id
         label

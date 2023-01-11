@@ -5,6 +5,7 @@ fragment ListCollector on ListCollectorPage {
   displayName
   listId
   drivingQuestion
+  pageDescription
   additionalGuidancePanel
   additionalGuidancePanelSwitch
   drivingPositive
@@ -12,9 +13,11 @@ fragment ListCollector on ListCollectorPage {
   drivingPositiveDescription
   drivingNegativeDescription
   anotherTitle
+  anotherPageDescription
   anotherPositive
   anotherNegative
   anotherPositiveDescription
   anotherNegativeDescription
   addItemTitle
+  addItemPageDescription
 }

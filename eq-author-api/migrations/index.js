@@ -38,6 +38,7 @@ const migrations = [
   require("./updateCalculatedSummary"),
   require("./updateMutuallyExclusive"),
   require("./addDataVersion"),
+  require("./addPageDescription"),
 ];
 
 const currentVersion = migrations.length;
