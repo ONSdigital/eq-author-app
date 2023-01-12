@@ -25,9 +25,8 @@ const Wrapper = styled.div`
     margin: 0 2em 1em;
     border: 1px solid ${colors.grey};
   `}
-
   ${({ variant }) =>
-    (variant === "properties" || variant === "marginlessContent") &&
+    variant === "properties" &&
     `
     border: 1px solid ${colors.grey};
   `}
@@ -37,7 +36,7 @@ const Header = styled.div`
   margin: 0;
   ${({ isOpen }) => isOpen && `margin: 0 0 1em;`}
   ${({ variant }) =>
-    (variant === "content" || variant === "marginlessContent") &&
+    variant === "content" &&
     `
     height: 100%;
     width: 100%;
@@ -66,8 +65,7 @@ export const Title = styled.h2`
   ${Badge} {
     margin-left: 1em;
   }
-  ${({ variant }) =>
-    (variant === "content" || variant === "marginlessContent") && `padding: 0;`}
+  ${({ variant }) => variant === "content" && `padding: 0;`}
   ${({ variant }) => variant === "properties" && `padding: 0;`}
 `;
 
@@ -80,9 +78,7 @@ export const Body = styled.div`
     margin-top: 0;
   }
   ${({ variant }) =>
-    (variant === "content" ||
-      variant === "properties" ||
-      variant === "marginlessContent") &&
+    (variant === "content" || variant === "properties") &&
     `
     margin-top: 0;
     border-left: none;
@@ -108,9 +104,7 @@ export const ToggleCollapsibleButton = styled.button`
   text-decoration: underline;
   margin-left: 0;
   ${({ variant }) =>
-    (variant === "content" ||
-      variant === "properties" ||
-      variant === "marginlessContent") &&
+    (variant === "content" || variant === "properties") &&
     `
     color: ${colors.white};
     text-decoration: none;
@@ -119,10 +113,7 @@ export const ToggleCollapsibleButton = styled.button`
   &:focus {
     outline: 2px solid ${colors.orange};
     ${({ variant }) =>
-      (variant === "content" ||
-        variant === "properties" ||
-        variant === "marginlessContent") &&
-      `outline: none;`}
+      (variant === "content" || variant === "properties") && `outline: none;`}
   }
   &::before {
     content: "";
@@ -133,8 +124,7 @@ export const ToggleCollapsibleButton = styled.button`
     margin-top: 0.2em;
     margin-left: -0.5em;
     ${({ variant }) =>
-      (variant === "content" || variant === "marginlessContent") &&
-      `background-color: ${colors.white}`}
+      variant === "content" && `background-color: ${colors.white}`}
     ${({ variant }) =>
       variant === "properties" && `background-color: ${colors.white}`}
   }
@@ -168,7 +158,6 @@ const Collapsible = ({
   children,
   variant = "default",
   errorCount,
-  dataTestIdPrefix,
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
@@ -185,37 +174,25 @@ const Collapsible = ({
   return (
     <Wrapper
       className={className}
-      data-test={
-        dataTestIdPrefix ? `${dataTestIdPrefix}collapsible` : "collapsible"
-      }
+      data-test="collapsible"
       variant={variant}
       hasError={errorCount}
       isOpen={isOpen}
     >
       <Header
         className="collapsible-header"
-        data-test={
-          dataTestIdPrefix
-            ? `${dataTestIdPrefix}collapsible-header`
-            : "collapsible-header"
-        }
+        data-test="collapsible-header"
         isOpen={isOpen}
         variant={variant}
         onClick={
-          variant === "content" ||
-          variant === "marginlessContent" ||
-          variant === "properties"
+          variant === "content" || variant === "properties"
             ? () => setIsOpen((isOpen) => !isOpen)
             : undefined
         }
       >
         <Title
           className="collapsible-title"
-          data-test={
-            dataTestIdPrefix
-              ? `${dataTestIdPrefix}collapsible-title`
-              : "collapsible-title"
-          }
+          data-test="collapsible-title"
           variant={variant}
         >
           <ToggleCollapsibleButton
@@ -227,11 +204,7 @@ const Collapsible = ({
             }
             aria-expanded={isOpen}
             aria-controls="collapsible-body"
-            data-test={
-              dataTestIdPrefix
-                ? `${dataTestIdPrefix}collapsible-toggle-button`
-                : "collapsible-toggle-button"
-            }
+            data-test="collapsible-toggle-button"
             className="collapsible-toggle-Collapsible-Button"
             variant={variant}
           >
@@ -249,11 +222,7 @@ const Collapsible = ({
       </Header>
       <Body
         className="collapsible-body"
-        data-test={
-          dataTestIdPrefix
-            ? `${dataTestIdPrefix}collapsible-body`
-            : "collapsible-body"
-        }
+        data-test="collapsible-body"
         isOpen={isOpen}
         aria-hidden={!isOpen}
         variant={variant}
@@ -263,11 +232,7 @@ const Collapsible = ({
           <HideThisButton
             medium
             onClick={() => setIsOpen(false)}
-            data-test={
-              dataTestIdPrefix
-                ? `${dataTestIdPrefix}collapsible-hide-button`
-                : "collapsible-hide-button"
-            }
+            data-test="collapsible-hide-button"
           >
             Hide this
           </HideThisButton>
@@ -305,14 +270,8 @@ Collapsible.propTypes = {
   /**
    * Value controlling the styling applied to the collapsible.
    */
-  variant: PropTypes.oneOf([
-    "default",
-    "content",
-    "marginlessContent",
-    "properties",
-  ]),
+  variant: PropTypes.oneOf(["default", "content"]),
   errorCount: PropTypes.number,
-  dataTestIdPrefix: PropTypes.string,
 };
 
 export default Collapsible;

@@ -179,7 +179,6 @@ type Section {
   position: Int!
   introductionTitle: String
   introductionContent: String
-  pageDescription: String
   validationErrorInfo: ValidationErrorInfo
   repeatingSection: Boolean
   repeatingSectionListId: ID
@@ -234,7 +233,6 @@ type QuestionPage implements Page & Skippable & Routable {
   totalValidation: TotalValidationRule
   validationErrorInfo: ValidationErrorInfo
   comments: [Comment]
-  pageDescription: String
 }
 
 type ListCollectorPage implements Page & Skippable & Routable {
@@ -247,7 +245,6 @@ type ListCollectorPage implements Page & Skippable & Routable {
   folder: Folder!
   position: Int!
   drivingQuestion: String
-  pageDescription: String
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
   drivingPositive: String
@@ -255,13 +252,11 @@ type ListCollectorPage implements Page & Skippable & Routable {
   drivingPositiveDescription: String
   drivingNegativeDescription: String
   anotherTitle: String
-  anotherPageDescription: String
   anotherPositive: String
   anotherNegative: String
   anotherPositiveDescription: String
   anotherNegativeDescription: String
   addItemTitle: String
-  addItemPageDescription: String
   routing: Routing2
   skipConditions: [ExpressionGroup2]
   totalValidation: TotalValidationRule
@@ -283,7 +278,6 @@ type CalculatedSummaryPage implements Page & Skippable & Routable {
   answers: [Answer]
   summaryAnswers: [Answer!]!
   type: String
-  pageDescription: String
   totalTitle: String
   validationErrorInfo: ValidationErrorInfo
   routing: Routing2
@@ -302,7 +296,6 @@ type QuestionConfirmation implements Skippable {
   id: ID!
   displayName: String!
   title: String
-  pageDescription: String
   page: QuestionPage!
   qCode: String
   positive: ConfirmationOption!
@@ -997,7 +990,6 @@ input CreateListCollectorPageInput {
   folderId: ID!
   listId: ID
   drivingQuestion: String
-  pageDescription: String
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
   drivingPositive: String
@@ -1005,13 +997,11 @@ input CreateListCollectorPageInput {
   drivingPositiveDescription: String
   drivingNegativeDescription: String
   anotherTitle: String
-  anotherPageDescription: String
   anotherPositive: String
   anotherNegative: String
   anotherPositiveDescription: String
   anotherNegativeDescription: String
   addItemTitle: String
-  addItemPageDescription: String
 }
 
 input UpdateListCollectorPageInput {
@@ -1019,7 +1009,6 @@ input UpdateListCollectorPageInput {
   title: String
   listId: ID
   drivingQuestion: String!
-  pageDescription: String!
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
   drivingPositive: String!
@@ -1027,13 +1016,11 @@ input UpdateListCollectorPageInput {
   drivingPositiveDescription: String
   drivingNegativeDescription: String
   anotherTitle: String!
-  anotherPageDescription: String
   anotherPositive: String!
   anotherNegative: String!
   anotherPositiveDescription: String
   anotherNegativeDescription: String
   addItemTitle: String
-  addItemPageDescription: String
   alias: String
 }
 
@@ -1217,7 +1204,6 @@ input createHistoryNoteInput {
 input CreateSectionInput {
   title: String!
   alias: String
-  pageDescription: String
   questionnaireId: ID!
   position: Int
   requiredCompleted: Boolean
@@ -1231,7 +1217,6 @@ input UpdateSectionInput {
   alias: String
   introductionTitle: String
   introductionContent: String
-  pageDescription: String
   requiredCompleted: Boolean
   showOnHub: Boolean
   sectionSummary: Boolean
@@ -1338,7 +1323,6 @@ input CreateQuestionPageInput {
   additionalInfoLabel: String
   additionalInfoContent: String
   additionalInfoEnabled: Boolean
-  pageDescription: String
 }
 
 input UpdateQuestionPageInput {
@@ -1355,7 +1339,6 @@ input UpdateQuestionPageInput {
   additionalInfoLabel: String
   additionalInfoContent: String
   additionalInfoEnabled: Boolean
-  pageDescription: String
 }
 
 input CreateCalculatedSummaryPageInput {
@@ -1367,7 +1350,6 @@ input UpdateCalculatedSummaryPageInput {
   id: ID!
   alias: String
   title: String
-  pageDescription: String
   totalTitle: String
   qCode: String
   summaryAnswers: [ID!]
@@ -1571,7 +1553,6 @@ input ConfirmationOptionInput {
 input UpdateQuestionConfirmationInput {
   id: ID!
   title: String
-  pageDescription: String
   positive: ConfirmationOptionInput
   negative: ConfirmationOptionInput
   qCode: String

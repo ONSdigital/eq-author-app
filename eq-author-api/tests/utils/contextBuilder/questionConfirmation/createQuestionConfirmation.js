@@ -7,7 +7,6 @@ const createQuestionConfirmationMutation = `
     createQuestionConfirmation(input: $input) {
       id
       title 
-      pageDescription
       negative {
         description
         label

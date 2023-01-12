@@ -975,7 +975,6 @@ const Resolvers = {
       const questionConfirmation = {
         id: uuidv4(),
         title: "",
-        pageDescription: "",
         positive: { id: uuidv4(), label: "", description: "" },
         negative: { id: uuidv4(), label: "", description: "" },
       };
@@ -986,14 +985,9 @@ const Resolvers = {
       };
     }),
     updateQuestionConfirmation: createMutation(
-      (
-        _,
-        { input: { positive, negative, id, title, pageDescription, qCode } },
-        ctx
-      ) => {
+      (_, { input: { positive, negative, id, title, qCode } }, ctx) => {
         const newValues = {
           title,
-          pageDescription,
           positive,
           negative,
           qCode,

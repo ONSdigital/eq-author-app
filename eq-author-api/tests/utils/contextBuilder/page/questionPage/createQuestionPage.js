@@ -10,7 +10,6 @@ const createQuestionPageMutation = `
       title
       description
       descriptionEnabled
-      pageDescription
       guidance
       guidanceEnabled
       definitionLabel
@@ -35,7 +34,6 @@ const createQuestionPage = async (ctx, input) => {
             alias
             description
             descriptionEnabled
-            pageDescription
             guidance
             guidanceEnabled
             folderId

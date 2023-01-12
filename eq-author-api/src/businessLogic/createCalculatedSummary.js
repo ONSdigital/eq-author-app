@@ -15,7 +15,6 @@ const createCalculatedSummary = (input = {}) => ({
     },
   ],
   summaryAnswers: [],
-  pageDescription: "",
   totalTitle: "",
   type: "",
   ...omit(input, "folderId"),

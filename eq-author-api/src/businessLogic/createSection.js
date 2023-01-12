@@ -4,7 +4,6 @@ const createFolder = require("./createFolder");
 const createSection = (input = {}) => ({
   id: uuidv4(),
   title: "",
-  pageDescription: "",
   introductionEnabled: false,
   folders: [createFolder()],
   alias: "",

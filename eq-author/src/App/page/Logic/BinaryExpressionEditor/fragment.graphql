@@ -11,7 +11,6 @@ fragment BinaryExpressionEditor on BinaryExpression2 {
         alias
         displayName
         title
-        pageDescription
       }
     }
     ... on MultipleChoiceAnswer {
@@ -23,7 +22,6 @@ fragment BinaryExpressionEditor on BinaryExpression2 {
         alias
         displayName
         title
-        pageDescription
       }
       mutuallyExclusiveOption {
         id

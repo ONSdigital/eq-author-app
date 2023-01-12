@@ -1,7 +1,6 @@
 fragment QuestionPage on QuestionPage {
   description
   descriptionEnabled
-  pageDescription
   guidance
   guidanceEnabled
   definitionLabel

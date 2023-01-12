@@ -5,7 +5,6 @@ const updateSectionMutation = `
     updateSection(input: $input) {
       id
       title
-      pageDescription
       alias
       displayName
       position

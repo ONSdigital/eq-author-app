@@ -9,7 +9,6 @@ export const mapMutateToProps = ({ mutate }) => ({
     alias,
     introductionTitle,
     introductionContent,
-    pageDescription,
     repeatingSection,
     repeatingSectionListId,
   }) {
@@ -21,7 +20,6 @@ export const mapMutateToProps = ({ mutate }) => ({
           alias,
           introductionTitle,
           introductionContent,
-          pageDescription,
           repeatingSection,
           repeatingSectionListId,
         },
