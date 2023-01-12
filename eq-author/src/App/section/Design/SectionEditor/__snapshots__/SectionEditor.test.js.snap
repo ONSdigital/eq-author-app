@@ -46,6 +46,13 @@ exports[`SectionEditor should render 1`] = `
       value="Section 1"
     />
     <SectionEditor__HorizontalRule />
+    <PageTitleContainer
+      errors={Array []}
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      pageDescription="Section 1 page title"
+    />
+    <SectionEditor__HorizontalRule />
     <SectionSummary
       id="section-1"
       sectionSummary={false}
@@ -117,6 +124,7 @@ exports[`SectionEditor should render 1`] = `
           "id": "section-1",
           "introductionContent": "Intro content",
           "introductionTitle": "Intro title",
+          "pageDescription": "Section 1 page title",
           "questionnaire": Object {
             "collapsibleSummary": false,
             "hub": false,
@@ -185,6 +193,13 @@ exports[`SectionEditor should render 2`] = `
       size="large"
       testSelector="txt-section-title"
       value="Section 2"
+    />
+    <SectionEditor__HorizontalRule />
+    <PageTitleContainer
+      errors={Array []}
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      pageDescription="Section 2 page title"
     />
     <SectionEditor__HorizontalRule />
     <SectionSummary
@@ -258,6 +273,7 @@ exports[`SectionEditor should render 2`] = `
           "id": "section-2",
           "introductionContent": "Intro content",
           "introductionTitle": "Intro title",
+          "pageDescription": "Section 2 page title",
           "questionnaire": Object {
             "collapsibleSummary": false,
             "hub": false,

@@ -149,6 +149,10 @@ export const listErrors = {
   LISTNAME_MISSING: "List name required",
 };
 
+export const pageDescriptionErrors = {
+  PAGE_DESCRIPTION_MISSING: "Page description required",
+};
+
 export const textAreaErrors = {
   ERR_MAX_LENGTH_TOO_LARGE: {
     errorCode: "ERR_MAX_LENGTH_TOO_large",
