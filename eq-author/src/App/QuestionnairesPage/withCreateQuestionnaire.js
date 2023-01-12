@@ -1,6 +1,5 @@
 import { graphql } from "react-apollo";
 import createQuestionnaireQuery from "graphql/createQuestionnaire.graphql";
-import getQuestionnaireList from "graphql/getQuestionnaireList.graphql";
 import { buildPagePath, buildIntroductionPath } from "utils/UrlUtils";
 
 export const redirectToDesigner =

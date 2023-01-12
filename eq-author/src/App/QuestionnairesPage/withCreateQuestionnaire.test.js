@@ -76,24 +76,4 @@ describe("withCreateQuestionnaire", () => {
       });
     });
   });
-
-  describe("updateQuestionnaireList", () => {
-    let proxy, readQuery, writeQuery, data, questionnaire1Id, questionnaire2Id;
-
-    beforeEach(() => {
-      questionnaire1Id = "1";
-      questionnaire2Id = "2";
-      data = {
-        questionnaires: [{ id: questionnaire2Id }, { id: questionnaire1Id }],
-      };
-
-      readQuery = jest.fn(() => data);
-      writeQuery = jest.fn();
-
-      proxy = {
-        readQuery,
-        writeQuery,
-      };
-    });
-  });
 });
