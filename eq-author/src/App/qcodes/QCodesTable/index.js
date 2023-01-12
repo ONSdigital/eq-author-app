@@ -217,11 +217,16 @@ export const QCodeTable = () => {
     (!qCode && QCODE_REQUIRED) ||
     (duplicatedQCodes.includes(qCode) && QCODE_IS_NOT_UNIQUE);
 
+  const { questionnaire } = useQuestionnaire();
+  const dataVersion = questionnaire?.dataVersion;
+
   return (
     <Table data-test="qcodes-table">
       <TableHead>
         <TableRow>
-          <TableHeadColumn width="20%">Short code</TableHeadColumn>
+          <TableHeadColumn width="20%">
+            Short code {dataVersion}
+          </TableHeadColumn>
           <TableHeadColumn width="20%">Question</TableHeadColumn>
           <TableHeadColumn width="20%">Type</TableHeadColumn>
           <TableHeadColumn width="20%">Answer label</TableHeadColumn>
@@ -230,7 +235,10 @@ export const QCodeTable = () => {
       </TableHead>
       <StyledTableBody>
         {answerRows?.map((item, index) => {
-          if (item.additionalAnswer && item.type !== "CheckboxOption") {
+          if (
+            item.additionalAnswer &&
+            (dataVersion === "3" || item.type !== "CheckboxOption")
+          ) {
             return (
               <>
                 <Row
