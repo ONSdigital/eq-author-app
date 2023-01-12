@@ -1,10 +1,8 @@
 import {
   redirectToDesigner,
   mapMutateToProps,
-  updateQuestionnaireList,
 } from "App/QuestionnairesPage/withCreateQuestionnaire";
 import { buildPagePath, buildIntroductionPath } from "utils/UrlUtils";
-import getQuestionnaireList from "graphql/getQuestionnaireList.graphql";
 
 describe("withCreateQuestionnaire", () => {
   let history, mutate, results, user, page, folder, section, questionnaire;
@@ -96,28 +94,6 @@ describe("withCreateQuestionnaire", () => {
         readQuery,
         writeQuery,
       };
-    });
-
-    it("should update the getQuestionnaireList query with new questionnaire.", () => {
-      const newQuestionnaire = { id: "3" };
-
-      updateQuestionnaireList(proxy, {
-        data: { createQuestionnaire: newQuestionnaire },
-      });
-
-      expect(readQuery).toHaveBeenCalledWith({
-        query: getQuestionnaireList,
-      });
-      expect(writeQuery).toHaveBeenCalledWith({
-        query: getQuestionnaireList,
-        data: {
-          questionnaires: [
-            newQuestionnaire,
-            { id: questionnaire2Id },
-            { id: questionnaire1Id },
-          ],
-        },
-      });
     });
   });
 });

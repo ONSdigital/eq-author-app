@@ -3,29 +3,31 @@ import createQuestionnaireQuery from "graphql/createQuestionnaire.graphql";
 import getQuestionnaireList from "graphql/getQuestionnaireList.graphql";
 import { buildPagePath, buildIntroductionPath } from "utils/UrlUtils";
 
-export const redirectToDesigner = (history) => ({ data }) => {
-  const questionnaire = data.createQuestionnaire;
+export const redirectToDesigner =
+  (history) =>
+  ({ data }) => {
+    const questionnaire = data.createQuestionnaire;
 
-  if (questionnaire.introduction) {
+    if (questionnaire.introduction) {
+      history.push(
+        buildIntroductionPath({
+          questionnaireId: questionnaire.id,
+          introductionId: questionnaire.introduction.id,
+        })
+      );
+      return;
+    }
+
+    const section = questionnaire.sections[0];
+    const page = section.folders[0].pages[0];
+
     history.push(
-      buildIntroductionPath({
+      buildPagePath({
         questionnaireId: questionnaire.id,
-        introductionId: questionnaire.introduction.id,
+        pageId: page.id,
       })
     );
-    return;
-  }
-
-  const section = questionnaire.sections[0];
-  const page = section.folders[0].pages[0];
-
-  history.push(
-    buildPagePath({
-      questionnaireId: questionnaire.id,
-      pageId: page.id,
-    })
-  );
-};
+  };
 
 export const mapMutateToProps = ({ ownProps, mutate }) => ({
   onCreateQuestionnaire: (questionnaire) => {
@@ -39,18 +41,6 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
   },
 });
 
-export const updateQuestionnaireList = (
-  proxy,
-  { data: { createQuestionnaire } }
-) => {
-  const data = proxy.readQuery({ query: getQuestionnaireList });
-  data.questionnaires.unshift(createQuestionnaire);
-  proxy.writeQuery({ query: getQuestionnaireList, data });
-};
-
 export default graphql(createQuestionnaireQuery, {
   props: mapMutateToProps,
-  options: {
-    update: updateQuestionnaireList,
-  },
 });
