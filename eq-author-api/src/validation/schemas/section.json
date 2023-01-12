@@ -35,11 +35,6 @@
       "items": {
         "$ref": "logic.json#/definitions/expressionGroup"
       }
-    },
-    "pageDescription": {
-      "type": "string",
-      "pattern": "\\w+",
-      "errorMessage": "PAGE_DESCRIPTION_MISSING"
     }
   },
   "if": {

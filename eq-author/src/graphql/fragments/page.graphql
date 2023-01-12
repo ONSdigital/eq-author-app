@@ -4,7 +4,6 @@ fragment Page on QuestionPage {
   alias
   description
   descriptionEnabled
-  pageDescription
   guidance
   guidanceEnabled
   definitionLabel

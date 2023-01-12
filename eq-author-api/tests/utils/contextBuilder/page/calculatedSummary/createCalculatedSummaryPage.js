@@ -18,7 +18,6 @@ const createCalculatedSummaryPageMutation = `
         summaryAnswers {
             id
         }
-        pageDescription
         totalTitle
     }
   }

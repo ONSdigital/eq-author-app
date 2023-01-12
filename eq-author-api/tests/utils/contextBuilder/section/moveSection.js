@@ -83,7 +83,6 @@ const moveSectionMutation = `
       sections {
         id
         title
-        pageDescription
         displayName
         position
         questionnaire {

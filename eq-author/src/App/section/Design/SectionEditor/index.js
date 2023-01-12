@@ -7,14 +7,11 @@ import { get, flip, partial } from "lodash";
 
 import RichTextEditor from "components/RichTextEditor";
 import DescribedText from "components/DescribedText";
-
 import { Label } from "components/Forms";
 import Modal from "components-themed/Modal";
 import HubSettings from "./HubSettings";
 import SectionSummary from "./SectionSummary";
 import RepeatingSection from "./RepeatingSection";
-
-import PageTitleContainer from "components/PageTitle";
 
 import { colors, radius } from "constants/theme";
 
@@ -180,13 +177,6 @@ export class SectionEditor extends React.Component {
                 message: sectionErrors.SECTION_TITLE_NOT_ENTERED,
               })
             }
-          />
-          <HorizontalRule />
-          <PageTitleContainer
-            pageDescription={section?.pageDescription}
-            errors={section.validationErrorInfo.errors}
-            onChange={onChange}
-            onUpdate={onUpdate}
           />
           <HorizontalRule />
           <SectionSummary

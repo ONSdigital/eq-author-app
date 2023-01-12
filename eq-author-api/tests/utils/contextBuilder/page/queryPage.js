@@ -48,13 +48,11 @@ const getPageQuery = `
         summaryAnswers {
           id
         }
-        pageDescription
         totalTitle
       }
       ... on QuestionPage {
         description
         descriptionEnabled
-        pageDescription
         guidance
         guidanceEnabled
         answers {

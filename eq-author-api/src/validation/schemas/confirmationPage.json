@@ -8,11 +8,6 @@
     "title": {
       "$ref": "definitions.json#/definitions/populatedString"
     },
-    "pageDescription": {
-      "type": "string",
-      "pattern": "\\w+",
-      "errorMessage": "PAGE_DESCRIPTION_MISSING"
-    },
     "skipConditions": {
       "type": "array",
       "items": {
@@ -71,7 +66,6 @@
   "required": [
     "id",
     "title",
-    "pageDescription",
     "positive"
   ]
 }

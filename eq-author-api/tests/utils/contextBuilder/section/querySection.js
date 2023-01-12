@@ -5,7 +5,6 @@ const getSectionQuery = `
     section(input: $input) {
       id
       title
-      pageDescription
       alias
       displayName
       position

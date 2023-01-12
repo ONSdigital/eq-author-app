@@ -2,7 +2,6 @@
 fragment QuestionConfirmation on QuestionConfirmation {
   id
   title
-  pageDescription
   displayName
   qCode
   positive {

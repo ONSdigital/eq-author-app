@@ -77,7 +77,6 @@ const buildContext = async (questionnaireConfig, userConfig = {}) => {
     for (let section of sections) {
       const createdSection = await createSection(ctx, {
         title: "Section title",
-        pageDescription: "Page title",
         questionnaireId: questionnaire.id,
         ...section,
       });
@@ -103,7 +102,6 @@ const buildContext = async (questionnaireConfig, userConfig = {}) => {
               } else {
                 const createdPage = await createQuestionPage(ctx, {
                   title: "QuestionPage title",
-                  pageDescription: "Page title value",
                   folderId: createdFolder.id,
                   position: createdFolder.pages.length,
                   ...page,
