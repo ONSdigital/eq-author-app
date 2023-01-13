@@ -18,7 +18,6 @@ import {
   TableHeadColumn,
 } from "components/datatable/Elements";
 import { TableInput } from "components/datatable/Controls";
-import { useQuestionnaire } from "components/QuestionnaireContext";
 
 import { colors } from "constants/theme";
 
