@@ -24,6 +24,7 @@ describe("enhancers > withUpdateOption", () => {
       props.onUpdateOption(option);
       expect(mutate).toHaveBeenCalledWith({
         variables: { input: { id: "1", additionalAnswer: { id: "2" } } },
+        refetchQueries: ["GetQuestionnaire"],
       });
     });
   });
