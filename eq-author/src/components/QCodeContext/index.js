@@ -51,7 +51,13 @@ export const getFlattenedAnswerRows = (questionnaire) => {
       pageType !== "CalculatedSummaryPage" && pageType !== "ListCollectorPage"
   );
 
-  pages.push(...questionnaire.collectionLists.lists);
+  const { dataVersion } = questionnaire;
+
+  if (dataVersion === "3") {
+    if (questionnaire.collectionLists && pages) {
+      pages.push(...questionnaire.collectionLists.lists);
+    }
+  }
 
   return pages?.flatMap((page) => {
     const answerRows = page.answers.flatMap(flattenAnswer);
