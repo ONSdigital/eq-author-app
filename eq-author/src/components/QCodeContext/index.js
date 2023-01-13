@@ -134,13 +134,16 @@ export const QCodeContextProvider = ({ questionnaire = {}, children }) => {
     duplicatedQCodes?.length ||
     getEmptyQCodes(answerRows, questionnaire.dataVersion);
 
+  const dataVersion = questionnaire?.dataVersion;
+
   const value = useMemo(
     () => ({
       answerRows,
       duplicatedQCodes,
+      dataVersion,
       hasQCodeError,
     }),
-    [answerRows, duplicatedQCodes, hasQCodeError]
+    [answerRows, duplicatedQCodes, dataVersion, hasQCodeError]
   );
 
   return (

@@ -106,6 +106,7 @@ const mutationVariables = (inputValues) => ({
 
 const Row = memo((props) => {
   const {
+    dataVersion,
     id,
     questionTitle,
     questionShortCode,
@@ -116,9 +117,6 @@ const Row = memo((props) => {
     option,
     secondary,
   } = props;
-
-  const { questionnaire } = useQuestionnaire();
-  const { dataVersion } = questionnaire;
 
   const [qCode, setQcode] = useState(initialQcode);
   const [updateOption] = useMutation(UPDATE_OPTION_QCODE);
@@ -199,6 +197,7 @@ const Row = memo((props) => {
 });
 
 Row.propTypes = {
+  dataVersion: PropTypes.string,
   id: PropTypes.string,
   questionTitle: PropTypes.string,
   questionShortCode: PropTypes.string,
@@ -212,21 +211,16 @@ Row.propTypes = {
 };
 
 export const QCodeTable = () => {
-  const { answerRows, duplicatedQCodes } = useQCodeContext();
+  const { answerRows, duplicatedQCodes, dataVersion } = useQCodeContext();
   const getErrorMessage = (qCode) =>
     (!qCode && QCODE_REQUIRED) ||
     (duplicatedQCodes.includes(qCode) && QCODE_IS_NOT_UNIQUE);
-
-  const { questionnaire } = useQuestionnaire();
-  const dataVersion = questionnaire?.dataVersion;
 
   return (
     <Table data-test="qcodes-table">
       <TableHead>
         <TableRow>
-          <TableHeadColumn width="20%">
-            Short code {dataVersion}
-          </TableHeadColumn>
+          <TableHeadColumn width="20%">Short code</TableHeadColumn>
           <TableHeadColumn width="20%">Question</TableHeadColumn>
           <TableHeadColumn width="20%">Type</TableHeadColumn>
           <TableHeadColumn width="20%">Answer label</TableHeadColumn>
@@ -243,11 +237,13 @@ export const QCodeTable = () => {
               <>
                 <Row
                   key={`${item.id}-${index}`}
+                  dataVersion={dataVersion}
                   {...item}
                   errorMessage={getErrorMessage(item.qCode)}
                 />
                 <Row
                   key={`${item.additionalAnswer.id}-${index}`}
+                  dataVersion={dataVersion}
                   {...item.additionalAnswer}
                   errorMessage={getErrorMessage(item.additionalAnswer.qCode)}
                 />
@@ -257,6 +253,7 @@ export const QCodeTable = () => {
             return (
               <Row
                 key={`${item.id}-${index}`}
+                dataVersion={dataVersion}
                 {...item}
                 errorMessage={getErrorMessage(item.qCode)}
               />
