@@ -169,6 +169,7 @@ export const StatelessOption = ({
           },
         },
       },
+      refetchQueries: ["GetQuestionnaire"],
     });
 
   const checkDynamicOption = () => {
@@ -309,6 +310,7 @@ export const StatelessOption = ({
           dynamicAnswerID: "",
         },
       },
+      refetchQueries: ["GetQuestionnaire"],
     });
   };
 
@@ -320,6 +322,7 @@ export const StatelessOption = ({
           dynamicAnswerID: item.value.id,
         },
       },
+      refetchQueries: ["GetQuestionnaire"],
     });
   };
 
