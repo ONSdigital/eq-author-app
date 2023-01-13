@@ -72,24 +72,29 @@ export const getDuplicatedQCodes = (flattenedAnswers, { dataVersion }) => {
     (acc, { qCode, type, additionalAnswer }) => {
       const { qCode: additionalAnswerQCode } = additionalAnswer || {};
 
-      if (qCode) {
-        // If dataVersion is 3, do not check if a QCode has the same value as a checkbox option's QCode
-        if (dataVersion === "3" && type !== CHECKBOX_OPTION) {
+      if (dataVersion === "3") {
+        if (qCode && type !== CHECKBOX_OPTION) {
           const currentValue = acc.get(qCode);
           acc.set(qCode, currentValue ? currentValue + 1 : 1);
         }
-        // If dataVersion is not 3, do not check if a QCode has the same value as a checkbox answer's QCode
-        else if (dataVersion !== "3" && type !== CHECKBOX) {
-          const currentValue = acc.get(qCode);
-          acc.set(qCode, currentValue ? currentValue + 1 : 1);
+
+        if (additionalAnswerQCode) {
+          const currentValue = acc.get(additionalAnswerQCode);
+          acc.set(additionalAnswerQCode, currentValue ? currentValue + 1 : 1);
         }
       }
 
-      if (additionalAnswerQCode) {
-        const currentValue = acc.get(additionalAnswerQCode);
-        acc.set(additionalAnswerQCode, currentValue ? currentValue + 1 : 1);
-      }
+      if (dataVersion !== "3") {
+        if (qCode && type !== CHECKBOX) {
+          const currentValue = acc.get(qCode);
+          acc.set(qCode, currentValue ? currentValue + 1 : 1);
+        }
 
+        if (additionalAnswerQCode && type !== CHECKBOX_OPTION) {
+          const currentValue = acc.get(additionalAnswerQCode);
+          acc.set(additionalAnswerQCode, currentValue ? currentValue + 1 : 1);
+        }
+      }
       return acc;
     },
     new Map()
@@ -134,13 +139,16 @@ export const QCodeContextProvider = ({ questionnaire = {}, children }) => {
     duplicatedQCodes?.length ||
     getEmptyQCodes(answerRows, questionnaire.dataVersion);
 
+  const dataVersion = questionnaire?.dataVersion;
+
   const value = useMemo(
     () => ({
       answerRows,
       duplicatedQCodes,
+      dataVersion,
       hasQCodeError,
     }),
-    [answerRows, duplicatedQCodes, hasQCodeError]
+    [answerRows, duplicatedQCodes, dataVersion, hasQCodeError]
   );
 
   return (
