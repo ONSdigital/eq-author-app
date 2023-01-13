@@ -380,7 +380,7 @@ export const StatelessOption = ({
             )}
           </>
         )}
-        {type === RADIO && !option.additionalAnswer && (
+        {[RADIO, CHECKBOX].includes(type) && !option.additionalAnswer && (
           <>
             <Flex>
               <CustomInlineField
