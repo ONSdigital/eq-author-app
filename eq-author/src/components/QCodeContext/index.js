@@ -82,7 +82,6 @@ export const getDuplicatedQCodes = (flattenedAnswers, { dataVersion }) => {
           const currentValue = acc.get(additionalAnswerQCode);
           acc.set(additionalAnswerQCode, currentValue ? currentValue + 1 : 1);
         }
-        return acc;
       }
 
       if (dataVersion !== "3") {
@@ -95,8 +94,8 @@ export const getDuplicatedQCodes = (flattenedAnswers, { dataVersion }) => {
           const currentValue = acc.get(additionalAnswerQCode);
           acc.set(additionalAnswerQCode, currentValue ? currentValue + 1 : 1);
         }
-        return acc;
       }
+      return acc;
     },
     new Map()
   );
