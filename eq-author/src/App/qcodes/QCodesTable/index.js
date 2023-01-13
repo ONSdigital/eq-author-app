@@ -141,11 +141,11 @@ const Row = memo((props) => {
 
   return (
     <TableRow data-test={`answer-row-test`}>
-      {questionShortCode || questionTitle ? (
+      {questionShortCode || questionTitle || label ? (
         <>
           <SpacedTableColumn>{questionShortCode}</SpacedTableColumn>
           <SpacedTableColumn>
-            {stripHtmlToText(questionTitle)}
+            {stripHtmlToText(questionTitle || label)}
           </SpacedTableColumn>
         </>
       ) : (
