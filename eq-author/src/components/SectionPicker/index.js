@@ -124,6 +124,7 @@ const SectionPicker = ({
           <SearchBar
             size="large"
             onChange={({ value }) => setSearchTerm(value)}
+            placeholder="Search sections"
           />
         )}
       </Header>

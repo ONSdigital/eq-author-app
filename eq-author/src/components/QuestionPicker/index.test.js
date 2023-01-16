@@ -72,9 +72,10 @@ describe("QuestionPicker", () => {
 
   describe("Testing the search UI", () => {
     it("Types pet into the search bar and returns the question Why do you not have pets?", () => {
-      const { getByText, getByTestId, queryByText } = renderQuestionPicker({});
+      const { getByText, queryByPlaceholderText, queryByText } =
+        renderQuestionPicker({});
 
-      const searchBar = getByTestId("search-bar");
+      const searchBar = queryByPlaceholderText("Search questions");
 
       fireEvent.change(searchBar, {
         target: { value: "pet" },
@@ -85,9 +86,10 @@ describe("QuestionPicker", () => {
     });
 
     it("Types car into the search bar and returns the question Do you have a car && what colour car do you have?", () => {
-      const { getByText, getByTestId, queryByText } = renderQuestionPicker({});
+      const { getByText, queryByPlaceholderText, queryByText } =
+        renderQuestionPicker({});
 
-      const searchBar = getByTestId("search-bar");
+      const searchBar = queryByPlaceholderText("Search questions");
 
       fireEvent.change(searchBar, {
         target: { value: "car" },
@@ -119,8 +121,8 @@ describe("QuestionPicker", () => {
           <QuestionPicker isOpen {...defaultPropsWithSearchFalse} {...args} />
         );
 
-      const { queryByTestId } = renderQuestionPicker({});
-      const searchBar = queryByTestId("search-bar");
+      const { queryByPlaceholderText } = renderQuestionPicker({});
+      const searchBar = queryByPlaceholderText("Search questions");
 
       expect(searchBar).toBeNull();
     });
