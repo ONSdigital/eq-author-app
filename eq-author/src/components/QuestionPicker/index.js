@@ -190,6 +190,7 @@ const QuestionPicker = ({
           <SearchBar
             size="large"
             onChange={({ value }) => setSearchTerm(value)}
+            placeholder="Search questions"
           />
         )}
         {warningPanel && (

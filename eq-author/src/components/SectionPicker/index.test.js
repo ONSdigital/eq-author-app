@@ -76,9 +76,10 @@ describe("SectionPicker", () => {
 
   describe("Testing the search UI", () => {
     it("Types pet into the search bar and returns the Pets section", () => {
-      const { getByText, getByTestId, queryByText } = renderSectionPicker({});
+      const { getByText, queryByPlaceholderText, queryByText } =
+        renderSectionPicker({});
 
-      const searchBar = getByTestId("search-bar");
+      const searchBar = queryByPlaceholderText("Search sections");
 
       fireEvent.change(searchBar, {
         target: { value: "pet" },
@@ -89,9 +90,10 @@ describe("SectionPicker", () => {
     });
 
     it("Types pet into the search bar and returns the sections Pets and Pets 2", () => {
-      const { getByText, getByTestId, queryByText } = renderSectionPicker({});
+      const { getByText, queryByPlaceholderText, queryByText } =
+        renderSectionPicker({});
 
-      const searchBar = getByTestId("search-bar");
+      const searchBar = queryByPlaceholderText("Search sections");
 
       fireEvent.change(searchBar, {
         target: { value: "pet" },
@@ -103,9 +105,10 @@ describe("SectionPicker", () => {
     });
 
     it("Renders no results component if section is not found", () => {
-      const { getByText, getByTestId, queryByText } = renderSectionPicker({});
+      const { getByText, queryByPlaceholderText, queryByText } =
+        renderSectionPicker({});
 
-      const searchBar = getByTestId("search-bar");
+      const searchBar = queryByPlaceholderText("Search sections");
 
       fireEvent.change(searchBar, {
         target: { value: "house" },
@@ -119,8 +122,10 @@ describe("SectionPicker", () => {
     });
 
     it("Does not show the search bar if showSearch is false", () => {
-      const { queryByTestId } = renderSectionPicker({ showSearch: false });
-      const searchBar = queryByTestId("search-bar");
+      const { queryByPlaceholderText } = renderSectionPicker({
+        showSearch: false,
+      });
+      const searchBar = queryByPlaceholderText("Search sections");
 
       expect(searchBar).toBeNull();
     });
