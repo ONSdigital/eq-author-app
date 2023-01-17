@@ -562,6 +562,7 @@ enum ThemeShortName {
   epenorthernireland
   orr
   beis
+  beis_ni
 }
 
 type Metadata {

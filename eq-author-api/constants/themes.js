@@ -1,4 +1,3 @@
-// Add `social` if required in future
 const THEME_SHORT_NAMES = [
   "default",
   "northernireland",
@@ -7,6 +6,7 @@ const THEME_SHORT_NAMES = [
   "epenorthernireland",
   "orr",
   "beis",
+  "beis_ni",
   "social",
   "health",
 ];

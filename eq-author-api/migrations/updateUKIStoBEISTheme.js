@@ -5,8 +5,8 @@ module.exports = (questionnaire) => {
       theme.id = "beis";
     }
     if (theme.shortName === "ukis_ni") {
-      theme.shortName = "beis";
-      theme.id = "beis";
+      theme.shortName = "beis_ni";
+      theme.id = "beis_ni";
     }
   });
 
@@ -14,7 +14,7 @@ module.exports = (questionnaire) => {
     questionnaire.themeSettings.previewTheme = "beis";
   }
   if (questionnaire.themeSettings.previewTheme === "ukis_ni") {
-    questionnaire.themeSettings.previewTheme = "beis";
+    questionnaire.themeSettings.previewTheme = "beis_ni";
   }
   return questionnaire;
 };
