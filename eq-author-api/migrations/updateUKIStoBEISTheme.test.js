@@ -44,8 +44,8 @@ describe("updateUKISThemes", () => {
     };
 
     const updatedTheme = updateUKIStoBEISTheme(questionnaire);
-    expect(updatedTheme.themeSettings.themes[0].shortName).toBe("beis");
-    expect(updatedTheme.themeSettings.themes[0].id).toBe("beis");
-    expect(updatedTheme.themeSettings.previewTheme).toBe("beis");
+    expect(updatedTheme.themeSettings.themes[0].shortName).toBe("beis_ni");
+    expect(updatedTheme.themeSettings.themes[0].id).toBe("beis_ni");
+    expect(updatedTheme.themeSettings.previewTheme).toBe("beis_ni");
   });
 });
