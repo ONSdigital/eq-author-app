@@ -146,6 +146,7 @@ const createNewQuestionnaire = (input) => {
     qcodes: true,
     navigation: false,
     hub: false,
+    dataVersion: "1",
     createdAt: new Date(),
     metadata: [],
     sections: [createSection()],
@@ -1045,6 +1046,8 @@ const Resolvers = {
         `List created with - ${JSON.stringify(list)}`
       );
       ctx.questionnaire.collectionLists.lists.push(list);
+      ctx.questionnaire.dataVersion =
+        ctx.questionnaire.collectionLists.lists.length > 0 ? "3" : "1";
       return ctx.questionnaire.collectionLists;
     }),
     updateList: createMutation(async (root, { input }, ctx) => {
@@ -1066,6 +1069,8 @@ const Resolvers = {
         { qid: ctx.questionnaire.id },
         `List removed with ID - ${input.id}`
       );
+      ctx.questionnaire.dataVersion =
+        ctx.questionnaire.collectionLists.lists.length > 0 ? "3" : "1";
 
       return ctx.questionnaire.collectionLists;
     }),
@@ -1104,6 +1109,7 @@ const Resolvers = {
         "Northern Ireland": "northernireland",
         ONS: "default",
         Social: "social",
+        Health: "health",
         "UKIS Northern Ireland": "ukis_ni",
         "UKIS ONS": "ukis",
       };
@@ -1596,6 +1602,10 @@ const Resolvers = {
           id === sectionId && !pageId && !folderId
       ),
     comments: ({ id }, args, ctx) => ctx.comments[id],
+  },
+
+  CollectionLists: {
+    questionnaire: (collectionLists, args, ctx) => ctx.questionnaire,
   },
 
   Folder: {

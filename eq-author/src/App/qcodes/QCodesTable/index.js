@@ -105,6 +105,7 @@ const mutationVariables = (inputValues) => ({
 
 const Row = memo((props) => {
   const {
+    dataVersion,
     id,
     questionTitle,
     questionShortCode,
@@ -155,7 +156,25 @@ const Row = memo((props) => {
       )}
       <SpacedTableColumn>{TYPE_TO_DESCRIPTION[type]}</SpacedTableColumn>
       <SpacedTableColumn>{label}</SpacedTableColumn>
-      {[CHECKBOX, RADIO_OPTION, SELECT_OPTION].includes(type) ? (
+      {dataVersion === "3" ? (
+        [CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type) ? (
+          <EmptyTableColumn />
+        ) : (
+          <SpacedTableColumn>
+            <ErrorWrappedInput
+              name={`${id}-qcode-entry`}
+              data-test={`${id}${secondary ? "-secondary" : ""}-test-input`}
+              value={qCode}
+              onChange={(e) => setQcode(e.value)}
+              onBlur={() => handleBlur(qCode)}
+              hasError={Boolean(errorMessage)}
+            />
+            {errorMessage && (
+              <QcodeValidationError>{errorMessage}</QcodeValidationError>
+            )}
+          </SpacedTableColumn>
+        )
+      ) : [CHECKBOX, RADIO_OPTION, SELECT_OPTION].includes(type) ? (
         <EmptyTableColumn />
       ) : (
         <SpacedTableColumn>
@@ -177,6 +196,7 @@ const Row = memo((props) => {
 });
 
 Row.propTypes = {
+  dataVersion: PropTypes.string,
   id: PropTypes.string,
   questionTitle: PropTypes.string,
   questionShortCode: PropTypes.string,
@@ -190,7 +210,7 @@ Row.propTypes = {
 };
 
 export const QCodeTable = () => {
-  const { answerRows, duplicatedQCodes } = useQCodeContext();
+  const { answerRows, duplicatedQCodes, dataVersion } = useQCodeContext();
   const getErrorMessage = (qCode) =>
     (!qCode && QCODE_REQUIRED) ||
     (duplicatedQCodes.includes(qCode) && QCODE_IS_NOT_UNIQUE);
@@ -208,16 +228,21 @@ export const QCodeTable = () => {
       </TableHead>
       <StyledTableBody>
         {answerRows?.map((item, index) => {
-          if (item.additionalAnswer && item.type !== "CheckboxOption") {
+          if (
+            item.additionalAnswer &&
+            (dataVersion === "3" || item.type !== "CheckboxOption")
+          ) {
             return (
               <>
                 <Row
                   key={`${item.id}-${index}`}
+                  dataVersion={dataVersion}
                   {...item}
                   errorMessage={getErrorMessage(item.qCode)}
                 />
                 <Row
                   key={`${item.additionalAnswer.id}-${index}`}
+                  dataVersion={dataVersion}
                   {...item.additionalAnswer}
                   errorMessage={getErrorMessage(item.additionalAnswer.qCode)}
                 />
@@ -227,6 +252,7 @@ export const QCodeTable = () => {
             return (
               <Row
                 key={`${item.id}-${index}`}
+                dataVersion={dataVersion}
                 {...item}
                 errorMessage={getErrorMessage(item.qCode)}
               />

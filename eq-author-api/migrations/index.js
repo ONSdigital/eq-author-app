@@ -37,6 +37,7 @@ const migrations = [
   require("./convertMutuallyExclusiveOptions"),
   require("./updateCalculatedSummary"),
   require("./updateMutuallyExclusive"),
+  require("./addDataVersion"),
   require("./updateUKIStoBEISTheme"),
 ];
 

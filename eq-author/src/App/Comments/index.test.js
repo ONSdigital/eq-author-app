@@ -47,6 +47,25 @@ const mockUseQuery = {
           },
         ],
       },
+      {
+        id: "comment-3",
+        user: { id: "user-1", displayName: "Dina" },
+        commentText:
+          "Has anyone noticed anything out of the ordinary back here? ",
+        createdTime: "2021-04-30T14:49:00.000Z",
+        editedTime: null,
+        readBy: ["user-1"],
+        replies: [
+          {
+            id: "comment-3-reply-1",
+            user: { id: "user-2", displayName: "Amy" },
+            commentText: "Yes and no",
+            createdTime: "2021-04-30T15:01:00.000Z",
+            editedTime: null,
+            readBy: [],
+          },
+        ],
+      },
     ],
   },
 };
@@ -78,6 +97,17 @@ describe("Comments panel", () => {
     );
 
   afterEach(() => jest.clearAllMocks());
+
+  it("Shuld have status of hasNotRead", () => {
+    const props = { ...mockUseQuery };
+    const { getByTestId } = renderPanel(props);
+
+    const { id, replies } = mockUseQuery.data.comments[2];
+    const commentWrapper = getByTestId(`Comment-${id}`);
+
+    expect(replies.readBy).toEqual(undefined);
+    expect(commentWrapper).toBeTruthy();
+  });
 
   it("Can render", () => {
     const { getByTestId } = renderPanel();

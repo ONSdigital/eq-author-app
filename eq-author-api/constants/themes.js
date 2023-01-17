@@ -7,6 +7,8 @@ const THEME_SHORT_NAMES = [
   "epenorthernireland",
   "orr",
   "beis",
+  "social",
+  "health",
 ];
 
 module.exports = { THEME_SHORT_NAMES };

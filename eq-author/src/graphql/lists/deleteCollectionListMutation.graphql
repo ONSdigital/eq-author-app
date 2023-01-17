@@ -6,5 +6,9 @@ mutation DeleteList($input: DeleteListInput) {
     lists {
       ...List
     }
+    questionnaire {
+      id
+      dataVersion
+    }
   }
 }

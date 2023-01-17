@@ -4,4 +4,6 @@ export const THEME_TITLES = {
   northernireland: "NI theme",
   orr: "Office of Rail and Road theme",
   beis: "Department for Business, Energy and Industrial Strategy theme",
+  health: "Health theme",
+  social: "Social theme",
 };

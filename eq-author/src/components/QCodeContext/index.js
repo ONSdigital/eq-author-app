@@ -3,8 +3,12 @@ import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import { getPages } from "utils/questionnaireUtils";
 import {
+  RADIO_OPTION,
+  CHECKBOX,
+  CHECKBOX_OPTION,
   MUTUALLY_EXCLUSIVE,
   ANSWER_OPTION_TYPES,
+  SELECT_OPTION,
 } from "constants/answer-types";
 
 export const QCodeContext = createContext();
@@ -63,21 +67,35 @@ export const getFlattenedAnswerRows = (questionnaire) => {
 
 // getDuplicatedQCodes :: [AnswerRow] -> [QCode]
 // Return an array of qCodes which are duplicated in the given list of answer rows
-export const getDuplicatedQCodes = (flattenedAnswers) => {
+export const getDuplicatedQCodes = (flattenedAnswers, { dataVersion }) => {
+  // acc - accumulator
   const qCodeUsageMap = flattenedAnswers?.reduce(
-    (acc, { qCode, additionalAnswer }) => {
+    (acc, { qCode, type, additionalAnswer }) => {
       const { qCode: additionalAnswerQCode } = additionalAnswer || {};
 
-      if (qCode) {
-        const currentValue = acc.get(qCode);
-        acc.set(qCode, currentValue ? currentValue + 1 : 1);
+      if (dataVersion === "3") {
+        if (qCode && type !== CHECKBOX_OPTION) {
+          const currentValue = acc.get(qCode);
+          acc.set(qCode, currentValue ? currentValue + 1 : 1);
+        }
+
+        if (additionalAnswerQCode) {
+          const currentValue = acc.get(additionalAnswerQCode);
+          acc.set(additionalAnswerQCode, currentValue ? currentValue + 1 : 1);
+        }
       }
 
-      if (additionalAnswerQCode) {
-        const currentValue = acc.get(additionalAnswerQCode);
-        acc.set(additionalAnswerQCode, currentValue ? currentValue + 1 : 1);
-      }
+      if (dataVersion !== "3") {
+        if (qCode && type !== CHECKBOX) {
+          const currentValue = acc.get(qCode);
+          acc.set(qCode, currentValue ? currentValue + 1 : 1);
+        }
 
+        if (additionalAnswerQCode && type !== CHECKBOX_OPTION) {
+          const currentValue = acc.get(additionalAnswerQCode);
+          acc.set(additionalAnswerQCode, currentValue ? currentValue + 1 : 1);
+        }
+      }
       return acc;
     },
     new Map()
@@ -89,6 +107,25 @@ export const getDuplicatedQCodes = (flattenedAnswers) => {
   );
 };
 
+const getEmptyQCodes = (answerRows, dataVersion) => {
+  // If dataVersion is 3, checkbox options and radio options do not have QCodes, and therefore these can be empty
+  // This removes the error badge from the main navigation QCodes tab when data version is 3 and a checkbox option is empty from when it previously used a different data version
+  if (dataVersion === "3") {
+    return answerRows?.find(
+      ({ qCode, type }) =>
+        !qCode && ![CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type)
+    );
+  }
+  // If dataVersion is not 3, checkbox answers and radio options do not have QCodes, and therefore these can be empty
+  // This removes the error badge from the main navigation QCodes tab when data version is not 3 and a checkbox answer is empty from when it previously used data version 3
+  else {
+    return answerRows?.find(
+      ({ qCode, type }) =>
+        !qCode && ![CHECKBOX, RADIO_OPTION, SELECT_OPTION].includes(type)
+    );
+  }
+};
+
 export const QCodeContextProvider = ({ questionnaire = {}, children }) => {
   const answerRows = useMemo(
     () => getFlattenedAnswerRows(questionnaire) ?? [],
@@ -96,23 +133,24 @@ export const QCodeContextProvider = ({ questionnaire = {}, children }) => {
   );
 
   const duplicatedQCodes = useMemo(
-    () => getDuplicatedQCodes(answerRows) ?? [],
-    [answerRows]
+    () => getDuplicatedQCodes(answerRows, questionnaire) ?? [],
+    [answerRows, questionnaire]
   );
 
   const hasQCodeError =
     duplicatedQCodes?.length ||
-    answerRows?.find(
-      ({ qCode, type }) => !qCode && !["Checkbox", "RadioOption"].includes(type)
-    );
+    getEmptyQCodes(answerRows, questionnaire.dataVersion);
+
+  const dataVersion = questionnaire?.dataVersion;
 
   const value = useMemo(
     () => ({
       answerRows,
       duplicatedQCodes,
+      dataVersion,
       hasQCodeError,
     }),
-    [answerRows, duplicatedQCodes, hasQCodeError]
+    [answerRows, duplicatedQCodes, dataVersion, hasQCodeError]
   );
 
   return (

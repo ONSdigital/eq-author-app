@@ -18,16 +18,14 @@ import getHeaders from "middleware/headers";
 
 import App from "App";
 
-if (
-  config.REACT_APP_GTM_ID &&
-  config.REACT_APP_GTM_AUTH &&
-  config.REACT_APP_GTM_PREVIEW
-) {
+if (config.REACT_APP_GTM_ID) {
   const tagManagerArgs = {
     gtmId: config.REACT_APP_GTM_ID,
-    auth: config.REACT_APP_GTM_AUTH,
-    preview: config.REACT_APP_GTM_PREVIEW,
   };
+  if (config.REACT_APP_GTM_AUTH && config.REACT_APP_GTM_PREVIEW) {
+    tagManagerArgs.auth = config.REACT_APP_GTM_AUTH;
+    tagManagerArgs.preview = config.REACT_APP_GTM_PREVIEW;
+  }
   TagManager.initialize(tagManagerArgs);
 }
 
