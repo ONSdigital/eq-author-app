@@ -68,15 +68,17 @@ describe("Themes page", () => {
             validationErrorInfo: { errors: [] },
           },
           {
-            title: "UKIS theme",
+            title:
+              "Department for Business, Energy and Industrial Strategy theme",
             legalBasisCode: "NOTICE_1",
-            shortName: "ukis",
+            shortName: "beis",
             validationErrorInfo: { errors: [] },
           },
           {
-            title: "UKIS NI theme",
+            title:
+              "Department for Business, Energy and Industrial Strategy NI theme",
             legalBasisCode: "NOTICE_1",
-            shortName: "ukis_ni",
+            shortName: "beis_ni",
             validationErrorInfo: { errors: [] },
           },
           {
@@ -92,7 +94,7 @@ describe("Themes page", () => {
             validationErrorInfo: { errors: [] },
           },
           {
-            title: "Health NI theme",
+            title: "Health theme",
             legalBasisCode: "NOTICE_1",
             shortName: "health",
             validationErrorInfo: { errors: [] },
