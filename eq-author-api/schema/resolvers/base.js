@@ -1109,6 +1109,7 @@ const Resolvers = {
         "Northern Ireland": "northernireland",
         ONS: "default",
         Social: "social",
+        Health: "health",
         "UKIS Northern Ireland": "ukis_ni",
         "UKIS ONS": "ukis",
       };

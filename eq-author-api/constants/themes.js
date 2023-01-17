@@ -8,6 +8,8 @@ const THEME_SHORT_NAMES = [
   "ukis",
   "ukis_ni",
   "orr",
+  "social",
+  "health",
 ];
 
 module.exports = { THEME_SHORT_NAMES };
