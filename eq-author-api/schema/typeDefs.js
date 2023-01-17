@@ -552,6 +552,7 @@ enum AnswerType {
 enum ThemeShortName {
   default
   social
+  health
   census
   northernireland
   covid

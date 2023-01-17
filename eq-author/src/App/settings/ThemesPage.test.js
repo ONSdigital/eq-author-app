@@ -79,6 +79,24 @@ describe("Themes page", () => {
             shortName: "ukis_ni",
             validationErrorInfo: { errors: [] },
           },
+          {
+            title: "Office of Rail and Road theme",
+            legalBasisCode: "NOTICE_1",
+            shortName: "orr",
+            validationErrorInfo: { errors: [] },
+          },
+          {
+            title: "Social theme",
+            legalBasisCode: "NOTICE_1",
+            shortName: "social",
+            validationErrorInfo: { errors: [] },
+          },
+          {
+            title: "Health NI theme",
+            legalBasisCode: "NOTICE_1",
+            shortName: "health",
+            validationErrorInfo: { errors: [] },
+          },
         ],
       },
       displayName: "Tests",
@@ -151,7 +169,13 @@ describe("Themes page", () => {
     useMutation.mockImplementation(() => [toggleTheme]);
     renderThemesPage(mockQuestionnaire);
 
+    expect(screen.getByText(`GB theme`)).toBeVisible();
+    expect(screen.getByText(`NI theme`)).toBeVisible();
     expect(screen.getByText(`UKIS theme`)).toBeVisible();
+    expect(screen.getByText(`UKIS NI theme`)).toBeVisible();
+    expect(screen.getByText(`Office of Rail and Road theme`)).toBeVisible();
+    expect(screen.getByText(`Social theme`)).toBeVisible();
+    expect(screen.getByText(`Health theme`)).toBeVisible();
   });
 
   it("Should toggle theme enabled", () => {
