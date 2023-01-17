@@ -254,6 +254,7 @@ export const QCodeTable = () => {
                 key={`${item.id}-${index}`}
                 dataVersion={dataVersion}
                 {...item}
+                questionTitle={item.questionTitle || item.displayName}
                 errorMessage={getErrorMessage(item.qCode)}
               />
             );
