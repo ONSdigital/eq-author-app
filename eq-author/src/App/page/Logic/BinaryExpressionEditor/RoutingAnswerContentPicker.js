@@ -2,7 +2,10 @@ import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 
 import ContentPickerSelect from "components/ContentPickerSelectv3";
-import { ANSWER, METADATA } from "components/ContentPickerSelect/content-types";
+import {
+  ANSWER,
+  METADATA,
+} from "components/ContentPickerSelectv3/content-types";
 
 import { useCurrentPageId } from "components/RouterContext";
 import { useQuestionnaire } from "components/QuestionnaireContext";
