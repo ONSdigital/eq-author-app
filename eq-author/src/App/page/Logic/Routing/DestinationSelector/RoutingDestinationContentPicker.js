@@ -5,14 +5,12 @@ import { takeRightWhile } from "lodash";
 import {
   ContentSelectButton,
   ContentSelected,
-} from "components/ContentPickerSelect";
-import ContentPicker from "components/ContentPickerv2";
+} from "components/ContentPickerSelectv3";
+import ContentPicker from "components/ContentPickerv3";
 
 import { useQuestionnaire, usePage } from "components/QuestionnaireContext";
 
-import {
-  logicalDestinations
-} from "constants/destinations";
+import { logicalDestinations } from "constants/destinations";
 
 const selectedDisplayName = (selected, logicalDest) => {
   const { page, section, logical } = selected;

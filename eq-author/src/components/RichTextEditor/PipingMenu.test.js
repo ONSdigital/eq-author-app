@@ -9,7 +9,7 @@ import {
   ANSWER,
   METADATA,
   VARIABLES,
-} from "components/ContentPickerSelect/content-types";
+} from "components/ContentPickerSelectv3/content-types";
 
 import { DATE_RANGE, NUMBER } from "constants/answer-types";
 
