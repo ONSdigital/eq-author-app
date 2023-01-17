@@ -171,8 +171,16 @@ describe("Themes page", () => {
 
     expect(screen.getByText(`GB theme`)).toBeVisible();
     expect(screen.getByText(`NI theme`)).toBeVisible();
-    expect(screen.getByText(`UKIS theme`)).toBeVisible();
-    expect(screen.getByText(`UKIS NI theme`)).toBeVisible();
+    expect(
+      screen.getByText(
+        `Department for Business, Energy and Industrial Strategy theme`
+      )
+    ).toBeVisible();
+    expect(
+      screen.getByText(
+        `Department for Business, Energy and Industrial Strategy NI theme`
+      )
+    ).toBeVisible();
     expect(screen.getByText(`Office of Rail and Road theme`)).toBeVisible();
     expect(screen.getByText(`Social theme`)).toBeVisible();
     expect(screen.getByText(`Health theme`)).toBeVisible();
