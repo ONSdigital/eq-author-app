@@ -254,7 +254,11 @@ export const QCodeTable = () => {
                 key={`${item.id}-${index}`}
                 dataVersion={dataVersion}
                 {...item}
-                questionTitle={item.questionTitle || item.displayName}
+                questionTitle={
+                  item.questionTitle || dataVersion === "3"
+                    ? item.displayName
+                    : ""
+                }
                 errorMessage={getErrorMessage(item.qCode)}
               />
             );
