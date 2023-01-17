@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { colors, focusStyle } from "constants/theme";
 
 import Truncated from "components/Truncated";
-import { MenuItemType } from "components/ContentPickerv2/Menu";
+import { MenuItemType } from "components/ContentPickerv3/Menu";
 import Modal from "components-themed/Modal";
 
 import { ReactComponent as IconClose } from "assets/icon-close.svg";
