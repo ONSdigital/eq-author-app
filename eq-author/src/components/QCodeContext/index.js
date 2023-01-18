@@ -52,12 +52,13 @@ export const getFlattenedAnswerRows = (questionnaire) => {
       pageType !== "CalculatedSummaryPage" && pageType !== "ListCollectorPage"
   );
 
-  const { dataVersion } = questionnaire || "";
-
-  if (dataVersion === "3") {
-    if (questionnaire.collectionLists && pages) {
-      pages.push(...questionnaire.collectionLists.lists);
-    }
+  if (questionnaire?.collectionLists?.lists) {
+    questionnaire.collectionLists.lists.forEach((list) => {
+      pages.push({
+        ...list,
+        title: list.listName,
+      });
+    });
   }
 
   return pages?.flatMap((page) => {
