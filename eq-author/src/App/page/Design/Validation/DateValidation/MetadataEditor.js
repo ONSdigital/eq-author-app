@@ -12,17 +12,17 @@ const MetadataEditor = ({ onChangeUpdate, answer, validation }) => {
     (error) => error.errorCode === "ERR_NO_VALUE"
   );
 
+  const handleSubmit = ({ value }) => {
+    onChangeUpdate({ name: "metadata", value: value });
+  };
+
   return (
     <>
       <MetadataContentPicker
         answerId={answer.id}
-        onSubmit={onChangeUpdate}
-        selectedContentDisplayName={get(
-          validation.previousAnswer,
-          "displayName"
-        )}
-        selectedMetadataDisplayName={get(validation.metadata, "displayName")}
-        selectedId={get(validation.previousAnswer, "id")}
+        onSubmit={handleSubmit}
+        selectedContentDisplayName={get(validation.metadata, "displayName")}
+        selectedId={get(validation.metadata, "id")}
         data-test="metadata-date-editor"
         hasError={hasError}
       />
