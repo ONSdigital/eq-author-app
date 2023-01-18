@@ -17,6 +17,7 @@ export const MetadataContentPicker = ({ ...otherProps }) => {
       contentTypes={[METADATA]}
       contentType={METADATA}
       data={data}
+      contentTypesFieldNames={{ [METADATA]: "metadata" }}
       {...otherProps}
     />
   );
