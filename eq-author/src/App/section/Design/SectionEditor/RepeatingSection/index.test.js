@@ -4,7 +4,6 @@ import {
   act,
   flushPromises,
   fireEvent,
-  waitFor,
 } from "tests/utils/rtl";
 
 import RepeatingSection from "../RepeatingSection";
