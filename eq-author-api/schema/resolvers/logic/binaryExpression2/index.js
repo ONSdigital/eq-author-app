@@ -192,6 +192,10 @@ Resolvers.Mutation = {
 
       expression.condition = condition;
 
+      if (expression.condition === "Unanswered") {
+        delete expression.right;
+      }
+
       if (secondaryCondition !== null || secondaryCondition !== undefined) {
         expression.secondaryCondition = secondaryCondition;
       }
