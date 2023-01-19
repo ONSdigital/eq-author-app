@@ -43,6 +43,7 @@ describe("MetadataContentPicker", () => {
   it("should only display date type metadata", () => {
     const contentPicker = wrapper.find(ContentPickerSelect);
     const metadata = contentPicker.prop("data")[METADATA];
+    expect(metadata).toHaveLength(1);
     expect(metadata[0].id).toEqual(
       useQuestionnaire().questionnaire.metadata[1].id
     );
