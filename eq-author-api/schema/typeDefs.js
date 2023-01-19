@@ -552,6 +552,7 @@ enum AnswerType {
 enum ThemeShortName {
   default
   social
+  health
   census
   northernireland
   covid
@@ -560,6 +561,8 @@ enum ThemeShortName {
   epe
   epenorthernireland
   orr
+  beis
+  beis_ni
 }
 
 type Metadata {
