@@ -193,7 +193,7 @@ Resolvers.Mutation = {
       expression.condition = condition;
 
       if (expression.condition === "Unanswered") {
-        delete expression.right.optionIds;
+        expression.right.optionIds = [];
       }
 
       if (secondaryCondition !== null || secondaryCondition !== undefined) {
