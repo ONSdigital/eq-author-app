@@ -2,10 +2,16 @@
 
 exports[`MetadataContentPicker should render 1`] = `
 <ContentPickerSelect
+  contentType="Metadata"
   contentTypes={
     Array [
       "Metadata",
     ]
+  }
+  contentTypesFieldNames={
+    Object {
+      "Metadata": "metadata",
+    }
   }
   data={
     Object {
