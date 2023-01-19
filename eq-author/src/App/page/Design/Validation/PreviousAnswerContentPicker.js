@@ -35,7 +35,9 @@ export const PreviousAnswerContentPicker = ({
     <ContentPickerSelect
       name="previousAnswer"
       contentTypes={[ANSWER]}
+      contentType={ANSWER}
       data={data}
+      contentTypesFieldNames={{ [ANSWER]: "previousAnswer" }}
       {...props}
     />
   );
