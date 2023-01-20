@@ -692,6 +692,30 @@ describe("Qcode Table", () => {
         const { getAllByText } = renderWithContext({ questionnaire });
         expect(getAllByText(QCODE_IS_NOT_UNIQUE)).toBeTruthy();
       });
+
+      it("should map qCode rows when additional answer is set to true in data version 3", () => {
+        const questionnaire = buildQuestionnaire({ answerCount: 2 });
+        questionnaire.sections[0].folders[0].pages[0].answers[0].qCode = "1";
+        questionnaire.dataVersion = "3";
+        const option = {
+          id: "1",
+          label: "",
+          description: "",
+          additionalAnswer: {
+            id: "additional1",
+            label: "",
+            type: "TextField",
+            validationErrorInfo: {
+              errors: [],
+              totalCount: 0,
+            },
+          },
+        };
+        questionnaire.sections[0].folders[0].pages[0].answers[0].options[0] =
+          option;
+        const { getAllByText } = renderWithContext({ questionnaire });
+        expect(getAllByText("Qcode required")).toBeTruthy();
+      });
     });
   });
 });
