@@ -68,15 +68,35 @@ describe("Themes page", () => {
             validationErrorInfo: { errors: [] },
           },
           {
-            title: "UKIS theme",
+            title:
+              "Department for Business, Energy and Industrial Strategy theme",
             legalBasisCode: "NOTICE_1",
-            shortName: "ukis",
+            shortName: "beis",
             validationErrorInfo: { errors: [] },
           },
           {
-            title: "UKIS NI theme",
+            title:
+              "Department for Business, Energy and Industrial Strategy NI theme",
             legalBasisCode: "NOTICE_1",
-            shortName: "ukis_ni",
+            shortName: "beis_ni",
+            validationErrorInfo: { errors: [] },
+          },
+          {
+            title: "Office of Rail and Road theme",
+            legalBasisCode: "NOTICE_1",
+            shortName: "orr",
+            validationErrorInfo: { errors: [] },
+          },
+          {
+            title: "Social theme",
+            legalBasisCode: "NOTICE_1",
+            shortName: "social",
+            validationErrorInfo: { errors: [] },
+          },
+          {
+            title: "Health theme",
+            legalBasisCode: "NOTICE_1",
+            shortName: "health",
             validationErrorInfo: { errors: [] },
           },
         ],
@@ -151,7 +171,21 @@ describe("Themes page", () => {
     useMutation.mockImplementation(() => [toggleTheme]);
     renderThemesPage(mockQuestionnaire);
 
-    expect(screen.getByText(`UKIS theme`)).toBeVisible();
+    expect(screen.getByText(`GB theme`)).toBeVisible();
+    expect(screen.getByText(`NI theme`)).toBeVisible();
+    expect(
+      screen.getByText(
+        `Department for Business, Energy and Industrial Strategy theme`
+      )
+    ).toBeVisible();
+    expect(
+      screen.getByText(
+        `Department for Business, Energy and Industrial Strategy NI theme`
+      )
+    ).toBeVisible();
+    expect(screen.getByText(`Office of Rail and Road theme`)).toBeVisible();
+    expect(screen.getByText(`Social theme`)).toBeVisible();
+    expect(screen.getByText(`Health theme`)).toBeVisible();
   });
 
   it("Should toggle theme enabled", () => {
