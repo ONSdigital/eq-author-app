@@ -716,6 +716,31 @@ describe("Qcode Table", () => {
         const { getAllByText } = renderWithContext({ questionnaire });
         expect(getAllByText("Qcode required")).toBeTruthy();
       });
+      it("should map qCode rows when additional answer is set to true and answer type is not checkbox option", () => {
+        const questionnaire = buildQuestionnaire({ answerCount: 2 });
+        questionnaire.sections[0].folders[0].pages[0].answers[0].qCode = "1";
+        questionnaire.sections[0].folders[0].pages[0].answers[0].type =
+          "Number";
+        questionnaire.dataVersion = "";
+        const option = {
+          id: "1",
+          label: "",
+          description: "",
+          additionalAnswer: {
+            id: "additional1",
+            label: "",
+            type: "TextField",
+            validationErrorInfo: {
+              errors: [],
+              totalCount: 0,
+            },
+          },
+        };
+        questionnaire.sections[0].folders[0].pages[0].answers[0].options[0] =
+          option;
+        const { getAllByText } = renderWithContext({ questionnaire });
+        expect(getAllByText("Qcode required")).toBeTruthy();
+      });
     });
   });
 });
