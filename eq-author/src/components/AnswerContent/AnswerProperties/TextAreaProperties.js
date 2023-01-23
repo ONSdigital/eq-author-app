@@ -20,7 +20,11 @@ const SmallNumber = styled(Number)`
   }
 `;
 
-const TextAreaProperties = ({ answer, updateAnswer }) => {
+const TextAreaProperties = ({
+  answer,
+  updateAnswer,
+  hasMutuallyExclusiveAnswer,
+}) => {
   const errors = filter(answer.validationErrorInfo.errors, {
     field: "maxLength",
   });
@@ -63,7 +67,11 @@ const TextAreaProperties = ({ answer, updateAnswer }) => {
           {textAreaErrors[errors[0].errorCode].message}
         </ValidationError>
       )}
-      <Required answer={answer} updateAnswer={updateAnswer} />
+      <Required
+        answer={answer}
+        updateAnswer={updateAnswer}
+        hasMutuallyExclusiveAnswer={hasMutuallyExclusiveAnswer}
+      />
     </>
   );
 };
@@ -72,6 +80,7 @@ TextAreaProperties.propTypes = {
   answer: PropTypes.object, //eslint-disable-line
   page: PropTypes.object, //eslint-disable-line
   updateAnswer: PropTypes.func,
+  hasMutuallyExclusiveAnswer: PropTypes.bool,
 };
 
 export default TextAreaProperties;

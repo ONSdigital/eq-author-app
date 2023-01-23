@@ -50,7 +50,13 @@ const filterUnitOptions = (options, query) => {
   return [common];
 };
 
-const UnitProperties = ({ answer, page, updateAnswer, updateAnswerOfType }) => {
+const UnitProperties = ({
+  answer,
+  page,
+  updateAnswer,
+  updateAnswerOfType,
+  hasMutuallyExclusiveAnswer,
+}) => {
   const errors = filter(answer.validationErrorInfo.errors, { field: "unit" });
   const onUpdateUnit = (value) => {
     updateAnswerOfType({
@@ -102,7 +108,11 @@ const UnitProperties = ({ answer, page, updateAnswer, updateAnswerOfType }) => {
           value={answer.properties.decimals}
         />
       </MultiLineField>
-      <Required answer={answer} updateAnswer={updateAnswer} />
+      <Required
+        answer={answer}
+        updateAnswer={updateAnswer}
+        hasMutuallyExclusiveAnswer={hasMutuallyExclusiveAnswer}
+      />
     </>
   );
 };
@@ -112,6 +122,7 @@ UnitProperties.propTypes = {
   page: PropTypes.object, //eslint-disable-line
   updateAnswer: PropTypes.func,
   updateAnswerOfType: PropTypes.func,
+  hasMutuallyExclusiveAnswer: PropTypes.bool,
 };
 
 export default UnitProperties;

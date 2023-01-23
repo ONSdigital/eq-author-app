@@ -23,9 +23,21 @@ import {
   DURATION,
   DATE,
   SELECT,
+  MUTUALLY_EXCLUSIVE,
 } from "constants/answer-types";
 
 const AnswerProperties = (props) => {
+  props = {
+    ...props,
+    hasMutuallyExclusiveAnswer: false,
+  };
+
+  if (props.page) {
+    props.hasMutuallyExclusiveAnswer = props.page.answers.some(
+      ({ type }) => type === MUTUALLY_EXCLUSIVE
+    );
+  }
+
   if ([NUMBER, CURRENCY, PERCENTAGE].includes(props.answer.type)) {
     return <NumberProperties {...props} />;
   }
@@ -61,6 +73,8 @@ const AnswerProperties = (props) => {
 
 AnswerProperties.propTypes = {
   answer: CustomPropTypes.answer.isRequired,
+  page: CustomPropTypes.page,
+  hasMutuallyExclusiveAnswer: CustomPropTypes.hasMutuallyExclusiveAnswer,
 };
 
 export default AnswerProperties;

@@ -4,7 +4,8 @@ import TextAreaProperties from "./TextAreaProperties";
 import { colors } from "constants/theme";
 import { act } from "react-dom/test-utils";
 
-const renderTextProperties = (props) => render(<TextAreaProperties {...props} />);
+const renderTextProperties = (props) =>
+  render(<TextAreaProperties {...props} />);
 
 describe("Text Property", () => {
   let props;
@@ -40,7 +41,7 @@ describe("Text Property", () => {
 
     act(() => {
       fireEvent.change(inputBox, {
-        target: { value: "" },
+        target: { value: null },
       });
     });
 
@@ -50,6 +51,24 @@ describe("Text Property", () => {
       await flushPromises();
     });
     expect(inputBox.value).toBe("2000");
+  });
+
+  it("should not change input box value if within max length range", async () => {
+    const { getByTestId } = renderTextProperties(props);
+    const inputBox = getByTestId("maxCharacterInput");
+
+    act(() => {
+      fireEvent.change(inputBox, {
+        target: { value: 50 },
+      });
+    });
+
+    expect(inputBox.value).toBe("50");
+    await act(async () => {
+      fireEvent.blur(inputBox);
+      await flushPromises();
+    });
+    expect(inputBox.value).toBe("50");
   });
 
   it("when max character is out of range, box border should be errorPrimary", async () => {
