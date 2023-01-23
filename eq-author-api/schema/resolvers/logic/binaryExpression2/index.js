@@ -209,6 +209,8 @@ Resolvers.Mutation = {
 
     const expression = getExpressionById(ctx, expressionId);
 
+    let getRightSide;
+
     if (answerId) {
       const answer = getAnswerById(ctx, answerId);
 
@@ -219,9 +221,11 @@ Resolvers.Mutation = {
       };
       delete updatedLeftSide.nullReason;
 
-      const getRightSide = {
-        ...expression.right,
-      };
+      if (answerTypes.MULTIPLE_CHOICE_ANSWERS.includes(answer.type)) {
+        getRightSide = { ...expression.right, optionIds: [] };
+      } else {
+        getRightSide = { ...expression.right, optionIds: undefined };
+      }
 
       expression.left = updatedLeftSide;
       expression.left.metadataId = "";
