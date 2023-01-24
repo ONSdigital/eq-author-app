@@ -8,6 +8,7 @@ import {
   CHECKBOX_OPTION,
   MUTUALLY_EXCLUSIVE,
   ANSWER_OPTION_TYPES,
+  SELECT_OPTION,
 } from "constants/answer-types";
 
 export const QCodeContext = createContext();
@@ -50,6 +51,15 @@ export const getFlattenedAnswerRows = (questionnaire) => {
     ({ pageType }) =>
       pageType !== "CalculatedSummaryPage" && pageType !== "ListCollectorPage"
   );
+
+  if (questionnaire?.collectionLists?.lists) {
+    questionnaire.collectionLists.lists.forEach((list) => {
+      pages.push({
+        ...list,
+        title: list.listName,
+      });
+    });
+  }
 
   return pages?.flatMap((page) => {
     const answerRows = page.answers.flatMap(flattenAnswer);
@@ -112,14 +122,15 @@ const getEmptyQCodes = (answerRows, dataVersion) => {
   if (dataVersion === "3") {
     return answerRows?.find(
       ({ qCode, type }) =>
-        !qCode && ![CHECKBOX_OPTION, RADIO_OPTION].includes(type)
+        !qCode && ![CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type)
     );
   }
   // If dataVersion is not 3, checkbox answers and radio options do not have QCodes, and therefore these can be empty
   // This removes the error badge from the main navigation QCodes tab when data version is not 3 and a checkbox answer is empty from when it previously used data version 3
   else {
     return answerRows?.find(
-      ({ qCode, type }) => !qCode && ![CHECKBOX, RADIO_OPTION].includes(type)
+      ({ qCode, type }) =>
+        !qCode && ![CHECKBOX, RADIO_OPTION, SELECT_OPTION].includes(type)
     );
   }
 };
