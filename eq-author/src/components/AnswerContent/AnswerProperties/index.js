@@ -74,7 +74,6 @@ const AnswerProperties = (props) => {
 AnswerProperties.propTypes = {
   answer: CustomPropTypes.answer.isRequired,
   page: CustomPropTypes.page,
-  hasMutuallyExclusiveAnswer: CustomPropTypes.hasMutuallyExclusiveAnswer,
 };
 
 export default AnswerProperties;

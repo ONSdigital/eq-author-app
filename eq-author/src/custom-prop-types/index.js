@@ -119,7 +119,6 @@ const CustomPropTypes = {
     email: PropTypes.string.isRequired,
     picture: PropTypes.string,
   }),
-  hasMutuallyExclusiveAnswer: PropTypes.bool,
 };
 
 export default CustomPropTypes;
