@@ -1267,7 +1267,7 @@ Array [
                     <p
                       class=""
                     >
-                      Radio answer options can be set to be dynamic to use answers from a previous checkbox question. Note, if only one checkbox answer exists then the radio answer question is skipped.
+                      Answer options can be set to be dynamic to use answers from a previous checkbox question. Note, if only one checkbox answer exists then the answer question is skipped.
                     </p>
                     <p
                       class=""
@@ -3117,7 +3117,7 @@ Array [
                     <p
                       class=""
                     >
-                      Radio answer options can be set to be dynamic to use answers from a previous checkbox question. Note, if only one checkbox answer exists then the radio answer question is skipped.
+                      Answer options can be set to be dynamic to use answers from a previous checkbox question. Note, if only one checkbox answer exists then the answer question is skipped.
                     </p>
                     <p
                       class=""
