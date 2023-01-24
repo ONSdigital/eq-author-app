@@ -224,7 +224,8 @@ Resolvers.Mutation = {
       if (answerTypes.MULTIPLE_CHOICE_ANSWERS.includes(answer.type)) {
         getRightSide = { ...expression.right, optionIds: [] };
       } else {
-        getRightSide = { ...expression.right, optionIds: undefined };
+        getRightSide = { ...expression.right };
+        delete getRightSide.optionIds;
       }
 
       expression.left = updatedLeftSide;
