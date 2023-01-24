@@ -53,7 +53,7 @@ describe("Text Property", () => {
     expect(inputBox.value).toBe("2000");
   });
 
-  it("should not change input box value if within max length range", async () => {
+  it("should change input box value if within max length range", async () => {
     const { getByTestId } = renderTextProperties(props);
     const inputBox = getByTestId("maxCharacterInput");
 
