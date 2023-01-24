@@ -18,6 +18,7 @@ export const buildAnswers = ({
       id,
       displayName: `Answer ${id}`,
       type: "Number",
+      options: [],
     };
   });
 
