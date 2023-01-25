@@ -192,6 +192,10 @@ Resolvers.Mutation = {
 
       expression.condition = condition;
 
+      if (expression.condition === "Unanswered") {
+        expression.right.optionIds = [];
+      }
+
       if (secondaryCondition !== null || secondaryCondition !== undefined) {
         expression.secondaryCondition = secondaryCondition;
       }
@@ -205,6 +209,8 @@ Resolvers.Mutation = {
 
     const expression = getExpressionById(ctx, expressionId);
 
+    let getRightSide;
+
     if (answerId) {
       const answer = getAnswerById(ctx, answerId);
 
@@ -215,9 +221,12 @@ Resolvers.Mutation = {
       };
       delete updatedLeftSide.nullReason;
 
-      const getRightSide = {
-        ...expression.right,
-      };
+      if (answerTypes.MULTIPLE_CHOICE_ANSWERS.includes(answer.type)) {
+        getRightSide = { ...expression.right, optionIds: [] };
+      } else {
+        getRightSide = { ...expression.right };
+        delete getRightSide.optionIds;
+      }
 
       expression.left = updatedLeftSide;
       expression.left.metadataId = "";
