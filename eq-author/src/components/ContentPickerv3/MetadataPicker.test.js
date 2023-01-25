@@ -35,6 +35,11 @@ describe("Metadata Picker", () => {
       isSectionSelected: jest.fn(),
     };
   });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   const renderMetadataPicker = () =>
     render(
       <Theme>
