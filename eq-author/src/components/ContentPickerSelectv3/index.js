@@ -92,6 +92,7 @@ const ContentPickerSelect = ({
   onSubmit,
   hasError,
   contentPickerTitle,
+  contentTypesFieldNames,
   ...otherProps
 }) => {
   const [isPickerOpen, setPickerOpen] = useState(false);
@@ -166,7 +167,7 @@ const ContentPickerSelect = ({
 
   const handlePickerSubmit = (selected) => {
     setPickerOpen(false);
-    onSubmit({ name: CONTENT_TYPE_FIELDS[contentType], value: selected });
+    onSubmit({ name: contentTypesFieldNames[contentType], value: selected });
   };
 
   return (
@@ -211,6 +212,10 @@ const idAndName = {
   displayName: PropTypes.string,
 };
 
+ContentPickerSelect.defaultProps = {
+  contentTypesFieldNames: CONTENT_TYPE_FIELDS,
+};
+
 ContentPickerSelect.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.object, // eslint-disable-line
@@ -231,6 +236,7 @@ ContentPickerSelect.propTypes = {
   ]),
   selectedMetadataDisplayName: PropTypes.string,
   contentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
+  contentTypesFieldNames: PropTypes.object, // eslint-disable-line
   hasError: PropTypes.bool,
   contentPickerTitle: PropTypes.string,
 };

@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 
-import ContentPickerSelect from "components/ContentPickerSelect/index";
-import { ANSWER } from "components/ContentPickerSelect/content-types";
+import ContentPickerSelect from "components/ContentPickerSelectv3/index";
+import { ANSWER } from "components/ContentPickerSelectv3/content-types";
 
 import { useQuestionnaire } from "components/QuestionnaireContext";
 import { useCurrentPageId } from "components/RouterContext";
@@ -27,12 +27,17 @@ export const PreviousAnswerContentPicker = ({
       }),
     [questionnaire, id, allowedAnswerTypes]
   );
+  const data = {
+    [ANSWER]: sections,
+  };
 
   return (
     <ContentPickerSelect
       name="previousAnswer"
       contentTypes={[ANSWER]}
-      answerData={sections}
+      contentType={ANSWER}
+      data={data}
+      contentTypesFieldNames={{ [ANSWER]: "previousAnswer" }}
       {...props}
     />
   );

@@ -36,8 +36,8 @@ import messageTemplate, {
 } from "constants/validationMessages";
 
 import UPDATE_OPTION_MUTATION from "graphql/updateOption.graphql";
-import ContentPickerSelect from "components/ContentPickerSelect";
-import { DYNAMIC_ANSWER } from "components/ContentPickerSelect/content-types";
+import ContentPickerSelect from "components/ContentPickerSelectv3";
+import { DYNAMIC_ANSWER } from "components/ContentPickerSelectv3/content-types";
 import Modal from "components-themed/Modal/modal";
 import {
   DELETE_BUTTON_TEXT,
@@ -331,6 +331,9 @@ export const StatelessOption = ({
       (checkboxAnswer) => checkboxAnswer.id === option.dynamicAnswerID
     );
   };
+  const data = {
+    [DYNAMIC_ANSWER]: getCheckboxAnswers(),
+  };
 
   return (
     <StyledOption id={getIdForObject(option)} key={option.id}>
@@ -414,7 +417,8 @@ export const StatelessOption = ({
                   <ContentPickerSelect
                     name="answerId"
                     contentTypes={[DYNAMIC_ANSWER]}
-                    answerData={getCheckboxAnswers()}
+                    data={data}
+                    contentPickerTitle="Select an answer"
                     selectedContentDisplayName={getSelectedDynamicAnswer()}
                     onSubmit={handlePickerSubmit}
                     data-test="dynamic-answer-picker"

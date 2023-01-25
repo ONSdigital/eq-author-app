@@ -6,7 +6,7 @@ import CustomPropTypes from "custom-prop-types";
 import { CURRENCY, NUMBER, PERCENTAGE, UNIT } from "constants/answer-types";
 import { colors } from "constants/theme";
 
-import { FlatSectionMenu } from "components/ContentPickerv2/Menu";
+import { FlatSectionMenu } from "components/ContentPickerv3/Menu";
 import ScrollPane from "components/ScrollPane";
 import Modal from "components/modals/Modal";
 import Button from "components/buttons/Button";

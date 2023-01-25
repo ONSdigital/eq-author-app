@@ -1,3 +1,4 @@
+import { TEXT, TEXT_OPTIONAL } from "./metadata-types";
 export const CHECKBOX = "Checkbox";
 export const RADIO = "Radio";
 export const TEXTFIELD = "TextField";
@@ -21,6 +22,8 @@ export const ROUTING_ANSWER_TYPES = [
   DATE,
   SELECT,
 ];
+
+export const ROUTING_METADATA_TYPES = [TEXT.value, TEXT_OPTIONAL.value];
 
 export const RADIO_OPTION = "RadioOption";
 export const CHECKBOX_OPTION = "CheckboxOption";

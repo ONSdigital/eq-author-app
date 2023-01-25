@@ -17,7 +17,7 @@ import {
   ANSWER,
   METADATA,
   VARIABLES,
-} from "components/ContentPickerSelect/content-types";
+} from "components/ContentPickerSelectv3/content-types";
 
 //new
 import AnswerSelector from "./AnswerSelector";
