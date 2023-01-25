@@ -9,6 +9,7 @@ export const mapMutateToProps = ({ mutate }) => ({
 
     return mutate({
       variables: { input: option },
+      refetchQueries: ["GetQuestionnaire"],
     });
   },
 });
