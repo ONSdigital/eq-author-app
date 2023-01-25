@@ -169,6 +169,7 @@ export const StatelessOption = ({
           },
         },
       },
+      refetchQueries: ["GetQuestionnaire"],
     });
 
   const checkDynamicOption = () => {
@@ -309,6 +310,7 @@ export const StatelessOption = ({
           dynamicAnswerID: "",
         },
       },
+      refetchQueries: ["GetQuestionnaire"],
     });
   };
 
@@ -320,6 +322,7 @@ export const StatelessOption = ({
           dynamicAnswerID: item.value.id,
         },
       },
+      refetchQueries: ["GetQuestionnaire"],
     });
   };
 
@@ -380,7 +383,7 @@ export const StatelessOption = ({
             )}
           </>
         )}
-        {type === RADIO && !option.additionalAnswer && (
+        {[RADIO, CHECKBOX].includes(type) && !option.additionalAnswer && (
           <>
             <Flex>
               <CustomInlineField
@@ -429,9 +432,9 @@ export const StatelessOption = ({
                 key={`dynamic-answer-collapsible${option.id}`}
               >
                 <CollapsibleContent>
-                  Radio answer options can be set to be dynamic to use answers
-                  from a previous checkbox question. Note, if only one checkbox
-                  answer exists then the radio answer question is skipped.
+                  Answer options can be set to be dynamic to use answers from a
+                  previous checkbox question. Note, if only one checkbox answer
+                  exists then the answer question is skipped.
                 </CollapsibleContent>
                 <CollapsibleContent>
                   Question titles can include piped dynamic option answers.

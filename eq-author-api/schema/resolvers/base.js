@@ -78,6 +78,7 @@ const {
   getListById,
   getListByAnswerId,
   getAnswerByOptionId,
+  setDataVersion,
 } = require("./utils");
 
 const createAnswer = require("../../src/businessLogic/createAnswer");
@@ -863,7 +864,7 @@ const Resolvers = {
         answer.options.push(createOption());
       }
       merge(option, input);
-
+      setDataVersion(ctx);
       return option;
     }),
     deleteOption: createMutation((_, { input }, ctx) => {
@@ -908,7 +909,7 @@ const Resolvers = {
       ) {
         delete answer.options;
       }
-
+      setDataVersion(ctx);
       return answer;
     }),
     toggleValidationRule: createMutation((_, args, ctx) => {
@@ -1046,8 +1047,7 @@ const Resolvers = {
         `List created with - ${JSON.stringify(list)}`
       );
       ctx.questionnaire.collectionLists.lists.push(list);
-      ctx.questionnaire.dataVersion =
-        ctx.questionnaire.collectionLists.lists.length > 0 ? "3" : "1";
+      setDataVersion(ctx);
       return ctx.questionnaire.collectionLists;
     }),
     updateList: createMutation(async (root, { input }, ctx) => {
