@@ -53,7 +53,7 @@ describe("Content Picker List Answer Picker", () => {
 
   it("should render the list answer radio button", () => {
     const { getByText } = renderListAnswerPicker();
-    expect(getByText("Answer from linked Collection List")).toBeTruthy();
+    expect(getByText("answer from linked collection list")).toBeTruthy();
   });
 
   it("should click the Answer radio button", () => {
