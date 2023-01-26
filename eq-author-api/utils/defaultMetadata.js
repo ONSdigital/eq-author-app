@@ -114,6 +114,7 @@ const defaultValues = [
 const DEFAULT_BUSINESS_SURVEY_METADATA = filter(defaultValues, ({ key }) =>
   includes(
     [
+      "ru_ref",
       "ru_name",
       "trad_as",
       "ref_p_start_date",
