@@ -14,5 +14,5 @@ export const CONTENT_TYPE_FIELDS = {
 export const CONTENT_TYPE_LABELS = {
   [ANSWER]: "Answer",
   [METADATA]: "Metadata",
-  [LIST_ANSWER]: "List Answer",
+  [LIST_ANSWER]: "Answer from linked Collection List",
 };
