@@ -132,7 +132,7 @@ module.exports = {
               });
             });
           });
-
+          section.repeatingSectionListId = "";
           sectionsWithoutLogic.push(section);
         });
 
