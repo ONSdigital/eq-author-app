@@ -70,7 +70,7 @@ describe("questionnaire", () => {
         title: "Questionnaire",
         description: "Description",
         surveyId: "1",
-        theme: "default",
+        theme: "business",
         navigation: false,
         summary: false,
         type: SOCIAL,
@@ -119,11 +119,11 @@ describe("questionnaire", () => {
       });
       expect(questionnaire).toMatchObject({
         themeSettings: {
-          previewTheme: "default",
+          previewTheme: "business",
           themes: expect.arrayContaining([
             expect.objectContaining({
               id: expect.any(String),
-              shortName: "default",
+              shortName: "business",
               legalBasisCode: "NOTICE_1",
               eqId: "",
               formType: "",
@@ -140,11 +140,11 @@ describe("questionnaire", () => {
       });
       expect(questionnaire).toMatchObject({
         themeSettings: {
-          previewTheme: "default",
+          previewTheme: "business",
           themes: expect.arrayContaining([
             expect.objectContaining({
               id: expect.any(String),
-              shortName: "default",
+              shortName: "business",
               legalBasisCode: "NOTICE_1",
               eqId: "",
               formType: "",
@@ -170,7 +170,7 @@ describe("questionnaire", () => {
         title: "Questionnaire",
         description: "Description",
         surveyId: "1",
-        theme: "default",
+        theme: "business",
         navigation: false,
         summary: false,
         metadata: [{}],
@@ -349,7 +349,7 @@ describe("questionnaire", () => {
         await enableTheme(
           {
             questionnaireId: questionnaire.id,
-            shortName: "default",
+            shortName: "business",
           },
           ctx
         );
@@ -363,7 +363,7 @@ describe("questionnaire", () => {
         await disableTheme(
           {
             questionnaireId: questionnaire.id,
-            shortName: "default",
+            shortName: "business",
           },
           ctx
         );
@@ -377,7 +377,7 @@ describe("questionnaire", () => {
         const { themeSettings: initialThemes } = await queryQuestionnaire(ctx);
 
         expect(initialThemes.themes[0].enabled).toBe(true);
-        expect(initialThemes.previewTheme).toBe("default");
+        expect(initialThemes.previewTheme).toBe("business");
 
         await enableTheme(
           {
@@ -396,12 +396,12 @@ describe("questionnaire", () => {
           ).enabled
         ).toBe(true);
 
-        expect(themeSettingsWithTwoThemes.previewTheme).toBe("default");
+        expect(themeSettingsWithTwoThemes.previewTheme).toBe("business");
 
         await disableTheme(
           {
             questionnaireId: questionnaire.id,
-            shortName: "default",
+            shortName: "business",
           },
           ctx
         );
@@ -435,7 +435,7 @@ describe("questionnaire", () => {
         await updateTheme(
           {
             questionnaireId: questionnaire.id,
-            shortName: "default",
+            shortName: "business",
             eqId: newEqId,
           },
           ctx
@@ -453,7 +453,7 @@ describe("questionnaire", () => {
         await updateTheme(
           {
             questionnaireId: questionnaire.id,
-            shortName: "default",
+            shortName: "business",
             eqId: newEqId,
             formType: newFormType,
           },
@@ -490,7 +490,7 @@ describe("questionnaire", () => {
             variants: [
               {
                 language: "en",
-                theme: "default",
+                theme: "business",
               },
             ],
           },
@@ -504,7 +504,7 @@ describe("questionnaire", () => {
           {
             questionnaireId: ctx.questionnaire.id,
             surveyId,
-            variants: [{ theme: "ONS", formType: "456" }],
+            variants: [{ theme: "Business", formType: "456" }],
           },
           ctx
         );
@@ -547,7 +547,7 @@ describe("questionnaire", () => {
                 {
                   surveyId,
                   formType: "321",
-                  variants: [{ language: "en", theme: "default" }],
+                  variants: [{ language: "en", theme: "business" }],
                 },
               ],
             }),
@@ -657,7 +657,7 @@ describe("questionnaire", () => {
         title: "Questionnaire",
         description: "Description",
         surveyId: "1",
-        theme: "default",
+        theme: "business",
         navigation: false,
         summary: false,
         type: SOCIAL,
@@ -879,7 +879,7 @@ describe("questionnaire", () => {
         title: "Which Game of Thrones house are you?",
         description: "Description",
         surveyId: "1",
-        theme: "default",
+        theme: "business",
         navigation: false,
         summary: false,
         type: SOCIAL,

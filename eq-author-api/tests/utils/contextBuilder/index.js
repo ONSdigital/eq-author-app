@@ -63,7 +63,7 @@ const buildContext = async (questionnaireConfig, userConfig = {}) => {
   await createQuestionnaire(ctx, {
     title: "Questionnaire",
     surveyId: "1",
-    theme: "default",
+    theme: "business",
     navigation: false,
     type: SOCIAL,
     ...questionnaireProps,

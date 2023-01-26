@@ -1,5 +1,5 @@
 const THEME_SHORT_NAMES = [
-  "default",
+  "business",
   "northernireland",
   "covid",
   "epe",

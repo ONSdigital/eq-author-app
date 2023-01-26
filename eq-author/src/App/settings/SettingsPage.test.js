@@ -37,7 +37,7 @@ describe("Settings page", () => {
       collapsibleSummary: false,
       description: "A questionnaire about a lovable, purple dragon",
       surveyId: "123",
-      theme: "default",
+      theme: "business",
       displayName: "Roar",
       introduction: {
         id: "spyro-1",

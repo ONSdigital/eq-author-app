@@ -90,7 +90,7 @@ describe("Firestore Datastore", () => {
 
     questionnaireWithoutSections = {
       ...baseQuestionnaire,
-      theme: "default",
+      theme: "business",
       legalBasis: "Voluntary",
       navigation: false,
       metadata: [],

@@ -28,7 +28,7 @@ exports[`QuestionnaireSettingsModal should render 1`] = `
         "description": "",
         "navigation": false,
         "surveyId": "",
-        "theme": "default",
+        "theme": "business",
         "title": "",
       }
     }

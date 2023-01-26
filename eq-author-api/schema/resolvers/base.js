@@ -139,11 +139,11 @@ const deleteLastPageRouting = require("../../src/businessLogic/deleteLastPageRou
 
 const createNewQuestionnaire = (input) => {
   const defaultTheme = createTheme({
-    shortName: "default",
+    shortName: "business",
   });
   const defaultQuestionnaire = {
     id: uuidv4(),
-    theme: "default",
+    theme: "business",
     qcodes: true,
     navigation: false,
     hub: false,
@@ -1107,7 +1107,7 @@ const Resolvers = {
     triggerPublish: createMutation(async (root, { input }, ctx) => {
       const themeLookup = {
         "Northern Ireland": "northernireland",
-        ONS: "default",
+        Business: "business",
         Social: "social",
         Health: "health",
         "UKIS Northern Ireland": "ukis_ni",
