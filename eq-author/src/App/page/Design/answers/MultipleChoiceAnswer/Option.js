@@ -36,8 +36,8 @@ import messageTemplate, {
 } from "constants/validationMessages";
 
 import UPDATE_OPTION_MUTATION from "graphql/updateOption.graphql";
-import ContentPickerSelect from "components/ContentPickerSelect";
-import { DYNAMIC_ANSWER } from "components/ContentPickerSelect/content-types";
+import ContentPickerSelect from "components/ContentPickerSelectv3";
+import { DYNAMIC_ANSWER } from "components/ContentPickerSelectv3/content-types";
 import Modal from "components-themed/Modal/modal";
 import {
   DELETE_BUTTON_TEXT,
@@ -169,6 +169,7 @@ export const StatelessOption = ({
           },
         },
       },
+      refetchQueries: ["GetQuestionnaire"],
     });
 
   const checkDynamicOption = () => {
@@ -309,6 +310,7 @@ export const StatelessOption = ({
           dynamicAnswerID: "",
         },
       },
+      refetchQueries: ["GetQuestionnaire"],
     });
   };
 
@@ -320,6 +322,7 @@ export const StatelessOption = ({
           dynamicAnswerID: item.value.id,
         },
       },
+      refetchQueries: ["GetQuestionnaire"],
     });
   };
 
@@ -327,6 +330,9 @@ export const StatelessOption = ({
     return getCheckboxAnswers().find(
       (checkboxAnswer) => checkboxAnswer.id === option.dynamicAnswerID
     );
+  };
+  const data = {
+    [DYNAMIC_ANSWER]: getCheckboxAnswers(),
   };
 
   return (
@@ -380,7 +386,7 @@ export const StatelessOption = ({
             )}
           </>
         )}
-        {type === RADIO && !option.additionalAnswer && (
+        {[RADIO, CHECKBOX].includes(type) && !option.additionalAnswer && (
           <>
             <Flex>
               <CustomInlineField
@@ -411,7 +417,8 @@ export const StatelessOption = ({
                   <ContentPickerSelect
                     name="answerId"
                     contentTypes={[DYNAMIC_ANSWER]}
-                    answerData={getCheckboxAnswers()}
+                    data={data}
+                    contentPickerTitle="Select an answer"
                     selectedContentDisplayName={getSelectedDynamicAnswer()}
                     onSubmit={handlePickerSubmit}
                     data-test="dynamic-answer-picker"
@@ -429,9 +436,9 @@ export const StatelessOption = ({
                 key={`dynamic-answer-collapsible${option.id}`}
               >
                 <CollapsibleContent>
-                  Radio answer options can be set to be dynamic to use answers
-                  from a previous checkbox question. Note, if only one checkbox
-                  answer exists then the radio answer question is skipped.
+                  Answer options can be set to be dynamic to use answers from a
+                  previous checkbox question. Note, if only one checkbox answer
+                  exists then the answer question is skipped.
                 </CollapsibleContent>
                 <CollapsibleContent>
                   Question titles can include piped dynamic option answers.

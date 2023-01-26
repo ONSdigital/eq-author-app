@@ -133,6 +133,12 @@ describe("Question Picker", () => {
     ]);
   });
 
+  it("should close content picker on cancel", () => {
+    const { getByText } = renderContentPicker();
+    fireEvent.click(getByText("Cancel"));
+    expect(onClose).toHaveBeenCalled();
+  });
+
   it("should disable incompatible answer types", () => {
     const { getByText } = renderContentPicker();
 

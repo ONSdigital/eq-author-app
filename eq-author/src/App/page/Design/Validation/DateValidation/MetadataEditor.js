@@ -17,12 +17,8 @@ const MetadataEditor = ({ onChangeUpdate, answer, validation }) => {
       <MetadataContentPicker
         answerId={answer.id}
         onSubmit={onChangeUpdate}
-        selectedContentDisplayName={get(
-          validation.previousAnswer,
-          "displayName"
-        )}
-        selectedMetadataDisplayName={get(validation.metadata, "displayName")}
-        selectedId={get(validation.previousAnswer, "id")}
+        selectedContentDisplayName={get(validation.metadata, "displayName")}
+        selectedId={get(validation.metadata, "id")}
         data-test="metadata-date-editor"
         hasError={hasError}
       />
