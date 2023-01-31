@@ -510,7 +510,7 @@ describe("questionnaire", () => {
             {
               questionnaireId: ctx.questionnaire.id,
               surveyId,
-              variants: [{ theme: "ONS", formType: null }],
+              variants: [{ theme: "Business", formType: null }],
             },
             ctx
           )
