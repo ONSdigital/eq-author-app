@@ -50,6 +50,12 @@ const defaultValues = [
     textValue: "201605",
   },
   {
+    key: "user_id",
+    alias: "User Id",
+    type: TEXT,
+    textValue: "A12345678901",
+  },
+  {
     key: "period_str",
     alias: "Period Str",
     type: TEXT,
@@ -107,7 +113,15 @@ const defaultValues = [
 
 const DEFAULT_BUSINESS_SURVEY_METADATA = filter(defaultValues, ({ key }) =>
   includes(
-    ["ru_name", "trad_as", "ref_p_start_date", "ref_p_end_date", "period_id"],
+    [
+      "ru_ref",
+      "ru_name",
+      "trad_as",
+      "ref_p_start_date",
+      "ref_p_end_date",
+      "period_id",
+      "user_id",
+    ],
     key
   )
 );
