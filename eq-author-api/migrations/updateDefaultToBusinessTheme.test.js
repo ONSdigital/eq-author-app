@@ -1,4 +1,4 @@
-const updateUKIStoBEISTheme = require("./updateDefaultToBusinessTheme");
+const updateDefaultToBusinessTheme = require("./updateDefaultToBusinessTheme");
 
 describe("updateDefaultThemes", () => {
   it("should update default theme", () => {
@@ -19,7 +19,7 @@ describe("updateDefaultThemes", () => {
       },
     };
 
-    const updatedTheme = updateUKIStoBEISTheme(questionnaire);
+    const updatedTheme = updateDefaultToBusinessTheme(questionnaire);
     expect(updatedTheme.themeSettings.themes[0].shortName).toBe("business");
     expect(updatedTheme.themeSettings.themes[0].id).toBe("business");
     expect(updatedTheme.themeSettings.previewTheme).toBe("business");
