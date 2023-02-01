@@ -39,6 +39,7 @@ const migrations = [
   require("./updateMutuallyExclusive"),
   require("./addDataVersion"),
   require("./updateUKIStoBEISTheme"),
+  require("./updateDefaultToBusinessTheme"),
 ];
 
 const currentVersion = migrations.length;

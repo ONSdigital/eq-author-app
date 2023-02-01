@@ -1,6 +1,6 @@
 const createTheme = (attrs = {}) => ({
   enabled: true,
-  shortName: "default",
+  shortName: "business",
   legalBasisCode: "NOTICE_1",
   eqId: "",
   formType: "",

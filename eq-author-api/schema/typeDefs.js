@@ -550,7 +550,7 @@ enum AnswerType {
 }
 
 enum ThemeShortName {
-  default
+  business
   social
   health
   census

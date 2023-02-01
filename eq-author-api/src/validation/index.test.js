@@ -180,7 +180,7 @@ describe("schema validation", () => {
     it("should return an error if all themes are disabled", () => {
       questionnaire.themeSettings = {
         id: "ts-1",
-        previewTheme: "default",
+        previewTheme: "business",
         themes: [
           {
             id: "theme-1",
@@ -193,7 +193,7 @@ describe("schema validation", () => {
           {
             id: "theme-2",
             enabled: false,
-            shortName: "default",
+            shortName: "business",
             legalBasisCode: "NOTICE_1",
             eqId: "ivan",
             formType: "888",

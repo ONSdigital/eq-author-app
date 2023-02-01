@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require("uuid");
 const mockQuestionnaire = () => {
   const questionnaire = {
     title: "Working from home",
-    theme: "default",
+    theme: "business",
     legalBasis: "Voluntary",
     navigation: false,
     metadata: [],
