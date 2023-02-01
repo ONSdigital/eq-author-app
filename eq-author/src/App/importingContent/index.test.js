@@ -1,6 +1,6 @@
 import React from "react";
 import ImportingContent from "./";
-import { render } from "tests/utils/rtl";
+import { render, fireEvent } from "tests/utils/rtl";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import QuestionnaireContext from "components/QuestionnaireContext";
 
@@ -47,5 +47,11 @@ describe("Importing content", () => {
     const { getByTestId } = renderImportingContent();
 
     expect(getByTestId("questionnaire-select-modal")).toBeInTheDocument();
+  });
+
+  it("should close the modal", () => {
+    const { getByTestId, queryByTestId } = renderImportingContent();
+    fireEvent.click(getByTestId("cancel-btn"));
+    expect(queryByTestId("questionnaire-select-modal")).not.toBeInTheDocument();
   });
 });
