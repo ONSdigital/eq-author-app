@@ -127,12 +127,20 @@ module.exports = {
             folder.pages.forEach((page) => {
               page.routing = null;
               page.skipConditions = null;
-              page.answers.forEach((answer) => {
-                return stripQCodes(answer);
-              });
+              if (page.pageType !== "ListCollectorPage") {
+                page.answers.forEach((answer) => {
+                  return stripQCodes(answer);
+                });
+              } else {
+                page.listId = "";
+                return page;
+              }
             });
           });
-
+          // Fix for missing validation error after importing repeating section
+          if (section.repeatingSectionListId) {
+            section.repeatingSectionListId = "";
+          }
           sectionsWithoutLogic.push(section);
         });
 
