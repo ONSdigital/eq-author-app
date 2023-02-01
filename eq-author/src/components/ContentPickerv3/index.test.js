@@ -6,7 +6,7 @@ import {
   VARIABLES,
   DESTINATION,
   DYNAMIC_ANSWER,
-} from "components/ContentPickerSelect/content-types";
+} from "components/ContentPickerSelectv3/content-types";
 
 import ContentPicker from "./";
 

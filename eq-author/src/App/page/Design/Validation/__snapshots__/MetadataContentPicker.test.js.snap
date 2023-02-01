@@ -2,21 +2,29 @@
 
 exports[`MetadataContentPicker should render 1`] = `
 <ContentPickerSelect
+  contentType="Metadata"
   contentTypes={
     Array [
       "Metadata",
     ]
   }
-  metadataData={
-    Array [
-      Object {
-        "alias": "Start Date",
-        "dateValue": "2016-05-01",
-        "id": "74c9ca55-dc3b-46da-b5eb-5eca48c4f443",
-        "key": "ref_p_start_date",
-        "type": "Date",
-      },
-    ]
+  contentTypesFieldNames={
+    Object {
+      "Metadata": "metadata",
+    }
+  }
+  data={
+    Object {
+      "Metadata": Array [
+        Object {
+          "alias": "Start Date",
+          "dateValue": "2016-05-01",
+          "id": "74c9ca55-dc3b-46da-b5eb-5eca48c4f443",
+          "key": "ref_p_start_date",
+          "type": "Date",
+        },
+      ],
+    }
   }
   name="metadata"
   onSubmit={[MockFunction]}

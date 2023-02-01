@@ -137,7 +137,10 @@ module.exports = {
               }
             });
           });
-
+          // Fix for missing validation error after importing repeating section
+          if (section.repeatingSectionListId) {
+            section.repeatingSectionListId = "";
+          }
           sectionsWithoutLogic.push(section);
         });
 

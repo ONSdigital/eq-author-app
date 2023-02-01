@@ -3,9 +3,11 @@ import { useQuery } from "@apollo/react-hooks";
 import { render } from "tests/utils/rtl";
 
 import { DATE_RANGE, NUMBER, UNIT, DURATION } from "constants/answer-types";
+import { TEXT, TEXT_OPTIONAL } from "constants/metadata-types";
 
 import RoutingAnswerContentPicker, {
   preprocessAnswers,
+  preprocessMetadata,
 } from "./RoutingAnswerContentPicker";
 
 const data = {
@@ -71,6 +73,17 @@ describe("RoutingAnswerContentPicker", () => {
       expect(
         processedAnswers.find(({ type }) => type === DATE_RANGE)
       ).toBeFalsy();
+    });
+
+    it("should fetch metadata which are valid for routing", () => {
+      const metadata = [{ type: TEXT.value }, { type: TEXT_OPTIONAL.value }];
+      const processedMetadata = metadata.map(preprocessMetadata);
+      expect(
+        processedMetadata.find(({ type }) => type === TEXT.value)
+      ).toBeTruthy();
+      expect(
+        processedMetadata.find(({ type }) => type === TEXT_OPTIONAL.value)
+      ).toBeTruthy();
     });
   });
 });

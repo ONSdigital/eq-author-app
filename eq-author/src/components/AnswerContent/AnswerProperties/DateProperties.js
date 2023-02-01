@@ -11,7 +11,11 @@ const StyledSelect = styled(Select)`
 
 const monthText = "mm";
 
-const DateProperties = ({ answer, updateAnswer }) => {
+const DateProperties = ({
+  answer,
+  updateAnswer,
+  hasMutuallyExclusiveAnswer,
+}) => {
   const onUpdateFormat = ({ value }) => {
     updateAnswer({
       variables: {
@@ -46,7 +50,11 @@ const DateProperties = ({ answer, updateAnswer }) => {
           </option>
         </StyledSelect>
       </MultiLineField>
-      <Required answer={answer} updateAnswer={updateAnswer} />
+      <Required
+        answer={answer}
+        updateAnswer={updateAnswer}
+        hasMutuallyExclusiveAnswer={hasMutuallyExclusiveAnswer}
+      />
     </>
   );
 };
@@ -54,6 +62,7 @@ const DateProperties = ({ answer, updateAnswer }) => {
 DateProperties.propTypes = {
   answer: PropTypes.object, //eslint-disable-line
   updateAnswer: PropTypes.func.isRequired,
+  hasMutuallyExclusiveAnswer: PropTypes.bool,
 };
 
 export default DateProperties;

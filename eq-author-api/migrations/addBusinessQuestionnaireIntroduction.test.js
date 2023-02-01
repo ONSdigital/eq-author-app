@@ -30,7 +30,6 @@ describe("addBusinessQuestionnaireIntroduction", () => {
 
   it("should add missing default metadata", () => {
     const questionnaire = {
-      type: BUSINESS,
       metadata: [
         {
           key: "ru_name",
@@ -39,6 +38,7 @@ describe("addBusinessQuestionnaireIntroduction", () => {
           value: "ESSENTIAL ENTERPRISE LTD.",
         },
       ],
+      type: BUSINESS,
     };
 
     expect(
@@ -47,8 +47,10 @@ describe("addBusinessQuestionnaireIntroduction", () => {
       )
     ).toEqual([
       "ru_name",
+      "ru_ref",
       "trad_as",
       "period_id",
+      "user_id",
       "ref_p_start_date",
       "ref_p_end_date",
     ]);

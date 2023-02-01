@@ -87,17 +87,9 @@ describe("questionnaire", () => {
       expect(questionnaire.sections[0].folders[0].pages[0]).not.toBeNull();
     });
 
-    it("should create a questionnaire with metadata when creating a social survey", async () => {
+    it("should create a questionnaire with metadata when creating a survey", async () => {
       const questionnaire = await createQuestionnaire(ctx, config);
-      expect(questionnaire.metadata).toHaveLength(5);
-    });
-
-    it("should create a questionnaire with default business metadata when creating a business survey", async () => {
-      const questionnaire = await createQuestionnaire(ctx, {
-        ...config,
-        type: BUSINESS,
-      });
-      expect(questionnaire.metadata).toHaveLength(5);
+      expect(questionnaire.metadata).toHaveLength(7);
     });
 
     it("should create a questionnaire introduction for business surveys", async () => {

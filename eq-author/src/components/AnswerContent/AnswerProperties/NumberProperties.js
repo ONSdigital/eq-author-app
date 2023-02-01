@@ -9,6 +9,7 @@ const NumberProperties = ({
   page,
   updateAnswer,
   updateAnswerOfType,
+  hasMutuallyExclusiveAnswer,
 }) => {
   return (
     <>
@@ -22,7 +23,11 @@ const NumberProperties = ({
           value={answer.properties.decimals}
         />
       </MultiLineField>
-      <Required answer={answer} updateAnswer={updateAnswer} />
+      <Required
+        answer={answer}
+        updateAnswer={updateAnswer}
+        hasMutuallyExclusiveAnswer={hasMutuallyExclusiveAnswer}
+      />
     </>
   );
 };
@@ -32,6 +37,7 @@ NumberProperties.propTypes = {
   page: PropTypes.object, //eslint-disable-line
   updateAnswer: PropTypes.func,
   updateAnswerOfType: PropTypes.func,
+  hasMutuallyExclusiveAnswer: PropTypes.bool,
 };
 
 export default NumberProperties;

@@ -45,6 +45,11 @@ describe("Content Picker Answer Picker", () => {
                 displayName: "Percentage 2",
                 type: "Percentage",
               },
+              {
+                id: "Hello 1",
+                displayName: "Hello 1",
+                type: "Hello 1",
+              },
             ],
           },
         ],
@@ -143,5 +148,18 @@ describe("Content Picker Answer Picker", () => {
       sectionToggle,
       section1Button: section1Button2,
     });
+  });
+  it("Types Percentage into the search bar and returns the answer", () => {
+    const { getByText, queryByPlaceholderText, queryByText } =
+      renderAnswerPicker({});
+
+    const searchBar = queryByPlaceholderText("Search answers");
+
+    fireEvent.change(searchBar, {
+      target: { value: "Percentage" },
+    });
+
+    expect(getByText("Percentage 1")).toBeInTheDocument();
+    expect(queryByText("Hello 1")).not.toBeInTheDocument();
   });
 });
