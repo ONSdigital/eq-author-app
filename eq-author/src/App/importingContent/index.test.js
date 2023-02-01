@@ -1,5 +1,5 @@
 import React from "react";
-import ImportingContent from "./index";
+import ImportingContent from "./";
 import { render, screen } from "tests/utils/rtl";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import QuestionnaireContext from "components/QuestionnaireContext";
@@ -15,8 +15,8 @@ useMutation.mockImplementation(jest.fn(() => [jest.fn()]));
 useQuery.mockImplementation(jest.fn(() => [jest.fn()]));
 
 describe("Importing content", () => {
-  test("render ImportingContent modal", () => {
-    const getQuestionnaires = [
+  it("should render ImportingContent modal", () => {
+    const sourceQuestionnaires = [
       {
         id: "16b650e8-b7cd-4490-8f65-c7631e03bf95",
         title: "MC",
@@ -25,13 +25,16 @@ describe("Importing content", () => {
     ];
 
     const setImportingContent = jest.fn();
-    const questionnaire = buildQuestionnaire({ answerCount: 1 });
+    const destinationQuestionnaire = buildQuestionnaire({ answerCount: 1 });
 
     const renderImportingContent = (props) =>
       render(
-        <QuestionnaireContext.Provider value={questionnaire} {...props}>
+        <QuestionnaireContext.Provider
+          value={destinationQuestionnaire}
+          {...props}
+        >
           <ImportingContent
-            questionnaires={getQuestionnaires}
+            questionnaires={sourceQuestionnaires}
             stopImporting={() => setImportingContent(false)}
             targetInsideFolder
             {...props}
