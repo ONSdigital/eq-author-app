@@ -3,7 +3,6 @@ import ImportingContent from "./";
 import { render, fireEvent, screen } from "tests/utils/rtl";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import QuestionnaireContext from "components/QuestionnaireContext";
-import scrollIntoView from "utils/scrollIntoView";
 
 import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 
@@ -35,11 +34,8 @@ const sourceQuestionnaires = [
 
 const setImportingContent = jest.fn();
 
-jest.mock("components/ImportContentQuestionnaireTable/Row.js", () =>
-  jest.fn(() => {
-    return "test";
-  })
-);
+// Fix for TypeError: rowRef.current.scrollIntoView is not a function
+window.HTMLElement.prototype.scrollIntoView = jest.fn();
 
 const renderImportingContent = (props) =>
   render(
