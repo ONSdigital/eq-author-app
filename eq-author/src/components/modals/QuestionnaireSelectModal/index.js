@@ -83,6 +83,7 @@ const QuestionnaireSelectModal = ({
             Cancel
           </Button>
           <Button
+            data-test="confirm-btn"
             variant="primary"
             onClick={() => onSelect(selectedQuestionnaire)}
             disabled={!selectedQuestionnaire}

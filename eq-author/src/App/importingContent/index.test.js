@@ -70,12 +70,14 @@ describe("Importing content", () => {
 
   it("should select a source questionnaire", () => {
     const { getByTestId, getAllByTestId, getByText } = renderImportingContent();
+
     fireEvent.click(getByText(/All/));
-    // screen.debug();
     const allRows = getAllByTestId("table-row");
     fireEvent.click(allRows[0]);
-    //getByText(/Source questionnaire 1/);
-    //fireEvent.click(getByText(/Source questionnaire 1/));
-    //expect(getByText(/Source questionnaire/i)).toBeInTheDocument();
+    fireEvent.click(getByTestId("confirm-btn"));
+
+    expect(
+      getByText(/Import content from Source questionnaire/i)
+    ).toBeInTheDocument();
   });
 });
