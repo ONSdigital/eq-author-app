@@ -29,6 +29,27 @@ const sourceQuestionnaires = [
       name: null,
       __typename: "User",
     },
+    sections: [
+      {
+        id: "section-1",
+        folders: [
+          {
+            id: "folder-1",
+            pages: [
+              {
+                id: "page-1",
+                answers: [
+                  {
+                    id: "answer-1",
+                    type: "Number",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
   },
 ];
 
@@ -52,7 +73,10 @@ const renderImportingContent = (props) =>
 useQuery.mockImplementation(() => ({
   loading: false,
   error: false,
-  data: { questionnaires: sourceQuestionnaires },
+  data: {
+    questionnaires: sourceQuestionnaires,
+    questionnaire: sourceQuestionnaires[0],
+  },
 }));
 
 describe("Importing content", () => {
@@ -79,5 +103,23 @@ describe("Importing content", () => {
     expect(
       getByText(/Import content from Source questionnaire/i)
     ).toBeInTheDocument();
+  });
+
+  describe("import questions", () => {
+    it("should open the 'Select the question(s) to import' modal", () => {
+      const { getByTestId, getAllByTestId, getByText } =
+        renderImportingContent();
+      fireEvent.click(getByText(/All/));
+      const allRows = getAllByTestId("table-row");
+      fireEvent.click(allRows[0]);
+      fireEvent.click(getByTestId("confirm-btn"));
+
+      const questionsButton = getByTestId(
+        "content-modal-select-questions-button"
+      );
+
+      fireEvent.click(questionsButton);
+      expect(getByText("Select the question(s) to import")).toBeInTheDocument();
+    });
   });
 });
