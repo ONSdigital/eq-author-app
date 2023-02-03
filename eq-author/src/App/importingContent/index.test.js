@@ -1,4 +1,5 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import ImportingContent from "./";
 import { render, fireEvent, screen } from "tests/utils/rtl";
 import { useMutation, useQuery } from "@apollo/react-hooks";
@@ -38,9 +39,21 @@ const sourceQuestionnaires = [
             pages: [
               {
                 id: "page-1",
+                title: "Page 1",
                 answers: [
                   {
                     id: "answer-1",
+                    type: "Number",
+                  },
+                ],
+              },
+              {
+                id: "page-2",
+                title: "Page 2",
+
+                answers: [
+                  {
+                    id: "answer-2",
                     type: "Number",
                   },
                 ],
@@ -52,6 +65,14 @@ const sourceQuestionnaires = [
     ],
   },
 ];
+
+// jest.mock("react-router-dom", () => ({
+//   ...jest.requireActual("react-router-dom"),
+//   useParams: () => ({
+//     id: "page-1",
+//   }),
+//   //useRouteMatch: () => ({ url: '/company/company-id1/team/team-id1' }),
+// }));
 
 const setImportingContent = jest.fn();
 
@@ -120,6 +141,54 @@ describe("Importing content", () => {
 
       fireEvent.click(questionsButton);
       expect(getByText("Select the question(s) to import")).toBeInTheDocument();
+    });
+
+    it("should select and import the question page", () => {
+      const { getByTestId, getAllByTestId, getByText } =
+        renderImportingContent();
+      fireEvent.click(getByText(/All/));
+      const allRows = getAllByTestId("table-row");
+      fireEvent.click(allRows[0]);
+      fireEvent.click(getByTestId("confirm-btn"));
+
+      const questionsButton = getByTestId(
+        "content-modal-select-questions-button"
+      );
+
+      fireEvent.click(questionsButton);
+      fireEvent.click(getByText("Page 1"));
+      fireEvent.click(getByTestId("button-group").children[1]);
+
+      expect(getByText("Page 1")).toBeInTheDocument();
+      expect(
+        getByText("Import content from Source questionnaire 1")
+      ).toBeInTheDocument();
+    });
+
+    it("should remove selected question page", () => {
+      const { getByTestId, getAllByTestId, getByText, queryByText } =
+        renderImportingContent();
+      fireEvent.click(getByText(/All/));
+      const allRows = getAllByTestId("table-row");
+      fireEvent.click(allRows[0]);
+      fireEvent.click(getByTestId("confirm-btn"));
+
+      const questionsButton = getByTestId(
+        "content-modal-select-questions-button"
+      );
+
+      fireEvent.click(questionsButton);
+      fireEvent.click(getByText("Page 1"));
+      fireEvent.click(getByTestId("button-group").children[1]);
+      fireEvent.click(getByText("Remove all"));
+
+      expect(queryByText("Page 1")).not.toBeInTheDocument();
+      expect(queryByText("Page 2")).not.toBeInTheDocument();
+      expect(
+        getByText(
+          "*Select individual questions or entire sections to be imported, you cannot choose both*"
+        )
+      ).toBeInTheDocument();
     });
   });
 });
