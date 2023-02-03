@@ -3,9 +3,7 @@ import { useParams } from "react-router-dom";
 import ImportingContent from "./";
 import { render, fireEvent, screen } from "tests/utils/rtl";
 import { useMutation, useQuery } from "@apollo/react-hooks";
-import QuestionnaireContext, {
-  useQuestionnaire,
-} from "components/QuestionnaireContext";
+import { useQuestionnaire } from "components/QuestionnaireContext";
 import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 
 jest.mock("@apollo/react-hooks", () => ({
@@ -72,7 +70,7 @@ const sourceQuestionnaires = [
 ];
 
 useQuestionnaire.mockImplementation(() => ({
-  questionnaire: mockQuestionnaire,
+  questionnaire: destinationQuestionnaire,
 }));
 
 jest.mock("react-router-dom", () => ({
@@ -93,14 +91,14 @@ window.HTMLElement.prototype.scrollIntoView = jest.fn();
 
 const renderImportingContent = (props) =>
   render(
-    <QuestionnaireContext.Provider value={destinationQuestionnaire}>
-      <ImportingContent
-        questionnaires={sourceQuestionnaires}
-        stopImporting={() => setImportingContent(false)}
-        targetInsideFolder
-        {...props}
-      />
-    </QuestionnaireContext.Provider>
+    // <QuestionnaireContext.Provider value={destinationQuestionnaire}>
+    <ImportingContent
+      questionnaires={sourceQuestionnaires}
+      stopImporting={() => setImportingContent(false)}
+      targetInsideFolder
+      {...props}
+    />
+    // </QuestionnaireContext.Provider>
   );
 
 useQuery.mockImplementation(() => ({
@@ -138,7 +136,7 @@ describe("Importing content", () => {
     ).toBeInTheDocument();
   });
 
-  describe.only("import questions", () => {
+  describe("import questions", () => {
     it("should open the 'Select the question(s) to import' modal", () => {
       const { getByTestId, getAllByTestId, getByText } =
         renderImportingContent();
@@ -250,8 +248,10 @@ describe("Importing content", () => {
       expect(getByText("Questions to import")).toBeInTheDocument();
     });
 
-    it.only("should import question to destination questionnaire", () => {
-      const { getByTestId, getAllByTestId, getByText } =
+    it("should import question to destination questionnaire", () => {
+      const mockImportQuestions = jest.fn();
+      useMutation.mockImplementation(jest.fn(() => [mockImportQuestions]));
+      const { getByTestId, getAllByTestId, getByText, queryByText } =
         renderImportingContent();
       fireEvent.click(getByText(/All/));
       const allRows = getAllByTestId("table-row");
@@ -266,6 +266,29 @@ describe("Importing content", () => {
       fireEvent.click(getByText("Page 1"));
       fireEvent.click(getByTestId("button-group").children[1]);
       fireEvent.click(getByTestId("button-group").children[0]);
+
+      const sourceSection = sourceQuestionnaires[0].sections[0];
+      const destinationSection = destinationQuestionnaire.sections[0];
+
+      // Test modal closes
+      expect(
+        queryByText("Import content from Source questionnaire 1")
+      ).not.toBeInTheDocument();
+
+      expect(mockImportQuestions).toHaveBeenCalledTimes(1);
+      expect(mockImportQuestions).toHaveBeenCalledWith({
+        variables: {
+          input: {
+            questionIds: [sourceSection.folders[0].pages[0].id],
+            questionnaireId: sourceQuestionnaires[0].id,
+            position: {
+              sectionId: destinationSection.id,
+              folderId: destinationSection.folders[0].id,
+              index: 1,
+            },
+          },
+        },
+      });
     });
   });
 });
