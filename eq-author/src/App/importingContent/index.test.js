@@ -36,6 +36,7 @@ const sourceQuestionnaires = [
     sections: [
       {
         id: "section-1",
+        title: "Section 1",
         folders: [
           {
             id: "folder-1",
@@ -57,6 +58,38 @@ const sourceQuestionnaires = [
                 answers: [
                   {
                     id: "answer-2",
+                    type: "Number",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: "section-2",
+        title: "Section 2",
+        folders: [
+          {
+            id: "folder-2",
+            pages: [
+              {
+                id: "page-3",
+                title: "Page 3",
+                answers: [
+                  {
+                    id: "answer-3",
+                    type: "Number",
+                  },
+                ],
+              },
+              {
+                id: "page-4",
+                title: "Page 4",
+
+                answers: [
+                  {
+                    id: "answer-4",
                     type: "Number",
                   },
                 ],
@@ -175,7 +208,7 @@ describe("Importing content", () => {
       ).toBeInTheDocument();
     });
 
-    it("should remove selected question page", () => {
+    it("should remove all selected question pages", () => {
       const { getByTestId, getAllByTestId, getByText, queryByText } =
         renderImportingContent();
       fireEvent.click(getByText(/All/));
@@ -201,7 +234,7 @@ describe("Importing content", () => {
       ).toBeInTheDocument();
     });
 
-    it("should remove selected question page using remove button", () => {
+    it("should remove selected question page using the remove button", () => {
       const { getByTestId, getAllByTestId, getByText, queryByText } =
         renderImportingContent();
       fireEvent.click(getByText(/All/));
@@ -288,6 +321,164 @@ describe("Importing content", () => {
             },
           },
         },
+      });
+    });
+
+    describe("import sections", () => {
+      it("should open the 'Select the section(s) to import' modal", () => {
+        const { getByTestId, getAllByTestId, getByText } =
+          renderImportingContent();
+        fireEvent.click(getByText(/All/));
+        const allRows = getAllByTestId("table-row");
+        fireEvent.click(allRows[0]);
+        fireEvent.click(getByTestId("confirm-btn"));
+
+        const sectionsButton = getByTestId(
+          "content-modal-select-sections-button"
+        );
+
+        fireEvent.click(sectionsButton);
+        expect(
+          getByText("Select the section(s) to import")
+        ).toBeInTheDocument();
+      });
+
+      it("should select and import a section", () => {
+        const { getByTestId, getAllByTestId, getByText } =
+          renderImportingContent();
+        fireEvent.click(getByText(/All/));
+        const allRows = getAllByTestId("table-row");
+        fireEvent.click(allRows[0]);
+        fireEvent.click(getByTestId("confirm-btn"));
+
+        const sectionsButton = getByTestId(
+          "content-modal-select-sections-button"
+        );
+
+        fireEvent.click(sectionsButton);
+        fireEvent.click(getByText("Section 1"));
+        fireEvent.click(getByTestId("button-group").children[1]);
+
+        expect(getByText("Section 1")).toBeInTheDocument();
+        expect(
+          getByText("Import content from Source questionnaire 1")
+        ).toBeInTheDocument();
+      });
+
+      it("should remove all selected sections", () => {
+        const { getByTestId, getAllByTestId, getByText, queryByText } =
+          renderImportingContent();
+        fireEvent.click(getByText(/All/));
+        const allRows = getAllByTestId("table-row");
+        fireEvent.click(allRows[0]);
+        fireEvent.click(getByTestId("confirm-btn"));
+
+        const sectionsButton = getByTestId(
+          "content-modal-select-sections-button"
+        );
+
+        fireEvent.click(sectionsButton);
+        fireEvent.click(getByText("Section 1"));
+        fireEvent.click(getByTestId("button-group").children[1]);
+        fireEvent.click(getByText("Remove all"));
+
+        expect(queryByText("Section 1")).not.toBeInTheDocument();
+        expect(queryByText("Section 2")).not.toBeInTheDocument();
+        expect(
+          getByText(
+            "*Select individual questions or entire sections to be imported, you cannot choose both*"
+          )
+        ).toBeInTheDocument();
+      });
+
+      it("should remove selected section using the remove button", () => {
+        const { getByTestId, getAllByTestId, getByText, queryByText } =
+          renderImportingContent();
+        fireEvent.click(getByText(/All/));
+        const allRows = getAllByTestId("table-row");
+        fireEvent.click(allRows[0]);
+        fireEvent.click(getByTestId("confirm-btn"));
+
+        const sectionsButton = getByTestId(
+          "content-modal-select-sections-button"
+        );
+
+        fireEvent.click(sectionsButton);
+        fireEvent.click(getByText("Section 1"));
+        fireEvent.click(getByText("Section 2"));
+        fireEvent.click(getByTestId("button-group").children[1]);
+        fireEvent.click(screen.getAllByLabelText("Remove")[0]); // click remove question button, x button
+
+        expect(queryByText("Section 1")).not.toBeInTheDocument();
+        expect(getByText("Section 2")).toBeInTheDocument();
+        expect(getByText("Question to import")).toBeInTheDocument();
+      });
+
+      it("should select multiple sections", () => {
+        const { getByTestId, getAllByTestId, getByText } =
+          renderImportingContent();
+        fireEvent.click(getByText(/All/));
+        const allRows = getAllByTestId("table-row");
+        fireEvent.click(allRows[0]);
+        fireEvent.click(getByTestId("confirm-btn"));
+
+        const sectionsButton = getByTestId(
+          "content-modal-select-sections-button"
+        );
+
+        fireEvent.click(sectionsButton);
+        fireEvent.click(getByText("Section 1"));
+        fireEvent.click(getByTestId("button-group").children[1]);
+        fireEvent.click(getByTestId("section-review-select-sections-button"));
+        fireEvent.click(getByText("Section 2"));
+        fireEvent.click(getByTestId("button-group").children[1]);
+
+        expect(getByText("Section 2")).toBeInTheDocument();
+        expect(getByText("Section 1")).toBeInTheDocument();
+        expect(getByText("Questions to import")).toBeInTheDocument();
+      });
+
+      it("should import section to destination questionnaire", () => {
+        const mockImportSections = jest.fn();
+        useMutation.mockImplementation(jest.fn(() => [mockImportSections]));
+        const { getByTestId, getAllByTestId, getByText, queryByText } =
+          renderImportingContent();
+        fireEvent.click(getByText(/All/));
+        const allRows = getAllByTestId("table-row");
+        fireEvent.click(allRows[0]);
+        fireEvent.click(getByTestId("confirm-btn"));
+
+        const sectionsButton = getByTestId(
+          "content-modal-select-sections-button"
+        );
+
+        fireEvent.click(sectionsButton);
+        fireEvent.click(getByText("Section 1"));
+        fireEvent.click(getByTestId("button-group").children[1]);
+        fireEvent.click(getByTestId("button-group").children[0]);
+
+        const sourceSection = sourceQuestionnaires[0].sections[0];
+        const destinationSection = destinationQuestionnaire.sections[0];
+
+        // // Test modal closes
+        expect(
+          queryByText("Import content from Source questionnaire 1")
+        ).not.toBeInTheDocument();
+
+        expect(mockImportSections).toHaveBeenCalledTimes(1);
+        expect(mockImportSections).toHaveBeenCalledWith({
+          variables: {
+            input: {
+              sectionIds: [sourceSection.id],
+              questionnaireId: sourceQuestionnaires[0].id,
+              position: {
+                sectionId: destinationSection.id,
+
+                index: 1,
+              },
+            },
+          },
+        });
       });
     });
   });
