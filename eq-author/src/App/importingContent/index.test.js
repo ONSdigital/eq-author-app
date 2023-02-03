@@ -3,13 +3,18 @@ import { useParams } from "react-router-dom";
 import ImportingContent from "./";
 import { render, fireEvent, screen } from "tests/utils/rtl";
 import { useMutation, useQuery } from "@apollo/react-hooks";
-import QuestionnaireContext from "components/QuestionnaireContext";
-
+import QuestionnaireContext, {
+  useQuestionnaire,
+} from "components/QuestionnaireContext";
 import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 
 jest.mock("@apollo/react-hooks", () => ({
   useMutation: jest.fn(),
   useQuery: jest.fn(),
+}));
+
+jest.mock("components/QuestionnaireContext", () => ({
+  useQuestionnaire: jest.fn(),
 }));
 
 useMutation.mockImplementation(jest.fn(() => [jest.fn()]));
@@ -66,13 +71,20 @@ const sourceQuestionnaires = [
   },
 ];
 
-// jest.mock("react-router-dom", () => ({
-//   ...jest.requireActual("react-router-dom"),
-//   useParams: () => ({
-//     id: "page-1",
-//   }),
-//   //useRouteMatch: () => ({ url: '/company/company-id1/team/team-id1' }),
-// }));
+useQuestionnaire.mockImplementation(() => ({
+  questionnaire: mockQuestionnaire,
+}));
+
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useParams: jest.fn(),
+}));
+
+useParams.mockImplementation(() => ({
+  questionnaireId: destinationQuestionnaire.id,
+  entityName: "page",
+  entityId: destinationQuestionnaire.sections[0].folders[0].pages[0].id,
+}));
 
 const setImportingContent = jest.fn();
 
@@ -126,7 +138,7 @@ describe("Importing content", () => {
     ).toBeInTheDocument();
   });
 
-  describe("import questions", () => {
+  describe.only("import questions", () => {
     it("should open the 'Select the question(s) to import' modal", () => {
       const { getByTestId, getAllByTestId, getByText } =
         renderImportingContent();
@@ -189,6 +201,71 @@ describe("Importing content", () => {
           "*Select individual questions or entire sections to be imported, you cannot choose both*"
         )
       ).toBeInTheDocument();
+    });
+
+    it("should remove selected question page using remove button", () => {
+      const { getByTestId, getAllByTestId, getByText, queryByText } =
+        renderImportingContent();
+      fireEvent.click(getByText(/All/));
+      const allRows = getAllByTestId("table-row");
+      fireEvent.click(allRows[0]);
+      fireEvent.click(getByTestId("confirm-btn"));
+
+      const questionsButton = getByTestId(
+        "content-modal-select-questions-button"
+      );
+
+      fireEvent.click(questionsButton);
+      fireEvent.click(getByText("Page 1"));
+      fireEvent.click(getByText("Page 2"));
+      fireEvent.click(getByTestId("button-group").children[1]);
+      fireEvent.click(screen.getAllByLabelText("Remove")[0]); // click remove question button, x button
+
+      expect(queryByText("Page 1")).not.toBeInTheDocument();
+      expect(getByText("Page 2")).toBeInTheDocument();
+      expect(getByText("Question to import")).toBeInTheDocument();
+    });
+
+    it("should select multiple question pages", () => {
+      const { getByTestId, getAllByTestId, getByText } =
+        renderImportingContent();
+      fireEvent.click(getByText(/All/));
+      const allRows = getAllByTestId("table-row");
+      fireEvent.click(allRows[0]);
+      fireEvent.click(getByTestId("confirm-btn"));
+
+      const questionsButton = getByTestId(
+        "content-modal-select-questions-button"
+      );
+
+      fireEvent.click(questionsButton);
+      fireEvent.click(getByText("Page 1"));
+      fireEvent.click(getByTestId("button-group").children[1]);
+      fireEvent.click(getByTestId("question-review-select-questions-button"));
+      fireEvent.click(getByText("Page 2"));
+      fireEvent.click(getByTestId("button-group").children[1]);
+
+      expect(getByText("Page 2")).toBeInTheDocument();
+      expect(getByText("Page 1")).toBeInTheDocument();
+      expect(getByText("Questions to import")).toBeInTheDocument();
+    });
+
+    it.only("should import question to destination questionnaire", () => {
+      const { getByTestId, getAllByTestId, getByText } =
+        renderImportingContent();
+      fireEvent.click(getByText(/All/));
+      const allRows = getAllByTestId("table-row");
+      fireEvent.click(allRows[0]);
+      fireEvent.click(getByTestId("confirm-btn"));
+
+      const questionsButton = getByTestId(
+        "content-modal-select-questions-button"
+      );
+
+      fireEvent.click(questionsButton);
+      fireEvent.click(getByText("Page 1"));
+      fireEvent.click(getByTestId("button-group").children[1]);
+      fireEvent.click(getByTestId("button-group").children[0]);
     });
   });
 });
