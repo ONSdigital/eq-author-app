@@ -16,7 +16,7 @@ describe("LegalBasisField", () => {
   beforeEach(() => {
     props = {
       legalBasis: "NOTICE_1",
-      shortName: "default",
+      shortName: "business",
       questionnaireId: "my-fave-questionnaire",
     };
   });

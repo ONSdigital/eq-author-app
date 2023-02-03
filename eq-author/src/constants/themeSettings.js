@@ -1,5 +1,5 @@
 export const THEME_TITLES = {
-  default: "GB theme",
+  business: "Business theme",
   northernireland: "NI theme",
   orr: "Office of Rail and Road theme",
   beis: "Department for Business, Energy and Industrial Strategy theme",

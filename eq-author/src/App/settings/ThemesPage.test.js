@@ -36,9 +36,9 @@ describe("Themes page", () => {
       collapsibleSummary: false,
       description: "Questionnaire",
       surveyId: "123",
-      theme: "default",
+      theme: "business",
       themeSettings: {
-        previewTheme: "default",
+        previewTheme: "business",
         validationErrorInfo: {
           id: "valid-1",
           errors: [],
@@ -46,9 +46,9 @@ describe("Themes page", () => {
         },
         themes: [
           {
-            title: "GB theme",
+            title: "Business theme",
             legalBasisCode: "NOTICE_1",
-            shortName: "default",
+            shortName: "business",
             enabled: true,
             validationErrorInfo: {
               errors: [
@@ -171,7 +171,7 @@ describe("Themes page", () => {
     useMutation.mockImplementation(() => [toggleTheme]);
     renderThemesPage(mockQuestionnaire);
 
-    expect(screen.getByText(`GB theme`)).toBeVisible();
+    expect(screen.getByText(`Business theme`)).toBeVisible();
     expect(screen.getByText(`NI theme`)).toBeVisible();
     expect(
       screen.getByText(
@@ -219,7 +219,7 @@ describe("Themes page", () => {
     useMutation.mockImplementation(() => [handleEQIdBlur]);
     renderThemesPage(mockQuestionnaire);
 
-    const eqIdInput = screen.getByTestId("default-eq-id-input");
+    const eqIdInput = screen.getByTestId("business-eq-id-input");
 
     fireEvent.change(eqIdInput, {
       target: { value: "123" },
@@ -232,7 +232,7 @@ describe("Themes page", () => {
           input: {
             questionnaireId: expect.any(String),
             eqId: "123",
-            shortName: "default",
+            shortName: "business",
           },
         },
       })
@@ -244,7 +244,7 @@ describe("Themes page", () => {
     useMutation.mockImplementation(() => [handleEQIdBlur]);
     renderThemesPage(mockQuestionnaire);
 
-    const eqIdInput = screen.getByTestId("default-eq-id-input");
+    const eqIdInput = screen.getByTestId("business-eq-id-input");
 
     fireEvent.change(eqIdInput, {
       target: { value: " " },
@@ -257,7 +257,7 @@ describe("Themes page", () => {
           input: {
             questionnaireId: expect.any(String),
             eqId: " ",
-            shortName: "default",
+            shortName: "business",
           },
         },
       })
@@ -275,7 +275,7 @@ describe("Themes page", () => {
     useMutation.mockImplementation(() => [handleFormTypeBlur]);
     renderThemesPage(mockQuestionnaire);
 
-    const formTypeInput = screen.getByTestId("default-form-type-input");
+    const formTypeInput = screen.getByTestId("business-form-type-input");
 
     fireEvent.change(formTypeInput, {
       target: { value: "123" },
@@ -288,7 +288,7 @@ describe("Themes page", () => {
           input: {
             questionnaireId: expect.any(String),
             formType: "123",
-            shortName: "default",
+            shortName: "business",
           },
         },
       })
