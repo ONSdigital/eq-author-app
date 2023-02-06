@@ -242,6 +242,35 @@ describe("Importing content", () => {
       ).toBeInTheDocument();
     });
 
+    it("should return to questionnaire selector modal on back button click from question review modal", async () => {
+      const { getByTestId, getAllByTestId, getByText, queryByText } =
+        renderImportingContent();
+      fireEvent.click(getByText(/All/));
+      const allRows = getAllByTestId("table-row");
+      fireEvent.click(allRows[0]);
+      fireEvent.click(getByTestId("confirm-btn"));
+
+      const questionsButton = getByTestId(
+        "content-modal-select-questions-button"
+      );
+
+      fireEvent.click(questionsButton);
+      fireEvent.click(getByText("Page 1"));
+      fireEvent.click(getByTestId("button-group").children[1]);
+
+      expect(queryByText("Page 1")).toBeInTheDocument();
+
+      const backButton = getByText("Back");
+      fireEvent.click(backButton);
+
+      expect(queryByText("Page 1")).not.toBeInTheDocument();
+      expect(getByTestId("questionnaire-select-modal")).toBeInTheDocument();
+      expect(
+        queryByText("Select the source questionnaire")
+      ).toBeInTheDocument();
+      expect(queryByText("Source questionnaire 1")).toBeInTheDocument();
+    });
+
     it("should remove all selected question pages", () => {
       const { getByTestId, getAllByTestId, getByText, queryByText } =
         renderImportingContent();
