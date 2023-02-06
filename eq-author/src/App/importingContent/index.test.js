@@ -144,13 +144,13 @@ useQuery.mockImplementation(() => ({
 }));
 
 describe("Importing content", () => {
-  it("should render ImportingContent modal", () => {
+  it("should render ImportingContent questionnaire select modal", () => {
     const { getByTestId } = renderImportingContent();
 
     expect(getByTestId("questionnaire-select-modal")).toBeInTheDocument();
   });
 
-  it("should close the modal", () => {
+  it("should close the questionnaire select modal", () => {
     const { getByTestId, queryByTestId } = renderImportingContent();
     fireEvent.click(getByTestId("cancel-btn"));
     expect(queryByTestId("questionnaire-select-modal")).not.toBeInTheDocument();
@@ -205,6 +205,29 @@ describe("Importing content", () => {
       expect(getByText("Page 1")).toBeInTheDocument();
       expect(
         getByText("Import content from Source questionnaire 1")
+      ).toBeInTheDocument();
+    });
+
+    it("should cancel select question page modal", async () => {
+      const { getByTestId, getAllByTestId, getByText, queryByText } =
+        renderImportingContent();
+      fireEvent.click(getByText(/All/));
+      const allRows = getAllByTestId("table-row");
+      fireEvent.click(allRows[0]);
+      fireEvent.click(getByTestId("confirm-btn"));
+
+      const questionsButton = getByTestId(
+        "content-modal-select-questions-button"
+      );
+
+      fireEvent.click(questionsButton);
+      fireEvent.click(getByTestId("button-group").children[0]);
+
+      expect(queryByText("Page 1")).not.toBeInTheDocument();
+      expect(
+        queryByText(
+          "*Select individual questions or entire sections to be imported, you cannot choose both*"
+        )
       ).toBeInTheDocument();
     });
 
