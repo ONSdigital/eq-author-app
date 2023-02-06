@@ -6,6 +6,9 @@ import { useMutation, useQuery } from "@apollo/react-hooks";
 import { useQuestionnaire } from "components/QuestionnaireContext";
 import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 
+import { WRITE } from "constants/questionnaire-permissions";
+import { UNPUBLISHED } from "constants/publishStatus";
+
 jest.mock("@apollo/react-hooks", () => ({
   useMutation: jest.fn(),
   useQuery: jest.fn(),
@@ -26,6 +29,12 @@ const sourceQuestionnaires = [
     displayName: "Source questionnaire 1",
     updatedAt: "2023-01-31T15:13:50.350Z",
     createdAt: "2023-01-31T15:00:28.941Z",
+    shortTitle: "Test title",
+    starred: false,
+    locked: false,
+    permission: WRITE,
+    publishStatus: UNPUBLISHED,
+    //__typename: "Questionnaire",
     createdBy: {
       displayName: "mock@gmail.com",
       email: "mock@gmail.com",
@@ -37,6 +46,8 @@ const sourceQuestionnaires = [
       {
         id: "section-1",
         title: "Section 1",
+        alias: "",
+        displayName: "Section 1",
         folders: [
           {
             id: "folder-1",
@@ -69,6 +80,8 @@ const sourceQuestionnaires = [
       {
         id: "section-2",
         title: "Section 2",
+        alias: "",
+        displayName: "Section 2",
         folders: [
           {
             id: "folder-2",
@@ -124,14 +137,12 @@ window.HTMLElement.prototype.scrollIntoView = jest.fn();
 
 const renderImportingContent = (props) =>
   render(
-    // <QuestionnaireContext.Provider value={destinationQuestionnaire}>
     <ImportingContent
       questionnaires={sourceQuestionnaires}
       stopImporting={() => setImportingContent(false)}
       targetInsideFolder
       {...props}
     />
-    // </QuestionnaireContext.Provider>
   );
 
 useQuery.mockImplementation(() => ({
