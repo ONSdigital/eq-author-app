@@ -472,7 +472,7 @@ describe("Importing content", () => {
 
       expect(queryByText("Section 1")).not.toBeInTheDocument();
       expect(getByText("Section 2")).toBeInTheDocument();
-      expect(getByText("Question to import")).toBeInTheDocument();
+      expect(getByText("Section to import")).toBeInTheDocument();
     });
 
     it("should select multiple sections", () => {
@@ -496,7 +496,7 @@ describe("Importing content", () => {
 
       expect(getByText("Section 2")).toBeInTheDocument();
       expect(getByText("Section 1")).toBeInTheDocument();
-      expect(getByText("Questions to import")).toBeInTheDocument();
+      expect(getByText("Sections to import")).toBeInTheDocument();
     });
 
     it("should import section to destination questionnaire", () => {
