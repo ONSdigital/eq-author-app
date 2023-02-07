@@ -122,7 +122,8 @@ const ImportQuestionReviewModal = ({
         <>
           <SpacedRow>
             <ContentHeading>
-              Question{startingSelectedQuestions.length > 1 ? "s" : ""} to import
+              Question{startingSelectedQuestions.length > 1 ? "s" : ""} to
+              import
             </ContentHeading>
             <RemoveAllButton onClick={onRemoveAll}>Remove all</RemoveAllButton>
           </SpacedRow>
