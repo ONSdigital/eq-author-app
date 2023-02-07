@@ -232,6 +232,7 @@ describe("Importing content", () => {
       );
 
       fireEvent.click(questionsButton);
+      fireEvent.click(getByText("Page 1"));
       fireEvent.click(getByTestId("button-group").children[0]);
 
       expect(queryByText("Page 1")).not.toBeInTheDocument();
@@ -430,6 +431,30 @@ describe("Importing content", () => {
       ).toBeInTheDocument();
     });
 
+    it("should cancel select section modal", async () => {
+      const { getByTestId, getAllByTestId, getByText, queryByText } =
+        renderImportingContent();
+      fireEvent.click(getByText(/All/));
+      const allRows = getAllByTestId("table-row");
+      fireEvent.click(allRows[0]);
+      fireEvent.click(getByTestId("confirm-btn"));
+
+      const sectionsButton = getByTestId(
+        "content-modal-select-sections-button"
+      );
+
+      fireEvent.click(sectionsButton);
+      fireEvent.click(getByText("Section 1"));
+      fireEvent.click(getByTestId("button-group").children[0]);
+
+      expect(queryByText("Section 1")).not.toBeInTheDocument();
+      expect(
+        queryByText(
+          "*Select individual questions or entire sections to be imported, you cannot choose both*"
+        )
+      ).toBeInTheDocument();
+    });
+
     it("should return to questionnaire selector modal on back button click from section review modal ", () => {
       const { getByTestId, getAllByTestId, getByText, queryByText } =
         renderImportingContent();
@@ -557,7 +582,7 @@ describe("Importing content", () => {
       const sourceSection = sourceQuestionnaires[0].sections[0];
       const destinationSection = destinationQuestionnaire.sections[0];
 
-      // // Test modal closes
+      // Test modal closes
       expect(
         queryByText("Import content from Source questionnaire 1")
       ).not.toBeInTheDocument();
