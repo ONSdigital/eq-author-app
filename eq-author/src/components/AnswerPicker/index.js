@@ -11,6 +11,8 @@ import ScrollPane from "components/ScrollPane";
 import Modal from "components/modals/Modal";
 import Button from "components/buttons/Button";
 import ButtonGroup from "components/buttons/ButtonGroup";
+import SearchBar from "components/SearchBar";
+import searchByAnswerTitleQuestionTitleShortCode from "utils/searchFunctions/searchByAnswerTitleQuestionTitleShortCode";
 
 const ModalFooter = styled.div`
   padding: 1.5em;
@@ -38,11 +40,17 @@ const ModalTitle = styled.div`
 const ModalSubtitle = styled.div`
   font-size: 1em;
   color: ${colors.text};
+  margin-bottom: 1em;
 `;
 
 const ModalHeader = styled.div`
   padding: 2em 1em 1.5em;
   border-bottom: 1px solid ${colors.bordersLight};
+`;
+
+const ModalToolbar = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const MenuContainer = styled.div`
@@ -71,6 +79,7 @@ const Type = styled.span`
 const validTypes = [CURRENCY, NUMBER, PERCENTAGE, UNIT];
 
 const QuestionPicker = ({
+  data,
   isOpen,
   onClose,
   onSubmit,
@@ -82,6 +91,27 @@ const QuestionPicker = ({
   const [selectedAnswers, setSelectedAnswers] = useState(
     startingSelectedAnswers
   );
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    if (data) {
+      setSearchResults(data);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (searchTerm && searchTerm !== "" && searchTerm !== " ") {
+      const results = searchByAnswerTitleQuestionTitleShortCode(
+        data,
+        searchTerm
+      );
+
+      setSearchResults(results);
+    } else {
+      setSearchResults(data);
+    }
+  }, [searchTerm, data]);
 
   useEffect(() => {
     setSelectedAnswers(startingSelectedAnswers);
@@ -128,7 +158,7 @@ const QuestionPicker = ({
         <>
           <ModalHeader>
             <ModalTitle>{title}</ModalTitle>
-            <ModalSubtitle>
+            {/* <ModalSubtitle>
               {showTypes ? (
                 <Types>
                   <span>Allowed answer types:</span>
@@ -139,7 +169,18 @@ const QuestionPicker = ({
               ) : (
                 ""
               )}
+            </ModalSubtitle> */}
+            <ModalSubtitle>
+              Answers can only be selected from the current section. Calculated
+              summary totals can be selected from both current and previous
+              sections.
             </ModalSubtitle>
+            <ModalToolbar>
+              <SearchBar
+                onChange={({ value }) => setSearchTerm(value)}
+                placeholder="Search for an answer or total"
+              />
+            </ModalToolbar>
           </ModalHeader>
           <MenuContainer>
             <ScrollPane>
@@ -148,6 +189,7 @@ const QuestionPicker = ({
                 selectedAnswers={selectedAnswers}
                 isDisabled={isDisabled}
                 isSelected={isSelected}
+                data={searchResults}
                 {...otherProps}
               />
             </ScrollPane>
@@ -173,6 +215,7 @@ const QuestionPicker = ({
 };
 
 QuestionPicker.propTypes = {
+  data: PropTypes.arrayOf(CustomPropTypes.section),
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,

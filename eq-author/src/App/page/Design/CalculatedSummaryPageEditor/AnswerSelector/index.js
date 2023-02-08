@@ -75,7 +75,7 @@ const AnswerSelector = ({ page, onUpdateCalculatedSummaryPage }) => {
         onSubmit={handlePickerSubmit}
         startingSelectedAnswers={page.summaryAnswers}
         data={availableSummaryAnswers}
-        title="Select one or more answer"
+        title="Select an answer or calculated summary total"
         showTypes
       />
     </>
