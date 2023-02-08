@@ -392,7 +392,7 @@ describe("Importing content", () => {
         });
       });
 
-      it("should import question to destination questionnaire folder", () => {
+      it("should import question to destination questionnaire inside folder", () => {
         const mockImportQuestions = jest.fn();
         useParams.mockImplementation(() => ({
           questionnaireId: destinationQuestionnaire.id,
@@ -435,6 +435,54 @@ describe("Importing content", () => {
                 sectionId: destinationSection.id,
                 folderId: destinationSection.folders[0].id,
                 index: 0,
+              },
+            },
+          },
+        });
+      });
+
+      it("should import question to destination questionnaire outside folder", () => {
+        const mockImportQuestions = jest.fn();
+        useParams.mockImplementation(() => ({
+          questionnaireId: destinationQuestionnaire.id,
+          entityName: "folder",
+          entityId: destinationQuestionnaire.sections[0].folders[0].id,
+        }));
+
+        useMutation.mockImplementation(jest.fn(() => [mockImportQuestions]));
+        const { getByTestId, getAllByTestId, getByText, queryByText } =
+          renderImportingContent({ targetInsideFolder: false });
+        fireEvent.click(getByText(/All/));
+        const allRows = getAllByTestId("table-row");
+        fireEvent.click(allRows[0]);
+        fireEvent.click(getByTestId("confirm-btn"));
+
+        const questionsButton = getByTestId(
+          "content-modal-select-questions-button"
+        );
+
+        fireEvent.click(questionsButton);
+        fireEvent.click(getByText("Page 1"));
+        fireEvent.click(getByTestId("button-group").children[1]);
+        fireEvent.click(getByTestId("button-group").children[0]);
+
+        const sourceSection = sourceQuestionnaires[0].sections[0];
+        const destinationSection = destinationQuestionnaire.sections[0];
+
+        // Test modal closes
+        expect(
+          queryByText("Import content from Source questionnaire 1")
+        ).not.toBeInTheDocument();
+
+        expect(mockImportQuestions).toHaveBeenCalledTimes(1);
+        expect(mockImportQuestions).toHaveBeenCalledWith({
+          variables: {
+            input: {
+              questionIds: [sourceSection.folders[0].pages[0].id],
+              questionnaireId: sourceQuestionnaires[0].id,
+              position: {
+                sectionId: destinationSection.id,
+                index: 1,
               },
             },
           },
