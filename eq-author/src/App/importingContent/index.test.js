@@ -180,6 +180,48 @@ describe("Importing content", () => {
     ).toBeInTheDocument();
   });
 
+  it("should render empty fragment for questionnire list loading", () => {
+    useQuery.mockImplementationOnce(() => ({
+      loading: true,
+      error: false,
+      data: {
+        questionnaires: sourceQuestionnaires,
+        questionnaire: sourceQuestionnaires[0],
+      },
+    }));
+
+    const { queryByTestId } = renderImportingContent();
+
+    expect(queryByTestId("questionnaire-select-modal")).not.toBeInTheDocument();
+  });
+
+  it("should render empty fragment for questionnire list error", () => {
+    useQuery.mockImplementationOnce(() => ({
+      loading: false,
+      error: true,
+      data: {
+        questionnaires: sourceQuestionnaires,
+        questionnaire: sourceQuestionnaires[0],
+      },
+    }));
+
+    const { queryByTestId } = renderImportingContent();
+
+    expect(queryByTestId("questionnaire-select-modal")).not.toBeInTheDocument();
+  });
+
+  it("should render empty fragment for questionnire list with no data", () => {
+    useQuery.mockImplementationOnce(() => ({
+      loading: false,
+      error: false,
+      data: null,
+    }));
+
+    const { queryByTestId } = renderImportingContent();
+
+    expect(queryByTestId("questionnaire-select-modal")).not.toBeInTheDocument();
+  });
+
   describe("import questions", () => {
     it("should open the 'Select the question(s) to import' modal", () => {
       const { getByTestId, getAllByTestId, getByText } =
