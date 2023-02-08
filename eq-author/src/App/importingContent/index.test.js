@@ -579,6 +579,47 @@ describe("Importing content", () => {
         });
       });
     });
+    it("should render empty fragment for question list loading", () => {
+      const { queryByText, getByTestId, getByText, getAllByTestId } =
+        renderImportingContent();
+      fireEvent.click(getByText(/All/));
+      const allRows = getAllByTestId("table-row");
+      fireEvent.click(allRows[0]);
+      fireEvent.click(getByTestId("confirm-btn"));
+
+      const questionsButton = getByTestId(
+        "content-modal-select-questions-button"
+      );
+      useQuery.mockImplementationOnce(() => ({
+        loading: true,
+      }));
+      fireEvent.click(questionsButton);
+
+      expect(
+        queryByText("Select the question(s) to import")
+      ).not.toBeInTheDocument();
+    });
+
+    it("should render empty fragment for question list error", () => {
+      const { queryByText, getByTestId, getByText, getAllByTestId } =
+        renderImportingContent();
+      fireEvent.click(getByText(/All/));
+      const allRows = getAllByTestId("table-row");
+      fireEvent.click(allRows[0]);
+      fireEvent.click(getByTestId("confirm-btn"));
+
+      const questionsButton = getByTestId(
+        "content-modal-select-questions-button"
+      );
+      useQuery.mockImplementationOnce(() => ({
+        error: true,
+      }));
+      fireEvent.click(questionsButton);
+
+      expect(
+        queryByText("Select the question(s) to import")
+      ).not.toBeInTheDocument();
+    });
   });
 
   describe("import sections", () => {
@@ -747,6 +788,48 @@ describe("Importing content", () => {
       expect(getByText("Section 2")).toBeInTheDocument();
       expect(getByText("Section 1")).toBeInTheDocument();
       expect(getByText("Sections to import")).toBeInTheDocument();
+    });
+
+    it("should render empty fragment for section list loading", () => {
+      const { queryByText, getByTestId, getByText, getAllByTestId } =
+        renderImportingContent();
+      fireEvent.click(getByText(/All/));
+      const allRows = getAllByTestId("table-row");
+      fireEvent.click(allRows[0]);
+      fireEvent.click(getByTestId("confirm-btn"));
+
+      const sectionsButton = getByTestId(
+        "content-modal-select-sections-button"
+      );
+      useQuery.mockImplementationOnce(() => ({
+        loading: true,
+      }));
+      fireEvent.click(sectionsButton);
+
+      expect(
+        queryByText("Select the section(s) to import")
+      ).not.toBeInTheDocument();
+    });
+
+    it("should render empty fragment for section list error", () => {
+      const { queryByText, getByTestId, getByText, getAllByTestId } =
+        renderImportingContent();
+      fireEvent.click(getByText(/All/));
+      const allRows = getAllByTestId("table-row");
+      fireEvent.click(allRows[0]);
+      fireEvent.click(getByTestId("confirm-btn"));
+
+      const sectionsButton = getByTestId(
+        "content-modal-select-sections-button"
+      );
+      useQuery.mockImplementationOnce(() => ({
+        error: true,
+      }));
+      fireEvent.click(sectionsButton);
+
+      expect(
+        queryByText("Select the section(s) to import")
+      ).not.toBeInTheDocument();
     });
 
     describe("Confirm import section", () => {
