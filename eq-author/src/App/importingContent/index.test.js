@@ -756,6 +756,54 @@ describe("Importing content", () => {
         });
       });
 
+      it("should import section to destination questionnaire folder", () => {
+        const mockImportSections = jest.fn();
+        useParams.mockImplementation(() => ({
+          questionnaireId: destinationQuestionnaire.id,
+          entityName: "folder",
+          entityId: destinationQuestionnaire.sections[0].folders[0].id,
+        }));
+
+        useMutation.mockImplementation(jest.fn(() => [mockImportSections]));
+        const { getByTestId, getAllByTestId, getByText, queryByText } =
+          renderImportingContent();
+        fireEvent.click(getByText(/All/));
+        const allRows = getAllByTestId("table-row");
+        fireEvent.click(allRows[0]);
+        fireEvent.click(getByTestId("confirm-btn"));
+
+        const sectionsButton = getByTestId(
+          "content-modal-select-sections-button"
+        );
+
+        fireEvent.click(sectionsButton);
+        fireEvent.click(getByText("Section 1"));
+        fireEvent.click(getByTestId("button-group").children[1]);
+        fireEvent.click(getByTestId("button-group").children[0]);
+
+        const sourceSection = sourceQuestionnaires[0].sections[0];
+        const destinationSection = destinationQuestionnaire.sections[0];
+
+        // Test modal closes
+        expect(
+          queryByText("Import content from Source questionnaire 1")
+        ).not.toBeInTheDocument();
+
+        expect(mockImportSections).toHaveBeenCalledTimes(1);
+        expect(mockImportSections).toHaveBeenCalledWith({
+          variables: {
+            input: {
+              sectionIds: [sourceSection.id],
+              questionnaireId: sourceQuestionnaires[0].id,
+              position: {
+                sectionId: destinationSection.id,
+                index: 1,
+              },
+            },
+          },
+        });
+      });
+
       it("should import section to destination questionnaire page", () => {
         const mockImportSections = jest.fn();
         useParams.mockImplementation(() => ({
