@@ -218,6 +218,9 @@ const SubMenu = ({ data, onSelected, isSelected, isDisabled }) => {
                   <Truncated>{page.displayName}</Truncated>
                 </MenuItemSubtitle>
               </MenuItemTitles>
+              {page.pageType === "CalculatedSummaryPage" && (
+                <MenuItemType>CALCULATED SUMMARY</MenuItemType>
+              )}
               <MenuItemType>{item.type.toUpperCase()}</MenuItemType>
               {item.type === UNIT && (
                 <MenuItemType>

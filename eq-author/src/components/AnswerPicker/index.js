@@ -22,7 +22,7 @@ const ModalFooter = styled.div`
 const StyledModal = styled(Modal)`
   .Modal {
     padding: 0;
-    width: 45em;
+    width: 50em;
   }
 `;
 
