@@ -87,7 +87,6 @@ const AnswerSelector = ({ page, onUpdateCalculatedSummaryPage }) => {
         }
       }
     }
-    console.log("sections :>> ", sections);
     return sections;
   };
 
@@ -106,13 +105,10 @@ const AnswerSelector = ({ page, onUpdateCalculatedSummaryPage }) => {
       })
     )?.filter((section) => section.id === page.section.id) || [];
 
-  console.log("availableAnswers :>> ", availableAnswers);
-
   const calculatedSummaryAnswers = [
     ...calculatedSummaries,
     ...availableAnswers,
   ];
-  console.log("calculatedSummaryAnswers :>> ", calculatedSummaryAnswers);
 
   const availableSummaryAnswers = useMemo(
     () => calculatedSummaryAnswers,
