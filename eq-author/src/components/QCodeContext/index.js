@@ -11,6 +11,8 @@ import {
   SELECT_OPTION,
 } from "constants/answer-types";
 
+import { ListCollectorPage as LIST_COLLECTOR_PAGE } from "constants/page-types";
+
 export const QCodeContext = createContext();
 
 // flattenAnswer :: [Answer] -> [AnswerRow]
@@ -61,7 +63,7 @@ export const getFlattenedAnswerRows = (questionnaire) => {
   }
 
   return pages?.flatMap((page) => {
-    if (page.pageType !== "ListCollectorPage") {
+    if (page.pageType !== LIST_COLLECTOR_PAGE) {
       const answerRows = page.answers.flatMap(flattenAnswer);
 
       // Add page title / shortcode alias (for display in QCodesTable) to first answer only

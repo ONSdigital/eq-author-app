@@ -40,10 +40,13 @@ import {
   SELECT,
   SELECT_OPTION,
 } from "constants/answer-types";
+
 import {
   QCODE_IS_NOT_UNIQUE,
   QCODE_REQUIRED,
 } from "constants/validationMessages";
+
+import { ListCollectorPage as LIST_COLLECTOR_PAGE } from "constants/page-types";
 
 const SpacedTableColumn = styled(TableColumn)`
   padding: 0.5em 0.5em 0.2em;
@@ -74,6 +77,11 @@ const QcodeValidationError = styled(ValidationError)`
   margin: 0;
   padding-top: 0.2em;
 `;
+
+const LIST_COLLECTOR_QUESTION_TYPES = {
+  DRIVING: "Driving",
+  ANOTHER: "Another",
+};
 
 const TYPE_TO_DESCRIPTION = {
   [RADIO_OPTION]: "Radio option",
@@ -115,6 +123,16 @@ const Row = memo((props) => {
     errorMessage,
     option,
     secondary,
+    pageType,
+    listQuestionType,
+    drivingQuestion,
+    drivingPositive,
+    drivingNegative,
+    drivingQCode,
+    anotherTitle,
+    anotherPositive,
+    anotherNegative,
+    anotherQCode,
   } = props;
 
   const [qCode, setQcode] = useState(initialQcode);
@@ -139,14 +157,23 @@ const Row = memo((props) => {
     [initialQcode, option, secondary, id, updateAnswer, updateOption]
   );
 
+  const getQuestionTitle = () => {
+    switch (listQuestionType) {
+      case LIST_COLLECTOR_QUESTION_TYPES.DRIVING:
+        return stripHtmlToText(drivingQuestion);
+      case LIST_COLLECTOR_QUESTION_TYPES.ANOTHER:
+        return stripHtmlToText(anotherTitle);
+      default:
+        return stripHtmlToText(questionTitle);
+    }
+  };
+
   return (
     <TableRow data-test={`answer-row-test`}>
-      {questionShortCode || questionTitle ? (
+      {questionShortCode || questionTitle || drivingQuestion || anotherTitle ? (
         <>
           <SpacedTableColumn>{questionShortCode}</SpacedTableColumn>
-          <SpacedTableColumn>
-            {stripHtmlToText(questionTitle)}
-          </SpacedTableColumn>
+          <SpacedTableColumn>{getQuestionTitle()}</SpacedTableColumn>
         </>
       ) : (
         <>
@@ -158,6 +185,11 @@ const Row = memo((props) => {
       <SpacedTableColumn>{label}</SpacedTableColumn>
       {dataVersion === "3" ? (
         [CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type) ? (
+          // ||
+          // [
+          //   LIST_COLLECTOR_QUESTION_TYPES.DRIVING,
+          //   LIST_COLLECTOR_QUESTION_TYPES.ANOTHER,
+          // ].includes(listQuestionType)
           <EmptyTableColumn />
         ) : (
           <SpacedTableColumn>
@@ -249,13 +281,30 @@ export const QCodeTable = () => {
               </>
             );
           } else {
-            return (
+            return item.pageType !== LIST_COLLECTOR_PAGE ? (
               <Row
                 key={`${item.id}-${index}`}
                 dataVersion={dataVersion}
                 {...item}
                 errorMessage={getErrorMessage(item.qCode)}
               />
+            ) : (
+              <>
+                <Row
+                  key={`${item.id}-${index}`}
+                  dataVersion={dataVersion}
+                  listQuestionType={LIST_COLLECTOR_QUESTION_TYPES.DRIVING}
+                  {...item}
+                  errorMessage={getErrorMessage(item.qCode)}
+                />
+                <Row
+                  key={`${item.id}-${index}`}
+                  dataVersion={dataVersion}
+                  listQuestionType={LIST_COLLECTOR_QUESTION_TYPES.ANOTHER}
+                  {...item}
+                  errorMessage={getErrorMessage(item.qCode)}
+                />
+              </>
             );
           }
         })}
