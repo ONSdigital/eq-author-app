@@ -175,6 +175,15 @@ fragment Pages on Page {
       ...Comment
     }
   }
+  ... on ListCollectorPage {
+    listId
+    drivingQuestion
+    drivingPositive
+    drivingNegative
+    anotherTitle
+    anotherPositive
+    anotherNegative
+  }
 }
 
 fragment ListCollectorPages on ListCollectorPage {

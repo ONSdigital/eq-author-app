@@ -48,8 +48,7 @@ export const flattenAnswer = (answer) =>
 // from input questionnaire object
 export const getFlattenedAnswerRows = (questionnaire) => {
   const pages = getPages(questionnaire)?.filter(
-    ({ pageType }) =>
-      pageType !== "CalculatedSummaryPage" && pageType !== "ListCollectorPage"
+    ({ pageType }) => pageType !== "CalculatedSummaryPage"
   );
 
   if (questionnaire?.collectionLists?.lists) {
@@ -62,15 +61,19 @@ export const getFlattenedAnswerRows = (questionnaire) => {
   }
 
   return pages?.flatMap((page) => {
-    const answerRows = page.answers.flatMap(flattenAnswer);
+    if (page.pageType !== "ListCollectorPage") {
+      const answerRows = page.answers.flatMap(flattenAnswer);
 
-    // Add page title / shortcode alias (for display in QCodesTable) to first answer only
-    if (answerRows.length) {
-      answerRows[0].questionTitle = page.title;
-      answerRows[0].questionShortCode = page.alias;
+      // Add page title / shortcode alias (for display in QCodesTable) to first answer only
+      if (answerRows.length) {
+        answerRows[0].questionTitle = page.title;
+        answerRows[0].questionShortCode = page.alias;
+      }
+
+      return answerRows;
+    } else {
+      return { ...page };
     }
-
-    return answerRows;
   });
 };
 
