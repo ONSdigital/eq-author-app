@@ -71,7 +71,9 @@ export const getFlattenedAnswerRows = (questionnaire) => {
       }
 
       return answerRows;
-    } else {
+    }
+    // pageType ListCollectorPage does not include page.answers
+    else {
       return { ...page };
     }
   });

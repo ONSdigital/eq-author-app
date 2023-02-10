@@ -180,9 +180,11 @@ fragment Pages on Page {
     drivingQuestion
     drivingPositive
     drivingNegative
+    drivingQCode
     anotherTitle
     anotherPositive
     anotherNegative
+    anotherQCode
   }
 }
 

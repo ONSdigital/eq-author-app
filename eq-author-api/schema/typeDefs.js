@@ -251,11 +251,13 @@ type ListCollectorPage implements Page & Skippable & Routable {
   drivingNegative: String
   drivingPositiveDescription: String
   drivingNegativeDescription: String
+  drivingQCode: String
   anotherTitle: String
   anotherPositive: String
   anotherNegative: String
   anotherPositiveDescription: String
   anotherNegativeDescription: String
+  anotherQCode: String
   addItemTitle: String
   routing: Routing2
   skipConditions: [ExpressionGroup2]
@@ -1019,11 +1021,13 @@ input UpdateListCollectorPageInput {
   drivingNegative: String!
   drivingPositiveDescription: String
   drivingNegativeDescription: String
+  drivingQCode: String
   anotherTitle: String!
   anotherPositive: String!
   anotherNegative: String!
   anotherPositiveDescription: String
   anotherNegativeDescription: String
+  anotherQCode: String
   addItemTitle: String
   alias: String
 }
