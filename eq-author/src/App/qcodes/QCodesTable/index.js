@@ -78,11 +78,6 @@ const QcodeValidationError = styled(ValidationError)`
   padding-top: 0.2em;
 `;
 
-const LIST_COLLECTOR_QUESTION_TYPES = {
-  DRIVING: "Driving",
-  ANOTHER: "Another",
-};
-
 const TYPE_TO_DESCRIPTION = {
   [RADIO_OPTION]: "Radio option",
   [CHECKBOX_OPTION]: "Checkbox option",
@@ -124,7 +119,6 @@ const Row = memo((props) => {
     option,
     secondary,
     pageType,
-    listQuestionType,
     drivingQuestion,
     drivingPositive,
     drivingNegative,
@@ -157,23 +151,14 @@ const Row = memo((props) => {
     [initialQcode, option, secondary, id, updateAnswer, updateOption]
   );
 
-  const getQuestionTitle = () => {
-    switch (listQuestionType) {
-      case LIST_COLLECTOR_QUESTION_TYPES.DRIVING:
-        return stripHtmlToText(drivingQuestion);
-      case LIST_COLLECTOR_QUESTION_TYPES.ANOTHER:
-        return stripHtmlToText(anotherTitle);
-      default:
-        return stripHtmlToText(questionTitle);
-    }
-  };
-
   return (
     <TableRow data-test={`answer-row-test`}>
-      {questionShortCode || questionTitle || drivingQuestion || anotherTitle ? (
+      {questionShortCode || questionTitle ? (
         <>
           <SpacedTableColumn>{questionShortCode}</SpacedTableColumn>
-          <SpacedTableColumn>{getQuestionTitle()}</SpacedTableColumn>
+          <SpacedTableColumn>
+            {stripHtmlToText(questionTitle)}
+          </SpacedTableColumn>
         </>
       ) : (
         <>
@@ -185,11 +170,6 @@ const Row = memo((props) => {
       <SpacedTableColumn>{label}</SpacedTableColumn>
       {dataVersion === "3" ? (
         [CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type) ? (
-          // ||
-          // [
-          //   LIST_COLLECTOR_QUESTION_TYPES.DRIVING,
-          //   LIST_COLLECTOR_QUESTION_TYPES.ANOTHER,
-          // ].includes(listQuestionType)
           <EmptyTableColumn />
         ) : (
           <SpacedTableColumn>
@@ -293,14 +273,12 @@ export const QCodeTable = () => {
                 <Row
                   key={`${item.id}-${index}`}
                   dataVersion={dataVersion}
-                  listQuestionType={LIST_COLLECTOR_QUESTION_TYPES.DRIVING}
                   {...item}
                   errorMessage={getErrorMessage(item.qCode)}
                 />
                 <Row
                   key={`${item.id}-${index}`}
                   dataVersion={dataVersion}
-                  listQuestionType={LIST_COLLECTOR_QUESTION_TYPES.ANOTHER}
                   {...item}
                   errorMessage={getErrorMessage(item.qCode)}
                 />

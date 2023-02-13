@@ -6,6 +6,7 @@ import {
   RADIO_OPTION,
   CHECKBOX,
   CHECKBOX_OPTION,
+  RADIO,
   MUTUALLY_EXCLUSIVE,
   ANSWER_OPTION_TYPES,
   SELECT_OPTION,
@@ -45,6 +46,39 @@ export const flattenAnswer = (answer) =>
     },
   ].filter(Boolean);
 
+const formatListCollector = (listCollectorPage) => [
+  {
+    questionTitle: listCollectorPage.drivingQuestion,
+    drivingQCode: listCollectorPage.drivingQCode,
+    type: RADIO,
+  },
+  {
+    label: listCollectorPage.drivingPositive,
+    type: RADIO_OPTION,
+    option: true,
+  },
+  {
+    label: listCollectorPage.drivingNegative,
+    type: RADIO_OPTION,
+    option: true,
+  },
+  {
+    questionTitle: listCollectorPage.anotherTitle,
+    anotherQCode: listCollectorPage.anotherQCode,
+    type: RADIO,
+  },
+  {
+    label: listCollectorPage.anotherPositive,
+    type: RADIO_OPTION,
+    option: true,
+  },
+  {
+    label: listCollectorPage.anotherNegative,
+    type: RADIO_OPTION,
+    option: true,
+  },
+];
+
 // getFlattenedAnswerRows :: Questionnaire -> [AnswerRow]
 // Generate list of rows of flattened answers, with parent page information,
 // from input questionnaire object
@@ -76,7 +110,7 @@ export const getFlattenedAnswerRows = (questionnaire) => {
     }
     // pageType ListCollectorPage does not include page.answers
     else {
-      return { ...page };
+      return formatListCollector(page);
     }
   });
 };
