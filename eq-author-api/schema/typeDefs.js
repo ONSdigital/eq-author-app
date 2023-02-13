@@ -1014,17 +1014,17 @@ input UpdateListCollectorPageInput {
   id: ID!
   title: String
   listId: ID
-  drivingQuestion: String!
+  drivingQuestion: String
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
-  drivingPositive: String!
-  drivingNegative: String!
+  drivingPositive: String
+  drivingNegative: String
   drivingPositiveDescription: String
   drivingNegativeDescription: String
   drivingQCode: String
-  anotherTitle: String!
-  anotherPositive: String!
-  anotherNegative: String!
+  anotherTitle: String
+  anotherPositive: String
+  anotherNegative: String
   anotherPositiveDescription: String
   anotherNegativeDescription: String
   anotherQCode: String
@@ -1383,6 +1383,8 @@ input UpdateAnswerInput {
   secondaryLabel: String
   qCode: String
   secondaryQCode: String
+  drivingQCode: String
+  anotherQCode: String
   properties: JSON
   advancedProperties: Boolean
   defaultAnswer: Boolean

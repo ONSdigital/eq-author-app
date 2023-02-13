@@ -6,6 +6,7 @@ import { useMutation } from "@apollo/react-hooks";
 import { stripHtmlToText } from "utils/stripHTML";
 import UPDATE_ANSWER_QCODE from "graphql/updateAnswer.graphql";
 import UPDATE_OPTION_QCODE from "graphql/updateOption.graphql";
+import UPDATE_LIST_COLLECTOR_PAGE from "graphql/updateListCollector.graphql";
 
 import { useQCodeContext } from "components/QCodeContext";
 import ValidationError from "components/ValidationError";
@@ -40,6 +41,8 @@ import {
   SELECT,
   SELECT_OPTION,
 } from "constants/answer-types";
+
+import { DRIVING, ADDITIONAL } from "constants/list-answer-types";
 
 import {
   QCODE_IS_NOT_UNIQUE,
@@ -118,26 +121,29 @@ const Row = memo((props) => {
     errorMessage,
     option,
     secondary,
-    pageType,
-    drivingQuestion,
-    drivingPositive,
-    drivingNegative,
+    listAnswerType,
     drivingQCode,
-    anotherTitle,
-    anotherPositive,
-    anotherNegative,
     anotherQCode,
   } = props;
 
-  const [qCode, setQcode] = useState(initialQcode);
+  // Uses different initial QCode depending on the QCode defined in the props
+  const [qCode, setQcode] = useState(
+    initialQcode ?? drivingQCode ?? anotherQCode
+  );
   const [updateOption] = useMutation(UPDATE_OPTION_QCODE);
   const [updateAnswer] = useMutation(UPDATE_ANSWER_QCODE);
+  const [updateListCollector] = useMutation(UPDATE_LIST_COLLECTOR_PAGE);
 
   const handleBlur = useCallback(
     (qCode) => {
       if (qCode !== initialQcode) {
         if (option) {
           updateOption(mutationVariables({ id, qCode }));
+        } else if (listAnswerType === DRIVING) {
+          // id represents the list collector page ID
+          updateListCollector(mutationVariables({ id, drivingQCode: qCode }));
+        } else if (listAnswerType === ADDITIONAL) {
+          updateListCollector(mutationVariables({ id, anotherQCode: qCode }));
         } else {
           updateAnswer(
             mutationVariables({
@@ -148,7 +154,16 @@ const Row = memo((props) => {
         }
       }
     },
-    [initialQcode, option, secondary, id, updateAnswer, updateOption]
+    [
+      initialQcode,
+      option,
+      secondary,
+      listAnswerType,
+      id,
+      updateAnswer,
+      updateOption,
+      updateListCollector,
+    ]
   );
 
   return (

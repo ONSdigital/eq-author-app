@@ -2,6 +2,7 @@ import React, { createContext, useContext, useMemo } from "react";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import { getPages } from "utils/questionnaireUtils";
+
 import {
   RADIO_OPTION,
   CHECKBOX,
@@ -13,6 +14,7 @@ import {
 } from "constants/answer-types";
 
 import { ListCollectorPage as LIST_COLLECTOR_PAGE } from "constants/page-types";
+import { DRIVING, ADDITIONAL } from "constants/list-answer-types";
 
 export const QCodeContext = createContext();
 
@@ -48,9 +50,11 @@ export const flattenAnswer = (answer) =>
 
 const formatListCollector = (listCollectorPage) => [
   {
+    id: listCollectorPage.id,
     questionTitle: listCollectorPage.drivingQuestion,
     drivingQCode: listCollectorPage.drivingQCode,
     type: RADIO,
+    listAnswerType: DRIVING,
   },
   {
     label: listCollectorPage.drivingPositive,
@@ -63,9 +67,11 @@ const formatListCollector = (listCollectorPage) => [
     option: true,
   },
   {
+    id: listCollectorPage.id,
     questionTitle: listCollectorPage.anotherTitle,
     anotherQCode: listCollectorPage.anotherQCode,
     type: RADIO,
+    listAnswerType: ADDITIONAL,
   },
   {
     label: listCollectorPage.anotherPositive,
