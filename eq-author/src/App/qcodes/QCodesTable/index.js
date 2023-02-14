@@ -188,7 +188,9 @@ const Row = memo((props) => {
           <SpacedTableColumn>
             <ErrorWrappedInput
               name={`${id}-qcode-entry`}
-              data-test={`${id}${secondary ? "-secondary" : ""}-test-input`}
+              data-test={`${id}${secondary ? "-secondary" : ""}${
+                listAnswerType === DRIVING ? "-driving" : ""
+              }${listAnswerType === ANOTHER ? "-another" : ""}-test-input`}
               value={qCode}
               onChange={(e) => setQcode(e.value)}
               onBlur={() => handleBlur(qCode)}

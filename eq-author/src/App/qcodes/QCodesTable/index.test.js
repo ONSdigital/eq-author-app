@@ -157,6 +157,38 @@ const optionsSetup = (dataVersion) => {
   return renderWithContext({ questionnaire });
 };
 
+const listSetup = () => {
+  const questionnaire = buildQuestionnaire({ answerCount: 1 });
+  questionnaire.dataVersion = "3";
+  questionnaire.sections[0].folders[0].pages[0] = {
+    id: "list-page-id",
+    pageType: "ListCollectorPage",
+    title: "Test",
+    listId: "list-id",
+    drivingQuestion: "Driving question",
+    additionalGuidancePanel: "",
+    additionalGuidancePanelSwitch: false,
+    drivingPositive: "Yes",
+    drivingNegative: "No",
+    drivingPositiveDescription: "",
+    drivingNegativeDescription: "",
+    anotherTitle: "Another question",
+    anotherPositive: "Yes",
+    anotherNegative: "No",
+    anotherPositiveDescription: "",
+    anotherNegativeDescription: "",
+    addItemTitle: "Add item question",
+  };
+  // Object.assign(
+  //   questionnaire.sections[0].folders[0].pages[1],
+  //     {
+
+  //     }
+  //   )
+
+  return renderWithContext({ questionnaire });
+};
+
 describe("Qcode Table", () => {
   it("should render table fields", () => {
     const { getByText } = renderWithContext();
@@ -635,7 +667,7 @@ describe("Qcode Table", () => {
       });
     });
 
-    describe("Data version 3", () => {
+    describe.only("Data version 3", () => {
       let utils, mock;
 
       beforeEach(() => {
@@ -716,6 +748,7 @@ describe("Qcode Table", () => {
         const { getAllByText } = renderWithContext({ questionnaire });
         expect(getAllByText("Qcode required")).toBeTruthy();
       });
+
       it("should map qCode rows when additional answer is set to true and answer type is not checkbox option", () => {
         const questionnaire = buildQuestionnaire({ answerCount: 2 });
         questionnaire.sections[0].folders[0].pages[0].answers[0].qCode = "1";
@@ -740,6 +773,36 @@ describe("Qcode Table", () => {
           option;
         const { getAllByText } = renderWithContext({ questionnaire });
         expect(getAllByText("Qcode required")).toBeTruthy();
+      });
+
+      describe.only("List collector questions", () => {
+        let utils, mock;
+
+        beforeEach(() => {
+          mock = jest.fn();
+          useMutation.mockImplementation(jest.fn(() => [mock]));
+          utils = listSetup();
+        });
+
+        it("should save qCode for list collector driving question", () => {
+          fireEvent.change(
+            utils.getByTestId("list-page-id-driving-test-input"),
+            {
+              target: { value: "driving-qcode" },
+            }
+          );
+
+          fireEvent.blur(utils.getByTestId("list-page-id-driving-test-input"));
+
+          expect(mock).toHaveBeenCalledWith({
+            variables: {
+              input: {
+                id: "list-page-id",
+                drivingQCode: "driving-qcode",
+              },
+            },
+          });
+        });
       });
     });
   });
