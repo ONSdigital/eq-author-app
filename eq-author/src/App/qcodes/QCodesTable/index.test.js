@@ -667,7 +667,7 @@ describe("Qcode Table", () => {
       });
     });
 
-    describe.only("Data version 3", () => {
+    describe("Data version 3", () => {
       let utils, mock;
 
       beforeEach(() => {
@@ -775,7 +775,7 @@ describe("Qcode Table", () => {
         expect(getAllByText("Qcode required")).toBeTruthy();
       });
 
-      describe.only("List collector questions", () => {
+      describe("List collector questions", () => {
         let utils, mock;
 
         beforeEach(() => {
@@ -784,7 +784,7 @@ describe("Qcode Table", () => {
           utils = listSetup();
         });
 
-        it("should save qCode for list collector driving question", () => {
+        it("should save QCode for list collector driving question", () => {
           fireEvent.change(
             utils.getByTestId("list-page-id-driving-test-input"),
             {
@@ -799,6 +799,26 @@ describe("Qcode Table", () => {
               input: {
                 id: "list-page-id",
                 drivingQCode: "driving-qcode",
+              },
+            },
+          });
+        });
+
+        it("should save QCode for list collector repeating (another) question", () => {
+          fireEvent.change(
+            utils.getByTestId("list-page-id-another-test-input"),
+            {
+              target: { value: "another-qcode" },
+            }
+          );
+
+          fireEvent.blur(utils.getByTestId("list-page-id-another-test-input"));
+
+          expect(mock).toHaveBeenCalledWith({
+            variables: {
+              input: {
+                id: "list-page-id",
+                anotherQCode: "another-qcode",
               },
             },
           });
