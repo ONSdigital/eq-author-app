@@ -1,2 +1,2 @@
 export const DRIVING = "driving";
-export const ADDITIONAL = "additional";
+export const ANOTHER = "another";

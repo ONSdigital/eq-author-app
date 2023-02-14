@@ -14,7 +14,7 @@ import {
 } from "constants/answer-types";
 
 import { ListCollectorPage as LIST_COLLECTOR_PAGE } from "constants/page-types";
-import { DRIVING, ADDITIONAL } from "constants/list-answer-types";
+import { DRIVING, ANOTHER } from "constants/list-answer-types";
 
 export const QCodeContext = createContext();
 
@@ -71,7 +71,7 @@ const formatListCollector = (listCollectorPage) => [
     questionTitle: listCollectorPage.anotherTitle,
     anotherQCode: listCollectorPage.anotherQCode,
     type: RADIO,
-    listAnswerType: ADDITIONAL,
+    listAnswerType: ANOTHER,
   },
   {
     label: listCollectorPage.anotherPositive,
@@ -126,13 +126,19 @@ export const getFlattenedAnswerRows = (questionnaire) => {
 export const getDuplicatedQCodes = (flattenedAnswers, { dataVersion }) => {
   // acc - accumulator
   const qCodeUsageMap = flattenedAnswers?.reduce(
-    (acc, { qCode, type, additionalAnswer }) => {
+    (acc, { qCode, drivingQCode, anotherQCode, type, additionalAnswer }) => {
       const { qCode: additionalAnswerQCode } = additionalAnswer || {};
 
       if (dataVersion === "3") {
-        if (qCode && type !== CHECKBOX_OPTION) {
-          const currentValue = acc.get(qCode);
-          acc.set(qCode, currentValue ? currentValue + 1 : 1);
+        if (
+          (qCode || drivingQCode || anotherQCode) &&
+          type !== CHECKBOX_OPTION
+        ) {
+          const currentValue = acc.get(qCode ?? drivingQCode ?? anotherQCode);
+          acc.set(
+            qCode ?? drivingQCode ?? anotherQCode,
+            currentValue ? currentValue + 1 : 1
+          );
         }
 
         if (additionalAnswerQCode) {

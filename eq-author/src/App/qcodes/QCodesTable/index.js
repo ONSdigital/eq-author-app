@@ -42,7 +42,7 @@ import {
   SELECT_OPTION,
 } from "constants/answer-types";
 
-import { DRIVING, ADDITIONAL } from "constants/list-answer-types";
+import { DRIVING, ANOTHER } from "constants/list-answer-types";
 
 import {
   QCODE_IS_NOT_UNIQUE,
@@ -140,7 +140,7 @@ const Row = memo((props) => {
         } else if (listAnswerType === DRIVING) {
           // id represents the list collector page ID
           updateListCollector(mutationVariables({ id, drivingQCode: qCode }));
-        } else if (listAnswerType === ADDITIONAL) {
+        } else if (listAnswerType === ANOTHER) {
           updateListCollector(mutationVariables({ id, anotherQCode: qCode }));
         } else {
           updateAnswer(
@@ -232,6 +232,9 @@ Row.propTypes = {
   errorMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   secondary: PropTypes.bool,
   option: PropTypes.bool,
+  listAnswerType: PropTypes.string,
+  drivingQCode: PropTypes.string,
+  anotherQCode: PropTypes.string,
 };
 
 export const QCodeTable = () => {
