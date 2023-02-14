@@ -168,8 +168,9 @@ const getEmptyQCodes = (answerRows, dataVersion) => {
   // This removes the error badge from the main navigation QCodes tab when data version is 3 and a checkbox option is empty from when it previously used a different data version
   if (dataVersion === "3") {
     return answerRows?.find(
-      ({ qCode, type }) =>
-        !qCode && ![CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type)
+      ({ qCode, drivingQCode, anotherQCode, type }) =>
+        !(qCode || drivingQCode || anotherQCode) &&
+        ![CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type)
     );
   }
   // If dataVersion is not 3, checkbox answers and radio options do not have QCodes, and therefore these can be empty

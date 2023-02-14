@@ -49,8 +49,6 @@ import {
   QCODE_REQUIRED,
 } from "constants/validationMessages";
 
-import { ListCollectorPage as LIST_COLLECTOR_PAGE } from "constants/page-types";
-
 const SpacedTableColumn = styled(TableColumn)`
   padding: 0.5em 0.5em 0.2em;
   color: ${colors.text};
@@ -276,28 +274,15 @@ export const QCodeTable = () => {
               </>
             );
           } else {
-            return item.pageType !== LIST_COLLECTOR_PAGE ? (
+            return (
               <Row
                 key={`${item.id}-${index}`}
                 dataVersion={dataVersion}
                 {...item}
-                errorMessage={getErrorMessage(item.qCode)}
+                errorMessage={getErrorMessage(
+                  item.qCode ?? item.drivingQCode ?? item.anotherQCode // Uses a different QCode depending on the QCode defined in item
+                )}
               />
-            ) : (
-              <>
-                <Row
-                  key={`${item.id}-${index}`}
-                  dataVersion={dataVersion}
-                  {...item}
-                  errorMessage={getErrorMessage(item.qCode)}
-                />
-                <Row
-                  key={`${item.id}-${index}`}
-                  dataVersion={dataVersion}
-                  {...item}
-                  errorMessage={getErrorMessage(item.qCode)}
-                />
-              </>
             );
           }
         })}
