@@ -126,7 +126,8 @@ const Answers = ({ page, onUpdateCalculatedSummaryPage, onSelect }) => {
       </Body>
       <Footer>
         <SelectButton variant="secondary" onClick={onSelect}>
-          Select another {answerType.toLowerCase() || ""} answer
+          Select another {answerType.toLowerCase() || ""} answer or calculated
+          summary total
         </SelectButton>
       </Footer>
     </>

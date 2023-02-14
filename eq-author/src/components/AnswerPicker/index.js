@@ -13,6 +13,7 @@ import Button from "components/buttons/Button";
 import ButtonGroup from "components/buttons/ButtonGroup";
 import SearchBar from "components/SearchBar";
 import searchByAnswerTitleQuestionTitleShortCode from "utils/searchFunctions/searchByAnswerTitleQuestionTitleShortCode";
+import { getPageByAnswerId } from "utils/questionnaireUtils";
 
 const ModalFooter = styled.div`
   padding: 1.5em;
@@ -80,6 +81,7 @@ const validTypes = [CURRENCY, NUMBER, PERCENTAGE, UNIT];
 
 const QuestionPicker = ({
   data,
+  questionnaire,
   isOpen,
   onClose,
   onSubmit,
@@ -142,12 +144,29 @@ const QuestionPicker = ({
     if (selectedAnswers.map(({ id }) => id).includes(answer.id)) {
       return;
     }
+    const selectedPage = getPageByAnswerId(
+      questionnaire,
+      selectedAnswers[0]?.id
+    );
+    const page = getPageByAnswerId(questionnaire, answer.id);
+
     if (selectedAnswers.length > 0) {
       const selectedType = selectedAnswers[0].type;
+
+      if (selectedPage && page && page?.pageType === "CalculatedSummaryPage") {
+        return (
+          selectedPage?.pageType !== "CalculatedSummaryPage" ||
+          selectedType !== answer.type
+        );
+      }
+
       if (selectedType === UNIT) {
         return answer.properties.unit !== selectedAnswers[0].properties.unit;
       }
-      return answer.type !== selectedAnswers[0].type;
+
+      return selectedPage?.pageType !== "CalculatedSummaryPage"
+        ? answer.type !== selectedAnswers[0].type
+        : page?.pageType === "QuestionPage";
     }
     return false;
   };
@@ -216,6 +235,7 @@ const QuestionPicker = ({
 
 QuestionPicker.propTypes = {
   data: PropTypes.arrayOf(CustomPropTypes.section),
+  questionnaire: CustomPropTypes.questionnaire,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
