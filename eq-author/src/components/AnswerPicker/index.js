@@ -59,26 +59,6 @@ const MenuContainer = styled.div`
   height: 25em;
 `;
 
-const Types = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const Type = styled.span`
-  font-size: 10px;
-  background: #e4e8eb;
-  padding: 0.3em 0.7em;
-  border-radius: 1em;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: ${colors.text};
-  flex: 0 1 auto;
-  justify-self: flex-end;
-  margin-left: 0.5em;
-`;
-
-const validTypes = [CURRENCY, NUMBER, PERCENTAGE, UNIT];
-
 const QuestionPicker = ({
   data,
   questionnaire,
@@ -87,7 +67,6 @@ const QuestionPicker = ({
   onSubmit,
   startingSelectedAnswers,
   title,
-  showTypes,
   ...otherProps
 }) => {
   const [selectedAnswers, setSelectedAnswers] = useState(
@@ -177,18 +156,6 @@ const QuestionPicker = ({
         <>
           <ModalHeader>
             <ModalTitle>{title}</ModalTitle>
-            {/* <ModalSubtitle>
-              {showTypes ? (
-                <Types>
-                  <span>Allowed answer types:</span>
-                  {validTypes.map((type) => (
-                    <Type key={type}>{type}</Type>
-                  ))}
-                </Types>
-              ) : (
-                ""
-              )}
-            </ModalSubtitle> */}
             <ModalSubtitle>
               Answers can only be selected from the current section. Calculated
               summary totals can be selected from both current and previous
@@ -244,7 +211,6 @@ QuestionPicker.propTypes = {
   ),
   startingSelectedType: PropTypes.string,
   title: PropTypes.string.isRequired,
-  showTypes: PropTypes.bool,
 };
 
 export default QuestionPicker;

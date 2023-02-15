@@ -91,7 +91,6 @@ const AnswerSelector = ({ page, onUpdateCalculatedSummaryPage }) => {
         data={availableSummaryAnswers}
         questionnaire={questionnaire}
         title="Select an answer or calculated summary total"
-        showTypes
       />
     </>
   );

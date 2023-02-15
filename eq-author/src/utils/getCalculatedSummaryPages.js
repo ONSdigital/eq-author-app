@@ -28,30 +28,31 @@ const insertPage = (sections, page, answers) => {
 
 const getCalculatedSummaryPages = (questionnaire, pageId, sectionId) => {
   const sections = [];
-
-  for (const section of questionnaire.sections) {
-    if (section.id === sectionId) {
-      return sections;
-    }
-    for (const folder of section.folders) {
-      for (const page of folder.pages) {
-        const answers = page?.answers;
-        if (page.pageType === "CalculatedSummaryPage") {
-          if (page.id === pageId) {
-            return sections;
-          }
-          if (sections[sections.length - 1]?.id === section?.id) {
-            if (
-              sections[sections.length - 1].folders[
-                sections[sections.length - 1].folders.length - 1
-              ]?.id === folder?.id
-            ) {
-              insertPage(sections, page, answers);
-            } else {
-              insertFolder(sections, folder, page, answers);
+  if (questionnaire?.sections) {
+    for (const section of questionnaire?.sections) {
+      if (section.id === sectionId) {
+        return sections;
+      }
+      for (const folder of section?.folders) {
+        for (const page of folder?.pages) {
+          const answers = page?.answers;
+          if (page?.pageType === "CalculatedSummaryPage") {
+            if (page.id === pageId) {
+              return sections;
             }
-          } else {
-            insertSection(sections, section, folder, page, answers);
+            if (sections[sections.length - 1]?.id === section?.id) {
+              if (
+                sections[sections.length - 1].folders[
+                  sections[sections.length - 1].folders.length - 1
+                ]?.id === folder?.id
+              ) {
+                insertPage(sections, page, answers);
+              } else {
+                insertFolder(sections, folder, page, answers);
+              }
+            } else {
+              insertSection(sections, section, folder, page, answers);
+            }
           }
         }
       }
