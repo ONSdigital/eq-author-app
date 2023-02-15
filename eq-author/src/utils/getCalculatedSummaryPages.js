@@ -37,9 +37,6 @@ const getCalculatedSummaryPages = (questionnaire, pageId, sectionId) => {
         for (const page of folder?.pages) {
           const answers = page?.answers;
           if (page?.pageType === "CalculatedSummaryPage") {
-            if (page.id === pageId) {
-              return sections;
-            }
             if (sections[sections.length - 1]?.id === section?.id) {
               if (
                 sections[sections.length - 1].folders[
