@@ -195,6 +195,7 @@ const Row = memo((props) => {
               onChange={(e) => setQcode(e.value)}
               onBlur={() => handleBlur(qCode)}
               hasError={Boolean(errorMessage)}
+              aria-label="QCode input field"
             />
             {errorMessage && (
               <QcodeValidationError>{errorMessage}</QcodeValidationError>
@@ -212,6 +213,7 @@ const Row = memo((props) => {
             onChange={(e) => setQcode(e.value)}
             onBlur={() => handleBlur(qCode)}
             hasError={Boolean(errorMessage)}
+            aria-label="QCode input field"
           />
           {errorMessage && (
             <QcodeValidationError>{errorMessage}</QcodeValidationError>
