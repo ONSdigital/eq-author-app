@@ -47,25 +47,29 @@ describe("Answer selector", () => {
 
       expect(mockPage.summaryAnswers).toHaveLength(0);
 
-      const emptyLabel = getByText("No answers selected");
+      const emptyLabel = getByText(
+        "No answers or calculated summary totals selected"
+      );
       expect(emptyLabel).toBeInTheDocument();
     });
 
     it("Shows the picker when the select button is pressed", () => {
-      const { getByText } = render(() => (
+      const { getByText, getAllByText } = render(() => (
         <AnswerSelector
           page={mockPage}
           onUpdateCalculatedSummaryPage={mockOnUpdateCalculatedSummaryPage}
         />
       ));
 
-      const btn = getByText("Select an answer");
+      const btn = getByText("Select an answer or calculated summary total");
 
       expect(btn).not.toBeDisabled();
       btn.click();
 
-      const pickerHeader = getByText("Select one or more answer");
-      expect(pickerHeader).toBeInTheDocument();
+      const pickerHeader = getAllByText(
+        "Select an answer or calculated summary total"
+      );
+      expect(pickerHeader).toBeTruthy();
     });
   });
 
@@ -110,20 +114,24 @@ describe("Answer selector", () => {
     });
 
     it("Shows the picker when the select button is pressed", () => {
-      const { getByText } = render(() => (
+      const { getByText, getAllByText } = render(() => (
         <AnswerSelector
           page={mockPage}
           onUpdateCalculatedSummaryPage={mockOnUpdateCalculatedSummaryPage}
         />
       ));
 
-      const btn = getByText("Select another number answer");
+      const btn = getByText(
+        "Select another number answer or calculated summary total"
+      );
 
       expect(btn).not.toBeDisabled();
       btn.click();
 
-      const pickerHeader = getByText("Select one or more answer");
-      expect(pickerHeader).toBeInTheDocument();
+      const pickerHeader = getAllByText(
+        "Select an answer or calculated summary total"
+      );
+      expect(pickerHeader).toBeTruthy();
     });
   });
 });
