@@ -247,11 +247,13 @@ type ListCollectorPage implements Page & Skippable & Routable {
   drivingQuestion: String
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
+  drivingId: ID!
   drivingPositive: String
   drivingNegative: String
   drivingPositiveDescription: String
   drivingNegativeDescription: String
   drivingQCode: String
+  anotherID: ID!
   anotherTitle: String
   anotherPositive: String
   anotherNegative: String

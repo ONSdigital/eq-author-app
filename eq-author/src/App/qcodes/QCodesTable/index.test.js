@@ -179,12 +179,6 @@ const listSetup = () => {
     anotherNegativeDescription: "",
     addItemTitle: "Add item question",
   };
-  // Object.assign(
-  //   questionnaire.sections[0].folders[0].pages[1],
-  //     {
-
-  //     }
-  //   )
 
   return renderWithContext({ questionnaire });
 };
