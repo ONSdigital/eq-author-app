@@ -222,13 +222,16 @@ describe("Question Picker", () => {
     expect(percentageOne).toHaveAttribute("aria-selected", "true");
   });
 
-  it("should allow optional answer types via props", () => {
+  it("should display the calculated summary answer picker subtitle", () => {
     props = {
       ...props,
-      showTypes: true,
     };
     const { getByText } = renderContentPicker();
 
-    expect(getByText("Allowed answer types:")).toBeTruthy();
+    expect(
+      getByText(
+        "Answers can only be selected from the current section. Calculated summary totals can be selected from both current and previous sections."
+      )
+    ).toBeTruthy();
   });
 });
