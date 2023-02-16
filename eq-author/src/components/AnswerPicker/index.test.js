@@ -234,4 +234,18 @@ describe("Question Picker", () => {
       )
     ).toBeTruthy();
   });
+
+  it("Types Percentage into the search bar and returns the answer", () => {
+    const { getByText, queryByPlaceholderText, queryByText } =
+      renderContentPicker();
+
+    const searchBar = queryByPlaceholderText("Search for an answer or total");
+
+    fireEvent.change(searchBar, {
+      target: { value: "Percentage" },
+    });
+
+    expect(getByText("Percentage 1")).toBeInTheDocument();
+    expect(queryByText("Hello 1")).not.toBeInTheDocument();
+  });
 });
