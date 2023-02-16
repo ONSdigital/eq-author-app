@@ -73,7 +73,7 @@ export const StatelessBasicAnswer = ({
   return (
     <div>
       <Field>
-        <Label htmlFor={`answer-label-${answer.id}`}>{labelText}</Label>
+        {/* <Label htmlFor={`answer-label-${answer.id}`}>{labelText}</Label> */}
         {/* <WrappingInput
           id={`answer-label-${answer.id}`}
           name="label"
@@ -97,6 +97,7 @@ export const StatelessBasicAnswer = ({
         /> */}
         <RichTextEditor
           id={`answer-label-${answer.id}`}
+          label={labelText}
           name="label"
           value={answer?.label}
           onUpdate={onChange}
