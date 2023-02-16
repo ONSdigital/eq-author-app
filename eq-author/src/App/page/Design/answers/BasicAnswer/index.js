@@ -102,6 +102,7 @@ export const StatelessBasicAnswer = ({
           onBlur={onUpdate}
           data-test="txt-answer-label"
           controls={pipingControls}
+          size="large"
           errorValidationMsg={
             !answer.label &&
             getValidationError({
