@@ -25,6 +25,7 @@ import MaxDurationValidationRule from "graphql/fragments/max-duration-validation
 
 import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
 import { TEXTFIELD, TEXTAREA, DURATION } from "constants/answer-types";
+import { ANSWER } from "components/ContentPickerSelectv3/content-types";
 
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 import AnswerProperties from "components/AnswerContent/AnswerProperties";
@@ -103,6 +104,7 @@ export const StatelessBasicAnswer = ({
           data-test="txt-answer-label"
           controls={pipingControls}
           size="large"
+          allowableTypes={[ANSWER]}
           errorValidationMsg={
             !answer.label &&
             getValidationError({
