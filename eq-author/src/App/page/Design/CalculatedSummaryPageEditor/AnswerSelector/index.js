@@ -31,7 +31,6 @@ const AnswerSelector = ({ page, onUpdateCalculatedSummaryPage }) => {
 
   const calculatedSummaries = getCalculatedSummaryPages(
     questionnaire,
-    page.id,
     page.section.id
   );
 

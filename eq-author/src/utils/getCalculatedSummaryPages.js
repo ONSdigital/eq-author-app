@@ -26,7 +26,7 @@ const insertPage = (sections, page, answers) => {
   return sections;
 };
 
-const getCalculatedSummaryPages = (questionnaire, pageId, sectionId) => {
+const getCalculatedSummaryPages = (questionnaire, sectionId) => {
   const sections = [];
   if (questionnaire?.sections) {
     for (const section of questionnaire?.sections) {
