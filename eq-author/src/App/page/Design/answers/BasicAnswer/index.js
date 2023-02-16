@@ -67,9 +67,7 @@ export const StatelessBasicAnswer = ({
   const [updateAnswerOfType] = useMutation(UPDATE_ANSWER_OF_TYPE);
 
   const { id } = answer;
-  const pipingControls = () => {
-    return { piping: true };
-  };
+  const pipingControls = { piping: true };
 
   return (
     <div>
@@ -99,22 +97,19 @@ export const StatelessBasicAnswer = ({
         <RichTextEditor
           id={`answer-label-${answer.id}`}
           name="label"
+          value={answer?.label}
           onUpdate={onChange}
           onBlur={onUpdate}
-          autofocus={autoFocus || null}
           data-test="txt-answer-label"
-          controls={pipingControls()}
-          metadata={[]}
+          controls={pipingControls}
           errorValidationMsg={
-            optionErrorMsg
-              ? optionErrorMsg
-              : getValidationError({
-                  field: "label",
-                  type: "answer",
-                  label: errorLabel,
-                  requiredMsg: errorMsg,
-                })
+            !answer.label &&
+            getValidationError({
+              field: "label",
+              requiredMsg: errorMsg,
+            })
           }
+          autoFocus
         />
       </Field>
       {showDescription && (
