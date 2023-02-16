@@ -8,6 +8,9 @@ import * as questionnaireContext from "components/QuestionnaireContext";
 import mockQuestionnaire from "./mockQuestionnaire.json";
 import mockPage from "./mockPage.json";
 
+import mockCalculatedSummary from "utils/mockCalculatedSummary.json";
+import mockCalculatedSummaryPage from "utils/mockCalculatedSummaryPage.json";
+
 import suppressConsoleMessage from "tests/utils/supressConsol";
 
 /*
@@ -133,5 +136,50 @@ describe("Answer selector", () => {
       );
       expect(pickerHeader).toBeTruthy();
     });
+  });
+});
+
+describe("Submit selected answers", () => {
+  let mockOnUpdateCalculatedSummaryPage, mockUseQuestionnaire;
+
+  beforeEach(() => {
+    mockOnUpdateCalculatedSummaryPage = jest.fn();
+
+    mockUseQuestionnaire = jest.fn(() => ({
+      questionnaire: mockCalculatedSummary,
+    }));
+
+    questionnaireContext.useQuestionnaire = mockUseQuestionnaire; // eslint-disable-line import/namespace
+  });
+
+  it("should submit the selected answers", () => {
+    const { getByText, getAllByText, getByTestId } = render(() => (
+      <AnswerSelector
+        page={mockCalculatedSummaryPage}
+        onUpdateCalculatedSummaryPage={mockOnUpdateCalculatedSummaryPage}
+      />
+    ));
+
+    const btn = getByText("Select an answer or calculated summary total");
+
+    expect(btn).not.toBeDisabled();
+    btn.click();
+
+    const pickerHeader = getAllByText(
+      "Select an answer or calculated summary total"
+    );
+    expect(pickerHeader).toBeTruthy();
+
+    const calculatedSummaryAnswers = getAllByText("CALCULATED SUMMARY");
+    expect(calculatedSummaryAnswers).toBeTruthy();
+    calculatedSummaryAnswers[0].click();
+    calculatedSummaryAnswers[1].click();
+
+    const selectButton = getByTestId("select-summary-answers");
+    expect(selectButton).toBeTruthy();
+
+    selectButton.click();
+
+    expect(mockOnUpdateCalculatedSummaryPage).toHaveBeenCalledTimes(1);
   });
 });

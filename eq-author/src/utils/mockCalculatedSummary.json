@@ -1,0 +1,158 @@
+{
+  "id": "id-1",
+  "title": "Copy of Test Grand Summary",
+  "introduction": {
+    "id": "intro"
+  },
+  "sections": [
+    {
+      "id": "1",
+      "title": "<p>Section 1</p>",
+      "folders": [
+        {
+          "id": "1.1",
+          "alias": "Folder 1",
+          "pages": [
+            {
+              "id": "1.1.1",
+              "pageType": "QuestionPage",
+              "title": "<p>New Q1</p>",
+              "answers": [
+                {
+                  "id": "1.1.1.1",
+                  "label": "Num1",
+                  "qCode": "q1",
+                  "type": "Number"
+                }
+              ]
+            },
+            {
+              "id": "1.1.2",
+              "pageType": "QuestionPage",
+              "title": "<p>Copy of New Q1</p>",
+              "answers": [
+                {
+                  "id": "1.1.2.1",
+                  "label": "Num1",
+                  "qCode": "q2",
+                  "type": "Number"
+                }
+              ]
+            },
+            {
+              "id": "1.1.3",
+              "title": "<p>Total Summary 1.1</p>",
+              "pageType": "CalculatedSummaryPage",
+              "answers": [
+                {
+                  "id": "1.1.3.1",
+                  "label": "<p>Total Summary 1.1</p>",
+                  "type": "Number"
+                }
+              ],
+              "summaryAnswers": ["1.1.1.1", "1.1.2.1"],
+              "totalTitle": "<p>Total Summary 1.1</p>",
+              "type": "Number"
+            },
+            {
+              "id": "1.1.4",
+              "title": "<p>Total Summary 1.2</p>",
+              "pageType": "CalculatedSummaryPage",
+              "answers": [
+                {
+                  "id": "1.1.4.1",
+                  "label": "<p>Total Summary 1.2</p>",
+                  "type": "Number"
+                }
+              ],
+              "summaryAnswers": ["1.1.1.1", "1.1.2.1"],
+              "totalTitle": "<p>Total Summary 1.2</p>",
+              "type": "Number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "<p>Section 2</p>",
+      "folders": [
+        {
+          "id": "2.1",
+          "alias": "Folder 2",
+          "pages": [
+            {
+              "id": "2.1.1",
+              "pageType": "QuestionPage",
+              "title": "<p>New Q1</p>",
+              "answers": [
+                {
+                  "id": "2.1.1.1",
+                  "label": "Num1",
+                  "qCode": "q3",
+                  "type": "Number"
+                }
+              ]
+            },
+            {
+              "id": "2.1.2",
+              "pageType": "QuestionPage",
+              "title": "<p>Copy of New Q1</p>",
+              "answers": [
+                {
+                  "id": "2.1.2.1",
+                  "label": "Num1",
+                  "qCode": "q4",
+                  "type": "Number"
+                }
+              ]
+            },
+            {
+              "id": "2.1.3",
+              "title": "<p>Total Summary 2</p>",
+              "pageType": "CalculatedSummaryPage",
+              "answers": [
+                {
+                  "id": "2.1.3.1",
+                  "label": "<p>Total Summary 2</p>",
+                  "type": "Number"
+                }
+              ],
+              "summaryAnswers": ["2.1.1.1", "2.1.2.1"],
+              "totalTitle": "<p>Total Summary 2</p>",
+              "type": "Number"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "title": "<p>Section 3</p>",
+      "folders": [
+        {
+          "id": "3.1",
+          "alias": "Folder 3",
+          "pages": [
+            {
+              "id": "3.1.1",
+              "title": "<p>Grand Summary</p>",
+              "pageType": "CalculatedSummaryPage",
+              "answers": [
+                {
+                  "id": "3.1.1.1",
+                  "label": "<p>Grand Summary</p>",
+                  "type": "Number",
+                  "validation": {},
+                  "properties": {}
+                }
+              ],
+              "summaryAnswers": [],
+              "totalTitle": "<p>Grand Summary</p>"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -190,6 +190,7 @@ const QuestionPicker = ({
           <Button
             variant="primary"
             autoFocus
+            data-test="select-summary-answers"
             onClick={() => onSubmit(selectedAnswers)}
           >
             Select
