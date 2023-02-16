@@ -34,6 +34,7 @@ import InlineField from "components/AnswerContent/Format/InlineField";
 import Collapsible from "components/Collapsible";
 
 import gql from "graphql-tag";
+import RichTextEditor from "components/RichTextEditor";
 
 const Caption = styled.div`
   margin-bottom: 0.2em;
@@ -66,12 +67,15 @@ export const StatelessBasicAnswer = ({
   const [updateAnswerOfType] = useMutation(UPDATE_ANSWER_OF_TYPE);
 
   const { id } = answer;
+  const pipingControls = () => {
+    return { piping: true };
+  };
 
   return (
     <div>
       <Field>
         <Label htmlFor={`answer-label-${answer.id}`}>{labelText}</Label>
-        <WrappingInput
+        {/* <WrappingInput
           id={`answer-label-${answer.id}`}
           name="label"
           onChange={onChange}
@@ -81,6 +85,26 @@ export const StatelessBasicAnswer = ({
           placeholder={labelPlaceholder}
           data-test="txt-answer-label"
           bold
+          errorValidationMsg={
+            optionErrorMsg
+              ? optionErrorMsg
+              : getValidationError({
+                  field: "label",
+                  type: "answer",
+                  label: errorLabel,
+                  requiredMsg: errorMsg,
+                })
+          }
+        /> */}
+        <RichTextEditor
+          id={`answer-label-${answer.id}`}
+          name="label"
+          onUpdate={onChange}
+          onBlur={onUpdate}
+          autofocus={autoFocus || null}
+          data-test="txt-answer-label"
+          controls={pipingControls()}
+          metadata={[]}
           errorValidationMsg={
             optionErrorMsg
               ? optionErrorMsg
