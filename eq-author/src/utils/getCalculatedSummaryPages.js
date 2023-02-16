@@ -38,15 +38,7 @@ const getCalculatedSummaryPages = (questionnaire, sectionId) => {
           const answers = page?.answers;
           if (page?.pageType === "CalculatedSummaryPage") {
             if (sections[sections.length - 1]?.id === section?.id) {
-              if (
-                sections[sections.length - 1].folders[
-                  sections[sections.length - 1].folders.length - 1
-                ]?.id === folder?.id
-              ) {
-                insertPage(sections, page, answers);
-              } else {
-                insertFolder(sections, folder, page, answers);
-              }
+              insertPage(sections, page, answers);
             } else {
               insertSection(sections, section, folder, page, answers);
             }
