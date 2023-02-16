@@ -110,7 +110,7 @@ export const StatelessBasicAnswer = ({
               requiredMsg: errorMsg,
             })
           }
-          autoFocus
+          autoFocus={!answer.label}
         />
       </Field>
       {showDescription && (
