@@ -251,11 +251,13 @@ type ListCollectorPage implements Page & Skippable & Routable {
   drivingNegative: String
   drivingPositiveDescription: String
   drivingNegativeDescription: String
+  drivingQCode: String
   anotherTitle: String
   anotherPositive: String
   anotherNegative: String
   anotherPositiveDescription: String
   anotherNegativeDescription: String
+  anotherQCode: String
   addItemTitle: String
   routing: Routing2
   skipConditions: [ExpressionGroup2]
@@ -1012,18 +1014,20 @@ input UpdateListCollectorPageInput {
   id: ID!
   title: String
   listId: ID
-  drivingQuestion: String!
+  drivingQuestion: String
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
-  drivingPositive: String!
-  drivingNegative: String!
+  drivingPositive: String
+  drivingNegative: String
   drivingPositiveDescription: String
   drivingNegativeDescription: String
-  anotherTitle: String!
-  anotherPositive: String!
-  anotherNegative: String!
+  drivingQCode: String
+  anotherTitle: String
+  anotherPositive: String
+  anotherNegative: String
   anotherPositiveDescription: String
   anotherNegativeDescription: String
+  anotherQCode: String
   addItemTitle: String
   alias: String
 }
@@ -1379,6 +1383,8 @@ input UpdateAnswerInput {
   secondaryLabel: String
   qCode: String
   secondaryQCode: String
+  drivingQCode: String
+  anotherQCode: String
   properties: JSON
   advancedProperties: Boolean
   defaultAnswer: Boolean
