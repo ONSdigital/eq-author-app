@@ -69,6 +69,12 @@ export const StatelessBasicAnswer = ({
 
   const { id } = answer;
   const pipingControls = { piping: true };
+  const errorMessage = getValidationError({
+    field: "label",
+    type: "answer",
+    label: errorLabel,
+    requiredMsg: errorMsg,
+  });
 
   return (
     <div>
@@ -78,7 +84,9 @@ export const StatelessBasicAnswer = ({
           id={`answer-label-${answer.id}`}
           name="label"
           onChange={onChange}
-          onBlur={onUpdate}
+          onBlur={(value) => {
+            onUpdate(value);
+          }}
           value={answer.label}
           data-autofocus={autoFocus || null}
           placeholder={labelPlaceholder}
@@ -100,19 +108,18 @@ export const StatelessBasicAnswer = ({
           label={labelText}
           name="label"
           value={answer?.label}
-          onUpdate={onChange}
-          onBlur={onUpdate}
+          onUpdate={({ value }) =>
+            updateAnswer({
+              variables: {
+                input: { id, label: value },
+              },
+            })
+          }
           data-test="txt-answer-label"
           controls={pipingControls}
           size="large"
           allowableTypes={[ANSWER]}
-          errorValidationMsg={
-            !answer.label &&
-            getValidationError({
-              field: "label",
-              requiredMsg: errorMsg,
-            })
-          }
+          errorValidationMsg={!answer.label ? errorMessage : ""}
           autoFocus={!answer.label}
         />
       </Field>
