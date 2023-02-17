@@ -44,7 +44,9 @@ SingleDuration.propTypes = {
 
 const MultipleDuration = ({ answer }) => (
   <Field>
-    <Label description={answer.description}>{answer.label}</Label>
+    <Label description={answer.description}>
+      {stripHtmlToText(answer.label)}
+    </Label>
     <DurationField>
       <DurationInput>
         <UnitInput unit={durationConversion[YEARS].abbreviation} trailing />
