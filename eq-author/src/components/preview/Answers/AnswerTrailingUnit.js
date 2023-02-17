@@ -4,6 +4,7 @@ import React from "react";
 import { Field, UnitInput, Label } from "./elements";
 import { PERCENTAGE } from "constants/answer-types";
 import { unitConversion } from "constants/unit-types";
+import { stripHtmlToText } from "utils/stripHTML";
 
 const getUnit = (answer) => {
   if (answer.type === PERCENTAGE) {
@@ -17,7 +18,9 @@ const getUnit = (answer) => {
 
 const AnswerTrailingUnit = ({ answer }) => (
   <Field>
-    <Label description={answer.description}>{answer.label}</Label>
+    <Label description={answer.description}>
+      {stripHtmlToText(answer.label)}
+    </Label>
     <UnitInput unit={getUnit(answer)} trailing />
   </Field>
 );

@@ -3,6 +3,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { Field, Label, Input } from "./elements";
+import { stripHtmlToText } from "utils/stripHTML";
 
 const Textarea = styled(Input.withComponent("textarea"))`
   width: 30em;
@@ -10,7 +11,9 @@ const Textarea = styled(Input.withComponent("textarea"))`
 
 const TextAreaAnswer = ({ answer }) => (
   <Field>
-    <Label description={answer.description}>{answer.label}</Label>
+    <Label description={answer.description}>
+      {stripHtmlToText(answer.label)}
+    </Label>
     <Textarea cols="60" rows="8" />
   </Field>
 );
