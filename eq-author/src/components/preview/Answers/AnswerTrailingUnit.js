@@ -4,7 +4,6 @@ import React from "react";
 import { Field, UnitInput, Label } from "./elements";
 import { PERCENTAGE } from "constants/answer-types";
 import { unitConversion } from "constants/unit-types";
-import { stripHtmlToText } from "utils/stripHTML";
 
 const getUnit = (answer) => {
   if (answer.type === PERCENTAGE) {
@@ -16,15 +15,14 @@ const getUnit = (answer) => {
   return unitConversion[answer.properties.unit].abbreviation;
 };
 
-const AnswerTrailingUnit = ({ answer }) => (
-  <Field>
-    <Label description={answer.description}>
-      {stripHtmlToText(answer.label)}
-    </Label>
-    <UnitInput unit={getUnit(answer)} trailing />
-  </Field>
-);
-
+const AnswerTrailingUnit = ({ answer }) => {
+  return (
+    <Field>
+      <Label description={answer.description}>{answer.label}</Label>
+      <UnitInput unit={getUnit(answer)} trailing />
+    </Field>
+  );
+};
 AnswerTrailingUnit.propTypes = {
   answer: PropTypes.shape({
     description: PropTypes.string,

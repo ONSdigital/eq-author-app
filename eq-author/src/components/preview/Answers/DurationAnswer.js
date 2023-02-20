@@ -3,7 +3,6 @@ import React from "react";
 import styled from "styled-components";
 
 import { Field, UnitInput, Label } from "./elements";
-import { stripHtmlToText } from "utils/stripHTML";
 
 import {
   YEARSMONTHS,
@@ -22,9 +21,7 @@ const DurationInput = styled.div`
 
 const SingleDuration = ({ answer }) => (
   <Field>
-    <Label description={answer.description}>
-      {stripHtmlToText(answer.label)}
-    </Label>
+    <Label description={answer.description}>{answer.label}</Label>
     <UnitInput
       unit={durationConversion[answer.properties.unit].abbreviation}
       trailing
@@ -44,9 +41,7 @@ SingleDuration.propTypes = {
 
 const MultipleDuration = ({ answer }) => (
   <Field>
-    <Label description={answer.description}>
-      {stripHtmlToText(answer.label)}
-    </Label>
+    <Label description={answer.description}>{answer.label}</Label>
     <DurationField>
       <DurationInput>
         <UnitInput unit={durationConversion[YEARS].abbreviation} trailing />
