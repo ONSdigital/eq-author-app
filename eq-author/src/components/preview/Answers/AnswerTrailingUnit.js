@@ -15,14 +15,13 @@ const getUnit = (answer) => {
   return unitConversion[answer.properties.unit].abbreviation;
 };
 
-const AnswerTrailingUnit = ({ answer }) => {
-  return (
-    <Field>
-      <Label description={answer.description}>{answer.label}</Label>
-      <UnitInput unit={getUnit(answer)} trailing />
-    </Field>
-  );
-};
+const AnswerTrailingUnit = ({ answer }) => (
+  <Field>
+    <Label description={answer.description}>{answer.label}</Label>
+    <UnitInput unit={getUnit(answer)} trailing />
+  </Field>
+);
+
 AnswerTrailingUnit.propTypes = {
   answer: PropTypes.shape({
     description: PropTypes.string,

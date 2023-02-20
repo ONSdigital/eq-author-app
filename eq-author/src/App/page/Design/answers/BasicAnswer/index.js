@@ -50,16 +50,13 @@ export const StatelessBasicAnswer = ({
   answer,
   onChange,
   onUpdate,
-  labelPlaceholder,
   labelText,
   errorLabel,
   descriptionText,
   descriptionPlaceholder,
   showDescription,
-  autoFocus,
   getValidationError,
   type,
-  optionErrorMsg,
   page,
 }) => {
   const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
@@ -79,30 +76,6 @@ export const StatelessBasicAnswer = ({
   return (
     <div>
       <Field>
-        {/* <Label htmlFor={`answer-label-${answer.id}`}>{labelText}</Label> */}
-        {/* <WrappingInput
-          id={`answer-label-${answer.id}`}
-          name="label"
-          onChange={onChange}
-          onBlur={(value) => {
-            onUpdate(value);
-          }}
-          value={answer.label}
-          data-autofocus={autoFocus || null}
-          placeholder={labelPlaceholder}
-          data-test="txt-answer-label"
-          bold
-          errorValidationMsg={
-            optionErrorMsg
-              ? optionErrorMsg
-              : getValidationError({
-                  field: "label",
-                  type: "answer",
-                  label: errorLabel,
-                  requiredMsg: errorMsg,
-                })
-          }
-        /> */}
         <RichTextEditor
           id={`answer-label-${answer.id}`}
           label={labelText}
