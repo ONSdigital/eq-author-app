@@ -29,28 +29,18 @@ const AnswerSelector = ({ page, onUpdateCalculatedSummaryPage }) => {
 
   const { questionnaire } = useQuestionnaire();
 
-  const calculatedSummaries = getCalculatedSummaryPages(
-    questionnaire,
-    page.section.id
-  );
-
-  const availableAnswers =
-    (
-      questionnaire &&
-      getContentBeforeEntity({
-        questionnaire,
-        id: page.id,
-        preprocessAnswers: filterAvailableAnswers,
-      })
-    )?.filter((section) => section.id === page.section.id) || [];
-
-  const calculatedSummaryAnswers = [
-    ...calculatedSummaries,
-    ...availableAnswers,
-  ];
-
   const availableSummaryAnswers = useMemo(
-    () => calculatedSummaryAnswers,
+    () => [
+      ...getCalculatedSummaryPages(questionnaire, page.section.id),
+      ...((
+        questionnaire &&
+        getContentBeforeEntity({
+          questionnaire,
+          id: page.id,
+          preprocessAnswers: filterAvailableAnswers,
+        })
+      )?.filter((section) => section.id === page.section.id) || []),
+    ],
     [questionnaire, page.id, page.section.id]
   );
 

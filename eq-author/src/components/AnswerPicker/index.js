@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 import CustomPropTypes from "custom-prop-types";
-import { CURRENCY, NUMBER, PERCENTAGE, UNIT } from "constants/answer-types";
+import { UNIT } from "constants/answer-types";
 import { colors } from "constants/theme";
 
 import { FlatSectionMenu } from "components/ContentPickerv3/Menu";
