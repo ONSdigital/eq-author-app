@@ -6,20 +6,28 @@ exports[`BasicAnswer should render with description 1`] = `
     disabled={false}
     last={false}
   >
-    <Label
-      bold={true}
-      htmlFor="answer-label-ansID1"
-    >
-      Label
-    </Label>
-    <withChangeHandler(WrappingInput)
-      bold={true}
-      data-autofocus={true}
+    <RichTextEditor
+      allowableTypes={
+        Array [
+          "Custom",
+        ]
+      }
+      autoFocus={true}
+      controls={
+        Object {
+          "piping": true,
+        }
+      }
       data-test="txt-answer-label"
+      disabled={false}
       id="answer-label-ansID1"
+      label="Label"
+      maxHeight={12}
+      multiline={false}
       name="label"
-      onBlur={[MockFunction]}
-      onChange={[MockFunction]}
+      onUpdate={[Function]}
+      placeholder=""
+      size="large"
       value=""
     />
   </Field>
@@ -103,20 +111,28 @@ exports[`BasicAnswer should render without description 1`] = `
     disabled={false}
     last={false}
   >
-    <Label
-      bold={true}
-      htmlFor="answer-label-ansID1"
-    >
-      Label
-    </Label>
-    <withChangeHandler(WrappingInput)
-      bold={true}
-      data-autofocus={true}
+    <RichTextEditor
+      allowableTypes={
+        Array [
+          "Custom",
+        ]
+      }
+      autoFocus={true}
+      controls={
+        Object {
+          "piping": true,
+        }
+      }
       data-test="txt-answer-label"
+      disabled={false}
       id="answer-label-ansID1"
+      label="Label"
+      maxHeight={12}
+      multiline={false}
       name="label"
-      onBlur={[MockFunction]}
-      onChange={[MockFunction]}
+      onUpdate={[Function]}
+      placeholder=""
+      size="large"
       value=""
     />
   </Field>

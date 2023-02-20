@@ -9,6 +9,7 @@ const CurrencyAnswer = ({ answer }) => (
     <UnitInput unit="£" />
   </Field>
 );
+
 CurrencyAnswer.propTypes = {
   answer: PropTypes.shape({
     description: PropTypes.string,
