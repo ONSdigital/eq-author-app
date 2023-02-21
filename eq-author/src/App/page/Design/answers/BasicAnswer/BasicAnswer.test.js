@@ -1,4 +1,6 @@
 import React from "react";
+
+import { useParams } from "react-router-dom";
 import { shallow, mount } from "enzyme";
 
 import { StatelessBasicAnswer } from "./";
@@ -10,6 +12,11 @@ const mockUseMutation = jest.fn();
 
 jest.mock("@apollo/react-hooks", () => ({
   useMutation: () => [mockUseMutation],
+}));
+
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useParams: jest.fn(),
 }));
 
 describe("BasicAnswer", () => {
@@ -65,6 +72,7 @@ describe("BasicAnswer", () => {
   });
 
   it("can turn off auto-focus", () => {
+    useParams.mockImplementation(() => ({ params: "page-1" }));
     let wrapper = createWrapper({ ...props, autoFocus: false }, mount);
     const input = wrapper
       .find(`[data-test="txt-answer-label"]`)
