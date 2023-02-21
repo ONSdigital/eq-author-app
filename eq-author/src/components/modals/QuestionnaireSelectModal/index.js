@@ -79,10 +79,11 @@ const QuestionnaireSelectModal = ({
       </Container>
       <ModalFooter>
         <ButtonGroup horizontal align="right">
-          <Button variant="secondary" onClick={onClose}>
+          <Button data-test="cancel-btn" variant="secondary" onClick={onClose}>
             Cancel
           </Button>
           <Button
+            data-test="confirm-btn"
             variant="primary"
             onClick={() => onSelect(selectedQuestionnaire)}
             disabled={!selectedQuestionnaire}
