@@ -8,8 +8,7 @@ import * as questionnaireContext from "components/QuestionnaireContext";
 import mockQuestionnaire from "./mockQuestionnaire.json";
 import mockPage from "./mockPage.json";
 
-import mockCalculatedSummary from "utils/mockCalculatedSummary.json";
-import mockCalculatedSummaryPage from "utils/mockCalculatedSummaryPage.json";
+import mockCalculatedSummary from "tests/mocks/mockCalculatedSummary.json";
 
 import suppressConsoleMessage from "tests/utils/supressConsol";
 
@@ -155,7 +154,7 @@ describe("Submit selected answers", () => {
   it("should submit the selected answers", () => {
     const { getByText, getAllByText, getByTestId } = render(() => (
       <AnswerSelector
-        page={mockCalculatedSummaryPage}
+        page={mockCalculatedSummary.sections[1].folders[0].pages[2]}
         onUpdateCalculatedSummaryPage={mockOnUpdateCalculatedSummaryPage}
       />
     ));

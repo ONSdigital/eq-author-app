@@ -1,5 +1,5 @@
 import getCalculatedSummaryPages from "./getCalculatedSummaryPages";
-import mockCalculatedSummary from "./mockCalculatedSummary.json";
+import mockCalculatedSummary from "tests/mocks/mockCalculatedSummary.json";
 
 const questionnaire = mockCalculatedSummary;
 
