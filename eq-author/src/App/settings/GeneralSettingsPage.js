@@ -20,6 +20,8 @@ import Header from "components/EditorLayout/Header";
 import ScrollPane from "components/ScrollPane";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 
+import { SURVEY_ID_ERRORS } from "constants/validationMessages";
+
 const StyledPanel = styled.div`
   max-width: 97.5%;
   padding: 1.3em;
@@ -91,8 +93,16 @@ const PageContainer = styled.div`
 `;
 
 const GeneralSettingsPage = ({ questionnaire }) => {
-  const { title, shortTitle, id, qcodes, hub, summary, introduction } =
-    questionnaire;
+  const {
+    title,
+    shortTitle,
+    id: questionnaireId,
+    qcodes,
+    hub,
+    summary,
+    introduction,
+    surveyId: initialSurveyId,
+  } = questionnaire;
 
   const showOnHub = introduction?.showOnHub;
 
@@ -100,7 +110,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
     value = value.trim();
     if (value !== "") {
       updateQuestionnaire({
-        variables: { input: { id, title: value } },
+        variables: { input: { questionnaireId, title: value } },
       });
     }
   };
@@ -108,7 +118,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
   const handleShortTitleChange = ({ value }) => {
     value = value.trim();
     updateQuestionnaire({
-      variables: { input: { id, shortTitle: value } },
+      variables: { input: { questionnaireId, shortTitle: value } },
     });
   };
 
@@ -119,6 +129,15 @@ const GeneralSettingsPage = ({ questionnaire }) => {
   const [questionnaireTitle, setQuestionnaireTitle] = useState(title);
   const [questionnaireShortTitle, setQuestionnaireShortTitle] =
     useState(shortTitle);
+
+  const [surveyId, setSurveyId] = useState(initialSurveyId);
+
+  const surveyIdError =
+    SURVEY_ID_ERRORS[
+      questionnaire?.validationErrorInfo?.errors?.find(
+        ({ field }) => field === "surveyId"
+      )?.errorCode
+    ];
 
   const params = useParams();
 
@@ -171,6 +190,30 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                         data-test="change-questionnaire-short-title"
                       />
                     </Field>
+                    <Field>
+                      <Label htmlFor="surveyId">Survey ID</Label>
+                      <Caption>
+                        The three-digit survey ID. For example, &apos;283&apos;
+                      </Caption>
+                      <StyledInput
+                        maxLength="3"
+                        id="surveyId"
+                        value={surveyId}
+                        onChange={({ value }) => setSurveyId(value)}
+                        onBlur={() =>
+                          updateQuestionnaire({
+                            variables: {
+                              input: {
+                                id: questionnaireId,
+                                surveyId,
+                              },
+                            },
+                          })
+                        }
+                        data-test="change-questionnaire-id"
+                        errorValidationMsg={surveyIdError}
+                      />
+                    </Field>
                     <HorizontalSeparator />
                     <InlineField>
                       <Label htmlFor="toggle-qcodes">QCodes</Label>
@@ -181,7 +224,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                         onChange={({ value }) =>
                           updateQuestionnaire({
                             variables: {
-                              input: { id, qcodes: value },
+                              input: { id: questionnaireId, qcodes: value },
                             },
                           })
                         }
@@ -241,7 +284,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                             updateQuestionnaire({
                               variables: {
                                 input: {
-                                  id,
+                                  questionnaireId,
                                   summary: value,
                                   collapsibleSummary: false,
                                 },

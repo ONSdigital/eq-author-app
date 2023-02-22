@@ -53,7 +53,11 @@ type Questionnaire {
   starred: Boolean
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
-  theme: ThemeShortName
+  surveyId: String
+  formType: String
+  eQId: String
+  theme: String
+  legalBasis: String
   qcodes: Boolean
   navigation: Boolean
   hub: Boolean
@@ -77,7 +81,6 @@ type Questionnaire {
   publishStatus: PublishStatus!
   publishDetails: [PublishDetails]
   totalErrorCount: Int!
-  surveyId: String
   themeSettings: ThemeSettings!
   locked: Boolean
   validationErrorInfo: ValidationErrorInfo

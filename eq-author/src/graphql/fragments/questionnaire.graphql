@@ -3,7 +3,10 @@ fragment Questionnaire on Questionnaire {
   title
   description
   surveyId
+  formType
+  eQId
   theme
+  legalBasis
   qcodes
   navigation
   hub
