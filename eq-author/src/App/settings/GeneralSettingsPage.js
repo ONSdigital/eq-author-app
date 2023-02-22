@@ -110,7 +110,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
     value = value.trim();
     if (value !== "") {
       updateQuestionnaire({
-        variables: { input: { questionnaireId, title: value } },
+        variables: { input: { id: questionnaireId, title: value } },
       });
     }
   };
@@ -118,7 +118,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
   const handleShortTitleChange = ({ value }) => {
     value = value.trim();
     updateQuestionnaire({
-      variables: { input: { questionnaireId, shortTitle: value } },
+      variables: { input: { id: questionnaireId, shortTitle: value } },
     });
   };
 
@@ -284,7 +284,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                             updateQuestionnaire({
                               variables: {
                                 input: {
-                                  questionnaireId,
+                                  id: questionnaireId,
                                   summary: value,
                                   collapsibleSummary: false,
                                 },
