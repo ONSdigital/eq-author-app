@@ -71,7 +71,7 @@ describe("Answer selector", () => {
       const pickerHeader = getAllByText(
         "Select an answer or calculated summary total"
       );
-      expect(pickerHeader).toBeTruthy();
+      expect(pickerHeader[1]).toBeInTheDocument();
     });
   });
 
@@ -133,7 +133,7 @@ describe("Answer selector", () => {
       const pickerHeader = getAllByText(
         "Select an answer or calculated summary total"
       );
-      expect(pickerHeader).toBeTruthy();
+      expect(pickerHeader[0]).toBeInTheDocument();
     });
   });
 });
@@ -167,7 +167,7 @@ describe("Submit selected answers", () => {
     const pickerHeader = getAllByText(
       "Select an answer or calculated summary total"
     );
-    expect(pickerHeader).toBeTruthy();
+    expect(pickerHeader[1]).toBeInTheDocument();
 
     const calculatedSummaryAnswers = getAllByText("CALCULATED SUMMARY");
     expect(calculatedSummaryAnswers).toBeTruthy();
