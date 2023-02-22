@@ -92,7 +92,7 @@ export const StatelessBasicAnswer = ({
           controls={pipingControls}
           size="large"
           allowableTypes={[ANSWER]}
-          errorValidationMsg={errorMessage || ""}
+          errorValidationMsg={!answer.label ? errorMessage : ""}
           autoFocus={!answer.label}
         />
       </Field>
