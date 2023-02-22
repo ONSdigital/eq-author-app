@@ -19,6 +19,7 @@ import { Grid, Column } from "components/Grid";
 import Header from "components/EditorLayout/Header";
 import ScrollPane from "components/ScrollPane";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
+import ValidationError from "components/ValidationError";
 
 import { SURVEY_ID_ERRORS } from "constants/validationMessages";
 
@@ -28,7 +29,8 @@ const StyledPanel = styled.div`
 `;
 
 const StyledInput = styled(Input)`
-  width: 31em;
+  width: ${(props) => (props.small ? `11em` : `31em`)};
+  border-color: ${(props) => props.error && `${colors.errorPrimary}`};
 `;
 
 const Caption = styled.p`
@@ -196,8 +198,9 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                         The three-digit survey ID. For example, &apos;283&apos;
                       </Caption>
                       <StyledInput
-                        maxLength="3"
                         id="surveyId"
+                        maxLength="3"
+                        small
                         value={surveyId}
                         onChange={({ value }) => setSurveyId(value)}
                         onBlur={() =>
@@ -211,8 +214,11 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                           })
                         }
                         data-test="change-questionnaire-id"
-                        errorValidationMsg={surveyIdError}
+                        error={surveyIdError}
                       />
+                      {surveyIdError && (
+                        <ValidationError>{surveyIdError}</ValidationError>
+                      )}
                     </Field>
                     <HorizontalSeparator />
                     <InlineField>

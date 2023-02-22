@@ -33,4 +33,14 @@ fragment Questionnaire on Questionnaire {
   }
   isPublic
   permission
+  validationErrorInfo {
+    id
+    errors {
+      id
+      type
+      field
+      errorCode
+    }
+    totalCount
+  }
 }
