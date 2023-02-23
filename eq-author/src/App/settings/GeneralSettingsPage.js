@@ -105,6 +105,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
     introduction,
     surveyId: initialSurveyId,
     eqId: initialEqId,
+    formType: initialFormType,
   } = questionnaire;
 
   const showOnHub = introduction?.showOnHub;
@@ -135,6 +136,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
     useState(shortTitle);
   const [surveyId, setSurveyId] = useState(initialSurveyId);
   const [eqId, setEqId] = useState(initialEqId);
+  const [formType, setFormType] = useState(initialFormType);
 
   const surveyIdError =
     SURVEY_ID_ERRORS[
@@ -221,6 +223,28 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                       {surveyIdError && (
                         <ValidationError>{surveyIdError}</ValidationError>
                       )}
+                    </Field>
+                    <Field>
+                      <Label htmlFor="formType">Form type</Label>
+                      <Caption>
+                        A four-digit identifier. For example, &apos;2834&apos;
+                      </Caption>
+                      <StyledInput
+                        id="formType"
+                        maxLength="4"
+                        small
+                        value={formType}
+                        onChange={({ value }) => {
+                          setFormType(value);
+                        }}
+                        onBlur={() =>
+                          updateQuestionnaire({
+                            variables: {
+                              input: { id: questionnaireId, formType },
+                            },
+                          })
+                        }
+                      />
                     </Field>
                     <Field>
                       <Label htmlFor="eQID">eQ ID</Label>

@@ -1186,6 +1186,7 @@ input UpdateQuestionnaireInput {
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
   surveyId: String
+  formType: String
   eqId: String
   theme: String
   qcodes: Boolean
