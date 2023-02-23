@@ -1037,9 +1037,6 @@ input UpdateListCollectorPageInput {
   anotherPositive: String
   anotherNegative: String
   drivingQCode: String
-  anotherTitle: String
-  anotherPositive: String
-  anotherNegative: String
   anotherPositiveDescription: String
   anotherNegativeDescription: String
   anotherQCode: String
