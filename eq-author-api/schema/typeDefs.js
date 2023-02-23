@@ -55,7 +55,7 @@ type Questionnaire {
   additionalGuidancePanel: String
   surveyId: String
   formType: String
-  eQId: String
+  eqId: String
   theme: String
   legalBasis: String
   qcodes: Boolean
@@ -1185,11 +1185,12 @@ input UpdateQuestionnaireInput {
   description: String
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
+  surveyId: String
+  eqId: String
   theme: String
   qcodes: Boolean
   navigation: Boolean
   hub: Boolean
-  surveyId: String
   summary: Boolean
   collapsibleSummary: Boolean
   shortTitle: String

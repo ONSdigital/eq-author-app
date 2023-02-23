@@ -4,7 +4,7 @@ fragment Questionnaire on Questionnaire {
   description
   surveyId
   formType
-  eQId
+  eqId
   theme
   legalBasis
   qcodes

@@ -104,6 +104,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
     summary,
     introduction,
     surveyId: initialSurveyId,
+    eqId: initialEqId,
   } = questionnaire;
 
   const showOnHub = introduction?.showOnHub;
@@ -128,11 +129,12 @@ const GeneralSettingsPage = ({ questionnaire }) => {
   const [updateQuestionnaireIntroduction] = useMutation(
     updateQuestionnaireIntroductionMutation
   );
+
   const [questionnaireTitle, setQuestionnaireTitle] = useState(title);
   const [questionnaireShortTitle, setQuestionnaireShortTitle] =
     useState(shortTitle);
-
   const [surveyId, setSurveyId] = useState(initialSurveyId);
+  const [eqId, setEqId] = useState(initialEqId);
 
   const surveyIdError =
     SURVEY_ID_ERRORS[
@@ -219,6 +221,21 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                       {surveyIdError && (
                         <ValidationError>{surveyIdError}</ValidationError>
                       )}
+                    </Field>
+                    <Field>
+                      <Label htmlFor="eQID">eQ ID</Label>
+                      <Caption>A freeform identifier</Caption>
+                      <StyledInput
+                        id="eQID"
+                        small
+                        value={eqId}
+                        onChange={({ value }) => setEqId(value)}
+                        onBlur={() =>
+                          updateQuestionnaire({
+                            variables: { input: { id: questionnaireId, eqId } },
+                          })
+                        }
+                      />
                     </Field>
                     <HorizontalSeparator />
                     <InlineField>
