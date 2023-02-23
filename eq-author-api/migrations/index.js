@@ -38,6 +38,8 @@ const migrations = [
   require("./updateCalculatedSummary"),
   require("./updateMutuallyExclusive"),
   require("./addDataVersion"),
+  require("./updateUKIStoBEISTheme"),
+  require("./updateDefaultToBusinessTheme"),
   require("./addPageDescription"),
 ];
 

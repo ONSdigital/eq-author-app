@@ -15,7 +15,7 @@ const defaultQuestionnaire = {
   title: "",
   description: "",
   surveyId: "",
-  theme: "default",
+  theme: "business",
   navigation: false,
 };
 

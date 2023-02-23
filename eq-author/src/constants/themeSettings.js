@@ -1,8 +1,9 @@
-// Add `social: "Social theme"` if required in future
 export const THEME_TITLES = {
-  default: "GB theme",
+  business: "Business theme",
   northernireland: "NI theme",
-  ukis: "UKIS theme",
-  ukis_ni: "UKIS NI theme", //eslint-disable-line
   orr: "Office of Rail and Road theme",
+  beis: "Department for Business, Energy and Industrial Strategy theme",
+  beis_ni: "Department for Business, Energy and Industrial Strategy NI theme", //eslint-disable-line
+  health: "Health theme",
+  social: "Social theme",
 };

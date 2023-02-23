@@ -53,7 +53,7 @@ describe("Content Picker List Answer Picker", () => {
 
   it("should render the list answer radio button", () => {
     const { getByText } = renderListAnswerPicker();
-    expect(getByText("List Answer")).toBeTruthy();
+    expect(getByText("Answer from linked collection list")).toBeTruthy();
   });
 
   it("should click the Answer radio button", () => {
@@ -70,5 +70,23 @@ describe("Content Picker List Answer Picker", () => {
     expect(setContentType).toHaveBeenCalledWith(CUSTOM);
     expect(getByText("answer1")).toBeTruthy();
     expect(getByText("answer2")).toBeTruthy();
+  });
+
+  it("should select the list answer on keyboard enter", () => {
+    const { getByText, getByTestId } = renderListAnswerPicker();
+    const listAnswerRadio = getByTestId("content-type-selector-ListAnswer");
+    fireEvent.click(listAnswerRadio);
+    const answer1 = getByText("answer1");
+    fireEvent.keyUp(answer1, { key: "Enter", keyCode: 13 });
+    expect(props.onSelected).toHaveBeenCalled();
+  });
+
+  it("should select the list answer on mouse click", () => {
+    const { getByText, getByTestId } = renderListAnswerPicker();
+    const listAnswerRadio = getByTestId("content-type-selector-ListAnswer");
+    fireEvent.click(listAnswerRadio);
+    const answer1 = getByText("answer1");
+    fireEvent.click(answer1);
+    expect(props.onSelected).toHaveBeenCalled();
   });
 });

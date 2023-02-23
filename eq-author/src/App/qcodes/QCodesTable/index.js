@@ -6,6 +6,7 @@ import { useMutation } from "@apollo/react-hooks";
 import { stripHtmlToText } from "utils/stripHTML";
 import UPDATE_ANSWER_QCODE from "graphql/updateAnswer.graphql";
 import UPDATE_OPTION_QCODE from "graphql/updateOption.graphql";
+import UPDATE_LIST_COLLECTOR_PAGE from "graphql/updateListCollector.graphql";
 
 import { useQCodeContext } from "components/QCodeContext";
 import ValidationError from "components/ValidationError";
@@ -18,7 +19,6 @@ import {
   TableHeadColumn,
 } from "components/datatable/Elements";
 import { TableInput } from "components/datatable/Controls";
-import { useQuestionnaire } from "components/QuestionnaireContext";
 
 import { colors } from "constants/theme";
 
@@ -41,6 +41,9 @@ import {
   SELECT,
   SELECT_OPTION,
 } from "constants/answer-types";
+
+import { DRIVING, ANOTHER } from "constants/list-answer-types";
+
 import {
   QCODE_IS_NOT_UNIQUE,
   QCODE_REQUIRED,
@@ -106,6 +109,7 @@ const mutationVariables = (inputValues) => ({
 
 const Row = memo((props) => {
   const {
+    dataVersion,
     id,
     questionTitle,
     questionShortCode,
@@ -115,20 +119,29 @@ const Row = memo((props) => {
     errorMessage,
     option,
     secondary,
+    listAnswerType,
+    drivingQCode,
+    anotherQCode,
   } = props;
 
-  const { questionnaire } = useQuestionnaire();
-  const { dataVersion } = questionnaire;
-
-  const [qCode, setQcode] = useState(initialQcode);
+  // Uses different initial QCode depending on the QCode defined in the props
+  const [qCode, setQcode] = useState(
+    initialQcode ?? drivingQCode ?? anotherQCode
+  );
   const [updateOption] = useMutation(UPDATE_OPTION_QCODE);
   const [updateAnswer] = useMutation(UPDATE_ANSWER_QCODE);
+  const [updateListCollector] = useMutation(UPDATE_LIST_COLLECTOR_PAGE);
 
   const handleBlur = useCallback(
     (qCode) => {
       if (qCode !== initialQcode) {
         if (option) {
           updateOption(mutationVariables({ id, qCode }));
+        } else if (listAnswerType === DRIVING) {
+          // id represents the list collector page ID
+          updateListCollector(mutationVariables({ id, drivingQCode: qCode }));
+        } else if (listAnswerType === ANOTHER) {
+          updateListCollector(mutationVariables({ id, anotherQCode: qCode }));
         } else {
           updateAnswer(
             mutationVariables({
@@ -139,7 +152,16 @@ const Row = memo((props) => {
         }
       }
     },
-    [initialQcode, option, secondary, id, updateAnswer, updateOption]
+    [
+      initialQcode,
+      option,
+      secondary,
+      listAnswerType,
+      id,
+      updateAnswer,
+      updateOption,
+      updateListCollector,
+    ]
   );
 
   return (
@@ -166,11 +188,14 @@ const Row = memo((props) => {
           <SpacedTableColumn>
             <ErrorWrappedInput
               name={`${id}-qcode-entry`}
-              data-test={`${id}${secondary ? "-secondary" : ""}-test-input`}
+              data-test={`${id}${secondary ? "-secondary" : ""}${
+                listAnswerType === DRIVING ? "-driving" : ""
+              }${listAnswerType === ANOTHER ? "-another" : ""}-test-input`}
               value={qCode}
               onChange={(e) => setQcode(e.value)}
               onBlur={() => handleBlur(qCode)}
               hasError={Boolean(errorMessage)}
+              aria-label="QCode input field"
             />
             {errorMessage && (
               <QcodeValidationError>{errorMessage}</QcodeValidationError>
@@ -188,6 +213,7 @@ const Row = memo((props) => {
             onChange={(e) => setQcode(e.value)}
             onBlur={() => handleBlur(qCode)}
             hasError={Boolean(errorMessage)}
+            aria-label="QCode input field"
           />
           {errorMessage && (
             <QcodeValidationError>{errorMessage}</QcodeValidationError>
@@ -199,6 +225,7 @@ const Row = memo((props) => {
 });
 
 Row.propTypes = {
+  dataVersion: PropTypes.string,
   id: PropTypes.string,
   questionTitle: PropTypes.string,
   questionShortCode: PropTypes.string,
@@ -209,10 +236,13 @@ Row.propTypes = {
   errorMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   secondary: PropTypes.bool,
   option: PropTypes.bool,
+  listAnswerType: PropTypes.string,
+  drivingQCode: PropTypes.string,
+  anotherQCode: PropTypes.string,
 };
 
 export const QCodeTable = () => {
-  const { answerRows, duplicatedQCodes } = useQCodeContext();
+  const { answerRows, duplicatedQCodes, dataVersion } = useQCodeContext();
   const getErrorMessage = (qCode) =>
     (!qCode && QCODE_REQUIRED) ||
     (duplicatedQCodes.includes(qCode) && QCODE_IS_NOT_UNIQUE);
@@ -230,16 +260,21 @@ export const QCodeTable = () => {
       </TableHead>
       <StyledTableBody>
         {answerRows?.map((item, index) => {
-          if (item.additionalAnswer && item.type !== "CheckboxOption") {
+          if (
+            item.additionalAnswer &&
+            (dataVersion === "3" || item.type !== "CheckboxOption")
+          ) {
             return (
               <>
                 <Row
                   key={`${item.id}-${index}`}
+                  dataVersion={dataVersion}
                   {...item}
                   errorMessage={getErrorMessage(item.qCode)}
                 />
                 <Row
                   key={`${item.additionalAnswer.id}-${index}`}
+                  dataVersion={dataVersion}
                   {...item.additionalAnswer}
                   errorMessage={getErrorMessage(item.additionalAnswer.qCode)}
                 />
@@ -249,8 +284,11 @@ export const QCodeTable = () => {
             return (
               <Row
                 key={`${item.id}-${index}`}
+                dataVersion={dataVersion}
                 {...item}
-                errorMessage={getErrorMessage(item.qCode)}
+                errorMessage={getErrorMessage(
+                  item.qCode ?? item.drivingQCode ?? item.anotherQCode // Uses a different QCode depending on the QCode defined in item
+                )}
               />
             );
           }

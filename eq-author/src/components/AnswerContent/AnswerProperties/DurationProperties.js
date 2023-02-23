@@ -16,6 +16,7 @@ const DurationProperties = ({
   page,
   updateAnswer,
   updateAnswerOfType,
+  hasMutuallyExclusiveAnswer,
 }) => {
   const sortedUnits = groupBy(durationTypes.durationConversion, "type");
   const onUpdateUnit = (value) => {
@@ -50,7 +51,11 @@ const DurationProperties = ({
           })}
         </StyledSelect>
       </MultiLineField>
-      <Required answer={answer} updateAnswer={updateAnswer} />
+      <Required
+        answer={answer}
+        updateAnswer={updateAnswer}
+        hasMutuallyExclusiveAnswer={hasMutuallyExclusiveAnswer}
+      />
     </>
   );
 };
@@ -60,6 +65,7 @@ DurationProperties.propTypes = {
   page: PropTypes.object, //eslint-disable-line
   updateAnswer: PropTypes.func,
   updateAnswerOfType: PropTypes.func,
+  hasMutuallyExclusiveAnswer: PropTypes.bool,
 };
 
 export default DurationProperties;

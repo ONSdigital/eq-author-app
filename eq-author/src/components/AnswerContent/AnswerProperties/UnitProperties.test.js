@@ -57,4 +57,42 @@ describe("Required Property", () => {
     userEvent.type(getByTestId(inputId), `{enter}`);
     expect(props.updateAnswerOfType).toHaveBeenCalledTimes(1);
   });
+
+  it("should set default value for unit", () => {
+    props.answer.properties.unit = "";
+    const { getByTestId } = renderUnitProperties(props);
+    getByTestId(inputId).focus();
+    fireEvent.change(getByTestId(inputId), { target: { value: "" } });
+    fireEvent.keyDown(getByTestId(inputId), {
+      key: ArrowDown,
+      code: ArrowDown,
+    });
+    userEvent.type(getByTestId(inputId), `{enter}`);
+    expect(props.updateAnswerOfType).toHaveBeenCalledTimes(1);
+  });
+
+  it("should check for errors", () => {
+    props.answer.properties.unit = "";
+    props.answer.validationErrorInfo = {
+      totalCount: 1,
+      errors: [
+        {
+          id: "1",
+          field: "unit",
+          errorCode: "ERR_VALID_REQUIRED",
+        },
+      ],
+      id: "1",
+    };
+
+    const { getByTestId } = renderUnitProperties(props);
+    getByTestId(inputId).focus();
+    fireEvent.change(getByTestId(inputId), { target: { value: "" } });
+    fireEvent.keyDown(getByTestId(inputId), {
+      key: ArrowDown,
+      code: ArrowDown,
+    });
+    userEvent.type(getByTestId(inputId), `{enter}`);
+    expect(props.updateAnswerOfType).toHaveBeenCalledTimes(1);
+  });
 });

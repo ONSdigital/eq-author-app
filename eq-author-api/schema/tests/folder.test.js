@@ -27,7 +27,7 @@ describe("Folders", () => {
       title: "Ratchet and Clank",
       description: "A survey about an amazing game",
       surveyId: "015",
-      theme: "default",
+      theme: "business",
       navigation: false,
       summary: false,
       type: "Business",

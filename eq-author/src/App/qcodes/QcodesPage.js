@@ -31,7 +31,7 @@ const StyledMainCanvas = styled(MainCanvas)`
 `;
 
 const QcodesPage = () => (
-  <Container>
+  <Container data-test="qcodes-page-container">
     <Header title="QCodes" />
     <StyledGrid tabIndex="-1" className="keyNav">
       <ScrollPane>

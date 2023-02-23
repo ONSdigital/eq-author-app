@@ -2,91 +2,99 @@
 
 exports[`PreviousAnswerContentPicker should render 1`] = `
 <ContentPickerSelect
-  answerData={
-    Array [
-      Object {
-        "displayName": "Section 1",
-        "folders": Array [
-          Object {
-            "alias": "Folder 1.1",
-            "displayName": "Folder 1.1",
-            "enabled": false,
-            "id": "1.1",
-            "pages": Array [
-              Object {
-                "additionalInfoContent": "",
-                "additionalInfoEnabled": false,
-                "additionalInfoLabel": "",
-                "alias": "1.1.1",
-                "answers": Array [
-                  Object {
-                    "displayName": "Answer 1",
-                    "id": "ans-1",
-                    "properties": Object {},
-                    "type": "Number",
-                  },
-                  Object {
-                    "displayName": "Answer 2",
-                    "id": "ans-2",
-                    "properties": Object {},
-                    "type": "Number",
-                  },
-                ],
-                "definitionContent": "",
-                "definitionEnabled": false,
-                "definitionLabel": "",
-                "description": "",
-                "descriptionEnabled": false,
-                "displayName": "Page 1.1.1",
-                "folder": Object {
-                  "id": "1",
-                  "position": 0,
-                },
-                "guidance": "",
-                "guidanceEnabled": false,
-                "id": "1.1.1",
-                "pageType": "QuestionPage",
-                "position": 0,
-                "section": Object {
-                  "displayName": "",
-                  "id": "1",
-                  "position": 0,
-                  "questionnaire": Object {
-                    "metadata": Array [],
-                  },
-                },
-                "title": "Page 1.1.1",
-                "validationErrorInfo": Object {
-                  "errors": Array [],
-                  "totalCount": 2,
-                },
-              },
-            ],
-            "position": 0,
-            "section": Object {
-              "id": "1",
-            },
-            "validationErrorInfo": Object {
-              "__typename": "ValidationErrorInfo",
-              "errors": Array [],
-              "id": "1.1-validationErrorInfo",
-              "totalCount": 0,
-            },
-          },
-        ],
-        "id": "1",
-        "position": 0,
-        "title": "Section 1",
-        "validationErrorInfo": Object {
-          "totalCount": 0,
-        },
-      },
-    ]
-  }
+  contentType="Custom"
   contentTypes={
     Array [
       "Custom",
     ]
+  }
+  contentTypesFieldNames={
+    Object {
+      "Custom": "previousAnswer",
+    }
+  }
+  data={
+    Object {
+      "Custom": Array [
+        Object {
+          "displayName": "Section 1",
+          "folders": Array [
+            Object {
+              "alias": "Folder 1.1",
+              "displayName": "Folder 1.1",
+              "enabled": false,
+              "id": "1.1",
+              "pages": Array [
+                Object {
+                  "additionalInfoContent": "",
+                  "additionalInfoEnabled": false,
+                  "additionalInfoLabel": "",
+                  "alias": "1.1.1",
+                  "answers": Array [
+                    Object {
+                      "displayName": "Answer 1",
+                      "id": "ans-1",
+                      "properties": Object {},
+                      "type": "Number",
+                    },
+                    Object {
+                      "displayName": "Answer 2",
+                      "id": "ans-2",
+                      "properties": Object {},
+                      "type": "Number",
+                    },
+                  ],
+                  "definitionContent": "",
+                  "definitionEnabled": false,
+                  "definitionLabel": "",
+                  "description": "",
+                  "descriptionEnabled": false,
+                  "displayName": "Page 1.1.1",
+                  "folder": Object {
+                    "id": "1",
+                    "position": 0,
+                  },
+                  "guidance": "",
+                  "guidanceEnabled": false,
+                  "id": "1.1.1",
+                  "pageType": "QuestionPage",
+                  "position": 0,
+                  "section": Object {
+                    "displayName": "",
+                    "id": "1",
+                    "position": 0,
+                    "questionnaire": Object {
+                      "metadata": Array [],
+                    },
+                  },
+                  "title": "Page 1.1.1",
+                  "validationErrorInfo": Object {
+                    "errors": Array [],
+                    "totalCount": 2,
+                  },
+                },
+              ],
+              "position": 0,
+              "section": Object {
+                "id": "1",
+              },
+              "validationErrorInfo": Object {
+                "__typename": "ValidationErrorInfo",
+                "errors": Array [],
+                "id": "1.1-validationErrorInfo",
+                "totalCount": 0,
+              },
+            },
+          ],
+          "id": "1",
+          "position": 0,
+          "title": "Section 1",
+          "validationErrorInfo": Object {
+            "totalCount": 0,
+          },
+        },
+      ],
+    }
   }
   name="previousAnswer"
   onSubmit={[MockFunction]}

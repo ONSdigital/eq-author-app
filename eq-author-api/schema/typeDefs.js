@@ -254,12 +254,14 @@ type ListCollectorPage implements Page & Skippable & Routable {
   drivingNegative: String
   drivingPositiveDescription: String
   drivingNegativeDescription: String
+  drivingQCode: String
   anotherTitle: String
   anotherPageDescription: String
   anotherPositive: String
   anotherNegative: String
   anotherPositiveDescription: String
   anotherNegativeDescription: String
+  anotherQCode: String
   addItemTitle: String
   addItemPageDescription: String
   routing: Routing2
@@ -558,7 +560,9 @@ enum AnswerType {
 
 enum ThemeShortName {
   default
+  business
   social
+  health
   census
   northernireland
   covid
@@ -567,6 +571,8 @@ enum ThemeShortName {
   epe
   epenorthernireland
   orr
+  beis
+  beis_ni
 }
 
 type Metadata {
@@ -1018,20 +1024,25 @@ input UpdateListCollectorPageInput {
   id: ID!
   title: String
   listId: ID
-  drivingQuestion: String!
-  pageDescription: String!
+  drivingQuestion: String
+  pageDescription: String
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
-  drivingPositive: String!
-  drivingNegative: String!
+  drivingPositive: String
+  drivingNegative: String
   drivingPositiveDescription: String
   drivingNegativeDescription: String
-  anotherTitle: String!
+  anotherTitle: String
   anotherPageDescription: String
-  anotherPositive: String!
-  anotherNegative: String!
+  anotherPositive: String
+  anotherNegative: String
+  drivingQCode: String
+  anotherTitle: String
+  anotherPositive: String
+  anotherNegative: String
   anotherPositiveDescription: String
   anotherNegativeDescription: String
+  anotherQCode: String
   addItemTitle: String
   addItemPageDescription: String
   alias: String
@@ -1393,6 +1404,8 @@ input UpdateAnswerInput {
   secondaryLabel: String
   qCode: String
   secondaryQCode: String
+  drivingQCode: String
+  anotherQCode: String
   properties: JSON
   advancedProperties: Boolean
   defaultAnswer: Boolean

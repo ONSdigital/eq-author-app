@@ -12,12 +12,14 @@ fragment ListCollector on ListCollectorPage {
   drivingNegative
   drivingPositiveDescription
   drivingNegativeDescription
+  drivingQCode
   anotherTitle
   anotherPageDescription
   anotherPositive
   anotherNegative
   anotherPositiveDescription
   anotherNegativeDescription
+  anotherQCode
   addItemTitle
   addItemPageDescription
 }

@@ -28,7 +28,11 @@ export const DateSingle = ({ answer, onChange, onUpdate, ...otherProps }) => {
         showDummyDate={false}
         {...otherProps}
       />
-      <AnswerProperties answer={answer} updateAnswer={updateAnswer} />
+      <AnswerProperties
+        answer={answer}
+        updateAnswer={updateAnswer}
+        page={otherProps.page}
+      />
       <AdvancedProperties answer={answer} updateAnswer={updateAnswer}>
         <AnswerValidation answer={answer} />
       </AdvancedProperties>

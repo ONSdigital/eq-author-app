@@ -2,13 +2,19 @@ import React, { createContext, useContext, useMemo } from "react";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import { getPages } from "utils/questionnaireUtils";
+
 import {
   RADIO_OPTION,
   CHECKBOX,
   CHECKBOX_OPTION,
+  RADIO,
   MUTUALLY_EXCLUSIVE,
   ANSWER_OPTION_TYPES,
+  SELECT_OPTION,
 } from "constants/answer-types";
+
+import { ListCollectorPage as LIST_COLLECTOR_PAGE } from "constants/page-types";
+import { DRIVING, ANOTHER } from "constants/list-answer-types";
 
 export const QCodeContext = createContext();
 
@@ -42,25 +48,76 @@ export const flattenAnswer = (answer) =>
     },
   ].filter(Boolean);
 
+const formatListCollector = (listCollectorPage) => [
+  {
+    id: listCollectorPage.id,
+    questionTitle: listCollectorPage.drivingQuestion,
+    drivingQCode: listCollectorPage.drivingQCode,
+    type: RADIO,
+    listAnswerType: DRIVING,
+  },
+  {
+    label: listCollectorPage.drivingPositive,
+    type: RADIO_OPTION,
+    option: true,
+  },
+  {
+    label: listCollectorPage.drivingNegative,
+    type: RADIO_OPTION,
+    option: true,
+  },
+  {
+    id: listCollectorPage.id,
+    questionTitle: listCollectorPage.anotherTitle,
+    anotherQCode: listCollectorPage.anotherQCode,
+    type: RADIO,
+    listAnswerType: ANOTHER,
+  },
+  {
+    label: listCollectorPage.anotherPositive,
+    type: RADIO_OPTION,
+    option: true,
+  },
+  {
+    label: listCollectorPage.anotherNegative,
+    type: RADIO_OPTION,
+    option: true,
+  },
+];
+
 // getFlattenedAnswerRows :: Questionnaire -> [AnswerRow]
 // Generate list of rows of flattened answers, with parent page information,
 // from input questionnaire object
 export const getFlattenedAnswerRows = (questionnaire) => {
   const pages = getPages(questionnaire)?.filter(
-    ({ pageType }) =>
-      pageType !== "CalculatedSummaryPage" && pageType !== "ListCollectorPage"
+    ({ pageType }) => pageType !== "CalculatedSummaryPage"
   );
 
+  if (questionnaire?.collectionLists?.lists) {
+    questionnaire.collectionLists.lists.forEach((list) => {
+      pages.push({
+        ...list,
+        title: list.listName,
+      });
+    });
+  }
+
   return pages?.flatMap((page) => {
-    const answerRows = page.answers.flatMap(flattenAnswer);
+    if (page.pageType !== LIST_COLLECTOR_PAGE) {
+      const answerRows = page.answers.flatMap(flattenAnswer);
 
-    // Add page title / shortcode alias (for display in QCodesTable) to first answer only
-    if (answerRows.length) {
-      answerRows[0].questionTitle = page.title;
-      answerRows[0].questionShortCode = page.alias;
+      // Add page title / shortcode alias (for display in QCodesTable) to first answer only
+      if (answerRows.length) {
+        answerRows[0].questionTitle = page.title;
+        answerRows[0].questionShortCode = page.alias;
+      }
+
+      return answerRows;
     }
-
-    return answerRows;
+    // pageType ListCollectorPage does not include page.answers
+    else {
+      return formatListCollector(page);
+    }
   });
 };
 
@@ -69,27 +126,38 @@ export const getFlattenedAnswerRows = (questionnaire) => {
 export const getDuplicatedQCodes = (flattenedAnswers, { dataVersion }) => {
   // acc - accumulator
   const qCodeUsageMap = flattenedAnswers?.reduce(
-    (acc, { qCode, type, additionalAnswer }) => {
+    (acc, { qCode, drivingQCode, anotherQCode, type, additionalAnswer }) => {
       const { qCode: additionalAnswerQCode } = additionalAnswer || {};
 
-      if (qCode) {
-        // If dataVersion is 3, do not check if a QCode has the same value as a checkbox option's QCode
-        if (dataVersion === "3" && type !== CHECKBOX_OPTION) {
-          const currentValue = acc.get(qCode);
-          acc.set(qCode, currentValue ? currentValue + 1 : 1);
+      if (dataVersion === "3") {
+        if (
+          (qCode || drivingQCode || anotherQCode) &&
+          type !== CHECKBOX_OPTION
+        ) {
+          const currentValue = acc.get(qCode ?? drivingQCode ?? anotherQCode);
+          acc.set(
+            qCode ?? drivingQCode ?? anotherQCode,
+            currentValue ? currentValue + 1 : 1
+          );
         }
-        // If dataVersion is not 3, do not check if a QCode has the same value as a checkbox answer's QCode
-        else if (dataVersion !== "3" && type !== CHECKBOX) {
-          const currentValue = acc.get(qCode);
-          acc.set(qCode, currentValue ? currentValue + 1 : 1);
+
+        if (additionalAnswerQCode) {
+          const currentValue = acc.get(additionalAnswerQCode);
+          acc.set(additionalAnswerQCode, currentValue ? currentValue + 1 : 1);
         }
       }
 
-      if (additionalAnswerQCode) {
-        const currentValue = acc.get(additionalAnswerQCode);
-        acc.set(additionalAnswerQCode, currentValue ? currentValue + 1 : 1);
-      }
+      if (dataVersion !== "3") {
+        if (qCode && type !== CHECKBOX) {
+          const currentValue = acc.get(qCode);
+          acc.set(qCode, currentValue ? currentValue + 1 : 1);
+        }
 
+        if (additionalAnswerQCode && type !== CHECKBOX_OPTION) {
+          const currentValue = acc.get(additionalAnswerQCode);
+          acc.set(additionalAnswerQCode, currentValue ? currentValue + 1 : 1);
+        }
+      }
       return acc;
     },
     new Map()
@@ -106,15 +174,17 @@ const getEmptyQCodes = (answerRows, dataVersion) => {
   // This removes the error badge from the main navigation QCodes tab when data version is 3 and a checkbox option is empty from when it previously used a different data version
   if (dataVersion === "3") {
     return answerRows?.find(
-      ({ qCode, type }) =>
-        !qCode && ![CHECKBOX_OPTION, RADIO_OPTION].includes(type)
+      ({ qCode, drivingQCode, anotherQCode, type }) =>
+        !(qCode || drivingQCode || anotherQCode) &&
+        ![CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type)
     );
   }
   // If dataVersion is not 3, checkbox answers and radio options do not have QCodes, and therefore these can be empty
   // This removes the error badge from the main navigation QCodes tab when data version is not 3 and a checkbox answer is empty from when it previously used data version 3
   else {
     return answerRows?.find(
-      ({ qCode, type }) => !qCode && ![CHECKBOX, RADIO_OPTION].includes(type)
+      ({ qCode, type }) =>
+        !qCode && ![CHECKBOX, RADIO_OPTION, SELECT_OPTION].includes(type)
     );
   }
 };
@@ -134,13 +204,16 @@ export const QCodeContextProvider = ({ questionnaire = {}, children }) => {
     duplicatedQCodes?.length ||
     getEmptyQCodes(answerRows, questionnaire.dataVersion);
 
+  const dataVersion = questionnaire?.dataVersion;
+
   const value = useMemo(
     () => ({
       answerRows,
       duplicatedQCodes,
+      dataVersion,
       hasQCodeError,
     }),
-    [answerRows, duplicatedQCodes, hasQCodeError]
+    [answerRows, duplicatedQCodes, dataVersion, hasQCodeError]
   );
 
   return (

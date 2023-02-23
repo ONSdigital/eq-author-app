@@ -9,7 +9,7 @@ import {
   ANSWER,
   METADATA,
   VARIABLES,
-} from "components/ContentPickerSelect/content-types";
+} from "components/ContentPickerSelectv3/content-types";
 
 import { DATE_RANGE, NUMBER } from "constants/answer-types";
 
@@ -70,6 +70,25 @@ describe("PipingMenu", () => {
     );
   };
 
+  const listCollectorRender = ({
+    currentPageId = "1.1.2",
+    questionnaire = mockQuestionnaire,
+    ...props
+  } = {}) => {
+    useCurrentPageId.mockImplementation(() => currentPageId);
+    useQuestionnaire.mockImplementation(() => ({ questionnaire }));
+
+    return shallow(
+      <PipingMenu
+        onItemChosen={handleItemChosen}
+        allowableTypes={[ANSWER, METADATA, VARIABLES]}
+        canFocus
+        listId="123"
+        {...props}
+      />
+    );
+  };
+
   it("should render", () => {
     const wrapper = render();
     expect(wrapper).toMatchSnapshot();
@@ -97,6 +116,13 @@ describe("PipingMenu", () => {
     const wrapper = render();
     wrapper.find("[data-test='piping-button']").simulate("click");
     expect(wrapper.find("[data-test='picker']").prop("isOpen")).toBe(true);
+  });
+
+  it("should open the answer picker when clicked", () => {
+    const wrapper = listCollectorRender();
+    wrapper.find("[data-test='piping-button']").simulate("click");
+    expect(wrapper.find("[data-test='picker']").prop("isOpen")).toBe(true);
+    expect(wrapper.find("List Answer")).toBeTruthy();
   });
 
   it("should open the metadata picker when clicked", () => {

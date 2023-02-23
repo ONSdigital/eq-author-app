@@ -123,7 +123,7 @@ const ImportSectionReviewModal = ({
         <>
           <SpacedRow>
             <ContentHeading>
-              Question{startingSelectedSections.length > 1 ? "s" : ""} to import
+              Section{startingSelectedSections.length > 1 ? "s" : ""} to import
             </ContentHeading>
             <RemoveAllButton onClick={onRemoveAll}>Remove all</RemoveAllButton>
           </SpacedRow>

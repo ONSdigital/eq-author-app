@@ -10,7 +10,7 @@ describe("SurveyDetails", () => {
       variants: [
         {
           language: "en",
-          theme: "default",
+          theme: "business",
           authorId: "77df029c-a3ab-4451-8ef5-6a265f0f1b6d",
         },
       ],

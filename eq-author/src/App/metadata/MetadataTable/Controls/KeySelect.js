@@ -13,6 +13,7 @@ export const suggestedKeys = [
   { value: "ru_name" },
   { value: "trad_as" },
   { value: "period_id" },
+  { value: "user_id" },
   { value: "period_str" },
   { value: "language_code" },
   { value: "ref_p_start_date" },

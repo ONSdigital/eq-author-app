@@ -1,7 +1,8 @@
 import React from "react";
 import { shallow } from "enzyme";
 import MetadataContentPicker from "./MetadataContentPicker";
-import ContentPickerSelect from "components/ContentPickerSelect";
+import ContentPickerSelect from "components/ContentPickerSelectv3";
+import { METADATA } from "components/ContentPickerSelectv3/content-types";
 
 import { useQuestionnaire } from "components/QuestionnaireContext";
 jest.mock("components/QuestionnaireContext", () => ({
@@ -41,7 +42,7 @@ describe("MetadataContentPicker", () => {
 
   it("should only display date type metadata", () => {
     const contentPicker = wrapper.find(ContentPickerSelect);
-    const metadata = contentPicker.prop("metadataData");
+    const metadata = contentPicker.prop("data")[METADATA];
     expect(metadata).toHaveLength(1);
     expect(metadata[0].id).toEqual(
       useQuestionnaire().questionnaire.metadata[1].id
