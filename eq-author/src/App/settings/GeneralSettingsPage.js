@@ -14,6 +14,7 @@ import updateQuestionnaireIntroductionMutation from "graphql/updateQuestionnaire
 
 import VerticalTabs from "components/VerticalTabs";
 import tabItems from "./TabItems";
+import ThemeSelect from "./ThemeSelect";
 
 import { Grid, Column } from "components/Grid";
 import Header from "components/EditorLayout/Header";
@@ -342,6 +343,15 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                         />
                       </InlineField>
                     </EnableDisableWrapper>
+                    <HorizontalSeparator />
+                    <Field>
+                      <Label htmlFor="theme">Theme</Label>
+                      <Caption>
+                        The theme controls the design and branding of the header
+                        within eQ.
+                      </Caption>
+                      <ThemeSelect />
+                    </Field>
                   </StyledPanel>
                 </SettingsContainer>
               </Column>
