@@ -8,6 +8,8 @@ import * as questionnaireContext from "components/QuestionnaireContext";
 import mockQuestionnaire from "./mockQuestionnaire.json";
 import mockPage from "./mockPage.json";
 
+import mockCalculatedSummary from "tests/mocks/mockCalculatedSummary.json";
+
 import suppressConsoleMessage from "tests/utils/supressConsol";
 
 /*
@@ -47,25 +49,29 @@ describe("Answer selector", () => {
 
       expect(mockPage.summaryAnswers).toHaveLength(0);
 
-      const emptyLabel = getByText("No answers selected");
+      const emptyLabel = getByText(
+        "No answers or calculated summary totals selected"
+      );
       expect(emptyLabel).toBeInTheDocument();
     });
 
     it("Shows the picker when the select button is pressed", () => {
-      const { getByText } = render(() => (
+      const { getByText, getAllByText } = render(() => (
         <AnswerSelector
           page={mockPage}
           onUpdateCalculatedSummaryPage={mockOnUpdateCalculatedSummaryPage}
         />
       ));
 
-      const btn = getByText("Select an answer");
+      const btn = getByText("Select an answer or calculated summary total");
 
       expect(btn).not.toBeDisabled();
       btn.click();
 
-      const pickerHeader = getByText("Select one or more answer");
-      expect(pickerHeader).toBeInTheDocument();
+      const pickerHeader = getAllByText(
+        "Select an answer or calculated summary total"
+      );
+      expect(pickerHeader[1]).toBeInTheDocument();
     });
   });
 
@@ -110,20 +116,69 @@ describe("Answer selector", () => {
     });
 
     it("Shows the picker when the select button is pressed", () => {
-      const { getByText } = render(() => (
+      const { getByText, getAllByText } = render(() => (
         <AnswerSelector
           page={mockPage}
           onUpdateCalculatedSummaryPage={mockOnUpdateCalculatedSummaryPage}
         />
       ));
 
-      const btn = getByText("Select another number answer");
+      const btn = getByText(
+        "Select another number answer or calculated summary total"
+      );
 
       expect(btn).not.toBeDisabled();
       btn.click();
 
-      const pickerHeader = getByText("Select one or more answer");
-      expect(pickerHeader).toBeInTheDocument();
+      const pickerHeader = getAllByText(
+        "Select an answer or calculated summary total"
+      );
+      expect(pickerHeader[0]).toBeInTheDocument();
     });
+  });
+});
+
+describe("Submit selected answers", () => {
+  let mockOnUpdateCalculatedSummaryPage, mockUseQuestionnaire;
+
+  beforeEach(() => {
+    mockOnUpdateCalculatedSummaryPage = jest.fn();
+
+    mockUseQuestionnaire = jest.fn(() => ({
+      questionnaire: mockCalculatedSummary,
+    }));
+
+    questionnaireContext.useQuestionnaire = mockUseQuestionnaire; // eslint-disable-line import/namespace
+  });
+
+  it("should submit the selected answers", () => {
+    const { getByText, getAllByText, getByTestId } = render(() => (
+      <AnswerSelector
+        page={mockCalculatedSummary.sections[1].folders[0].pages[2]}
+        onUpdateCalculatedSummaryPage={mockOnUpdateCalculatedSummaryPage}
+      />
+    ));
+
+    const btn = getByText("Select an answer or calculated summary total");
+
+    expect(btn).not.toBeDisabled();
+    btn.click();
+
+    const pickerHeader = getAllByText(
+      "Select an answer or calculated summary total"
+    );
+    expect(pickerHeader[1]).toBeInTheDocument();
+
+    const calculatedSummaryAnswers = getAllByText("CALCULATED SUMMARY");
+    expect(calculatedSummaryAnswers).toBeTruthy();
+    calculatedSummaryAnswers[0].click();
+    calculatedSummaryAnswers[1].click();
+
+    const selectButton = getByTestId("select-summary-answers");
+    expect(selectButton).toBeTruthy();
+
+    selectButton.click();
+
+    expect(mockOnUpdateCalculatedSummaryPage).toHaveBeenCalledTimes(1);
   });
 });

@@ -55,7 +55,9 @@ describe("Answers", () => {
     const ansTwo = getByText("How many years has she worked at Cloud Nine?");
     expect(ansTwo).toBeInTheDocument();
 
-    const selectBtn = getByText("Select another number answer");
+    const selectBtn = getByText(
+      "Select another number answer or calculated summary total"
+    );
     expect(selectBtn).toBeInTheDocument();
   });
 
@@ -68,7 +70,9 @@ describe("Answers", () => {
       />
     );
 
-    const selectBtn = getByText("Select another number answer");
+    const selectBtn = getByText(
+      "Select another number answer or calculated summary total"
+    );
 
     selectBtn.click();
 
@@ -175,7 +179,9 @@ describe("Answers", () => {
       />
     );
 
-    const errorMessage = getByText("Select another number answer");
+    const errorMessage = getByText(
+      "Select another number answer or calculated summary total"
+    );
 
     expect(errorMessage).toBeInTheDocument();
   });
