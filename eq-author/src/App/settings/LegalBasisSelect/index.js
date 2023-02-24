@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
 import { useMutation } from "@apollo/react-hooks";
 
 import { Input } from "components/Forms";
@@ -10,7 +9,7 @@ import UPDATE_QUESTIONNAIRE_MUTATION from "graphql/updateQuestionnaire.graphql";
 
 import LEGAL_BASIS_OPTIONS from "constants/legal-basis-options";
 
-const LegalOption = ({ name, value, questionnaireId, selected, children }) => {
+const LegalOption = ({ questionnaireId, value, selected, children }) => {
   const [updateQuestionnaire] = useMutation(UPDATE_QUESTIONNAIRE_MUTATION);
 
   return (
@@ -19,7 +18,6 @@ const LegalOption = ({ name, value, questionnaireId, selected, children }) => {
         id={value}
         type="radio"
         variant="radioBox"
-        name={name}
         checked={selected}
         onChange={() =>
           updateQuestionnaire({
@@ -30,14 +28,6 @@ const LegalOption = ({ name, value, questionnaireId, selected, children }) => {
       {children}
     </RadioLabel>
   );
-};
-
-LegalOption.propTypes = {
-  value: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
-  onChange: PropTypes.func.isRequired,
-  selected: PropTypes.bool.isRequired,
 };
 
 const LegalBasisSelect = ({
@@ -62,10 +52,17 @@ const LegalBasisSelect = ({
   );
 };
 
+LegalOption.propTypes = {
+  questionnaireId: PropTypes.string,
+  value: PropTypes.string,
+  selected: PropTypes.bool,
+  children: PropTypes.node,
+};
+
 LegalBasisSelect.propTypes = {
-  questionnaireId: PropTypes.string.isRequired,
-  legalBasis: PropTypes.string.isRequired,
-  shortName: PropTypes.string.isRequired,
+  questionnaireId: PropTypes.string,
+  shortName: PropTypes.string,
+  selectedLegalBasis: PropTypes.string,
 };
 
 export default LegalBasisSelect;

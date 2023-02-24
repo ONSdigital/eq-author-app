@@ -8,7 +8,7 @@ import CustomPropTypes from "custom-prop-types";
 
 import { colors } from "constants/theme";
 import PageTitle from "components/preview/elements/PageTitle";
-import { LEGAL_BASIS_OPTIONS } from "App/settings/LegalBasisSelect";
+import LEGAL_BASIS_OPTIONS from "constants/legal-basis-options";
 import iconChevron from "../icon-chevron.svg";
 
 import GET_THEME_SETTINGS_QUERY from "graphql/getThemeSettings.graphql";

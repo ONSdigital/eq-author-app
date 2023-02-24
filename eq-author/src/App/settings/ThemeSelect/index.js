@@ -34,8 +34,8 @@ const RadioDescription = styled.span`
 const ThemeOption = ({
   questionnaireId,
   themeId,
-  dataTest,
   selected,
+  dataTest,
   children,
 }) => {
   const [updateQuestionnaire] = useMutation(UPDATE_QUESTIONNAIRE_MUTATION);
@@ -75,6 +75,19 @@ const ThemeSelect = ({ questionnaireId, selectedTheme }) => {
       ))}
     </RadioField>
   );
+};
+
+ThemeOption.propTypes = {
+  questionnaireId: PropTypes.string,
+  themeId: PropTypes.string,
+  selected: PropTypes.bool,
+  dataTest: PropTypes.string,
+  children: PropTypes.node,
+};
+
+ThemeSelect.propTypes = {
+  questionnaireId: PropTypes.string,
+  selectedTheme: PropTypes.string,
 };
 
 export default ThemeSelect;
