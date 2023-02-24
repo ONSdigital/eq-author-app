@@ -36,6 +36,7 @@ import Collapsible from "components/Collapsible";
 
 import gql from "graphql-tag";
 import RichTextEditor from "components/RichTextEditor";
+import { getErrorByField } from "../../QuestionPageEditor/validationUtils";
 
 const Caption = styled.div`
   margin-bottom: 0.2em;
@@ -66,12 +67,14 @@ export const StatelessBasicAnswer = ({
 
   const { id } = answer;
   const pipingControls = { piping: true };
-  const errorMessage = getValidationError({
-    field: "label",
-    type: "answer",
-    label: errorLabel,
-    requiredMsg: errorMsg,
-  });
+  const errorMessage =
+    getErrorByField("label", page.validationErrorInfo.errors) ||
+    getValidationError({
+      field: "label",
+      type: "answer",
+      label: errorLabel,
+      requiredMsg: errorMsg,
+    });
 
   return (
     <div>
