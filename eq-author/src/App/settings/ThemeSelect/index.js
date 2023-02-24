@@ -31,7 +31,13 @@ const RadioDescription = styled.span`
   color: ${colors.text};
 `;
 
-const ThemeOption = ({ questionnaireId, themeId, dataTest, children }) => {
+const ThemeOption = ({
+  questionnaireId,
+  themeId,
+  dataTest,
+  selected,
+  children,
+}) => {
   const [updateQuestionnaire] = useMutation(UPDATE_QUESTIONNAIRE_MUTATION);
 
   return (
@@ -39,8 +45,8 @@ const ThemeOption = ({ questionnaireId, themeId, dataTest, children }) => {
       <Input
         type="radio"
         variant="radioBox"
-        id="test"
-        value="test"
+        id={themeId}
+        checked={selected}
         onChange={() =>
           updateQuestionnaire({
             variables: { input: { id: questionnaireId, theme: themeId } },
@@ -52,13 +58,14 @@ const ThemeOption = ({ questionnaireId, themeId, dataTest, children }) => {
   );
 };
 
-const ThemeSelect = ({ questionnaireId }) => {
+const ThemeSelect = ({ questionnaireId, selectedTheme }) => {
   return (
     <RadioField>
       {THEMES.map(({ id, title, description }) => (
         <ThemeOption
           key={id}
           themeId={id}
+          selected={id === selectedTheme} // Theme option is selected if its ID matches the ID of the theme from the questionnaire data
           questionnaireId={questionnaireId}
           dataTest={`theme-option-${id}`}
         >

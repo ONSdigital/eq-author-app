@@ -107,6 +107,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
     surveyId: initialSurveyId,
     eqId: initialEqId,
     formType: initialFormType,
+    theme,
   } = questionnaire;
 
   const showOnHub = introduction?.showOnHub;
@@ -350,7 +351,10 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                         The theme controls the design and branding of the header
                         within eQ.
                       </Caption>
-                      <ThemeSelect questionnaireId={questionnaireId} />
+                      <ThemeSelect
+                        questionnaireId={questionnaireId}
+                        selectedTheme={theme}
+                      />
                     </Field>
                   </StyledPanel>
                 </SettingsContainer>
