@@ -1189,6 +1189,7 @@ input UpdateQuestionnaireInput {
   formType: String
   eqId: String
   theme: String
+  legalBasis: String
   qcodes: Boolean
   navigation: Boolean
   hub: Boolean

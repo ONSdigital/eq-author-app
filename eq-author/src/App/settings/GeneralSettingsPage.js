@@ -23,6 +23,7 @@ import ToggleSwitch from "components/buttons/ToggleSwitch";
 import ValidationError from "components/ValidationError";
 
 import { SURVEY_ID_ERRORS } from "constants/validationMessages";
+import LegalBasisSelect from "./LegalBasisSelect";
 
 const StyledPanel = styled.div`
   max-width: 97.5%;
@@ -108,6 +109,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
     eqId: initialEqId,
     formType: initialFormType,
     theme,
+    legalBasis,
   } = questionnaire;
 
   const showOnHub = introduction?.showOnHub;
@@ -354,6 +356,16 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                       <ThemeSelect
                         questionnaireId={questionnaireId}
                         selectedTheme={theme}
+                      />
+                    </Field>
+                    <Field>
+                      <Label htmlFor="legalBasis">Legal basis</Label>
+                      <Caption>
+                        The legal basis appears on the survey introduction page.
+                      </Caption>
+                      <LegalBasisSelect
+                        questionnaireId={questionnaireId}
+                        selectedLegalBasis={legalBasis}
                       />
                     </Field>
                   </StyledPanel>

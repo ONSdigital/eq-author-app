@@ -43,9 +43,9 @@ const ThemeOption = ({
   return (
     <RadioLabel data-test={dataTest}>
       <Input
+        id={themeId}
         type="radio"
         variant="radioBox"
-        id={themeId}
         checked={selected}
         onChange={() =>
           updateQuestionnaire({

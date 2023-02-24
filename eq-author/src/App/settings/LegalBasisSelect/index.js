@@ -1,59 +1,36 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-import { Input, Label } from "components/Forms";
-import { RadioLabel, RadioField, RadioDescription } from "components/Radio";
 import styled from "styled-components";
+import { useMutation } from "@apollo/react-hooks";
 
-import useUpdateTheme from "hooks/useUpdateTheme";
+import { Input } from "components/Forms";
+import { RadioLabel, RadioField, RadioDescription } from "components/Radio";
 
-const StyledLabel = styled(Label)`
-  margin: 0.8em 0 0;
-`;
+import UPDATE_QUESTIONNAIRE_MUTATION from "graphql/updateQuestionnaire.graphql";
 
-export const LEGAL_BASIS_OPTIONS = [
-  {
-    description: "Section 1 of the Statistics of Trade Act 1947.",
-    value: "NOTICE_1",
-  },
-  {
-    description: "Sections 2 and 3 of the Statistics of Trade Act 1947.",
-    value: "NOTICE_2",
-  },
-  {
-    description: "Sections 3 and 4 of the Statistics of Trade Act 1947.",
-    value: "NOTICE_3",
-  },
-  {
-    description:
-      "Article 5 of the Statistics of Trade and Employment (Northern Ireland) Order 1988.",
-    value: "NOTICE_NI",
-  },
-  {
-    description:
-      "Petroleum Act 1998 and Section 1 of the Statistics of Trade Act 1947.",
-    value: "NOTICE_FUELS",
-  },
-  {
-    description: "Voluntary",
-    value: "VOLUNTARY",
-  },
-];
+import LEGAL_BASIS_OPTIONS from "constants/legal-basis-options";
 
-export const LegalOption = ({ name, value, children, onChange, selected }) => (
-  <RadioLabel selected={selected}>
-    <Input
-      type="radio"
-      name={name}
-      variant="radioBox"
-      checked={selected}
-      id={value}
-      value={value}
-      onChange={onChange}
-    />
-    {children}
-  </RadioLabel>
-);
+const LegalOption = ({ name, value, questionnaireId, selected, children }) => {
+  const [updateQuestionnaire] = useMutation(UPDATE_QUESTIONNAIRE_MUTATION);
+
+  return (
+    <RadioLabel selected={selected}>
+      <Input
+        id={value}
+        type="radio"
+        variant="radioBox"
+        name={name}
+        checked={selected}
+        onChange={() =>
+          updateQuestionnaire({
+            variables: { input: { id: questionnaireId, legalBasis: value } },
+          })
+        }
+      />
+      {children}
+    </RadioLabel>
+  );
+};
 
 LegalOption.propTypes = {
   value: PropTypes.string.isRequired,
@@ -64,31 +41,19 @@ LegalOption.propTypes = {
 };
 
 const LegalBasisSelect = ({
-  legalBasis: selectedValue,
-  shortName,
   questionnaireId,
+  shortName,
+  selectedLegalBasis,
 }) => {
-  const updateTheme = useUpdateTheme();
-
-  const handleChange = ({ value: legalBasisCode }) => {
-    updateTheme({
-      shortName,
-      questionnaireId,
-      legalBasisCode,
-    });
-  };
-
   return (
     <RadioField>
-      <StyledLabel>Legal basis</StyledLabel>
-      <p>The legal basis appears on the survey introduction page.</p>
       {LEGAL_BASIS_OPTIONS.map(({ value, description }) => (
         <LegalOption
           name={shortName}
           key={value}
           value={value}
-          selected={value === selectedValue}
-          onChange={handleChange}
+          selected={value === selectedLegalBasis}
+          questionnaireId={questionnaireId}
         >
           <RadioDescription>{description}</RadioDescription>
         </LegalOption>
@@ -98,9 +63,9 @@ const LegalBasisSelect = ({
 };
 
 LegalBasisSelect.propTypes = {
+  questionnaireId: PropTypes.string.isRequired,
   legalBasis: PropTypes.string.isRequired,
   shortName: PropTypes.string.isRequired,
-  questionnaireId: PropTypes.string.isRequired,
 };
 
 export default LegalBasisSelect;
