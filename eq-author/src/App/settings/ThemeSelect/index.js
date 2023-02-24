@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useMutation } from "@apollo/react-hooks";
 import { colors } from "constants/theme";
 
 import styled from "styled-components";
@@ -9,9 +10,11 @@ import {
   RadioField,
   RadioDescription as RadioTitle,
 } from "components/Radio";
-import { Input, Label } from "components/Forms";
+import { Input } from "components/Forms";
 
 import THEMES from "constants/themes";
+
+import UPDATE_QUESTIONNAIRE_MUTATION from "graphql/updateQuestionnaire.graphql";
 
 const StyledRadioTitle = styled(RadioTitle)`
   font-size: 1em;
@@ -28,20 +31,37 @@ const RadioDescription = styled.span`
   color: ${colors.text};
 `;
 
-const ThemeOption = ({ title, dataTest, children }) => {
+const ThemeOption = ({ questionnaireId, themeId, dataTest, children }) => {
+  const [updateQuestionnaire] = useMutation(UPDATE_QUESTIONNAIRE_MUTATION);
+
   return (
     <RadioLabel data-test={dataTest}>
-      <Input type="radio" variant="radioBox" id="test" value="test" />
+      <Input
+        type="radio"
+        variant="radioBox"
+        id="test"
+        value="test"
+        onChange={() =>
+          updateQuestionnaire({
+            variables: { input: { id: questionnaireId, theme: themeId } },
+          })
+        }
+      />
       {children}
     </RadioLabel>
   );
 };
 
-const ThemeSelect = () => {
+const ThemeSelect = ({ questionnaireId }) => {
   return (
     <RadioField>
       {THEMES.map(({ id, title, description }) => (
-        <ThemeOption key={id} dataTest={`theme-option-${id}`}>
+        <ThemeOption
+          key={id}
+          themeId={id}
+          questionnaireId={questionnaireId}
+          dataTest={`theme-option-${id}`}
+        >
           <StyledRadioTitle>{title}</StyledRadioTitle>
           <RadioDescription>{description}</RadioDescription>
         </ThemeOption>

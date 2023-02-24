@@ -350,7 +350,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                         The theme controls the design and branding of the header
                         within eQ.
                       </Caption>
-                      <ThemeSelect />
+                      <ThemeSelect questionnaireId={questionnaireId} />
                     </Field>
                   </StyledPanel>
                 </SettingsContainer>
