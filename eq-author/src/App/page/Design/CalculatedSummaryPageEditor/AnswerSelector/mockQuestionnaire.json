@@ -44,14 +44,14 @@
               },
               "answers": [
                 {
-                  "id": "3a1633da-29d4-426e-9e7e-fd14d4c75700",
+                  "id": "answer-1",
                   "displayName": "a",
                   "description": "",
                   "guidance": "",
                   "qCode": "",
                   "label": "a",
                   "secondaryLabel": null,
-                  "secondaryLabelDefault": "Untitled answer",
+                  "secondaryLabelDefault": "Answer-1",
                   "type": "Number",
                   "properties": {
                     "required": false,
@@ -96,14 +96,14 @@
               },
               "answers": [
                 {
-                  "id": "f337bce1-ad17-49ab-8439-5eb632177fcd",
+                  "id": "answer-2",
                   "displayName": "b",
                   "description": "",
                   "guidance": "",
                   "qCode": "",
                   "label": "b",
                   "secondaryLabel": null,
-                  "secondaryLabelDefault": "Untitled answer",
+                  "secondaryLabelDefault": "Answer-2",
                   "type": "Number",
                   "properties": {
                     "required": false,

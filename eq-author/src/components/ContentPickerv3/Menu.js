@@ -122,6 +122,19 @@ export const MenuItemType = styled.span`
   justify-self: flex-end;
 `;
 
+export const MenuItemPageType = styled.span`
+  font-size: 10px;
+  margin: 0 0.25em;
+  background: #e4e8eb;
+  padding: 0.3em 0.7em;
+  border-radius: 1em;
+  letter-spacing: 0.05em;
+  color: var(--colorTertiary);
+  flex: 0 1 auto;
+  justify-self: flex-end;
+  margin-right: 2em;
+`;
+
 export const SectionTitle = styled.div`
   background: #f4f5f6;
   font-size: 11px;
@@ -218,7 +231,10 @@ const SubMenu = ({ data, onSelected, isSelected, isDisabled }) => {
                   <Truncated>{page.displayName}</Truncated>
                 </MenuItemSubtitle>
               </MenuItemTitles>
-              <MenuItemType>{item.type}</MenuItemType>
+              {page.pageType === "CalculatedSummaryPage" && (
+                <MenuItemPageType>CALCULATED SUMMARY</MenuItemPageType>
+              )}
+              <MenuItemType>{item.type.toUpperCase()}</MenuItemType>
               {item.type === UNIT && (
                 <MenuItemType>
                   {item.properties.unit ? item.properties.unit : "Missing unit"}

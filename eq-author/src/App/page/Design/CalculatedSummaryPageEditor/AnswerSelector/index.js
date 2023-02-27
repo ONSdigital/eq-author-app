@@ -12,6 +12,7 @@ import AnswerPicker from "components/AnswerPicker";
 
 import { useQuestionnaire } from "components/QuestionnaireContext";
 import getContentBeforeEntity from "utils/getContentBeforeEntity";
+import getCalculatedSummaryPages from "utils/getCalculatedSummaryPages";
 
 const Container = styled.div`
   border: 1px solid ${colors.grey};
@@ -29,15 +30,17 @@ const AnswerSelector = ({ page, onUpdateCalculatedSummaryPage }) => {
   const { questionnaire } = useQuestionnaire();
 
   const availableSummaryAnswers = useMemo(
-    () =>
-      (
+    () => [
+      ...getCalculatedSummaryPages(questionnaire, page.section.id),
+      ...((
         questionnaire &&
         getContentBeforeEntity({
           questionnaire,
           id: page.id,
           preprocessAnswers: filterAvailableAnswers,
         })
-      )?.filter((section) => section.id === page.section.id) || [],
+      )?.filter((section) => section.id === page.section.id) || []),
+    ],
     [questionnaire, page.id, page.section.id]
   );
 
@@ -75,8 +78,8 @@ const AnswerSelector = ({ page, onUpdateCalculatedSummaryPage }) => {
         onSubmit={handlePickerSubmit}
         startingSelectedAnswers={page.summaryAnswers}
         data={availableSummaryAnswers}
-        title="Select one or more answer"
-        showTypes
+        questionnaire={questionnaire}
+        title="Select an answer or calculated summary total"
       />
     </>
   );
