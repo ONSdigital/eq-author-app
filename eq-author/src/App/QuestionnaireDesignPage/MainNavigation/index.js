@@ -261,7 +261,6 @@ UnwrappedMainNavigation.propTypes = {
   children: PropTypes.node,
   settingsError: PropTypes.bool,
   listsError: PropTypes.bool,
-  formTypeErrorCount: PropTypes.number,
   hasSurveyID: PropTypes.bool,
 };
 
