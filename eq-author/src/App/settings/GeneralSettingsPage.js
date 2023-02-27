@@ -146,26 +146,31 @@ const GeneralSettingsPage = ({ questionnaire }) => {
   const [eqId, setEqId] = useState(initialEqId);
   const [formType, setFormType] = useState(initialFormType);
 
-  const surveyIdError =
-    SURVEY_ID_ERRORS[
-      questionnaire?.validationErrorInfo?.errors?.find(
-        ({ field }) => field === "surveyId"
-      )?.errorCode
-    ];
+  const getValidationErrorMessage = (contentType) => {
+    if (contentType === "surveyId") {
+      return SURVEY_ID_ERRORS[
+        questionnaire?.validationErrorInfo?.errors?.find(
+          ({ field }) => field === "surveyId"
+        )?.errorCode
+      ];
+    }
 
-  const formTypeError =
-    FORM_TYPE_ERRORS[
-      questionnaire?.validationErrorInfo?.errors?.find(
-        ({ field }) => field === "formType"
-      )?.errorCode
-    ];
+    if (contentType === "formType") {
+      return FORM_TYPE_ERRORS[
+        questionnaire?.validationErrorInfo?.errors?.find(
+          ({ field }) => field === "formType"
+        )?.errorCode
+      ];
+    }
 
-  const eqIdError =
-    EQ_ID_ERRORS[
-      questionnaire?.validationErrorInfo?.errors?.find(
-        ({ field }) => field === "eqId"
-      )?.errorCode
-    ];
+    if (contentType === "eqId") {
+      return EQ_ID_ERRORS[
+        questionnaire?.validationErrorInfo?.errors?.find(
+          ({ field }) => field === "eqId"
+        )?.errorCode
+      ];
+    }
+  };
 
   const params = useParams();
 
@@ -240,10 +245,11 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                           })
                         }
                         data-test="change-questionnaire-id"
-                        error={surveyIdError}
                       />
-                      {surveyIdError && (
-                        <ValidationError>{surveyIdError}</ValidationError>
+                      {getValidationErrorMessage("surveyId") && (
+                        <ValidationError>
+                          {getValidationErrorMessage("surveyId")}
+                        </ValidationError>
                       )}
                     </Field>
                     <Field>
@@ -267,8 +273,10 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                           })
                         }
                       />
-                      {formTypeError && (
-                        <ValidationError>{formTypeError}</ValidationError>
+                      {getValidationErrorMessage("formType") && (
+                        <ValidationError>
+                          {getValidationErrorMessage("formType")}
+                        </ValidationError>
                       )}
                     </Field>
                     <Field>
@@ -285,8 +293,10 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                           })
                         }
                       />
-                      {eqIdError && (
-                        <ValidationError>{eqIdError}</ValidationError>
+                      {getValidationErrorMessage("eqId") && (
+                        <ValidationError>
+                          {getValidationErrorMessage("eqId")}
+                        </ValidationError>
                       )}
                     </Field>
                     <HorizontalSeparator />
