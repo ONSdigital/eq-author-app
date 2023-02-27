@@ -52,6 +52,9 @@
       "else": {
         "$ref": "definitions.json#/definitions/populatedString"
       }
+    },
+    "eqId": {
+      "$ref": "definitions.json#/definitions/populatedString"
     }
   }
 }

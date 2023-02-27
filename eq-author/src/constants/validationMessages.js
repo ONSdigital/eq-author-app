@@ -310,6 +310,10 @@ export const FORM_TYPE_ERRORS = {
   ERR_INVALID: "Enter a form type in the correct format",
 };
 
+export const EQ_ID_ERRORS = {
+  ERR_VALID_REQUIRED: "Enter an eQ ID",
+};
+
 export const MISSING_LABEL = "Enter a label";
 
 export const THEME_ERROR_MESSAGES = {

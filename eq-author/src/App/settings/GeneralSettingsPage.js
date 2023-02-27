@@ -25,6 +25,7 @@ import ValidationError from "components/ValidationError";
 import {
   SURVEY_ID_ERRORS,
   FORM_TYPE_ERRORS,
+  EQ_ID_ERRORS,
 } from "constants/validationMessages";
 import LegalBasisSelect from "./LegalBasisSelect";
 
@@ -159,6 +160,13 @@ const GeneralSettingsPage = ({ questionnaire }) => {
       )?.errorCode
     ];
 
+  const eqIdError =
+    EQ_ID_ERRORS[
+      questionnaire?.validationErrorInfo?.errors?.find(
+        ({ field }) => field === "eqId"
+      )?.errorCode
+    ];
+
   const params = useParams();
 
   return (
@@ -277,6 +285,9 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                           })
                         }
                       />
+                      {eqIdError && (
+                        <ValidationError>{eqIdError}</ValidationError>
+                      )}
                     </Field>
                     <HorizontalSeparator />
                     <InlineField>
