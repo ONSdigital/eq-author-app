@@ -20,7 +20,12 @@ jest.mock("react-router-dom", () => ({
 }));
 
 describe("BasicAnswer", () => {
-  let answer, onChange, onUpdate, children, props, multipleAnswers;
+  let answer, onChange, onUpdate, children, props, multipleAnswers, page;
+
+  page = {
+    validationErrorInfo: { errors: [{}] },
+    answers: { some: jest.fn() },
+  };
 
   const createWrapper = (props, render = shallow) => {
     return render(<StatelessBasicAnswer {...props} />);
@@ -58,6 +63,7 @@ describe("BasicAnswer", () => {
       multipleAnswers,
       type: "text field",
       children: <div>This is the child component</div>,
+      page,
     };
   });
 
