@@ -22,7 +22,10 @@ import ScrollPane from "components/ScrollPane";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import ValidationError from "components/ValidationError";
 
-import { SURVEY_ID_ERRORS } from "constants/validationMessages";
+import {
+  SURVEY_ID_ERRORS,
+  FORM_TYPE_ERRORS,
+} from "constants/validationMessages";
 import LegalBasisSelect from "./LegalBasisSelect";
 
 const StyledPanel = styled.div`
@@ -149,6 +152,13 @@ const GeneralSettingsPage = ({ questionnaire }) => {
       )?.errorCode
     ];
 
+  const formTypeError =
+    FORM_TYPE_ERRORS[
+      questionnaire?.validationErrorInfo?.errors?.find(
+        ({ field }) => field === "formType"
+      )?.errorCode
+    ];
+
   const params = useParams();
 
   return (
@@ -249,6 +259,9 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                           })
                         }
                       />
+                      {formTypeError && (
+                        <ValidationError>{formTypeError}</ValidationError>
+                      )}
                     </Field>
                     <Field>
                       <Label htmlFor="eQID">eQ ID</Label>
