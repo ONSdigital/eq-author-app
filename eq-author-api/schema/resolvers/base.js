@@ -144,6 +144,7 @@ const createNewQuestionnaire = (input) => {
   const defaultQuestionnaire = {
     id: uuidv4(),
     theme: "business",
+    legalBasis: "NOTICE_1",
     qcodes: true,
     navigation: false,
     hub: false,
