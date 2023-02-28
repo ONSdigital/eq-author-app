@@ -1,6 +1,5 @@
 /*  eslint-disable react/no-danger */
 import React from "react";
-import { useQuery } from "@apollo/react-hooks";
 import styled from "styled-components";
 
 import PropTypes from "prop-types";
@@ -12,8 +11,6 @@ import PageTitle from "components/preview/elements/PageTitle";
 import { colors } from "constants/theme";
 import LEGAL_BASIS_OPTIONS from "constants/legal-basis-options";
 import iconChevron from "../icon-chevron.svg";
-
-import GET_THEME_SETTINGS_QUERY from "graphql/getThemeSettings.graphql";
 
 const Container = styled.div`
   padding: 2em;
