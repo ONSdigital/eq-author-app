@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 import CustomPropTypes from "custom-prop-types";
-import { CURRENCY, NUMBER, PERCENTAGE, UNIT } from "constants/answer-types";
+import { UNIT } from "constants/answer-types";
 import { colors } from "constants/theme";
 
 import { FlatSectionMenu } from "components/ContentPickerv3/Menu";
@@ -11,6 +11,9 @@ import ScrollPane from "components/ScrollPane";
 import Modal from "components/modals/Modal";
 import Button from "components/buttons/Button";
 import ButtonGroup from "components/buttons/ButtonGroup";
+import SearchBar from "components/SearchBar";
+import searchByAnswerTitleQuestionTitleShortCode from "utils/searchFunctions/searchByAnswerTitleQuestionTitleShortCode";
+import { getPageByAnswerId } from "utils/questionnaireUtils";
 
 const ModalFooter = styled.div`
   padding: 1.5em;
@@ -20,7 +23,7 @@ const ModalFooter = styled.div`
 const StyledModal = styled(Modal)`
   .Modal {
     padding: 0;
-    width: 45em;
+    width: 50em;
   }
 `;
 
@@ -38,6 +41,7 @@ const ModalTitle = styled.div`
 const ModalSubtitle = styled.div`
   font-size: 1em;
   color: ${colors.text};
+  margin-bottom: 1em;
 `;
 
 const ModalHeader = styled.div`
@@ -45,43 +49,50 @@ const ModalHeader = styled.div`
   border-bottom: 1px solid ${colors.bordersLight};
 `;
 
+const ModalToolbar = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 const MenuContainer = styled.div`
   overflow: hidden;
   height: 25em;
 `;
 
-const Types = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const Type = styled.span`
-  font-size: 10px;
-  background: #e4e8eb;
-  padding: 0.3em 0.7em;
-  border-radius: 1em;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: ${colors.text};
-  flex: 0 1 auto;
-  justify-self: flex-end;
-  margin-left: 0.5em;
-`;
-
-const validTypes = [CURRENCY, NUMBER, PERCENTAGE, UNIT];
-
 const QuestionPicker = ({
+  data,
+  questionnaire,
   isOpen,
   onClose,
   onSubmit,
   startingSelectedAnswers,
   title,
-  showTypes,
   ...otherProps
 }) => {
   const [selectedAnswers, setSelectedAnswers] = useState(
     startingSelectedAnswers
   );
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    if (data) {
+      setSearchResults(data);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (searchTerm && searchTerm !== "" && searchTerm !== " ") {
+      const results = searchByAnswerTitleQuestionTitleShortCode(
+        data,
+        searchTerm
+      );
+
+      setSearchResults(results);
+    } else {
+      setSearchResults(data);
+    }
+  }, [searchTerm, data]);
 
   useEffect(() => {
     setSelectedAnswers(startingSelectedAnswers);
@@ -112,12 +123,29 @@ const QuestionPicker = ({
     if (selectedAnswers.map(({ id }) => id).includes(answer.id)) {
       return;
     }
+    const selectedPage = getPageByAnswerId(
+      questionnaire,
+      selectedAnswers[0]?.id
+    );
+    const page = getPageByAnswerId(questionnaire, answer.id);
+
     if (selectedAnswers.length > 0) {
       const selectedType = selectedAnswers[0].type;
+
+      if (selectedPage && page && page?.pageType === "CalculatedSummaryPage") {
+        return (
+          selectedPage?.pageType !== "CalculatedSummaryPage" ||
+          selectedType !== answer.type
+        );
+      }
+
       if (selectedType === UNIT) {
         return answer.properties.unit !== selectedAnswers[0].properties.unit;
       }
-      return answer.type !== selectedAnswers[0].type;
+
+      return selectedPage?.pageType !== "CalculatedSummaryPage"
+        ? answer.type !== selectedAnswers[0].type
+        : page?.pageType === "QuestionPage";
     }
     return false;
   };
@@ -129,17 +157,16 @@ const QuestionPicker = ({
           <ModalHeader>
             <ModalTitle>{title}</ModalTitle>
             <ModalSubtitle>
-              {showTypes ? (
-                <Types>
-                  <span>Allowed answer types:</span>
-                  {validTypes.map((type) => (
-                    <Type key={type}>{type}</Type>
-                  ))}
-                </Types>
-              ) : (
-                ""
-              )}
+              Answers can only be selected from the current section. Calculated
+              summary totals can be selected from both current and previous
+              sections.
             </ModalSubtitle>
+            <ModalToolbar>
+              <SearchBar
+                onChange={({ value }) => setSearchTerm(value)}
+                placeholder="Search for an answer or total"
+              />
+            </ModalToolbar>
           </ModalHeader>
           <MenuContainer>
             <ScrollPane>
@@ -148,6 +175,7 @@ const QuestionPicker = ({
                 selectedAnswers={selectedAnswers}
                 isDisabled={isDisabled}
                 isSelected={isSelected}
+                data={searchResults}
                 {...otherProps}
               />
             </ScrollPane>
@@ -162,6 +190,7 @@ const QuestionPicker = ({
           <Button
             variant="primary"
             autoFocus
+            data-test="select-summary-answers"
             onClick={() => onSubmit(selectedAnswers)}
           >
             Select
@@ -173,6 +202,8 @@ const QuestionPicker = ({
 };
 
 QuestionPicker.propTypes = {
+  data: PropTypes.arrayOf(CustomPropTypes.section),
+  questionnaire: CustomPropTypes.questionnaire,
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
@@ -181,7 +212,6 @@ QuestionPicker.propTypes = {
   ),
   startingSelectedType: PropTypes.string,
   title: PropTypes.string.isRequired,
-  showTypes: PropTypes.bool,
 };
 
 export default QuestionPicker;

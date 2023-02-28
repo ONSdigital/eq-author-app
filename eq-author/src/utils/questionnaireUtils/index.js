@@ -32,6 +32,11 @@ export const getSectionByPageId = (questionnaire, id) =>
 export const getPageById = (questionnaire, id) =>
   getPages(questionnaire)?.find((page) => page.id === id);
 
+export const getPageByAnswerId = (questionnaire, id) =>
+  getPages(questionnaire)?.find(({ answers }) =>
+    answers?.some((answer) => answer.id === id)
+  );
+
 export const getPageByConfirmationId = (questionnaire, id) =>
   getPages(questionnaire)?.find(({ confirmation }) => confirmation.id === id);
 
