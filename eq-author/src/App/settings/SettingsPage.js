@@ -96,7 +96,7 @@ const PageContainer = styled.div`
   }
 `;
 
-const GeneralSettingsPage = ({ questionnaire }) => {
+const SettingsPage = ({ questionnaire }) => {
   const {
     title,
     shortTitle,
@@ -399,9 +399,9 @@ const GeneralSettingsPage = ({ questionnaire }) => {
   );
 };
 
-GeneralSettingsPage.propTypes = {
+SettingsPage.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   questionnaire: PropTypes.object.isRequired,
 };
 
-export default withRouter(GeneralSettingsPage);
+export default withRouter(SettingsPage);
