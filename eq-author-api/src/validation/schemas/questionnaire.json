@@ -8,9 +8,6 @@
         "$ref": "section.json"
       }
     },
-    "themeSettings": {
-      "$ref": "themeSettings.json"
-    },
     "introduction": {
       "$ref": "introduction.json"
     },
