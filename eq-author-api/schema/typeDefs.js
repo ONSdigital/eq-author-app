@@ -81,7 +81,7 @@ type Questionnaire {
   publishStatus: PublishStatus!
   publishDetails: [PublishDetails]
   totalErrorCount: Int!
-  themeSettings: ThemeSettings!
+  themeSettings: ThemeSettings
   locked: Boolean
   validationErrorInfo: ValidationErrorInfo
   submission: Submission
