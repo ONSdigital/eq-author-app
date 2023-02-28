@@ -3,17 +3,13 @@ import styled from "styled-components";
 import { colors } from "constants/theme";
 import { Field, Input, Label } from "components/Forms";
 import PropTypes from "prop-types";
-import { withRouter, useParams } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import { useMutation } from "@apollo/react-hooks";
-
-import { getThemeSettingsErrorCount } from "./utils";
 
 import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
 import updateQuestionnaireIntroductionMutation from "graphql/updateQuestionnaireIntroduction.graphql";
 
-import VerticalTabs from "components/VerticalTabs";
-import tabItems from "./TabItems";
 import ThemeSelect from "./ThemeSelect";
 
 import { Grid, Column } from "components/Grid";
@@ -172,8 +168,6 @@ const GeneralSettingsPage = ({ questionnaire }) => {
     }
   };
 
-  const params = useParams();
-
   return (
     <Container>
       <ScrollPane>
@@ -181,14 +175,6 @@ const GeneralSettingsPage = ({ questionnaire }) => {
         <PageContainer tabIndex="-1" className="keyNav">
           <PageMainCanvas>
             <Grid>
-              <VerticalTabs
-                title="Questionnaire settings"
-                cols={2.5}
-                tabItems={tabItems({
-                  params,
-                  themeErrorCount: getThemeSettingsErrorCount(questionnaire),
-                })}
-              />
               <Column gutters={false} cols={9.5}>
                 <SettingsContainer>
                   <StyledPanel>
