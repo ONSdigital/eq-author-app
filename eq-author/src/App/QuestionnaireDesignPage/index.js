@@ -152,9 +152,10 @@ export const QuestionnaireDesignPage = () => {
     throw new Error(ERR_PAGE_NOT_FOUND);
   }
 
+  const settingsErrorFields = ["surveyId", "formType", "eqId"];
+
   const hasSettingsErrors = questionnaire?.validationErrorInfo?.errors?.some(
-    ({ field }) =>
-      field === "surveyId" || field === "formType" || field === "eqId"
+    ({ field }) => settingsErrorFields.includes(field)
   );
 
   return (
