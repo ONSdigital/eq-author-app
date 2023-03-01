@@ -317,8 +317,6 @@ export const EQ_ID_ERRORS = {
 export const MISSING_LABEL = "Enter a label";
 
 export const THEME_ERROR_MESSAGES = {
-  ERR_NO_THEME_ENABLED:
-    "You must turn on at least one theme to preview the questionnaire.",
   ERR_FORM_TYPE_FORMAT: "Enter a form type in the correct format",
 };
 

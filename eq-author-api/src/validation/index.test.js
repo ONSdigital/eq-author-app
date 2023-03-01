@@ -15,7 +15,6 @@ const { CUSTOM, ANSWER } = require("../../constants/validationEntityTypes");
 const { AND } = require("../../constants/routingOperators");
 
 const {
-  ERR_NO_THEME_ENABLED,
   ERR_MAX_LENGTH_TOO_LARGE,
   ERR_MAX_LENGTH_TOO_SMALL,
   ERR_ANSWER_NOT_SELECTED,
@@ -177,35 +176,6 @@ describe("schema validation", () => {
   });
 
   describe("Themes validation", () => {
-    it("should return an error if all themes are disabled", () => {
-      questionnaire.themeSettings = {
-        id: "ts-1",
-        previewTheme: "business",
-        themes: [
-          {
-            id: "theme-1",
-            enabled: false,
-            shortName: "northernireland",
-            legalBasisCode: "NOTICE_1",
-            eqId: "dave",
-            formType: "777",
-          },
-          {
-            id: "theme-2",
-            enabled: false,
-            shortName: "business",
-            legalBasisCode: "NOTICE_1",
-            eqId: "ivan",
-            formType: "888",
-          },
-        ],
-      };
-
-      const errors = validation(questionnaire);
-
-      expect(errors[0].errorCode).toBe(ERR_NO_THEME_ENABLED);
-    });
-
     it("should return an error if survey ID missing", () => {
       questionnaire.surveyId = null;
       const errors = validation(questionnaire);
