@@ -30,13 +30,7 @@ exports[`Introduction Preview should render 1`] = `
   <PageTitle
     title="Your response is legally required"
   />
-  <IntroductionPreview__Description
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": undefined,
-      }
-    }
-  />
+  <IntroductionPreview__Description />
   <IntroductionPreview__Button>
     Start survey
   </IntroductionPreview__Button>

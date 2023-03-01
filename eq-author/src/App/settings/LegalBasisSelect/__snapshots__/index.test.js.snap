@@ -2,17 +2,11 @@
 
 exports[`LegalBasisField should render 1`] = `
 <Radio__RadioField>
-  <LegalBasisSelect__StyledLabel>
-    Legal basis
-  </LegalBasisSelect__StyledLabel>
-  <p>
-    The legal basis appears on the survey introduction page.
-  </p>
   <LegalOption
     key="NOTICE_1"
     name="business"
-    onChange={[Function]}
-    selected={true}
+    questionnaireId="my-fave-questionnaire"
+    selected={false}
     value="NOTICE_1"
   >
     <Radio__RadioDescription>
@@ -22,7 +16,7 @@ exports[`LegalBasisField should render 1`] = `
   <LegalOption
     key="NOTICE_2"
     name="business"
-    onChange={[Function]}
+    questionnaireId="my-fave-questionnaire"
     selected={false}
     value="NOTICE_2"
   >
@@ -33,7 +27,7 @@ exports[`LegalBasisField should render 1`] = `
   <LegalOption
     key="NOTICE_3"
     name="business"
-    onChange={[Function]}
+    questionnaireId="my-fave-questionnaire"
     selected={false}
     value="NOTICE_3"
   >
@@ -44,7 +38,7 @@ exports[`LegalBasisField should render 1`] = `
   <LegalOption
     key="NOTICE_NI"
     name="business"
-    onChange={[Function]}
+    questionnaireId="my-fave-questionnaire"
     selected={false}
     value="NOTICE_NI"
   >
@@ -55,7 +49,7 @@ exports[`LegalBasisField should render 1`] = `
   <LegalOption
     key="NOTICE_FUELS"
     name="business"
-    onChange={[Function]}
+    questionnaireId="my-fave-questionnaire"
     selected={false}
     value="NOTICE_FUELS"
   >
@@ -66,7 +60,7 @@ exports[`LegalBasisField should render 1`] = `
   <LegalOption
     key="VOLUNTARY"
     name="business"
-    onChange={[Function]}
+    questionnaireId="my-fave-questionnaire"
     selected={false}
     value="VOLUNTARY"
   >
