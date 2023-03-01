@@ -8,7 +8,7 @@ exports[`MetadataTable should correctly render different types of metadata 1`] =
     onClose={[Function]}
     onConfirm={[Function]}
     positiveButtonText="Delete"
-    title="Delete metadata"
+    title="Delete sample file data"
   />
   <TableRow
     data-test="metadata-table-row"
@@ -99,7 +99,7 @@ exports[`MetadataTable should correctly render different types of metadata 2`] =
     onClose={[Function]}
     onConfirm={[Function]}
     positiveButtonText="Delete"
-    title="Delete metadata"
+    title="Delete sample file data"
   />
   <TableRow
     data-test="metadata-table-row"
@@ -190,7 +190,7 @@ exports[`MetadataTable should correctly render different types of metadata 3`] =
     onClose={[Function]}
     onConfirm={[Function]}
     positiveButtonText="Delete"
-    title="Delete metadata"
+    title="Delete sample file data"
   />
   <TableRow
     data-test="metadata-table-row"
@@ -304,7 +304,7 @@ exports[`MetadataTable should correctly render different types of metadata 4`] =
     onClose={[Function]}
     onConfirm={[Function]}
     positiveButtonText="Delete"
-    title="Delete metadata"
+    title="Delete sample file data"
   />
   <TableRow
     data-test="metadata-table-row"
@@ -406,7 +406,7 @@ exports[`MetadataTable should render 1`] = `
     onClose={[Function]}
     onConfirm={[Function]}
     positiveButtonText="Delete"
-    title="Delete metadata"
+    title="Delete sample file data"
   />
   <TableRow
     data-test="metadata-table-row"

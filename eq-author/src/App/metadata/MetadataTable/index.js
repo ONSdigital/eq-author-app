@@ -76,7 +76,7 @@ const MetadataTable = ({
               small
             >
               <IconText icon={Icon} dark>
-                Add metadata
+                Add sample file data
               </IconText>
             </AddRowButton>
           </TableColumn>

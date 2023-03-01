@@ -33,7 +33,7 @@ import { useQCodeContext } from "components/QCodeContext";
 
 import {
   buildQcodesPath,
-  buildMetadataPath,
+  buildDataPath,
   buildViewSurveyPath,
   buildHistoryPath,
   buildCollectionListsPath,
@@ -183,15 +183,15 @@ export const UnwrappedMainNavigation = ({
               </RouteButton>
               <RouteButton
                 variant={
-                  (whatPageAreWeOn === "metadata" && "navigation-on") ||
+                  (whatPageAreWeOn === "data" && "navigation-on") ||
                   "navigation"
                 }
                 small
-                data-test="btn-metadata"
-                to={buildMetadataPath(params)}
+                data-test="btn-data"
+                to={buildDataPath(params)}
               >
                 <IconText nav icon={metadataIcon}>
-                  Metadata
+                  Data
                 </IconText>
               </RouteButton>
               <RouteButton

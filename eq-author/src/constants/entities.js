@@ -4,6 +4,7 @@ export const FOLDER = "folder";
 export const QUESTION_CONFIRMATION = "question-confirmation";
 export const INTRODUCTION = "introduction";
 export const METADATA = "metadata";
+export const DATA = "data";
 export const HISTORY = "history";
 export const COLLECTIONLISTS = "collectionLists";
 export const PUBLISH = "publish";

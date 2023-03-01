@@ -78,7 +78,7 @@ describe("MainNavigation", () => {
     expect(getByTestId("btn-settings")).not.toBeDisabled();
     expect(getByTestId("btn-sharing")).not.toBeDisabled();
     expect(getByTestId("btn-history")).not.toBeDisabled();
-    expect(getByTestId("btn-metadata")).not.toBeDisabled();
+    expect(getByTestId("btn-data")).not.toBeDisabled();
     expect(getByTestId("btn-qcodes")).not.toBeDisabled();
   });
 
@@ -90,7 +90,7 @@ describe("MainNavigation", () => {
     expect(getByTestId("btn-settings").hasAttribute("disabled")).toBeFalsy();
     expect(getByTestId("btn-sharing").hasAttribute("disabled")).toBeFalsy();
     expect(getByTestId("btn-history").hasAttribute("disabled")).toBeFalsy();
-    expect(getByTestId("btn-metadata").hasAttribute("disabled")).toBeFalsy();
+    expect(getByTestId("btn-data").hasAttribute("disabled")).toBeFalsy();
     expect(getByTestId("btn-qcodes").hasAttribute("disabled")).toBeTruthy();
   });
 
