@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 import { useMutation } from "@apollo/react-hooks";
 
 import { Input } from "components/Forms";
@@ -9,11 +10,16 @@ import UPDATE_QUESTIONNAIRE_MUTATION from "graphql/updateQuestionnaire.graphql";
 
 import LEGAL_BASIS_OPTIONS from "constants/legal-basis-options";
 
+const StyledRadioLabel = styled(RadioLabel)`
+  min-width: 22.5em;
+  width: fit-content;
+`;
+
 const LegalOption = ({ questionnaireId, value, selected, children }) => {
   const [updateQuestionnaire] = useMutation(UPDATE_QUESTIONNAIRE_MUTATION);
 
   return (
-    <RadioLabel selected={selected}>
+    <StyledRadioLabel selected={selected}>
       <Input
         id={value}
         type="radio"
@@ -26,7 +32,7 @@ const LegalOption = ({ questionnaireId, value, selected, children }) => {
         }
       />
       {children}
-    </RadioLabel>
+    </StyledRadioLabel>
   );
 };
 

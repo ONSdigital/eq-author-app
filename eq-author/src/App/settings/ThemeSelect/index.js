@@ -1,9 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 import { useMutation } from "@apollo/react-hooks";
 import { colors } from "constants/theme";
-
-import styled from "styled-components";
 
 import {
   RadioLabel,
@@ -31,6 +30,11 @@ const RadioDescription = styled.span`
   color: ${colors.text};
 `;
 
+const StyledRadioLabel = styled(RadioLabel)`
+  min-width: 22.5em;
+  width: fit-content;
+`;
+
 const ThemeOption = ({
   questionnaireId,
   themeId,
@@ -41,7 +45,7 @@ const ThemeOption = ({
   const [updateQuestionnaire] = useMutation(UPDATE_QUESTIONNAIRE_MUTATION);
 
   return (
-    <RadioLabel data-test={dataTest}>
+    <StyledRadioLabel data-test={dataTest}>
       <Input
         id={themeId}
         type="radio"
@@ -54,7 +58,7 @@ const ThemeOption = ({
         }
       />
       {children}
-    </RadioLabel>
+    </StyledRadioLabel>
   );
 };
 
