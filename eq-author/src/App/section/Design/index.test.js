@@ -118,7 +118,10 @@ const moveSectionMock = {
         title: "",
         description: "",
         surveyId: "1",
+        formType: "0001",
+        eqId: "TestEqId",
         theme: "foo",
+        legalBasis: "NOTICE_1",
         themes: [],
         collectionLists: {
           __typename: "collectionLists",
@@ -158,6 +161,12 @@ const moveSectionMock = {
           feedback: true,
           comments: [],
           __typename: "Submission",
+        },
+        validationErrorInfo: {
+          errors: [],
+          id: "validation-error-id",
+          totalCount: "0",
+          __typename: "ValidationErrorInfo",
         },
       },
     },
