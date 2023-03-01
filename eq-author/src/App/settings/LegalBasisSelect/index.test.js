@@ -15,7 +15,7 @@ describe("LegalBasisField", () => {
 
   beforeEach(() => {
     props = {
-      legalBasis: "NOTICE_1",
+      selectedLegalBasis: "NOTICE_1",
       shortName: "business",
       questionnaireId: "my-fave-questionnaire",
     };
@@ -29,7 +29,7 @@ describe("LegalBasisField", () => {
     const option = shallow(<LegalBasisField {...props} />).find(
       "[selected=true]"
     );
-    expect(option.prop("value")).toEqual(props.legalBasis);
+    expect(option.prop("value")).toEqual(props.selectedLegalBasis);
   });
 
   it("picking the option should update the theme's legal basis", () => {

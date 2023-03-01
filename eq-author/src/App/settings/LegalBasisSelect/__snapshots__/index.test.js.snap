@@ -6,7 +6,7 @@ exports[`LegalBasisField should render 1`] = `
     key="NOTICE_1"
     name="business"
     questionnaireId="my-fave-questionnaire"
-    selected={false}
+    selected={true}
     value="NOTICE_1"
   >
     <Radio__RadioDescription>
