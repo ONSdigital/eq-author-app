@@ -23,14 +23,14 @@ const THEMES = [
       "Header includes the Department for Business, Energy and Industrial Strategy logo",
   },
   {
-    id: "beis-ni",
+    id: "beis_ni",
     title:
       "Department for Business, Energy and Industrial Strategy and Northern Ireland Department of Finance",
     description:
       "Header includes the Department for Business, Energy and Industrial Strategy logo and the Department of Finance logo",
   },
   {
-    id: "ni",
+    id: "northernireland",
     title: "Northern Ireland Department of Finance",
     description: "Header includes the Department of Finance logo",
   },

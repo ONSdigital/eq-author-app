@@ -1,12 +1,14 @@
 module.exports = (questionnaire) => {
-  const selectedTheme = questionnaire.themeSettings.themes.find(
+  const selectedTheme = questionnaire?.themeSettings?.themes?.find(
     (theme) => theme.id === questionnaire.themeSettings.previewTheme
   );
 
-  questionnaire.formType = selectedTheme.formType;
-  questionnaire.eqId = selectedTheme.eqId;
-  questionnaire.theme = questionnaire.themeSettings.previewTheme;
-  questionnaire.legalBasis = selectedTheme.legalBasisCode;
+  if (selectedTheme) {
+    questionnaire.formType = selectedTheme.formType;
+    questionnaire.eqId = selectedTheme.eqId;
+    questionnaire.theme = questionnaire.themeSettings.previewTheme;
+    questionnaire.legalBasis = selectedTheme.legalBasisCode;
+  }
 
   questionnaire.themeSettings = undefined;
 
