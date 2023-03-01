@@ -230,6 +230,7 @@ const SettingsPage = ({ questionnaire }) => {
                             },
                           })
                         }
+                        error={getValidationErrorMessage("surveyId")}
                         data-test="change-questionnaire-id"
                       />
                       {getValidationErrorMessage("surveyId") && (
@@ -258,6 +259,7 @@ const SettingsPage = ({ questionnaire }) => {
                             },
                           })
                         }
+                        error={getValidationErrorMessage("formType")}
                       />
                       {getValidationErrorMessage("formType") && (
                         <ValidationError>
@@ -278,6 +280,7 @@ const SettingsPage = ({ questionnaire }) => {
                             variables: { input: { id: questionnaireId, eqId } },
                           })
                         }
+                        error={getValidationErrorMessage("eqId")}
                       />
                       {getValidationErrorMessage("eqId") && (
                         <ValidationError>
