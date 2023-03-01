@@ -316,10 +316,6 @@ export const EQ_ID_ERRORS = {
 
 export const MISSING_LABEL = "Enter a label";
 
-export const THEME_ERROR_MESSAGES = {
-  ERR_FORM_TYPE_FORMAT: "Enter a form type in the correct format",
-};
-
 export const ADDITIONAL_LABEL_MISSING = "Enter a label";
 export const buildLabelError = (mainString, insString, pos, pos2) => {
   if (
