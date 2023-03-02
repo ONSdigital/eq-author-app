@@ -15,7 +15,7 @@ import sectionRoutes from "App/section";
 import questionConfirmationRoutes from "App/questionConfirmation";
 import introductionRoutes from "App/introduction";
 import metadataRoutes from "App/metadata";
-import dataRoutes from "App/data";
+import dataRoutes from "App/dataSettings";
 import viewsurveyRoutes from "App/viewSurvey";
 import historyRoutes from "App/history";
 import publishRoutes from "App/publish";
