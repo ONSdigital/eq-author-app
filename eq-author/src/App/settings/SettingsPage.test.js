@@ -404,6 +404,29 @@ describe("Settings page", () => {
           };
         },
       },
+      {
+        request: {
+          query: updateQuestionnaireMutation,
+          variables: {
+            input: {
+              id: mockQuestionnaire.id,
+              eqId: "New test eQ ID",
+            },
+          },
+        },
+        result: () => {
+          queryWasCalled = true;
+          return {
+            data: {
+              updateQuestionnaire: {
+                ...mockQuestionnaire,
+                eqId: "New test eQ ID",
+                __typename: "Questionnaire",
+              },
+            },
+          };
+        },
+      },
     ];
   });
 
@@ -534,6 +557,32 @@ describe("Settings page", () => {
 
       await act(async () => {
         fireEvent.blur(formTypeInput);
+      });
+
+      expect(queryWasCalled).toBeTruthy();
+    });
+
+    it("should update the questionnaire's eQ ID", async () => {
+      const { getByTestId } = renderSettingsPage(
+        mockQuestionnaire,
+        user,
+        mocks
+      );
+
+      const eqIdInput = getByTestId("input-eq-id");
+
+      expect(eqIdInput.value).toBe("Test eQ ID");
+
+      expect(queryWasCalled).toBeFalsy();
+
+      fireEvent.change(eqIdInput, {
+        target: { value: "New test eQ ID" },
+      });
+
+      expect(eqIdInput.value).toBe("New test eQ ID");
+
+      await act(async () => {
+        fireEvent.blur(eqIdInput);
       });
 
       expect(queryWasCalled).toBeTruthy();
