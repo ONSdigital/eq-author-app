@@ -149,6 +149,35 @@ describe("QuestionnaireDesignPage", () => {
     expect(getByTestId("settings-error-badge")).toBeVisible();
   });
 
+  it("should render error badge on list navigation item when there are list errors", () => {
+    const { getByTestId } = setup({
+      questionnaireChanges: {
+        collectionLists: {
+          lists: [
+            {
+              id: "test-list",
+              answers: [],
+              displayName: "List name",
+              listName: "List name",
+              validationErrorInfo: {
+                errors: [
+                  {
+                    id: "test-error",
+                    type: "list",
+                    errorCode: "ERR_NO_ANSWERS",
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      },
+    });
+
+    expect(getByTestId("main-navigation")).toBeVisible();
+    expect(getByTestId("lists-error-badge")).toBeVisible();
+  });
+
   it("should redirect to a loading screen", () => {
     const route = `/q/questionnaire/`;
     const urlParamMatcher = "/q/:questionnaireId/";
