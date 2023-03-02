@@ -25,6 +25,16 @@ describe("Settings page", () => {
   beforeEach(() => {
     queryWasCalled = false;
 
+    user = {
+      id: "123",
+      displayName: "TerradorTheDragon",
+      email: "TDawg@Spyro.com",
+      picture: "",
+      admin: true,
+      name: "Terrador",
+      __typename: "User",
+    };
+
     mockQuestionnaire = {
       title: "Spyro the Dragon",
       shortTitle: "Spyro",
@@ -37,11 +47,15 @@ describe("Settings page", () => {
       collapsibleSummary: false,
       description: "A questionnaire about a lovable, purple dragon",
       surveyId: "123",
+      formType: "1234",
+      eqId: "Test eQ ID",
+      legalBasis: "NOTICE_1",
       theme: "business",
       displayName: "Roar",
       introduction: {
         id: "spyro-1",
         showOnHub: false,
+        __typename: "QuestionnaireIntroduction",
       },
       createdBy: {
         ...user,
@@ -50,16 +64,13 @@ describe("Settings page", () => {
       isPublic: true,
       permission: true,
       sections: [],
-    };
-
-    user = {
-      id: "123",
-      displayName: "TerradorTheDragon",
-      email: "TDawg@Spyro.com",
-      picture: "",
-      admin: true,
-      name: "Terrador",
-      __typename: "User",
+      validationErrorInfo: {
+        id: "validation-error-info-id",
+        errors: [],
+        totalCount: 0,
+        __typename: "ValidationErrorInfo",
+      },
+      __typename: "Questionnaire",
     };
 
     mocks = [
@@ -347,6 +358,29 @@ describe("Settings page", () => {
           };
         },
       },
+      {
+        request: {
+          query: updateQuestionnaireMutation,
+          variables: {
+            input: {
+              id: mockQuestionnaire.id,
+              surveyId: "456",
+            },
+          },
+        },
+        result: () => {
+          queryWasCalled = true;
+          return {
+            data: {
+              updateQuestionnaire: {
+                ...mockQuestionnaire,
+                surveyId: "456",
+                __typename: "Questionnaire",
+              },
+            },
+          };
+        },
+      },
     ];
   });
 
@@ -426,6 +460,34 @@ describe("Settings page", () => {
 
       expect(queryWasCalled).toBeFalsy();
       expect(questionnaireTitleInput.value).toBe("");
+    });
+  });
+
+  describe("Survey ID, form type and eQ ID", () => {
+    it("should update the questionnaire's survey ID", async () => {
+      const { getByTestId } = renderSettingsPage(
+        mockQuestionnaire,
+        user,
+        mocks
+      );
+
+      const surveyIdInput = getByTestId("input-survey-id");
+
+      expect(surveyIdInput.value).toBe("123");
+
+      expect(queryWasCalled).toBeFalsy();
+
+      fireEvent.change(surveyIdInput, {
+        target: { value: "456" },
+      });
+
+      expect(surveyIdInput.value).toBe("456");
+
+      await act(async () => {
+        fireEvent.blur(surveyIdInput);
+      });
+
+      expect(queryWasCalled).toBeTruthy();
     });
   });
 
