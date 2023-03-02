@@ -381,6 +381,29 @@ describe("Settings page", () => {
           };
         },
       },
+      {
+        request: {
+          query: updateQuestionnaireMutation,
+          variables: {
+            input: {
+              id: mockQuestionnaire.id,
+              formType: "5678",
+            },
+          },
+        },
+        result: () => {
+          queryWasCalled = true;
+          return {
+            data: {
+              updateQuestionnaire: {
+                ...mockQuestionnaire,
+                formType: "5678",
+                __typename: "Questionnaire",
+              },
+            },
+          };
+        },
+      },
     ];
   });
 
@@ -485,6 +508,32 @@ describe("Settings page", () => {
 
       await act(async () => {
         fireEvent.blur(surveyIdInput);
+      });
+
+      expect(queryWasCalled).toBeTruthy();
+    });
+
+    it("should update the questionnaire's form type", async () => {
+      const { getByTestId } = renderSettingsPage(
+        mockQuestionnaire,
+        user,
+        mocks
+      );
+
+      const formTypeInput = getByTestId("input-form-type");
+
+      expect(formTypeInput.value).toBe("1234");
+
+      expect(queryWasCalled).toBeFalsy();
+
+      fireEvent.change(formTypeInput, {
+        target: { value: "5678" },
+      });
+
+      expect(formTypeInput.value).toBe("5678");
+
+      await act(async () => {
+        fireEvent.blur(formTypeInput);
       });
 
       expect(queryWasCalled).toBeTruthy();
