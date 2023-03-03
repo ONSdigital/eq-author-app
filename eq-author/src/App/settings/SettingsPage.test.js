@@ -609,6 +609,27 @@ describe("Settings page", () => {
 
         expect(getByText(/Enter a survey ID/)).toBeInTheDocument();
       });
+
+      it("should display empty form type error message", () => {
+        mockQuestionnaire.validationErrorInfo = {
+          errors: [
+            {
+              id: "form-type-error",
+              field: "formType",
+              errorCode: "ERR_VALID_REQUIRED",
+            },
+          ],
+          totalCount: 1,
+        };
+
+        const { getByText } = renderSettingsPage(
+          mockQuestionnaire,
+          user,
+          mocks
+        );
+
+        expect(getByText(/Enter a form type/)).toBeInTheDocument();
+      });
     });
   });
 
