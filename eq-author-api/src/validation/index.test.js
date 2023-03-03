@@ -426,6 +426,51 @@ describe("schema validation", () => {
           expect(pageErrors2).toHaveLength(0);
         });
       });
+
+      describe("piping answer in label", () => {
+        it("should validate a deleted piped answer in a label", () => {
+          const piping = validation(questionnaire);
+          expect(piping).toHaveLength(0);
+
+          questionnaire.sections[0].folders[0].pages[0].answers[0].label = `<p><span data-piped="answers" data-id="answer_33" data-type="Percentage">[Some answer]</span></p>`;
+
+          const errors = validation(questionnaire);
+          expect(errors).toHaveLength(1);
+          expect(errors[0].errorCode).toBe(PIPING_TITLE_DELETED);
+        });
+
+        it("should not return piping answer error when piped answer is in a title", () => {
+          const piping = validation(questionnaire);
+          expect(piping).toHaveLength(0);
+
+          questionnaire.sections[0].folders[0].pages[0].answers[1].label = `<p><span data-piped="answers" data-id="answer_1" data-type="Number">[Some answer]</span></p>`;
+
+          const errors = validation(questionnaire);
+          expect(errors).toHaveLength(0);
+        });
+
+        it("should validate a piping answer moved after this question", () => {
+          const piping = validation(questionnaire);
+          expect(piping).toHaveLength(0);
+
+          questionnaire.sections[0].folders[0].pages[0].answers[0].label = `<p><span data-piped="answers" data-id="answer_2" data-type="Number">[number]</span></p>`;
+
+          const errors = validation(questionnaire);
+          expect(errors).toHaveLength(1);
+          expect(errors[0].errorCode).toBe(PIPING_TITLE_MOVED);
+        });
+
+        it("should validate a deleted piping answer in label", () => {
+          const piping = validation(questionnaire);
+          expect(piping).toHaveLength(0);
+
+          questionnaire.sections[0].folders[0].pages[0].answers[0].label = `<p><span data-piped="answers" data-id="answer_99" data-type="Number">[number]</span></p>`;
+
+          const errors = validation(questionnaire);
+          expect(errors).toHaveLength(1);
+          expect(errors[0].errorCode).toBe(PIPING_TITLE_DELETED);
+        });
+      });
     });
 
     describe("textarea answers", () => {
