@@ -587,6 +587,29 @@ describe("Settings page", () => {
 
       expect(queryWasCalled).toBeTruthy();
     });
+
+    describe("Error messages", () => {
+      it("should display empty survey ID error message", () => {
+        mockQuestionnaire.validationErrorInfo = {
+          errors: [
+            {
+              id: "survey-id-error",
+              field: "surveyId",
+              errorCode: "ERR_VALID_REQUIRED",
+            },
+          ],
+          totalCount: 1,
+        };
+
+        const { getByText } = renderSettingsPage(
+          mockQuestionnaire,
+          user,
+          mocks
+        );
+
+        expect(getByText(/Enter a survey ID/)).toBeInTheDocument();
+      });
+    });
   });
 
   describe("Questionnaire short title text field", () => {
