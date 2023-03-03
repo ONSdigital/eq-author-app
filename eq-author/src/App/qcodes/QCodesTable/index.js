@@ -180,7 +180,7 @@ const Row = memo((props) => {
         </>
       )}
       <SpacedTableColumn>{TYPE_TO_DESCRIPTION[type]}</SpacedTableColumn>
-      <SpacedTableColumn>{label}</SpacedTableColumn>
+      <SpacedTableColumn>{stripHtmlToText(label)}</SpacedTableColumn>
       {dataVersion === "3" ? (
         [CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type) ? (
           <EmptyTableColumn />
