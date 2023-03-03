@@ -630,6 +630,27 @@ describe("Settings page", () => {
 
         expect(getByText(/Enter a form type/)).toBeInTheDocument();
       });
+
+      it("should display empty eQ ID error message", () => {
+        mockQuestionnaire.validationErrorInfo = {
+          errors: [
+            {
+              id: "eq-id-error",
+              field: "eqId",
+              errorCode: "ERR_VALID_REQUIRED",
+            },
+          ],
+          totalCount: 1,
+        };
+
+        const { getByText } = renderSettingsPage(
+          mockQuestionnaire,
+          user,
+          mocks
+        );
+
+        expect(getByText(/Enter an eQ ID/)).toBeInTheDocument();
+      });
     });
   });
 
