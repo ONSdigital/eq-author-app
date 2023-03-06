@@ -8,6 +8,7 @@ const updateQuestionPageMutation = `
       title
       description
       descriptionEnabled
+      pageDescription
       guidance
       guidanceEnabled
       definitionLabel

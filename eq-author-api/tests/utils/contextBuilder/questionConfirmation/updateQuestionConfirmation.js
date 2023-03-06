@@ -5,6 +5,7 @@ const updateQuestionConfirmationMutation = `
     updateQuestionConfirmation(input: $input) {
       id
       title
+      pageDescription
       positive {
         label
         description

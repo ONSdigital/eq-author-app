@@ -40,6 +40,7 @@ const migrations = [
   require("./addDataVersion"),
   require("./updateUKIStoBEISTheme"),
   require("./updateDefaultToBusinessTheme"),
+  require("./addPageDescription"),
 ];
 
 const currentVersion = migrations.length;
