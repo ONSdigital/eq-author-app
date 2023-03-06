@@ -10,6 +10,7 @@ module.exports = (ajv) => {
   require("./validateRoutingDestination")(ajv);
   require("./validateRoutingLogicalAND")(ajv);
   require("./validatePipingAnswerInTitle")(ajv);
+  require("./validatePipingAnswerInLabel")(ajv);
   require("./validatePipingVariableInTitle")(ajv);
   require("./validatePipingMetadataInTitle")(ajv);
   require("./idExists")(ajv);

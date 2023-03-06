@@ -106,7 +106,14 @@
       "type": "object",
       "properties": {
         "label": {
-          "$ref": "definitions.json#/definitions/populatedString"
+          "allOf": [
+            {
+              "$ref": "definitions.json#/definitions/populatedString"
+            },
+            {
+              "validatePipingAnswerInLabel": true
+            }
+          ]
         },
         "properties": {
           "$ref": "#/definitions/properties"
