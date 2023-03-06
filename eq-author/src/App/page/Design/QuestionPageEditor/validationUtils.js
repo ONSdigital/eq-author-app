@@ -24,6 +24,10 @@ const situations = {
     [PIPING_TITLE_DELETED.errorCode]: PIPING_TITLE_DELETED.message,
     [PIPING_METADATA_DELETED.errorCode]: PIPING_METADATA_DELETED.message,
   },
+  label: {
+    [PIPING_TITLE_MOVED.errorCode]: PIPING_TITLE_MOVED.message,
+    [PIPING_TITLE_DELETED.errorCode]: PIPING_TITLE_DELETED.message,
+  },
   definitionLabel: {
     [DEFINITION_LABEL_NOT_ENTERED.errorCode]:
       DEFINITION_LABEL_NOT_ENTERED.message,

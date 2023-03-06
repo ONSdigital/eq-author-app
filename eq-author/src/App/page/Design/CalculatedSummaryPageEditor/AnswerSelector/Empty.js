@@ -43,9 +43,11 @@ const StyledButton = styled(Button)`
 `;
 
 const Empty = ({ page, availableSummaryAnswers, onSelect }) => {
-  const word = availableSummaryAnswers.length ? "selected" : "available";
+  const word = availableSummaryAnswers.length
+    ? "or calculated summary totals selected"
+    : "available";
   const phrase = availableSummaryAnswers.length
-    ? "Select an answer using the button below."
+    ? "Select an answer or calculated summary total using the button below."
     : "There are no answers to provide a calculated summary.";
 
   const {
@@ -65,7 +67,7 @@ const Empty = ({ page, availableSummaryAnswers, onSelect }) => {
             disabled={!availableSummaryAnswers.length}
             onClick={onSelect}
           >
-            Select an answer
+            Select an answer or calculated summary total
           </StyledButton>
         </ErrorBox>
       </Centered>{" "}

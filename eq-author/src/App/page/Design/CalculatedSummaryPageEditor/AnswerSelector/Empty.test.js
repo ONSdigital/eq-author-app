@@ -35,10 +35,12 @@ describe("Empty state", () => {
     );
     expect(phrase).toBeInTheDocument();
 
-    const selectBtn = getByText("Select an answer");
+    const selectBtn = getByText("Select an answer or calculated summary total");
     expect(selectBtn).toBeInTheDocument();
 
-    const errorMsg = getByText("Select at least two answers to be calculated");
+    const errorMsg = getByText(
+      "Select at least two answers or calculated summary totals"
+    );
     expect(errorMsg).toBeInTheDocument();
   });
 
@@ -51,7 +53,7 @@ describe("Empty state", () => {
       />
     );
 
-    const btn = getByText("Select an answer");
+    const btn = getByText("Select an answer or calculated summary total");
 
     btn.click();
 
@@ -67,7 +69,7 @@ describe("Empty state", () => {
       />
     );
 
-    const btn = getByText("Select an answer");
+    const btn = getByText("Select an answer or calculated summary total");
 
     expect(btn).toBeDisabled();
   });
@@ -81,7 +83,7 @@ describe("Empty state", () => {
       />
     );
 
-    const phrase = getByText("Select an answer using the button below.");
+    const phrase = getByText("Select an answer or calculated summary total");
     expect(phrase).toBeInTheDocument();
   });
 });

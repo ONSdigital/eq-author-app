@@ -173,7 +173,7 @@ export const characterErrors = {
 };
 
 export const calculatedSummaryErrors = {
-  ERR_NO_ANSWERS: "Select at least two answers to be calculated",
+  ERR_NO_ANSWERS: "Select at least two answers or calculated summary totals",
   ERR_CALCULATED_UNIT_INCONSISTENCY:
     "Select answers that are the same unit type",
   CALCSUM_MOVED: "The calculated summary must appear after the answers it uses",
