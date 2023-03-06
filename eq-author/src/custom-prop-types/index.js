@@ -51,6 +51,7 @@ const CustomPropTypes = {
     introductionTitle: PropTypes.string,
     introductionContent: PropTypes.string,
     introductionEnabled: PropTypes.bool,
+    pageDescription: PropTypes.string,
   }),
   page: PropTypes.shape({
     id: PropTypes.string,
@@ -58,6 +59,7 @@ const CustomPropTypes = {
     displayName: PropTypes.string,
     description: PropTypes.string,
     guidance: PropTypes.string,
+    pageDescription: PropTypes.string,
   }),
   validationErrorInfo: PropTypes.shape({
     id: PropTypes.string,

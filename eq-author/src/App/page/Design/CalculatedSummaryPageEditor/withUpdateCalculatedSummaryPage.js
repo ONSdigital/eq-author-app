@@ -8,6 +8,7 @@ const pageFragment = gql`
     id
     alias
     title
+    pageDescription
     totalTitle
     type
   }

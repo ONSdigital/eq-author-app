@@ -23,6 +23,8 @@ import Icon from "assets/icon-select.svg";
 import CommentFragment from "graphql/fragments/comment.graphql";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 
+import PageTitleContainer from "components/PageTitle";
+
 const propTypes = {
   match: CustomPropTypes.match.isRequired,
   history: CustomPropTypes.history.isRequired,
@@ -35,6 +37,7 @@ const inputFilter = gql`
     title
     listId
     drivingQuestion
+    pageDescription
     additionalGuidancePanel
     additionalGuidancePanelSwitch
     drivingPositive
@@ -42,11 +45,13 @@ const inputFilter = gql`
     drivingPositiveDescription
     drivingNegativeDescription
     anotherTitle
+    anotherPageDescription
     anotherPositive
     anotherNegative
     anotherPositiveDescription
     anotherNegativeDescription
     addItemTitle
+    addItemPageDescription
     alias
   }
 `;
@@ -161,6 +166,12 @@ const RadionIndicator = styled.div`
 const RadioAnswerWrapper = styled.div`
   display: inline-block;
   width: 95%;
+`;
+
+const HorizontalRule = styled.hr`
+  border: 0;
+  border-top: 0.0625em solid ${colors.lightMediumGrey};
+  margin: 1.2em 0;
 `;
 
 const InlineField = styled(Field)`
@@ -300,11 +311,11 @@ const UnwrappedListCollectorPageEditor = (props) => {
             </ListItem>
             <ListItem>
               Select the Add an answer option and choose a Text answer type from
-              the menu.These are the answers that will be collected for the
+              the menu. These are the answers that will be collected for the
               list.
             </ListItem>
             <ListItem>
-              nter the label First name in the answer container.
+              Enter the label First name in the answer container.
             </ListItem>
             <ListItem>
               Select the Add another answer option and again choose a Text
@@ -541,6 +552,13 @@ const UnwrappedListCollectorPageEditor = (props) => {
                 />
               </Field>
             </RadioContainer>
+            <HorizontalRule />
+            <PageTitleContainer
+              pageDescription={entity.pageDescription}
+              errors={page.validationErrorInfo.errors}
+              onChange={handleOnChange}
+              onUpdate={handleOnUpdate}
+            />
           </Collapsible>
 
           <Collapsible
@@ -574,6 +592,15 @@ const UnwrappedListCollectorPageEditor = (props) => {
               })}
             />
             {renderErrors(page.validationErrorInfo.errors, "addItemTitle")}
+            <HorizontalRule />
+            <PageTitleContainer
+              pageDescription={entity.addItemPageDescription}
+              altFieldName="addItemPageDescription"
+              altError="ADD_ITEM_PAGE_DESCRIPTION_MISSING"
+              errors={page.validationErrorInfo.errors}
+              onChange={handleOnChange}
+              onUpdate={handleOnUpdate}
+            />
           </Collapsible>
 
           <Collapsible
@@ -689,6 +716,15 @@ const UnwrappedListCollectorPageEditor = (props) => {
                 </Field>
               </RadioContainer>
             </CollapsibleContent>
+            <HorizontalRule />
+            <PageTitleContainer
+              pageDescription={entity.anotherPageDescription}
+              altFieldName="anotherPageDescription"
+              altError="ANOTHER_PAGE_DESCRIPTION_MISSING"
+              errors={page.validationErrorInfo.errors}
+              onChange={handleOnChange}
+              onUpdate={handleOnUpdate}
+            />
           </Collapsible>
         </QuestionRender>
       ) : (
@@ -711,6 +747,7 @@ UnwrappedListCollectorPageEditor.fragments = {
       listId
       position
       drivingQuestion
+      pageDescription
       additionalGuidancePanel
       additionalGuidancePanelSwitch
       drivingPositive
@@ -718,11 +755,13 @@ UnwrappedListCollectorPageEditor.fragments = {
       drivingPositiveDescription
       drivingNegativeDescription
       anotherTitle
+      anotherPageDescription
       anotherPositive
       anotherNegative
       anotherPositiveDescription
       anotherNegativeDescription
       addItemTitle
+      addItemPageDescription
       alias
       comments {
         ...Comment

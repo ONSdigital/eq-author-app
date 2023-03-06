@@ -5,6 +5,7 @@ const createQuestionPage = (input = {}) => ({
   id: uuidv4(),
   pageType: "QuestionPage",
   title: "",
+  pageDescription: "",
   description: "",
   descriptionEnabled: false,
   guidanceEnabled: false,
