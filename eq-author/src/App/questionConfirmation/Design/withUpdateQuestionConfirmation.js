@@ -9,6 +9,7 @@ const inputStructure = gql`
   {
     id
     title
+    pageDescription
     positive {
       label
       description

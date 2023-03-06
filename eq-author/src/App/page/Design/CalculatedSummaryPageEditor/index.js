@@ -13,6 +13,8 @@ import withEntityEditor from "components/withEntityEditor";
 import PageHeader from "../PageHeader";
 import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
 
+import PageTitleContainer from "components/PageTitle";
+
 import {
   ANSWER,
   METADATA,
@@ -44,6 +46,12 @@ const SelectorTitle = styled.h2`
   font-size: 1em;
   color: ${colors.black};
   margin: 0 0 0.4em;
+`;
+
+const HorizontalRule = styled.hr`
+  border: 0;
+  border-top: 0.0625em solid ${colors.lightMediumGrey};
+  margin: 1.2em 0;
 `;
 
 const {
@@ -144,6 +152,14 @@ export const CalculatedSummaryPageEditor = (props) => {
           errorValidationMsg={getErrorMessage("title")}
           autoFocus={!page.title}
         />
+        <HorizontalRule />
+        <PageTitleContainer
+          pageDescription={page.pageDescription}
+          errors={props.page.validationErrorInfo.errors}
+          onChange={onChange}
+          onUpdate={onUpdate}
+        />
+        <HorizontalRule />
         <div>
           <SelectorTitle>Answers to calculate</SelectorTitle>
           <AnswerSelector
@@ -175,6 +191,7 @@ CalculatedSummaryPageEditor.fragments = {
     fragment CalculatedSummaryPage on CalculatedSummaryPage {
       id
       title
+      pageDescription
       alias
       totalTitle
       pageType

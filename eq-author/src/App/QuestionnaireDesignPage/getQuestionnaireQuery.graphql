@@ -152,6 +152,7 @@ fragment Pages on Page {
     totalCount
   }
   ... on CalculatedSummaryPage {
+    pageDescription
     totalTitle
     type
     answers {

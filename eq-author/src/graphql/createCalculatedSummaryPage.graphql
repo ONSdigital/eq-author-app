@@ -9,6 +9,7 @@ mutation CreateCalculatedSummaryPage(
     title
     alias
     displayName
+    pageDescription
     pageType
     answers {
       ...Answer
