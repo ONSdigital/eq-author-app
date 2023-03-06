@@ -25,6 +25,7 @@ import MaxDurationValidationRule from "graphql/fragments/max-duration-validation
 
 import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
 import { TEXTFIELD, TEXTAREA, DURATION } from "constants/answer-types";
+import { ANSWER } from "components/ContentPickerSelectv3/content-types";
 
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 import AnswerProperties from "components/AnswerContent/AnswerProperties";
@@ -34,6 +35,8 @@ import InlineField from "components/AnswerContent/Format/InlineField";
 import Collapsible from "components/Collapsible";
 
 import gql from "graphql-tag";
+import RichTextEditor from "components/RichTextEditor";
+import { getErrorByField } from "../../QuestionPageEditor/validationUtils";
 
 const Caption = styled.div`
   margin-bottom: 0.2em;
@@ -48,16 +51,13 @@ export const StatelessBasicAnswer = ({
   answer,
   onChange,
   onUpdate,
-  labelPlaceholder,
   labelText,
   errorLabel,
   descriptionText,
   descriptionPlaceholder,
   showDescription,
-  autoFocus,
   getValidationError,
   type,
-  optionErrorMsg,
   page,
 }) => {
   const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
@@ -66,31 +66,37 @@ export const StatelessBasicAnswer = ({
   const [updateAnswerOfType] = useMutation(UPDATE_ANSWER_OF_TYPE);
 
   const { id } = answer;
+  const pipingControls = { piping: true };
+  const errorMessage =
+    getErrorByField("label", page.validationErrorInfo.errors) ||
+    getValidationError({
+      field: "label",
+      type: "answer",
+      label: errorLabel,
+      requiredMsg: errorMsg,
+    });
 
   return (
     <div>
       <Field>
-        <Label htmlFor={`answer-label-${answer.id}`}>{labelText}</Label>
-        <WrappingInput
+        <RichTextEditor
           id={`answer-label-${answer.id}`}
+          label={labelText}
           name="label"
-          onChange={onChange}
-          onBlur={onUpdate}
-          value={answer.label}
-          data-autofocus={autoFocus || null}
-          placeholder={labelPlaceholder}
-          data-test="txt-answer-label"
-          bold
-          errorValidationMsg={
-            optionErrorMsg
-              ? optionErrorMsg
-              : getValidationError({
-                  field: "label",
-                  type: "answer",
-                  label: errorLabel,
-                  requiredMsg: errorMsg,
-                })
+          value={answer?.label}
+          onUpdate={({ value }) =>
+            updateAnswer({
+              variables: {
+                input: { id, label: value },
+              },
+            })
           }
+          data-test="txt-answer-label"
+          controls={pipingControls}
+          size="large"
+          allowableTypes={[ANSWER]}
+          errorValidationMsg={errorMessage}
+          autoFocus={!answer.label}
         />
       </Field>
       {showDescription && (
