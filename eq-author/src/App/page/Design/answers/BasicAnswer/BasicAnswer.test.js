@@ -1,4 +1,6 @@
 import React from "react";
+
+import { useParams } from "react-router-dom";
 import { shallow, mount } from "enzyme";
 
 import { StatelessBasicAnswer } from "./";
@@ -12,8 +14,18 @@ jest.mock("@apollo/react-hooks", () => ({
   useMutation: () => [mockUseMutation],
 }));
 
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useParams: jest.fn(),
+}));
+
 describe("BasicAnswer", () => {
-  let answer, onChange, onUpdate, children, props, multipleAnswers;
+  let answer, onChange, onUpdate, children, props, multipleAnswers, page;
+
+  page = {
+    validationErrorInfo: { errors: [{}] },
+    answers: { some: jest.fn() },
+  };
 
   const createWrapper = (props, render = shallow) => {
     return render(<StatelessBasicAnswer {...props} />);
@@ -51,6 +63,7 @@ describe("BasicAnswer", () => {
       multipleAnswers,
       type: "text field",
       children: <div>This is the child component</div>,
+      page,
     };
   });
 
@@ -65,6 +78,7 @@ describe("BasicAnswer", () => {
   });
 
   it("can turn off auto-focus", () => {
+    useParams.mockImplementation(() => ({ params: "page-1" }));
     let wrapper = createWrapper({ ...props, autoFocus: false }, mount);
     const input = wrapper
       .find(`[data-test="txt-answer-label"]`)

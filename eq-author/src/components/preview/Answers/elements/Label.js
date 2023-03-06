@@ -20,10 +20,17 @@ const Wrapper = styled.label`
   line-height: 1.4;
   word-wrap: break-word;
 `;
+const Div = styled.div``;
 
 const Label = ({ description, children }) => (
   <Wrapper>
-    {children || <Error small>Missing label</Error>}
+    {(
+      <Div
+        dangerouslySetInnerHTML={{
+          __html: children,
+        }}
+      />
+    ) || <Error small>Missing label</Error>}
     {description && (
       <>
         <Description>{description}</Description>
