@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 import { withRouter, useParams } from "react-router-dom";
 
 import VerticalTabs from "components/VerticalTabs";
@@ -7,6 +8,15 @@ import * as Common from "../common";
 import { Grid, Column } from "components/Grid";
 import Header from "components/EditorLayout/Header";
 import ScrollPane from "components/ScrollPane";
+
+import { colors } from "constants/theme";
+
+const StyledTitle = styled.h2`
+  font-size: 1.1em;
+  font-weight: bold;
+  color: ${colors.text};
+  margin: 0;
+`;
 
 const ONSDatasetPage = () => {
   const params = useParams();
@@ -41,6 +51,7 @@ const ONSDatasetPage = () => {
                     <Common.TabContent>
                       Only one dataset can be linked per questionnaire.
                     </Common.TabContent>
+                    <StyledTitle>Select a survey ID</StyledTitle>
                   </Common.StyledPanel>
                 </Common.SampleFileDataContainer>
               </Column>
