@@ -19,11 +19,13 @@ describe("Vertical tabs", () => {
           url: "http://www.example.com",
           title: "My Cool Website",
           disabled: false,
+          enabled: true,
           errorCount: 0,
         },
         {
           url: "http://www.example.com",
           title: "My disabled page",
+          enabled: true,
           disabled: true,
           errorCount: 0,
         },
@@ -48,12 +50,14 @@ describe("Vertical tabs", () => {
         {
           url: "http://www.example.com",
           title: "ErrorTab",
+          enabled: true,
           disabled: false,
           errorCount: 2,
         },
         {
           url: "http://www.example.com",
           title: "HappyTab",
+          enabled: true,
           disabled: false,
           errorCount: 0,
         },

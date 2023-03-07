@@ -3,7 +3,6 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 import Button from "components/buttons/Button";
-import { colors } from "constants/theme";
 
 import flag from "./flag.svg";
 
@@ -23,34 +22,23 @@ const Title = styled.h2`
   }
 `;
 
-const Text = styled.p`
-  max-width: 31em;
-  margin: 1em auto;
-  color: ${colors.textLight};
-`;
-
-const NoMetadata = ({ onAddMetadata }) => {
+const NoSampleFileData = ({ onAddMetadata }) => {
   return (
     <Wrapper>
-      <Title>No metadata found</Title>
-      <Text>
-        {
-          "Metadata can be piped into questions within your questionnaire. When a survey is published, we connect the metadata to a sample file so respondents see actual values."
-        }
-      </Text>
+      <Title>No sample file data found</Title>
       <Button
         onClick={onAddMetadata}
         variant="primary"
         data-test="add-metadata"
       >
-        Add metadata
+        Add sample file data
       </Button>
     </Wrapper>
   );
 };
 
-NoMetadata.propTypes = {
+NoSampleFileData.propTypes = {
   onAddMetadata: PropTypes.func.isRequired,
 };
 
-export default NoMetadata;
+export default NoSampleFileData;

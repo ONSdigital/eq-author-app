@@ -7,6 +7,7 @@ import {
   QUESTION_CONFIRMATION,
   INTRODUCTION,
   METADATA,
+  DATA,
   HISTORY,
   COLLECTIONLISTS,
   PUBLISH,
@@ -148,6 +149,13 @@ export const buildSettingsPath = ({ questionnaireId }) => {
   return generatePath(Routes.QUESTIONNAIRE)({
     questionnaireId,
     entityName: SETTINGS,
+  });
+};
+
+export const buildDataPath = ({ questionnaireId }) => {
+  return generatePath(Routes.QUESTIONNAIRE)({
+    questionnaireId,
+    entityName: DATA,
   });
 };
 
