@@ -18,8 +18,6 @@ const migrations = [
   require("./addDefaultTheme"),
   require("./addLockedStatus"),
   require("./addQuestionnaireQcodes"),
-  require("./addThemeSettings"),
-  require("./copyLegalBasisToThemes"),
   require("./addSectionHubSettings"),
   require("./updateExpressionSchema"),
   require("./upateAnswerWithAdvancedProperty"),
