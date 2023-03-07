@@ -18,6 +18,8 @@ const migrations = [
   require("./addDefaultTheme"),
   require("./addLockedStatus"),
   require("./addQuestionnaireQcodes"),
+  require("./addThemeSettings"),
+  require("./copyLegalBasisToThemes"),
   require("./addSectionHubSettings"),
   require("./updateExpressionSchema"),
   require("./upateAnswerWithAdvancedProperty"),
@@ -38,8 +40,8 @@ const migrations = [
   require("./addDataVersion"),
   require("./updateUKIStoBEISTheme"),
   require("./updateDefaultToBusinessTheme"),
-  require("./convertThemeSettingsToQuestionnaireSettings"),
   require("./addPageDescription"),
+  require("./convertThemeSettingsToQuestionnaireSettings"),
 ];
 
 const currentVersion = migrations.length;
