@@ -138,9 +138,6 @@ const deleteFirstPageSkipConditions = require("../../src/businessLogic/deleteFir
 const deleteLastPageRouting = require("../../src/businessLogic/deleteLastPageRouting");
 
 const createNewQuestionnaire = (input) => {
-  const defaultTheme = createTheme({
-    shortName: "business",
-  });
   const defaultQuestionnaire = {
     id: uuidv4(),
     theme: "business",
@@ -164,11 +161,6 @@ const createNewQuestionnaire = (input) => {
     collectionLists: {
       id: uuidv4(),
       lists: [],
-    },
-    themeSettings: {
-      id: uuidv4(),
-      previewTheme: defaultTheme.shortName,
-      themes: [defaultTheme],
     },
     locked: false,
     submission: createSubmission(),
