@@ -16,8 +16,10 @@ const StyledTitle = styled.h2`
   font-size: 1.1em;
   font-weight: bold;
   color: ${colors.text};
-  margin: 0;
+  margin: 0 0 0.5em 0;
 `;
+
+const Option = styled.option``;
 
 const CustomSelect = styled.select`
   font-size: 1em;
@@ -96,11 +98,11 @@ const ONSDatasetPage = () => {
                       onChange={handleChange}
                       value={surveyID}
                     >
-                      <option value="surveyID">Survey ID</option>
+                      <Option value="surveyID">Survey ID</Option>
                       {lists.map((list) => (
-                        <option key={list.id} value={list.id}>
+                        <Option key={list.id} value={list.id}>
                           {list.displayName}
-                        </option>
+                        </Option>
                       ))}
                     </CustomSelect>
                     {surveyID && <p>{surveyID}</p>}
