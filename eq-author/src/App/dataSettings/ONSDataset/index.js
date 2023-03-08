@@ -39,7 +39,7 @@ const Option = styled.option``;
 
 const CustomSelect = styled.select`
   font-size: 1em;
-  border: 2px solid #d6d8da;
+  border: 3px solid #d6d8da;
   border-radius: 4px;
   appearance: none;
   background: white url("${Icon}") no-repeat right center;
@@ -49,7 +49,7 @@ const CustomSelect = styled.select`
   padding: 0.3em 1.5em 0.3em 0.3em;
   color: #222222;
   display: block;
-  min-width: 30%;
+  min-width: 25%;
 
   &:hover {
     outline: none;
@@ -62,35 +62,84 @@ const StyledTableBody = styled(TableBody)`
 
 const SpacedTableColumn = styled(TableColumn)`
   padding: 0.5em 0.5em 0.2em;
-  color: ${colors.text};
+
+  font-weight: bold;
+  color: ${colors.textLight};
   word-break: break-word;
+  border: 1px solid ${colors.bordersDark};
+  :not(:last-of-type) {
+    border-right: 1px solid ${colors.bordersDark};
+    padding-left: 1em;
+  }
+`;
+
+const StyledTableHeadColumn = styled(TableHeadColumn)`
+  border: 1px solid ${colors.bordersDark};
+  :not(:last-of-type) {
+    border-right: 1px solid ${colors.bordersDark};
+  }
 `;
 
 const StyledButton = styled(Button)`
   flex: 1;
   margin: 0 0 0.5em 0;
-  left: 25%;
+  left: 30%;
 `;
 
-const lists = [
-  { id: 121, displayName: "121" },
-  { id: 122, displayName: "122" },
-  { id: 123, displayName: "123" },
+const surveys = [
+  {
+    id: 121,
+    displayName: "121",
+    datasets: [
+      { version: 4, dateCreated: "28/02/2023" },
+      { version: 3, dateCreated: "25/02/2023" },
+      { version: 2, dateCreated: "20/02/2023" },
+      { version: 1, dateCreated: "5/02/2023" },
+    ],
+  },
+  {
+    id: 122,
+    displayName: "122",
+    datasets: [
+      { version: 14, dateCreated: "28/02/2023" },
+      { version: 13, dateCreated: "25/02/2023" },
+      { version: 12, dateCreated: "20/02/2023" },
+      { version: 11, dateCreated: "5/02/2023" },
+    ],
+  },
+  {
+    id: 123,
+    displayName: "123",
+    datasets: [
+      { version: 24, dateCreated: "28/02/2023" },
+      { version: 23, dateCreated: "25/02/2023" },
+      { version: 22, dateCreated: "20/02/2023" },
+      { version: 21, dateCreated: "5/02/2023" },
+    ],
+  },
 ];
 
 const ONSDatasetPage = () => {
   const params = useParams();
 
   const [surveyID, setSurveyID] = useState(undefined);
+  const [showDataset, setShowDataset] = useState(false);
 
   useEffect(() => {
     setSurveyID(surveyID);
   }, [surveyID]);
 
   const handleChange = ({ target }) => {
-    target.value === "surveyID"
-      ? setSurveyID(undefined)
-      : setSurveyID(target.value);
+    if (target.value === "surveyID") {
+      setSurveyID(undefined);
+    } else {
+      setSurveyID(target.value);
+      setShowDataset(true);
+    }
+  };
+
+  const handleClick = () => {
+    setShowDataset(!showDataset);
   };
 
   return (
@@ -131,51 +180,54 @@ const ONSDatasetPage = () => {
                         value={surveyID}
                       >
                         <Option value="surveyID">Survey ID</Option>
-                        {lists.map((list) => (
+                        {surveys.map((list) => (
                           <Option key={list.id} value={list.id}>
                             {list.displayName}
                           </Option>
                         ))}
                       </CustomSelect>
-                      {surveyID && (
+                      {showDataset && (
                         <>
                           <Title>Datasets for survey ID {surveyID}</Title>
-                          <Table data-test="qcodes-table">
+                          <Table data-test="datasets-table">
                             <TableHead>
                               <TableRow>
-                                <TableHeadColumn width="40%">
+                                <StyledTableHeadColumn width="40%">
                                   Version
-                                </TableHeadColumn>
-                                <TableHeadColumn width="40%">
+                                </StyledTableHeadColumn>
+                                <StyledTableHeadColumn width="40%">
                                   Date created
-                                </TableHeadColumn>
-                                <TableHeadColumn width="20%">
+                                </StyledTableHeadColumn>
+                                <StyledTableHeadColumn width="20%">
                                   Link dataset
-                                </TableHeadColumn>
+                                </StyledTableHeadColumn>
                               </TableRow>
                             </TableHead>
                             <StyledTableBody>
-                              <TableRow data-test={`answer-row-test`}>
-                                {
-                                  <>
+                              {surveys[0].datasets.map((dataset) => {
+                                return (
+                                  <TableRow
+                                    key={dataset.version}
+                                    data-test={`dataset-row`}
+                                  >
                                     <SpacedTableColumn>
-                                      Test 1
+                                      {dataset.version}
                                     </SpacedTableColumn>
                                     <SpacedTableColumn>
-                                      Test 2
+                                      {dataset.dateCreated}
                                     </SpacedTableColumn>
                                     <SpacedTableColumn>
                                       <StyledButton
-                                        onClick={() => {}}
+                                        onClick={handleClick}
                                         type="button"
                                         variant="secondary"
                                       >
                                         Link
                                       </StyledButton>
                                     </SpacedTableColumn>
-                                  </>
-                                }
-                              </TableRow>
+                                  </TableRow>
+                                );
+                              })}
                             </StyledTableBody>
                           </Table>
                         </>
