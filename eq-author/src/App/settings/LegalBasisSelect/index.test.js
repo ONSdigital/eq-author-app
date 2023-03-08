@@ -3,13 +3,6 @@ import { shallow } from "enzyme";
 
 import LegalBasisField from ".";
 
-const mockUseUpdateTheme = jest.fn();
-
-jest.mock("hooks/useUpdateTheme", () => ({
-  __esModule: true,
-  default: jest.fn(() => mockUseUpdateTheme),
-}));
-
 describe("LegalBasisField", () => {
   let props;
 

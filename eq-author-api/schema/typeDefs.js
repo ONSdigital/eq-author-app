@@ -97,16 +97,6 @@ type CollectionLists {
   questionnaire: Questionnaire
 }
 
-type Theme {
-  id: ID!
-  enabled: Boolean!
-  shortName: ThemeShortName!
-  legalBasisCode: LegalBasisCode
-  eqId: ID
-  formType: String
-  validationErrorInfo: ValidationErrorInfo
-}
-
 type List {
   id: ID!
   listName: String
@@ -552,23 +542,6 @@ enum AnswerType {
   Select
 }
 
-enum ThemeShortName {
-  default
-  business
-  social
-  health
-  census
-  northernireland
-  covid
-  ukis
-  ukis_ni
-  epe
-  epenorthernireland
-  orr
-  beis
-  beis_ni
-}
-
 type Metadata {
   id: ID!
   key: String
@@ -833,29 +806,6 @@ input UpdateSurveyIdInput {
   surveyId: String!
 }
 
-input UpdatePreviewThemeInput {
-  questionnaireId: ID!
-  previewTheme: String!
-}
-
-input EnableThemeInput {
-  questionnaireId: ID!
-  shortName: ThemeShortName!
-}
-
-input DisableThemeInput {
-  questionnaireId: ID!
-  shortName: ThemeShortName!
-}
-
-input UpdateThemeInput {
-  questionnaireId: ID!
-  shortName: ThemeShortName!
-  eqId: ID
-  legalBasisCode: LegalBasisCode
-  formType: String
-}
-
 input ToggleQuestionnaireStarredInput {
   questionnaireId: ID!
 }
@@ -898,9 +848,6 @@ type Mutation {
   deleteHistoryNote(input: deleteHistoryNoteInput!): [History!]!
 
   updateSurveyId(input: UpdateSurveyIdInput!): Questionnaire
-  enableTheme(input: EnableThemeInput!): Theme
-  updateTheme(input: UpdateThemeInput!): Theme
-  disableTheme(input: DisableThemeInput!): Theme
 
   createSection(input: CreateSectionInput!): Section
   updateSection(input: UpdateSectionInput!): Section
