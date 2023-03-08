@@ -49,7 +49,6 @@ const {
   createLeftSide,
   createFolder,
   createSection,
-  createTheme,
   createList,
 } = require("../../src/businessLogic");
 
@@ -73,8 +72,6 @@ const {
   remapAllNestedIds,
   returnValidationErrors,
   getThemeByShortName,
-  getPreviewTheme,
-  getFirstEnabledTheme,
   getListById,
   getListByAnswerId,
   getAnswerByOptionId,
@@ -475,67 +472,6 @@ const Resolvers = {
       };
 
       return ctx.questionnaire.submission;
-    }),
-    updatePreviewTheme: createMutation(
-      (root, { input: { previewTheme } }, ctx) => {
-        ctx.questionnaire.themeSettings.previewTheme = previewTheme;
-        return ctx.questionnaire.themeSettings;
-      }
-    ),
-    enableTheme: createMutation((root, { input: { shortName } }, ctx) => {
-      let theme = getThemeByShortName(ctx, shortName);
-      if (!theme) {
-        theme = createTheme({ shortName });
-        ctx.questionnaire.themeSettings.themes.push(theme);
-      }
-      theme.enabled = true;
-
-      const openThemes = ctx.questionnaire.themeSettings.themes.filter(
-        (theme) => theme.enabled === true
-      );
-      if (openThemes.length === 1) {
-        ctx.questionnaire.themeSettings.previewTheme = shortName;
-      }
-
-      return theme;
-    }),
-    updateTheme: createMutation((root, { input }, ctx) => {
-      const theme = getThemeByShortName(ctx, input.shortName);
-
-      // Trim whitespace from input
-      for (const key of Object.keys(input)) {
-        input[key] = input[key]?.trim() ?? input[key];
-      }
-
-      if (!theme) {
-        throw new UserInputError(
-          `updateTheme: No theme found with shortName '${input.shortName}''`
-        );
-      }
-      delete input.questionnaireId;
-      return Object.assign(theme, input);
-    }),
-    disableTheme: createMutation((root, { input: { shortName } }, ctx) => {
-      const theme = getThemeByShortName(ctx, shortName);
-      if (!theme) {
-        throw new UserInputError(
-          `disableTheme: No theme found with shortName '${shortName}''`
-        );
-      }
-
-      theme.enabled = false;
-
-      const isPreviewTheme = getPreviewTheme(ctx) === shortName;
-
-      if (isPreviewTheme) {
-        const { shortName } = getFirstEnabledTheme(ctx) || {};
-
-        if (shortName) {
-          ctx.questionnaire.themeSettings.previewTheme = shortName;
-        }
-      }
-
-      return theme;
     }),
     createHistoryNote: (root, { input }, ctx) =>
       createHistoryEvent(input.id, noteCreationEvent(ctx, input.bodyText)),

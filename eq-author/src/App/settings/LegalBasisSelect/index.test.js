@@ -31,16 +31,4 @@ describe("LegalBasisField", () => {
     );
     expect(option.prop("value")).toEqual(props.selectedLegalBasis);
   });
-
-  it("picking the option should update the theme's legal basis", () => {
-    shallow(<LegalBasisField {...props} />)
-      .find("[value='NOTICE_2']")
-      .simulate("change", { name: props.name, value: "NOTICE_2" });
-
-    expect(mockUseUpdateTheme).toHaveBeenCalledWith({
-      questionnaireId: props.questionnaireId,
-      shortName: props.shortName,
-      legalBasisCode: "NOTICE_2",
-    });
-  });
 });
