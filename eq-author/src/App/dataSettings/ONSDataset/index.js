@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { withRouter, useParams } from "react-router-dom";
 
@@ -47,6 +47,18 @@ const lists = [
 const ONSDatasetPage = () => {
   const params = useParams();
 
+  const [surveyID, setSurveyID] = useState(undefined);
+
+  useEffect(() => {
+    setSurveyID(surveyID);
+  }, [surveyID]);
+
+  const handleChange = ({ target }) => {
+    target.value === "surveyID"
+      ? setSurveyID(undefined)
+      : setSurveyID(target.value);
+  };
+
   return (
     <Common.Container>
       <ScrollPane>
@@ -81,16 +93,17 @@ const ONSDatasetPage = () => {
                     <CustomSelect
                       name="listId"
                       data-test="list-select"
-                      onChange={() => {}}
-                      value={"Test"}
+                      onChange={handleChange}
+                      value={surveyID}
                     >
-                      <option value="">Survey ID</option>
+                      <option value="surveyID">Survey ID</option>
                       {lists.map((list) => (
                         <option key={list.id} value={list.id}>
                           {list.displayName}
                         </option>
                       ))}
                     </CustomSelect>
+                    {surveyID && <p>{surveyID}</p>}
                   </Common.StyledPanel>
                 </Common.SampleFileDataContainer>
               </Column>
