@@ -68,6 +68,8 @@ const SpacedTableColumn = styled(TableColumn)`
 
 const StyledButton = styled(Button)`
   flex: 1;
+  margin: 0 0 0.5em 0;
+  left: 25%;
 `;
 
 const lists = [
