@@ -6,10 +6,12 @@ const getQuestionnaireQuery = `
       id
       title
       description
-      theme
       starred
       navigation
       surveyId
+      formType
+      eqId
+      theme
       createdAt
       shortTitle
       displayName

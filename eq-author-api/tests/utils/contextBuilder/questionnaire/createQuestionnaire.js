@@ -11,10 +11,13 @@ const createQuestionnaireMutation = `
       shortTitle
       displayName
       description
-      theme
       navigation
       type
       surveyId
+      formType
+      eqId
+      theme
+      legalBasis
       createdAt
       createdBy {
         id
@@ -74,9 +77,12 @@ const createQuestionnaire = async (ctx, input) => {
           {
             title
             description
-            theme
             navigation
             surveyId
+            formType
+            eqId
+            theme
+            legalBasis
             summary
             type
             shortTitle
