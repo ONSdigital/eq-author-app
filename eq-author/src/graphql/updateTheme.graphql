@@ -10,11 +10,5 @@ mutation UpdateTheme($input: UpdateThemeInput!) {
     validationErrorInfo {
       ...ValidationErrorInfo
     }
-    themeSettings {
-      id
-      validationErrorInfo {
-        ...ValidationErrorInfo
-      }
-    }
   }
 }

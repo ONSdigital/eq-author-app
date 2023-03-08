@@ -56,7 +56,6 @@ module.exports = (dataPath, field, errorCode, questionnaire, errMessage) => {
     expressionGroup,
     expression,
     validation,
-    theme,
     list,
     propertyJSON;
 
@@ -72,16 +71,6 @@ module.exports = (dataPath, field, errorCode, questionnaire, errMessage) => {
     switch (val) {
       case "introduction":
         validationErr.type = "introduction";
-        break;
-
-      case "themeSettings":
-        validationErr.type = "themeSettings";
-        break;
-
-      case "themes":
-        theme = questionnaire.themeSettings.themes[nextVal ? nextVal : field];
-        validationErr.type = "theme";
-        validationErr.themeId = theme?.id;
         break;
 
       case "lists":

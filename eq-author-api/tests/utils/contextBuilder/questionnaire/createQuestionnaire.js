@@ -45,18 +45,6 @@ const createQuestionnaireMutation = `
           id
         }
       }
-      themeSettings {
-        id
-        previewTheme
-        themes {
-          id
-          enabled
-          shortName
-          legalBasisCode
-          eqId
-          formType
-        }
-      }
       submission {
         id
         furtherContent

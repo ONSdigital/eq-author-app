@@ -32,12 +32,6 @@ query GetQuestionnaire($input: QueryInput!) {
       languageValue
       textValue
     }
-    themeSettings {
-      id
-      validationErrorInfo {
-        ...ValidationErrorInfo
-      }
-    }
     submission {
       id
       furtherContent

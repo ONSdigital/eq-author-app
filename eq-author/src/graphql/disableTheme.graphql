@@ -11,12 +11,5 @@ mutation DisableTheme($input: DisableThemeInput!) {
     validationErrorInfo {
       ...ValidationErrorInfo
     }
-    themeSettings {
-      id
-      previewTheme
-      validationErrorInfo {
-        ...ValidationErrorInfo
-      }
-    }
   }
 }

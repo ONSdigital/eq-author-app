@@ -13,13 +13,6 @@ mutation UpdateTheme($input: UpdateThemeInput!) {
         id
         totalCount
       }
-      themeSettings {
-        id
-        validationErrorInfo {
-          id
-          totalCount
-        }
-      }
     }
   }
 `;

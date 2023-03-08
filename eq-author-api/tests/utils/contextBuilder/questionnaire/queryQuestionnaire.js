@@ -34,18 +34,6 @@ const getQuestionnaireQuery = `
       }
       totalErrorCount
       publishStatus
-      themeSettings {
-        id
-        previewTheme
-        themes {
-          id
-          enabled
-          shortName
-          legalBasisCode
-          eqId
-          formType
-        }
-      }
       submission {
         id
         furtherContent

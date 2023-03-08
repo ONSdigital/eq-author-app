@@ -71,7 +71,6 @@ const {
   getSkippableById,
   remapAllNestedIds,
   returnValidationErrors,
-  getThemeByShortName,
   getListById,
   getListByAnswerId,
   getAnswerByOptionId,
@@ -128,8 +127,6 @@ const {
   noteCreationEvent,
   publishStatusEvent,
 } = require("../../utils/questionnaireEvents");
-
-const { THEME_SHORT_NAMES } = require("../../constants/themes");
 
 const deleteFirstPageSkipConditions = require("../../src/businessLogic/deleteFirstPageSkipConditions");
 const deleteLastPageRouting = require("../../src/businessLogic/deleteLastPageRouting");
@@ -1848,28 +1845,9 @@ const Resolvers = {
       ),
   },
 
-  ThemeSettings: {
-    validationErrorInfo: ({ id }, _args, ctx) =>
-      returnValidationErrors(ctx, id, ({ type }) =>
-        ["theme", "themeSettings"].includes(type)
-      ),
-    themes: (_root, _args, ctx) => {
-      // Return all themes as disabled by default
-      // If present in questionnaire, override with actual attributes
-      return THEME_SHORT_NAMES.map((shortName) => ({
-        shortName,
-        id: shortName,
-        enabled: false,
-        legalBasisCode: "NOTICE_1",
-        ...(getThemeByShortName(ctx, shortName) ?? {}),
-      }));
-    },
-  },
-
   Theme: {
     validationErrorInfo: ({ id }, _args, ctx) =>
       returnValidationErrors(ctx, id, ({ themeId }) => themeId === id),
-    themeSettings: (_root, _args, ctx) => ctx.questionnaire.themeSettings,
   },
 
   Date: GraphQLDate,

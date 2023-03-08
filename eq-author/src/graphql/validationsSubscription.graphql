@@ -4,18 +4,6 @@ subscription Validation($id: ID!) {
   validationUpdated(id: $id) {
     id
     totalErrorCount
-    themeSettings {
-      id
-      validationErrorInfo {
-        ...ValidationErrorInfo
-      }
-      themes {
-        id
-        validationErrorInfo {
-          ...ValidationErrorInfo
-        }
-      }
-    }
     validationErrorInfo {
       ...ValidationErrorInfo
     }
