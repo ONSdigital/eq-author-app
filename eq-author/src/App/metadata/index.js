@@ -1,13 +1,11 @@
 import React from "react";
 
-import { Route } from "react-router-dom";
-
-import MetadataPage from "./MetadataPage";
+import RedirectRoute from "components/RedirectRoute";
 
 export default [
-  <Route
+  <RedirectRoute
     key="metadata"
-    path="/q/:questionnaireId/metadata"
-    component={MetadataPage}
+    from="/q/:questionnaireId/metadata"
+    to="/q/:questionnaireId/data/sample-file-data"
   />,
 ];

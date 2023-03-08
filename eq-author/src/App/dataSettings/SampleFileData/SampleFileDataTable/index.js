@@ -27,7 +27,7 @@ const StyledLabel = styled(Label)`
   color: ${colors.darkGrey};
 `;
 
-const MetadataTable = ({
+const SampleFileDataTable = ({
   questionnaireId,
   metadata,
   onDelete,
@@ -38,16 +38,20 @@ const MetadataTable = ({
   const usedKeys = keyData.map(({ key }) => key);
 
   return (
-    <Table data-test="metadata-table">
+    <Table data-test="sample-file-data-table">
       <TableHead>
         <TableRow>
           <TableHeadColumn width="15%">Key</TableHeadColumn>
           <TableHeadColumn width="15%">
-            <StyledLabel htmlFor={"metadata-alias-column"}>Alias</StyledLabel>
+            <StyledLabel htmlFor={"sample-file-data-alias-column"}>
+              Alias
+            </StyledLabel>
           </TableHeadColumn>
           <TableHeadColumn width="15%">Type</TableHeadColumn>
           <TableHeadColumn width="40%">
-            <StyledLabel htmlFor={"metadata-value-column"}>Value</StyledLabel>
+            <StyledLabel htmlFor={"sample-file-data-value-column"}>
+              Value
+            </StyledLabel>
           </TableHeadColumn>
           <TableHeadColumn width="15%">Fallback</TableHeadColumn>
           <TableHeadColumn width="34px" />
@@ -70,13 +74,13 @@ const MetadataTable = ({
         <TableRow>
           <TableColumn colSpan="6">
             <AddRowButton
-              data-test="metadata-add-row"
+              data-test="sample-file-data-add-row"
               onClick={() => onAdd(questionnaireId)}
               variant="tertiary"
               small
             >
               <IconText icon={Icon} dark>
-                Add metadata
+                Add sample file data
               </IconText>
             </AddRowButton>
           </TableColumn>
@@ -86,7 +90,7 @@ const MetadataTable = ({
   );
 };
 
-MetadataTable.propTypes = {
+SampleFileDataTable.propTypes = {
   metadata: PropTypes.arrayOf(CustomPropTypes.metadata).isRequired,
   questionnaireId: PropTypes.string.isRequired,
   onAdd: PropTypes.func.isRequired,
@@ -94,4 +98,4 @@ MetadataTable.propTypes = {
   onUpdate: PropTypes.func.isRequired,
 };
 
-export default MetadataTable;
+export default SampleFileDataTable;

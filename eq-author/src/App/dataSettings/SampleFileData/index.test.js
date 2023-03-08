@@ -4,8 +4,9 @@ import { render, fireEvent, act } from "tests/utils/rtl";
 import QuestionnaireContext from "components/QuestionnaireContext";
 import { MeContext } from "App/MeContext";
 
-import { UnwrappedMetadataPageContent } from "./MetadataPage";
+import { UnwrappedSampleFileDataPageContent } from ".";
 import { publishStatusSubscription } from "components/EditorLayout/Header";
+import Theme from "contexts/themeContext";
 
 describe("Metadata page", () => {
   let props, questionnaireId, user, signOut, mocks;
@@ -65,7 +66,7 @@ describe("Metadata page", () => {
         <QuestionnaireContext.Provider
           value={props.data && props.data.questionnaire}
         >
-          {component}
+          <Theme>{component}</Theme>
         </QuestionnaireContext.Provider>
       </MeContext.Provider>,
       {
@@ -84,7 +85,7 @@ describe("Metadata page", () => {
     };
 
     const { getByTestId } = renderWithContext(
-      <UnwrappedMetadataPageContent {...props} />
+      <UnwrappedSampleFileDataPageContent {...props} />
     );
     expect(getByTestId("loading")).toBeTruthy();
   });
@@ -96,7 +97,7 @@ describe("Metadata page", () => {
     };
 
     const { getByText } = renderWithContext(
-      <UnwrappedMetadataPageContent {...props} />
+      <UnwrappedSampleFileDataPageContent {...props} />
     );
     expect(getByText("Oops! Something went wrong")).toBeTruthy();
   });
@@ -110,19 +111,19 @@ describe("Metadata page", () => {
     };
 
     const { getByText } = renderWithContext(
-      <UnwrappedMetadataPageContent {...props} />
+      <UnwrappedSampleFileDataPageContent {...props} />
     );
     expect(getByText("Oops! Questionnaire could not be found")).toBeTruthy();
   });
 
   it("should render metadata content", async () => {
     const { getByTestId, getByText } = renderWithContext(
-      <UnwrappedMetadataPageContent {...props} />
+      <UnwrappedSampleFileDataPageContent {...props} />
     );
-    expect(getByTestId("metadata-table")).toBeTruthy();
+    expect(getByTestId("sample-file-data-table")).toBeTruthy();
 
     await act(async () => {
-      await fireEvent.click(getByText("Add metadata"));
+      await fireEvent.click(getByText("Add sample file data"));
     });
     expect(props.onAddMetadata).toHaveBeenCalledWith(questionnaireId);
   });
@@ -139,12 +140,12 @@ describe("Metadata page", () => {
     };
 
     const { getByText } = renderWithContext(
-      <UnwrappedMetadataPageContent {...props} />
+      <UnwrappedSampleFileDataPageContent {...props} />
     );
-    expect(getByText("No metadata found")).toBeTruthy();
+    expect(getByText("No sample file data found")).toBeTruthy();
 
     await act(async () => {
-      await fireEvent.click(getByText("Add metadata"));
+      await fireEvent.click(getByText("Add sample file data"));
     });
     expect(props.onAddMetadata).toHaveBeenCalledWith(questionnaireId);
   });
