@@ -11,6 +11,7 @@ import ScrollPane from "components/ScrollPane";
 import Button from "components-themed/buttons";
 
 import Theme from "contexts/themeContext";
+import { SURVEY_IDS } from "constants/surveyIDs";
 import { colors } from "constants/theme";
 import Icon from "assets/icon-select.svg";
 import {
@@ -132,14 +133,11 @@ const ONSDatasetPage = () => {
   const handleChange = ({ target }) => {
     if (target.value === "surveyID") {
       setSurveyID(undefined);
+      setShowDataset(false);
     } else {
       setSurveyID(target.value);
       setShowDataset(true);
     }
-  };
-
-  const handleClick = () => {
-    setShowDataset(!showDataset);
   };
 
   return (
@@ -180,9 +178,9 @@ const ONSDatasetPage = () => {
                         value={surveyID}
                       >
                         <Option value="surveyID">Survey ID</Option>
-                        {surveys.map((list) => (
-                          <Option key={list.id} value={list.id}>
-                            {list.displayName}
+                        {SURVEY_IDS.map((surveyID) => (
+                          <Option key={surveyID} value={surveyID}>
+                            {surveyID}
                           </Option>
                         ))}
                       </CustomSelect>
@@ -218,7 +216,7 @@ const ONSDatasetPage = () => {
                                     </SpacedTableColumn>
                                     <SpacedTableColumn>
                                       <StyledButton
-                                        onClick={handleClick}
+                                        onClick={() => {}}
                                         type="button"
                                         variant="secondary"
                                       >
