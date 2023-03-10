@@ -137,6 +137,54 @@ const { THEME_SHORT_NAMES } = require("../../constants/themes");
 const deleteFirstPageSkipConditions = require("../../src/businessLogic/deleteFirstPageSkipConditions");
 const deleteLastPageRouting = require("../../src/businessLogic/deleteLastPageRouting");
 
+const surveys = [
+  {
+    surveyId: "121",
+    versions: [
+      { id: 1, version: 24, dateCreated: "28/02/2023" },
+      { id: 2, version: 23, dateCreated: "25/02/2023" },
+      { id: 3, version: 22, dateCreated: "20/02/2023" },
+      { id: 4, version: 21, dateCreated: "5/02/2023" },
+    ],
+  },
+  {
+    surveyId: "122",
+    versions: [
+      { id: 11, version: 24, dateCreated: "28/02/2023" },
+      { id: 12, version: 23, dateCreated: "25/02/2023" },
+      { id: 13, version: 22, dateCreated: "20/02/2023" },
+      { id: 14, version: 21, dateCreated: "5/02/2023" },
+    ],
+  },
+  {
+    surveyId: "123",
+    versions: [
+      { id: 21, version: 24, dateCreated: "28/02/2023" },
+      { id: 22, version: 23, dateCreated: "25/02/2023" },
+      { id: 23, version: 22, dateCreated: "20/02/2023" },
+      { id: 24, version: 21, dateCreated: "5/02/2023" },
+    ],
+  },
+  {
+    surveyId: "124",
+    versions: [
+      { id: 31, version: 24, dateCreated: "28/02/2023" },
+      { id: 32, version: 23, dateCreated: "25/02/2023" },
+      { id: 33, version: 22, dateCreated: "20/02/2023" },
+      { id: 34, version: 21, dateCreated: "5/02/2023" },
+    ],
+  },
+  {
+    surveyId: "125",
+    versions: [
+      { id: 41, version: 24, dateCreated: "28/02/2023" },
+      { id: 42, version: 23, dateCreated: "25/02/2023" },
+      { id: 43, version: 22, dateCreated: "20/02/2023" },
+      { id: 44, version: 21, dateCreated: "5/02/2023" },
+    ],
+  },
+];
+
 const createNewQuestionnaire = (input) => {
   const defaultTheme = createTheme({
     shortName: "business",
@@ -298,6 +346,11 @@ const Resolvers = {
     collectionLists: (_, args, ctx) => ctx.questionnaire.collectionLists,
     list: (root, { input: { listId } }, ctx) =>
       find(ctx.questionnaire.collectionLists.lists, { id: listId }),
+    prepopSchemaVersions: (_, args) => {
+      const { id } = args;
+      const survey = surveys.find((survey) => survey.surveyId === id);
+      return survey;
+    },
   },
 
   Subscription: {

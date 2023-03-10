@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { useQuery, gql } from "@apollo/react-hooks";
 import { withRouter, useParams } from "react-router-dom";
+const { map } = require("lodash");
+
+import GET_PREPOP_SCHEMA_QUERY from "graphql/getPrepopSchemaVersions.graphql";
 
 import VerticalTabs from "components/VerticalTabs";
 import * as Common from "../common";
@@ -87,43 +91,10 @@ const StyledButton = styled(Button)`
   left: 30%;
 `;
 
-const surveys = [
-  {
-    id: 121,
-    displayName: "121",
-    datasets: [
-      { version: 4, dateCreated: "28/02/2023" },
-      { version: 3, dateCreated: "25/02/2023" },
-      { version: 2, dateCreated: "20/02/2023" },
-      { version: 1, dateCreated: "5/02/2023" },
-    ],
-  },
-  {
-    id: 122,
-    displayName: "122",
-    datasets: [
-      { version: 14, dateCreated: "28/02/2023" },
-      { version: 13, dateCreated: "25/02/2023" },
-      { version: 12, dateCreated: "20/02/2023" },
-      { version: 11, dateCreated: "5/02/2023" },
-    ],
-  },
-  {
-    id: 123,
-    displayName: "123",
-    datasets: [
-      { version: 24, dateCreated: "28/02/2023" },
-      { version: 23, dateCreated: "25/02/2023" },
-      { version: 22, dateCreated: "20/02/2023" },
-      { version: 21, dateCreated: "5/02/2023" },
-    ],
-  },
-];
-
 const ONSDatasetPage = () => {
   const params = useParams();
 
-  const [surveyID, setSurveyID] = useState(undefined);
+  const [surveyID, setSurveyID] = useState("surveyID");
   const [showDataset, setShowDataset] = useState(false);
 
   useEffect(() => {
@@ -139,6 +110,14 @@ const ONSDatasetPage = () => {
       setShowDataset(true);
     }
   };
+
+  const { data: surveyData } = useQuery(GET_PREPOP_SCHEMA_QUERY, {
+    variables: {
+      id: surveyID,
+    },
+  });
+
+  const versions = surveyData.prepopSchemaVersions;
 
   return (
     <Theme themeName="onsLegacyFont">
@@ -202,30 +181,33 @@ const ONSDatasetPage = () => {
                               </TableRow>
                             </TableHead>
                             <StyledTableBody>
-                              {surveys[0].datasets.map((dataset) => {
-                                return (
-                                  <TableRow
-                                    key={dataset.version}
-                                    data-test={`dataset-row`}
-                                  >
-                                    <SpacedTableColumn>
-                                      {dataset.version}
-                                    </SpacedTableColumn>
-                                    <SpacedTableColumn>
-                                      {dataset.dateCreated}
-                                    </SpacedTableColumn>
-                                    <SpacedTableColumn>
-                                      <StyledButton
-                                        onClick={() => {}}
-                                        type="button"
-                                        variant="secondary"
-                                      >
-                                        Link
-                                      </StyledButton>
-                                    </SpacedTableColumn>
-                                  </TableRow>
-                                );
-                              })}
+                              {/* {surveyData.prepopSchemaVersions.versions.map(
+                                (version) => {
+                                  return (
+                                    <TableRow
+                                      key={version.id}
+                                      data-test={`dataset-row`}
+                                    >
+                                      <SpacedTableColumn>
+                                        {version.version}
+                                      </SpacedTableColumn>
+                                      <SpacedTableColumn>
+                                        {version.dateCreated}
+                                      </SpacedTableColumn>
+                                      <SpacedTableColumn>
+                                        <StyledButton
+                                          onClick={() => {}}
+                                          type="button"
+                                          variant="secondary"
+                                        >
+                                          Link
+                                        </StyledButton>
+                                      </SpacedTableColumn>
+                                    </TableRow>
+                                  );
+                                }
+                              )} */}
+                              {console.log("surveyID", versions)}
                             </StyledTableBody>
                           </Table>
                         </>
