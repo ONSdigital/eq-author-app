@@ -113,7 +113,7 @@ const ONSDatasetPage = () => {
 
   const { data: surveyData } = useQuery(GET_PREPOP_SCHEMA_QUERY, {
     variables: {
-      id: surveyID,
+      id: surveyID || "surveyId",
     },
   });
 
