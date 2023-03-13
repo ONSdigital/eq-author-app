@@ -4,7 +4,7 @@ query GetPrepopSchemaVersions($id: ID!) {
     versions {
       id
       version
-      dateCreated
+      date_created
     }
   }
 }
