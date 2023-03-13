@@ -117,8 +117,6 @@ const ONSDatasetPage = () => {
     },
   });
 
-  const versions = surveyData.prepopSchemaVersions;
-
   return (
     <Theme themeName="onsLegacyFont">
       <Common.Container>
@@ -180,35 +178,36 @@ const ONSDatasetPage = () => {
                                 </StyledTableHeadColumn>
                               </TableRow>
                             </TableHead>
-                            <StyledTableBody>
-                              {/* {surveyData.prepopSchemaVersions.versions.map(
-                                (version) => {
-                                  return (
-                                    <TableRow
-                                      key={version.id}
-                                      data-test={`dataset-row`}
-                                    >
-                                      <SpacedTableColumn>
-                                        {version.version}
-                                      </SpacedTableColumn>
-                                      <SpacedTableColumn>
-                                        {version.dateCreated}
-                                      </SpacedTableColumn>
-                                      <SpacedTableColumn>
-                                        <StyledButton
-                                          onClick={() => {}}
-                                          type="button"
-                                          variant="secondary"
-                                        >
-                                          Link
-                                        </StyledButton>
-                                      </SpacedTableColumn>
-                                    </TableRow>
-                                  );
-                                }
-                              )} */}
-                              {console.log("surveyID", versions)}
-                            </StyledTableBody>
+                            {surveyData.prepopSchemaVersions && (
+                              <StyledTableBody>
+                                {surveyData.prepopSchemaVersions.versions.map(
+                                  (version) => {
+                                    return (
+                                      <TableRow
+                                        key={version.id}
+                                        data-test={`dataset-row`}
+                                      >
+                                        <SpacedTableColumn>
+                                          {version.version}
+                                        </SpacedTableColumn>
+                                        <SpacedTableColumn>
+                                          {version.dateCreated}
+                                        </SpacedTableColumn>
+                                        <SpacedTableColumn>
+                                          <StyledButton
+                                            onClick={() => {}}
+                                            type="button"
+                                            variant="secondary"
+                                          >
+                                            Link
+                                          </StyledButton>
+                                        </SpacedTableColumn>
+                                      </TableRow>
+                                    );
+                                  }
+                                )}
+                              </StyledTableBody>
+                            )}
                           </Table>
                         </>
                       )}
