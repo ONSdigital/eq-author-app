@@ -141,10 +141,10 @@ const surveys = [
   {
     surveyId: "121",
     versions: [
-      { id: 1, version: 24, dateCreated: "28/02/2023" },
-      { id: 2, version: 23, dateCreated: "25/02/2023" },
-      { id: 3, version: 22, dateCreated: "20/02/2023" },
-      { id: 4, version: 21, dateCreated: "5/02/2023" },
+      { id: 1, version: 1, dateCreated: "28/02/2023" },
+      { id: 2, version: 2, dateCreated: "25/02/2023" },
+      { id: 3, version: 3, dateCreated: "20/02/2023" },
+      { id: 4, version: 4, dateCreated: "5/02/2023" },
     ],
   },
   {
@@ -159,28 +159,28 @@ const surveys = [
   {
     surveyId: "123",
     versions: [
-      { id: 21, version: 24, dateCreated: "28/02/2023" },
-      { id: 22, version: 23, dateCreated: "25/02/2023" },
-      { id: 23, version: 22, dateCreated: "20/02/2023" },
-      { id: 24, version: 21, dateCreated: "5/02/2023" },
+      { id: 21, version: 124, dateCreated: "2/02/2023" },
+      { id: 22, version: 123, dateCreated: "2/02/2023" },
+      { id: 23, version: 122, dateCreated: "2/02/2023" },
+      { id: 24, version: 121, dateCreated: "5/02/2023" },
     ],
   },
   {
     surveyId: "124",
     versions: [
-      { id: 31, version: 24, dateCreated: "28/02/2023" },
-      { id: 32, version: 23, dateCreated: "25/02/2023" },
-      { id: 33, version: 22, dateCreated: "20/02/2023" },
-      { id: 34, version: 21, dateCreated: "5/02/2023" },
+      { id: 31, version: 240, dateCreated: "8/02/2023" },
+      { id: 32, version: 230, dateCreated: "5/02/2023" },
+      { id: 33, version: 220, dateCreated: "1/02/2023" },
+      { id: 34, version: 210, dateCreated: "5/02/2023" },
     ],
   },
   {
     surveyId: "125",
     versions: [
-      { id: 41, version: 24, dateCreated: "28/02/2023" },
-      { id: 42, version: 23, dateCreated: "25/02/2023" },
-      { id: 43, version: 22, dateCreated: "20/02/2023" },
-      { id: 44, version: 21, dateCreated: "5/02/2023" },
+      { id: 41, version: 24, dateCreated: "3/02/2023" },
+      { id: 42, version: 23, dateCreated: "3/02/2023" },
+      { id: 43, version: 22, dateCreated: "3/02/2023" },
+      { id: 44, version: 21, dateCreated: "3/02/2023" },
     ],
   },
 ];
