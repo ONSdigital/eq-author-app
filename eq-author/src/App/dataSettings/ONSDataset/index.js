@@ -196,7 +196,7 @@ const ONSDatasetPage = () => {
                                           {version.version}
                                         </SpacedTableColumn>
                                         <SpacedTableColumn>
-                                          {formatDate(version.date_created)}
+                                          {formatDate(version.dateCreated)}
                                         </SpacedTableColumn>
                                         <SpacedTableColumn>
                                           <StyledButton

@@ -778,7 +778,7 @@ type Submission {
 type Version {
   id: ID!
   version: String!
-  date_created: String!
+  dateCreated: String!
 }
 
 type PrepopSchemaVersions {
