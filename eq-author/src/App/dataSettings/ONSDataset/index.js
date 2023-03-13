@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useQuery, gql } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/react-hooks";
 import { withRouter, useParams } from "react-router-dom";
-const { map } = require("lodash");
 
 import GET_PREPOP_SCHEMA_QUERY from "graphql/getPrepopSchemaVersions.graphql";
 
@@ -117,6 +116,12 @@ const ONSDatasetPage = () => {
     },
   });
 
+  const formatDate = (date) => {
+    let formattedDate = date.replaceAll("-", "/");
+    formattedDate = formattedDate.split("T")[0];
+    return formattedDate;
+  };
+
   return (
     <Theme themeName="onsLegacyFont">
       <Common.Container>
@@ -191,7 +196,7 @@ const ONSDatasetPage = () => {
                                           {version.version}
                                         </SpacedTableColumn>
                                         <SpacedTableColumn>
-                                          {version.dateCreated}
+                                          {formatDate(version.date_created)}
                                         </SpacedTableColumn>
                                         <SpacedTableColumn>
                                           <StyledButton
