@@ -15,7 +15,7 @@ import Button from "components-themed/buttons";
 
 import Theme from "contexts/themeContext";
 import { SURVEY_IDS } from "constants/surveyIDs";
-import { colors } from "constants/theme";
+import { colors, radius } from "constants/theme";
 import Icon from "assets/icon-select.svg";
 import {
   Table,
@@ -44,12 +44,11 @@ const Option = styled.option``;
 const CustomSelect = styled.select`
   font-size: 1em;
   border: 3px solid #d6d8da;
-  border-radius: 4px;
   appearance: none;
-  background: white url("${Icon}") no-repeat right center;
+  background: ${colors.white} url("${Icon}") no-repeat right center;
   position: relative;
   transition: opacity 100ms ease-in-out;
-  border-radius: 4px;
+  border-radius: ${radius};
   padding: 0.3em 1.5em 0.3em 0.3em;
   color: #222222;
   display: block;
@@ -61,7 +60,7 @@ const CustomSelect = styled.select`
 `;
 
 const StyledTableBody = styled(TableBody)`
-  background-color: white;
+  background-color: ${colors.white};
 `;
 
 const SpacedTableColumn = styled(TableColumn)`
