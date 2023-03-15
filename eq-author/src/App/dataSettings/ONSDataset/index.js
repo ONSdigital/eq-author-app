@@ -158,7 +158,9 @@ const ONSDatasetPage = () => {
                         onChange={handleChange}
                         value={surveyID}
                       >
-                        <Option value="surveyID">Survey ID</Option>
+                        <Option value="surveyID" data-test="default-option">
+                          Survey ID
+                        </Option>
                         {SURVEY_IDS.map((surveyID) => (
                           <Option key={surveyID} value={surveyID}>
                             {surveyID}

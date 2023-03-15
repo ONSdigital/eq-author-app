@@ -1,6 +1,13 @@
 import React from "react";
 
-import { render } from "tests/utils/rtl";
+import {
+  render,
+  flushPromises,
+  fireEvent,
+  act,
+  screen,
+  waitFor,
+} from "tests/utils/rtl";
 
 import ONSDatasetPage from ".";
 import { MeContext } from "App/MeContext";
@@ -72,5 +79,31 @@ describe("ONS dataset page", () => {
     expect(
       getByText("Only one dataset can be linked per questionnaire.")
     ).toBeTruthy();
+  });
+  describe("survey picker", () => {
+    it("should display a select picker", () => {
+      const { getByText, getByTestId } = renderONSDatasetPage(
+        questionnaire,
+        props,
+        user,
+        mocks
+      );
+      expect(getByText("Select a survey ID")).toBeTruthy();
+      expect(getByTestId("list-select")).toBeTruthy();
+    });
+
+    it("should select a survey id", () => {
+      const { getByText, getByTestId } = renderONSDatasetPage(
+        questionnaire,
+        props,
+        user,
+        mocks
+      );
+
+      fireEvent.click(getByTestId("default-option"));
+      fireEvent.click(getByText("121"));
+
+      expect(getByTestId("datasets-table")).toBeTruthy();
+    });
   });
 });
