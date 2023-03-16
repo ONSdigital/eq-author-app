@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "@apollo/react-hooks";
 
-import { render, fireEvent, screen } from "tests/utils/rtl";
+import { render, fireEvent } from "tests/utils/rtl";
 
 import ONSDatasetPage from ".";
 import { MeContext } from "App/MeContext";
