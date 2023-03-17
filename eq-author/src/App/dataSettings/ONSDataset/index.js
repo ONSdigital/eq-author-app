@@ -43,7 +43,7 @@ const Option = styled.option``;
 
 const CustomSelect = styled.select`
   font-size: 1em;
-  border: 3px solid #d6d8da;
+  border: 2px solid #d6d8da;
   appearance: none;
   background: ${colors.white} url("${Icon}") no-repeat right center;
   position: relative;
