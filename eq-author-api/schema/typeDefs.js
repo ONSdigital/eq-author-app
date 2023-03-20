@@ -742,6 +742,17 @@ type Submission {
   comments: [Comment]
 }
 
+type Version {
+  id: ID!
+  version: String!
+  dateCreated: String!
+}
+
+type PrepopSchemaVersions {
+  surveyId: ID!
+  versions: [Version!]!
+}
+
 type Query {
   questionnaires(input: QuestionnairesInput): [Questionnaire]
   questionnaire(input: QueryInput!): Questionnaire
@@ -763,6 +774,7 @@ type Query {
   introduction: QuestionnaireIntroduction
   collectionLists: CollectionLists
   list(input: QueryInput!): List
+  prepopSchemaVersions(id: ID!): PrepopSchemaVersions
 }
 
 input CommonFilters {
