@@ -12,6 +12,7 @@ query GetSection($input: QueryInput!) {
     introductionContent
     pageDescription
     position
+    allowRepeatingSection
     displayConditions {
       id
       operator

@@ -55,6 +55,7 @@ const formatListCollector = (listCollectorPage) => [
     drivingQCode: listCollectorPage.drivingQCode,
     type: RADIO,
     listAnswerType: DRIVING,
+    label: "",
   },
   {
     label: listCollectorPage.drivingPositive,
@@ -72,6 +73,7 @@ const formatListCollector = (listCollectorPage) => [
     anotherQCode: listCollectorPage.anotherQCode,
     type: RADIO,
     listAnswerType: ANOTHER,
+    label:"",
   },
   {
     label: listCollectorPage.anotherPositive,

@@ -56,6 +56,7 @@ const {
 const {
   getExpressions,
   getSections,
+  getPagesFromSection,
   getSectionById,
   getFolderById,
   getSectionByFolderId,
@@ -1620,6 +1621,7 @@ const Resolvers = {
           id === sectionId && !pageId && !folderId
       ),
     comments: ({ id }, args, ctx) => ctx.comments[id],
+    allowRepeatingSection: (section) => Boolean (findIndex(getPagesFromSection(section), {pageType: "ListCollectorPage"})<0),
   },
 
   CollectionLists: {

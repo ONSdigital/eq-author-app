@@ -83,6 +83,7 @@ const listItems = (tabItems) =>
 
 const VerticalTabs = ({ title, gutters, cols, tabItems }) => {
   return (
+    
     <Column gutters={gutters} cols={cols} tabItems={tabItems}>
       <Title>{title}</Title>
       <StyledTabUl>{listItems(tabItems)}</StyledTabUl>

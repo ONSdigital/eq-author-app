@@ -216,6 +216,7 @@ UnwrappedQuestionPageEditor.fragments = {
         id
         position
         repeatingSection
+        allowRepeatingSection
         repeatingSectionListId
         questionnaire {
           id
