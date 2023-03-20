@@ -1,0 +1,10 @@
+query GetPrepopSchemaVersions($id: ID!) {
+  prepopSchemaVersions(id: $id) {
+    surveyId
+    versions {
+      id
+      version
+      dateCreated
+    }
+  }
+}

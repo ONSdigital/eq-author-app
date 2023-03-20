@@ -298,6 +298,18 @@ const Resolvers = {
     collectionLists: (_, args, ctx) => ctx.questionnaire.collectionLists,
     list: (root, { input: { listId } }, ctx) =>
       find(ctx.questionnaire.collectionLists.lists, { id: listId }),
+    prepopSchemaVersions: async (_, args) => {
+      const { id } = args;
+      const url = `${process.env.PREPOP_SCHEMA_GATEWAY}schemaVersionsGet?survey_id=${id}`;
+
+      try {
+        const response = await fetch(url);
+        const prepopSchema = await response.json();
+        return prepopSchema;
+      } catch (err) {
+        throw Error(err);
+      }
+    },
   },
 
   Subscription: {
