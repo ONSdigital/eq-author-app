@@ -127,7 +127,7 @@ export const UnwrappedMainNavigation = ({
                   (whatPageAreWeOn === "settings" && "navigation-on") ||
                   "navigation"
                 }
-                to={`${buildSettingsPath(params)}/general`}
+                to={`${buildSettingsPath(params)}`}
                 small
                 data-test="btn-settings"
                 disabled={title === "Settings"}
@@ -261,7 +261,6 @@ UnwrappedMainNavigation.propTypes = {
   children: PropTypes.node,
   settingsError: PropTypes.bool,
   listsError: PropTypes.bool,
-  formTypeErrorCount: PropTypes.number,
   hasSurveyID: PropTypes.bool,
 };
 

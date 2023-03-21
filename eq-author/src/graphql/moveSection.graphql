@@ -18,12 +18,6 @@ mutation MoveSection($input: MoveSectionInput!) {
       languageValue
       textValue
     }
-    themeSettings {
-      id
-      validationErrorInfo {
-        ...ValidationErrorInfo
-      }
-    }
     locked
     publishStatus
     totalErrorCount

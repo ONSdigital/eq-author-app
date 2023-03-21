@@ -72,12 +72,6 @@ mutation MoveFolderMutation($input: MoveFolderInput!) {
       languageValue
       textValue
     }
-    themeSettings {
-      id
-      validationErrorInfo {
-        ...ValidationErrorInfo
-      }
-    }
     locked
     publishStatus
     totalErrorCount

@@ -30,11 +30,7 @@ const {
   listQuestionnaires,
   publishQuestionnaire,
   reviewQuestionnaire,
-  updatePreviewTheme,
   updateSurveyId,
-  enableTheme,
-  disableTheme,
-  updateTheme,
   toggleQuestionnaireStarred,
   setQuestionnaireLocked,
   updateSubmission,
@@ -104,45 +100,16 @@ describe("questionnaire", () => {
       });
     });
 
-    it("should give business questionnaires the 'default' theme when questionnaire created", async () => {
+    it("should give questionnaires the 'business' theme when questionnaire created", async () => {
       const questionnaire = await createQuestionnaire(ctx, {
         ...config,
-        type: BUSINESS,
       });
       expect(questionnaire).toMatchObject({
-        themeSettings: {
-          previewTheme: "business",
-          themes: expect.arrayContaining([
-            expect.objectContaining({
-              id: expect.any(String),
-              shortName: "business",
-              legalBasisCode: "NOTICE_1",
-              eqId: "",
-              formType: "",
-            }),
-          ]),
-        },
-      });
-    });
-
-    it("should give social questionnaires the 'default' theme when questionnaire created", async () => {
-      const questionnaire = await createQuestionnaire(ctx, {
-        ...config,
-        type: SOCIAL,
-      });
-      expect(questionnaire).toMatchObject({
-        themeSettings: {
-          previewTheme: "business",
-          themes: expect.arrayContaining([
-            expect.objectContaining({
-              id: expect.any(String),
-              shortName: "business",
-              legalBasisCode: "NOTICE_1",
-              eqId: "",
-              formType: "",
-            }),
-          ]),
-        },
+        surveyId: "1",
+        formType: "",
+        eqId: "",
+        theme: "business",
+        legalBasis: "NOTICE_1",
       });
     });
   });
@@ -286,19 +253,14 @@ describe("questionnaire", () => {
         ({ questionnaire } = ctx);
       });
 
-      it("should allow setting previewTheme", async () => {
+      it("should allow setting questionnaire theme", async () => {
         const newThemeName = "myFaveTheme";
-        await updatePreviewTheme(
-          {
-            questionnaireId: questionnaire.id,
-            previewTheme: newThemeName,
-          },
-          ctx
-        );
+        await updateQuestionnaire(ctx, {
+          id: questionnaire.id,
+          theme: newThemeName,
+        });
         const updatedQuestionnaire = await queryQuestionnaire(ctx);
-        expect(updatedQuestionnaire.themeSettings.previewTheme).toBe(
-          newThemeName
-        );
+        expect(updatedQuestionnaire.theme).toBe(newThemeName);
       });
 
       it("should allow setting surveyId", async () => {
@@ -314,161 +276,14 @@ describe("questionnaire", () => {
         expect(updatedQuestionnaire.surveyId).toBe(newSurveyId);
       });
 
-      it("should be able to enable a new theme", async () => {
-        expect(questionnaire.themeSettings.themes).toHaveLength(1);
-        await enableTheme(
-          {
-            questionnaireId: questionnaire.id,
-            shortName: "northernireland",
-          },
-          ctx
-        );
-
-        expect(questionnaire.themeSettings.themes).toHaveLength(2);
-
-        const updatedQuestionnaire = await queryQuestionnaire(ctx);
-
-        expect(
-          updatedQuestionnaire.themeSettings.themes.find(
-            ({ shortName }) => shortName === "northernireland"
-          )
-        ).toMatchObject({
-          enabled: true,
-        });
-      });
-
-      it("should be able to enable an existing theme", async () => {
-        await enableTheme(
-          {
-            questionnaireId: questionnaire.id,
-            shortName: "business",
-          },
-          ctx
-        );
-        const updatedQuestionnaire = await queryQuestionnaire(ctx);
-        expect(updatedQuestionnaire.themeSettings.themes[0].enabled).toEqual(
-          true
-        );
-      });
-
-      it("should be able to disable an existing theme", async () => {
-        await disableTheme(
-          {
-            questionnaireId: questionnaire.id,
-            shortName: "business",
-          },
-          ctx
-        );
-        const updatedQuestionnaire = await queryQuestionnaire(ctx);
-        expect(updatedQuestionnaire.themeSettings.themes[0].enabled).toEqual(
-          false
-        );
-      });
-
-      it("should move the set preview theme to the first available theme when disabling a theme set as the preview theme", async () => {
-        const { themeSettings: initialThemes } = await queryQuestionnaire(ctx);
-
-        expect(initialThemes.themes[0].enabled).toBe(true);
-        expect(initialThemes.previewTheme).toBe("business");
-
-        await enableTheme(
-          {
-            questionnaireId: questionnaire.id,
-            shortName: "northernireland",
-          },
-          ctx
-        );
-
-        const { themeSettings: themeSettingsWithTwoThemes } =
-          await queryQuestionnaire(ctx);
-
-        expect(
-          themeSettingsWithTwoThemes.themes.find(
-            ({ shortName }) => shortName === "northernireland"
-          ).enabled
-        ).toBe(true);
-
-        expect(themeSettingsWithTwoThemes.previewTheme).toBe("business");
-
-        await disableTheme(
-          {
-            questionnaireId: questionnaire.id,
-            shortName: "business",
-          },
-          ctx
-        );
-
-        const { themeSettings: themeSettingsWithOneTheme } =
-          await queryQuestionnaire(ctx);
-
-        expect(themeSettingsWithOneTheme.themes[0].enabled).toBe(false);
-        expect(
-          themeSettingsWithTwoThemes.themes.find(
-            ({ shortName }) => shortName === "northernireland"
-          ).enabled
-        ).toBe(true);
-        expect(themeSettingsWithOneTheme.previewTheme).toBe("northernireland");
-      });
-
-      it("should not be able to disable a non-existent theme", () => {
-        expect(
-          disableTheme(
-            {
-              questionnaireId: questionnaire.id,
-              shortName: "census",
-            },
-            ctx
-          )
-        ).rejects.toThrow();
-      });
-
-      it("should be able to update an existing theme", async () => {
+      it("should be able to update an eQ ID", async () => {
         const newEqId = "my-fantastic-new-identifier";
-        await updateTheme(
-          {
-            questionnaireId: questionnaire.id,
-            shortName: "business",
-            eqId: newEqId,
-          },
-          ctx
-        );
-        const updatedQuestionnaire = await queryQuestionnaire(ctx);
-        expect(updatedQuestionnaire.themeSettings.themes[0].eqId).toEqual(
-          newEqId
-        );
-      });
-
-      it("should strip whitespace from theme input strings", async () => {
-        const newEqId = " my-padded-new-identifier ";
-        const newFormType = "  ";
-
-        await updateTheme(
-          {
-            questionnaireId: questionnaire.id,
-            shortName: "business",
-            eqId: newEqId,
-            formType: newFormType,
-          },
-          ctx
-        );
-        const updatedQuestionnaire = await queryQuestionnaire(ctx);
-        expect(updatedQuestionnaire.themeSettings.themes[0]).toMatchObject({
-          eqId: newEqId.trim(),
-          formType: "",
+        await updateQuestionnaire(ctx, {
+          id: questionnaire.id,
+          eqId: newEqId,
         });
-      });
-
-      it("should not be able to update a non-existing theme", () => {
-        expect(
-          updateTheme(
-            {
-              questionnaireId: questionnaire.id,
-              shortName: "census",
-              eqId: "my-fantastic-new-identifier",
-            },
-            ctx
-          )
-        ).rejects.toThrow();
+        const updatedQuestionnaire = await queryQuestionnaire(ctx);
+        expect(updatedQuestionnaire.eqId).toEqual(newEqId);
       });
     });
 

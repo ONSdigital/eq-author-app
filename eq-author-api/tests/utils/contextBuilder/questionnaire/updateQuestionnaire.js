@@ -9,6 +9,8 @@ const updateQuestionnaireMutation = `
       id
       title
       description
+      formType
+      eqId
       theme
       navigation
       surveyId
@@ -30,6 +32,8 @@ const updateQuestionnaire = async (ctx, input) => {
             id
             title
             description
+            formType
+            eqId
             theme
             navigation
             surveyId

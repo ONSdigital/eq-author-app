@@ -72,16 +72,30 @@ const SectionContent = styled.p`
 `;
 
 const ViewSurveyPage = () => {
+  const { questionnaire } = useQuestionnaire();
   const params = useParams();
   const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${params.questionnaireId}`;
   const extractionUrl = `${config.REACT_APP_EXTRACTION_URL}?qid=${params.questionnaireId}`;
-  const { questionnaire } = useQuestionnaire();
-  const formTypeErrorCount =
-    questionnaire?.themeSettings?.validationErrorInfo?.errors.filter(
-      ({ errorCode }) => errorCode === "ERR_FORM_TYPE_FORMAT"
-    ).length + questionnaire?.validationErrorInfo?.totalCount;
+
+  // Allowed errors do not prevent the `open in eQ` button from being clicked
+  const allowedErrors = ["surveyId", "formType", "eqId"];
+
+  // Gets the number of allowed errors in the questionnaire
+  const allowedErrorCount = questionnaire?.validationErrorInfo?.errors?.filter(
+    ({ field }) => allowedErrors.includes(field)
+  ).length;
+
   const totalErrorCount = questionnaire?.totalErrorCount || 0;
-  const totalErrorCountNoFormType = totalErrorCount - formTypeErrorCount;
+
+  /*
+    Subtracting the number of allowed errors from the total number of errors in the questionnaire
+    gives the number of errors preventing the `open in eQ` button from being clicked.
+
+    If totalErrorCount and allowedErrorCount are equal (all errors in the questionnaire are allowed errors),
+    disallowedErrorCount is 0 and button can be clicked.
+  */
+  const disallowedErrorCount = totalErrorCount - allowedErrorCount;
+
   return (
     <Container>
       <Header title="View" />
@@ -105,7 +119,7 @@ const ViewSurveyPage = () => {
                     text="Open in Electronic questionnaire"
                     url={previewUrl}
                     dataTest="btn-open-in-electronic-questionnaire"
-                    disabled={totalErrorCountNoFormType > 0}
+                    disabled={disallowedErrorCount > 0} // Disabled if there are any disallowed errors
                   />
                 </Section>
                 <Section>

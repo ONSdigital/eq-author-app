@@ -309,13 +309,16 @@ export const SURVEY_ID_ERRORS = {
   ERR_INVALID: "Enter a survey ID in the correct format",
 };
 
-export const MISSING_LABEL = "Enter a label";
-
-export const THEME_ERROR_MESSAGES = {
-  ERR_NO_THEME_ENABLED:
-    "You must turn on at least one theme to preview the questionnaire.",
-  ERR_FORM_TYPE_FORMAT: "Enter a form type in the correct format",
+export const FORM_TYPE_ERRORS = {
+  ERR_VALID_REQUIRED: "Enter a form type",
+  ERR_INVALID: "Enter a form type in the correct format",
 };
+
+export const EQ_ID_ERRORS = {
+  ERR_VALID_REQUIRED: "Enter an eQ ID",
+};
+
+export const MISSING_LABEL = "Enter a label";
 
 export const ADDITIONAL_LABEL_MISSING = "Enter a label";
 export const buildLabelError = (mainString, insString, pos, pos2) => {
