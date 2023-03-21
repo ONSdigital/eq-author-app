@@ -9,7 +9,6 @@ module.exports = [
   require("./option.json"),
   require("./validation.json"),
   require("./logic.json"),
-  require("./themeSettings.json"),
   require("./list.json"),
   require("./introduction.json"),
   require("./listCollectorPage.json"),

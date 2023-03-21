@@ -3,22 +3,27 @@ import styled from "styled-components";
 import { colors } from "constants/theme";
 import { Field, Input, Label } from "components/Forms";
 import PropTypes from "prop-types";
-import { withRouter, useParams } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import { useMutation } from "@apollo/react-hooks";
-
-import { getThemeSettingsErrorCount } from "./utils";
 
 import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
 import updateQuestionnaireIntroductionMutation from "graphql/updateQuestionnaireIntroduction.graphql";
 
-import VerticalTabs from "components/VerticalTabs";
-import tabItems from "./TabItems";
+import ThemeSelect from "./ThemeSelect";
 
 import { Grid, Column } from "components/Grid";
 import Header from "components/EditorLayout/Header";
 import ScrollPane from "components/ScrollPane";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
+import ValidationError from "components/ValidationError";
+
+import {
+  SURVEY_ID_ERRORS,
+  FORM_TYPE_ERRORS,
+  EQ_ID_ERRORS,
+} from "constants/validationMessages";
+import LegalBasisSelect from "./LegalBasisSelect";
 
 const StyledPanel = styled.div`
   max-width: 97.5%;
@@ -26,7 +31,8 @@ const StyledPanel = styled.div`
 `;
 
 const StyledInput = styled(Input)`
-  width: 31em;
+  width: ${(props) => (props.small ? `11em` : `31em`)};
+  border-color: ${(props) => props.error && `${colors.errorPrimary}`};
 `;
 
 const Caption = styled.p`
@@ -90,9 +96,21 @@ const PageContainer = styled.div`
   }
 `;
 
-const GeneralSettingsPage = ({ questionnaire }) => {
-  const { title, shortTitle, id, qcodes, hub, summary, introduction } =
-    questionnaire;
+const SettingsPage = ({ questionnaire }) => {
+  const {
+    title,
+    shortTitle,
+    id: questionnaireId,
+    qcodes,
+    hub,
+    summary,
+    introduction,
+    surveyId: initialSurveyId,
+    eqId: initialEqId,
+    formType: initialFormType,
+    theme,
+    legalBasis,
+  } = questionnaire;
 
   const showOnHub = introduction?.showOnHub;
 
@@ -100,7 +118,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
     value = value.trim();
     if (value !== "") {
       updateQuestionnaire({
-        variables: { input: { id, title: value } },
+        variables: { input: { id: questionnaireId, title: value } },
       });
     }
   };
@@ -108,7 +126,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
   const handleShortTitleChange = ({ value }) => {
     value = value.trim();
     updateQuestionnaire({
-      variables: { input: { id, shortTitle: value } },
+      variables: { input: { id: questionnaireId, shortTitle: value } },
     });
   };
 
@@ -116,11 +134,39 @@ const GeneralSettingsPage = ({ questionnaire }) => {
   const [updateQuestionnaireIntroduction] = useMutation(
     updateQuestionnaireIntroductionMutation
   );
+
   const [questionnaireTitle, setQuestionnaireTitle] = useState(title);
   const [questionnaireShortTitle, setQuestionnaireShortTitle] =
     useState(shortTitle);
+  const [surveyId, setSurveyId] = useState(initialSurveyId);
+  const [eqId, setEqId] = useState(initialEqId);
+  const [formType, setFormType] = useState(initialFormType);
 
-  const params = useParams();
+  const getValidationErrorMessage = (contentType) => {
+    if (contentType === "surveyId") {
+      return SURVEY_ID_ERRORS[
+        questionnaire?.validationErrorInfo?.errors?.find(
+          ({ field }) => field === "surveyId"
+        )?.errorCode
+      ];
+    }
+
+    if (contentType === "formType") {
+      return FORM_TYPE_ERRORS[
+        questionnaire?.validationErrorInfo?.errors?.find(
+          ({ field }) => field === "formType"
+        )?.errorCode
+      ];
+    }
+
+    if (contentType === "eqId") {
+      return EQ_ID_ERRORS[
+        questionnaire?.validationErrorInfo?.errors?.find(
+          ({ field }) => field === "eqId"
+        )?.errorCode
+      ];
+    }
+  };
 
   return (
     <Container>
@@ -129,14 +175,6 @@ const GeneralSettingsPage = ({ questionnaire }) => {
         <PageContainer tabIndex="-1" className="keyNav">
           <PageMainCanvas>
             <Grid>
-              <VerticalTabs
-                title="Questionnaire settings"
-                cols={2.5}
-                tabItems={tabItems({
-                  params,
-                  themeErrorCount: getThemeSettingsErrorCount(questionnaire),
-                })}
-              />
               <Column gutters={false} cols={9.5}>
                 <SettingsContainer>
                   <StyledPanel>
@@ -171,6 +209,87 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                         data-test="change-questionnaire-short-title"
                       />
                     </Field>
+                    <Field>
+                      <Label htmlFor="surveyId">Survey ID</Label>
+                      <Caption>
+                        The three-digit survey ID. For example, &apos;283&apos;
+                      </Caption>
+                      <StyledInput
+                        id="surveyId"
+                        maxLength="3"
+                        small
+                        value={surveyId}
+                        onChange={({ value }) => setSurveyId(value)}
+                        onBlur={() =>
+                          updateQuestionnaire({
+                            variables: {
+                              input: {
+                                id: questionnaireId,
+                                surveyId,
+                              },
+                            },
+                          })
+                        }
+                        error={getValidationErrorMessage("surveyId")}
+                        data-test="input-survey-id"
+                      />
+                      {getValidationErrorMessage("surveyId") && (
+                        <ValidationError>
+                          {getValidationErrorMessage("surveyId")}
+                        </ValidationError>
+                      )}
+                    </Field>
+                    <Field>
+                      <Label htmlFor="formType">Form type</Label>
+                      <Caption>
+                        A four-digit identifier. For example, &apos;2834&apos;
+                      </Caption>
+                      <StyledInput
+                        id="formType"
+                        maxLength="4"
+                        small
+                        value={formType}
+                        onChange={({ value }) => {
+                          setFormType(value);
+                        }}
+                        onBlur={() =>
+                          updateQuestionnaire({
+                            variables: {
+                              input: { id: questionnaireId, formType },
+                            },
+                          })
+                        }
+                        error={getValidationErrorMessage("formType")}
+                        data-test="input-form-type"
+                      />
+                      {getValidationErrorMessage("formType") && (
+                        <ValidationError>
+                          {getValidationErrorMessage("formType")}
+                        </ValidationError>
+                      )}
+                    </Field>
+                    <Field>
+                      <Label htmlFor="eQID">eQ ID</Label>
+                      <Caption>A freeform identifier</Caption>
+                      <StyledInput
+                        id="eQID"
+                        small
+                        value={eqId}
+                        onChange={({ value }) => setEqId(value)}
+                        onBlur={() =>
+                          updateQuestionnaire({
+                            variables: { input: { id: questionnaireId, eqId } },
+                          })
+                        }
+                        error={getValidationErrorMessage("eqId")}
+                        data-test="input-eq-id"
+                      />
+                      {getValidationErrorMessage("eqId") && (
+                        <ValidationError>
+                          {getValidationErrorMessage("eqId")}
+                        </ValidationError>
+                      )}
+                    </Field>
                     <HorizontalSeparator />
                     <InlineField>
                       <Label htmlFor="toggle-qcodes">QCodes</Label>
@@ -181,7 +300,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                         onChange={({ value }) =>
                           updateQuestionnaire({
                             variables: {
-                              input: { id, qcodes: value },
+                              input: { id: questionnaireId, qcodes: value },
                             },
                           })
                         }
@@ -241,7 +360,7 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                             updateQuestionnaire({
                               variables: {
                                 input: {
-                                  id,
+                                  id: questionnaireId,
                                   summary: value,
                                   collapsibleSummary: false,
                                 },
@@ -252,6 +371,28 @@ const GeneralSettingsPage = ({ questionnaire }) => {
                         />
                       </InlineField>
                     </EnableDisableWrapper>
+                    <HorizontalSeparator />
+                    <Field>
+                      <Label htmlFor="theme">Theme</Label>
+                      <Caption>
+                        The theme controls the design and branding of the header
+                        within eQ.
+                      </Caption>
+                      <ThemeSelect
+                        questionnaireId={questionnaireId}
+                        selectedTheme={theme}
+                      />
+                    </Field>
+                    <Field>
+                      <Label htmlFor="legalBasis">Legal basis</Label>
+                      <Caption>
+                        The legal basis appears on the survey introduction page.
+                      </Caption>
+                      <LegalBasisSelect
+                        questionnaireId={questionnaireId}
+                        selectedLegalBasis={legalBasis}
+                      />
+                    </Field>
                   </StyledPanel>
                 </SettingsContainer>
               </Column>
@@ -263,9 +404,9 @@ const GeneralSettingsPage = ({ questionnaire }) => {
   );
 };
 
-GeneralSettingsPage.propTypes = {
+SettingsPage.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   questionnaire: PropTypes.object.isRequired,
 };
 
-export default withRouter(GeneralSettingsPage);
+export default withRouter(SettingsPage);

@@ -7,13 +7,6 @@ query GetSettings($input: QueryInput!) {
       id
       totalCount
     }
-    themeSettings {
-      id
-      validationErrorInfo {
-        id
-        totalCount
-      }
-    }
     sections {
       id
       displayName

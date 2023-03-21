@@ -240,16 +240,6 @@
       "__typename": "Metadata"
     }
   ],
-  "themeSettings": {
-    "id": "10c386dc-6c2f-41f9-b957-f2aa00a8f821",
-    "validationErrorInfo": {
-      "id": "10c386dc-6c2f-41f9-b957-f2aa00a8f821",
-      "errors": [],
-      "totalCount": 0,
-      "__typename": "ValidationErrorInfo"
-    },
-    "__typename": "ThemeSettings"
-  },
   "validationErrorInfo": {
     "id": "aee92aa2-900e-4573-af31-c6e8915cccf6",
     "errors": [

@@ -121,11 +121,61 @@ describe("QuestionnaireDesignPage", () => {
     return { ...utils, questionnaire, page };
   };
 
-  it("should render", () => {
-    const { getByTestId } = setup();
+  it("should render without settings error", () => {
+    const { getByTestId, queryByTestId } = setup();
     expect(getByTestId("question-page-editor")).toBeVisible();
     expect(getByTestId("main-navigation")).toBeVisible();
     expect(getByTestId("side-nav")).toBeVisible();
+    expect(queryByTestId("settings-error-badge")).toBeNull();
+  });
+
+  it("should render error badge on settings navigation item when there are settings errors", () => {
+    const { getByTestId } = setup({
+      questionnaireChanges: {
+        validationErrorInfo: {
+          errors: [
+            {
+              id: "form-type-error",
+              field: "formType",
+              errorCode: "ERR_VALID_REQUIRED",
+            },
+          ],
+          totalCount: 1,
+        },
+      },
+    });
+
+    expect(getByTestId("main-navigation")).toBeVisible();
+    expect(getByTestId("settings-error-badge")).toBeVisible();
+  });
+
+  it("should render error badge on list navigation item when there are list errors", () => {
+    const { getByTestId } = setup({
+      questionnaireChanges: {
+        collectionLists: {
+          lists: [
+            {
+              id: "test-list",
+              answers: [],
+              displayName: "List name",
+              listName: "List name",
+              validationErrorInfo: {
+                errors: [
+                  {
+                    id: "test-error",
+                    type: "list",
+                    errorCode: "ERR_NO_ANSWERS",
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      },
+    });
+
+    expect(getByTestId("main-navigation")).toBeVisible();
+    expect(getByTestId("lists-error-badge")).toBeVisible();
   });
 
   it("should redirect to a loading screen", () => {

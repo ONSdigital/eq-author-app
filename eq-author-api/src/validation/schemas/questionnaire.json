@@ -8,9 +8,6 @@
         "$ref": "section.json"
       }
     },
-    "themeSettings": {
-      "$ref": "themeSettings.json"
-    },
     "introduction": {
       "$ref": "introduction.json"
     },
@@ -38,6 +35,23 @@
       "else": {
         "$ref": "definitions.json#/definitions/populatedString"
       }
+    },
+    "formType": {
+      "if": {
+        "type": "string",
+        "minLength": 1
+      },
+      "then": {
+        "type": "string",
+        "pattern": "^\\d{4}$",
+        "errorMessage": "ERR_INVALID"
+      },
+      "else": {
+        "$ref": "definitions.json#/definitions/populatedString"
+      }
+    },
+    "eqId": {
+      "$ref": "definitions.json#/definitions/populatedString"
     }
   }
 }
