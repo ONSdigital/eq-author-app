@@ -116,21 +116,19 @@ const RepeatingSection = ({ section, handleUpdate }) => {
         item from the list forms a section on the Hub. The repeating section is
         used to ask the same questions for each item selected.
       </Caption>
-      <>
-        <InlineField disabled={Boolean(!section.allowRepeatingSection)}>
-          <Label htmlFor="repeating-section">Repeating section</Label>
-          <ToggleWrapper>
-            <ToggleSwitch
-              id="repeatingSection"
-              name="repeatingSection"
-              data-test="repeating-section"
-              hideLabels={false}
-              onChange={handleUpdate}
-              checked={section?.repeatingSection}
-            />
-          </ToggleWrapper>
-        </InlineField>
-      </>
+      <InlineField disabled={Boolean(!section.allowRepeatingSection)}>
+        <Label htmlFor="repeating-section">Repeating section</Label>
+        <ToggleWrapper>
+          <ToggleSwitch
+            id="repeatingSection"
+            name="repeatingSection"
+            data-test="repeating-section"
+            hideLabels={false}
+            onChange={handleUpdate}
+            checked={section?.repeatingSection}
+          />
+        </ToggleWrapper>
+      </InlineField>
       {section?.repeatingSection && (
         <>
           <Label htmlFor="repeatingSectionListId">Linked collection list</Label>
