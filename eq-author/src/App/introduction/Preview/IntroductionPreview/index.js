@@ -1,17 +1,16 @@
 /*  eslint-disable react/no-danger */
 import React from "react";
-import { useQuery } from "@apollo/react-hooks";
 import styled from "styled-components";
 
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 
-import { colors } from "constants/theme";
+import { useQuestionnaire } from "components/QuestionnaireContext";
 import PageTitle from "components/preview/elements/PageTitle";
-import { LEGAL_BASIS_OPTIONS } from "App/settings/LegalBasisSelect";
-import iconChevron from "../icon-chevron.svg";
 
-import GET_THEME_SETTINGS_QUERY from "graphql/getThemeSettings.graphql";
+import { colors } from "constants/theme";
+import LEGAL_BASIS_OPTIONS from "constants/legal-basis-options";
+import iconChevron from "../icon-chevron.svg";
 
 const Container = styled.div`
   padding: 2em;
@@ -107,25 +106,14 @@ const MissingText = styled.text`
   padding: 0.02em 0.1em;
 `;
 
-const IntroductionPreview = ({ match, introduction }) => {
-  const { questionnaireId } = match.params;
-  const { data: questionnaireData } = useQuery(GET_THEME_SETTINGS_QUERY, {
-    variables: {
-      input: { questionnaireId },
-    },
-  });
+const IntroductionPreview = ({ introduction }) => {
+  const { questionnaire } = useQuestionnaire();
 
-  const questionnaire = questionnaireData?.questionnaire;
-  const themes = questionnaire?.themeSettings?.themes;
-  const previewTheme = questionnaire?.themeSettings?.previewTheme;
-
-  const legalBasisCode = themes?.find(
-    (theme) => theme.id === previewTheme
-  ).legalBasisCode;
-
-  const legalBasis = LEGAL_BASIS_OPTIONS.find(
+  const legalBasisCode = questionnaire?.legalBasis;
+  const legalBasisOption = LEGAL_BASIS_OPTIONS.find(
     (legalBasisOption) => legalBasisOption.value === legalBasisCode
   );
+  const legalBasisDescription = legalBasisOption?.description;
 
   const {
     title,
@@ -170,9 +158,7 @@ const IntroductionPreview = ({ match, introduction }) => {
       {legalBasisCode !== "VOLUNTARY" && (
         <>
           <PageTitle title="Your response is legally required" />
-          <Description
-            dangerouslySetInnerHTML={{ __html: legalBasis?.description }}
-          />
+          <Description>{legalBasisDescription}</Description>
         </>
       )}
       {previewQuestions && (

@@ -41,6 +41,7 @@ const migrations = [
   require("./updateUKIStoBEISTheme"),
   require("./updateDefaultToBusinessTheme"),
   require("./addPageDescription"),
+  require("./convertThemeSettingsToQuestionnaireSettings"),
 ];
 
 const currentVersion = migrations.length;

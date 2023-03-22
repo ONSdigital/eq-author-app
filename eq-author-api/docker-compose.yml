@@ -24,6 +24,7 @@ services:
       - PUBLISHER_URL=http://host.docker.internal:4000/convert/
       - CONVERSION_URL=http://host.docker.internal:9000/publish/
       - SURVEY_REGISTER_URL=http://host.docker.internal:8080/submit
+      - PREPOP_SCHEMA_GATEWAY=https://sds-api-mock-gateway-74jbrn8r.nw.gateway.dev/
       - ENABLE_IMPORT=true
       - JAEGER_SERVICE_NAME=eq_author_api
       - JAEGER_ENDPOINT=http://jaeger:14268/api/traces

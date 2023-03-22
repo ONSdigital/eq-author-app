@@ -1,6 +1,6 @@
 import React from "react";
 import { render, act, flushPromises, fireEvent } from "tests/utils/rtl";
-import GeneralSettingsPage from "./GeneralSettingsPage";
+import SettingsPage from "./SettingsPage";
 import { MeContext } from "App/MeContext";
 import { publishStatusSubscription } from "components/EditorLayout/Header";
 import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
@@ -9,7 +9,7 @@ import updateQuestionnaireIntroductionMutation from "graphql/updateQuestionnaire
 const renderSettingsPage = (questionnaire, user, mocks) => {
   return render(
     <MeContext.Provider value={{ me: user, signOut: jest.fn() }}>
-      <GeneralSettingsPage questionnaire={questionnaire} />
+      <SettingsPage questionnaire={questionnaire} />
     </MeContext.Provider>,
     {
       route: `/q/${questionnaire.id}/settings`,
@@ -25,6 +25,16 @@ describe("Settings page", () => {
   beforeEach(() => {
     queryWasCalled = false;
 
+    user = {
+      id: "123",
+      displayName: "TerradorTheDragon",
+      email: "TDawg@Spyro.com",
+      picture: "",
+      admin: true,
+      name: "Terrador",
+      __typename: "User",
+    };
+
     mockQuestionnaire = {
       title: "Spyro the Dragon",
       shortTitle: "Spyro",
@@ -37,11 +47,15 @@ describe("Settings page", () => {
       collapsibleSummary: false,
       description: "A questionnaire about a lovable, purple dragon",
       surveyId: "123",
+      formType: "1234",
+      eqId: "Test eQ ID",
+      legalBasis: "NOTICE_1",
       theme: "business",
       displayName: "Roar",
       introduction: {
         id: "spyro-1",
         showOnHub: false,
+        __typename: "QuestionnaireIntroduction",
       },
       createdBy: {
         ...user,
@@ -50,16 +64,13 @@ describe("Settings page", () => {
       isPublic: true,
       permission: true,
       sections: [],
-    };
-
-    user = {
-      id: "123",
-      displayName: "TerradorTheDragon",
-      email: "TDawg@Spyro.com",
-      picture: "",
-      admin: true,
-      name: "Terrador",
-      __typename: "User",
+      validationErrorInfo: {
+        id: "validation-error-info-id",
+        errors: [],
+        totalCount: 0,
+        __typename: "ValidationErrorInfo",
+      },
+      __typename: "Questionnaire",
     };
 
     mocks = [
@@ -347,6 +358,75 @@ describe("Settings page", () => {
           };
         },
       },
+      {
+        request: {
+          query: updateQuestionnaireMutation,
+          variables: {
+            input: {
+              id: mockQuestionnaire.id,
+              surveyId: "456",
+            },
+          },
+        },
+        result: () => {
+          queryWasCalled = true;
+          return {
+            data: {
+              updateQuestionnaire: {
+                ...mockQuestionnaire,
+                surveyId: "456",
+                __typename: "Questionnaire",
+              },
+            },
+          };
+        },
+      },
+      {
+        request: {
+          query: updateQuestionnaireMutation,
+          variables: {
+            input: {
+              id: mockQuestionnaire.id,
+              formType: "5678",
+            },
+          },
+        },
+        result: () => {
+          queryWasCalled = true;
+          return {
+            data: {
+              updateQuestionnaire: {
+                ...mockQuestionnaire,
+                formType: "5678",
+                __typename: "Questionnaire",
+              },
+            },
+          };
+        },
+      },
+      {
+        request: {
+          query: updateQuestionnaireMutation,
+          variables: {
+            input: {
+              id: mockQuestionnaire.id,
+              eqId: "New test eQ ID",
+            },
+          },
+        },
+        result: () => {
+          queryWasCalled = true;
+          return {
+            data: {
+              updateQuestionnaire: {
+                ...mockQuestionnaire,
+                eqId: "New test eQ ID",
+                __typename: "Questionnaire",
+              },
+            },
+          };
+        },
+      },
     ];
   });
 
@@ -426,6 +506,151 @@ describe("Settings page", () => {
 
       expect(queryWasCalled).toBeFalsy();
       expect(questionnaireTitleInput.value).toBe("");
+    });
+  });
+
+  describe("Survey ID, form type and eQ ID", () => {
+    it("should update the questionnaire's survey ID", async () => {
+      const { getByTestId } = renderSettingsPage(
+        mockQuestionnaire,
+        user,
+        mocks
+      );
+
+      const surveyIdInput = getByTestId("input-survey-id");
+
+      expect(surveyIdInput.value).toBe("123");
+
+      expect(queryWasCalled).toBeFalsy();
+
+      fireEvent.change(surveyIdInput, {
+        target: { value: "456" },
+      });
+
+      expect(surveyIdInput.value).toBe("456");
+
+      await act(async () => {
+        fireEvent.blur(surveyIdInput);
+      });
+
+      expect(queryWasCalled).toBeTruthy();
+    });
+
+    it("should update the questionnaire's form type", async () => {
+      const { getByTestId } = renderSettingsPage(
+        mockQuestionnaire,
+        user,
+        mocks
+      );
+
+      const formTypeInput = getByTestId("input-form-type");
+
+      expect(formTypeInput.value).toBe("1234");
+
+      expect(queryWasCalled).toBeFalsy();
+
+      fireEvent.change(formTypeInput, {
+        target: { value: "5678" },
+      });
+
+      expect(formTypeInput.value).toBe("5678");
+
+      await act(async () => {
+        fireEvent.blur(formTypeInput);
+      });
+
+      expect(queryWasCalled).toBeTruthy();
+    });
+
+    it("should update the questionnaire's eQ ID", async () => {
+      const { getByTestId } = renderSettingsPage(
+        mockQuestionnaire,
+        user,
+        mocks
+      );
+
+      const eqIdInput = getByTestId("input-eq-id");
+
+      expect(eqIdInput.value).toBe("Test eQ ID");
+
+      expect(queryWasCalled).toBeFalsy();
+
+      fireEvent.change(eqIdInput, {
+        target: { value: "New test eQ ID" },
+      });
+
+      expect(eqIdInput.value).toBe("New test eQ ID");
+
+      await act(async () => {
+        fireEvent.blur(eqIdInput);
+      });
+
+      expect(queryWasCalled).toBeTruthy();
+    });
+
+    describe("Error messages", () => {
+      it("should display empty survey ID error message", () => {
+        mockQuestionnaire.validationErrorInfo = {
+          errors: [
+            {
+              id: "survey-id-error",
+              field: "surveyId",
+              errorCode: "ERR_VALID_REQUIRED",
+            },
+          ],
+          totalCount: 1,
+        };
+
+        const { getByText } = renderSettingsPage(
+          mockQuestionnaire,
+          user,
+          mocks
+        );
+
+        expect(getByText(/Enter a survey ID/)).toBeInTheDocument();
+      });
+
+      it("should display empty form type error message", () => {
+        mockQuestionnaire.validationErrorInfo = {
+          errors: [
+            {
+              id: "form-type-error",
+              field: "formType",
+              errorCode: "ERR_VALID_REQUIRED",
+            },
+          ],
+          totalCount: 1,
+        };
+
+        const { getByText } = renderSettingsPage(
+          mockQuestionnaire,
+          user,
+          mocks
+        );
+
+        expect(getByText(/Enter a form type/)).toBeInTheDocument();
+      });
+
+      it("should display empty eQ ID error message", () => {
+        mockQuestionnaire.validationErrorInfo = {
+          errors: [
+            {
+              id: "eq-id-error",
+              field: "eqId",
+              errorCode: "ERR_VALID_REQUIRED",
+            },
+          ],
+          totalCount: 1,
+        };
+
+        const { getByText } = renderSettingsPage(
+          mockQuestionnaire,
+          user,
+          mocks
+        );
+
+        expect(getByText(/Enter an eQ ID/)).toBeInTheDocument();
+      });
     });
   });
 

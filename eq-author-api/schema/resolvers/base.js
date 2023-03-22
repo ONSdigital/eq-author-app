@@ -49,13 +49,13 @@ const {
   createLeftSide,
   createFolder,
   createSection,
-  createTheme,
   createList,
 } = require("../../src/businessLogic");
 
 const {
   getExpressions,
   getSections,
+  getPagesFromSection,
   getSectionById,
   getFolderById,
   getSectionByFolderId,
@@ -72,9 +72,6 @@ const {
   getSkippableById,
   remapAllNestedIds,
   returnValidationErrors,
-  getThemeByShortName,
-  getPreviewTheme,
-  getFirstEnabledTheme,
   getListById,
   getListByAnswerId,
   getAnswerByOptionId,
@@ -132,18 +129,17 @@ const {
   publishStatusEvent,
 } = require("../../utils/questionnaireEvents");
 
-const { THEME_SHORT_NAMES } = require("../../constants/themes");
-
 const deleteFirstPageSkipConditions = require("../../src/businessLogic/deleteFirstPageSkipConditions");
 const deleteLastPageRouting = require("../../src/businessLogic/deleteLastPageRouting");
 
 const createNewQuestionnaire = (input) => {
-  const defaultTheme = createTheme({
-    shortName: "business",
-  });
   const defaultQuestionnaire = {
     id: uuidv4(),
     theme: "business",
+    legalBasis: "NOTICE_1",
+    surveyId: "",
+    formType: "",
+    eqId: "",
     qcodes: true,
     navigation: false,
     hub: false,
@@ -160,11 +156,6 @@ const createNewQuestionnaire = (input) => {
     collectionLists: {
       id: uuidv4(),
       lists: [],
-    },
-    themeSettings: {
-      id: uuidv4(),
-      previewTheme: defaultTheme.shortName,
-      themes: [defaultTheme],
     },
     locked: false,
     submission: createSubmission(),
@@ -298,6 +289,18 @@ const Resolvers = {
     collectionLists: (_, args, ctx) => ctx.questionnaire.collectionLists,
     list: (root, { input: { listId } }, ctx) =>
       find(ctx.questionnaire.collectionLists.lists, { id: listId }),
+    prepopSchemaVersions: async (_, args) => {
+      const { id } = args;
+      const url = `${process.env.PREPOP_SCHEMA_GATEWAY}schemaVersionsGet?survey_id=${id}`;
+
+      try {
+        const response = await fetch(url);
+        const prepopSchema = await response.json();
+        return prepopSchema;
+      } catch (err) {
+        throw Error(err);
+      }
+    },
   },
 
   Subscription: {
@@ -479,67 +482,6 @@ const Resolvers = {
       };
 
       return ctx.questionnaire.submission;
-    }),
-    updatePreviewTheme: createMutation(
-      (root, { input: { previewTheme } }, ctx) => {
-        ctx.questionnaire.themeSettings.previewTheme = previewTheme;
-        return ctx.questionnaire.themeSettings;
-      }
-    ),
-    enableTheme: createMutation((root, { input: { shortName } }, ctx) => {
-      let theme = getThemeByShortName(ctx, shortName);
-      if (!theme) {
-        theme = createTheme({ shortName });
-        ctx.questionnaire.themeSettings.themes.push(theme);
-      }
-      theme.enabled = true;
-
-      const openThemes = ctx.questionnaire.themeSettings.themes.filter(
-        (theme) => theme.enabled === true
-      );
-      if (openThemes.length === 1) {
-        ctx.questionnaire.themeSettings.previewTheme = shortName;
-      }
-
-      return theme;
-    }),
-    updateTheme: createMutation((root, { input }, ctx) => {
-      const theme = getThemeByShortName(ctx, input.shortName);
-
-      // Trim whitespace from input
-      for (const key of Object.keys(input)) {
-        input[key] = input[key]?.trim() ?? input[key];
-      }
-
-      if (!theme) {
-        throw new UserInputError(
-          `updateTheme: No theme found with shortName '${input.shortName}''`
-        );
-      }
-      delete input.questionnaireId;
-      return Object.assign(theme, input);
-    }),
-    disableTheme: createMutation((root, { input: { shortName } }, ctx) => {
-      const theme = getThemeByShortName(ctx, shortName);
-      if (!theme) {
-        throw new UserInputError(
-          `disableTheme: No theme found with shortName '${shortName}''`
-        );
-      }
-
-      theme.enabled = false;
-
-      const isPreviewTheme = getPreviewTheme(ctx) === shortName;
-
-      if (isPreviewTheme) {
-        const { shortName } = getFirstEnabledTheme(ctx) || {};
-
-        if (shortName) {
-          ctx.questionnaire.themeSettings.previewTheme = shortName;
-        }
-      }
-
-      return theme;
     }),
     createHistoryNote: (root, { input }, ctx) =>
       createHistoryEvent(input.id, noteCreationEvent(ctx, input.bodyText)),
@@ -1608,6 +1550,10 @@ const Resolvers = {
           id === sectionId && !pageId && !folderId
       ),
     comments: ({ id }, args, ctx) => ctx.comments[id],
+    allowRepeatingSection: (section) =>
+      findIndex(getPagesFromSection(section), {
+        pageType: "ListCollectorPage",
+      }) < 0,
   },
 
   CollectionLists: {
@@ -1914,30 +1860,6 @@ const Resolvers = {
         id,
         ({ confirmationOptionId }) => id === confirmationOptionId
       ),
-  },
-
-  ThemeSettings: {
-    validationErrorInfo: ({ id }, _args, ctx) =>
-      returnValidationErrors(ctx, id, ({ type }) =>
-        ["theme", "themeSettings"].includes(type)
-      ),
-    themes: (_root, _args, ctx) => {
-      // Return all themes as disabled by default
-      // If present in questionnaire, override with actual attributes
-      return THEME_SHORT_NAMES.map((shortName) => ({
-        shortName,
-        id: shortName,
-        enabled: false,
-        legalBasisCode: "NOTICE_1",
-        ...(getThemeByShortName(ctx, shortName) ?? {}),
-      }));
-    },
-  },
-
-  Theme: {
-    validationErrorInfo: ({ id }, _args, ctx) =>
-      returnValidationErrors(ctx, id, ({ themeId }) => themeId === id),
-    themeSettings: (_root, _args, ctx) => ctx.questionnaire.themeSettings,
   },
 
   Date: GraphQLDate,

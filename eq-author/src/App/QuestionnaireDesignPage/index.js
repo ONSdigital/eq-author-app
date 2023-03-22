@@ -142,11 +142,6 @@ export const QuestionnaireDesignPage = () => {
     },
   });
 
-  const formTypeErrorCount =
-    questionnaire?.themeSettings?.validationErrorInfo?.errors.filter(
-      ({ errorCode }) => errorCode === "ERR_FORM_TYPE_FORMAT"
-    ).length + questionnaire?.validationErrorInfo?.totalCount;
-
   useLockStatusSubscription({ id: questionnaire?.id });
   useValidationsSubscription({ id: questionnaire?.id });
 
@@ -157,6 +152,12 @@ export const QuestionnaireDesignPage = () => {
   if (!loading && !error && !questionnaire) {
     throw new Error(ERR_PAGE_NOT_FOUND);
   }
+
+  const settingsErrorFields = ["surveyId", "formType", "eqId"];
+
+  const hasSettingsErrors = questionnaire?.validationErrorInfo?.errors?.some(
+    ({ field }) => settingsErrorFields.includes(field)
+  );
 
   return (
     <QuestionnaireContext.Provider value={{ questionnaire }}>
@@ -173,16 +174,11 @@ export const QuestionnaireDesignPage = () => {
                           hasQuestionnaire={Boolean(questionnaire?.id)}
                           totalErrorCount={questionnaire?.totalErrorCount || 0}
                           qcodesEnabled={questionnaire?.qcodes}
-                          settingsError={Boolean(
-                            questionnaire?.themeSettings?.validationErrorInfo
-                              ?.totalCount +
-                              questionnaire?.validationErrorInfo?.totalCount
-                          )}
+                          settingsError={hasSettingsErrors}
                           listsError={some(
                             questionnaire?.collectionLists?.lists,
                             (list) => list.validationErrorInfo.errors.length > 0
                           )}
-                          formTypeErrorCount={formTypeErrorCount}
                           hasSurveyID={questionnaire?.surveyId !== ""}
                         />
                       </MainNavScrollPane>

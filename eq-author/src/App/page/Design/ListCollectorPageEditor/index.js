@@ -752,12 +752,14 @@ UnwrappedListCollectorPageEditor.fragments = {
       additionalGuidancePanelSwitch
       drivingPositive
       drivingNegative
+      drivingQCode
       drivingPositiveDescription
       drivingNegativeDescription
       anotherTitle
       anotherPageDescription
       anotherPositive
       anotherNegative
+      anotherQCode
       anotherPositiveDescription
       anotherNegativeDescription
       addItemTitle
@@ -773,6 +775,7 @@ UnwrappedListCollectorPageEditor.fragments = {
       section {
         id
         position
+        allowRepeatingSection
         questionnaire {
           id
           metadata {

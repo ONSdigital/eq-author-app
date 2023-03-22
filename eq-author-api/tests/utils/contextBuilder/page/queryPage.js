@@ -30,6 +30,7 @@ const getPageQuery = `
       pageType
       section {
         id
+        allowRepeatingSection
       }
       folder {
         id

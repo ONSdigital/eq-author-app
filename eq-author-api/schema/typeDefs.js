@@ -53,7 +53,11 @@ type Questionnaire {
   starred: Boolean
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
-  theme: ThemeShortName
+  surveyId: String
+  formType: String
+  eqId: String
+  theme: String
+  legalBasis: String
   qcodes: Boolean
   navigation: Boolean
   hub: Boolean
@@ -77,18 +81,9 @@ type Questionnaire {
   publishStatus: PublishStatus!
   publishDetails: [PublishDetails]
   totalErrorCount: Int!
-  surveyId: String
-  themeSettings: ThemeSettings!
   locked: Boolean
   validationErrorInfo: ValidationErrorInfo
   submission: Submission
-}
-
-type ThemeSettings {
-  id: ID!
-  previewTheme: String!
-  themes: [Theme!]!
-  validationErrorInfo: ValidationErrorInfo
 }
 
 enum HistoryEventTypes {
@@ -100,17 +95,6 @@ type CollectionLists {
   id: ID!
   lists: [List]
   questionnaire: Questionnaire
-}
-
-type Theme {
-  id: ID!
-  enabled: Boolean!
-  shortName: ThemeShortName!
-  legalBasisCode: LegalBasisCode
-  eqId: ID
-  formType: String
-  themeSettings: ThemeSettings!
-  validationErrorInfo: ValidationErrorInfo
 }
 
 type List {
@@ -182,6 +166,7 @@ type Section {
   pageDescription: String
   validationErrorInfo: ValidationErrorInfo
   repeatingSection: Boolean
+  allowRepeatingSection: Boolean
   repeatingSectionListId: ID
   comments: [Comment]
 }
@@ -558,23 +543,6 @@ enum AnswerType {
   Select
 }
 
-enum ThemeShortName {
-  default
-  business
-  social
-  health
-  census
-  northernireland
-  covid
-  ukis
-  ukis_ni
-  epe
-  epenorthernireland
-  orr
-  beis
-  beis_ni
-}
-
 type Metadata {
   id: ID!
   key: String
@@ -775,6 +743,17 @@ type Submission {
   comments: [Comment]
 }
 
+type Version {
+  id: ID!
+  version: String!
+  dateCreated: String!
+}
+
+type PrepopSchemaVersions {
+  surveyId: ID!
+  versions: [Version!]!
+}
+
 type Query {
   questionnaires(input: QuestionnairesInput): [Questionnaire]
   questionnaire(input: QueryInput!): Questionnaire
@@ -796,6 +775,7 @@ type Query {
   introduction: QuestionnaireIntroduction
   collectionLists: CollectionLists
   list(input: QueryInput!): List
+  prepopSchemaVersions(id: ID!): PrepopSchemaVersions
 }
 
 input CommonFilters {
@@ -837,29 +817,6 @@ input DeleteSkipConditionsInput {
 input UpdateSurveyIdInput {
   questionnaireId: ID!
   surveyId: String!
-}
-
-input UpdatePreviewThemeInput {
-  questionnaireId: ID!
-  previewTheme: String!
-}
-
-input EnableThemeInput {
-  questionnaireId: ID!
-  shortName: ThemeShortName!
-}
-
-input DisableThemeInput {
-  questionnaireId: ID!
-  shortName: ThemeShortName!
-}
-
-input UpdateThemeInput {
-  questionnaireId: ID!
-  shortName: ThemeShortName!
-  eqId: ID
-  legalBasisCode: LegalBasisCode
-  formType: String
 }
 
 input ToggleQuestionnaireStarredInput {
@@ -904,10 +861,6 @@ type Mutation {
   deleteHistoryNote(input: deleteHistoryNoteInput!): [History!]!
 
   updateSurveyId(input: UpdateSurveyIdInput!): Questionnaire
-  updatePreviewTheme(input: UpdatePreviewThemeInput!): ThemeSettings
-  enableTheme(input: EnableThemeInput!): Theme
-  updateTheme(input: UpdateThemeInput!): Theme
-  disableTheme(input: DisableThemeInput!): Theme
 
   createSection(input: CreateSectionInput!): Section
   updateSection(input: UpdateSectionInput!): Section
@@ -1195,11 +1148,14 @@ input UpdateQuestionnaireInput {
   description: String
   additionalGuidancePanelSwitch: Boolean
   additionalGuidancePanel: String
+  surveyId: String
+  formType: String
+  eqId: String
   theme: String
+  legalBasis: String
   qcodes: Boolean
   navigation: Boolean
   hub: Boolean
-  surveyId: String
   summary: Boolean
   collapsibleSummary: Boolean
   shortTitle: String

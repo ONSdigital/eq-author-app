@@ -6,10 +6,12 @@ const getQuestionnaireQuery = `
       id
       title
       description
-      theme
       starred
       navigation
       surveyId
+      formType
+      eqId
+      theme
       createdAt
       shortTitle
       displayName
@@ -32,18 +34,6 @@ const getQuestionnaireQuery = `
       }
       totalErrorCount
       publishStatus
-      themeSettings {
-        id
-        previewTheme
-        themes {
-          id
-          enabled
-          shortName
-          legalBasisCode
-          eqId
-          formType
-        }
-      }
       submission {
         id
         furtherContent

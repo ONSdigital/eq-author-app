@@ -15,6 +15,7 @@ mutation CreateListCollectorPage($input: CreateListCollectorPageInput!) {
           id
         }
       }
+      allowRepeatingSection
     }
     validationErrorInfo {
       ...ValidationErrorInfo

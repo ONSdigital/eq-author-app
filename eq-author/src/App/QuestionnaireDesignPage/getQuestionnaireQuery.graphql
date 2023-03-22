@@ -32,12 +32,6 @@ query GetQuestionnaire($input: QueryInput!) {
       languageValue
       textValue
     }
-    themeSettings {
-      id
-      validationErrorInfo {
-        ...ValidationErrorInfo
-      }
-    }
     submission {
       id
       furtherContent
@@ -70,7 +64,10 @@ fragment Questionnaire on Questionnaire {
   title
   description
   surveyId
+  formType
+  eqId
   theme
+  legalBasis
   qcodes
   navigation
   summary

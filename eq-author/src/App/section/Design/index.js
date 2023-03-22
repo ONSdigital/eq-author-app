@@ -232,6 +232,7 @@ export const SECTION_QUERY = gql`
       ...Section
       displayName
       position
+      allowRepeatingSection
       folders {
         id
       }

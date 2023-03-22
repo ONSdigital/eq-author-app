@@ -86,11 +86,6 @@ describe("View Survey Page", () => {
     questionnaire.validationErrorInfo = {
       totalCount: 0,
     };
-    questionnaire.themeSettings = {
-      validationErrorInfo: {
-        errors: [],
-      },
-    };
     const { getByTestId } = renderViewSurveyPage(
       questionnaire,
       props,
@@ -106,14 +101,23 @@ describe("View Survey Page", () => {
   });
 
   it("should disable preview button if there are theme errors and other errors on the questionnaire", () => {
-    questionnaire.totalErrorCount = 2;
+    questionnaire.totalErrorCount = 4;
     questionnaire.validationErrorInfo = {
-      totalCount: 1,
-    };
-    questionnaire.themeSettings = {
-      validationErrorInfo: {
-        errors: [],
-      },
+      totalCount: 3,
+      errors: [
+        {
+          id: "survey-id-error",
+          field: "surveyId",
+        },
+        {
+          id: "form-type-error",
+          field: "formType",
+        },
+        {
+          id: "eq-id-error",
+          field: "eqId",
+        },
+      ],
     };
     const { getByTestId } = renderViewSurveyPage(
       questionnaire,
@@ -130,15 +134,24 @@ describe("View Survey Page", () => {
   });
 
   it("should not disable preview button if there are only theme errors on the questionnaire", () => {
-    questionnaire.totalErrorCount = 0;
+    questionnaire.totalErrorCount = 3;
     questionnaire.validationErrorInfo = {
-      totalCount: 1,
+      errors: [
+        {
+          id: "survey-id-error",
+          field: "surveyId",
+        },
+        {
+          id: "form-type-error",
+          field: "formType",
+        },
+        {
+          id: "eq-id-error",
+          field: "eqId",
+        },
+      ],
     };
-    questionnaire.themeSettings = {
-      validationErrorInfo: {
-        errors: [],
-      },
-    };
+
     const { getByTestId } = renderViewSurveyPage(
       questionnaire,
       props,
