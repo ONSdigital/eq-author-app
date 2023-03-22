@@ -138,13 +138,6 @@ export const buildCollectionListsPath = ({ questionnaireId }) => {
   });
 };
 
-export const buildPublishPath = ({ questionnaireId }) => {
-  return generatePath(Routes.QUESTIONNAIRE)({
-    questionnaireId,
-    entityName: PUBLISH,
-  });
-};
-
 export const buildSettingsPath = ({ questionnaireId }) => {
   return generatePath(Routes.QUESTIONNAIRE)({
     questionnaireId,
@@ -165,6 +158,14 @@ export const buildQcodesPath = ({ questionnaireId }) => {
     entityName: QCODES,
   });
 };
+
+export const buildPublishPath = ({ questionnaireId }) => {
+  return generatePath(Routes.QUESTIONNAIRE)({
+    questionnaireId,
+    entityName: PUBLISH,
+  });
+};
+
 export const buildShortcutsPath = ({ questionnaireId }) => {
   return generatePath(Routes.QUESTIONNAIRE)({
     questionnaireId,

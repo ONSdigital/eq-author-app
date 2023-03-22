@@ -26,6 +26,7 @@ import dataIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/data-icon
 import shareIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/sharing-icon.svg?inline";
 import viewIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/view-survey-icon.svg?inline";
 import keyboardIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/keyboard-icon.svg?inline";
+import publishIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/publish-icon.svg?inline";
 
 import UpdateQuestionnaireSettingsModal from "./UpdateQuestionnaireSettingsModal";
 
@@ -40,6 +41,7 @@ import {
   buildSharingPath,
   buildSettingsPath,
   buildShortcutsPath,
+  buildPublishPath,
 } from "utils/UrlUtils";
 
 const Platform = styled.h3`
@@ -212,6 +214,19 @@ export const UnwrappedMainNavigation = ({
                 {qcodesEnabled && hasQCodeError && (
                   <Badge data-test="small-badge" variant="main-nav" />
                 )}
+              </RouteButton>
+              <RouteButton
+                variant={
+                  (whatPageAreWeOn === "publish" && "navigation-on") ||
+                  "navigation"
+                }
+                to={buildPublishPath(params)}
+                small
+                data-test="btn-publish-page"
+              >
+                <IconText nav icon={publishIcon}>
+                  Publish
+                </IconText>
               </RouteButton>
               <RouteButton
                 variant={
