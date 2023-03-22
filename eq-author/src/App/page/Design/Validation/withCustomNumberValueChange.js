@@ -5,7 +5,7 @@ import { inRange, isNaN } from "lodash";
 const withCustomNumberValueChange = (WrappedComponent) => {
   return class extends React.Component {
     static defaultProps = {
-      limit: 999999999,
+      limit: 999999999999999,
     };
 
     static propTypes = {
