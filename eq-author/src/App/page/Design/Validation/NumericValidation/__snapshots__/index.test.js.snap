@@ -41,7 +41,7 @@ exports[`AnswerValidation should render 1`] = `
       },
     }
   }
-  limit={999999999}
+  limit={999999999999999}
   onChange={[MockFunction]}
   onChangeUpdate={[MockFunction]}
   onCustomNumberValueChange={[Function]}
