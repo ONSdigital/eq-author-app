@@ -166,6 +166,7 @@ type Section {
   pageDescription: String
   validationErrorInfo: ValidationErrorInfo
   repeatingSection: Boolean
+  allowRepeatingSection: Boolean
   repeatingSectionListId: ID
   comments: [Comment]
 }
