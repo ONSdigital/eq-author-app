@@ -55,6 +55,7 @@ const formatListCollector = (listCollectorPage) => [
     drivingQCode: listCollectorPage.drivingQCode,
     type: RADIO,
     listAnswerType: DRIVING,
+    label: "",
   },
   {
     label: listCollectorPage.drivingPositive,
@@ -72,6 +73,7 @@ const formatListCollector = (listCollectorPage) => [
     anotherQCode: listCollectorPage.anotherQCode,
     type: RADIO,
     listAnswerType: ANOTHER,
+    label: "",
   },
   {
     label: listCollectorPage.anotherPositive,
@@ -128,7 +130,6 @@ export const getDuplicatedQCodes = (flattenedAnswers, { dataVersion }) => {
   const qCodeUsageMap = flattenedAnswers?.reduce(
     (acc, { qCode, drivingQCode, anotherQCode, type, additionalAnswer }) => {
       const { qCode: additionalAnswerQCode } = additionalAnswer || {};
-
       if (dataVersion === "3") {
         if (
           (qCode || drivingQCode || anotherQCode) &&
@@ -140,7 +141,6 @@ export const getDuplicatedQCodes = (flattenedAnswers, { dataVersion }) => {
             currentValue ? currentValue + 1 : 1
           );
         }
-
         if (additionalAnswerQCode) {
           const currentValue = acc.get(additionalAnswerQCode);
           acc.set(additionalAnswerQCode, currentValue ? currentValue + 1 : 1);
