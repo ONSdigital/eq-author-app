@@ -3,8 +3,6 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 import { useParams } from "react-router-dom";
-import gql from "graphql-tag";
-import { useSubscription } from "react-apollo";
 
 import { colors } from "constants/theme";
 import { useMe } from "App/MeContext";
@@ -88,9 +86,6 @@ export const UnwrappedMainNavigation = ({
     params.modifier === "settings"
   );
   const whatPageAreWeOn = params.entityName;
-  useSubscription(publishStatusSubscription, {
-    variables: { id: params.questionnaireId },
-  });
 
   if (!hasSurveyID) {
     totalErrorCount = totalErrorCount - 1;
@@ -258,15 +253,6 @@ export const UnwrappedMainNavigation = ({
     </>
   );
 };
-
-export const publishStatusSubscription = gql`
-  subscription PublishStatus($id: ID!) {
-    publishStatusUpdated(id: $id) {
-      id
-      publishStatus
-    }
-  }
-`;
 
 UnwrappedMainNavigation.propTypes = {
   qcodesEnabled: PropTypes.bool,
