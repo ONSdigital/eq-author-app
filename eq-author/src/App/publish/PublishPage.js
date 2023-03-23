@@ -52,7 +52,7 @@ const HorizontalSeparator = styled.hr`
 const PublishPage = () => {
   return (
     <Theme themeName="ons">
-      <Container>
+      <Container data-test="publish-page-container">
         <Header title="Publish" />
         <ScrollPane>
           <StyledPanelWrapper>
