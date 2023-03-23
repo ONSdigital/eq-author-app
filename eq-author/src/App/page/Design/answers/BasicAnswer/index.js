@@ -29,6 +29,7 @@ import { ANSWER } from "components/ContentPickerSelectv3/content-types";
 
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 import AnswerProperties from "components/AnswerContent/AnswerProperties";
+import RepeatLabelAndInput from "components/AnswerContent/RepeatLabelAndInput";
 import AdvancedProperties from "components/AnswerContent/AdvancedProperties";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import InlineField from "components/AnswerContent/Format/InlineField";
@@ -167,6 +168,7 @@ export const StatelessBasicAnswer = ({
           )}
         </AdvancedProperties>
       )}
+      <RepeatLabelAndInput />
     </div>
   );
 };
