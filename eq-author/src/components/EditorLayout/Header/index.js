@@ -3,6 +3,8 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { flowRight, get } from "lodash";
 import { withRouter } from "react-router-dom";
+import gql from "graphql-tag";
+import { useSubscription } from "react-apollo";
 
 import CustomPropTypes from "custom-prop-types";
 
@@ -53,7 +55,11 @@ const SavingContainer = styled.div`
 `;
 
 export const UnconnectedHeader = (props) => {
-  const { questionnaire, title, children } = props;
+  const { questionnaire, title, children, match } = props;
+
+  useSubscription(publishStatusSubscription, {
+    variables: { id: match.params.questionnaireId },
+  });
 
   const permission = get(questionnaire, "permission");
 
@@ -72,6 +78,15 @@ export const UnconnectedHeader = (props) => {
     </>
   );
 };
+
+export const publishStatusSubscription = gql`
+  subscription PublishStatus($id: ID!) {
+    publishStatusUpdated(id: $id) {
+      id
+      publishStatus
+    }
+  }
+`;
 
 UnconnectedHeader.propTypes = {
   questionnaire: CustomPropTypes.questionnaire,
