@@ -55,6 +55,15 @@ const Caption = styled.div`
 const CollapsibleContent = styled.p``;
 
 const answersWithoutAdditionalProperties = [TEXTFIELD, TEXTAREA, DURATION];
+const answersWithRepeatingAnswersToggle = [
+  TEXTFIELD,
+  TEXTAREA,
+  DURATION,
+  UNIT,
+  CURRENCY,
+  PERCENTAGE,
+  NUMBER,
+];
 
 export const StatelessBasicAnswer = ({
   answer,
@@ -84,16 +93,6 @@ export const StatelessBasicAnswer = ({
       label: errorLabel,
       requiredMsg: errorMsg,
     });
-
-  const answersWithRepeatingAnswersToggle = [
-    TEXTFIELD,
-    TEXTAREA,
-    DURATION,
-    UNIT,
-    CURRENCY,
-    PERCENTAGE,
-    NUMBER,
-  ];
 
   return (
     <div>

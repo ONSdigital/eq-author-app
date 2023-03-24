@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import InlineField from "components/AnswerContent/Format/InlineField";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
@@ -25,7 +25,12 @@ const StyledToggleSwitch = styled(ToggleSwitch)`
 `;
 
 const RepeatLabelAndInput = () => {
-  const repeatLabelAndInput = null;
+  const [toggleStatus, setToggleStatus] = useState(false);
+
+  const handleChange = () => {
+    setToggleStatus((prevToggleStatus) => !prevToggleStatus);
+  };
+
   return (
     <ToggleWrapper>
       <Label>Repeat label and input</Label>
@@ -43,9 +48,9 @@ const RepeatLabelAndInput = () => {
           id="repeat-label-and-input-toggle"
           name="repeat-label-and-input-toggle"
           hideLabels={false}
-          onChange={() => {}}
+          onChange={handleChange}
           data-test="repeat-label-and-input-toggle"
-          checked={repeatLabelAndInput || false}
+          checked={toggleStatus}
           blockDisplay
         />
       </StyledInlineField>
