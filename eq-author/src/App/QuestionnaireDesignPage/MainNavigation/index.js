@@ -32,6 +32,7 @@ import UpdateQuestionnaireSettingsModal from "./UpdateQuestionnaireSettingsModal
 
 import { useQCodeContext } from "components/QCodeContext";
 
+import { enableOn } from "utils/featureFlags";
 import {
   buildQcodesPath,
   buildDataPath,
@@ -215,19 +216,21 @@ export const UnwrappedMainNavigation = ({
                   <Badge data-test="small-badge" variant="main-nav" />
                 )}
               </RouteButton>
-              <RouteButton
-                variant={
-                  (whatPageAreWeOn === "publish" && "navigation-on") ||
-                  "navigation"
-                }
-                to={buildPublishPath(params)}
-                small
-                data-test="btn-publish-page"
-              >
-                <IconText nav icon={publishIcon}>
-                  Publish
-                </IconText>
-              </RouteButton>
+              {enableOn(["publishPage"]) && (
+                <RouteButton
+                  variant={
+                    (whatPageAreWeOn === "publish" && "navigation-on") ||
+                    "navigation"
+                  }
+                  to={buildPublishPath(params)}
+                  small
+                  data-test="btn-publish-page"
+                >
+                  <IconText nav icon={publishIcon}>
+                    Publish
+                  </IconText>
+                </RouteButton>
+              )}
               <RouteButton
                 variant={
                   (whatPageAreWeOn === "keyboardShortcuts" &&
