@@ -1,9 +1,12 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import InlineField from "components/AnswerContent/Format/InlineField";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
-
 import { Label } from "components/Forms";
+import Icon from "assets/icon-select.svg";
+import { colors } from "constants/theme";
+
+import { some } from "lodash";
 
 const ToggleWrapper = styled.div`
   margin: 0.7em 0 0 0;
@@ -23,13 +26,57 @@ const StyledInlineField = styled(InlineField)`
 const StyledToggleSwitch = styled(ToggleSwitch)`
   margin: 0;
 `;
+const errorCSS = css`
+  ${({ hasError }) =>
+    hasError &&
+    css`
+      border-color: ${colors.errorPrimary};
+      &:focus,
+      &:focus-within {
+        border-color: ${colors.errorPrimary};
+        outline-color: ${colors.errorPrimary};
+        box-shadow: 0 0 0 2px ${colors.errorPrimary};
+      }
+      &:hover {
+        border-color: ${colors.errorPrimary};
+        outline-color: ${colors.errorPrimary};
+      }
+    `}
+`;
 
-const RepeatLabelAndInput = () => {
+const CustomSelect = styled.select`
+  font-size: 1em;
+  border: 2px solid #d6d8da;
+  border-radius: 4px;
+  appearance: none;
+  background: white url("${Icon}") no-repeat right center;
+  position: relative;
+  transition: opacity 100ms ease-in-out;
+  border-radius: 4px;
+  padding: 0.3em 1.5em 0.3em 0.3em;
+  color: #222222;
+  display: block;
+  min-width: 30%;
+  ${errorCSS}
+
+  &:hover {
+    outline: none;
+  }
+`;
+
+const RepeatLabelAndInput = (props) => {
+  const { page } = props;
   const [toggleStatus, setToggleStatus] = useState(false);
 
   const handleChange = () => {
     setToggleStatus((prevToggleStatus) => !prevToggleStatus);
   };
+
+  const mockList = [
+    { id: 1, displayName: "Minnesota TimberWolves" },
+    { id: 2, displayName: "Memphis Grizzlies" },
+    { id: 3, displayName: "Dallas Mavericks" },
+  ];
 
   return (
     <>
@@ -59,6 +106,23 @@ const RepeatLabelAndInput = () => {
       {toggleStatus && (
         <>
           <Label>Linked collection list</Label>
+          <CustomSelect
+            name="listId"
+            data-test="list-select"
+            onChange={() => {}}
+            value={mockList.listId}
+            hasError={some(page.validationErrorInfo.errors, {
+              field: "listId",
+            })}
+          >
+            <option value="">Select list</option>
+            {mockList.map((list) => (
+              <option key={list.id} value={list.id}>
+                {list.displayName}
+              </option>
+            ))}
+            <option value="newList">Create new list</option>
+          </CustomSelect>
         </>
       )}
     </>
