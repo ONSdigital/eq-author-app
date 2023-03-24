@@ -24,7 +24,15 @@ import MinDurationValidationRule from "graphql/fragments/min-duration-validation
 import MaxDurationValidationRule from "graphql/fragments/max-duration-validation-rule.graphql";
 
 import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
-import { TEXTFIELD, TEXTAREA, DURATION } from "constants/answer-types";
+import {
+  TEXTFIELD,
+  TEXTAREA,
+  DURATION,
+  UNIT,
+  CURRENCY,
+  PERCENTAGE,
+  NUMBER,
+} from "constants/answer-types";
 import { ANSWER } from "components/ContentPickerSelectv3/content-types";
 
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
@@ -76,6 +84,16 @@ export const StatelessBasicAnswer = ({
       label: errorLabel,
       requiredMsg: errorMsg,
     });
+
+  const answersWithRepeatingAnswersToggle = [
+    TEXTFIELD,
+    TEXTAREA,
+    DURATION,
+    UNIT,
+    CURRENCY,
+    PERCENTAGE,
+    NUMBER,
+  ];
 
   return (
     <div>
@@ -168,7 +186,9 @@ export const StatelessBasicAnswer = ({
           )}
         </AdvancedProperties>
       )}
-      <RepeatLabelAndInput />
+      {answersWithRepeatingAnswersToggle.includes(type) && (
+        <RepeatLabelAndInput />
+      )}
     </div>
   );
 };
