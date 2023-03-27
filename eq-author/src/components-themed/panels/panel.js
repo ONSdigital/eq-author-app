@@ -167,6 +167,7 @@ const Panel = ({
       variant={variant}
       withPanelMargin={withPanelMargin}
       withLeftBorder={withLeftBorder}
+      tabIndex="0"
     >
       {variant === "errorWithHeader" && (
         <>

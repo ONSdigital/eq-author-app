@@ -56,25 +56,25 @@ const PublishPage = () => {
         <Header title="Publish" />
         <ScrollPane>
           <StyledPanelWrapper>
-            <Title>Publish questionnaire</Title>
-            <Content>
+            <Title tabIndex="0">Publish questionnaire</Title>
+            <Content tabIndex="0">
               To launch a questionnaire in EQ for respondents to complete, it
               must first be published to the Collection Instrument Registry
               (CIR).
             </Content>
-            <Content>
+            <Content tabIndex="0">
               A questionnaire can be published more than once. Published
               versions of a questionnaire cannot be accessed or edited in
               Author, only launched through EQ.
             </Content>
             <Panel variant="info" withLeftBorder>
-              All validation errors related to content, settings or Q Codes must
-              be resolved before a questionnaire can be published.
+              All validation errors related to content, settings, or Q Codes
+              must be resolved before a questionnaire can be published.
             </Panel>
             <StyledButton variant="primary">Publish questionnaire</StyledButton>
             <HorizontalSeparator />
-            <Title>Publishing history</Title>
-            <Content>
+            <Title tabIndex="0">Publishing history</Title>
+            <Content tabIndex="0">
               No versions of this questionnaire have been published
             </Content>
           </StyledPanelWrapper>
