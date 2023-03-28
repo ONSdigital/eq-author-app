@@ -16,7 +16,6 @@ const {
 } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
 const { v4: uuidv4 } = require("uuid");
-const request = require("request");
 const { withFilter, UserInputError } = require("apollo-server-express");
 const fetch = require("node-fetch");
 const { logger } = require("../../utils/logger");
@@ -1454,43 +1453,76 @@ const Resolvers = {
       delete section.displayConditions;
       return section;
     }),
-
-    publishSchema: async (_, args, ctx) => {
-      let convertedQuestionnaire;
-      // Convert questionnaire
-      try {
-        convertedQuestionnaire = await request.post(
-          `${process.env.CONVERSION_URL}`,
-          {
-            json: ctx.questionnaire,
-          },
-          (err) => {
-            if (err) {
-              throw new Error(err);
+    publishSchema: async (root, args, ctx) => {
+      // let convertedQuestionnaire;
+      // ? Convert questionnaire
+      // try {
+      await fetch(`${process.env.CIR_PUBLISH_SCHEMA_GATEWAY}publishSchema`, {
+        method: "post",
+        body: JSON.stringify(ctx.questionnaire),
+        headers: { "Content-Type": "application/json" },
+      })
+        .then(async (res) => {
+          if (res.status === 200) {
+            const responseJson = await res.json();
+            const publishResult = await {
+              ...responseJson,
+              surveyId: ctx.questionnaire.surveyId,
+              formType: ctx.questionnaire.formType,
+            };
+            if (ctx.questionnaire.publishHistory) {
+              console.log("-----");
+              console.log(`publish history added ${publishResult}`);
+              console.log("-----");
+              ctx.questionnaire.publishHistory.push(publishResult);
+            } else {
+              console.log("-----");
+              console.log(publishResult);
+              console.log(`publish history created ${publishResult}`);
+              console.log("-----");
+              ctx.questionnaire.publishHistory = [publishResult];
             }
           }
-        );
-      } catch (err) {
-        throw Error(err);
-      }
+          return ctx.questionnaire;
+        })
+        .catch((e) => {
+          throw Error(e);
+        });
 
-      // Make publish schema call to CIR
-      const url = `${process.env.CIR_PUBLISH_SCHEMA_GATEWAY}publishSchema`;
-      const response = await request.post(url, {
-        json: convertedQuestionnaire,
-      });
-      const publishResult = await response.json();
+      // console.log(ctx.questionnaire);
 
-      // Verify response
+      // console.log(convertedQuestionnaire);
+      // convertedQuestionnaire = await request.post(
+      //   `${process.env.CONVERSION_URL}`,
+      //   {
+      //     json: ctx.questionnaire,
+      //   },
+      //   (err) => {
+      //     if (err) {
+      //       throw new Error(err);
+      //     }
+      //   }
+      // );
+      // }
+      // catch (err) {
+      //   throw Error(err);
+      // }
 
-      // Record publish history
-      if (ctx.questionnaire.publishHistory) {
-        ctx.questionnaire.publishHistory.push(publishResult);
-      } else {
-        ctx.questionnaire.publishHistory = [publishResult];
-      }
+      // ? Make publish schema call to CIR
+      // const url = `${process.env.CIR_PUBLISH_SCHEMA_GATEWAY}publishSchema`;
+      // const response = await request.post(url, {
+      //   json: convertedQuestionnaire,
+      // });
+      // const publishResult = await response.json();
 
-      return ctx.questionnaire;
+      // ? Verify response
+
+      // ? Record publish history
+      // if (ctx.questionnaire.publishHistory) {
+      //   ctx.questionnaire.publishHistory.push(publishResult);
+      // } else {
+      //   ctx.questionnaire.publishHistory = [publishResult];
+      // }
     },
   },
 
