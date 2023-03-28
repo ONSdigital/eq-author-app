@@ -1453,7 +1453,7 @@ const Resolvers = {
       delete section.displayConditions;
       return section;
     }),
-    publishSchema: async (root, args, ctx) => {
+    publishSchema: createMutation(async (root, args, ctx) => {
       // let convertedQuestionnaire;
       // ? Convert questionnaire
       // try {
@@ -1465,29 +1465,29 @@ const Resolvers = {
         .then(async (res) => {
           if (res.status === 200) {
             const responseJson = await res.json();
-            const publishResult = await {
-              ...responseJson,
+            const publishDate = new Date();
+
+            const publishResult = {
+              id: uuidv4(),
+              cirId: responseJson.id,
+              version: responseJson.version,
               surveyId: ctx.questionnaire.surveyId,
               formType: ctx.questionnaire.formType,
+              publishDate,
             };
+
             if (ctx.questionnaire.publishHistory) {
-              console.log("-----");
-              console.log(`publish history added ${publishResult}`);
-              console.log("-----");
               ctx.questionnaire.publishHistory.push(publishResult);
             } else {
-              console.log("-----");
-              console.log(publishResult);
-              console.log(`publish history created ${publishResult}`);
-              console.log("-----");
               ctx.questionnaire.publishHistory = [publishResult];
             }
           }
-          return ctx.questionnaire;
         })
         .catch((e) => {
           throw Error(e);
         });
+
+      return ctx.questionnaire;
 
       // console.log(ctx.questionnaire);
 
@@ -1523,7 +1523,7 @@ const Resolvers = {
       // } else {
       //   ctx.questionnaire.publishHistory = [publishResult];
       // }
-    },
+    }),
   },
 
   Questionnaire: {
