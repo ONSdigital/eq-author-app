@@ -8,6 +8,11 @@ import { LIST_COLLECTOR_ERRORS } from "constants/validationMessages";
 import { find, some } from "lodash";
 import ValidationError from "components/ValidationError";
 
+import { useQuery } from "@apollo/react-hooks";
+import COLLECTION_LISTS from "graphql/lists/collectionLists.graphql";
+
+import Loading from "components/Loading";
+
 const ToggleWrapper = styled.div`
   margin: 0.7em 0 0 0;
   opacity: ${({ disabled }) => (disabled ? "0.6" : "1")};
@@ -34,15 +39,22 @@ const StyledSelect = styled(Select)`
 const RepeatLabelAndInput = () => {
   const [toggleStatus, setToggleStatus] = useState(false);
 
+  const { loading, data } = useQuery(COLLECTION_LISTS, {
+    fetchPolicy: "cache-and-network",
+  });
+
+  if (loading) {
+    return <Loading height="100%">Questionnaire lists loading…</Loading>;
+  }
+  let lists = [];
+
+  if (data) {
+    lists = data.collectionLists?.lists || [];
+  }
+
   const handleChange = () => {
     setToggleStatus((prevToggleStatus) => !prevToggleStatus);
   };
-
-  const mockList = [
-    { id: 1, displayName: "Minnesota TimberWolves" },
-    { id: 2, displayName: "Memphis Grizzlies" },
-    { id: 3, displayName: "Dallas Mavericks" },
-  ];
 
   const renderErrors = (errors, field) => {
     const errorList = errors.filter((error) => error.field === field);
@@ -56,53 +68,6 @@ const RepeatLabelAndInput = () => {
         }
       </ValidationError>
     ));
-  };
-  const page = {
-    __typename: "Page",
-    id: "1",
-    displayName: "Question",
-    position: 1,
-    title: "List Names",
-    alias: "Who am I?",
-    drivingQuestion: "",
-    pageDescription: "",
-    additionalGuidancePanelSwitch: false,
-    additionalGuidancePanel: "",
-    drivingPositive: "Yes",
-    drivingNegative: "No",
-    drivingPositiveDescription: "",
-    drivingNegativeDescription: "",
-    anotherNegativeDescription: "",
-    anotherPositiveDescription: "",
-    addItemTitle: "What are the names of everyone who live at ?",
-    anotherTitle: "Does anyone live at  as their permanent or family home?",
-    pageType: "ListCollectorPage",
-    anotherPositive: "Yes",
-    listId: "list1",
-    anotherNegative: "No",
-    validationErrorInfo: {
-      totalCount: 0,
-      errors: [],
-      id: "1",
-      __typename: "ValidationErrorInfo",
-    },
-    answers: [
-      {
-        __typename: "BasicAnswer",
-        id: "1",
-        title: "First name",
-        description: "",
-        type: "TextField",
-      },
-      {
-        __typename: "BasicAnswer",
-        id: "2",
-        title: "Last name",
-        description: "",
-        type: "TextField",
-      },
-    ],
-    section: { id: "3", questionnaire: { id: "1", metadata: [] } },
   };
 
   return (
@@ -137,20 +102,20 @@ const RepeatLabelAndInput = () => {
             name="listId"
             data-test="list-select"
             onChange={() => {}}
-            value={mockList.listId}
-            hasError={some(page.validationErrorInfo.errors, {
-              field: "listId",
-            })}
+            // value={mockList.listId}
+            // hasError={some(page.validationErrorInfo.errors, {
+            //   field: "listId",
+            // })}
           >
             <option value="">Select list</option>
-            {mockList.map((list) => (
+            {lists.map((list) => (
               <option key={list.id} value={list.id}>
                 {list.displayName}
               </option>
             ))}
             <option value="newList">Create new list</option>
           </StyledSelect>
-          {renderErrors(page.validationErrorInfo.errors, "listId")}
+          {/* {renderErrors(page.validationErrorInfo.errors, "listId")} */}
         </>
       )}
     </>
