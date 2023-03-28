@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import InlineField from "components/AnswerContent/Format/InlineField";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
-import { Label } from "components/Forms";
-import Icon from "assets/icon-select.svg";
-import { colors } from "constants/theme";
+import { Label, Select } from "components/Forms";
 
-import { some } from "lodash";
+import { LIST_COLLECTOR_ERRORS } from "constants/validationMessages";
+import { find, some } from "lodash";
+import ValidationError from "components/ValidationError";
 
 const ToggleWrapper = styled.div`
   margin: 0.7em 0 0 0;
@@ -26,46 +26,12 @@ const StyledInlineField = styled(InlineField)`
 const StyledToggleSwitch = styled(ToggleSwitch)`
   margin: 0;
 `;
-const errorCSS = css`
-  ${({ hasError }) =>
-    hasError &&
-    css`
-      border-color: ${colors.errorPrimary};
-      &:focus,
-      &:focus-within {
-        border-color: ${colors.errorPrimary};
-        outline-color: ${colors.errorPrimary};
-        box-shadow: 0 0 0 2px ${colors.errorPrimary};
-      }
-      &:hover {
-        border-color: ${colors.errorPrimary};
-        outline-color: ${colors.errorPrimary};
-      }
-    `}
+
+const StyledSelect = styled(Select)`
+  width: 15em;
 `;
 
-const CustomSelect = styled.select`
-  font-size: 1em;
-  border: 2px solid #d6d8da;
-  border-radius: 4px;
-  appearance: none;
-  background: white url("${Icon}") no-repeat right center;
-  position: relative;
-  transition: opacity 100ms ease-in-out;
-  border-radius: 4px;
-  padding: 0.3em 1.5em 0.3em 0.3em;
-  color: #222222;
-  display: block;
-  min-width: 30%;
-  ${errorCSS}
-
-  &:hover {
-    outline: none;
-  }
-`;
-
-const RepeatLabelAndInput = (props) => {
-  const { page } = props;
+const RepeatLabelAndInput = () => {
   const [toggleStatus, setToggleStatus] = useState(false);
 
   const handleChange = () => {
@@ -77,6 +43,67 @@ const RepeatLabelAndInput = (props) => {
     { id: 2, displayName: "Memphis Grizzlies" },
     { id: 3, displayName: "Dallas Mavericks" },
   ];
+
+  const renderErrors = (errors, field) => {
+    const errorList = errors.filter((error) => error.field === field);
+    return errorList.map((error, index) => (
+      <ValidationError key={index}>
+        {
+          find(LIST_COLLECTOR_ERRORS, {
+            errorCode: error.errorCode,
+            field: error.field,
+          }).message
+        }
+      </ValidationError>
+    ));
+  };
+  const page = {
+    __typename: "Page",
+    id: "1",
+    displayName: "Question",
+    position: 1,
+    title: "List Names",
+    alias: "Who am I?",
+    drivingQuestion: "",
+    pageDescription: "",
+    additionalGuidancePanelSwitch: false,
+    additionalGuidancePanel: "",
+    drivingPositive: "Yes",
+    drivingNegative: "No",
+    drivingPositiveDescription: "",
+    drivingNegativeDescription: "",
+    anotherNegativeDescription: "",
+    anotherPositiveDescription: "",
+    addItemTitle: "What are the names of everyone who live at ?",
+    anotherTitle: "Does anyone live at  as their permanent or family home?",
+    pageType: "ListCollectorPage",
+    anotherPositive: "Yes",
+    listId: "list1",
+    anotherNegative: "No",
+    validationErrorInfo: {
+      totalCount: 0,
+      errors: [],
+      id: "1",
+      __typename: "ValidationErrorInfo",
+    },
+    answers: [
+      {
+        __typename: "BasicAnswer",
+        id: "1",
+        title: "First name",
+        description: "",
+        type: "TextField",
+      },
+      {
+        __typename: "BasicAnswer",
+        id: "2",
+        title: "Last name",
+        description: "",
+        type: "TextField",
+      },
+    ],
+    section: { id: "3", questionnaire: { id: "1", metadata: [] } },
+  };
 
   return (
     <>
@@ -106,7 +133,7 @@ const RepeatLabelAndInput = (props) => {
       {toggleStatus && (
         <>
           <Label>Linked collection list</Label>
-          <CustomSelect
+          <StyledSelect
             name="listId"
             data-test="list-select"
             onChange={() => {}}
@@ -122,7 +149,8 @@ const RepeatLabelAndInput = (props) => {
               </option>
             ))}
             <option value="newList">Create new list</option>
-          </CustomSelect>
+          </StyledSelect>
+          {renderErrors(page.validationErrorInfo.errors, "listId")}
         </>
       )}
     </>
