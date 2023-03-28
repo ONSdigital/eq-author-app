@@ -1454,75 +1454,58 @@ const Resolvers = {
       return section;
     }),
     publishSchema: createMutation(async (root, args, ctx) => {
-      // let convertedQuestionnaire;
-      // ? Convert questionnaire
-      // try {
-      await fetch(`${process.env.CIR_PUBLISH_SCHEMA_GATEWAY}publishSchema`, {
+      const publishDate = new Date();
+      const publishResult = {
+        id: uuidv4(),
+        surveyId: ctx.questionnaire.surveyId,
+        formType: ctx.questionnaire.formType,
+        publishDate,
+      };
+
+      if (ctx.questionnaire.publishHistory) {
+        ctx.questionnaire.publishHistory.push(publishResult);
+      } else {
+        ctx.questionnaire.publishHistory = [publishResult];
+      }
+
+      const convertedResponse = await fetch(`${process.env.CONVERSION_URL}`, {
         method: "post",
         body: JSON.stringify(ctx.questionnaire),
+        headers: { "Content-Type": "application/json" },
+      }).catch((e) => {
+        publishResult.success = false;
+        publishResult.errorMessage = `Failed to fetch questionnaire - ${e.message}`;
+      });
+
+      if (publishResult.success === false) {
+        return ctx.questionnaire;
+      }
+
+      const convertedQuestionnaire = await convertedResponse.json();
+
+      await fetch(`${process.env.CIR_PUBLISH_SCHEMA_GATEWAY}publishSchema`, {
+        method: "post",
+        body: JSON.stringify(convertedQuestionnaire),
         headers: { "Content-Type": "application/json" },
       })
         .then(async (res) => {
           if (res.status === 200) {
             const responseJson = await res.json();
-            const publishDate = new Date();
 
-            const publishResult = {
-              id: uuidv4(),
-              cirId: responseJson.id,
-              version: responseJson.version,
-              surveyId: ctx.questionnaire.surveyId,
-              formType: ctx.questionnaire.formType,
-              publishDate,
-            };
-
-            if (ctx.questionnaire.publishHistory) {
-              ctx.questionnaire.publishHistory.push(publishResult);
-            } else {
-              ctx.questionnaire.publishHistory = [publishResult];
-            }
+            publishResult.cirId = responseJson.id;
+            publishResult.version = responseJson.version;
+            publishResult.success = true;
+          } else {
+            publishResult.success = false;
+            publishResult.errorMessage = `Invalid response - failed with error code ${res.status}`;
           }
         })
         .catch((e) => {
-          throw Error(e);
+          publishResult.success = false;
+          publishResult.errorMessage = `${e.message}`;
         });
 
       return ctx.questionnaire;
-
-      // console.log(ctx.questionnaire);
-
-      // console.log(convertedQuestionnaire);
-      // convertedQuestionnaire = await request.post(
-      //   `${process.env.CONVERSION_URL}`,
-      //   {
-      //     json: ctx.questionnaire,
-      //   },
-      //   (err) => {
-      //     if (err) {
-      //       throw new Error(err);
-      //     }
-      //   }
-      // );
-      // }
-      // catch (err) {
-      //   throw Error(err);
-      // }
-
-      // ? Make publish schema call to CIR
-      // const url = `${process.env.CIR_PUBLISH_SCHEMA_GATEWAY}publishSchema`;
-      // const response = await request.post(url, {
-      //   json: convertedQuestionnaire,
-      // });
-      // const publishResult = await response.json();
-
-      // ? Verify response
-
-      // ? Record publish history
-      // if (ctx.questionnaire.publishHistory) {
-      //   ctx.questionnaire.publishHistory.push(publishResult);
-      // } else {
-      //   ctx.questionnaire.publishHistory = [publishResult];
-      // }
     }),
   },
 
