@@ -16,6 +16,7 @@ const {
 } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
 const { v4: uuidv4 } = require("uuid");
+const request = require("request");
 const { withFilter, UserInputError } = require("apollo-server-express");
 const fetch = require("node-fetch");
 const { logger } = require("../../utils/logger");
@@ -1453,6 +1454,44 @@ const Resolvers = {
       delete section.displayConditions;
       return section;
     }),
+
+    publishSchema: async (_, args, ctx) => {
+      let convertedQuestionnaire;
+      // Convert questionnaire
+      try {
+        convertedQuestionnaire = await request.post(
+          `${process.env.CONVERSION_URL}`,
+          {
+            json: ctx.questionnaire,
+          },
+          (err) => {
+            if (err) {
+              throw new Error(err);
+            }
+          }
+        );
+      } catch (err) {
+        throw Error(err);
+      }
+
+      // Make publish schema call to CIR
+      const url = `${process.env.CIR_PUBLISH_SCHEMA_GATEWAY}publishSchema`;
+      const response = await request.post(url, {
+        json: convertedQuestionnaire,
+      });
+      const publishResult = await response.json();
+
+      // Verify response
+
+      // Record publish history
+      if (ctx.questionnaire.publishHistory) {
+        ctx.questionnaire.publishHistory.push(publishResult);
+      } else {
+        ctx.questionnaire.publishHistory = [publishResult];
+      }
+
+      return ctx.questionnaire;
+    },
   },
 
   Questionnaire: {

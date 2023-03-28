@@ -1,6 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
+import { useMutation } from "@apollo/react-hooks";
 import { colors } from "constants/theme.js";
 
 import Theme from "contexts/themeContext";
@@ -11,6 +12,8 @@ import Header from "components/EditorLayout/Header";
 
 import Panel from "components-themed/panels";
 import Button from "components-themed/buttons";
+
+import PUBLISH_SCHEMA from "graphql/publishSchema.graphql";
 
 const Container = styled.div`
   display: flex;
@@ -50,8 +53,9 @@ const HorizontalSeparator = styled.hr`
 `;
 
 const PublishPage = () => {
+  const [publishSchema] = useMutation(PUBLISH_SCHEMA);
   return (
-    <Theme themeName="ons">
+    <Theme themeName="onsLegacyFont">
       <Container data-test="publish-page-container">
         <Header title="Publish" />
         <ScrollPane>
@@ -71,7 +75,9 @@ const PublishPage = () => {
               All validation errors related to content, settings, or Q Codes
               must be resolved before a questionnaire can be published.
             </Panel>
-            <StyledButton variant="primary">Publish questionnaire</StyledButton>
+            <StyledButton variant="primary" onClick={() => publishSchema()}>
+              Publish questionnaire
+            </StyledButton>
             <HorizontalSeparator />
             <Title tabIndex="0">Publishing history</Title>
             <Content tabIndex="0">
