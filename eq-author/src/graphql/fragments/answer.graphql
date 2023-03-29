@@ -10,4 +10,6 @@ fragment Answer on Answer {
   displayName
   qCode
   advancedProperties
+  repeatLabelAndInput
+  repeatLabelAndInputListId
 }

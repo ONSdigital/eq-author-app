@@ -8,6 +8,8 @@ mutation UpdateAnswer($input: UpdateAnswerInput!) {
     ...Answer
     ... on BasicAnswer {
       secondaryQCode
+      repeatLabelAndInput
+      repeatLabelAndInputListId
       validationErrorInfo {
         ...ValidationErrorInfo
       }
