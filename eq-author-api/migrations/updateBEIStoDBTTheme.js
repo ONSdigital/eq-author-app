@@ -1,20 +1,20 @@
 module.exports = (questionnaire) => {
   questionnaire.themeSettings.themes.forEach((theme) => {
     if (theme.shortName === "beis") {
-      theme.shortName = "dbt-dsit";
-      theme.id = "dbt-dsit";
+      theme.shortName = "dbt_dsit";
+      theme.id = "dbt_dsit";
     }
     if (theme.shortName === "beis_ni") {
-      theme.shortName = "dbt_ni";
-      theme.id = "dbt_ni";
+      theme.shortName = "dbt_dsit_ni";
+      theme.id = "dbt_dsit_ni";
     }
   });
 
   if (questionnaire.themeSettings.previewTheme === "beis") {
-    questionnaire.themeSettings.previewTheme = "dbt-dsit";
+    questionnaire.themeSettings.previewTheme = "dbt_dsit";
   }
   if (questionnaire.themeSettings.previewTheme === "beis_ni") {
-    questionnaire.themeSettings.previewTheme = "dbt-dsit_ni";
+    questionnaire.themeSettings.previewTheme = "dbt_dsit_ni";
   }
   return questionnaire;
 };

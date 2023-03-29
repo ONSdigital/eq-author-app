@@ -6,9 +6,9 @@ const THEME_SHORT_NAMES = [
   "epenorthernireland",
   "orr",
   "dbt",
-  "dbt-ni",
-  "dbt-dsit",
-  "dbt-dsit-ni",
+  "dbt_ni",
+  "dbt_dsit",
+  "dbt_dsit_ni",
   "social",
   "health",
 ];
