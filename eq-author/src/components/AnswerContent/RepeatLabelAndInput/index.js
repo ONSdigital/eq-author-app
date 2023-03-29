@@ -4,6 +4,7 @@ import InlineField from "components/AnswerContent/Format/InlineField";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import { Label, Select } from "components/Forms";
 
+import PropTypes from "prop-types";
 import { LIST_COLLECTOR_ERRORS } from "constants/validationMessages";
 import { find, some } from "lodash";
 import ValidationError from "components/ValidationError";
@@ -49,8 +50,8 @@ const StyledToggleSwitch = styled(ToggleSwitch)`
 // };
 
 const RepeatLabelAndInput = (props) => {
-  const { handleUpdate, page } = props;
-  const { id } = page;
+  const { handleUpdate, answer } = props;
+  const { id } = answer;
 
   const { data } = useQuery(COLLECTION_LISTS, {
     fetchPolicy: "cache-and-network",
@@ -80,15 +81,25 @@ const RepeatLabelAndInput = (props) => {
             id="repeat-label-and-input-toggle"
             name="repeat-label-and-input-toggle"
             hideLabels={false}
-            onChange={(value) => {
+            onChange={(target) => {
               handleUpdate({
                 variables: {
-                  input: { id, repeatLabelAndInput: value },
+                  input: {
+                    id: id,
+                    repeatingLabelAndInput: target.value,
+                  },
                 },
               });
+
+              {
+                console.log(
+                  "answer.repeatLabelAndInput",
+                  answer.repeatingLabelAndInput
+                );
+              }
             }}
             data-test="repeat-label-and-input-toggle"
-            checked={page.repeatLabelAndInput}
+            checked={answer.repeatingLabelAndInput}
             blockDisplay
           />
         </StyledInlineField>
@@ -122,6 +133,11 @@ const RepeatLabelAndInput = (props) => {
       )} */}
     </>
   );
+};
+
+RepeatLabelAndInput.propTypes = {
+  handleUpdate: PropTypes.func.isRequired,
+  answer: PropTypes.object, //eslint-disable-line
 };
 
 export default RepeatLabelAndInput;

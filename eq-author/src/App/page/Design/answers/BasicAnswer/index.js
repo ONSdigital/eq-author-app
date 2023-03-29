@@ -186,7 +186,7 @@ export const StatelessBasicAnswer = ({
         </AdvancedProperties>
       )}
       {answersWithRepeatingAnswersToggle.includes(type) && (
-        <RepeatLabelAndInput page={page} handleUpdate={updateAnswer} />
+        <RepeatLabelAndInput answer={answer} handleUpdate={updateAnswer} />
       )}
     </div>
   );

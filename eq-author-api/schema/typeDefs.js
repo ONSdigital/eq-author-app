@@ -313,8 +313,6 @@ interface Answer {
   list: List
   properties: JSON
   advancedProperties: Boolean
-  repeatLabelAndInput: Boolean
-  repeatLabelAndInputListId: ID
 }
 
 type BasicAnswer implements Answer {
@@ -336,6 +334,8 @@ type BasicAnswer implements Answer {
   validation: ValidationType
   validationErrorInfo: ValidationErrorInfo
   mutuallyExclusiveOption: Option
+  repeatingLabelAndInput: Boolean
+  repeatingLabelAndInputListId: ID
 }
 
 type MultipleChoiceAnswer implements Answer {
@@ -1364,8 +1364,8 @@ input UpdateAnswerInput {
   properties: JSON
   advancedProperties: Boolean
   defaultAnswer: Boolean
-  repeatLabelAndInput: Boolean
-  repeatLabelAndInputListId: ID
+  repeatingLabelAndInput: Boolean
+  repeaingtLabelAndInputListId: ID
 }
 
 input UpdateAnswersOfTypeInput {
