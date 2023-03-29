@@ -1,6 +1,5 @@
 mutation publishSchema {
   publishSchema {
-    id
     publishHistory {
       id
       cirId
