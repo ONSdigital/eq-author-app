@@ -36,6 +36,20 @@ const StyledSelect = styled(Select)`
   width: 15em;
 `;
 
+const renderErrors = (errors, field) => {
+  const errorList = errors.filter((error) => error.field === field);
+  return errorList.map((error, index) => (
+    <ValidationError key={index}>
+      {
+        find(LIST_COLLECTOR_ERRORS, {
+          errorCode: error.errorCode,
+          field: error.field,
+        }).message
+      }
+    </ValidationError>
+  ));
+};
+
 const RepeatLabelAndInput = () => {
   const [toggleStatus, setToggleStatus] = useState(false);
 
@@ -54,20 +68,6 @@ const RepeatLabelAndInput = () => {
 
   const handleChange = () => {
     setToggleStatus((prevToggleStatus) => !prevToggleStatus);
-  };
-
-  const renderErrors = (errors, field) => {
-    const errorList = errors.filter((error) => error.field === field);
-    return errorList.map((error, index) => (
-      <ValidationError key={index}>
-        {
-          find(LIST_COLLECTOR_ERRORS, {
-            errorCode: error.errorCode,
-            field: error.field,
-          }).message
-        }
-      </ValidationError>
-    ));
   };
 
   return (
@@ -107,13 +107,12 @@ const RepeatLabelAndInput = () => {
             //   field: "listId",
             // })}
           >
-            <option value="">Select list</option>
+            <option value="">Select collection list</option>
             {lists.map((list) => (
               <option key={list.id} value={list.id}>
                 {list.displayName}
               </option>
             ))}
-            <option value="newList">Create new list</option>
           </StyledSelect>
           {/* {renderErrors(page.validationErrorInfo.errors, "listId")} */}
         </>
