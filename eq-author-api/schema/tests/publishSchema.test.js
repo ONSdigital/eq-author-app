@@ -39,10 +39,10 @@ describe("publish schema", () => {
     await createQuestionnaire(ctx, config);
   });
 
-  it("should add publishHistory if it is undefined", async () => {
+  it("should add publishHistory if publishHistory is undefined", async () => {
     const updatedQuestionnaire = await publishSchema(ctx);
 
-    // TODO: publishDate: expect.any(Date) and fix values fetched from API
+    // TODO: publishDate: expect.any(Date) and fix values fetched from API - change updateQuestionnaire to ctx.questionnaire
     expect(updatedQuestionnaire.publishHistory).toEqual([
       expect.objectContaining({
         cirId: null,
@@ -57,7 +57,7 @@ describe("publish schema", () => {
     ]);
   });
 
-  it("should add to publishHistory if it is not undefined", async () => {
+  it("should add to publishHistory if publishHistory is not undefined", async () => {
     ctx.questionnaire.publishHistory = [
       {
         id: "test-publish-history-event",
@@ -68,7 +68,7 @@ describe("publish schema", () => {
     const updatedQuestionnaire = await publishSchema(ctx);
 
     expect(updatedQuestionnaire.publishHistory.length).toBe(2);
-    // TODO: publishDate: expect.any(Date) and fix values fetched from API
+    // TODO: publishDate: expect.any(Date) and fix values fetched from API - change updateQuestionnaire to ctx.questionnaire
     expect(updatedQuestionnaire.publishHistory).toEqual([
       expect.objectContaining({
         cirId: null,
@@ -88,6 +88,37 @@ describe("publish schema", () => {
         id: expect.any(String),
         publishDate: expect.any(String),
         success: true,
+        surveyId: "123",
+      }),
+    ]);
+  });
+
+  it("should add unsuccessful history event when response code is not 200", async () => {
+    fetch.mockImplementation(() =>
+      Promise.resolve({
+        status: 418,
+        json: () => ({
+          publishHistory: [
+            {
+              id: "cir-id-1",
+              version: "1",
+            },
+          ],
+        }),
+      })
+    );
+
+    const updatedQuestionnaire = await publishSchema(ctx);
+
+    expect(updatedQuestionnaire.publishHistory).toEqual([
+      expect.objectContaining({
+        cirId: null,
+        cirVersion: null,
+        errorMessage: "Invalid response - failed with error code 418",
+        formType: "",
+        id: expect.any(String),
+        publishDate: expect.any(String),
+        success: false,
         surveyId: "123",
       }),
     ]);
