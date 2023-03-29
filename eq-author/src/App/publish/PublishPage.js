@@ -75,7 +75,11 @@ const PublishPage = () => {
               All validation errors related to content, settings, or Q Codes
               must be resolved before a questionnaire can be published.
             </Panel>
-            <StyledButton variant="primary" onClick={() => publishSchema()}>
+            <StyledButton
+              variant="primary"
+              onClick={() => publishSchema()}
+              data-test="btn-publish-schema"
+            >
               Publish questionnaire
             </StyledButton>
             <HorizontalSeparator />
