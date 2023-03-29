@@ -5,8 +5,8 @@ module.exports = (questionnaire) => {
       theme.id = "beis";
     }
     if (theme.shortName === "ukis_ni") {
-      theme.shortName = "dbt_ni";
-      theme.id = "dbt_ni";
+      theme.shortName = "beis_ni";
+      theme.id = "beis_ni";
     }
   });
 
