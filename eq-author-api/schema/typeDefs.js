@@ -1365,7 +1365,7 @@ input UpdateAnswerInput {
   advancedProperties: Boolean
   defaultAnswer: Boolean
   repeatingLabelAndInput: Boolean
-  repeaingtLabelAndInputListId: ID
+  repeatingLabelAndInputListId: ID
 }
 
 input UpdateAnswersOfTypeInput {

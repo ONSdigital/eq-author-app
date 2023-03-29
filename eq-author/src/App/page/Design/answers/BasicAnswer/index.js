@@ -225,6 +225,8 @@ StatelessBasicAnswer.fragments = {
   Answer: answerFragment,
   BasicAnswer: gql`
     fragment BasicAnswer on BasicAnswer {
+      repeatingLabelAndInput
+      repeatingLabelAndInputListId
       options {
         id
         mutuallyExclusive
