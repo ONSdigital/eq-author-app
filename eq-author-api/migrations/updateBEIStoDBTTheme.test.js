@@ -1,4 +1,4 @@
-const updateUKIStoBEISTheme = require("./updateUKIStoBEISTheme");
+const updateBEIStoDBTTheme = require("./updateBEIStoDBTTheme");
 
 describe("updateBEISThemes", () => {
   it("should update BEIS theme", () => {
@@ -19,7 +19,7 @@ describe("updateBEISThemes", () => {
       },
     };
 
-    const updatedTheme = updateUKIStoBEISTheme(questionnaire);
+    const updatedTheme = updateBEIStoDBTTheme(questionnaire);
     expect(updatedTheme.themeSettings.themes[0].shortName).toBe("dbt");
     expect(updatedTheme.themeSettings.themes[0].id).toBe("dbt");
     expect(updatedTheme.themeSettings.previewTheme).toBe("dbt");
@@ -43,7 +43,7 @@ describe("updateBEISThemes", () => {
       },
     };
 
-    const updatedTheme = updateUKIStoBEISTheme(questionnaire);
+    const updatedTheme = updateBEIStoDBTTheme(questionnaire);
     expect(updatedTheme.themeSettings.themes[0].shortName).toBe("dbt_ni");
     expect(updatedTheme.themeSettings.themes[0].id).toBe("dbt_ni");
     expect(updatedTheme.themeSettings.previewTheme).toBe("dbt_ni");
