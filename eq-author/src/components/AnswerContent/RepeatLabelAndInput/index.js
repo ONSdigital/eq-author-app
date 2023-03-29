@@ -11,8 +11,6 @@ import ValidationError from "components/ValidationError";
 import { useQuery } from "@apollo/react-hooks";
 import COLLECTION_LISTS from "graphql/lists/collectionLists.graphql";
 
-import Loading from "components/Loading";
-
 const ToggleWrapper = styled.div`
   margin: 0.7em 0 0 0;
   opacity: ${({ disabled }) => (disabled ? "0.6" : "1")};
@@ -32,43 +30,37 @@ const StyledToggleSwitch = styled(ToggleSwitch)`
   margin: 0;
 `;
 
-const StyledSelect = styled(Select)`
-  width: 15em;
-`;
+// const StyledSelect = styled(Select)`
+//   width: 15em;
+// `;
 
-const renderErrors = (errors, field) => {
-  const errorList = errors.filter((error) => error.field === field);
-  return errorList.map((error, index) => (
-    <ValidationError key={index}>
-      {
-        find(LIST_COLLECTOR_ERRORS, {
-          errorCode: error.errorCode,
-          field: error.field,
-        }).message
-      }
-    </ValidationError>
-  ));
-};
+// const renderErrors = (errors, field) => {
+//   const errorList = errors.filter((error) => error.field === field);
+//   return errorList.map((error, index) => (
+//     <ValidationError key={index}>
+//       {
+//         find(LIST_COLLECTOR_ERRORS, {
+//           errorCode: error.errorCode,
+//           field: error.field,
+//         }).message
+//       }
+//     </ValidationError>
+//   ));
+// };
 
-const RepeatLabelAndInput = () => {
-  const [toggleStatus, setToggleStatus] = useState(false);
+const RepeatLabelAndInput = (props) => {
+  const { handleUpdate, page } = props;
+  const { id } = page;
 
-  const { loading, data } = useQuery(COLLECTION_LISTS, {
+  const { data } = useQuery(COLLECTION_LISTS, {
     fetchPolicy: "cache-and-network",
   });
 
-  if (loading) {
-    return <Loading height="100%">Questionnaire lists loading…</Loading>;
-  }
   let lists = [];
 
   if (data) {
     lists = data.collectionLists?.lists || [];
   }
-
-  const handleChange = () => {
-    setToggleStatus((prevToggleStatus) => !prevToggleStatus);
-  };
 
   return (
     <>
@@ -88,21 +80,32 @@ const RepeatLabelAndInput = () => {
             id="repeat-label-and-input-toggle"
             name="repeat-label-and-input-toggle"
             hideLabels={false}
-            onChange={handleChange}
+            onChange={(value) => {
+              handleUpdate({
+                variables: {
+                  input: { id, repeatLabelAndInput: value },
+                },
+              });
+            }}
             data-test="repeat-label-and-input-toggle"
-            checked={toggleStatus}
+            checked={page.repeatLabelAndInput}
             blockDisplay
           />
         </StyledInlineField>
       </ToggleWrapper>
-      {toggleStatus && (
+      {/* {toggleStatus && (
         <>
           <Label>Linked collection list</Label>
           <StyledSelect
             name="listId"
             data-test="list-select"
-            onChange={() => {}}
-            // value={mockList.listId}
+            // onChange={({ target }) => {
+            //   handleUpdate({
+            //     name: "repeatLabelAndInputListId",
+            //     value: target.value,
+            //   });
+            // }}
+            // value={page?.repeatLabelAndInputListId}
             // hasError={some(page.validationErrorInfo.errors, {
             //   field: "listId",
             // })}
@@ -114,9 +117,9 @@ const RepeatLabelAndInput = () => {
               </option>
             ))}
           </StyledSelect>
-          {/* {renderErrors(page.validationErrorInfo.errors, "listId")} */}
+          {renderErrors(page.validationErrorInfo.errors, "listId")}
         </>
-      )}
+      )} */}
     </>
   );
 };
