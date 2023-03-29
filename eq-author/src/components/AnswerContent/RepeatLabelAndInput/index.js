@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import styled, { css } from "styled-components";
+import React from "react";
+import styled from "styled-components";
 import InlineField from "components/AnswerContent/Format/InlineField";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import { Label, Select } from "components/Forms";
@@ -31,25 +31,25 @@ const StyledToggleSwitch = styled(ToggleSwitch)`
   margin: 0;
 `;
 
-// const StyledSelect = styled(Select)`
-//   width: 15em;
-// `;
+const StyledSelect = styled(Select)`
+  width: 15em;
+`;
 
-// const renderErrors = (errors, field) => {
-//   const errorList = errors.filter((error) => error.field === field);
-//   return errorList.map((error, index) => (
-//     <ValidationError key={index}>
-//       {
-//         find(LIST_COLLECTOR_ERRORS, {
-//           errorCode: error.errorCode,
-//           field: error.field,
-//         }).message
-//       }
-//     </ValidationError>
-//   ));
-// };
+const renderErrors = (errors, field) => {
+  const errorList = errors.filter((error) => error.field === field);
+  return errorList.map((error, index) => (
+    <ValidationError key={index}>
+      {
+        find(LIST_COLLECTOR_ERRORS, {
+          errorCode: error.errorCode,
+          field: error.field,
+        }).message
+      }
+    </ValidationError>
+  ));
+};
 
-const RepeatLabelAndInput = (props) => {
+const RepeatingLabelAndInput = (props) => {
   const { handleUpdate, answer } = props;
   const { id } = answer;
 
@@ -90,13 +90,6 @@ const RepeatLabelAndInput = (props) => {
                   },
                 },
               });
-
-              {
-                console.log(
-                  "answer.repeatLabelAndInput",
-                  answer.repeatingLabelAndInput
-                );
-              }
             }}
             data-test="repeat-label-and-input-toggle"
             checked={answer.repeatingLabelAndInput}
@@ -104,40 +97,47 @@ const RepeatLabelAndInput = (props) => {
           />
         </StyledInlineField>
       </ToggleWrapper>
-      {/* {toggleStatus && (
+      {answer?.repeatingLabelAndInput && (
         <>
           <Label>Linked collection list</Label>
           <StyledSelect
             name="listId"
             data-test="list-select"
-            // onChange={({ target }) => {
-            //   handleUpdate({
-            //     name: "repeatLabelAndInputListId",
-            //     value: target.value,
-            //   });
-            // }}
-            // value={page?.repeatLabelAndInputListId}
-            // hasError={some(page.validationErrorInfo.errors, {
-            //   field: "listId",
-            // })}
+            onChange={(target) => {
+              handleUpdate({
+                variables: {
+                  input: {
+                    id: id,
+                    repeatingLabelAndInputListId: target.value,
+                  },
+                },
+              });
+            }}
+            value={answer?.repeatingLabelAndInputListId}
+            hasError={some(answer.validationErrorInfo.errors, {
+              field: "repeatingLabelAndInputListId",
+            })}
           >
-            <option value="">Select collection list</option>
+            <option value="">Select a collection list</option>
             {lists.map((list) => (
               <option key={list.id} value={list.id}>
                 {list.displayName}
               </option>
             ))}
           </StyledSelect>
-          {renderErrors(page.validationErrorInfo.errors, "listId")}
+          {renderErrors(
+            answer.validationErrorInfo.errors,
+            "repeatingLabelAndInputListId"
+          )}
         </>
-      )} */}
+      )}
     </>
   );
 };
 
-RepeatLabelAndInput.propTypes = {
+RepeatingLabelAndInput.propTypes = {
   handleUpdate: PropTypes.func.isRequired,
   answer: PropTypes.object, //eslint-disable-line
 };
 
-export default RepeatLabelAndInput;
+export default RepeatingLabelAndInput;

@@ -9,9 +9,14 @@ export default {
 
 export const LIST_COLLECTOR_ERRORS = [
   {
+    field: "repeatingLabelAndInputListId",
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Select a collection list",
+  },
+  {
     field: "repeatingSectionListId",
     errorCode: "ERR_VALID_REQUIRED",
-    message: "Select a list",
+    message: "Select a collection list",
   },
   {
     field: "title",

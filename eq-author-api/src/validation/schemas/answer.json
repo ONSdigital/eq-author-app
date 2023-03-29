@@ -119,6 +119,20 @@
           "$ref": "#/definitions/properties"
         }
       },
+      "if": {
+        "properties": {
+          "repeatingLabelAndInput": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "repeatingLabelAndInputListId": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          }
+        }
+      },
       "required": ["label"],
       "errorMessage": { "required": { "label": "ERR_VALID_REQUIRED" } }
     },

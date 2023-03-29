@@ -147,7 +147,7 @@ const RepeatingSection = ({ section, handleUpdate }) => {
               field: "repeatingSectionListId",
             })}
           >
-            <option value="">Select collection list</option>
+            <option value="">Select a collection list</option>
             {lists.map((list) => (
               <option key={list.id} value={list.id}>
                 {list.displayName}
