@@ -39,10 +39,10 @@ const migrations = [
   require("./updateMutuallyExclusive"),
   require("./addDataVersion"),
   require("./updateUKIStoBEISTheme"),
-  require("./updateBEIStoDBTTheme"),
   require("./updateDefaultToBusinessTheme"),
   require("./addPageDescription"),
   require("./convertThemeSettingsToQuestionnaireSettings"),
+  require("./updateBEIStoDBTTheme"),
 ];
 
 const currentVersion = migrations.length;

@@ -20,9 +20,9 @@ describe("updateBEISThemes", () => {
     };
 
     const updatedTheme = updateBEIStoDBTTheme(questionnaire);
-    expect(updatedTheme.themeSettings.themes[0].shortName).toBe("dbt");
-    expect(updatedTheme.themeSettings.themes[0].id).toBe("dbt");
-    expect(updatedTheme.themeSettings.previewTheme).toBe("dbt");
+    expect(updatedTheme.themeSettings.themes[0].shortName).toBe("dbt-dsit");
+    expect(updatedTheme.themeSettings.themes[0].id).toBe("dbt-dsit");
+    expect(updatedTheme.themeSettings.previewTheme).toBe("dbt-dsit");
   });
 
   it("should update BEIS NI theme", () => {
@@ -44,8 +44,8 @@ describe("updateBEISThemes", () => {
     };
 
     const updatedTheme = updateBEIStoDBTTheme(questionnaire);
-    expect(updatedTheme.themeSettings.themes[0].shortName).toBe("dbt_ni");
-    expect(updatedTheme.themeSettings.themes[0].id).toBe("dbt_ni");
-    expect(updatedTheme.themeSettings.previewTheme).toBe("dbt_ni");
+    expect(updatedTheme.themeSettings.themes[0].shortName).toBe("dbt-dsit_ni");
+    expect(updatedTheme.themeSettings.themes[0].id).toBe("dbt-dsit_ni");
+    expect(updatedTheme.themeSettings.previewTheme).toBe("dbt-dsit_ni");
   });
 });
