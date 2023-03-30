@@ -5,6 +5,11 @@
       "type": "string",
       "pattern": "\\w+",
       "errorMessage": "ERR_VALID_REQUIRED"
+    },
+    "pipedString": {
+      "type": "string",
+      "pattern": "/data-piped='answers'/",
+      "errorMessage": "Pipe in an answer from the linked collection list."
     }
   }
 }

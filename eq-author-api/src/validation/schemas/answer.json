@@ -119,20 +119,41 @@
           "$ref": "#/definitions/properties"
         }
       },
-      "if": {
-        "properties": {
-          "repeatingLabelAndInput": {
-            "const": true
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "repeatingLabelAndInput": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "repeatingLabelAndInputListId": {
+                "$ref": "definitions.json#/definitions/populatedString"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "label": {
+                "$ref": "definitions.json#/definitions/populatedString"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "label": {
+                "$ref": "definitions.json#/definitions/pipedString"
+              }
+            }
           }
         }
-      },
-      "then": {
-        "properties": {
-          "repeatingLabelAndInputListId": {
-            "$ref": "definitions.json#/definitions/populatedString"
-          }
-        }
-      },
+      ],
+
       "required": ["label"],
       "errorMessage": { "required": { "label": "ERR_VALID_REQUIRED" } }
     },

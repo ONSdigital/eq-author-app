@@ -81,8 +81,8 @@ export const LIST_COLLECTOR_ERRORS = [
 ];
 
 export const richTextEditorErrors = {
-  PIPING_ANSWER_MISSING: {
-    errorCode: "ERR_VALID_REQUIRED",
+  ERR_VALID_PIPED_ANSWER_REQUIRED: {
+    errorCode: "ERR_VALID_PIPED_ANSWER_REQUIRED",
     message: "Pipe in an answer from the linked collection list.",
   },
   QUESTION_TITLE_NOT_ENTERED: {
