@@ -17,17 +17,26 @@ const THEMES = [
       "Header includes the Office for National Statistics logo but does not include the links for 'Help', 'My account' or 'Sign out'",
   },
   {
-    id: "beis",
-    title: "Department for Business, Energy and Industrial Strategy",
-    description:
-      "Header includes the Department for Business, Energy and Industrial Strategy logo",
+    id: "dbt",
+    title: "Departmentt for Business & Trade",
+    description: "Header includes the Departmentt for Business & Trade logo",
   },
   {
-    id: "beis_ni",
-    title:
-      "Department for Business, Energy and Industrial Strategy and Northern Ireland Department of Finance",
+    id: "dbt_ni",
+    title: "Departmentt for Business & Trade NI",
+    description: "Header includes the Departmentt for Business & Trade NI logo",
+  },
+  {
+    id: "dbt_dsit",
+    title: "Departmentt for Science, Innovation and Technology",
     description:
-      "Header includes the Department for Business, Energy and Industrial Strategy logo and the Department of Finance logo",
+      "Header includes the Departmentt for Science, Innovation and Technology logo",
+  },
+  {
+    id: "dbt_dsit_ni",
+    title: "Departmentt for Science, Innovation and Technology NI",
+    description:
+      "Header includes the Departmentt for Science, Innovation and Technology NI logo",
   },
   {
     id: "northernireland",
