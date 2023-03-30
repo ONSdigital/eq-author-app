@@ -15,12 +15,8 @@ fetch.mockImplementation(() =>
   Promise.resolve({
     status: 200,
     json: () => ({
-      publishHistory: [
-        {
-          id: "cir-id-1",
-          version: "1",
-        },
-      ],
+      id: "cir-id-1",
+      version: "1",
     }),
   })
 );
@@ -40,56 +36,55 @@ describe("publish schema", () => {
   });
 
   it("should add publishHistory if publishHistory is undefined", async () => {
-    const updatedQuestionnaire = await publishSchema(ctx);
+    await publishSchema(ctx);
 
-    // TODO: publishDate: expect.any(Date) and fix values fetched from API - change updateQuestionnaire to ctx.questionnaire
-    expect(updatedQuestionnaire.publishHistory).toEqual([
-      expect.objectContaining({
-        cirId: null,
-        cirVersion: null,
-        errorMessage: null,
-        formType: "",
+    expect(ctx.questionnaire.publishHistory).toEqual([
+      {
         id: expect.any(String),
-        publishDate: expect.any(String),
-        success: true,
         surveyId: "123",
-      }),
+        formType: "",
+        publishDate: expect.any(Date),
+        cirId: "cir-id-1",
+        version: "1",
+        success: true,
+      },
     ]);
   });
 
-  it("should add to publishHistory if publishHistory is not undefined", async () => {
+  it("should add to publishHistory if publishHistory is defined", async () => {
     ctx.questionnaire.publishHistory = [
       {
         id: "test-publish-history-event",
+        surveyId: "123",
+        formType: "",
         publishDate: new Date(),
+        cirId: "cir-id-2",
+        version: "1",
         success: true,
       },
     ];
-    const updatedQuestionnaire = await publishSchema(ctx);
 
-    expect(updatedQuestionnaire.publishHistory.length).toBe(2);
-    // TODO: publishDate: expect.any(Date) and fix values fetched from API - change updateQuestionnaire to ctx.questionnaire
-    expect(updatedQuestionnaire.publishHistory).toEqual([
-      expect.objectContaining({
-        cirId: null,
-        cirVersion: null,
-        errorMessage: null,
-        formType: null,
+    await publishSchema(ctx);
+
+    expect(ctx.questionnaire.publishHistory).toEqual([
+      {
         id: "test-publish-history-event",
-        publishDate: expect.any(String),
-        success: true,
-        surveyId: null,
-      }),
-      expect.objectContaining({
-        cirId: null,
-        cirVersion: null,
-        errorMessage: null,
-        formType: "",
-        id: expect.any(String),
-        publishDate: expect.any(String),
-        success: true,
         surveyId: "123",
-      }),
+        formType: "",
+        publishDate: expect.any(Date),
+        cirId: "cir-id-2",
+        version: "1",
+        success: true,
+      },
+      {
+        id: expect.any(String),
+        surveyId: "123",
+        formType: "",
+        publishDate: expect.any(Date),
+        cirId: "cir-id-1",
+        version: "1",
+        success: true,
+      },
     ]);
   });
 
@@ -108,19 +103,17 @@ describe("publish schema", () => {
       })
     );
 
-    const updatedQuestionnaire = await publishSchema(ctx);
+    await publishSchema(ctx);
 
-    expect(updatedQuestionnaire.publishHistory).toEqual([
-      expect.objectContaining({
-        cirId: null,
-        cirVersion: null,
-        errorMessage: "Invalid response - failed with error code 418",
-        formType: "",
+    expect(ctx.questionnaire.publishHistory).toEqual([
+      {
         id: expect.any(String),
-        publishDate: expect.any(String),
-        success: false,
         surveyId: "123",
-      }),
+        formType: "",
+        publishDate: expect.any(Date),
+        success: false,
+        errorMessage: "Invalid response - failed with error code 418",
+      },
     ]);
   });
 });
