@@ -42,7 +42,6 @@ const migrations = [
   require("./updateDefaultToBusinessTheme"),
   require("./addPageDescription"),
   require("./convertThemeSettingsToQuestionnaireSettings"),
-  require("./updateBEIStoDBTTheme"),
 ];
 
 const currentVersion = migrations.length;
