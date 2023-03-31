@@ -22,18 +22,18 @@ const THEMES = [
     description: "Header includes the Department for Business & Trade logo",
   },
   {
-    id: "dbt_ni",
+    id: "dbt-ni",
     title: "Department for Business & Trade NI",
     description: "Header includes the Department for Business & Trade NI logo",
   },
   {
-    id: "dbt_dsit",
+    id: "dbt-dsit",
     title: "Department for Science, Innovation and Technology",
     description:
       "Header includes the Department for Science, Innovation and Technology logo",
   },
   {
-    id: "dbt_dsit_ni",
+    id: "dbt-dsit-ni",
     title: "Department for Science, Innovation and Technology NI",
     description:
       "Header includes the Department for Science, Innovation and Technology NI logo",
