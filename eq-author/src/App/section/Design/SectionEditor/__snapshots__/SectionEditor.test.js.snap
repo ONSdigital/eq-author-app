@@ -31,7 +31,7 @@ exports[`SectionEditor should render 1`] = `
       id="section-title"
       label={
         <DescribedText
-          description="This will be shown on the hub. You can enable or disable it in 'settings'."
+          description="This will be shown on the hub."
         >
           Section title
         </DescribedText>
@@ -180,7 +180,7 @@ exports[`SectionEditor should render 2`] = `
       id="section-title"
       label={
         <DescribedText
-          description="This will be shown on the hub. You can enable or disable it in 'settings'."
+          description="This will be shown on the hub."
         >
           Section title
         </DescribedText>
