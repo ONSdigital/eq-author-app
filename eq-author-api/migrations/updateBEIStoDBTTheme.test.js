@@ -7,7 +7,7 @@ describe("updateBEISThemes", () => {
     };
 
     const updatedQuestionnaire = updateBEIStoDBTTheme(questionnaire);
-    expect(updatedQuestionnaire.theme).toBe("dbt_dsit");
+    expect(updatedQuestionnaire.theme).toBe("dbt-dsit");
   });
 
   it("should update BEIS NI theme", () => {
@@ -16,6 +16,6 @@ describe("updateBEISThemes", () => {
     };
 
     const updatedQuestionnaire = updateBEIStoDBTTheme(questionnaire);
-    expect(updatedQuestionnaire.theme).toBe("dbt_dsit_ni");
+    expect(updatedQuestionnaire.theme).toBe("dbt-dsit-ni");
   });
 });
