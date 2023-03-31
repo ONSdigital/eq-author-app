@@ -431,7 +431,7 @@ type MinValueValidationRule implements ValidationRule {
   id: ID!
   enabled: Boolean!
   inclusive: Boolean!
-  custom: Int
+  custom: Float
   previousAnswer: BasicAnswer
   entityType: ValidationRuleEntityType!
   validationErrorInfo: ValidationErrorInfo
@@ -441,7 +441,7 @@ type MaxValueValidationRule implements ValidationRule {
   id: ID!
   enabled: Boolean!
   inclusive: Boolean!
-  custom: Int
+  custom: Float
   previousAnswer: BasicAnswer
   entityType: ValidationRuleEntityType!
   validationErrorInfo: ValidationErrorInfo
@@ -505,7 +505,7 @@ type TotalValidationRule implements ValidationRule {
   id: ID!
   enabled: Boolean!
   entityType: ValidationRuleEntityType!
-  custom: Int
+  custom: Float
   previousAnswer: Answer
   condition: ValidationCondition!
   validationErrorInfo: ValidationErrorInfo
@@ -1457,14 +1457,14 @@ input UpdateValidationRuleInput {
 
 input UpdateMinValueInput {
   inclusive: Boolean!
-  custom: Int
+  custom: Float
   entityType: ValidationRuleEntityType
   previousAnswer: ID
 }
 
 input UpdateMaxValueInput {
   inclusive: Boolean!
-  custom: Int
+  custom: Float
   entityType: ValidationRuleEntityType
   previousAnswer: ID
 }
@@ -1502,7 +1502,7 @@ input DurationInput {
 
 input UpdateTotalValidationInput {
   entityType: ValidationRuleEntityType!
-  custom: Int
+  custom: Float
   previousAnswer: ID
   condition: ValidationCondition!
   allowUnanswered: Boolean
