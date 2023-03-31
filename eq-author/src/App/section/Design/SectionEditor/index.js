@@ -163,7 +163,7 @@ export class SectionEditor extends React.Component {
             id="section-title"
             name="title"
             label={
-              <DescribedText description="This will be shown on the hub. You can enable or disable it in 'settings'.">
+              <DescribedText description="This will be shown on the hub.">
                 Section title
               </DescribedText>
             }
