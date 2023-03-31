@@ -5,8 +5,10 @@ const THEME_SHORT_NAMES = [
   "epe",
   "epenorthernireland",
   "orr",
-  "beis",
-  "beis_ni",
+  "dbt",
+  "dbt-ni",
+  "dbt-dsit",
+  "dbt-dsit-ni",
   "social",
   "health",
 ];
