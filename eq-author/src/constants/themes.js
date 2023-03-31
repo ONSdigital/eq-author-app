@@ -18,25 +18,25 @@ const THEMES = [
   },
   {
     id: "dbt",
-    title: "Departmentt for Business & Trade",
-    description: "Header includes the Departmentt for Business & Trade logo",
+    title: "Department for Business & Trade",
+    description: "Header includes the Department for Business & Trade logo",
   },
   {
     id: "dbt_ni",
-    title: "Departmentt for Business & Trade NI",
-    description: "Header includes the Departmentt for Business & Trade NI logo",
+    title: "Department for Business & Trade NI",
+    description: "Header includes the Department for Business & Trade NI logo",
   },
   {
     id: "dbt_dsit",
-    title: "Departmentt for Science, Innovation and Technology",
+    title: "Department for Science, Innovation and Technology",
     description:
-      "Header includes the Departmentt for Science, Innovation and Technology logo",
+      "Header includes the Department for Science, Innovation and Technology logo",
   },
   {
     id: "dbt_dsit_ni",
-    title: "Departmentt for Science, Innovation and Technology NI",
+    title: "Department for Science, Innovation and Technology NI",
     description:
-      "Header includes the Departmentt for Science, Innovation and Technology NI logo",
+      "Header includes the Department for Science, Innovation and Technology NI logo",
   },
   {
     id: "northernireland",
