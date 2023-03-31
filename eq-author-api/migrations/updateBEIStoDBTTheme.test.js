@@ -6,8 +6,8 @@ describe("updateBEISThemes", () => {
       theme: "beis",
     };
 
-    const updatedTheme = updateBEIStoDBTTheme(questionnaire);
-    expect(updatedTheme.theme).toBe("dbt_dsit");
+    const updatedQuestionnaire = updateBEIStoDBTTheme(questionnaire);
+    expect(updatedQuestionnaire.theme).toBe("dbt_dsit");
   });
 
   it("should update BEIS NI theme", () => {
@@ -15,7 +15,7 @@ describe("updateBEISThemes", () => {
       theme: "beis_ni",
     };
 
-    const updatedTheme = updateBEIStoDBTTheme(questionnaire);
-    expect(updatedTheme.theme).toBe("dbt_dsit_ni");
+    const updatedQuestionnaire = updateBEIStoDBTTheme(questionnaire);
+    expect(updatedQuestionnaire.theme).toBe("dbt_dsit_ni");
   });
 });
