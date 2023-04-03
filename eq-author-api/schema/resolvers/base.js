@@ -1617,9 +1617,9 @@ const Resolvers = {
     secondaryLabelDefault: (answer) =>
       getName({ label: answer.secondaryLabel }, "BasicAnswer"),
     validationErrorInfo: ({ id }, args, ctx) => {
-      const answerErrors = ctx.validationErrorInfo.filter(
-        ({ answerId }) => id === answerId
-      );
+      const answerErrors = ctx.validationErrorInfo
+        .filter(({ answerId }) => id === answerId)
+        .reverse();
 
       if (!answerErrors) {
         return {

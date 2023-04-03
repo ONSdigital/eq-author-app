@@ -23,7 +23,11 @@ import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.g
 import MinDurationValidationRule from "graphql/fragments/min-duration-validation-rule.graphql";
 import MaxDurationValidationRule from "graphql/fragments/max-duration-validation-rule.graphql";
 
-import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
+import {
+  MISSING_LABEL,
+  ERR_PIPING_REQUIRED,
+  buildLabelError,
+} from "constants/validationMessages";
 import {
   TEXTFIELD,
   TEXTAREA,
@@ -91,14 +95,6 @@ export const StatelessBasicAnswer = ({
 
   const { id } = answer;
   const pipingControls = { piping: true };
-  const errorMessage =
-    getErrorByField("label", page.validationErrorInfo.errors) ||
-    getValidationError({
-      field: "label",
-      type: "answer",
-      label: errorLabel,
-      requiredMsg: errorMsg,
-    });
 
   const hasLabelErrors = (errors) => {
     let result = false;
@@ -135,11 +131,22 @@ export const StatelessBasicAnswer = ({
           autoFocus={!answer.label}
         />
         {answer.validationErrorInfo.errors.map((error) => {
+          let message;
+
+          if (error.errorCode === "ERR_VALID_REQUIRED") {
+            message = buildLabelError(
+              MISSING_LABEL,
+              `${lowerCase(type)}`,
+              8,
+              7
+            );
+          }
+          if (error.errorCode === "ERR_PIPING_REQUIRED") {
+            message = ERR_PIPING_REQUIRED;
+          }
           return (
             error.field === "label" && (
-              <ValidationError key={error.id}>
-                {error.errorCode}
-              </ValidationError>
+              <ValidationError key={error.id}>{message}</ValidationError>
             )
           );
         })}

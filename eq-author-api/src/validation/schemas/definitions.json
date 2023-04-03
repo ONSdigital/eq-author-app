@@ -9,7 +9,7 @@
     "pipedString": {
       "type": "string",
       "pattern": "data-piped=\"answers\" data-id=\"(.+?)\"",
-      "errorMessage": "Pipe in an answer from the linked collection list."
+      "errorMessage": "ERR_PIPING_REQUIRED"
     }
   }
 }
