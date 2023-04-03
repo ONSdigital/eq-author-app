@@ -111,9 +111,6 @@
               "$ref": "definitions.json#/definitions/populatedString"
             },
             {
-              "$ref": "definitions.json#/definitions/pipedString"
-            },
-            {
               "validatePipingAnswerInLabel": true
             }
           ]
@@ -133,6 +130,9 @@
         "properties": {
           "repeatingLabelAndInputListId": {
             "$ref": "definitions.json#/definitions/populatedString"
+          },
+          "label": {
+            "$ref": "definitions.json#/definitions/pipedString"
           }
         }
       },
