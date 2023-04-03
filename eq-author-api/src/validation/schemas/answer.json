@@ -111,6 +111,9 @@
               "$ref": "definitions.json#/definitions/populatedString"
             },
             {
+              "$ref": "definitions.json#/definitions/pipedString"
+            },
+            {
               "validatePipingAnswerInLabel": true
             }
           ]
