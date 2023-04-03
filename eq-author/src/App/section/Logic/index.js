@@ -35,6 +35,7 @@ const TABS = (sectionId, questionnaireId, validationErrorInfo) => [
     errorCount: validationErrorInfo?.errors?.filter(
       ({ type }) => type && type.includes("display")
     ).length,
+    enabled: true
   },
 ];
 
@@ -58,6 +59,7 @@ const LogicPage = ({ children, section }) => (
           title="Select your logic"
           cols={2.5}
           tabItems={TABS(
+
             section.id,
             section.questionnaire.id,
             section.validationErrorInfo
