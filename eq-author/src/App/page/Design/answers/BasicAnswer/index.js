@@ -33,6 +33,7 @@ import {
   PERCENTAGE,
   NUMBER,
 } from "constants/answer-types";
+import { colors } from "constants/theme";
 import { ANSWER } from "components/ContentPickerSelectv3/content-types";
 
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
@@ -42,6 +43,7 @@ import AdvancedProperties from "components/AnswerContent/AdvancedProperties";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import InlineField from "components/AnswerContent/Format/InlineField";
 import Collapsible from "components/Collapsible";
+import ValidationError from "components/ValidationError";
 
 import gql from "graphql-tag";
 import RichTextEditor from "components/RichTextEditor";
@@ -53,6 +55,10 @@ const Caption = styled.div`
 `;
 
 const CollapsibleContent = styled.p``;
+
+const StyledRichTextEditor = styled(RichTextEditor)`
+  border-color: ${(props) => props.hasLabelErrors && `${colors.errorPrimary}`};
+`;
 
 const answersWithoutAdditionalProperties = [TEXTFIELD, TEXTAREA, DURATION];
 const answersWithRepeatingAnswersToggle = [
@@ -94,10 +100,22 @@ export const StatelessBasicAnswer = ({
       requiredMsg: errorMsg,
     });
 
+  const hasLabelErrors = (errors) => {
+    let result = false;
+
+    errors.forEach((error) => {
+      if (error.field === "label") {
+        result = true;
+      }
+    });
+
+    return result;
+  };
+
   return (
     <div>
       <Field>
-        <RichTextEditor
+        <StyledRichTextEditor
           id={`answer-label-${answer.id}`}
           label={labelText}
           name="label"
@@ -113,9 +131,18 @@ export const StatelessBasicAnswer = ({
           controls={pipingControls}
           size="large"
           allowableTypes={[ANSWER]}
-          errorValidationMsg={errorMessage}
+          hasLabelErrors={hasLabelErrors(answer.validationErrorInfo.errors)}
           autoFocus={!answer.label}
         />
+        {answer.validationErrorInfo.errors.map((error) => {
+          return (
+            error.field === "label" && (
+              <ValidationError key={error.id}>
+                {error.errorCode}
+              </ValidationError>
+            )
+          );
+        })}
       </Field>
       {showDescription && (
         <Field>
