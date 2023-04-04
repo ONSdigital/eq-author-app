@@ -1,3 +1,13 @@
+const {
+  TEXTFIELD,
+  TEXTAREA,
+  DURATION,
+  UNIT,
+  CURRENCY,
+  PERCENTAGE,
+  NUMBER,
+} = require("../../constants/answerTypes");
+
 const { includes, flatten, values, omit, find, get } = require("lodash/fp");
 const { logger } = require("../../utils/logger");
 
@@ -10,6 +20,15 @@ const {
 const { merge } = require("lodash");
 
 module.exports = (answer, page) => {
+  const answersWithRepeatingAnswersToggle = [
+    TEXTFIELD,
+    TEXTAREA,
+    DURATION,
+    UNIT,
+    CURRENCY,
+    PERCENTAGE,
+    NUMBER,
+  ];
   let properties = getDefaultAnswerProperties(answer.type);
 
   if (get("answers", page)) {
@@ -60,6 +79,11 @@ module.exports = (answer, page) => {
     logger.info(
       `Checkbox or Radio created with Options ${JSON.stringify(defaultOptions)}`
     );
+  }
+
+  if (answersWithRepeatingAnswersToggle.includes(answer.type)) {
+    answer.repeatingLabelAndInput = false;
+    answer.repeatingLabelAndInputId = "";
   }
 
   logger.info(`Answer created with Properties ${JSON.stringify(properties)}`);
