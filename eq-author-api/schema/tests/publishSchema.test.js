@@ -88,6 +88,23 @@ describe("publish schema", () => {
     ]);
   });
 
+  it("should handle error if there is an error fetching conversion URL", async () => {
+    fetch.mockRejectedValueOnce(new Error("Test error"));
+
+    await publishSchema(ctx);
+
+    expect(ctx.questionnaire.publishHistory).toEqual([
+      {
+        id: expect.any(String),
+        surveyId: "123",
+        formType: "",
+        publishDate: expect.any(Date),
+        success: false,
+        errorMessage: "Failed to fetch questionnaire - Test error",
+      },
+    ]);
+  });
+
   it("should add unsuccessful history event when response code is not 200", async () => {
     fetch.mockImplementation(() =>
       Promise.resolve({
@@ -113,6 +130,30 @@ describe("publish schema", () => {
         publishDate: expect.any(Date),
         success: false,
         errorMessage: "Invalid response - failed with error code 418",
+      },
+    ]);
+  });
+
+  it("should handle error if there is an error fetching CIR API gateway", async () => {
+    // Mocks conversion fetch followed by API gateway rejected value
+    fetch
+      .mockResolvedValueOnce({
+        json: () => ({
+          survey_id: "123", // eslint-disable-line
+        }),
+      })
+      .mockRejectedValueOnce(new Error("Test error"));
+
+    await publishSchema(ctx);
+
+    expect(ctx.questionnaire.publishHistory).toEqual([
+      {
+        id: expect.any(String),
+        surveyId: "123",
+        formType: "",
+        publishDate: expect.any(Date),
+        success: false,
+        errorMessage: "Failed to publish questionnaire - Test error",
       },
     ]);
   });

@@ -1502,7 +1502,7 @@ const Resolvers = {
         })
         .catch((e) => {
           publishResult.success = false;
-          publishResult.errorMessage = `${e.message}`;
+          publishResult.errorMessage = `Failed to publish questionnaire - ${e.message}`;
         });
 
       return ctx.questionnaire;
