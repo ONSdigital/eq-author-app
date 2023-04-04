@@ -88,12 +88,13 @@ export const StatelessBasicAnswer = ({
   type,
   page,
 }) => {
-  const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
+  console.log("page   ", page);
 
   const [updateAnswer] = useMutation(UPDATE_ANSWER);
   const [updateAnswerOfType] = useMutation(UPDATE_ANSWER_OF_TYPE);
 
   const { id } = answer;
+  const { pageType } = page;
   const pipingControls = { piping: true };
 
   const hasLabelErrors = (errors) => {
@@ -219,9 +220,10 @@ export const StatelessBasicAnswer = ({
           )}
         </AdvancedProperties>
       )}
-      {answersWithRepeatingAnswersToggle.includes(type) && (
-        <RepeatingLabelAndInput answer={answer} handleUpdate={updateAnswer} />
-      )}
+      {answersWithRepeatingAnswersToggle.includes(type) &&
+        pageType === "QuestionPage" && (
+          <RepeatingLabelAndInput answer={answer} handleUpdate={updateAnswer} />
+        )}
     </div>
   );
 };
