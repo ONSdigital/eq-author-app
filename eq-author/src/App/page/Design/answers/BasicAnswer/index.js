@@ -88,8 +88,6 @@ export const StatelessBasicAnswer = ({
   type,
   page,
 }) => {
-  console.log("page   ", page);
-
   const [updateAnswer] = useMutation(UPDATE_ANSWER);
   const [updateAnswerOfType] = useMutation(UPDATE_ANSWER_OF_TYPE);
 
@@ -128,6 +126,7 @@ export const StatelessBasicAnswer = ({
           controls={pipingControls}
           size="large"
           allowableTypes={[ANSWER]}
+          listId={answer.repeatingLabelAndInputListId ?? null}
           hasLabelErrors={hasLabelErrors(answer.validationErrorInfo.errors)}
           autoFocus={!answer.label}
         />
