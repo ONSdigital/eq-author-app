@@ -35,6 +35,7 @@ const TABS = (sectionId, questionnaireId, validationErrorInfo) => [
     errorCount: validationErrorInfo?.errors?.filter(
       ({ type }) => type && type.includes("display")
     ).length,
+    enabled: true
   },
 ];
 
