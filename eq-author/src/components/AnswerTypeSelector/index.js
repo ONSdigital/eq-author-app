@@ -129,6 +129,7 @@ class AnswerTypeSelector extends React.Component {
         variant="secondary"
         data-test="btn-add-answer"
         disabled={
+          this.props.page.answers[0].repeatingLabelAndInput ||
           hasDateRange ||
           mutuallyExclusive ||
           (this.props.page.answers.length > 1 &&
