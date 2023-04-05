@@ -221,7 +221,11 @@ export const StatelessBasicAnswer = ({
       )}
       {answersWithRepeatingAnswersToggle.includes(type) &&
         pageType === "QuestionPage" && (
-          <RepeatingLabelAndInput answer={answer} handleUpdate={updateAnswer} />
+          <RepeatingLabelAndInput
+            disabled={page.answers.length > 1}
+            answer={answer}
+            handleUpdate={updateAnswer}
+          />
         )}
     </div>
   );

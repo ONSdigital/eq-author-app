@@ -50,7 +50,7 @@ const renderErrors = (errors, field) => {
 };
 
 const RepeatingLabelAndInput = (props) => {
-  const { handleUpdate, answer } = props;
+  const { handleUpdate, answer, disabled } = props;
   const { id } = answer;
 
   const { data } = useQuery(COLLECTION_LISTS, {
@@ -65,7 +65,7 @@ const RepeatingLabelAndInput = (props) => {
 
   return (
     <>
-      <ToggleWrapper>
+      <ToggleWrapper disabled={disabled}>
         <Label>Repeat label and input</Label>
         <Paragraph>
           Repeat this label and input for each answer added to the linked
@@ -138,6 +138,7 @@ const RepeatingLabelAndInput = (props) => {
 RepeatingLabelAndInput.propTypes = {
   handleUpdate: PropTypes.func.isRequired,
   answer: PropTypes.object, //eslint-disable-line
+  disabled: PropTypes.bool,
 };
 
 export default RepeatingLabelAndInput;
