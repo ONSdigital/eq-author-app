@@ -60,13 +60,13 @@ const PublishPage = () => {
         <Header title="Publish" />
         <ScrollPane>
           <StyledPanelWrapper>
-            <Title tabIndex="0">Publish questionnaire</Title>
-            <Content tabIndex="0">
+            <Title>Publish questionnaire</Title>
+            <Content>
               To launch a questionnaire in EQ for respondents to complete, it
               must first be published to the Collection Instrument Registry
               (CIR).
             </Content>
-            <Content tabIndex="0">
+            <Content>
               A questionnaire can be published more than once. Published
               versions of a questionnaire cannot be accessed or edited in
               Author, only launched through EQ.
@@ -83,8 +83,8 @@ const PublishPage = () => {
               Publish questionnaire
             </StyledButton>
             <HorizontalSeparator />
-            <Title tabIndex="0">Publishing history</Title>
-            <Content tabIndex="0">
+            <Title>Publishing history</Title>
+            <Content>
               No versions of this questionnaire have been published
             </Content>
           </StyledPanelWrapper>
