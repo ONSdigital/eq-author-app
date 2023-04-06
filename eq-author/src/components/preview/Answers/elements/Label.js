@@ -2,7 +2,6 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 import Error from "components/preview/Error";
-import { colors } from "constants/theme";
 
 const Description = styled.div`
   font-size: 0.8em;
