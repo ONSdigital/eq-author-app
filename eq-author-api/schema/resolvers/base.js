@@ -116,6 +116,8 @@ const { listQuestionnaires } = require("../../db/datastore");
 const createQuestionnaireIntroduction = require("../../utils/createQuestionnaireIntroduction");
 const createSubmission = require("../../utils/createSubmission");
 
+const createTotalValidation = require("../../src/businessLogic/createTotalValidation");
+
 const {
   enforceHasWritePermission,
   hasWritePermission,
@@ -716,6 +718,12 @@ const Resolvers = {
 
       const pages = getPages(ctx);
       onAnswerUpdated(ctx, oldAnswerLabel, input, pages);
+
+      const page = getPageByAnswerId(ctx, answer.id);
+      if (answer.repeatingLabelAndInput) {
+        page.totalValidation = createTotalValidation();
+        page.totalValidation.enabled = true;
+      }
 
       return answer;
     }),

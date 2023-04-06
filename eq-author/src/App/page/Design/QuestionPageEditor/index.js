@@ -150,7 +150,7 @@ export const UnwrappedQuestionPageEditor = (props) => {
         />
       </div>
 
-      {page.totalValidation && (
+      {(page.totalValidation || page.answers[0]?.repeatingLabel) && (
         <ContentContainer
           title={`Total ${answers[0].type.toLowerCase()} validation`}
         >
