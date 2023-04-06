@@ -51,7 +51,6 @@ import ValidationError from "components/ValidationError";
 
 import gql from "graphql-tag";
 import RichTextEditor from "components/RichTextEditor";
-import { getErrorByField } from "../../QuestionPageEditor/validationUtils";
 
 const Caption = styled.div`
   margin-bottom: 0.2em;
@@ -80,11 +79,9 @@ export const StatelessBasicAnswer = ({
   onChange,
   onUpdate,
   labelText,
-  errorLabel,
   descriptionText,
   descriptionPlaceholder,
   showDescription,
-  getValidationError,
   type,
   page,
 }) => {
