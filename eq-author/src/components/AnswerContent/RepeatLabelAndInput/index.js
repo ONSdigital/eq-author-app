@@ -25,6 +25,7 @@ const Paragraph = styled.p`
 const StyledInlineField = styled(InlineField)`
   padding: 0;
   margin: 0;
+  margin-left: -0.2em;
 `;
 
 const StyledToggleSwitch = styled(ToggleSwitch)`
