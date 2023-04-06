@@ -724,6 +724,10 @@ const Resolvers = {
         page.totalValidation = createTotalValidation();
       }
 
+      if (!answer.repeatingLabelAndInput) {
+        delete page.totalValidation;
+      }
+
       return answer;
     }),
     updateAnswersOfType: createMutation(
