@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 import Error from "components/preview/Error";
+import { colors } from "constants/theme";
 
 const Description = styled.div`
   font-size: 0.8em;
@@ -19,11 +20,13 @@ const Wrapper = styled.label`
   font-size: 1em;
   line-height: 1.4;
   word-wrap: break-word;
+  color: ${(props) => props.color};
 `;
+
 const Div = styled.div``;
 
-const Label = ({ description, children }) => (
-  <Wrapper>
+const Label = ({ color, description, children }) => (
+  <Wrapper color={color}>
     {(
       <Div
         dangerouslySetInnerHTML={{
@@ -39,6 +42,7 @@ const Label = ({ description, children }) => (
   </Wrapper>
 );
 Label.propTypes = {
+  color: PropTypes.string,
   description: PropTypes.string,
   children: PropTypes.node,
 };
