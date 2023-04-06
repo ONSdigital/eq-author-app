@@ -9,10 +9,13 @@ import { PERCENTAGE } from "constants/answer-types";
 import { unitConversion } from "constants/unit-types";
 
 const Wrapper = styled.div`
-  border: 2px dashed ${colors.previewError};
-  border-radius: 0.2em;
-  padding: 1em;
-  width: fit-content;
+  ${(props) =>
+    props.active &&
+    `
+      border: 2px dashed ${colors.previewError};
+      border-radius: 0.2em;
+      padding: 1em;
+      width: fit-content;`}
 `;
 
 const getUnit = (answer) => {
@@ -25,15 +28,21 @@ const getUnit = (answer) => {
   return unitConversion[answer.properties.unit].abbreviation;
 };
 
-const AnswerTrailingUnit = ({ answer }) => (
-  <Field>
-    <Label color={colors.primary}>Repeating label and input</Label>
-    <Wrapper>
-      <Label description={answer.description}>{answer.label}</Label>
-      <UnitInput unit={getUnit(answer)} trailing />
-    </Wrapper>
-  </Field>
-);
+const AnswerTrailingUnit = ({ answer }) => {
+  const { repeatingLabelAndInput } = answer;
+
+  return (
+    <Field>
+      {repeatingLabelAndInput && (
+        <Label color={colors.primary}>Repeating label and input</Label>
+      )}
+      <Wrapper active={repeatingLabelAndInput}>
+        <Label description={answer.description}>{answer.label}</Label>
+        <UnitInput unit={getUnit(answer)} trailing />
+      </Wrapper>
+    </Field>
+  );
+};
 
 AnswerTrailingUnit.propTypes = {
   answer: PropTypes.shape({
