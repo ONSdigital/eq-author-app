@@ -720,9 +720,8 @@ const Resolvers = {
       onAnswerUpdated(ctx, oldAnswerLabel, input, pages);
 
       const page = getPageByAnswerId(ctx, answer.id);
-      if (answer.repeatingLabelAndInput) {
+      if (answer.repeatingLabelAndInput && !page.totalValidation) {
         page.totalValidation = createTotalValidation();
-        page.totalValidation.enabled = true;
       }
 
       return answer;
