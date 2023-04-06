@@ -83,7 +83,7 @@ module.exports = (answer, page) => {
 
   if (answersWithRepeatingAnswersToggle.includes(answer.type)) {
     answer.repeatingLabelAndInput = false;
-    answer.repeatingLabelAndInputId = "";
+    answer.repeatingLabelAndInputListId = "";
   }
 
   logger.info(`Answer created with Properties ${JSON.stringify(properties)}`);
