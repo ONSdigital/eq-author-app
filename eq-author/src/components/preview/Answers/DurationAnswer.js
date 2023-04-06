@@ -31,6 +31,7 @@ const Wrapper = styled.div`
 
 const SingleDuration = ({ answer }) => {
   const { repeatingLabelAndInput } = answer;
+
   return (
     <Field>
       {repeatingLabelAndInput && (
