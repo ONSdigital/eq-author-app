@@ -97,11 +97,13 @@ export const StatelessBasicAnswer = ({
   const hasLabelErrors = (errors) => {
     let result = false;
 
-    errors.forEach((error) => {
-      if (error.field === "label") {
-        result = true;
-      }
-    });
+    if (errors) {
+      errors.forEach((error) => {
+        if (error.field === "label") {
+          result = true;
+        }
+      });
+    }
 
     return result;
   };
@@ -126,10 +128,10 @@ export const StatelessBasicAnswer = ({
           size="large"
           allowableTypes={[ANSWER]}
           listId={answer.repeatingLabelAndInputListId ?? null}
-          hasLabelErrors={hasLabelErrors(answer.validationErrorInfo.errors)}
+          hasLabelErrors={hasLabelErrors(answer.validationErrorInfo?.errors)}
           autoFocus={!answer.label}
         />
-        {answer.validationErrorInfo.errors.map((error) => {
+        {answer.validationErrorInfo?.errors?.map((error) => {
           let message;
 
           if (error.errorCode === "ERR_VALID_REQUIRED") {

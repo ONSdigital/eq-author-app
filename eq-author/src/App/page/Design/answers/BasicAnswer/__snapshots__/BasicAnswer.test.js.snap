@@ -6,7 +6,7 @@ exports[`BasicAnswer should render with description 1`] = `
     disabled={false}
     last={false}
   >
-    <RichTextEditor
+    <BasicAnswer__StyledRichTextEditor
       allowableTypes={
         Array [
           "Custom",
@@ -19,14 +19,12 @@ exports[`BasicAnswer should render with description 1`] = `
         }
       }
       data-test="txt-answer-label"
-      disabled={false}
+      hasLabelErrors={false}
       id="answer-label-ansID1"
       label="Label"
-      maxHeight={12}
-      multiline={false}
+      listId={null}
       name="label"
       onUpdate={[Function]}
-      placeholder=""
       size="large"
       value=""
     />
@@ -123,7 +121,7 @@ exports[`BasicAnswer should render without description 1`] = `
     disabled={false}
     last={false}
   >
-    <RichTextEditor
+    <BasicAnswer__StyledRichTextEditor
       allowableTypes={
         Array [
           "Custom",
@@ -136,14 +134,12 @@ exports[`BasicAnswer should render without description 1`] = `
         }
       }
       data-test="txt-answer-label"
-      disabled={false}
+      hasLabelErrors={false}
       id="answer-label-ansID1"
       label="Label"
-      maxHeight={12}
-      multiline={false}
+      listId={null}
       name="label"
       onUpdate={[Function]}
-      placeholder=""
       size="large"
       value=""
     />
