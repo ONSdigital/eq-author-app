@@ -12,6 +12,7 @@ exports[`Property should render 1`] = `
   </Property__PropertyLabel>
   <Property__ToggleWrapper>
     <ToggleSwitch
+      blockDisplay={false}
       checked={false}
       hideLabels={false}
       id="1"

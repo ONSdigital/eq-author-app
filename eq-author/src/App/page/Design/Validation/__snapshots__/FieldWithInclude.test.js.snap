@@ -15,6 +15,7 @@ exports[`FieldWithInclude should render 1`] = `
   </div>
   <FieldWithInclude__InlineField>
     <ToggleSwitch
+      blockDisplay={false}
       checked={false}
       hideLabels={true}
       id="1"

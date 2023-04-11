@@ -97,6 +97,7 @@ exports[`TotalValidationEditor should render 1`] = `
       Allow all answers to be unanswered
     </Label>
     <ToggleSwitch
+      blockDisplay={false}
       checked={true}
       hideLabels={false}
       id="allowUnanswered"

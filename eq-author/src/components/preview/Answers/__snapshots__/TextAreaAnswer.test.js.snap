@@ -2,14 +2,16 @@
 
 exports[`TextAnswer should render 1`] = `
 <Field>
-  <Label
-    description="description"
-  >
-    label
-  </Label>
-  <TextAreaAnswer__Textarea
-    cols="60"
-    rows="8"
-  />
+  <TextAreaAnswer__Wrapper>
+    <Label
+      description="description"
+    >
+      label
+    </Label>
+    <TextAreaAnswer__Textarea
+      cols="60"
+      rows="8"
+    />
+  </TextAreaAnswer__Wrapper>
 </Field>
 `;

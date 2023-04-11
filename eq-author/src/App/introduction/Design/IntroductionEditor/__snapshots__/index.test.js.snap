@@ -140,6 +140,7 @@ exports[`IntroductionEditor should render 1`] = `
             Add RU ref to the subject line
           </Label>
           <ToggleSwitch
+            blockDisplay={false}
             checked={false}
             hideLabels={false}
             id="toggle-contact-details-include-ruref"
@@ -162,6 +163,7 @@ exports[`IntroductionEditor should render 1`] = `
           Additional guidance panel
         </Label>
         <ToggleSwitch
+          blockDisplay={false}
           checked={false}
           hideLabels={false}
           id="toggle-additional-guidance-panel"

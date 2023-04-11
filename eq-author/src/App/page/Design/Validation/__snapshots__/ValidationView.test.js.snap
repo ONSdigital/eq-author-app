@@ -6,6 +6,7 @@ exports[`ValidationView should render children when enabled 1`] = `
     data-test="validation-view-toggle"
   >
     <ToggleSwitch
+      blockDisplay={false}
       checked={true}
       hideLabels={false}
       id="ValidationView1"
@@ -40,6 +41,7 @@ exports[`ValidationView should render disabled messaged when disabled 1`] = `
     data-test="validation-view-toggle"
   >
     <ToggleSwitch
+      blockDisplay={false}
       checked={false}
       hideLabels={false}
       id="ValidationView2"
