@@ -150,21 +150,26 @@ export const UnwrappedQuestionPageEditor = (props) => {
         />
       </div>
 
-      {(page.totalValidation || page.answers[0]?.repeatingLabel) && (
-        <ContentContainer
-          title={`Total ${answers[0].type.toLowerCase()} validation`}
-        >
-          <TotalValidation
-            total={page.totalValidation}
-            validationError={page.validationErrorInfo}
-            type={answers[0].type}
-            withoutDisableMessage
-          />
-          {error && (
-            <ValidationError>{errorMessages[error.errorCode]}</ValidationError>
-          )}
-        </ContentContainer>
-      )}
+      {(page.totalValidation || page.answers[0]?.repeatingLabelAndInput) &&
+        ["Number", "Currency", "Unit", "Percentage"].includes(
+          page.answers[0].type
+        ) && (
+          <ContentContainer
+            title={`Total ${answers[0].type.toLowerCase()} validation`}
+          >
+            <TotalValidation
+              total={page.totalValidation}
+              validationError={page.validationErrorInfo}
+              type={answers[0].type}
+              withoutDisableMessage
+            />
+            {error && (
+              <ValidationError>
+                {errorMessages[error.errorCode]}
+              </ValidationError>
+            )}
+          </ContentContainer>
+        )}
 
       <AddAnswerSegment>
         <AnswerTypeSelector
