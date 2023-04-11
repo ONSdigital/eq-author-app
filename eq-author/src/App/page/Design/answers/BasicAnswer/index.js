@@ -23,6 +23,8 @@ import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.g
 import MinDurationValidationRule from "graphql/fragments/min-duration-validation-rule.graphql";
 import MaxDurationValidationRule from "graphql/fragments/max-duration-validation-rule.graphql";
 
+import { enableOn } from "utils/featureFlags";
+
 import {
   MISSING_LABEL,
   ERR_PIPING_REQUIRED,
@@ -216,7 +218,8 @@ export const StatelessBasicAnswer = ({
           )}
         </AdvancedProperties>
       )}
-      {answersWithRepeatingAnswersToggle.includes(type) &&
+      {enableOn(["repeatingIndividualAnswers"]) &&
+        answersWithRepeatingAnswersToggle.includes(type) &&
         pageType === "QuestionPage" && (
           <RepeatingLabelAndInput
             disabled={page.answers.length > 1}
