@@ -724,7 +724,7 @@ const Resolvers = {
         page.totalValidation = createTotalValidation();
       }
 
-      if (!answer.repeatingLabelAndInput) {
+      if (!answer.repeatingLabelAndInput && page) {
         delete page.totalValidation;
       }
 
