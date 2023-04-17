@@ -44,6 +44,14 @@ module.exports = {
           );
         }
 
+        pages.forEach((page) => {
+          if (page.answers.length === 1) {
+            if (page.answers[0].repeatingLabelAndInputListId) {
+              page.answers[0].repeatingLabelAndInputListId = "";
+            }
+          }
+        });
+
         // Re-create UUIDs, strip QCodes, routing and skip conditions from imported pages
         // Keep piping intact for now - will show "[Deleted answer]" to users when piped ID not resolvable
         const strippedPages = remapAllNestedIds(
@@ -127,6 +135,7 @@ module.exports = {
             folder.pages.forEach((page) => {
               page.routing = null;
               page.skipConditions = null;
+
               if (page.pageType !== "ListCollectorPage") {
                 page.answers.forEach((answer) => {
                   return stripQCodes(answer);
@@ -134,6 +143,12 @@ module.exports = {
               } else {
                 page.listId = "";
                 return page;
+              }
+
+              if (page.answers.length === 1) {
+                if (page.answers[0].repeatingLabelAndInputListId) {
+                  page.answers[0].repeatingLabelAndInputListId = "";
+                }
               }
             });
           });
