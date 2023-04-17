@@ -11,7 +11,7 @@ const answer = {
   type: "TextField",
   questionPageId: "2cb6f93f-4f53-4321-9cc2-ca7f1cbbfa32",
   repeatingLabelAndInput: false,
-  repeatingLabelAndInputId: "rere",
+  repeatingLabelAndInputListId: "list-id",
   properties: {
     required: false,
   },
