@@ -97,7 +97,7 @@ describe("RepeatingSection", () => {
         "repeating-section-toggle-field"
       );
 
-      expect(repeatingToggleField).not.toHaveAttribute("disabled"); // if !disabled then toggle switch is not disabled
+      expect(repeatingToggleField).not.toHaveAttribute("disabled"); // if disabled is undefined then toggle switch is not disabled
     });
   });
 
@@ -119,6 +119,6 @@ describe("RepeatingSection", () => {
     });
     const repeatingToggleField = getByTestId("repeating-section-toggle-field");
 
-    expect(repeatingToggleField).not.toHaveAttribute("disabled"); // if !disabled then toggle switch is not disabled
+    expect(repeatingToggleField).not.toHaveAttribute("disabled"); // if disabled is undefined then toggle switch is not disabled
   });
 });
