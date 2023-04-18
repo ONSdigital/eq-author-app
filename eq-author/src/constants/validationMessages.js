@@ -83,7 +83,7 @@ export const LIST_COLLECTOR_ERRORS = [
 export const richTextEditorErrors = {
   ERR_VALID_PIPED_ANSWER_REQUIRED: {
     errorCode: "ERR_VALID_PIPED_ANSWER_REQUIRED",
-    message: "Pipe in an answer from the linked collection list.",
+    message: "Pipe in an answer from the linked collection list",
   },
   QUESTION_TITLE_NOT_ENTERED: {
     errorCode: "ERR_VALID_REQUIRED",
@@ -194,8 +194,6 @@ export const dynamicAnswer = {
   ERR_REFERENCE_MOVED: "Answer must be from a previous question",
 };
 
-export const ERR_PIPING_REQUIRED =
-  "Pipe in an answer from a linked collection list";
 export const QCODE_IS_NOT_UNIQUE = "Qcode must be unique";
 export const QCODE_REQUIRED = "Qcode required";
 export const QUESTION_ANSWER_NOT_SELECTED = "Answer required";

@@ -9,7 +9,7 @@
     "pipedString": {
       "type": "string",
       "pattern": "data-piped=\"answers\" data-id=\"(.+?)\"",
-      "errorMessage": "ERR_PIPING_REQUIRED"
+      "errorMessage": "ERR_VALID_PIPED_ANSWER_REQUIRED"
     }
   }
 }

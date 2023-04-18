@@ -27,8 +27,8 @@ import { enableOn } from "utils/featureFlags";
 
 import {
   MISSING_LABEL,
-  ERR_PIPING_REQUIRED,
   buildLabelError,
+  richTextEditorErrors,
 } from "constants/validationMessages";
 import {
   TEXTFIELD,
@@ -53,6 +53,9 @@ import ValidationError from "components/ValidationError";
 
 import gql from "graphql-tag";
 import RichTextEditor from "components/RichTextEditor";
+
+const { PIPING_TITLE_DELETED, ERR_VALID_PIPED_ANSWER_REQUIRED } =
+  richTextEditorErrors;
 
 const Caption = styled.div`
   margin-bottom: 0.2em;
@@ -95,17 +98,7 @@ export const StatelessBasicAnswer = ({
   const pipingControls = { piping: true };
 
   const hasLabelErrors = (errors) => {
-    let result = false;
-
-    if (errors) {
-      errors.forEach((error) => {
-        if (error.field === "label") {
-          result = true;
-        }
-      });
-    }
-
-    return result;
+    return errors.some((error) => error.field === "label");
   };
 
   return (
@@ -142,8 +135,11 @@ export const StatelessBasicAnswer = ({
               7
             );
           }
-          if (error.errorCode === "ERR_PIPING_REQUIRED") {
-            message = ERR_PIPING_REQUIRED;
+          if (error.errorCode === "ERR_VALID_PIPED_ANSWER_REQUIRED") {
+            message = ERR_VALID_PIPED_ANSWER_REQUIRED.message;
+          }
+          if (error.errorCode === "PIPING_TITLE_DELETED") {
+            message = PIPING_TITLE_DELETED.message;
           }
           return (
             error.field === "label" && (
