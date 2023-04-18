@@ -19,7 +19,6 @@ exports[`BasicAnswer should render with description 1`] = `
         }
       }
       data-test="txt-answer-label"
-      hasLabelErrors={false}
       id="answer-label-ansID1"
       label="Label"
       listId={null}
@@ -134,7 +133,6 @@ exports[`BasicAnswer should render without description 1`] = `
         }
       }
       data-test="txt-answer-label"
-      hasLabelErrors={false}
       id="answer-label-ansID1"
       label="Label"
       listId={null}

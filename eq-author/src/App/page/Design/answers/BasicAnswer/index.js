@@ -98,7 +98,7 @@ export const StatelessBasicAnswer = ({
   const pipingControls = { piping: true };
 
   const hasLabelErrors = (errors) => {
-    return errors.some((error) => error.field === "label");
+    return errors?.some((error) => error.field === "label");
   };
 
   return (
