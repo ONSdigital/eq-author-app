@@ -7,6 +7,7 @@ import { useMutation } from "@apollo/react-hooks";
 
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import CollapsibleToggled from "components/CollapsibleToggled";
+import PageTitleContainer from "components/PageTitle";
 
 const InlineField = styled(Field)`
   display: flex;
@@ -42,7 +43,7 @@ const SectionSummary = ({ id, sectionSummary }) => {
         Section summary page
       </SummaryLabel>
       <Caption>
-        This allows respondants to view and change their answers within this
+        This allows respondents to view and change their answers within this
         section before submitting them. You can set the section summary to be
         collapsible, so respondents can show and hide the answers.
       </Caption>
@@ -50,6 +51,7 @@ const SectionSummary = ({ id, sectionSummary }) => {
         <ToggleWrapper>
           <CollapsibleToggled
             quoted={false}
+            withContentSpace
             onChange={({ value }) =>
               updateSection({
                 variables: {
@@ -63,7 +65,7 @@ const SectionSummary = ({ id, sectionSummary }) => {
             }
             isOpen={sectionSummary}
           >
-            <h1>Test</h1>
+            <PageTitleContainer heading="Section summary page title" />
           </CollapsibleToggled>
         </ToggleWrapper>
       </InlineField>

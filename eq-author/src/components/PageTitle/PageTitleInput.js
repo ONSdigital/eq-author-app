@@ -49,6 +49,7 @@ const Justification = styled(Collapsible)`
 `;
 
 const PageTitleInput = ({
+  heading,
   onChange,
   onUpdate,
   pageDescription,
@@ -56,12 +57,12 @@ const PageTitleInput = ({
   error,
 }) => (
   <PageTitleContent>
-    <Heading data-test="page-title-input-heading">
-      Descriptions and definitions
-    </Heading>
+    <Heading data-test="page-title-input-heading">{heading}</Heading>
     <p>
-      The page description is the first part of the page title. Page titles
-      follow the structure: ‘page description – questionnaire title’.
+      The page title is the first thing read by screen readers and helps users
+      of assistive technology understand what the page is about. It is shown in
+      the browser&apos;s title bar or in the page&apos;s tab. Page titles follow
+      the structure: &apos;page description - questionnaire title&apos;.
     </p>
     <p>
       For help writing a page description, see our{" "}
@@ -110,10 +111,15 @@ const PageTitleInput = ({
 
 PageTitleInput.propTypes = {
   pageDescription: PropTypes.string,
+  heading: PropTypes.string,
   altFieldName: PropTypes.string,
   error: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
+};
+
+PageTitleInput.defaultProps = {
+  heading: "Descriptions and definitions",
 };
 
 export default PageTitleInput;

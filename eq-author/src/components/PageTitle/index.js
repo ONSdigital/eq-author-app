@@ -14,6 +14,7 @@ const PageTitleContainerWithCollapsible = styled.div`
 `;
 
 const PageTitleContainer = ({
+  heading,
   inCollapsible,
   marginless,
   pageDescription,
@@ -46,6 +47,7 @@ const PageTitleContainer = ({
       >
         <PageTitleContainerWithCollapsible>
           <PageTitleInput
+            heading={heading}
             pageDescription={pageDescription}
             altFieldName={altFieldName}
             onUpdate={onUpdate}
@@ -59,6 +61,7 @@ const PageTitleContainer = ({
   return (
     <PageTitleContainerWithoutCollapsible>
       <PageTitleInput
+        heading={heading}
         pageDescription={pageDescription}
         altFieldName={altFieldName}
         error={displayError}
@@ -70,6 +73,7 @@ const PageTitleContainer = ({
 };
 
 PageTitleContainer.propTypes = {
+  heading: PropTypes.string,
   inCollapsible: PropTypes.bool,
   marginless: PropTypes.bool,
   pageDescription: PropTypes.string,

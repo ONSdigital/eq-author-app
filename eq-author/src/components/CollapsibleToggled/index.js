@@ -10,6 +10,7 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   margin-left: ${(props) => !props.title && `-1em`};
+  margin-bottom: ${(props) => props.withContentSpace && props.isOpen && `1em`};
 
   h2 {
     font-size: 1em;
@@ -36,10 +37,15 @@ const CollapsibleToggled = ({
   children,
   onChange,
   quoted = true,
+  withContentSpace,
 }) => {
   return (
     <Wrapper data-test="CollapsibleToggled">
-      <Header data-test="CollapsibleToggled__Header">
+      <Header
+        title={title}
+        withContentSpace={withContentSpace}
+        data-test="CollapsibleToggled__Header"
+      >
         {title && <h2>{title}</h2>}
         <ToggleSwitch
           id={`${title}`}
@@ -94,4 +100,8 @@ CollapsibleToggled.propTypes = {
    * Determines if the collapsible's content uses the quoted format with border-left.
    */
   quoted: PropTypes.bool,
+  /**
+   * Adds a space between the toggle switch and the collapsible's content.
+   */
+  withContentSpace: PropTypes.bool,
 };
