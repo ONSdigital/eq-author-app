@@ -1031,6 +1031,14 @@ const Resolvers = {
       ctx.questionnaire.dataVersion =
         ctx.questionnaire.collectionLists.lists.length > 0 ? "3" : "1";
 
+      const answers = getAnswers(ctx);
+
+      answers.forEach((answer) => {
+        if (answer.repeatingLabelAndInputListId === input.id) {
+          answer.repeatingLabelAndInputListId = "";
+        }
+      });
+
       return ctx.questionnaire.collectionLists;
     }),
     createListAnswer: createMutation((root, { input }, ctx) => {
