@@ -23,6 +23,8 @@ const Body = styled.div`
   border-left: 3px solid ${colors.lightGrey};
 `;
 
+const UnquotedBody = styled.div``;
+
 const CollapsibleToggled = ({
   title,
   isOpen = false,
@@ -30,11 +32,12 @@ const CollapsibleToggled = ({
   ariaLabel,
   children,
   onChange,
+  quoted = true,
 }) => {
   return (
     <Wrapper data-test="CollapsibleToggled">
       <Header data-test="CollapsibleToggled__Header">
-        <h2>{title}</h2>
+        {title && <h2>{title}</h2>}
         <ToggleSwitch
           id={`${title}`}
           name={`${title}-toggle-switch`}
@@ -45,7 +48,14 @@ const CollapsibleToggled = ({
         />
         {headerContent}
       </Header>
-      {isOpen && <Body data-test="CollapsibleToggled__Body">{children}</Body>}
+      {isOpen && quoted && (
+        <Body data-test="collapsible-toggled-body-quoted">{children}</Body>
+      )}
+      {isOpen && !quoted && (
+        <UnquotedBody data-test="collapsible-toggled-body-unquoted">
+          {children}
+        </UnquotedBody>
+      )}
     </Wrapper>
   );
 };
@@ -77,4 +87,8 @@ CollapsibleToggled.propTypes = {
    * Function called when toggle value is changed.
    */
   onChange: PropTypes.func.isRequired,
+  /**
+   * Determines if the collapsible's content uses the quoted format with border-left.
+   */
+  quoted: PropTypes.bool,
 };

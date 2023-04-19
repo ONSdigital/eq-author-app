@@ -31,7 +31,7 @@ describe("Collapsible toggled", () => {
       </CollapsibleToggled>
     );
 
-    const content = getByTestId("CollapsibleToggled__Body");
+    const content = getByTestId("collapsible-toggled-body-quoted");
 
     expect(content).toBeVisible();
   });
@@ -46,8 +46,10 @@ describe("Collapsible toggled", () => {
       </CollapsibleToggled>
     );
 
-    const content = queryByTestId("CollapsibleToggled__Body");
+    const contentQuoted = queryByTestId("collapsible-toggled-body-quoted");
+    const contentUnquoted = queryByTestId("collapsible-toggled-body-unquoted");
 
-    expect(content).not.toBeInTheDocument();
+    expect(contentQuoted).not.toBeInTheDocument();
+    expect(contentUnquoted).not.toBeInTheDocument();
   });
 });

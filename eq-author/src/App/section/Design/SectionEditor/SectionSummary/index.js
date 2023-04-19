@@ -6,6 +6,7 @@ import updateSectionMutation from "graphql/updateSection.graphql";
 import { useMutation } from "@apollo/react-hooks";
 
 import ToggleSwitch from "components/buttons/ToggleSwitch";
+import CollapsibleToggled from "components/CollapsibleToggled";
 
 const InlineField = styled(Field)`
   display: flex;
@@ -38,20 +39,18 @@ const SectionSummary = ({ id, sectionSummary }) => {
 
   return (
     <>
-      <SummaryLabel>Section summary page</SummaryLabel>
+      <SummaryLabel htmlFor="section-summary">
+        Section summary page
+      </SummaryLabel>
       <Caption>
         This allows respondants to view and change their answers within this
         section before submitting them. You can set the section summary to be
         collapsible, so respondents can show and hide the answers.
       </Caption>
       <InlineField>
-        <Label htmlFor="section-summary">Section summary</Label>
         <ToggleWrapper>
-          <ToggleSwitch
-            id="section-summary"
-            name="section-summary"
-            data-test="section-summary"
-            hideLabels={false}
+          <CollapsibleToggled
+            quoted={false}
             onChange={({ value }) =>
               updateSection({
                 variables: {
@@ -63,8 +62,10 @@ const SectionSummary = ({ id, sectionSummary }) => {
                 },
               })
             }
-            checked={sectionSummary}
-          />
+            isOpen={sectionSummary}
+          >
+            <h1>Test</h1>
+          </CollapsibleToggled>
         </ToggleWrapper>
       </InlineField>
     </>
