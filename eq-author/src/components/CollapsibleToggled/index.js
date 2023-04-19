@@ -5,9 +5,11 @@ import { colors } from "constants/theme";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 
 const Wrapper = styled.div``;
+
 const Header = styled.div`
   display: flex;
   align-items: center;
+  margin-left: ${(props) => !props.title && `-1em`};
 
   h2 {
     font-size: 1em;
@@ -16,6 +18,7 @@ const Header = styled.div`
     min-width: 7.5em;
   }
 `;
+
 const Body = styled.div`
   margin-top: -1em;
   margin-left: 0.1em;
