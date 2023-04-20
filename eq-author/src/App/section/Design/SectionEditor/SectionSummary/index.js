@@ -84,6 +84,8 @@ const SectionSummary = ({
                   },
                 })
               }
+              altFieldName={"sectionSummaryPageDescription"}
+              altError={"SECTION_SUMMARY_PAGE_DESCRIPTION_MISSING"}
               errors={errors}
             />
           </CollapsibleToggled>
@@ -97,6 +99,7 @@ SectionSummary.propTypes = {
   id: PropTypes.string.isRequired,
   sectionSummary: PropTypes.bool,
   sectionSummaryPageDescription: PropTypes.string,
+  errors: PropTypes.array, // eslint-disable-line
 };
 
 export default SectionSummary;

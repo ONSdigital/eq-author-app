@@ -182,13 +182,6 @@ export class SectionEditor extends React.Component {
             }
           />
           <HorizontalRule />
-          <PageTitleContainer
-            pageDescription={section?.pageDescription}
-            errors={section.validationErrorInfo.errors}
-            onChange={onChange}
-            onUpdate={onUpdate}
-          />
-          <HorizontalRule />
           <SectionSummary
             id={section.id}
             sectionSummary={section.sectionSummary}

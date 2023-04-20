@@ -36,15 +36,10 @@
         "$ref": "logic.json#/definitions/expressionGroup"
       }
     },
-    "pageDescription": {
-      "type": "string",
-      "pattern": "\\w+",
-      "errorMessage": "PAGE_DESCRIPTION_MISSING"
-    },
     "sectionSummaryPageDescription": {
       "type": "string",
       "pattern": "\\w+",
-      "errorMessage": "PAGE_DESCRIPTION_MISSING"
+      "errorMessage": "SECTION_SUMMARY_PAGE_DESCRIPTION_MISSING"
     }
   },
   "if": {

@@ -6,6 +6,8 @@ import { find } from "lodash";
 
 import PageTitleInput from "./PageTitleInput";
 
+import { pageDescriptionErrors } from "constants/validationMessages";
+
 const PageTitleContainerWithoutCollapsible = styled.div``;
 
 const PageTitleContainerWithCollapsible = styled.div`
@@ -20,7 +22,6 @@ const PageTitleContainer = ({
   pageDescription,
   altFieldName,
   altError,
-  error,
   errors,
   onChange,
   onUpdate,
@@ -30,10 +31,12 @@ const PageTitleContainer = ({
       ? find(errors, { errorCode: altError })
       : find(errors, { errorCode: "PAGE_DESCRIPTION_MISSING" });
 
-  const displayError =
-    error === "PAGE_DESCRIPTION_MISSING"
-      ? true
-      : Boolean(pageDescriptionError?.errorCode);
+  const allErrorCodes = Object.keys(pageDescriptionErrors);
+  const errorCode = allErrorCodes.find(
+    (code) => pageDescriptionError?.errorCode === code
+  );
+
+  const errorMessage = pageDescriptionErrors[errorCode];
 
   if (inCollapsible) {
     return (
@@ -52,7 +55,7 @@ const PageTitleContainer = ({
             altFieldName={altFieldName}
             onUpdate={onUpdate}
             onChange={onChange}
-            error={displayError}
+            errorMessage={errorMessage}
           />
         </PageTitleContainerWithCollapsible>
       </Collapsible>
@@ -64,9 +67,9 @@ const PageTitleContainer = ({
         heading={heading}
         pageDescription={pageDescription}
         altFieldName={altFieldName}
-        error={displayError}
         onUpdate={onUpdate}
         onChange={onChange}
+        errorMessage={errorMessage}
       />
     </PageTitleContainerWithoutCollapsible>
   );

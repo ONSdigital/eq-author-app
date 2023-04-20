@@ -5,7 +5,6 @@ import { Field, Label } from "components/Forms";
 import { colors, radius } from "constants/theme";
 import Collapsible from "components/Collapsible";
 import ValidationError from "components/ValidationError";
-import { pageDescriptionErrors } from "constants/validationMessages";
 import ExternalLink from "components-themed/ExternalLink";
 
 const PageTitleContent = styled.div`
@@ -54,7 +53,7 @@ const PageTitleInput = ({
   onUpdate,
   pageDescription,
   altFieldName,
-  error,
+  errorMessage,
 }) => (
   <PageTitleContent>
     <Heading data-test="page-title-input-heading">{heading}</Heading>
@@ -98,13 +97,9 @@ const PageTitleInput = ({
         onChange={(e) => onChange(e.target)}
         onBlur={(e) => onUpdate(e.target)}
         value={pageDescription || ""}
-        hasError={error}
+        hasError={errorMessage}
       />
-      {error && (
-        <ValidationError>
-          {pageDescriptionErrors.PAGE_DESCRIPTION_MISSING}
-        </ValidationError>
-      )}
+      {errorMessage && <ValidationError>{errorMessage}</ValidationError>}
     </Field>
   </PageTitleContent>
 );
@@ -113,7 +108,7 @@ PageTitleInput.propTypes = {
   pageDescription: PropTypes.string,
   heading: PropTypes.string,
   altFieldName: PropTypes.string,
-  error: PropTypes.bool,
+  errorMessage: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
 };
