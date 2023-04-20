@@ -38,6 +38,7 @@ const SectionSummary = ({
   id,
   sectionSummary,
   sectionSummaryPageDescription,
+  errors,
 }) => {
   const [pageDescription, setPageDescription] = useState(
     sectionSummaryPageDescription
@@ -83,6 +84,7 @@ const SectionSummary = ({
                   },
                 })
               }
+              errors={errors}
             />
           </CollapsibleToggled>
         </ToggleWrapper>

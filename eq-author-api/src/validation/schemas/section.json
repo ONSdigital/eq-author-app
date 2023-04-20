@@ -40,6 +40,11 @@
       "type": "string",
       "pattern": "\\w+",
       "errorMessage": "PAGE_DESCRIPTION_MISSING"
+    },
+    "sectionSummaryPageDescription": {
+      "type": "string",
+      "pattern": "\\w+",
+      "errorMessage": "PAGE_DESCRIPTION_MISSING"
     }
   },
   "if": {
@@ -60,17 +65,11 @@
     {
       "properties": {
         "introductionTitle": {
-          "type": [
-            "string",
-            "null"
-          ],
+          "type": ["string", "null"],
           "maxLength": 0
         },
         "introductionContent": {
-          "type": [
-            "string",
-            "null"
-          ],
+          "type": ["string", "null"],
           "maxLength": 0
         }
       }

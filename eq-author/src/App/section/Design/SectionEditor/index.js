@@ -195,6 +195,7 @@ export class SectionEditor extends React.Component {
             sectionSummaryPageDescription={
               section.sectionSummaryPageDescription
             }
+            errors={section.validationErrorInfo.errors}
           />
           <HorizontalRule />
           <Label>
