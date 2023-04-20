@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { Field, Label } from "components/Forms";
@@ -34,7 +34,14 @@ const SummaryLabel = styled.label`
   font-weight: bold;
 `;
 
-const SectionSummary = ({ id, sectionSummary }) => {
+const SectionSummary = ({
+  id,
+  sectionSummary,
+  sectionSummaryPageDescription,
+}) => {
+  const [pageDescription, setPageDescription] = useState(
+    sectionSummaryPageDescription
+  );
   const [updateSection] = useMutation(updateSectionMutation);
 
   return (
@@ -65,7 +72,18 @@ const SectionSummary = ({ id, sectionSummary }) => {
             }
             isOpen={sectionSummary}
           >
-            <PageTitleContainer heading="Section summary page title" />
+            <PageTitleContainer
+              heading="Section summary page title"
+              pageDescription={pageDescription}
+              onChange={({ value }) => setPageDescription(value)}
+              onUpdate={({ value }) =>
+                updateSection({
+                  variables: {
+                    input: { id, sectionSummaryPageDescription: value },
+                  },
+                })
+              }
+            />
           </CollapsibleToggled>
         </ToggleWrapper>
       </InlineField>
@@ -76,9 +94,7 @@ const SectionSummary = ({ id, sectionSummary }) => {
 SectionSummary.propTypes = {
   id: PropTypes.string.isRequired,
   sectionSummary: PropTypes.bool,
-  collapsibleSummary: PropTypes.bool,
-  disabled: PropTypes.bool,
-  errorValidationMsg: PropTypes.string,
+  sectionSummaryPageDescription: PropTypes.string,
 };
 
 export default SectionSummary;

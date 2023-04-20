@@ -157,6 +157,7 @@ type Section {
   requiredCompleted: Boolean
   showOnHub: Boolean
   sectionSummary: Boolean
+  sectionSummaryPageDescription: String
   collapsibleSummary: Boolean
   folders: [Folder]
   questionnaire: Questionnaire
@@ -1199,6 +1200,7 @@ input UpdateSectionInput {
   requiredCompleted: Boolean
   showOnHub: Boolean
   sectionSummary: Boolean
+  sectionSummaryPageDescription: String
   collapsibleSummary: Boolean
   repeatingSection: Boolean
   repeatingSectionListId: ID

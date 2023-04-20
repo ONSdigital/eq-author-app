@@ -192,6 +192,9 @@ export class SectionEditor extends React.Component {
           <SectionSummary
             id={section.id}
             sectionSummary={section.sectionSummary}
+            sectionSummaryPageDescription={
+              section.sectionSummaryPageDescription
+            }
           />
           <HorizontalRule />
           <Label>
