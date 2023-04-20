@@ -1453,6 +1453,60 @@ const Resolvers = {
       delete section.displayConditions;
       return section;
     }),
+    publishSchema: createMutation(async (root, args, ctx) => {
+      const publishDate = new Date();
+      const publishResult = {
+        id: uuidv4(),
+        surveyId: ctx.questionnaire.surveyId,
+        formType: ctx.questionnaire.formType,
+        publishDate,
+      };
+
+      if (ctx.questionnaire.publishHistory) {
+        ctx.questionnaire.publishHistory.push(publishResult);
+      } else {
+        ctx.questionnaire.publishHistory = [publishResult];
+      }
+
+      const convertedResponse = await fetch(`${process.env.CONVERSION_URL}`, {
+        method: "post",
+        body: JSON.stringify(ctx.questionnaire),
+        headers: { "Content-Type": "application/json" },
+      }).catch((e) => {
+        publishResult.success = false;
+        publishResult.errorMessage = `Failed to fetch questionnaire - ${e.message}`;
+      });
+
+      if (publishResult.success === false) {
+        return ctx.questionnaire;
+      }
+
+      const convertedQuestionnaire = await convertedResponse.json();
+
+      await fetch(`${process.env.CIR_PUBLISH_SCHEMA_GATEWAY}publishSchema`, {
+        method: "post",
+        body: JSON.stringify(convertedQuestionnaire),
+        headers: { "Content-Type": "application/json" },
+      })
+        .then(async (res) => {
+          if (res.status === 200) {
+            const responseJson = await res.json();
+
+            publishResult.cirId = responseJson.id;
+            publishResult.version = responseJson.version;
+            publishResult.success = true;
+          } else {
+            publishResult.success = false;
+            publishResult.errorMessage = `Invalid response - failed with error code ${res.status}`;
+          }
+        })
+        .catch((e) => {
+          publishResult.success = false;
+          publishResult.errorMessage = `Failed to publish questionnaire - ${e.message}`;
+        });
+
+      return ctx.questionnaire;
+    }),
   },
 
   Questionnaire: {
