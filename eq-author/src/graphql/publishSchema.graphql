@@ -1,0 +1,14 @@
+mutation publishSchema {
+  publishSchema {
+    publishHistory {
+      id
+      cirId
+      cirVersion
+      errorMessage
+      formType
+      publishDate
+      success
+      surveyId
+    }
+  }
+}
