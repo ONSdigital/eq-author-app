@@ -16,7 +16,14 @@ const SectionIntroduction = ({
   introductionTitleErrorMessage,
   introductionContentErrorMessage,
 }) => {
-  const { id, introductionPageDescription, hasIntroduction } = section;
+  const {
+    id,
+    introductionPageDescription,
+    hasIntroduction,
+    validationErrorInfo,
+  } = section;
+  const { errors } = validationErrorInfo;
+
   const [updateSection] = useMutation(UPDATE_SECTION_MUTATION);
 
   const [pageDescription, setPageDescription] = useState(
@@ -79,6 +86,9 @@ const SectionIntroduction = ({
               variables: { input: { id, introductionPageDescription: value } },
             });
           }}
+          altFieldName={"sectionIntroductionPageDescription"}
+          altError={"SECTION_INTRODUCTION_PAGE_DESCRIPTION_MISSING"}
+          errors={errors}
         />
       </CollapsibleToggled>
     </>

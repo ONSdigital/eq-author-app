@@ -153,6 +153,8 @@ export const pageDescriptionErrors = {
   PAGE_DESCRIPTION_MISSING: "Page description required",
   SECTION_SUMMARY_PAGE_DESCRIPTION_MISSING:
     "Section summary page description required",
+  SECTION_INTRODUCTION_PAGE_DESCRIPTION_MISSING:
+    "Section introduction page description required",
   ADD_ITEM_PAGE_DESCRIPTION_MISSING: "Page description required",
   ANOTHER_PAGE_DESCRIPTION_MISSING: "Page description required",
 };

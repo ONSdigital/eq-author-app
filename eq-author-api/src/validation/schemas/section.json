@@ -101,6 +101,11 @@
                 "validatePipingAnswerInTitle": true
               }
             ]
+          },
+          "introductionPageDescription": {
+            "type": "string",
+            "pattern": "\\w+",
+            "errorMessage": "SECTION_INTRODUCTION_PAGE_DESCRIPTION_MISSING"
           }
         }
       }
