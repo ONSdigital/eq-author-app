@@ -10,7 +10,8 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   margin-left: ${(props) => !props.title && `-1em`};
-  margin-bottom: ${(props) => props.withContentSpace && props.isOpen && `1em`};
+  margin-bottom: ${(props) =>
+    props.withContentSpace && props.isOpen && `1.5em`};
 
   h2 {
     font-size: 1em;
@@ -44,6 +45,7 @@ const CollapsibleToggled = ({
       <Header
         title={title}
         withContentSpace={withContentSpace}
+        isOpen={isOpen}
         data-test="CollapsibleToggled__Header"
       >
         {title && <h2>{title}</h2>}
