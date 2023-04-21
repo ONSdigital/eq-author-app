@@ -77,6 +77,7 @@ const SectionSummary = ({
             <PageTitleContainer
               heading="Section summary page title"
               pageDescription={pageDescription}
+              inputTitlePrefix={"Section summary"}
               onChange={({ value }) => setPageDescription(value)}
               onUpdate={({ value }) =>
                 updateSection({

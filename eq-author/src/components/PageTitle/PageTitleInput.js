@@ -47,6 +47,7 @@ const PageTitleInput = ({
   onChange,
   onUpdate,
   pageDescription,
+  inputTitlePrefix,
   altFieldName,
   errorMessage,
 }) => (
@@ -71,7 +72,9 @@ const PageTitleInput = ({
         data-test="page-title-input-field-label"
         htmlFor={altFieldName ? altFieldName : "pageDescription"}
       >
-        Page description
+        {inputTitlePrefix
+          ? `${inputTitlePrefix} page description`
+          : "Page description"}
       </Label>
       <StyledInput
         id={altFieldName ? altFieldName : "pageDescription"}

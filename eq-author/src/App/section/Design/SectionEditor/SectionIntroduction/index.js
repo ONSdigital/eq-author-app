@@ -6,6 +6,7 @@ import CustomPropTypes from "custom-prop-types";
 import { Label } from "components/Forms";
 import RichTextEditor from "components/RichTextEditor";
 import CollapsibleToggled from "components/CollapsibleToggled";
+import PageTitleContainer from "components/PageTitle";
 
 import UPDATE_SECTION_MUTATION from "graphql/updateSection.graphql";
 

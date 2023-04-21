@@ -20,6 +20,7 @@ const PageTitleContainer = ({
   inCollapsible,
   marginless,
   pageDescription,
+  inputTitlePrefix,
   altFieldName,
   altError,
   errors,
@@ -52,6 +53,7 @@ const PageTitleContainer = ({
           <PageTitleInput
             heading={heading}
             pageDescription={pageDescription}
+            inputTitlePrefix={inputTitlePrefix}
             altFieldName={altFieldName}
             onUpdate={onUpdate}
             onChange={onChange}
@@ -66,6 +68,7 @@ const PageTitleContainer = ({
       <PageTitleInput
         heading={heading}
         pageDescription={pageDescription}
+        inputTitlePrefix={inputTitlePrefix}
         altFieldName={altFieldName}
         onUpdate={onUpdate}
         onChange={onChange}

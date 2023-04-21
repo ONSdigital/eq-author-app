@@ -205,8 +205,6 @@ export class SectionEditor extends React.Component {
             errors={section.validationErrorInfo.errors}
           />
           <HorizontalRule />
-
-          <HorizontalRule />
           <RepeatingSection section={section} handleUpdate={handleUpdate} />
         </Padding>
       </SectionCanvas>
