@@ -85,4 +85,27 @@ describe("Lists", () => {
     await deleteListAnswer(ctx, input);
     expect(ctx.questionnaire.collectionLists.lists[0].answers.length).toBe(0);
   });
+
+  it("Can set repeatingLabelAndInputListId to an empty string when the linked list is deleted", async () => {
+    let input = { id: ctx.questionnaire.collectionLists.lists[0].id };
+
+    ctx.questionnaire.sections[0].folders[0].pages[0].answers[0] = {
+      id: "answer-1",
+      label: "Name",
+      type: "TextField",
+      repeatingLabelAndInput: true,
+      repeatingLabelAndInputListId: input.id,
+    };
+
+    await deleteList(ctx, input);
+
+    expect(
+      ctx.questionnaire.sections[0].folders[0].pages[0].answers[0]
+        .repeatingLabelAndInputListId
+    ).toBe("");
+    expect(
+      ctx.questionnaire.sections[0].folders[0].pages[0].answers[0]
+        .repeatingLabelAndInput
+    ).toBe(true);
+  });
 });
