@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { Field, Label } from "components/Forms";
-import updateSectionMutation from "graphql/updateSection.graphql";
 import { useMutation } from "@apollo/react-hooks";
 
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import CollapsibleToggled from "components/CollapsibleToggled";
 import PageTitleContainer from "components/PageTitle";
+
+import UPDATE_SECTION_MUTATION from "graphql/updateSection.graphql";
 
 const InlineField = styled(Field)`
   display: flex;
@@ -43,7 +44,7 @@ const SectionSummary = ({
   const [pageDescription, setPageDescription] = useState(
     sectionSummaryPageDescription
   );
-  const [updateSection] = useMutation(updateSectionMutation);
+  const [updateSection] = useMutation(UPDATE_SECTION_MUTATION);
 
   return (
     <>

@@ -1,20 +1,13 @@
 import React from "react";
+import { useMutation } from "@apollo/react-hooks";
 import PropTypes from "prop-types";
-import styled from "styled-components";
 import CustomPropTypes from "custom-prop-types";
 
 import { Label } from "components/Forms";
 import RichTextEditor from "components/RichTextEditor";
-import DescribedText from "components/DescribedText";
+import CollapsibleToggled from "components/CollapsibleToggled";
 
-import { colors, radius } from "constants/theme";
-
-const IntroCanvas = styled.div`
-  padding: 1.5em 1.5em 0;
-  border: 1px solid ${colors.bordersLight};
-  background-color: ${colors.white};
-  border-radius: ${radius} ${radius};
-`;
+import UPDATE_SECTION_MUTATION from "graphql/updateSection.graphql";
 
 const SectionIntroduction = ({
   section,
@@ -22,14 +15,22 @@ const SectionIntroduction = ({
   introductionTitleErrorMessage,
   introductionContentErrorMessage,
 }) => {
+  const { id, hasIntroduction } = section;
+  const [updateSection] = useMutation(UPDATE_SECTION_MUTATION);
+
   return (
     <>
-      <Label>
-        <DescribedText description="If you do not want an introduction page, leave these blank">
-          Section introduction page
-        </DescribedText>
-      </Label>
-      <IntroCanvas>
+      <Label>Section introduction page</Label>
+      <CollapsibleToggled
+        quoted={false}
+        withContentSpace
+        onChange={({ value }) =>
+          updateSection({
+            variables: { input: { id, hasIntroduction: value } },
+          })
+        }
+        isOpen={hasIntroduction}
+      >
         <RichTextEditor
           id="introduction-title"
           label="Introduction title"
@@ -61,7 +62,7 @@ const SectionIntroduction = ({
           listId={section?.repeatingSectionListId ?? null}
           errorValidationMsg={introductionContentErrorMessage}
         />
-      </IntroCanvas>
+      </CollapsibleToggled>
     </>
   );
 };

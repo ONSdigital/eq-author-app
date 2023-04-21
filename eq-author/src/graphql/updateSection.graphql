@@ -6,6 +6,7 @@ mutation UpdateSection($input: UpdateSectionInput!) {
     title
     alias
     displayName
+    hasIntroduction
     introductionTitle
     introductionContent
     pageDescription
@@ -20,7 +21,7 @@ mutation UpdateSection($input: UpdateSectionInput!) {
     }
     folders {
       id
-      pages{
+      pages {
         id
         displayName
       }

@@ -162,6 +162,7 @@ type Section {
   folders: [Folder]
   questionnaire: Questionnaire
   position: Int!
+  hasIntroduction: Boolean
   introductionTitle: String
   introductionContent: String
   pageDescription: String
@@ -1194,6 +1195,7 @@ input UpdateSectionInput {
   id: ID!
   title: String
   alias: String
+  hasIntroduction: Boolean
   introductionTitle: String
   introductionContent: String
   pageDescription: String
