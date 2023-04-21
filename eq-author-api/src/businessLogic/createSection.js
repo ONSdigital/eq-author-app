@@ -6,6 +6,7 @@ const createSection = (input = {}) => ({
   title: "",
   pageDescription: "",
   introductionEnabled: false,
+  introductionPageDescription: "",
   folders: [createFolder()],
   alias: "",
   requiredCompleted: false,
