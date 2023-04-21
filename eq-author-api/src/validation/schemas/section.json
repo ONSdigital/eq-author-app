@@ -75,7 +75,7 @@
     {
       "if": {
         "properties": {
-          "hasIntroduction": {
+          "introductionEnabled": {
             "const": true
           }
         }

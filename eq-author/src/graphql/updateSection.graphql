@@ -6,7 +6,7 @@ mutation UpdateSection($input: UpdateSectionInput!) {
     title
     alias
     displayName
-    hasIntroduction
+    introductionEnabled
     introductionTitle
     introductionContent
     pageDescription

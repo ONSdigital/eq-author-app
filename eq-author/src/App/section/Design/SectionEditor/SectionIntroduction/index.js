@@ -19,7 +19,7 @@ const SectionIntroduction = ({
   const {
     id,
     introductionPageDescription,
-    hasIntroduction,
+    introductionEnabled,
     validationErrorInfo,
   } = section;
   const { errors } = validationErrorInfo;
@@ -38,10 +38,10 @@ const SectionIntroduction = ({
         withContentSpace
         onChange={({ value }) =>
           updateSection({
-            variables: { input: { id, hasIntroduction: value } },
+            variables: { input: { id, introductionEnabled: value } },
           })
         }
-        isOpen={hasIntroduction}
+        isOpen={introductionEnabled}
       >
         <RichTextEditor
           id="introduction-title"

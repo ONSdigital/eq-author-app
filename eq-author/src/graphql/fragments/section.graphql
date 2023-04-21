@@ -2,7 +2,7 @@ fragment Section on Section {
   id
   title
   alias
-  hasIntroduction
+  introductionEnabled
   introductionTitle
   introductionContent
   introductionPageDescription
