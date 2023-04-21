@@ -35,27 +35,44 @@
       "items": {
         "$ref": "logic.json#/definitions/expressionGroup"
       }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "repeatingSection": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "repeatingSectionListId": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          }
+        }
+      }
     },
-    "sectionSummaryPageDescription": {
-      "type": "string",
-      "pattern": "\\w+",
-      "errorMessage": "SECTION_SUMMARY_PAGE_DESCRIPTION_MISSING"
-    }
-  },
-  "if": {
-    "properties": {
-      "repeatingSection": {
-        "const": true
+    {
+      "if": {
+        "properties": {
+          "sectionSummary": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "sectionSummaryPageDescription": {
+            "type": "string",
+            "pattern": "\\w+",
+            "errorMessage": "SECTION_SUMMARY_PAGE_DESCRIPTION_MISSING"
+          }
+        }
       }
     }
-  },
-  "then": {
-    "properties": {
-      "repeatingSectionListId": {
-        "$ref": "definitions.json#/definitions/populatedString"
-      }
-    }
-  },
+  ],
   "anyOf": [
     {
       "properties": {
