@@ -71,42 +71,37 @@
           }
         }
       }
-    }
-  ],
-  "anyOf": [
-    {
-      "properties": {
-        "introductionTitle": {
-          "type": ["string", "null"],
-          "maxLength": 0
-        },
-        "introductionContent": {
-          "type": ["string", "null"],
-          "maxLength": 0
-        }
-      }
     },
     {
-      "properties": {
-        "introductionTitle": {
-          "allOf": [
-            {
-              "$ref": "definitions.json#/definitions/populatedString"
-            },
-            {
-              "validatePipingAnswerInTitle": true
-            }
-          ]
-        },
-        "introductionContent": {
-          "allOf": [
-            {
-              "$ref": "definitions.json#/definitions/populatedString"
-            },
-            {
-              "validatePipingAnswerInTitle": true
-            }
-          ]
+      "if": {
+        "properties": {
+          "hasIntroduction": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "introductionTitle": {
+            "allOf": [
+              {
+                "$ref": "definitions.json#/definitions/populatedString"
+              },
+              {
+                "validatePipingAnswerInTitle": true
+              }
+            ]
+          },
+          "introductionContent": {
+            "allOf": [
+              {
+                "$ref": "definitions.json#/definitions/populatedString"
+              },
+              {
+                "validatePipingAnswerInTitle": true
+              }
+            ]
+          }
         }
       }
     }
