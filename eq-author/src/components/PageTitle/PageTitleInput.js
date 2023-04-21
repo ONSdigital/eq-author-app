@@ -3,9 +3,8 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { Field, Label } from "components/Forms";
 import { colors, radius } from "constants/theme";
-import Collapsible from "components/Collapsible";
 import ValidationError from "components/ValidationError";
-import ExternalLink from "components-themed/ExternalLink";
+// import ExternalLink from "components-themed/ExternalLink";
 
 const PageTitleContent = styled.div`
   color: ${colors.black};
@@ -43,10 +42,6 @@ const StyledInput = styled.input`
   `}
 `;
 
-const Justification = styled(Collapsible)`
-  margin-bottom: 1em;
-`;
-
 const PageTitleInput = ({
   heading,
   onChange,
@@ -63,23 +58,14 @@ const PageTitleInput = ({
       the browser&apos;s title bar or in the page&apos;s tab. Page titles follow
       the structure: &apos;page description - questionnaire title&apos;.
     </p>
-    <p>
+    {/* From interaction designer - this will be brought back when the page titles link is fixed */}
+    {/* <p>
       For help writing a page description, see our{" "}
       <ExternalLink
         url="https://ons-design-system.netlify.app/guidance/page-titles-and-urls/#page-titles"
         linkText="design system guidance on page titles"
       />
-    </p>
-    <Justification
-      title="Why do I need a page description?"
-      key={`justification-pagetitle`}
-    >
-      <p>
-        The page title is the first thing read out to those using a screen
-        reader and helps users identify the purpose of the page. You can see
-        page titles in the tab at the top of your browser.
-      </p>
-    </Justification>
+    </p> */}
     <Field data-test="page-title-missing-error">
       <Label
         data-test="page-title-input-field-label"
