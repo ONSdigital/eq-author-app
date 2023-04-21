@@ -8,15 +8,12 @@ import { get, flip, partial } from "lodash";
 import RichTextEditor from "components/RichTextEditor";
 import DescribedText from "components/DescribedText";
 
-import { Label } from "components/Forms";
 import Modal from "components-themed/Modal";
 import HubSettings from "./HubSettings";
 import SectionSummary from "./SectionSummary";
 import RepeatingSection from "./RepeatingSection";
 
-import PageTitleContainer from "components/PageTitle";
-
-import { colors, radius } from "constants/theme";
+import { colors } from "constants/theme";
 
 import withValidationError from "enhancers/withValidationError";
 
@@ -26,6 +23,7 @@ import getIdForObject from "utils/getIdForObject";
 
 import MoveSectionModal from "./MoveSectionModal";
 import MoveSectionQuery from "./MoveSectionModal/MoveSectionQuery";
+import SectionIntroduction from "./SectionIntroduction";
 import {
   sectionErrors,
   richTextEditorErrors,
@@ -52,13 +50,6 @@ const HorizontalRule = styled.hr`
 
 const SectionCanvas = styled.div`
   padding: 0;
-`;
-
-const IntroCanvas = styled.div`
-  padding: 1.5em 1.5em 0;
-  border: 1px solid ${colors.bordersLight};
-  background-color: ${colors.white};
-  border-radius: ${radius} ${radius};
 `;
 
 const hasNavigation = (section) =>
@@ -182,6 +173,29 @@ export class SectionEditor extends React.Component {
             }
           />
           <HorizontalRule />
+          <SectionIntroduction
+            section={section}
+            handleUpdate={handleUpdate}
+            introductionTitleErrorMessage={
+              section &&
+              this.props.getValidationError({
+                field: "introductionTitle",
+                label: "Introduction Title",
+                requiredMsg: sectionErrors.SECTION_INTRO_TITLE_NOT_ENTERED,
+                message: richTextEditorErrors.PIPING_TITLE_DELETED.message,
+              })
+            }
+            introductionContentErrorMessage={
+              section &&
+              this.props.getValidationError({
+                field: "introductionContent",
+                label: "Introduction Content",
+                requiredMsg: sectionErrors.SECTION_INTRO_CONTENT_NOT_ENTERED,
+                message: richTextEditorErrors.PIPING_TITLE_DELETED.message,
+              })
+            }
+          />
+          <HorizontalRule />
           <SectionSummary
             id={section.id}
             sectionSummary={section.sectionSummary}
@@ -191,60 +205,7 @@ export class SectionEditor extends React.Component {
             errors={section.validationErrorInfo.errors}
           />
           <HorizontalRule />
-          <Label>
-            <DescribedText description="If you do not want an introduction page, leave these blank">
-              Section introduction page
-            </DescribedText>
-          </Label>
-          <IntroCanvas>
-            <RichTextEditor
-              id="introduction-title"
-              label="Introduction title"
-              name="introductionTitle"
-              onUpdate={handleUpdate}
-              size="large"
-              testSelector="txt-introduction-title"
-              value={section?.introductionTitle}
-              controls={{ piping: true }}
-              listId={section?.repeatingSectionListId ?? null}
-              errorValidationMsg={
-                section &&
-                this.props.getValidationError({
-                  field: "introductionTitle",
-                  label: "Introduction Title",
-                  requiredMsg: sectionErrors.SECTION_INTRO_TITLE_NOT_ENTERED,
-                  message: richTextEditorErrors.PIPING_TITLE_DELETED.message,
-                })
-              }
-            />
-            <RichTextEditor
-              id="introduction-content"
-              label="Introduction content"
-              multiline
-              onUpdate={handleUpdate}
-              name="introductionContent"
-              testSelector="txt-introduction-content"
-              value={section?.introductionContent}
-              controls={{
-                heading: true,
-                bold: true,
-                list: true,
-                piping: true,
-                emphasis: true,
-                link: true,
-              }}
-              listId={section?.repeatingSectionListId ?? null}
-              errorValidationMsg={
-                section &&
-                this.props.getValidationError({
-                  field: "introductionContent",
-                  label: "Introduction Content",
-                  requiredMsg: sectionErrors.SECTION_INTRO_CONTENT_NOT_ENTERED,
-                  message: richTextEditorErrors.PIPING_TITLE_DELETED.message,
-                })
-              }
-            />
-          </IntroCanvas>
+
           <HorizontalRule />
           <RepeatingSection section={section} handleUpdate={handleUpdate} />
         </Padding>

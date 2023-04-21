@@ -75,7 +75,7 @@ CollapsibleToggled.propTypes = {
   /**
    * The title of the collapsible.
    */
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   /**
    * If true, the collapsible will be open.
    */
