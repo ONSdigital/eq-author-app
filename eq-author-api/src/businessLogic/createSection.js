@@ -11,6 +11,7 @@ const createSection = (input = {}) => ({
   requiredCompleted: false,
   showOnHub: true,
   sectionSummary: false,
+  sectionSummaryPageDescription: "",
   repeatingSection: false,
   repeatingSectionListId: "",
   ...input,
