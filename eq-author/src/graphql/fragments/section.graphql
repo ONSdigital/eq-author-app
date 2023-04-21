@@ -5,6 +5,7 @@ fragment Section on Section {
   hasIntroduction
   introductionTitle
   introductionContent
+  introductionPageDescription
   pageDescription
   requiredCompleted
   showOnHub

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
@@ -16,8 +16,12 @@ const SectionIntroduction = ({
   introductionTitleErrorMessage,
   introductionContentErrorMessage,
 }) => {
-  const { id, hasIntroduction } = section;
+  const { id, introductionPageDescription, hasIntroduction } = section;
   const [updateSection] = useMutation(UPDATE_SECTION_MUTATION);
+
+  const [pageDescription, setPageDescription] = useState(
+    introductionPageDescription
+  );
 
   return (
     <>
@@ -62,6 +66,19 @@ const SectionIntroduction = ({
           }}
           listId={section?.repeatingSectionListId ?? null}
           errorValidationMsg={introductionContentErrorMessage}
+        />
+        <PageTitleContainer
+          heading="Section introduction page title"
+          pageDescription={pageDescription}
+          inputTitlePrefix="Section introduction"
+          onChange={({ value }) => {
+            setPageDescription(value);
+          }}
+          onUpdate={({ value }) => {
+            updateSection({
+              variables: { input: { id, introductionPageDescription: value } },
+            });
+          }}
         />
       </CollapsibleToggled>
     </>
