@@ -116,7 +116,13 @@ const RepeatingSection = ({ section, handleUpdate }) => {
         item from the list forms a section on the Hub. The repeating section is
         used to ask the same questions for each item selected.
       </Caption>
-      <InlineField disabled={!section.allowRepeatingSection}>
+      <InlineField
+        disabled={
+          !section.allowRepeatingSection ||
+          (section.position === 0 && !section.repeatingSection)
+        }
+        data-test="repeating-section-toggle-field"
+      >
         <Label htmlFor="repeating-section">Repeating section</Label>
         <ToggleWrapper>
           <ToggleSwitch
