@@ -73,6 +73,14 @@ const CustomPropTypes = {
       })
     ),
   }),
+  errors: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      errorCode: PropTypes.string,
+      field: PropTypes.string,
+      type: PropTypes.string,
+    })
+  ),
   answer: PropTypes.shape({
     id: PropTypes.string,
     label: PropTypes.string,

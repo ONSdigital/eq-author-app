@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
 import { Field, Label } from "components/Forms";
 import { useMutation } from "@apollo/react-hooks";
@@ -101,7 +102,7 @@ SectionSummary.propTypes = {
   id: PropTypes.string.isRequired,
   sectionSummary: PropTypes.bool,
   sectionSummaryPageDescription: PropTypes.string,
-  errors: PropTypes.array, // eslint-disable-line
+  errors: CustomPropTypes.errors,
 };
 
 export default SectionSummary;
