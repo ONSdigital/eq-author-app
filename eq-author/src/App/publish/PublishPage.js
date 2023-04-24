@@ -1,6 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
+import { useMutation } from "@apollo/react-hooks";
 import { colors } from "constants/theme.js";
 
 import Theme from "contexts/themeContext";
@@ -11,6 +12,8 @@ import Header from "components/EditorLayout/Header";
 
 import Panel from "components-themed/panels";
 import Button from "components-themed/buttons";
+
+import PUBLISH_SCHEMA from "graphql/publishSchema.graphql";
 
 const Container = styled.div`
   display: flex;
@@ -50,19 +53,20 @@ const HorizontalSeparator = styled.hr`
 `;
 
 const PublishPage = () => {
+  const [publishSchema] = useMutation(PUBLISH_SCHEMA);
   return (
-    <Theme themeName="ons">
+    <Theme themeName="onsLegacyFont">
       <Container data-test="publish-page-container">
         <Header title="Publish" />
         <ScrollPane>
           <StyledPanelWrapper>
-            <Title tabIndex="0">Publish questionnaire</Title>
-            <Content tabIndex="0">
+            <Title>Publish questionnaire</Title>
+            <Content>
               To launch a questionnaire in EQ for respondents to complete, it
               must first be published to the Collection Instrument Registry
               (CIR).
             </Content>
-            <Content tabIndex="0">
+            <Content>
               A questionnaire can be published more than once. Published
               versions of a questionnaire cannot be accessed or edited in
               Author, only launched through EQ.
@@ -71,10 +75,16 @@ const PublishPage = () => {
               All validation errors related to content, settings, or Q Codes
               must be resolved before a questionnaire can be published.
             </Panel>
-            <StyledButton variant="primary">Publish questionnaire</StyledButton>
+            <StyledButton
+              variant="primary"
+              onClick={() => publishSchema()}
+              data-test="btn-publish-schema"
+            >
+              Publish questionnaire
+            </StyledButton>
             <HorizontalSeparator />
-            <Title tabIndex="0">Publishing history</Title>
-            <Content tabIndex="0">
+            <Title>Publishing history</Title>
+            <Content>
               No versions of this questionnaire have been published
             </Content>
           </StyledPanelWrapper>

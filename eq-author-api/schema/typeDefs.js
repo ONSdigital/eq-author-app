@@ -82,6 +82,7 @@ type Questionnaire {
   publishDetails: [PublishDetails]
   totalErrorCount: Int!
   locked: Boolean
+  publishHistory: [publishHistoryEvent]
   validationErrorInfo: ValidationErrorInfo
   submission: Submission
 }
@@ -756,6 +757,17 @@ type PrepopSchemaVersions {
   versions: [Version!]!
 }
 
+type publishHistoryEvent {
+  id: ID!
+  cirId: ID
+  surveyId: String
+  formType: String
+  cirVersion: String
+  publishDate: Date
+  success: Boolean
+  errorMessage: String
+}
+
 type Query {
   questionnaires(input: QuestionnairesInput): [Questionnaire]
   questionnaire(input: QueryInput!): Questionnaire
@@ -950,6 +962,7 @@ type Mutation {
   createListCollectorPage(input: CreateListCollectorPageInput!): ListCollectorPage
   updateListCollectorPage(input: UpdateListCollectorPageInput!): ListCollectorPage
   updateCommentsAsRead(input: UpdateCommentsAsReadInput!): [Comment]!
+  publishSchema: Questionnaire!
 }
 
 input CreateListCollectorPageInput {
