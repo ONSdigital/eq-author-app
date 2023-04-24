@@ -141,8 +141,8 @@ export const questionDefinitionErrors = {
 export const sectionErrors = {
   SECTION_TITLE_NOT_ENTERED: "Enter a section title",
   SUMMARY_TITLE_NOT_ENTERED: "Enter a summary title",
-  SECTION_INTRO_TITLE_NOT_ENTERED: "Enter a section introduction title",
-  SECTION_INTRO_CONTENT_NOT_ENTERED: "Enter section introduction content",
+  SECTION_INTRO_TITLE_NOT_ENTERED: "Enter an introduction title",
+  SECTION_INTRO_CONTENT_NOT_ENTERED: "Enter introduction content",
 };
 
 export const listErrors = {
