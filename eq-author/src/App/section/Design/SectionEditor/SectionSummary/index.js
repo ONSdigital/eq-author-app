@@ -60,6 +60,7 @@ const SectionSummary = ({
       <InlineField>
         <ToggleWrapper>
           <CollapsibleToggled
+            id={"section-summary"}
             quoted={false}
             withContentSpace
             onChange={({ value }) =>

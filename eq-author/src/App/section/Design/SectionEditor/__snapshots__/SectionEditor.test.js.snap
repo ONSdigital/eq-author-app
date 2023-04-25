@@ -46,73 +46,43 @@ exports[`SectionEditor should render 1`] = `
       value="Section 1"
     />
     <SectionEditor__HorizontalRule />
-    <PageTitleContainer
-      errors={Array []}
-      onChange={[MockFunction]}
-      onUpdate={[MockFunction]}
-      pageDescription="Section 1 page title"
+    <SectionIntroduction
+      handleUpdate={[Function]}
+      section={
+        Object {
+          "alias": "alias",
+          "collapsibleSummary": false,
+          "comments": Array [],
+          "id": "section-1",
+          "introductionContent": "Intro content",
+          "introductionTitle": "Intro title",
+          "pageDescription": "Section 1 page title",
+          "questionnaire": Object {
+            "collapsibleSummary": false,
+            "hub": false,
+            "id": "2",
+            "navigation": true,
+          },
+          "repeatingSection": false,
+          "repeatingSectionListId": null,
+          "requiredCompleted": true,
+          "sectionSummary": false,
+          "showOnHub": true,
+          "title": "Section 1",
+          "validationErrorInfo": Object {
+            "errors": Array [],
+            "id": "3",
+            "totalCount": 0,
+          },
+        }
+      }
     />
     <SectionEditor__HorizontalRule />
     <SectionSummary
+      errors={Array []}
       id="section-1"
       sectionSummary={false}
     />
-    <SectionEditor__HorizontalRule />
-    <Label
-      bold={true}
-    >
-      <DescribedText
-        description="If you do not want an introduction page, leave these blank"
-      >
-        Section introduction page
-      </DescribedText>
-    </Label>
-    <SectionEditor__IntroCanvas>
-      <RichTextEditor
-        autoFocus={false}
-        controls={
-          Object {
-            "piping": true,
-          }
-        }
-        disabled={false}
-        id="introduction-title"
-        label="Introduction title"
-        listId={null}
-        maxHeight={12}
-        multiline={false}
-        name="introductionTitle"
-        onUpdate={[Function]}
-        placeholder=""
-        size="large"
-        testSelector="txt-introduction-title"
-        value="Intro title"
-      />
-      <RichTextEditor
-        autoFocus={false}
-        controls={
-          Object {
-            "bold": true,
-            "emphasis": true,
-            "heading": true,
-            "link": true,
-            "list": true,
-            "piping": true,
-          }
-        }
-        disabled={false}
-        id="introduction-content"
-        label="Introduction content"
-        listId={null}
-        maxHeight={12}
-        multiline={true}
-        name="introductionContent"
-        onUpdate={[Function]}
-        placeholder=""
-        testSelector="txt-introduction-content"
-        value="Intro content"
-      />
-    </SectionEditor__IntroCanvas>
     <SectionEditor__HorizontalRule />
     <RepeatingSection
       handleUpdate={[Function]}
@@ -195,73 +165,43 @@ exports[`SectionEditor should render 2`] = `
       value="Section 2"
     />
     <SectionEditor__HorizontalRule />
-    <PageTitleContainer
-      errors={Array []}
-      onChange={[MockFunction]}
-      onUpdate={[MockFunction]}
-      pageDescription="Section 2 page title"
+    <SectionIntroduction
+      handleUpdate={[Function]}
+      section={
+        Object {
+          "alias": "alias",
+          "collapsibleSummary": false,
+          "comments": Array [],
+          "id": "section-2",
+          "introductionContent": "Intro content",
+          "introductionTitle": "Intro title",
+          "pageDescription": "Section 2 page title",
+          "questionnaire": Object {
+            "collapsibleSummary": false,
+            "hub": false,
+            "id": "2",
+            "navigation": true,
+          },
+          "repeatingSection": false,
+          "repeatingSectionListId": null,
+          "requiredCompleted": true,
+          "sectionSummary": false,
+          "showOnHub": true,
+          "title": "Section 2",
+          "validationErrorInfo": Object {
+            "errors": Array [],
+            "id": "3",
+            "totalCount": 0,
+          },
+        }
+      }
     />
     <SectionEditor__HorizontalRule />
     <SectionSummary
+      errors={Array []}
       id="section-2"
       sectionSummary={false}
     />
-    <SectionEditor__HorizontalRule />
-    <Label
-      bold={true}
-    >
-      <DescribedText
-        description="If you do not want an introduction page, leave these blank"
-      >
-        Section introduction page
-      </DescribedText>
-    </Label>
-    <SectionEditor__IntroCanvas>
-      <RichTextEditor
-        autoFocus={false}
-        controls={
-          Object {
-            "piping": true,
-          }
-        }
-        disabled={false}
-        id="introduction-title"
-        label="Introduction title"
-        listId={null}
-        maxHeight={12}
-        multiline={false}
-        name="introductionTitle"
-        onUpdate={[Function]}
-        placeholder=""
-        size="large"
-        testSelector="txt-introduction-title"
-        value="Intro title"
-      />
-      <RichTextEditor
-        autoFocus={false}
-        controls={
-          Object {
-            "bold": true,
-            "emphasis": true,
-            "heading": true,
-            "link": true,
-            "list": true,
-            "piping": true,
-          }
-        }
-        disabled={false}
-        id="introduction-content"
-        label="Introduction content"
-        listId={null}
-        maxHeight={12}
-        multiline={true}
-        name="introductionContent"
-        onUpdate={[Function]}
-        placeholder=""
-        testSelector="txt-introduction-content"
-        value="Intro content"
-      />
-    </SectionEditor__IntroCanvas>
     <SectionEditor__HorizontalRule />
     <RepeatingSection
       handleUpdate={[Function]}

@@ -31,6 +31,7 @@ const Body = styled.div`
 const UnquotedBody = styled.div``;
 
 const CollapsibleToggled = ({
+  id,
   title,
   isOpen = false,
   headerContent,
@@ -50,12 +51,13 @@ const CollapsibleToggled = ({
       >
         {title && <h2>{title}</h2>}
         <ToggleSwitch
-          id={`${title}`}
-          name={`${title}-toggle-switch`}
+          id={id}
+          name={`${id}-toggle-switch`}
           hideLabels={false}
           onChange={onChange}
           checked={isOpen}
           ariaLabel={ariaLabel}
+          data-test={id}
         />
         {headerContent}
       </Header>

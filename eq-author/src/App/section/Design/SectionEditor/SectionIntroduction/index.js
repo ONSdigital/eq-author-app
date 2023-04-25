@@ -32,8 +32,11 @@ const SectionIntroduction = ({
 
   return (
     <>
-      <Label>Section introduction page</Label>
+      <Label htmlFor={"section-introduction-toggle"}>
+        Section introduction page
+      </Label>
       <CollapsibleToggled
+        id={"section-introduction-toggle"}
         quoted={false}
         withContentSpace
         onChange={({ value }) =>
