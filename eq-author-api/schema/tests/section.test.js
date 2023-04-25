@@ -288,12 +288,14 @@ describe("section", () => {
         expect(updatedSection.validationErrorInfo.errors).toHaveLength(0);
       });
 
-      it("should be invalid if introduction title populated but introduction content is empty", async () => {
+      it("should be invalid if introduction title and page description populated but introduction content is empty", async () => {
         const update = {
           id: section.id,
           title: section.title,
+          introductionEnabled: true,
           introductionTitle: "introduction title",
           introductionContent: "",
+          introductionPageDescription: "introduction description",
         };
         const updatedSection = await updateSection(ctx, update);
 
@@ -304,12 +306,14 @@ describe("section", () => {
         expect(updatedSection.validationErrorInfo.errors).toHaveLength(1);
       });
 
-      it("should be invalid if introduction content populated but introduction title is empty", async () => {
+      it("should be invalid if introduction content and page description populated but introduction title is empty", async () => {
         const update = {
           id: section.id,
           title: section.title,
+          introductionEnabled: true,
           introductionTitle: "",
           introductionContent: "introduction content",
+          introductionPageDescription: "introduction description",
         };
         const updatedSection = await updateSection(ctx, update);
 

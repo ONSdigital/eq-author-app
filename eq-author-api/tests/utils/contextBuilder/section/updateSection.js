@@ -9,6 +9,7 @@ const updateSectionMutation = `
       alias
       displayName
       position
+      introductionEnabled
       introductionTitle
       introductionContent
       folders {
