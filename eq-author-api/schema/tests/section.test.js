@@ -256,12 +256,14 @@ describe("section", () => {
         expect(queriedSection.validationErrorInfo.errors).toHaveLength(0);
       });
 
-      it("should be valid if neither introduction title nor introduction content are populated", async () => {
+      it("should be valid if introduction is not enabled and neither introduction title nor introduction content are populated", async () => {
         const update = {
           id: section.id,
           title: section.title,
+          introductionEnabled: false,
           introductionTitle: "",
           introductionContent: "",
+          introductionPageDescription: "",
         };
         const updatedSection = await updateSection(ctx, update);
 
@@ -272,12 +274,14 @@ describe("section", () => {
         expect(updatedSection.validationErrorInfo.errors).toHaveLength(0);
       });
 
-      it("should be valid if both introduction title and introduction content are populated", async () => {
+      it("should be valid if introduction title, introduction content and page description are populated", async () => {
         const update = {
           id: section.id,
           title: section.title,
+          introductionEnabled: true,
           introductionTitle: "introduction title",
           introductionContent: "introduction content",
+          introductionPageDescription: "introduction description",
         };
         const updatedSection = await updateSection(ctx, update);
 
