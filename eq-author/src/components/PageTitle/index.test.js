@@ -46,21 +46,18 @@ describe("Page title input block", () => {
     expect(
       screen.getByTestId("page-title-input-field-label")
     ).toHaveTextContent("Page description");
-    expect(
-      screen.getByText("Why do I need a page description?")
-    ).toBeInTheDocument();
   });
-  it("should render an error when passed error=true", () => {
+  it("should render an error when passed errorMessage", () => {
     render(
       <PageTitleInput
         pageDescription=""
-        error
+        errorMessage="Test page description error message"
         onUpdate={jest.fn()}
         onChange={jest.fn()}
       />
     );
     expect(screen.getByTestId("page-title-missing-error")).toHaveTextContent(
-      "Page description required"
+      "Test page description error message"
     );
     expect(screen.getByTestId("txt-page-description")).toHaveAttribute(
       "value",
