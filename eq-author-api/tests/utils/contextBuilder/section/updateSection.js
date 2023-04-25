@@ -12,6 +12,8 @@ const updateSectionMutation = `
       introductionEnabled
       introductionTitle
       introductionContent
+      sectionSummary
+      sectionSummaryPageDescription
       folders {
         pages {
           ... on QuestionPage {

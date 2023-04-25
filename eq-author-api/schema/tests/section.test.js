@@ -347,6 +347,72 @@ describe("section", () => {
           expect(updatedSection.validationErrorInfo.errors).toHaveLength(1);
         });
       });
+
+      describe("Section summary", () => {
+        it("should be valid if section summary is not enabled when section title and summary page description are empty", async () => {
+          const update = {
+            id: section.id,
+            title: "",
+            sectionSummary: false,
+            sectionSummaryPageDescription: "",
+          };
+          const updatedSection = await updateSection(ctx, update);
+
+          expect(updatedSection.validationErrorInfo).toMatchObject({
+            totalCount: 0,
+            errors: expect.any(Array),
+          });
+          expect(updatedSection.validationErrorInfo.errors).toHaveLength(0);
+        });
+
+        it("should be valid if section summary is enabled when section title and summary page description are not empty", async () => {
+          const update = {
+            id: section.id,
+            title: "section title",
+            sectionSummary: true,
+            sectionSummaryPageDescription: "summary description",
+          };
+          const updatedSection = await updateSection(ctx, update);
+
+          expect(updatedSection.validationErrorInfo).toMatchObject({
+            totalCount: 0,
+            errors: expect.any(Array),
+          });
+          expect(updatedSection.validationErrorInfo.errors).toHaveLength(0);
+        });
+
+        it("should be invalid if section summary is enabled and summary page description is empty", async () => {
+          const update = {
+            id: section.id,
+            title: "section title",
+            sectionSummary: true,
+            sectionSummaryPageDescription: "",
+          };
+          const updatedSection = await updateSection(ctx, update);
+
+          expect(updatedSection.validationErrorInfo).toMatchObject({
+            totalCount: 1,
+            errors: expect.any(Array),
+          });
+          expect(updatedSection.validationErrorInfo.errors).toHaveLength(1);
+        });
+
+        it("should be invalid if section summary is enabled and section title is empty", async () => {
+          const update = {
+            id: section.id,
+            title: "",
+            sectionSummary: true,
+            sectionSummaryPageDescription: "section summary description",
+          };
+          const updatedSection = await updateSection(ctx, update);
+
+          expect(updatedSection.validationErrorInfo).toMatchObject({
+            totalCount: 1,
+            errors: expect.any(Array),
+          });
+          expect(updatedSection.validationErrorInfo.errors).toHaveLength(1);
+        });
+      });
     });
 
     describe("comments", () => {
