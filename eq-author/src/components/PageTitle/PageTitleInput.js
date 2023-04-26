@@ -95,6 +95,7 @@ const PageTitleInput = ({
 
 PageTitleInput.propTypes = {
   pageDescription: PropTypes.string,
+  inputTitlePrefix: PropTypes.string,
   heading: PropTypes.string,
   altFieldName: PropTypes.string,
   errorMessage: PropTypes.string,

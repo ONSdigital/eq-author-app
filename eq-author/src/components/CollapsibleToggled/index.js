@@ -77,6 +77,10 @@ export default CollapsibleToggled;
 
 CollapsibleToggled.propTypes = {
   /**
+   * Populates toggle switch id, name and data-test.
+   */
+  id: PropTypes.string,
+  /**
    * The title of the collapsible.
    */
   title: PropTypes.string,

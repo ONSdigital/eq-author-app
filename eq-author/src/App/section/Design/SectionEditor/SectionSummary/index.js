@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
-import { Field, Label } from "components/Forms";
+import { Field } from "components/Forms";
 import { useMutation } from "@apollo/react-hooks";
 
-import ToggleSwitch from "components/buttons/ToggleSwitch";
 import CollapsibleToggled from "components/CollapsibleToggled";
 import PageTitleContainer from "components/PageTitle";
 
