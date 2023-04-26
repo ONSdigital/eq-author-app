@@ -52,4 +52,41 @@ describe("Collapsible toggled", () => {
     expect(contentQuoted).not.toBeInTheDocument();
     expect(contentUnquoted).not.toBeInTheDocument();
   });
+
+  it("should use unquoted format when quoted is false", () => {
+    const { queryByTestId } = render(
+      <CollapsibleToggled
+        title="You were the chosen one! It was said that you would destroy the Sith, not join them!"
+        isOpen
+        onChange={jest.fn()}
+        quoted={false}
+      >
+        <p>Bring balance to The Force! Not leave it in Darkness!</p>
+      </CollapsibleToggled>
+    );
+
+    const contentQuoted = queryByTestId("collapsible-toggled-body-quoted");
+    const contentUnquoted = queryByTestId("collapsible-toggled-body-unquoted");
+
+    expect(contentQuoted).not.toBeInTheDocument();
+    expect(contentUnquoted).toBeInTheDocument();
+  });
+
+  it("should add margin bottom when withContentSpace is true", () => {
+    const { getByTestId } = render(
+      <CollapsibleToggled
+        title="You were the chosen one! It was said that you would destroy the Sith, not join them!"
+        isOpen
+        onChange={jest.fn()}
+        quoted={false}
+        withContentSpace
+      >
+        <p>Bring balance to The Force! Not leave it in Darkness!</p>
+      </CollapsibleToggled>
+    );
+
+    const header = getByTestId("CollapsibleToggled__Header");
+
+    expect(header).toHaveStyleRule("margin-bottom: 1.5em;");
+  });
 });
