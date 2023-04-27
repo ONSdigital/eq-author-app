@@ -8,8 +8,8 @@ steps:
     args:
       - "-c"
       - |
-        apt update
-        apt install -y jq bc
+        apt-get update
+        apt-get updgrade -y jq bc
         yarn --frozen-lockfile
         cd eq-author
         yarn --frozen-lockfile
