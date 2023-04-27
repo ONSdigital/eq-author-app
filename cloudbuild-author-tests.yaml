@@ -9,7 +9,7 @@ steps:
       - "-c"
       - |
         apt-get update
-        apk add -y jq bc
+        apk add jq bc
         yarn --frozen-lockfile
         cd eq-author
         yarn --frozen-lockfile
