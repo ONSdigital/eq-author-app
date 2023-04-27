@@ -6,7 +6,6 @@ fragment Section on Section {
   introductionTitle
   introductionContent
   introductionPageDescription
-  pageDescription
   requiredCompleted
   showOnHub
   sectionSummary

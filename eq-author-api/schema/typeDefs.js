@@ -167,7 +167,6 @@ type Section {
   introductionTitle: String
   introductionContent: String
   introductionPageDescription: String
-  pageDescription: String
   validationErrorInfo: ValidationErrorInfo
   repeatingSection: Boolean
   allowRepeatingSection: Boolean
@@ -1213,7 +1212,6 @@ input UpdateSectionInput {
   introductionTitle: String
   introductionContent: String
   introductionPageDescription: String
-  pageDescription: String
   requiredCompleted: Boolean
   showOnHub: Boolean
   sectionSummary: Boolean

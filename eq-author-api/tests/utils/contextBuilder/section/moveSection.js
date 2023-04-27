@@ -77,8 +77,12 @@ const moveSectionMutation = `
       sections {
         id
         title
-        pageDescription
-        displayName
+        introductionEnabled
+        introductionTitle
+        introductionContent
+        introductionPageDescription
+        sectionSummary
+        sectionSummaryPageDescription
         position
         questionnaire {
           id

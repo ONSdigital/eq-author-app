@@ -255,7 +255,7 @@ export const SECTION_QUERY = gql`
 const SectionRoute = (props) => (
   <Query
     query={SECTION_QUERY}
-    fetchPolicy="network-only"
+    fetchPolicy="cache-and-network"
     variables={{
       input: {
         questionnaireId: props.match.params.questionnaireId,

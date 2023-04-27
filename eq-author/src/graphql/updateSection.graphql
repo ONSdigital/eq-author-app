@@ -9,10 +9,11 @@ mutation UpdateSection($input: UpdateSectionInput!) {
     introductionEnabled
     introductionTitle
     introductionContent
-    pageDescription
+    introductionPageDescription
     requiredCompleted
     showOnHub
     sectionSummary
+    sectionSummaryPageDescription
     collapsibleSummary
     repeatingSection
     repeatingSectionListId
