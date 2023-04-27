@@ -1,5 +1,5 @@
 steps:
-  - name: "node:14"
+  - name: "node:14.19"
     env:
       - BABEL_ENV=test
       - NODE_ENV=test
