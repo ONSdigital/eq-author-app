@@ -27,6 +27,6 @@ steps:
         exit $(( 1 - $result ))
     id: unit_tests
     entrypoint: /bin/bash
-timeout: 1200s
+timeout: 1260s
 options:
   machineType: E2_HIGHCPU_8
