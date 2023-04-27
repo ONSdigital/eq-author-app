@@ -1202,11 +1202,11 @@ const Resolvers = {
 
       const pageComments = questionnaireComments[pageId];
 
-      pageComments.forEach((comment) => {
+      pageComments?.forEach((comment) => {
         if (!comment.readBy.includes(userId)) {
           comment.readBy.push(userId);
         }
-        comment.replies.forEach((reply) => {
+        comment?.replies?.forEach((reply) => {
           if (!reply.readBy.includes(userId)) {
             reply.readBy.push(userId);
           }
