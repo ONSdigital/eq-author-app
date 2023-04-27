@@ -9,7 +9,7 @@ steps:
       - "-c"
       - |
         apt-get update
-        apt-get updgrade -y jq bc
+        apt-get upgrade -y jq bc
         yarn --frozen-lockfile
         cd eq-author
         yarn --frozen-lockfile
