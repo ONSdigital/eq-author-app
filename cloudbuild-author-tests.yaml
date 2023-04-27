@@ -1,5 +1,5 @@
 steps:
-  - name: "node:10.24"
+  - name: "node:10.23"
     env:
       - BABEL_ENV=test
       - NODE_ENV=test
@@ -8,8 +8,8 @@ steps:
     args:
       - "-c"
       - |
-        sudo apt-get update
-        sudo apt-get install -y jq bc
+        apt update
+        apt install -y jq bc
         yarn --frozen-lockfile
         cd eq-author
         yarn --frozen-lockfile
