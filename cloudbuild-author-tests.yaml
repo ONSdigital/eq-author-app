@@ -1,5 +1,5 @@
 steps:
-  - name: "node:14.19"
+  - name: "node:10-alpine"
     env:
       - BABEL_ENV=test
       - NODE_ENV=test
@@ -8,8 +8,7 @@ steps:
     args:
       - "-c"
       - |
-        apt update
-        apt install -y jq bc
+        apk add jq bc
         yarn --frozen-lockfile
         cd eq-author
         yarn --frozen-lockfile
@@ -26,7 +25,7 @@ steps:
         export result=$(echo "$percent > $_COVERAGE_LEVEL" | bc)
         exit $(( 1 - $result ))
     id: unit_tests
-    entrypoint: /bin/bash
+    entrypoint: /bin/ash
 timeout: 1200s
 options:
   machineType: E2_HIGHCPU_8
