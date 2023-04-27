@@ -20,6 +20,8 @@ module.exports = (questionnaire) => {
     ) {
       section.introductionContent = "";
     }
+
+    section.introductionPageDescription = "";
   });
 
   return questionnaire;
