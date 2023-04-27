@@ -26,7 +26,7 @@ steps:
         export result=$(echo "$percent > $_COVERAGE_LEVEL" | bc)
         exit $(( 1 - $result ))
     id: unit_tests
-    entrypoint: /bin/bash
+    entrypoint: /bin/ash
 timeout: 1200s
 options:
   machineType: E2_HIGHCPU_8
