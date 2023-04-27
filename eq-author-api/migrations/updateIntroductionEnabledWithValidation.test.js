@@ -115,4 +115,23 @@ describe("updateIntroductionEnabledWithValidation", () => {
     expect(updatedQuestionnaire.sections[0].introductionEnabled).toBe(false);
     expect(updatedQuestionnaire.sections[1].introductionEnabled).toBe(false);
   });
+
+  it("should set introductionPageDescription to empty string", () => {
+    expect(
+      questionnaire.sections[0].introductionPageDescription
+    ).toBeUndefined();
+    expect(
+      questionnaire.sections[1].introductionPageDescription
+    ).toBeUndefined();
+
+    const updatedQuestionnaire =
+      updateIntroductionEnabledWithValidation(questionnaire);
+
+    expect(
+      updatedQuestionnaire.sections[0].introductionPageDescription
+    ).toEqual("");
+    expect(
+      updatedQuestionnaire.sections[1].introductionPageDescription
+    ).toEqual("");
+  });
 });
