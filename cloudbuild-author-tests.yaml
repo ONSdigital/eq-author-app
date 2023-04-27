@@ -8,7 +8,6 @@ steps:
     args:
       - "-c"
       - |
-        apt-get update
         apk add jq bc
         yarn --frozen-lockfile
         cd eq-author
