@@ -959,7 +959,7 @@ type Mutation {
   moveListAnswer(input: MoveListAnswerInput!): Answer!
   createListCollectorPage(input: CreateListCollectorPageInput!): ListCollectorPage
   updateListCollectorPage(input: UpdateListCollectorPageInput!): ListCollectorPage
-  updateCommentsAsRead(input: UpdateCommentsAsReadInput!): [Comment]!
+  updateCommentsAsRead(input: UpdateCommentsAsReadInput!): [Comment]
   publishSchema: Questionnaire!
 }
 
