@@ -1200,20 +1200,21 @@ const Resolvers = {
 
       const questionnaireComments = ctx.comments;
 
-      const pageComments = questionnaireComments[pageId];
+      const pageComments =
+        questionnaireComments && questionnaireComments[pageId];
 
-      pageComments.forEach((comment) => {
+      pageComments?.forEach((comment) => {
         if (!comment.readBy.includes(userId)) {
           comment.readBy.push(userId);
         }
-        comment.replies.forEach((reply) => {
+        comment?.replies?.forEach((reply) => {
           if (!reply.readBy.includes(userId)) {
             reply.readBy.push(userId);
           }
         });
       });
       await saveComments({
-        questionnaireId: ctx.questionnaire.id,
+        questionnaireId: ctx?.questionnaire?.id,
         comments: questionnaireComments,
       });
 
