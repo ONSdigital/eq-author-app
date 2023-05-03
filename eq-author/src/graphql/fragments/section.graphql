@@ -2,12 +2,14 @@ fragment Section on Section {
   id
   title
   alias
+  introductionEnabled
   introductionTitle
   introductionContent
-  pageDescription
+  introductionPageDescription
   requiredCompleted
   showOnHub
   sectionSummary
+  sectionSummaryPageDescription
   collapsibleSummary
   repeatingSection
   repeatingSectionListId

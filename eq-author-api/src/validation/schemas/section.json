@@ -35,67 +35,78 @@
       "items": {
         "$ref": "logic.json#/definitions/expressionGroup"
       }
-    },
-    "pageDescription": {
-      "type": "string",
-      "pattern": "\\w+",
-      "errorMessage": "PAGE_DESCRIPTION_MISSING"
     }
   },
-  "if": {
-    "properties": {
-      "repeatingSection": {
-        "const": true
-      }
-    }
-  },
-  "then": {
-    "properties": {
-      "repeatingSectionListId": {
-        "$ref": "definitions.json#/definitions/populatedString"
-      }
-    }
-  },
-  "anyOf": [
+  "allOf": [
     {
-      "properties": {
-        "introductionTitle": {
-          "type": [
-            "string",
-            "null"
-          ],
-          "maxLength": 0
-        },
-        "introductionContent": {
-          "type": [
-            "string",
-            "null"
-          ],
-          "maxLength": 0
+      "if": {
+        "properties": {
+          "repeatingSection": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "repeatingSectionListId": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          }
         }
       }
     },
     {
-      "properties": {
-        "introductionTitle": {
-          "allOf": [
-            {
-              "$ref": "definitions.json#/definitions/populatedString"
-            },
-            {
-              "validatePipingAnswerInTitle": true
-            }
-          ]
-        },
-        "introductionContent": {
-          "allOf": [
-            {
-              "$ref": "definitions.json#/definitions/populatedString"
-            },
-            {
-              "validatePipingAnswerInTitle": true
-            }
-          ]
+      "if": {
+        "properties": {
+          "sectionSummary": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "sectionSummaryPageDescription": {
+            "type": "string",
+            "pattern": "\\w+",
+            "errorMessage": "SECTION_SUMMARY_PAGE_DESCRIPTION_MISSING"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "introductionEnabled": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "introductionTitle": {
+            "allOf": [
+              {
+                "$ref": "definitions.json#/definitions/populatedString"
+              },
+              {
+                "validatePipingAnswerInTitle": true
+              }
+            ]
+          },
+          "introductionContent": {
+            "allOf": [
+              {
+                "$ref": "definitions.json#/definitions/populatedString"
+              },
+              {
+                "validatePipingAnswerInTitle": true
+              }
+            ]
+          },
+          "introductionPageDescription": {
+            "type": "string",
+            "pattern": "\\w+",
+            "errorMessage": "SECTION_INTRODUCTION_PAGE_DESCRIPTION_MISSING"
+          }
         }
       }
     }

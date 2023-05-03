@@ -44,6 +44,8 @@ const migrations = [
   require("./convertThemeSettingsToQuestionnaireSettings"),
   require("./updateBEIStoDBTTheme"),
   require("./addRepeatingLabelAndInputFields"),
+  require("./convertSectionPageDescription"),
+  require("./updateIntroductionEnabledWithValidation"),
 ];
 
 const currentVersion = migrations.length;

@@ -256,68 +256,162 @@ describe("section", () => {
         expect(queriedSection.validationErrorInfo.errors).toHaveLength(0);
       });
 
-      it("should be valid if neither introduction title nor introduction content are populated", async () => {
-        const update = {
-          id: section.id,
-          title: section.title,
-          introductionTitle: "",
-          introductionContent: "",
-        };
-        const updatedSection = await updateSection(ctx, update);
+      describe("Section introduction", () => {
+        it("should be valid if introduction is not enabled and introduction title, introduction content and page description are not populated", async () => {
+          const update = {
+            id: section.id,
+            title: section.title,
+            introductionEnabled: false,
+            introductionTitle: "",
+            introductionContent: "",
+            introductionPageDescription: "",
+          };
+          const updatedSection = await updateSection(ctx, update);
 
-        expect(updatedSection.validationErrorInfo).toMatchObject({
-          totalCount: 0,
-          errors: expect.any(Array),
+          expect(updatedSection.validationErrorInfo).toMatchObject({
+            totalCount: 0,
+            errors: expect.any(Array),
+          });
+          expect(updatedSection.validationErrorInfo.errors).toHaveLength(0);
         });
-        expect(updatedSection.validationErrorInfo.errors).toHaveLength(0);
+
+        it("should be valid if introduction title, introduction content and page description are populated", async () => {
+          const update = {
+            id: section.id,
+            title: section.title,
+            introductionEnabled: true,
+            introductionTitle: "introduction title",
+            introductionContent: "introduction content",
+            introductionPageDescription: "introduction description",
+          };
+          const updatedSection = await updateSection(ctx, update);
+
+          expect(updatedSection.validationErrorInfo).toMatchObject({
+            totalCount: 0,
+            errors: expect.any(Array),
+          });
+          expect(updatedSection.validationErrorInfo.errors).toHaveLength(0);
+        });
+
+        it("should be invalid if introduction title and page description populated but introduction content is empty", async () => {
+          const update = {
+            id: section.id,
+            title: section.title,
+            introductionEnabled: true,
+            introductionTitle: "introduction title",
+            introductionContent: "",
+            introductionPageDescription: "introduction description",
+          };
+          const updatedSection = await updateSection(ctx, update);
+
+          expect(updatedSection.validationErrorInfo).toMatchObject({
+            totalCount: 1,
+            errors: expect.any(Array),
+          });
+          expect(updatedSection.validationErrorInfo.errors).toHaveLength(1);
+        });
+
+        it("should be invalid if introduction content and page description populated but introduction title is empty", async () => {
+          const update = {
+            id: section.id,
+            title: section.title,
+            introductionEnabled: true,
+            introductionTitle: "",
+            introductionContent: "introduction content",
+            introductionPageDescription: "introduction description",
+          };
+          const updatedSection = await updateSection(ctx, update);
+
+          expect(updatedSection.validationErrorInfo).toMatchObject({
+            totalCount: 1,
+            errors: expect.any(Array),
+          });
+          expect(updatedSection.validationErrorInfo.errors).toHaveLength(1);
+        });
+
+        it("should be invalid if introduction title and introduction content populated but page description is empty", async () => {
+          const update = {
+            id: section.id,
+            title: section.title,
+            introductionEnabled: true,
+            introductionTitle: "introduction title",
+            introductionContent: "introduction content",
+            introductionPageDescription: "",
+          };
+          const updatedSection = await updateSection(ctx, update);
+
+          expect(updatedSection.validationErrorInfo).toMatchObject({
+            totalCount: 1,
+            errors: expect.any(Array),
+          });
+          expect(updatedSection.validationErrorInfo.errors).toHaveLength(1);
+        });
       });
 
-      it("should be valid if both introduction title and introduction content are populated", async () => {
-        const update = {
-          id: section.id,
-          title: section.title,
-          introductionTitle: "introduction title",
-          introductionContent: "introduction content",
-        };
-        const updatedSection = await updateSection(ctx, update);
+      describe("Section summary", () => {
+        it("should be valid if section summary is not enabled when section title and summary page description are empty", async () => {
+          const update = {
+            id: section.id,
+            title: "",
+            sectionSummary: false,
+            sectionSummaryPageDescription: "",
+          };
+          const updatedSection = await updateSection(ctx, update);
 
-        expect(updatedSection.validationErrorInfo).toMatchObject({
-          totalCount: 0,
-          errors: expect.any(Array),
+          expect(updatedSection.validationErrorInfo).toMatchObject({
+            totalCount: 0,
+            errors: expect.any(Array),
+          });
+          expect(updatedSection.validationErrorInfo.errors).toHaveLength(0);
         });
-        expect(updatedSection.validationErrorInfo.errors).toHaveLength(0);
-      });
 
-      it("should be invalid if introduction title populated but introduction content is empty", async () => {
-        const update = {
-          id: section.id,
-          title: section.title,
-          introductionTitle: "introduction title",
-          introductionContent: "",
-        };
-        const updatedSection = await updateSection(ctx, update);
+        it("should be valid if section summary is enabled when section title and summary page description are not empty", async () => {
+          const update = {
+            id: section.id,
+            title: "section title",
+            sectionSummary: true,
+            sectionSummaryPageDescription: "summary description",
+          };
+          const updatedSection = await updateSection(ctx, update);
 
-        expect(updatedSection.validationErrorInfo).toMatchObject({
-          totalCount: 1,
-          errors: expect.any(Array),
+          expect(updatedSection.validationErrorInfo).toMatchObject({
+            totalCount: 0,
+            errors: expect.any(Array),
+          });
+          expect(updatedSection.validationErrorInfo.errors).toHaveLength(0);
         });
-        expect(updatedSection.validationErrorInfo.errors).toHaveLength(1);
-      });
 
-      it("should be invalid if introduction content populated but introduction title is empty", async () => {
-        const update = {
-          id: section.id,
-          title: section.title,
-          introductionTitle: "",
-          introductionContent: "introduction content",
-        };
-        const updatedSection = await updateSection(ctx, update);
+        it("should be invalid if section summary is enabled and summary page description is empty", async () => {
+          const update = {
+            id: section.id,
+            title: "section title",
+            sectionSummary: true,
+            sectionSummaryPageDescription: "",
+          };
+          const updatedSection = await updateSection(ctx, update);
 
-        expect(updatedSection.validationErrorInfo).toMatchObject({
-          totalCount: 1,
-          errors: expect.any(Array),
+          expect(updatedSection.validationErrorInfo).toMatchObject({
+            totalCount: 1,
+            errors: expect.any(Array),
+          });
+          expect(updatedSection.validationErrorInfo.errors).toHaveLength(1);
         });
-        expect(updatedSection.validationErrorInfo.errors).toHaveLength(1);
+
+        it("should be invalid if section summary is enabled and section title is empty", async () => {
+          const update = {
+            id: section.id,
+            title: "",
+            sectionSummary: true,
+            sectionSummaryPageDescription: "section summary description",
+          };
+          const updatedSection = await updateSection(ctx, update);
+
+          expect(updatedSection.validationErrorInfo).toMatchObject({
+            totalCount: 1,
+            errors: expect.any(Array),
+          });
+          expect(updatedSection.validationErrorInfo.errors).toHaveLength(1);
+        });
       });
     });
 

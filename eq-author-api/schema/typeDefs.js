@@ -158,13 +158,15 @@ type Section {
   requiredCompleted: Boolean
   showOnHub: Boolean
   sectionSummary: Boolean
+  sectionSummaryPageDescription: String
   collapsibleSummary: Boolean
   folders: [Folder]
   questionnaire: Questionnaire
   position: Int!
+  introductionEnabled: Boolean
   introductionTitle: String
   introductionContent: String
-  pageDescription: String
+  introductionPageDescription: String
   validationErrorInfo: ValidationErrorInfo
   repeatingSection: Boolean
   allowRepeatingSection: Boolean
@@ -1208,12 +1210,14 @@ input UpdateSectionInput {
   id: ID!
   title: String
   alias: String
+  introductionEnabled: Boolean
   introductionTitle: String
   introductionContent: String
-  pageDescription: String
+  introductionPageDescription: String
   requiredCompleted: Boolean
   showOnHub: Boolean
   sectionSummary: Boolean
+  sectionSummaryPageDescription: String
   collapsibleSummary: Boolean
   repeatingSection: Boolean
   repeatingSectionListId: ID

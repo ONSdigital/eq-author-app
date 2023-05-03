@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
+import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
-import { Field, Label } from "components/Forms";
-import updateSectionMutation from "graphql/updateSection.graphql";
+import { Field } from "components/Forms";
 import { useMutation } from "@apollo/react-hooks";
 
-import ToggleSwitch from "components/buttons/ToggleSwitch";
+import CollapsibleToggled from "components/CollapsibleToggled";
+import PageTitleContainer from "components/PageTitle";
+
+import UPDATE_SECTION_MUTATION from "graphql/updateSection.graphql";
 
 const InlineField = styled(Field)`
   display: flex;
@@ -21,7 +24,6 @@ const ToggleWrapper = styled.div`
 
 const Caption = styled.p`
   margin-top: 0.3rem;
-  margin-bottom: 1.5rem;
   margin-left: 0;
   font-size: 0.85em;
 `;
@@ -33,25 +35,33 @@ const SummaryLabel = styled.label`
   font-weight: bold;
 `;
 
-const SectionSummary = ({ id, sectionSummary }) => {
-  const [updateSection] = useMutation(updateSectionMutation);
+const SectionSummary = ({
+  id,
+  sectionSummary,
+  sectionSummaryPageDescription,
+  errors,
+}) => {
+  const [pageDescription, setPageDescription] = useState(
+    sectionSummaryPageDescription
+  );
+  const [updateSection] = useMutation(UPDATE_SECTION_MUTATION);
 
   return (
     <>
-      <SummaryLabel>Section summary page</SummaryLabel>
+      <SummaryLabel htmlFor="section-summary">
+        Section summary page
+      </SummaryLabel>
       <Caption>
-        This allows respondants to view and change their answers within this
+        This allows respondents to view and change their answers within this
         section before submitting them. You can set the section summary to be
         collapsible, so respondents can show and hide the answers.
       </Caption>
       <InlineField>
-        <Label htmlFor="section-summary">Section summary</Label>
         <ToggleWrapper>
-          <ToggleSwitch
-            id="section-summary"
-            name="section-summary"
-            data-test="section-summary"
-            hideLabels={false}
+          <CollapsibleToggled
+            id={"section-summary"}
+            quoted={false}
+            withContentSpace
             onChange={({ value }) =>
               updateSection({
                 variables: {
@@ -63,8 +73,25 @@ const SectionSummary = ({ id, sectionSummary }) => {
                 },
               })
             }
-            checked={sectionSummary}
-          />
+            isOpen={sectionSummary}
+          >
+            <PageTitleContainer
+              heading="Section summary page title"
+              pageDescription={pageDescription}
+              inputTitlePrefix={"Section summary"}
+              onChange={({ value }) => setPageDescription(value)}
+              onUpdate={({ value }) =>
+                updateSection({
+                  variables: {
+                    input: { id, sectionSummaryPageDescription: value },
+                  },
+                })
+              }
+              altFieldName={"sectionSummaryPageDescription"}
+              altError={"SECTION_SUMMARY_PAGE_DESCRIPTION_MISSING"}
+              errors={errors}
+            />
+          </CollapsibleToggled>
         </ToggleWrapper>
       </InlineField>
     </>
@@ -74,9 +101,8 @@ const SectionSummary = ({ id, sectionSummary }) => {
 SectionSummary.propTypes = {
   id: PropTypes.string.isRequired,
   sectionSummary: PropTypes.bool,
-  collapsibleSummary: PropTypes.bool,
-  disabled: PropTypes.bool,
-  errorValidationMsg: PropTypes.string,
+  sectionSummaryPageDescription: PropTypes.string,
+  errors: CustomPropTypes.errors,
 };
 
 export default SectionSummary;

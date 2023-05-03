@@ -3,10 +3,8 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { Field, Label } from "components/Forms";
 import { colors, radius } from "constants/theme";
-import Collapsible from "components/Collapsible";
 import ValidationError from "components/ValidationError";
-import { pageDescriptionErrors } from "constants/validationMessages";
-import ExternalLink from "components-themed/ExternalLink";
+// import ExternalLink from "components-themed/ExternalLink";
 
 const PageTitleContent = styled.div`
   color: ${colors.black};
@@ -44,48 +42,39 @@ const StyledInput = styled.input`
   `}
 `;
 
-const Justification = styled(Collapsible)`
-  margin-bottom: 1em;
-`;
-
 const PageTitleInput = ({
+  heading,
   onChange,
   onUpdate,
   pageDescription,
+  inputTitlePrefix,
   altFieldName,
-  error,
+  errorMessage,
 }) => (
   <PageTitleContent>
-    <Heading data-test="page-title-input-heading">
-      Descriptions and definitions
-    </Heading>
+    <Heading data-test="page-title-input-heading">{heading}</Heading>
     <p>
-      The page description is the first part of the page title. Page titles
-      follow the structure: ‘page description – questionnaire title’.
+      The page title is the first thing read by screen readers and helps users
+      of assistive technology understand what the page is about. It is shown in
+      the browser&apos;s title bar or in the page&apos;s tab. Page titles follow
+      the structure: &apos;page description - questionnaire title&apos;.
     </p>
-    <p>
+    {/* From interaction designer - this will be brought back when the page titles link is fixed */}
+    {/* <p>
       For help writing a page description, see our{" "}
       <ExternalLink
         url="https://ons-design-system.netlify.app/guidance/page-titles-and-urls/#page-titles"
         linkText="design system guidance on page titles"
       />
-    </p>
-    <Justification
-      title="Why do I need a page description?"
-      key={`justification-pagetitle`}
-    >
-      <p>
-        The page title is the first thing read out to those using a screen
-        reader and helps users identify the purpose of the page. You can see
-        page titles in the tab at the top of your browser.
-      </p>
-    </Justification>
+    </p> */}
     <Field data-test="page-title-missing-error">
       <Label
         data-test="page-title-input-field-label"
         htmlFor={altFieldName ? altFieldName : "pageDescription"}
       >
-        Page description
+        {inputTitlePrefix
+          ? `${inputTitlePrefix} page description`
+          : "Page description"}
       </Label>
       <StyledInput
         id={altFieldName ? altFieldName : "pageDescription"}
@@ -97,23 +86,25 @@ const PageTitleInput = ({
         onChange={(e) => onChange(e.target)}
         onBlur={(e) => onUpdate(e.target)}
         value={pageDescription || ""}
-        hasError={error}
+        hasError={errorMessage}
       />
-      {error && (
-        <ValidationError>
-          {pageDescriptionErrors.PAGE_DESCRIPTION_MISSING}
-        </ValidationError>
-      )}
+      {errorMessage && <ValidationError>{errorMessage}</ValidationError>}
     </Field>
   </PageTitleContent>
 );
 
 PageTitleInput.propTypes = {
   pageDescription: PropTypes.string,
+  inputTitlePrefix: PropTypes.string,
+  heading: PropTypes.string,
   altFieldName: PropTypes.string,
-  error: PropTypes.bool,
+  errorMessage: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
+};
+
+PageTitleInput.defaultProps = {
+  heading: "Descriptions and definitions",
 };
 
 export default PageTitleInput;

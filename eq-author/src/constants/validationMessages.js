@@ -150,8 +150,8 @@ export const questionDefinitionErrors = {
 export const sectionErrors = {
   SECTION_TITLE_NOT_ENTERED: "Enter a section title",
   SUMMARY_TITLE_NOT_ENTERED: "Enter a summary title",
-  SECTION_INTRO_TITLE_NOT_ENTERED: "Enter a section introduction title",
-  SECTION_INTRO_CONTENT_NOT_ENTERED: "Enter section introduction content",
+  SECTION_INTRO_TITLE_NOT_ENTERED: "Enter an introduction title",
+  SECTION_INTRO_CONTENT_NOT_ENTERED: "Enter introduction content",
 };
 
 export const listErrors = {
@@ -160,6 +160,12 @@ export const listErrors = {
 
 export const pageDescriptionErrors = {
   PAGE_DESCRIPTION_MISSING: "Page description required",
+  SECTION_SUMMARY_PAGE_DESCRIPTION_MISSING:
+    "Section summary page description required",
+  SECTION_INTRODUCTION_PAGE_DESCRIPTION_MISSING:
+    "Section introduction page description required",
+  ADD_ITEM_PAGE_DESCRIPTION_MISSING: "Page description required",
+  ANOTHER_PAGE_DESCRIPTION_MISSING: "Page description required",
 };
 
 export const textAreaErrors = {

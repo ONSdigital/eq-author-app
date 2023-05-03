@@ -126,7 +126,7 @@ const RepeatingSection = ({ section, handleUpdate }) => {
         <Label htmlFor="repeating-section">Repeating section</Label>
         <ToggleWrapper>
           <ToggleSwitch
-            id="repeatingSection"
+            id="repeating-section"
             name="repeatingSection"
             data-test="repeating-section"
             hideLabels={false}
