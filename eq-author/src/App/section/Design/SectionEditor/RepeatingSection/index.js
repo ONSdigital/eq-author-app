@@ -130,7 +130,9 @@ const RepeatingSection = ({ section, handleUpdate }) => {
             name="repeatingSection"
             data-test="repeating-section"
             hideLabels={false}
-            onChange={handleUpdate}
+            onChange={({ value }) =>
+              handleUpdate({ name: "repeatingSection", value })
+            }
             checked={section?.repeatingSection}
           />
         </ToggleWrapper>
