@@ -8,9 +8,12 @@ query GetSection($input: QueryInput!) {
   section(input: $input) {
     id
     displayName
+    introductionEnabled
     introductionTitle
     introductionContent
-    pageDescription
+    introductionPageDescription
+    sectionSummary
+    sectionSummaryPageDescription
     position
     allowRepeatingSection
     displayConditions {

@@ -5,12 +5,15 @@ const updateSectionMutation = `
     updateSection(input: $input) {
       id
       title
-      pageDescription
+      introductionEnabled
+      introductionTitle
+      introductionContent
+      introductionPageDescription
+      sectionSummary
+      sectionSummaryPageDescription
       alias
       displayName
       position
-      introductionTitle
-      introductionContent
       folders {
         pages {
           ... on QuestionPage {

@@ -43,6 +43,8 @@ const migrations = [
   require("./addPageDescription"),
   require("./convertThemeSettingsToQuestionnaireSettings"),
   require("./updateBEIStoDBTTheme"),
+  require("./convertSectionPageDescription"),
+  require("./updateIntroductionEnabledWithValidation"),
 ];
 
 const currentVersion = migrations.length;

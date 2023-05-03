@@ -6,12 +6,14 @@ mutation UpdateSection($input: UpdateSectionInput!) {
     title
     alias
     displayName
+    introductionEnabled
     introductionTitle
     introductionContent
-    pageDescription
+    introductionPageDescription
     requiredCompleted
     showOnHub
     sectionSummary
+    sectionSummaryPageDescription
     collapsibleSummary
     repeatingSection
     repeatingSectionListId
@@ -20,7 +22,7 @@ mutation UpdateSection($input: UpdateSectionInput!) {
     }
     folders {
       id
-      pages{
+      pages {
         id
         displayName
       }

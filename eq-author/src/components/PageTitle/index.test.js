@@ -14,10 +14,12 @@ describe("Page Title container block", () => {
         onUpdate={jest.fn()}
       />
     );
+
     expect(
       screen.queryByTestId("page-title-collapsible")
     ).not.toBeInTheDocument();
   });
+
   it("should render with a collapsible", () => {
     render(
       <PageTitleContainer
@@ -27,6 +29,7 @@ describe("Page Title container block", () => {
         onUpdate={jest.fn()}
       />
     );
+
     expect(screen.queryByTestId("page-title-collapsible")).toBeInTheDocument();
   });
 });
@@ -40,33 +43,34 @@ describe("Page title input block", () => {
         onChange={jest.fn()}
       />
     );
+
     expect(screen.getByTestId("page-title-input-heading")).toHaveTextContent(
       "Descriptions and definitions"
     );
     expect(
       screen.getByTestId("page-title-input-field-label")
     ).toHaveTextContent("Page description");
-    expect(
-      screen.getByText("Why do I need a page description?")
-    ).toBeInTheDocument();
   });
-  it("should render an error when passed error=true", () => {
+
+  it("should render an error when passed errorMessage", () => {
     render(
       <PageTitleInput
         pageDescription=""
-        error
+        errorMessage="Test page description error message"
         onUpdate={jest.fn()}
         onChange={jest.fn()}
       />
     );
+
     expect(screen.getByTestId("page-title-missing-error")).toHaveTextContent(
-      "Page description required"
+      "Test page description error message"
     );
     expect(screen.getByTestId("txt-page-description")).toHaveAttribute(
       "value",
       ""
     );
   });
+
   it("should render change input id and name when given altFieldName", () => {
     render(
       <PageTitleInput
@@ -76,6 +80,7 @@ describe("Page title input block", () => {
         onChange={jest.fn()}
       />
     );
+
     expect(screen.getByTestId("txt-page-description")).toHaveAttribute(
       "id",
       "alt-field-name"
@@ -84,6 +89,47 @@ describe("Page title input block", () => {
       "name",
       "alt-field-name"
     );
+  });
+
+  it("should render page title input with prefix", () => {
+    render(
+      <PageTitleInput
+        pageDescription="Test page title"
+        inputTitlePrefix={"Section"}
+        onUpdate={jest.fn()}
+        onChange={jest.fn()}
+      />
+    );
+
+    expect(screen.getByTestId("page-title-input-heading")).toHaveTextContent(
+      "Descriptions and definitions"
+    );
+    expect(
+      screen.getByTestId("page-title-input-field-label")
+    ).toHaveTextContent("Section page description");
+  });
+
+  it("should render custom input heading", () => {
+    render(
+      <PageTitleInput
+        pageDescription="Test page title"
+        heading="Test page description"
+        onUpdate={jest.fn()}
+        onChange={jest.fn()}
+      />
+    );
+
+    expect(
+      screen.getByTestId("page-title-input-heading")
+    ).not.toHaveTextContent("Descriptions and definitions");
+
+    expect(screen.getByTestId("page-title-input-heading")).toHaveTextContent(
+      "Test page description"
+    );
+
+    expect(
+      screen.getByTestId("page-title-input-field-label")
+    ).toHaveTextContent("Page description");
   });
 });
 

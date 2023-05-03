@@ -7,9 +7,14 @@ const createSectionMutation = `
     createSection(input: $input) {
       id
       title
-      pageDescription
       alias
       displayName
+      introductionEnabled
+      introductionTitle
+      introductionContent
+      introductionPageDescription
+      sectionSummary
+      sectionSummaryPageDescription
       position
       folders {
         id
@@ -32,7 +37,12 @@ const createSection = async (ctx, input) => {
         gql`
           {
             title
-            pageDescription
+            introductionEnabled
+            introductionTitle
+            introductionContent
+            introductionPageDescription
+            sectionSummary
+            sectionSummaryPageDescription
             alias
             questionnaireId
             position

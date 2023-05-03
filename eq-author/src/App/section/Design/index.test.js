@@ -39,13 +39,16 @@ const section = {
   id: sectionId,
   title: "foo",
   alias: "foo-alias",
+  introductionEnabled: false,
   introductionTitle: "",
   introductionContent: "",
+  introductionPageDescription: "",
   displayName: "foo",
   position: 0,
   requiredCompleted: false,
   showOnHub: false,
   sectionSummary: false,
+  sectionSummaryPageDescription: "",
   collapsibleSummary: false,
   repeatingSection: false,
   repeatingSectionListId: null,
@@ -465,7 +468,7 @@ describe("SectionRoute", () => {
       });
     });
 
-    it("should enable the preview tab when the introduction is enabled", async () => {
+    it("should enable the preview tab when introduction is enabled and introduction title or content is not empty", async () => {
       const wrapper = render({
         loading: false,
         match,
@@ -473,6 +476,7 @@ describe("SectionRoute", () => {
           ...section,
           introductionTitle: "Title",
           introductionContent: "Content",
+          introductionEnabled: true,
         },
         ...mockHandlers,
       });
@@ -483,6 +487,56 @@ describe("SectionRoute", () => {
 
       expect(editorLayout.props()).toMatchObject({
         preview: true,
+      });
+      await act(async () => {
+        await flushPromises();
+      });
+    });
+
+    it("should not enable the preview tab when introduction is not enabled and introduction title or content is not empty", async () => {
+      const wrapper = render({
+        loading: false,
+        match,
+        section: {
+          ...section,
+          introductionTitle: "Title",
+          introductionContent: "Content",
+          introductionEnabled: false,
+        },
+        ...mockHandlers,
+      });
+
+      const editorLayout = wrapper.find(
+        `EditorLayout${byTestAttr("section-route")}`
+      );
+
+      expect(editorLayout.props()).toMatchObject({
+        preview: false,
+      });
+      await act(async () => {
+        await flushPromises();
+      });
+    });
+
+    it("should not enable the preview tab when introduction is enabled and introduction title and content are empty", async () => {
+      const wrapper = render({
+        loading: false,
+        match,
+        section: {
+          ...section,
+          introductionTitle: "",
+          introductionContent: "",
+          introductionEnabled: true,
+        },
+        ...mockHandlers,
+      });
+
+      const editorLayout = wrapper.find(
+        `EditorLayout${byTestAttr("section-route")}`
+      );
+
+      expect(editorLayout.props()).toMatchObject({
+        preview: false,
       });
       await act(async () => {
         await flushPromises();

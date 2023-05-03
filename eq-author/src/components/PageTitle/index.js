@@ -6,6 +6,8 @@ import { find } from "lodash";
 
 import PageTitleInput from "./PageTitleInput";
 
+import { pageDescriptionErrors } from "constants/validationMessages";
+
 const PageTitleContainerWithoutCollapsible = styled.div``;
 
 const PageTitleContainerWithCollapsible = styled.div`
@@ -14,12 +16,13 @@ const PageTitleContainerWithCollapsible = styled.div`
 `;
 
 const PageTitleContainer = ({
+  heading,
   inCollapsible,
   marginless,
   pageDescription,
+  inputTitlePrefix,
   altFieldName,
   altError,
-  error,
   errors,
   onChange,
   onUpdate,
@@ -29,10 +32,12 @@ const PageTitleContainer = ({
       ? find(errors, { errorCode: altError })
       : find(errors, { errorCode: "PAGE_DESCRIPTION_MISSING" });
 
-  const displayError =
-    error === "PAGE_DESCRIPTION_MISSING"
-      ? true
-      : Boolean(pageDescriptionError?.errorCode);
+  const allErrorCodes = Object.keys(pageDescriptionErrors);
+  const errorCode = allErrorCodes.find(
+    (code) => pageDescriptionError?.errorCode === code
+  );
+
+  const errorMessage = pageDescriptionErrors[errorCode];
 
   if (inCollapsible) {
     return (
@@ -46,11 +51,13 @@ const PageTitleContainer = ({
       >
         <PageTitleContainerWithCollapsible>
           <PageTitleInput
+            heading={heading}
             pageDescription={pageDescription}
+            inputTitlePrefix={inputTitlePrefix}
             altFieldName={altFieldName}
             onUpdate={onUpdate}
             onChange={onChange}
-            error={displayError}
+            errorMessage={errorMessage}
           />
         </PageTitleContainerWithCollapsible>
       </Collapsible>
@@ -59,23 +66,26 @@ const PageTitleContainer = ({
   return (
     <PageTitleContainerWithoutCollapsible>
       <PageTitleInput
+        heading={heading}
         pageDescription={pageDescription}
+        inputTitlePrefix={inputTitlePrefix}
         altFieldName={altFieldName}
-        error={displayError}
         onUpdate={onUpdate}
         onChange={onChange}
+        errorMessage={errorMessage}
       />
     </PageTitleContainerWithoutCollapsible>
   );
 };
 
 PageTitleContainer.propTypes = {
+  heading: PropTypes.string,
   inCollapsible: PropTypes.bool,
   marginless: PropTypes.bool,
   pageDescription: PropTypes.string,
+  inputTitlePrefix: PropTypes.string,
   altFieldName: PropTypes.string,
   altError: PropTypes.string,
-  error: PropTypes.string,
   errors: PropTypes.arrayOf(PropTypes.object),
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
