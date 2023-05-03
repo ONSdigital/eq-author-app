@@ -2,12 +2,15 @@
 #import "./fragments/validationErrorInfo.graphql"
 #import "./fragments/page.graphql"
 #import "./lists/list.graphql"
+#import "./fragments/total-validation-rule.graphql"
 
 mutation UpdateAnswer($input: UpdateAnswerInput!) {
   updateAnswer(input: $input) {
     ...Answer
     ... on BasicAnswer {
       secondaryQCode
+      repeatingLabelAndInput
+      repeatingLabelAndInputListId
       validationErrorInfo {
         ...ValidationErrorInfo
       }
@@ -36,6 +39,9 @@ mutation UpdateAnswer($input: UpdateAnswerInput!) {
       displayName
       position
       pageType
+      totalValidation {
+        ...TotalValidationRule
+      }
       validationErrorInfo {
         ...ValidationErrorInfo
       }

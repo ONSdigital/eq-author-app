@@ -2,13 +2,15 @@
 
 exports[`Currency Answer should render 1`] = `
 <Field>
-  <Label
-    description="Description"
-  >
-    Label
-  </Label>
-  <InputWithUnit
-    unit="£"
-  />
+  <CurrencyAnswer__Wrapper>
+    <Label
+      description="Description"
+    >
+      Label
+    </Label>
+    <InputWithUnit
+      unit="£"
+    />
+  </CurrencyAnswer__Wrapper>
 </Field>
 `;

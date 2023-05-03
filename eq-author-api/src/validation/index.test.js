@@ -89,6 +89,8 @@ describe("schema validation", () => {
                       type: NUMBER,
                       label: "Number",
                       qCode: "qCode1",
+                      repeatingLabelAndInput: false,
+                      repeatingLabelAndInputListId: "",
                       properties: {
                         required: false,
                         decimals: 0,
@@ -110,6 +112,8 @@ describe("schema validation", () => {
                       id: "answer_12",
                       type: NUMBER,
                       label: "Number",
+                      repeatingLabelAndInput: false,
+                      repeatingLabelAndInputListId: "",
                     },
                   ],
                 },
@@ -122,6 +126,8 @@ describe("schema validation", () => {
                       type: NUMBER,
                       label: "Number",
                       qCode: "qCode4",
+                      repeatingLabelAndInput: false,
+                      repeatingLabelAndInputListId: "",
                     },
                   ],
                 },
@@ -363,6 +369,8 @@ describe("schema validation", () => {
       const answer = {
         id: "answer_1",
         type: "Checkbox",
+        repeatingLabelAndInput: false,
+        repeatingLabelAndInputListId: "",
         options: [
           {
             id: "option_1",
@@ -391,6 +399,8 @@ describe("schema validation", () => {
             id: "a1",
             type,
             label: "",
+            repeatingLabelAndInput: false,
+            repeatingLabelAndInputListId: "",
           };
           const questionnaire = {
             id: "q1",
@@ -494,6 +504,8 @@ describe("schema validation", () => {
                             label: "Desc",
                             qCode: "qCode1",
                             secondaryQCode: "secQCode1",
+                            repeatingLabelAndInput: false,
+                            repeatingLabelAndInputListId: "",
                             properties: { maxLength: 50 },
                           },
                         ],
@@ -552,6 +564,8 @@ describe("schema validation", () => {
           label: "some answer",
           qCode: "qCode1",
           secondaryQCode: "secQCode1",
+          repeatingLabelAndInput: false,
+          repeatingLabelAndInputListId: "",
           validation: {
             earliestDate: {
               id: "123",
@@ -643,6 +657,8 @@ describe("schema validation", () => {
               label: "some answer",
               qCode: "qCode1",
               secondaryQCode: "secQCode1",
+              repeatingLabelAndInput: false,
+              repeatingLabelAndInputListId: "",
               validation: {
                 earliestDate: {
                   id: "123",
@@ -742,6 +758,8 @@ describe("schema validation", () => {
                 label: "some answer",
                 qCode: "qCode1",
                 secondaryQCode: "secQCode1",
+                repeatingLabelAndInput: false,
+                repeatingLabelAndInputListId: "",
                 validation: {
                   earliestDate: {
                     id: "123",
@@ -780,6 +798,8 @@ describe("schema validation", () => {
                 label: "some answer",
                 qCode: "qCode1",
                 secondaryQCode: "secQCode1",
+                repeatingLabelAndInput: false,
+                repeatingLabelAndInputListId: "",
                 validation: {
                   minDuration: {
                     id: "456",
@@ -816,6 +836,8 @@ describe("schema validation", () => {
                 label: "some answer",
                 qCode: "qCode1",
                 secondaryQCode: "secQCode1",
+                repeatingLabelAndInput: false,
+                repeatingLabelAndInputListId: "",
                 validation: {
                   minDuration: {
                     id: "456",
@@ -850,6 +872,8 @@ describe("schema validation", () => {
                   label: "some answer",
                   qCode: "qCode1",
                   secondaryQCode: "secQCode1",
+                  repeatingLabelAndInput: false,
+                  repeatingLabelAndInputListId: "",
                   validation: {
                     minDuration: {
                       id: "456",
@@ -889,6 +913,8 @@ describe("schema validation", () => {
             label: "some answer",
             qCode: "qCode1",
             secondaryQCode: "secQCode1",
+            repeatingLabelAndInput: false,
+            repeatingLabelAndInputListId: "",
             validation: {
               minValue: {
                 id: "123",
@@ -957,6 +983,8 @@ describe("schema validation", () => {
             label: "some answer",
             qCode: "qCode1",
             secondaryQCode: "secQCode1",
+            repeatingLabelAndInput: false,
+            repeatingLabelAndInputListId: "",
             validation: {
               minValue: {
                 id: "123",
@@ -1009,6 +1037,8 @@ describe("schema validation", () => {
             label: "some answer",
             qCode: "qCode1",
             secondaryQCode: "secQCode1",
+            repeatingLabelAndInput: false,
+            repeatingLabelAndInputListId: "",
             validation: {
               minValue: {
                 id: "123",
@@ -1279,6 +1309,8 @@ describe("schema validation", () => {
         qCode: "qcode1",
         label: "answer_1",
         secondaryQCode: "secQCode1",
+        repeatingLabelAndInput: false,
+        repeatingLabelAndInputListId: "",
         options: [
           {
             id: "optionID-1",
@@ -1326,6 +1358,8 @@ describe("schema validation", () => {
         qCode: "qcode1",
         label: "answer_1",
         secondaryQCode: "secQCode1",
+        repeatingLabelAndInput: false,
+        repeatingLabelAndInputListId: "",
         options: [
           {
             id: "optionID-1",
@@ -1426,6 +1460,8 @@ describe("schema validation", () => {
         qCode: "qcode1",
         label: "answer_1",
         secondaryQCode: "secQCode1",
+        repeatingLabelAndInput: false,
+        repeatingLabelAndInputListId: "",
         options: [
           {
             id: "optionID-1",
@@ -1470,6 +1506,8 @@ describe("schema validation", () => {
         qCode: "qcode1",
         label: "answer_1",
         secondaryQCode: "secQCode1",
+        repeatingLabelAndInput: false,
+        repeatingLabelAndInputListId: "",
         options: [
           {
             id: "optionID-1",
@@ -1559,6 +1597,8 @@ describe("schema validation", () => {
         qCode: "qcode1",
         label: "answer_1",
         secondaryQCode: "secQCode1",
+        repeatingLabelAndInput: false,
+        repeatingLabelAndInputListId: "",
         options: [
           {
             id: "option-1",
@@ -1620,6 +1660,8 @@ describe("schema validation", () => {
         qCode: "qcode1",
         label: "answer_12",
         secondaryQCode: "secQCode1",
+        repeatingLabelAndInput: false,
+        repeatingLabelAndInputListId: "",
         options: [
           {
             id: "option-1",
@@ -2134,6 +2176,8 @@ describe("schema validation", () => {
         type: DATE_RANGE,
         label: "Date from",
         secondaryLabel: "Date to",
+        repeatingLabelAndInput: false,
+        repeatingLabelAndInputListId: "",
       };
 
       questionnaire.sections[0].folders[0].pages[1].title = `<p><span data-piped="answers" data-id="daterange_1from" data-type="Date">[Date from]</span></p>
@@ -2209,6 +2253,8 @@ describe("schema validation", () => {
               type: NUMBER,
               label: "Number",
               qCode: "qCode5",
+              repeatingLabelAndInput: false,
+              repeatingLabelAndInputListId: "",
             },
           ],
         });

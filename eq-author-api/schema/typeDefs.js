@@ -337,6 +337,8 @@ type BasicAnswer implements Answer {
   validation: ValidationType
   validationErrorInfo: ValidationErrorInfo
   mutuallyExclusiveOption: Option
+  repeatingLabelAndInput: Boolean
+  repeatingLabelAndInputListId: ID
 }
 
 type MultipleChoiceAnswer implements Answer {
@@ -1379,6 +1381,8 @@ input UpdateAnswerInput {
   properties: JSON
   advancedProperties: Boolean
   defaultAnswer: Boolean
+  repeatingLabelAndInput: Boolean
+  repeatingLabelAndInputListId: ID
 }
 
 input UpdateAnswersOfTypeInput {

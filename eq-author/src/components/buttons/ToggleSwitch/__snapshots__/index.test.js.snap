@@ -4,6 +4,7 @@ exports[`ToggleSwitch should render 1`] = `
 <DocumentFragment>
   .c0 {
   padding: 0 1em;
+  padding: 0 1em;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -190,6 +191,7 @@ exports[`ToggleSwitch should render 1`] = `
   </div>
   .c0 {
   padding: 0 1em;
+  padding: 0 1em;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -218,6 +220,7 @@ exports[`ToggleSwitch should render 1`] = `
 exports[`ToggleSwitch should render a large toggle button 1`] = `
 <DocumentFragment>
   .c0 {
+  padding: 0 1em;
   padding: 0 1em;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -404,6 +407,7 @@ exports[`ToggleSwitch should render a large toggle button 1`] = `
     </div>
   </div>
   .c0 {
+  padding: 0 1em;
   padding: 0 1em;
   -webkit-align-items: center;
   -webkit-box-align: center;

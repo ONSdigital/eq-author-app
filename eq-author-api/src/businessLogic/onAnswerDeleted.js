@@ -38,6 +38,11 @@ const removeAnswerGroup = (page, deletedAnswer) => {
     return;
   }
 
+  if (page.answers.length === 0) {
+    delete page.totalValidation;
+    return;
+  }
+
   if (!totalableAnswerTypes.includes(deletedAnswer.type)) {
     return;
   }

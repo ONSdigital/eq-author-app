@@ -45,6 +45,7 @@ const migrations = [
   require("./updateBEIStoDBTTheme"),
   require("./convertSectionPageDescription"),
   require("./updateIntroductionEnabledWithValidation"),
+  require("./addRepeatingLabelAndInputFields"),
 ];
 
 const currentVersion = migrations.length;

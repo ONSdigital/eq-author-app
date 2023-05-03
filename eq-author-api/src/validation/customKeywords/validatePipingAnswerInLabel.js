@@ -74,7 +74,7 @@ module.exports = (ajv) =>
         //   }
         //   if (
         //     list.id !== section.repeatingSectionListId ||
-        //     !section.repeatingSection
+        // (!section.repeatingSection)
         //   ) {
         //     return hasError(PIPING_TITLE_DELETED);
         //   }

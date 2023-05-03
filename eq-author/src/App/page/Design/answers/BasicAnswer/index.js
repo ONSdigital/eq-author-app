@@ -23,20 +23,39 @@ import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.g
 import MinDurationValidationRule from "graphql/fragments/min-duration-validation-rule.graphql";
 import MaxDurationValidationRule from "graphql/fragments/max-duration-validation-rule.graphql";
 
-import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
-import { TEXTFIELD, TEXTAREA, DURATION } from "constants/answer-types";
+import { enableOn } from "utils/featureFlags";
+
+import {
+  MISSING_LABEL,
+  buildLabelError,
+  richTextEditorErrors,
+} from "constants/validationMessages";
+import {
+  TEXTFIELD,
+  TEXTAREA,
+  DURATION,
+  UNIT,
+  CURRENCY,
+  PERCENTAGE,
+  NUMBER,
+} from "constants/answer-types";
+import { colors } from "constants/theme";
 import { ANSWER } from "components/ContentPickerSelectv3/content-types";
 
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 import AnswerProperties from "components/AnswerContent/AnswerProperties";
+import RepeatingLabelAndInput from "components/AnswerContent/RepeatLabelAndInput";
 import AdvancedProperties from "components/AnswerContent/AdvancedProperties";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import InlineField from "components/AnswerContent/Format/InlineField";
 import Collapsible from "components/Collapsible";
+import ValidationError from "components/ValidationError";
 
 import gql from "graphql-tag";
 import RichTextEditor from "components/RichTextEditor";
-import { getErrorByField } from "../../QuestionPageEditor/validationUtils";
+
+const { PIPING_TITLE_DELETED, ERR_VALID_PIPED_ANSWER_REQUIRED } =
+  richTextEditorErrors;
 
 const Caption = styled.div`
   margin-bottom: 0.2em;
@@ -45,41 +64,47 @@ const Caption = styled.div`
 
 const CollapsibleContent = styled.p``;
 
+const StyledRichTextEditor = styled(RichTextEditor)`
+  border-color: ${(props) => props.hasLabelErrors && `${colors.errorPrimary}`};
+`;
+
 const answersWithoutAdditionalProperties = [TEXTFIELD, TEXTAREA, DURATION];
+const answersWithRepeatingAnswersToggle = [
+  TEXTFIELD,
+  TEXTAREA,
+  DURATION,
+  UNIT,
+  CURRENCY,
+  PERCENTAGE,
+  NUMBER,
+];
 
 export const StatelessBasicAnswer = ({
   answer,
   onChange,
   onUpdate,
   labelText,
-  errorLabel,
   descriptionText,
   descriptionPlaceholder,
   showDescription,
-  getValidationError,
   type,
   page,
 }) => {
-  const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
-
   const [updateAnswer] = useMutation(UPDATE_ANSWER);
   const [updateAnswerOfType] = useMutation(UPDATE_ANSWER_OF_TYPE);
 
   const { id } = answer;
+  const { pageType } = page;
   const pipingControls = { piping: true };
-  const errorMessage =
-    getErrorByField("label", page.validationErrorInfo.errors) ||
-    getValidationError({
-      field: "label",
-      type: "answer",
-      label: errorLabel,
-      requiredMsg: errorMsg,
-    });
+
+  const hasLabelErrors = (errors) => {
+    return errors?.some((error) => error.field === "label");
+  };
 
   return (
     <div>
       <Field>
-        <RichTextEditor
+        <StyledRichTextEditor
           id={`answer-label-${answer.id}`}
           label={labelText}
           name="label"
@@ -95,9 +120,33 @@ export const StatelessBasicAnswer = ({
           controls={pipingControls}
           size="large"
           allowableTypes={[ANSWER]}
-          errorValidationMsg={errorMessage}
+          listId={answer.repeatingLabelAndInputListId ?? null}
+          hasLabelErrors={hasLabelErrors(answer.validationErrorInfo?.errors)}
           autoFocus={!answer.label}
         />
+        {answer.validationErrorInfo?.errors?.map((error) => {
+          let message;
+
+          if (error.errorCode === "ERR_VALID_REQUIRED") {
+            message = buildLabelError(
+              MISSING_LABEL,
+              `${lowerCase(type)}`,
+              8,
+              7
+            );
+          }
+          if (error.errorCode === "ERR_VALID_PIPED_ANSWER_REQUIRED") {
+            message = ERR_VALID_PIPED_ANSWER_REQUIRED.message;
+          }
+          if (error.errorCode === "PIPING_TITLE_DELETED") {
+            message = PIPING_TITLE_DELETED.message;
+          }
+          return (
+            error.field === "label" && (
+              <ValidationError key={error.id}>{message}</ValidationError>
+            )
+          );
+        })}
       </Field>
       {showDescription && (
         <Field>
@@ -167,6 +216,15 @@ export const StatelessBasicAnswer = ({
           )}
         </AdvancedProperties>
       )}
+      {enableOn(["repeatingIndividualAnswers"]) &&
+        answersWithRepeatingAnswersToggle.includes(type) &&
+        pageType === "QuestionPage" && (
+          <RepeatingLabelAndInput
+            disabled={page.answers.length > 1}
+            answer={answer}
+            handleUpdate={updateAnswer}
+          />
+        )}
     </div>
   );
 };
@@ -204,6 +262,8 @@ StatelessBasicAnswer.fragments = {
   Answer: answerFragment,
   BasicAnswer: gql`
     fragment BasicAnswer on BasicAnswer {
+      repeatingLabelAndInput
+      repeatingLabelAndInputListId
       options {
         id
         mutuallyExclusive

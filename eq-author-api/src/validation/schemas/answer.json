@@ -119,6 +119,23 @@
           "$ref": "#/definitions/properties"
         }
       },
+      "if": {
+        "properties": {
+          "repeatingLabelAndInput": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "repeatingLabelAndInputListId": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          },
+          "label": {
+            "$ref": "definitions.json#/definitions/pipedString"
+          }
+        }
+      },
       "required": ["label"],
       "errorMessage": { "required": { "label": "ERR_VALID_REQUIRED" } }
     },

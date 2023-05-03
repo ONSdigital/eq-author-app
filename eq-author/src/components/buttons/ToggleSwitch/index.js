@@ -93,6 +93,7 @@ const FlexInline = styled.div`
 
 const ToggleLabel = styled.div`
   padding: 0 1em;
+  padding: ${(props) => (props.blockDisplay ? "0 1em 0 0" : "0 1em")};
   align-items: center;
   display: ${(props) => (props.isHidden ? "none" : "flex")};
   color: ${(props) => (props.checked ? labelColors.on : labelColors.off)};
@@ -111,6 +112,7 @@ class ToggleSwitch extends React.Component {
   static propTypes = {
     id: PropTypes.string,
     checked: PropTypes.bool,
+    blockDisplay: PropTypes.bool,
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
     hideLabels: PropTypes.bool,
@@ -120,6 +122,7 @@ class ToggleSwitch extends React.Component {
   static defaultProps = {
     checked: false,
     hideLabels: true,
+    blockDisplay: false,
   };
 
   constructor(props) {
@@ -145,11 +148,16 @@ class ToggleSwitch extends React.Component {
   };
 
   render() {
-    const { id, checked, onChange, hideLabels, ariaLabel } = this.props;
+    const { id, checked, onChange, hideLabels, ariaLabel, blockDisplay } =
+      this.props;
 
     return (
       <>
-        <ToggleLabel checked={!checked} isHidden={hideLabels}>
+        <ToggleLabel
+          checked={!checked}
+          isHidden={hideLabels}
+          blockDisplay={blockDisplay}
+        >
           Off
         </ToggleLabel>
         <FlexInline role="switch" aria-checked={checked} data-test={id}>

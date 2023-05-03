@@ -9,9 +9,14 @@ export default {
 
 export const LIST_COLLECTOR_ERRORS = [
   {
+    field: "repeatingLabelAndInputListId",
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Select a collection list",
+  },
+  {
     field: "repeatingSectionListId",
     errorCode: "ERR_VALID_REQUIRED",
-    message: "Select a list",
+    message: "Select a collection list",
   },
   {
     field: "title",
@@ -76,6 +81,10 @@ export const LIST_COLLECTOR_ERRORS = [
 ];
 
 export const richTextEditorErrors = {
+  ERR_VALID_PIPED_ANSWER_REQUIRED: {
+    errorCode: "ERR_VALID_PIPED_ANSWER_REQUIRED",
+    message: "Pipe in an answer from the linked collection list",
+  },
   QUESTION_TITLE_NOT_ENTERED: {
     errorCode: "ERR_VALID_REQUIRED",
     message: "Enter a question title",

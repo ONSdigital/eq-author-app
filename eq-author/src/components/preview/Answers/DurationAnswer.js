@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 
+import { colors } from "constants/theme";
 import { Field, UnitInput, Label } from "./elements";
 import {
   YEARSMONTHS,
@@ -18,15 +19,34 @@ const DurationInput = styled.div`
   margin-right: 1em;
 `;
 
-const SingleDuration = ({ answer }) => (
-  <Field>
-    <Label description={answer.description}>{answer.label}</Label>
-    <UnitInput
-      unit={durationConversion[answer.properties.unit].abbreviation}
-      trailing
-    />
-  </Field>
-);
+const Wrapper = styled.div`
+  ${(props) =>
+    props.active &&
+    `
+      border: 2px dashed ${colors.previewError};
+      border-radius: 0.2em;
+      padding: 1em;
+      width: fit-content;`}
+`;
+
+const SingleDuration = ({ answer }) => {
+  const { repeatingLabelAndInput } = answer;
+
+  return (
+    <Field>
+      {repeatingLabelAndInput && (
+        <Label color={colors.primary}>Repeating label and input</Label>
+      )}
+      <Wrapper active={repeatingLabelAndInput}>
+        <Label description={answer.description}>{answer.label}</Label>
+        <UnitInput
+          unit={durationConversion[answer.properties.unit].abbreviation}
+          trailing
+        />
+      </Wrapper>
+    </Field>
+  );
+};
 
 SingleDuration.propTypes = {
   answer: PropTypes.shape({
@@ -38,19 +58,30 @@ SingleDuration.propTypes = {
   }).isRequired,
 };
 
-const MultipleDuration = ({ answer }) => (
-  <Field>
-    <Label description={answer.description}>{answer.label}</Label>
-    <DurationField>
-      <DurationInput>
-        <UnitInput unit={durationConversion[YEARS].abbreviation} trailing />
-      </DurationInput>
-      <DurationInput>
-        <UnitInput unit={durationConversion[MONTHS].abbreviation} trailing />
-      </DurationInput>
-    </DurationField>
-  </Field>
-);
+const MultipleDuration = ({ answer }) => {
+  const { repeatingLabelAndInput } = answer;
+  return (
+    <Field>
+      {repeatingLabelAndInput && (
+        <Label color={colors.primary}>Repeating label and input</Label>
+      )}
+      <Wrapper active={repeatingLabelAndInput}>
+        <Label description={answer.description}>{answer.label}</Label>
+        <DurationField>
+          <DurationInput>
+            <UnitInput unit={durationConversion[YEARS].abbreviation} trailing />
+          </DurationInput>
+          <DurationInput>
+            <UnitInput
+              unit={durationConversion[MONTHS].abbreviation}
+              trailing
+            />
+          </DurationInput>
+        </DurationField>
+      </Wrapper>
+    </Field>
+  );
+};
 
 MultipleDuration.propTypes = {
   answer: PropTypes.shape({

@@ -5,6 +5,11 @@
       "type": "string",
       "pattern": "\\w+",
       "errorMessage": "ERR_VALID_REQUIRED"
+    },
+    "pipedString": {
+      "type": "string",
+      "pattern": "data-piped=\"answers\" data-id=\"(.+?)\"",
+      "errorMessage": "ERR_VALID_PIPED_ANSWER_REQUIRED"
     }
   }
 }

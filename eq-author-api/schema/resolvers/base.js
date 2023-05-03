@@ -116,6 +116,8 @@ const { listQuestionnaires } = require("../../db/datastore");
 const createQuestionnaireIntroduction = require("../../utils/createQuestionnaireIntroduction");
 const createSubmission = require("../../utils/createSubmission");
 
+const createTotalValidation = require("../../src/businessLogic/createTotalValidation");
+
 const {
   enforceHasWritePermission,
   hasWritePermission,
@@ -717,6 +719,15 @@ const Resolvers = {
       const pages = getPages(ctx);
       onAnswerUpdated(ctx, oldAnswerLabel, input, pages);
 
+      const page = getPageByAnswerId(ctx, answer.id);
+      if (answer.repeatingLabelAndInput && !page.totalValidation) {
+        page.totalValidation = createTotalValidation();
+      }
+
+      if (!answer.repeatingLabelAndInput && page) {
+        delete page.totalValidation;
+      }
+
       return answer;
     }),
     updateAnswersOfType: createMutation(
@@ -1019,6 +1030,14 @@ const Resolvers = {
       );
       ctx.questionnaire.dataVersion =
         ctx.questionnaire.collectionLists.lists.length > 0 ? "3" : "1";
+
+      const answers = getAnswers(ctx);
+
+      answers.forEach((answer) => {
+        if (answer.repeatingLabelAndInputListId === input.id) {
+          answer.repeatingLabelAndInputListId = "";
+        }
+      });
 
       return ctx.questionnaire.collectionLists;
     }),
@@ -1672,9 +1691,9 @@ const Resolvers = {
     secondaryLabelDefault: (answer) =>
       getName({ label: answer.secondaryLabel }, "BasicAnswer"),
     validationErrorInfo: ({ id }, args, ctx) => {
-      const answerErrors = ctx.validationErrorInfo.filter(
-        ({ answerId }) => id === answerId
-      );
+      const answerErrors = ctx.validationErrorInfo
+        .filter(({ answerId }) => id === answerId)
+        .reverse();
 
       if (!answerErrors) {
         return {
