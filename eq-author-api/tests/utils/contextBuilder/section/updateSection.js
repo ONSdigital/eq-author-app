@@ -14,11 +14,6 @@ const updateSectionMutation = `
       alias
       displayName
       position
-      introductionEnabled
-      introductionTitle
-      introductionContent
-      sectionSummary
-      sectionSummaryPageDescription
       folders {
         pages {
           ... on QuestionPage {

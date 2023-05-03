@@ -77,6 +77,7 @@ const moveSectionMutation = `
       sections {
         id
         title
+        displayName
         introductionEnabled
         introductionTitle
         introductionContent

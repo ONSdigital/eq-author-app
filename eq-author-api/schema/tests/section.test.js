@@ -257,7 +257,7 @@ describe("section", () => {
       });
 
       describe("Section introduction", () => {
-        it("should be valid if introduction is not enabled and introduction title, introduction content and page title are populated", async () => {
+        it("should be valid if introduction is not enabled and introduction title, introduction content and page description are not populated", async () => {
           const update = {
             id: section.id,
             title: section.title,
