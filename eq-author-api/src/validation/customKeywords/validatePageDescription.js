@@ -12,10 +12,27 @@ module.exports = (ajv) =>
       _schema,
       label,
       _parentSchema,
-      { parentDataProperty: fieldName, instancePath, rootData: questionnaire }
+      {
+        parentData,
+        parentDataProperty: fieldName,
+        instancePath,
+        rootData: questionnaire,
+      }
     ) {
       const pages = getPages({ questionnaire });
-      if (pages[0].pageDescription === pages[1].pageDescription) {
+      let allPageDescriptions = [];
+      pages?.forEach((page) => {
+        if (page.id !== parentData.id) {
+          allPageDescriptions.push(page.pageDescription);
+        }
+      });
+      const hasDuplicates = allPageDescriptions.includes(
+        parentData.pageDescription
+      );
+
+      console.log("hasDuplicates :>> ", hasDuplicates);
+      console.log("parentData :>> ", parentData);
+      if (hasDuplicates) {
         isValid.errors = [
           createValidationError(
             instancePath,
@@ -24,6 +41,7 @@ module.exports = (ajv) =>
             questionnaire
           ),
         ];
+        console.log("isValid :>> ", isValid);
         return false;
       } else {
         return true;
