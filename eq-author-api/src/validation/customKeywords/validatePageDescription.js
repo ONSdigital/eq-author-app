@@ -30,6 +30,9 @@ module.exports = (ajv) =>
           } else {
             allPageDescriptions.push(section.introductionPageDescription);
           }
+        } else {
+          allPageDescriptions.push(section.introductionPageDescription);
+          allPageDescriptions.push(section.sectionSummaryPageDescription);
         }
       });
       pages?.forEach((page) => {
@@ -47,6 +50,8 @@ module.exports = (ajv) =>
               allPageDescriptions.push(page.pageDescription);
               allPageDescriptions.push(page.anotherPageDescription);
             }
+          } else if (page.confirmation) {
+            allPageDescriptions.push(page.confirmation.pageDescription);
           }
         }
       });
