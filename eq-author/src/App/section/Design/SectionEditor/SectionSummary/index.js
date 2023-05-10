@@ -9,6 +9,7 @@ import CollapsibleToggled from "components/CollapsibleToggled";
 import PageTitleContainer from "components/PageTitle";
 
 import UPDATE_SECTION_MUTATION from "graphql/updateSection.graphql";
+import { find } from "lodash";
 
 const InlineField = styled(Field)`
   display: flex;
@@ -41,6 +42,14 @@ const SectionSummary = ({
   sectionSummaryPageDescription,
   errors,
 }) => {
+  if (
+    !find(errors, {
+      field: "sectionSummaryPageDescription",
+    })
+  ) {
+    errors = {};
+  }
+
   const [pageDescription, setPageDescription] = useState(
     sectionSummaryPageDescription
   );
