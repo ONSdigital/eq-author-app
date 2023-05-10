@@ -14,7 +14,12 @@
     "pageDescription": {
       "type": "string",
       "pattern": "\\w+",
-      "errorMessage": "PAGE_DESCRIPTION_MISSING"
+      "errorMessage": "PAGE_DESCRIPTION_MISSING",
+      "allOf": [
+        {
+          "validatePageDescription": true
+        }
+      ]
     },
     "drivingPositive": {
       "if": {
@@ -101,17 +106,17 @@
     }
   },
   "if": {
-     "properties": {
-       "additionalGuidancePanelSwitch": { "const": true }
-     }
-   },
-   "then": {
     "properties": {
-        "additionalGuidancePanel": {
-          "$ref": "definitions.json#/definitions/populatedString"
+      "additionalGuidancePanelSwitch": { "const": true }
+    }
+  },
+  "then": {
+    "properties": {
+      "additionalGuidancePanel": {
+        "$ref": "definitions.json#/definitions/populatedString"
       }
     }
-   },
+  },
   "required": [
     "id",
     "title",

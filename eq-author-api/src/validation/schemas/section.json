@@ -67,7 +67,12 @@
           "sectionSummaryPageDescription": {
             "type": "string",
             "pattern": "\\w+",
-            "errorMessage": "SECTION_SUMMARY_PAGE_DESCRIPTION_MISSING"
+            "errorMessage": "SECTION_SUMMARY_PAGE_DESCRIPTION_MISSING",
+            "allOf": [
+              {
+                "validatePageDescription": true
+              }
+            ]
           }
         }
       }
@@ -105,7 +110,12 @@
           "introductionPageDescription": {
             "type": "string",
             "pattern": "\\w+",
-            "errorMessage": "SECTION_INTRODUCTION_PAGE_DESCRIPTION_MISSING"
+            "errorMessage": "SECTION_INTRODUCTION_PAGE_DESCRIPTION_MISSING",
+            "allOf": [
+              {
+                "validatePageDescription": true
+              }
+            ]
           }
         }
       }

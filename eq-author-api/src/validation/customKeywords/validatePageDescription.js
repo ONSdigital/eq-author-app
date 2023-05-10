@@ -26,12 +26,18 @@ module.exports = (ajv) =>
           allPageDescriptions.push(page.pageDescription);
         }
       });
-      const hasDuplicates = allPageDescriptions.includes(
-        parentData.pageDescription
-      );
 
-      console.log("hasDuplicates :>> ", hasDuplicates);
-      console.log("parentData :>> ", parentData);
+      let hasDuplicates = false;
+      if (fieldName === "pageDescription") {
+        hasDuplicates = allPageDescriptions.includes(
+          parentData.pageDescription
+        );
+      } else if (fieldName === "introductionPageDescription") {
+        hasDuplicates = allPageDescriptions.includes(
+          parentData.introductionPageDescription
+        );
+      }
+
       if (hasDuplicates) {
         isValid.errors = [
           createValidationError(
@@ -41,7 +47,6 @@ module.exports = (ajv) =>
             questionnaire
           ),
         ];
-        console.log("isValid :>> ", isValid);
         return false;
       } else {
         return true;
