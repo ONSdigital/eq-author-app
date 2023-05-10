@@ -24,6 +24,7 @@ import CommentFragment from "graphql/fragments/comment.graphql";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 
 import PageTitleContainer from "components/PageTitle";
+const _ = require("lodash");
 
 const propTypes = {
   match: CustomPropTypes.match.isRequired,
@@ -254,6 +255,23 @@ const UnwrappedListCollectorPageEditor = (props) => {
   if (data) {
     lists = data.collectionLists?.lists || [];
   }
+
+  const pageDescriptionErrors = _.filter(page.validationErrorInfo.errors, {
+    field: "pageDescription",
+  });
+  const anotherPageDescriptionErrors = _.filter(
+    page.validationErrorInfo.errors,
+    {
+      field: "anotherPageDescription",
+    }
+  );
+  const addItemPageDescriptionErrors = _.filter(
+    page.validationErrorInfo.errors,
+    {
+      field: "addItemPageDescription",
+    }
+  );
+
   return (
     <div data-test="list-page-editor">
       <PageHeader
@@ -555,7 +573,7 @@ const UnwrappedListCollectorPageEditor = (props) => {
             <HorizontalRule />
             <PageTitleContainer
               pageDescription={entity.pageDescription}
-              errors={page.validationErrorInfo.errors}
+              errors={pageDescriptionErrors}
               onChange={handleOnChange}
               onUpdate={handleOnUpdate}
             />
@@ -597,7 +615,7 @@ const UnwrappedListCollectorPageEditor = (props) => {
               pageDescription={entity.addItemPageDescription}
               altFieldName="addItemPageDescription"
               altError="ADD_ITEM_PAGE_DESCRIPTION_MISSING"
-              errors={page.validationErrorInfo.errors}
+              errors={addItemPageDescriptionErrors}
               onChange={handleOnChange}
               onUpdate={handleOnUpdate}
             />
@@ -721,7 +739,7 @@ const UnwrappedListCollectorPageEditor = (props) => {
               pageDescription={entity.anotherPageDescription}
               altFieldName="anotherPageDescription"
               altError="ANOTHER_PAGE_DESCRIPTION_MISSING"
-              errors={page.validationErrorInfo.errors}
+              errors={anotherPageDescriptionErrors}
               onChange={handleOnChange}
               onUpdate={handleOnUpdate}
             />
