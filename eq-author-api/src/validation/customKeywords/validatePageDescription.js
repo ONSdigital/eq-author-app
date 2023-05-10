@@ -2,7 +2,7 @@ const {
   ERR_UNIQUE_PAGE_DESCRIPTION,
 } = require("../../../constants/validationErrorCodes");
 const createValidationError = require("../createValidationError");
-const { getPages } = require("../../../schema/resolvers/utils");
+const { getPages, getSections } = require("../../../schema/resolvers/utils");
 
 module.exports = (ajv) =>
   ajv.addKeyword({
@@ -19,11 +19,35 @@ module.exports = (ajv) =>
         rootData: questionnaire,
       }
     ) {
+      const sections = getSections({ questionnaire });
       const pages = getPages({ questionnaire });
       let allPageDescriptions = [];
+
+      sections?.forEach((section) => {
+        if (section.id === parentData.id) {
+          if (fieldName === "introductionPageDescription") {
+            allPageDescriptions.push(section.sectionSummaryPageDescription);
+          } else {
+            allPageDescriptions.push(section.introductionPageDescription);
+          }
+        }
+      });
       pages?.forEach((page) => {
         if (page.id !== parentData.id) {
           allPageDescriptions.push(page.pageDescription);
+        } else {
+          if (page.pageType === "ListCollectorPage") {
+            if (fieldName === "pageDescription") {
+              allPageDescriptions.push(page.anotherPageDescription);
+              allPageDescriptions.push(page.addItemPageDescription);
+            } else if (fieldName === "anotherPageDescription") {
+              allPageDescriptions.push(page.pageDescription);
+              allPageDescriptions.push(page.addItemPageDescription);
+            } else {
+              allPageDescriptions.push(page.pageDescription);
+              allPageDescriptions.push(page.anotherPageDescription);
+            }
+          }
         }
       });
 
@@ -35,6 +59,18 @@ module.exports = (ajv) =>
       } else if (fieldName === "introductionPageDescription") {
         hasDuplicates = allPageDescriptions.includes(
           parentData.introductionPageDescription
+        );
+      } else if (fieldName === "sectionSummaryPageDescription") {
+        hasDuplicates = allPageDescriptions.includes(
+          parentData.sectionSummaryPageDescription
+        );
+      } else if (fieldName === "anotherPageDescription") {
+        hasDuplicates = allPageDescriptions.includes(
+          parentData.anotherPageDescription
+        );
+      } else if (fieldName === "addItemPageDescription") {
+        hasDuplicates = allPageDescriptions.includes(
+          parentData.addItemPageDescription
         );
       }
 

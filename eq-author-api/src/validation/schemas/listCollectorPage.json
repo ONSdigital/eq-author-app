@@ -59,7 +59,12 @@
     "addItemPageDescription": {
       "type": "string",
       "pattern": "\\w+",
-      "errorMessage": "ADD_ITEM_PAGE_DESCRIPTION_MISSING"
+      "errorMessage": "ADD_ITEM_PAGE_DESCRIPTION_MISSING",
+      "allOf": [
+        {
+          "validatePageDescription": true
+        }
+      ]
     },
     "anotherTitle": {
       "$ref": "definitions.json#/definitions/populatedString"
@@ -67,7 +72,12 @@
     "anotherPageDescription": {
       "type": "string",
       "pattern": "\\w+",
-      "errorMessage": "ANOTHER_PAGE_DESCRIPTION_MISSING"
+      "errorMessage": "ANOTHER_PAGE_DESCRIPTION_MISSING",
+      "allOf": [
+        {
+          "validatePageDescription": true
+        }
+      ]
     },
     "listId": {
       "$ref": "definitions.json#/definitions/populatedString"
