@@ -33,7 +33,7 @@ const updatePipingInAnswers = (oldAnswerLabel, updatedAnswer, pages) => {
     }
 
     page.answers?.forEach((answer) => {
-      if (answer.label.includes(updatedAnswer.id)) {
+      if (answer.label?.includes(updatedAnswer.id)) {
         answer.label = updatePipingValue(
           answer.label,
           updatedAnswer.id,
