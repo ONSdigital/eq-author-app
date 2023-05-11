@@ -323,6 +323,40 @@ describe("schema validation", () => {
     });
   });
 
+  describe("List Collector page validation", () => {
+    it("should validate that the descriptions in the list collector page are unique", () => {
+      const page = questionnaire.sections[0].folders[0].pages[0];
+      page.pageType = "ListCollectorPage";
+      page.pageDescription = "This is a duplicate description";
+      page.anotherPageDescription = "This is a duplicate description";
+      page.addItemPageDescription = "This is a duplicate description";
+
+      const validationPageErrors = validation(questionnaire);
+
+      expect(validationPageErrors).toHaveLength(3);
+      expect(validationPageErrors[0]).toMatchObject({
+        errorCode: "ERR_UNIQUE_PAGE_DESCRIPTION",
+        field: "pageDescription",
+        id: uuidRejex,
+        type: "page",
+      });
+
+      expect(validationPageErrors[1]).toMatchObject({
+        errorCode: "ERR_UNIQUE_PAGE_DESCRIPTION",
+        field: "addItemPageDescription",
+        id: uuidRejex,
+        type: "page",
+      });
+
+      expect(validationPageErrors[2]).toMatchObject({
+        errorCode: "ERR_UNIQUE_PAGE_DESCRIPTION",
+        field: "anotherPageDescription",
+        id: uuidRejex,
+        type: "page",
+      });
+    });
+  });
+
   describe("Confirmation Question validation", () => {
     let confirmationId, confirmation;
     beforeEach(() => {
@@ -355,6 +389,30 @@ describe("schema validation", () => {
         field: "title",
         id: uuidRejex,
         type: "confirmation",
+      });
+    });
+
+    it("should validate that page and confirmation question descriptions are unique", () => {
+      confirmation.title = "Confirmation";
+      const page = questionnaire.sections[0].folders[0].pages[0];
+      page.pageDescription = "This is a duplicate description";
+
+      page.confirmation = confirmation;
+      page.confirmation.pageDescription = "This is a duplicate description";
+
+      const validationPageErrors = validation(questionnaire);
+
+      expect(validationPageErrors[0]).toMatchObject({
+        errorCode: "ERR_UNIQUE_PAGE_DESCRIPTION",
+        field: "pageDescription",
+        id: uuidRejex,
+        type: "page",
+      });
+      expect(validationPageErrors[1]).toMatchObject({
+        errorCode: "ERR_UNIQUE_PAGE_DESCRIPTION",
+        field: "pageDescription",
+        id: uuidRejex,
+        type: "confirmationOption",
       });
     });
 
@@ -1102,30 +1160,7 @@ describe("schema validation", () => {
   });
 
   describe("Section validation", () => {
-    it("should return error when section introduction and section summary descriptions are the same", () => {
-      const section = questionnaire.sections[0];
-      section.title = "Section1";
-      section.introductionPageDescription = "This is a duplicate description";
-      section.sectionSummaryPageDescription = "This is a duplicate description";
-
-      const validationPageErrors = validation(questionnaire);
-
-      expect(validationPageErrors).toHaveLength(2);
-      expect(validationPageErrors[0]).toMatchObject({
-        errorCode: "ERR_UNIQUE_PAGE_DESCRIPTION",
-        field: "sectionSummaryPageDescription",
-        id: uuidRejex,
-        type: "section",
-      });
-      expect(validationPageErrors[1]).toMatchObject({
-        errorCode: "ERR_UNIQUE_PAGE_DESCRIPTION",
-        field: "introductionPageDescription",
-        id: uuidRejex,
-        type: "section",
-      });
-    });
-
-    it("should return error when section introduction, section summary, and page descriptions are the same", () => {
+    it("should return error when section introduction, section summary, and page descriptions are not unique", () => {
       const section = questionnaire.sections[0];
       section.title = "Section1";
       section.introductionPageDescription = "This is a duplicate description";
