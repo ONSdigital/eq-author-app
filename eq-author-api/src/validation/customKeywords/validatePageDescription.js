@@ -3,6 +3,7 @@ const {
 } = require("../../../constants/validationErrorCodes");
 const createValidationError = require("../createValidationError");
 const { getPages, getSections } = require("../../../schema/resolvers/utils");
+const { isEmpty } = require("lodash");
 
 module.exports = (ajv) =>
   ajv.addKeyword({
@@ -26,32 +27,56 @@ module.exports = (ajv) =>
       sections?.forEach((section) => {
         if (section.id === parentData.id) {
           if (fieldName === "introductionPageDescription") {
-            allPageDescriptions.push(section.sectionSummaryPageDescription);
+            if (!isEmpty(section.sectionSummaryPageDescription)) {
+              allPageDescriptions.push(section.sectionSummaryPageDescription);
+            }
           } else {
-            allPageDescriptions.push(section.introductionPageDescription);
+            if (!isEmpty(section.introductionPageDescription)) {
+              allPageDescriptions.push(section.introductionPageDescription);
+            }
           }
         } else {
-          allPageDescriptions.push(section.introductionPageDescription);
-          allPageDescriptions.push(section.sectionSummaryPageDescription);
+          if (!isEmpty(section.introductionPageDescription)) {
+            allPageDescriptions.push(section.introductionPageDescription);
+          }
+          if (!isEmpty(section.sectionSummaryPageDescription)) {
+            allPageDescriptions.push(section.sectionSummaryPageDescription);
+          }
         }
       });
       pages?.forEach((page) => {
         if (page.id !== parentData.id) {
-          allPageDescriptions.push(page.pageDescription);
+          if (!isEmpty(page.pageDescription)) {
+            allPageDescriptions.push(page.pageDescription);
+          }
         } else {
           if (page.pageType === "ListCollectorPage") {
             if (fieldName === "pageDescription") {
-              allPageDescriptions.push(page.anotherPageDescription);
-              allPageDescriptions.push(page.addItemPageDescription);
+              if (!isEmpty(page.anotherPageDescription)) {
+                allPageDescriptions.push(page.anotherPageDescription);
+              }
+              if (!isEmpty(page.addItemPageDescription)) {
+                allPageDescriptions.push(page.addItemPageDescription);
+              }
             } else if (fieldName === "anotherPageDescription") {
-              allPageDescriptions.push(page.pageDescription);
-              allPageDescriptions.push(page.addItemPageDescription);
+              if (!isEmpty(page.pageDescription)) {
+                allPageDescriptions.push(page.pageDescription);
+              }
+              if (!isEmpty(page.addItemPageDescription)) {
+                allPageDescriptions.push(page.addItemPageDescription);
+              }
             } else {
-              allPageDescriptions.push(page.pageDescription);
-              allPageDescriptions.push(page.anotherPageDescription);
+              if (!isEmpty(page.pageDescription)) {
+                allPageDescriptions.push(page.pageDescription);
+              }
+              if (!isEmpty(page.anotherPageDescription)) {
+                allPageDescriptions.push(page.anotherPageDescription);
+              }
             }
           } else if (page.confirmation) {
-            allPageDescriptions.push(page.confirmation.pageDescription);
+            if (!isEmpty(page.confirmation.pageDescription)) {
+              allPageDescriptions.push(page.confirmation.pageDescription);
+            }
           }
         }
       });
