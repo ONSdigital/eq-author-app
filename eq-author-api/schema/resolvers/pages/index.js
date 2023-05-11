@@ -88,6 +88,7 @@ Resolvers.Mutation = {
     const newpage = omit(page, "id");
     newpage.alias = addPrefix(newpage.alias);
     newpage.title = addPrefix(newpage.title);
+    newpage.pageDescription = addPrefix(newpage.pageDescription);
     const duplicatedPage = createQuestionPage(cloneDeep(newpage));
     const remappedPage = remapAllNestedIds(duplicatedPage);
     const { previous } = getMovePosition(section, input.id, input.position);

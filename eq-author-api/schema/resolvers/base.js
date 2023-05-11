@@ -601,6 +601,16 @@ const Resolvers = {
       const newSection = omit(cloneDeep(section), "id");
       set(newSection, "alias", addPrefix(newSection.alias));
       set(newSection, "title", addPrefix(newSection.title));
+      set(
+        newSection,
+        "introductionPageDescription",
+        addPrefix(newSection.introductionPageDescription)
+      );
+      set(
+        newSection,
+        "sectionSummaryPageDescription",
+        addPrefix(newSection.sectionSummaryPageDescription)
+      );
       const duplicatedSection = createSection(newSection);
       const remappedSection = remapAllNestedIds(duplicatedSection);
       ctx.questionnaire.sections.splice(input.position, 0, remappedSection);

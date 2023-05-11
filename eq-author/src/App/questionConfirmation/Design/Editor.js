@@ -74,7 +74,7 @@ export class UnwrappedEditor extends React.Component {
           inCollapsible
           marginless
           pageDescription={pageDescription}
-          errors={this.props.confirmation.validationErrorInfo.errors}
+          errors={this.props.confirmation.validationErrorInfo?.errors}
           onChange={onChange}
           onUpdate={onUpdate}
         />
