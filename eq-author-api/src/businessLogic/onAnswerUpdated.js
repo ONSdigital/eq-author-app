@@ -13,7 +13,7 @@ const updatePipingValue = (htmlText, answerId, newValue) => {
   return htmlDoc.html();
 };
 
-const updatePipingInAnswers = (oldAnswerLabel, updatedAnswer, pages) => {
+const updatePipingInAnswers = (updatedAnswer, pages) => {
   pages.forEach((page) => {
     const { title, description } = page;
     if (title?.includes(updatedAnswer.id)) {
@@ -48,6 +48,6 @@ const updatePipingInAnswers = (oldAnswerLabel, updatedAnswer, pages) => {
   return pages;
 };
 
-module.exports = (ctx, oldAnswerLabel, updatedAnswer, pages) => {
-  updatePipingInAnswers(oldAnswerLabel, updatedAnswer, pages);
+module.exports = (ctx, updatedAnswer, pages) => {
+  updatePipingInAnswers(updatedAnswer, pages);
 };
