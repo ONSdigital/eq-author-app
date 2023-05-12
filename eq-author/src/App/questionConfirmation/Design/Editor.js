@@ -45,7 +45,6 @@ export class UnwrappedEditor extends React.Component {
   };
 
   render() {
-    console.log("this.props :>> ", this.props);
     const {
       confirmation: { title, pageDescription, positive, negative },
       onChange,
