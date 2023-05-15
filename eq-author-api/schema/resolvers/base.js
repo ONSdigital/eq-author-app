@@ -716,7 +716,7 @@ const Resolvers = {
       }
 
       const pages = getPages(ctx);
-      onAnswerUpdated(ctx, input, pages);
+      onAnswerUpdated(input, pages);
 
       const page = getPageByAnswerId(ctx, answer.id);
       if (answer.repeatingLabelAndInput && !page.totalValidation) {

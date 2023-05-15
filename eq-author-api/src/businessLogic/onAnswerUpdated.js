@@ -14,40 +14,42 @@ const updatePipingValue = (htmlText, answerId, newValue) => {
 };
 
 const updatePipingInAnswers = (updatedAnswer, pages) => {
-  pages.forEach((page) => {
-    const { title, description } = page;
-    if (title?.includes(updatedAnswer.id)) {
-      page.title = updatePipingValue(
-        page.title,
-        updatedAnswer.id,
-        updatedAnswer.label.replace(/(<([^>]+)>)/gi, "")
-      );
-    }
-
-    if (description?.includes(updatedAnswer.id)) {
-      page.description = updatePipingValue(
-        page.description,
-        updatedAnswer.id,
-        updatedAnswer.label.replace(/(<([^>]+)>)/gi, "")
-      );
-    }
-
-    page.answers?.forEach((answer) => {
-      if (answer.label?.includes(updatedAnswer.id)) {
-        answer.label = updatePipingValue(
-          answer.label,
+  if (updatedAnswer.label) {
+    pages.forEach((page) => {
+      const { title, description } = page;
+      if (title?.includes(updatedAnswer.id)) {
+        page.title = updatePipingValue(
+          page.title,
           updatedAnswer.id,
           updatedAnswer.label.replace(/(<([^>]+)>)/gi, "")
         );
       }
+
+      if (description?.includes(updatedAnswer.id)) {
+        page.description = updatePipingValue(
+          page.description,
+          updatedAnswer.id,
+          updatedAnswer.label.replace(/(<([^>]+)>)/gi, "")
+        );
+      }
+
+      page.answers?.forEach((answer) => {
+        if (answer.label?.includes(updatedAnswer.id)) {
+          answer.label = updatePipingValue(
+            answer.label,
+            updatedAnswer.id,
+            updatedAnswer.label.replace(/(<([^>]+)>)/gi, "")
+          );
+        }
+      });
     });
-  });
+  }
 
   logger.info(`Piping In Answers Updated with ID ${updatedAnswer.id}`);
 
   return pages;
 };
 
-module.exports = (ctx, updatedAnswer, pages) => {
+module.exports = (updatedAnswer, pages) => {
   updatePipingInAnswers(updatedAnswer, pages);
 };

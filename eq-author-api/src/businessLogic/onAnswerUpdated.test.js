@@ -15,7 +15,7 @@ describe("onAnswerUpdated", () => {
     ],
   };
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     ctx = await buildContext(config);
 
     updatedAnswer = {
@@ -34,7 +34,7 @@ describe("onAnswerUpdated", () => {
     pages = ctx.questionnaire.sections[0].folders[0].pages;
   });
 
-  it("should update piping in answer title", async () => {
+  it("should update piping in question page title", async () => {
     ctx.questionnaire.sections[0].folders[0].pages[1] = {
       id: "page-2",
       title:
@@ -42,7 +42,7 @@ describe("onAnswerUpdated", () => {
       pageType: "QuestionPage",
     };
 
-    onAnswerUpdated(ctx, updatedAnswer, pages);
+    onAnswerUpdated(updatedAnswer, pages);
     const title = ctx.questionnaire.sections[0].folders[0].pages[1].title;
 
     expect(title.includes("[Age]")).toBeTruthy();
@@ -59,7 +59,7 @@ describe("onAnswerUpdated", () => {
       ],
     };
 
-    onAnswerUpdated(ctx, updatedAnswer, pages);
+    onAnswerUpdated(updatedAnswer, pages);
     const { label } =
       ctx.questionnaire.sections[0].folders[0].pages[1].answers[0];
 
@@ -74,7 +74,7 @@ describe("onAnswerUpdated", () => {
         '<p><span data-piped="answers" data-id="answer-1" data-type="Number">[Mock Pipe]</span></p>',
     };
 
-    onAnswerUpdated(ctx, updatedAnswer, pages);
+    onAnswerUpdated(updatedAnswer, pages);
     const { description } = ctx.questionnaire.sections[0].folders[0].pages[1];
 
     expect(description.includes("[Age]")).toBeTruthy();
