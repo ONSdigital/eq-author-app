@@ -66,6 +66,12 @@ module.exports = (ajv) =>
               allPageDescriptions.push(page.confirmation?.pageDescription);
             }
           }
+          if (!isEmpty(page.anotherPageDescription)) {
+            allPageDescriptions.push(page.anotherPageDescription);
+          }
+          if (!isEmpty(page.addItemPageDescription)) {
+            allPageDescriptions.push(page.addItemPageDescription);
+          }
         } else {
           if (page.pageType === "ListCollectorPage") {
             if (fieldName === "pageDescription") {
@@ -100,11 +106,9 @@ module.exports = (ajv) =>
 
       let hasDuplicates = false;
       if (fieldName === "pageDescription") {
-        hasDuplicates =
-          allPageDescriptions.includes(parentData.pageDescription) ||
-          allPageDescriptions.includes(
-            parentData.confirmation?.pageDescription
-          );
+        hasDuplicates = allPageDescriptions.includes(
+          parentData.pageDescription
+        );
       } else if (fieldName === "introductionPageDescription") {
         hasDuplicates = allPageDescriptions.includes(
           parentData.introductionPageDescription
@@ -122,9 +126,7 @@ module.exports = (ajv) =>
           parentData.addItemPageDescription
         );
       }
-      console.log("allPageDescriptions :>> ", allPageDescriptions);
-      console.log("parentData :>> ", parentData);
-      console.log("fieldName :>> ", fieldName);
+
       if (hasDuplicates) {
         isValid.errors = [
           createValidationError(
