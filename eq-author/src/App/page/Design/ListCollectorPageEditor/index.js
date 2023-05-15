@@ -24,7 +24,6 @@ import CommentFragment from "graphql/fragments/comment.graphql";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 
 import PageTitleContainer from "components/PageTitle";
-const _ = require("lodash");
 
 const propTypes = {
   match: CustomPropTypes.match.isRequired,
@@ -256,20 +255,14 @@ const UnwrappedListCollectorPageEditor = (props) => {
     lists = data.collectionLists?.lists || [];
   }
 
-  const pageDescriptionErrors = _.filter(page.validationErrorInfo.errors, {
-    field: "pageDescription",
-  });
-  const anotherPageDescriptionErrors = _.filter(
-    page.validationErrorInfo.errors,
-    {
-      field: "anotherPageDescription",
-    }
+  const pageDescriptionErrors = page.validationErrorInfo.errors.filter(
+    (error) => error.field === "pageDescription"
   );
-  const addItemPageDescriptionErrors = _.filter(
-    page.validationErrorInfo.errors,
-    {
-      field: "addItemPageDescription",
-    }
+  const anotherPageDescriptionErrors = page.validationErrorInfo.errors.filter(
+    (error) => error.field === "anotherPageDescription"
+  );
+  const addItemPageDescriptionErrors = page.validationErrorInfo.errors.filter(
+    (error) => error.field === "addItemPageDescription"
   );
 
   return (

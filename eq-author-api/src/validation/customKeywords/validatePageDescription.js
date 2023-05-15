@@ -2,7 +2,11 @@ const {
   ERR_UNIQUE_PAGE_DESCRIPTION,
 } = require("../../../constants/validationErrorCodes");
 const createValidationError = require("../createValidationError");
-const { getPages, getSections } = require("../../../schema/resolvers/utils");
+const {
+  getPages,
+  getSections,
+  getPageByConfirmationId,
+} = require("../../../schema/resolvers/utils");
 const { isEmpty } = require("lodash");
 
 module.exports = (ajv) =>
@@ -49,6 +53,19 @@ module.exports = (ajv) =>
           if (!isEmpty(page.pageDescription)) {
             allPageDescriptions.push(page.pageDescription);
           }
+          if (page.confirmation) {
+            const parentPage = getPageByConfirmationId(
+              { questionnaire },
+              parentData.id
+            );
+
+            if (
+              page.id !== parentPage?.id &&
+              !isEmpty(page.confirmation?.pageDescription)
+            ) {
+              allPageDescriptions.push(page.confirmation?.pageDescription);
+            }
+          }
         } else {
           if (page.pageType === "ListCollectorPage") {
             if (fieldName === "pageDescription") {
@@ -83,9 +100,11 @@ module.exports = (ajv) =>
 
       let hasDuplicates = false;
       if (fieldName === "pageDescription") {
-        hasDuplicates = allPageDescriptions.includes(
-          parentData.pageDescription
-        );
+        hasDuplicates =
+          allPageDescriptions.includes(parentData.pageDescription) ||
+          allPageDescriptions.includes(
+            parentData.confirmation?.pageDescription
+          );
       } else if (fieldName === "introductionPageDescription") {
         hasDuplicates = allPageDescriptions.includes(
           parentData.introductionPageDescription
@@ -103,7 +122,9 @@ module.exports = (ajv) =>
           parentData.addItemPageDescription
         );
       }
-
+      console.log("allPageDescriptions :>> ", allPageDescriptions);
+      console.log("parentData :>> ", parentData);
+      console.log("fieldName :>> ", fieldName);
       if (hasDuplicates) {
         isValid.errors = [
           createValidationError(

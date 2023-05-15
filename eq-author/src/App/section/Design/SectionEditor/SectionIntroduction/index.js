@@ -9,7 +9,6 @@ import CollapsibleToggled from "components/CollapsibleToggled";
 import PageTitleContainer from "components/PageTitle";
 
 import UPDATE_SECTION_MUTATION from "graphql/updateSection.graphql";
-const _ = require("lodash");
 
 const SectionIntroduction = ({
   section,
@@ -24,10 +23,9 @@ const SectionIntroduction = ({
     validationErrorInfo,
   } = section;
 
-  let { errors } = validationErrorInfo;
-  errors = _.filter(errors, {
-    field: "introductionPageDescription",
-  });
+  const errors = validationErrorInfo.errors.filter(
+    (error) => error.field === "introductionPageDescription"
+  );
 
   const [updateSection] = useMutation(UPDATE_SECTION_MUTATION);
 
