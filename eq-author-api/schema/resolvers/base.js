@@ -303,6 +303,10 @@ const Resolvers = {
         throw Error(err);
       }
     },
+    prepopSchema: async (_, args) => {
+      const { id } = args;
+      console.log("id", id);
+    },
   },
 
   Subscription: {
@@ -1525,6 +1529,25 @@ const Resolvers = {
         });
 
       return ctx.questionnaire;
+    }),
+    updatePrepopSchema: createMutation(async (root, { input }, ctx) => {
+      const { id } = input;
+      const url = `${process.env.PREPOP_SCHEMA_GATEWAY}schemaVersionGet?id=${id}`;
+
+      try {
+        const response = await fetch(url);
+        const prepopSchemaVersion = await response.json();
+
+        if (prepopSchemaVersion) {
+          logger.info(`Schema version data returned - ${prepopSchemaVersion}`);
+          ctx.questionnaire.prepopschema = prepopSchemaVersion;
+          return prepopSchemaVersion;
+        } else {
+          logger.info(`Schema version data not found - ${id}`);
+        }
+      } catch (err) {
+        throw Error(err);
+      }
     }),
   },
 

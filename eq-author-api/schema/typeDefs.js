@@ -759,6 +759,11 @@ type PrepopSchemaVersions {
   versions: [Version!]!
 }
 
+type PrepopSchema {
+  id: ID!
+  schema: JSON
+}
+
 type publishHistoryEvent {
   id: ID!
   cirId: ID
@@ -792,6 +797,7 @@ type Query {
   collectionLists: CollectionLists
   list(input: QueryInput!): List
   prepopSchemaVersions(id: ID!): PrepopSchemaVersions
+  prepopSchema(id: ID!): PrepopSchema
 }
 
 input CommonFilters {
@@ -965,6 +971,7 @@ type Mutation {
   updateListCollectorPage(input: UpdateListCollectorPageInput!): ListCollectorPage
   updateCommentsAsRead(input: UpdateCommentsAsReadInput!): [Comment]
   publishSchema: Questionnaire!
+  updatePrepopSchema(input: UpdatePrepopSchemaInput!): PrepopSchema
 }
 
 input CreateListCollectorPageInput {
@@ -1659,5 +1666,10 @@ input updateHistoryNoteInput {
 input deleteHistoryNoteInput {
   questionnaireId: ID!
   id: ID!
+}
+
+input UpdatePrepopSchemaInput {
+  id: ID!
+  schema: JSON
 }
 `;

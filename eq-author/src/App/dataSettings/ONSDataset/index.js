@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 import { withRouter, useParams } from "react-router-dom";
 
 import GET_PREPOP_SCHEMA_VERSIONS_QUERY from "graphql/getPrepopSchemaVersions.graphql";
+import UPDATE_PREPOP_SCHEMA from "graphql/updatePrepopSchema.graphql";
 
 import VerticalTabs from "components/VerticalTabs";
 import * as Common from "../common";
@@ -121,9 +122,7 @@ const ONSDatasetPage = () => {
     return formattedDate;
   };
 
-  const handleSelectVersion = (id) => {
-    console.log("handleSelectVersion id = ", id);
-  };
+  const [linkPrepopSchema] = useMutation(UPDATE_PREPOP_SCHEMA);
 
   return (
     <Theme themeName="onsLegacyFont">
@@ -206,7 +205,13 @@ const ONSDatasetPage = () => {
                                         <SpacedTableColumn>
                                           <StyledButton
                                             onClick={() =>
-                                              handleSelectVersion(version.id)
+                                              linkPrepopSchema({
+                                                variables: {
+                                                  input: {
+                                                    id: version.id,
+                                                  },
+                                                },
+                                              })
                                             }
                                             type="button"
                                             variant="secondary"
