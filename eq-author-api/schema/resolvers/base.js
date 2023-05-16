@@ -297,8 +297,8 @@ const Resolvers = {
 
       try {
         const response = await fetch(url);
-        const prepopSchema = await response.json();
-        return prepopSchema;
+        const prepopSchemaVersions = await response.json();
+        return prepopSchemaVersions;
       } catch (err) {
         throw Error(err);
       }
