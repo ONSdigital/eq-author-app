@@ -41,7 +41,7 @@ const SectionSummary = ({
   sectionSummaryPageDescription,
   errors,
 }) => {
-  errors = errors.filter(
+  const filteredErrors = errors?.filter(
     (error) => error.field === "sectionSummaryPageDescription"
   );
 
@@ -93,7 +93,7 @@ const SectionSummary = ({
               }
               altFieldName={"sectionSummaryPageDescription"}
               altError={"SECTION_SUMMARY_PAGE_DESCRIPTION_MISSING"}
-              errors={errors}
+              errors={filteredErrors}
             />
           </CollapsibleToggled>
         </ToggleWrapper>
