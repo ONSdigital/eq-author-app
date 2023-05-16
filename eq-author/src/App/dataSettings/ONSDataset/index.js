@@ -121,6 +121,10 @@ const ONSDatasetPage = () => {
     return formattedDate;
   };
 
+  const handleSelectVersion = (id) => {
+    console.log("handleSelectVersion id = ", id);
+  };
+
   return (
     <Theme themeName="onsLegacyFont">
       <Common.Container>
@@ -201,7 +205,9 @@ const ONSDatasetPage = () => {
                                         </SpacedTableColumn>
                                         <SpacedTableColumn>
                                           <StyledButton
-                                            onClick={() => {}}
+                                            onClick={() =>
+                                              handleSelectVersion(version.id)
+                                            }
                                             type="button"
                                             variant="secondary"
                                           >
