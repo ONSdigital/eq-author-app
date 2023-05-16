@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 import { withRouter, useParams } from "react-router-dom";
 
-import GET_PREPOP_SCHEMA_QUERY from "graphql/getPrepopSchemaVersions.graphql";
+import GET_PREPOP_SCHEMA_VERSIONS_QUERY from "graphql/getPrepopSchemaVersions.graphql";
 
 import VerticalTabs from "components/VerticalTabs";
 import * as Common from "../common";
@@ -109,7 +109,7 @@ const ONSDatasetPage = () => {
     }
   };
 
-  const { data: surveyData } = useQuery(GET_PREPOP_SCHEMA_QUERY, {
+  const { data: surveyData } = useQuery(GET_PREPOP_SCHEMA_VERSIONS_QUERY, {
     variables: {
       id: surveyID || "surveyID",
     },
