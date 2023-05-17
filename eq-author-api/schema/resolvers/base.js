@@ -1510,6 +1510,12 @@ const Resolvers = {
         return ctx.questionnaire;
       }
 
+      if (convertedResponse.status !== 200) {
+        publishResult.success = false;
+        publishResult.errorMessage = `Publisher failed to convert questionnaire - ${convertedResponse.statusText}`;
+        return ctx.questionnaire;
+      }
+
       const convertedQuestionnaire = await convertedResponse.json();
 
       await fetch(`${process.env.CIR_PUBLISH_SCHEMA_GATEWAY}publishSchema`, {
