@@ -303,7 +303,7 @@ const Resolvers = {
         throw Error(err);
       }
     },
-    prepopSchema: (root, _, ctx) => ctx.questionnaire.prepopschema,
+    prepopSchema: (root, _, ctx) => ctx.questionnaire.prepopSchema,
   },
 
   Subscription: {
@@ -1553,7 +1553,7 @@ const Resolvers = {
 
         if (prepopSchemaVersion) {
           logger.info(`Schema version data returned - ${prepopSchemaVersion}`);
-          ctx.questionnaire.prepopschema = prepopSchemaVersion;
+          ctx.questionnaire.prepopSchema = prepopSchemaVersion;
           return prepopSchemaVersion;
         } else {
           logger.info(`Schema version data not found - ${id}`);

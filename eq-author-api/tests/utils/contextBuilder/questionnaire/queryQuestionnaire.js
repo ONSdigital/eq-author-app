@@ -41,7 +41,7 @@ const getQuestionnaireQuery = `
         emailConfirmation
         feedback
       }
-      prepopschema {
+      prepopSchema {
         id
         schema
       }

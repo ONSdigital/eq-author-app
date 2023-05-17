@@ -85,7 +85,7 @@ type Questionnaire {
   publishHistory: [publishHistoryEvent]
   validationErrorInfo: ValidationErrorInfo
   submission: Submission
-  prepopschema: PrepopSchema
+  prepopSchema: PrepopSchema
 }
 
 enum HistoryEventTypes {

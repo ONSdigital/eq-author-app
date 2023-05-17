@@ -52,7 +52,7 @@ const createQuestionnaireMutation = `
         emailConfirmation
         feedback
       }
-      prepopschema {
+      prepopSchema {
         id
         schema
       }

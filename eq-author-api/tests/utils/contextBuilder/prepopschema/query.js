@@ -9,8 +9,8 @@ const getPrepopSchemaQuery = `
 }`;
 
 const queryPrepopSchema = async (ctx) => {
-  const result = await executeQuery(getPrepopSchemaQuery, ctx);
-  return result.data.prepopschema;
+  const result = await executeQuery(getPrepopSchemaQuery, {}, ctx);
+  return result.data.prepopSchema;
 };
 
 module.exports = {

@@ -9,11 +9,7 @@ const updatePrepopSchemaMutation = `
 `;
 
 const updatePrepopSchema = async (ctx, input) => {
-  const result = await executeQuery(
-    updatePrepopSchemaMutation,
-    { input: input },
-    ctx
-  );
+  const result = await executeQuery(updatePrepopSchemaMutation, { input }, ctx);
   return result.data.updatePrepopSchema;
 };
 

@@ -5,7 +5,7 @@ const {
 const {
   queryPrepopSchema,
   updatePrepopSchema,
-} = require("../../tests/utils/contextBuilder/prepopschema");
+} = require("../../tests/utils/contextBuilder/prepopSchema");
 
 const { BUSINESS } = require("../../constants/questionnaireTypes");
 
@@ -21,7 +21,7 @@ describe("questionnaire", () => {
     await deleteQuestionnaire(ctx, questionnaire.id);
   });
 
-  const prepopschemaData = {
+  const prepopSchemaData = {
     id: "121-222-789",
     schema: {
       id: "121-222-789",
@@ -39,15 +39,15 @@ describe("questionnaire", () => {
   };
 
   describe("read", () => {
-    it("should return the questionnaire prepopschema", async () => {
-      ctx.questionnaire.prepopschema = prepopschemaData;
-      const prepopschema = await queryPrepopSchema(ctx);
-      expect(prepopschema).toEqual(prepopschemaData);
+    it("should return the questionnaire prepopSchema", async () => {
+      ctx.questionnaire.prepopSchema = prepopSchemaData;
+      const prepopSchema = await queryPrepopSchema(ctx);
+      expect(prepopSchema).toEqual(prepopSchemaData);
     });
   });
 
   describe("update", () => {
-    it("should update the prepopschema", async () => {
+    it("should update the prepopSchema", async () => {
       const changes = {
         furtherContent: "Test",
         viewPrintAnswers: false,
