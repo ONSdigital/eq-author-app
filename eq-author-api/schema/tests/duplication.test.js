@@ -76,7 +76,7 @@ describe("Duplication", () => {
       const cleanObject = (obj) => {
         const objectWithUnchangedFields = omit(
           JSON.parse(JSON.stringify(obj)),
-          ["alias", "title", "displayName", "position"]
+          ["alias", "title", "displayName", "position", "pageDescription"]
         );
         return deepMap(objectWithUnchangedFields, (value, key) => {
           if (key === "id") {

@@ -14,7 +14,12 @@
     "pageDescription": {
       "type": "string",
       "pattern": "\\w+",
-      "errorMessage": "PAGE_DESCRIPTION_MISSING"
+      "errorMessage": "PAGE_DESCRIPTION_MISSING",
+      "allOf": [
+        {
+          "validatePageDescription": true
+        }
+      ]
     },
     "drivingPositive": {
       "if": {
@@ -54,7 +59,12 @@
     "addItemPageDescription": {
       "type": "string",
       "pattern": "\\w+",
-      "errorMessage": "ADD_ITEM_PAGE_DESCRIPTION_MISSING"
+      "errorMessage": "ADD_ITEM_PAGE_DESCRIPTION_MISSING",
+      "allOf": [
+        {
+          "validatePageDescription": true
+        }
+      ]
     },
     "anotherTitle": {
       "$ref": "definitions.json#/definitions/populatedString"
@@ -62,7 +72,12 @@
     "anotherPageDescription": {
       "type": "string",
       "pattern": "\\w+",
-      "errorMessage": "ANOTHER_PAGE_DESCRIPTION_MISSING"
+      "errorMessage": "ANOTHER_PAGE_DESCRIPTION_MISSING",
+      "allOf": [
+        {
+          "validatePageDescription": true
+        }
+      ]
     },
     "listId": {
       "$ref": "definitions.json#/definitions/populatedString"
@@ -101,17 +116,17 @@
     }
   },
   "if": {
-     "properties": {
-       "additionalGuidancePanelSwitch": { "const": true }
-     }
-   },
-   "then": {
     "properties": {
-        "additionalGuidancePanel": {
-          "$ref": "definitions.json#/definitions/populatedString"
+      "additionalGuidancePanelSwitch": { "const": true }
+    }
+  },
+  "then": {
+    "properties": {
+      "additionalGuidancePanel": {
+        "$ref": "definitions.json#/definitions/populatedString"
       }
     }
-   },
+  },
   "required": [
     "id",
     "title",

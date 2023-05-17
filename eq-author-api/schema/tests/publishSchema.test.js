@@ -109,6 +109,7 @@ describe("publish schema", () => {
     fetch.mockImplementation(() =>
       Promise.resolve({
         status: 418,
+        statusText: "Server error",
         json: () => ({
           publishHistory: [
             {
@@ -129,7 +130,8 @@ describe("publish schema", () => {
         formType: "",
         publishDate: expect.any(Date),
         success: false,
-        errorMessage: "Invalid response - failed with error code 418",
+        errorMessage:
+          "Publisher failed to convert questionnaire - Server error",
       },
     ]);
   });
@@ -138,6 +140,7 @@ describe("publish schema", () => {
     // Mocks conversion fetch followed by API gateway rejected value
     fetch
       .mockResolvedValueOnce({
+        status: 200,
         json: () => ({
           survey_id: "123", // eslint-disable-line
         }),

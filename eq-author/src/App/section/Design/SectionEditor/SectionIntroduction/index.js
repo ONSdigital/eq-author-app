@@ -22,7 +22,10 @@ const SectionIntroduction = ({
     introductionEnabled,
     validationErrorInfo,
   } = section;
-  const { errors } = validationErrorInfo;
+
+  const errors = validationErrorInfo.errors.filter(
+    (error) => error.field === "introductionPageDescription"
+  );
 
   const [updateSection] = useMutation(UPDATE_SECTION_MUTATION);
 
