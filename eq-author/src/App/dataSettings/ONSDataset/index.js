@@ -5,6 +5,7 @@ import { withRouter, useParams } from "react-router-dom";
 
 import GET_PREPOP_SCHEMA_VERSIONS_QUERY from "graphql/getPrepopSchemaVersions.graphql";
 import UPDATE_PREPOP_SCHEMA from "graphql/updatePrepopSchema.graphql";
+import GET_PREPOP_SCHEMA from "graphql/getPrepopSchema.graphql";
 
 import VerticalTabs from "components/VerticalTabs";
 import * as Common from "../common";
@@ -124,6 +125,9 @@ const ONSDatasetPage = () => {
 
   const [linkPrepopSchema] = useMutation(UPDATE_PREPOP_SCHEMA);
 
+  const { data: prepopSchema } = useQuery(GET_PREPOP_SCHEMA);
+  const schemaData = prepopSchema ? prepopSchema.prepopSchema.schema : null;
+
   return (
     <Theme themeName="onsLegacyFont">
       <Common.Container>
@@ -223,6 +227,36 @@ const ONSDatasetPage = () => {
                                     );
                                   }
                                 )}
+                              </StyledTableBody>
+                            )}
+                          </Table>
+                        </>
+                      )}
+                      {schemaData && (
+                        <>
+                          <Title>Linked data</Title>
+                          <Table data-test="datasets-table">
+                            <TableHead>
+                              <TableRow>
+                                <StyledTableHeadColumn width="40%">
+                                  Field
+                                </StyledTableHeadColumn>
+                              </TableRow>
+                            </TableHead>
+                            {prepopSchema && (
+                              <StyledTableBody>
+                                {Object.keys(schemaData).map((key, index) => {
+                                  return (
+                                    <TableRow
+                                      key={index}
+                                      data-test={`schemadata-row`}
+                                    >
+                                      <SpacedTableColumn>
+                                        {key}
+                                      </SpacedTableColumn>
+                                    </TableRow>
+                                  );
+                                })}
                               </StyledTableBody>
                             )}
                           </Table>

@@ -303,10 +303,7 @@ const Resolvers = {
         throw Error(err);
       }
     },
-    prepopSchema: async (_, args) => {
-      const { id } = args;
-      console.log("id", id);
-    },
+    prepopSchema: (root, _, ctx) => ctx.questionnaire.prepopschema,
   },
 
   Subscription: {

@@ -797,7 +797,7 @@ type Query {
   collectionLists: CollectionLists
   list(input: QueryInput!): List
   prepopSchemaVersions(id: ID!): PrepopSchemaVersions
-  prepopSchema(id: ID!): PrepopSchema
+  prepopSchema: PrepopSchema
 }
 
 input CommonFilters {
