@@ -126,7 +126,11 @@ const ONSDatasetPage = () => {
   const [linkPrepopSchema] = useMutation(UPDATE_PREPOP_SCHEMA);
 
   const { data: prepopSchema } = useQuery(GET_PREPOP_SCHEMA);
-  const schemaData = prepopSchema ? prepopSchema.prepopSchema.schema : null;
+  const schemaData = prepopSchema
+    ? prepopSchema.prepopSchema
+      ? prepopSchema.prepopSchema.schema
+      : null
+    : null;
 
   return (
     <Theme themeName="onsLegacyFont">
