@@ -56,6 +56,7 @@ const buildContext = async (questionnaireConfig, userConfig = {}) => {
     metadata,
     introduction,
     submission,
+    prepopschema,
     comments,
     ...questionnaireProps
   } = questionnaireConfig;
@@ -72,6 +73,7 @@ const buildContext = async (questionnaireConfig, userConfig = {}) => {
   const { questionnaire } = ctx;
   ctx.questionnaire.sections = [];
   ctx.comments = comments || {};
+  ctx.questionnaire.prepopschema = prepopschema || {};
 
   if (Array.isArray(sections)) {
     for (let section of sections) {

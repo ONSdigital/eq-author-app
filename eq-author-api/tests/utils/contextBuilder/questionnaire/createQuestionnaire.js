@@ -52,6 +52,10 @@ const createQuestionnaireMutation = `
         emailConfirmation
         feedback
       }
+      prepopschema {
+        id
+        schema
+      }
     }
   }
 `;
