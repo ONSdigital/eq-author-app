@@ -1,0 +1,13 @@
+query GetPublishHistory {
+  publishHistory {
+    id
+    historyItems {
+      cirId
+      cirVersion
+      surveyId
+      formType
+      publishDate
+      success
+    }
+  }
+}

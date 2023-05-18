@@ -15,6 +15,8 @@ import Button from "components-themed/buttons";
 
 import PUBLISH_SCHEMA from "graphql/publishSchema.graphql";
 
+import PublishHistory from "./GetPublishHistory";
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -44,12 +46,6 @@ const Content = styled.div`
 
 const StyledButton = styled(Button)`
   margin-top: 1em;
-`;
-
-const HorizontalSeparator = styled.hr`
-  border: 0;
-  border-top: 0.0625em solid ${colors.lightMediumGrey};
-  margin: 1.5em 0;
 `;
 
 const PublishPage = () => {
@@ -82,11 +78,7 @@ const PublishPage = () => {
             >
               Publish questionnaire
             </StyledButton>
-            <HorizontalSeparator />
-            <Title>Publishing history</Title>
-            <Content>
-              No versions of this questionnaire have been published
-            </Content>
+            <PublishHistory />
           </StyledPanelWrapper>
         </ScrollPane>
       </Container>

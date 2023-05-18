@@ -289,6 +289,7 @@ const Resolvers = {
     submission: (root, _, ctx) => ctx.questionnaire.submission,
     introduction: (root, _, ctx) => ctx.questionnaire.introduction,
     collectionLists: (_, args, ctx) => ctx.questionnaire.collectionLists,
+    publishHistory: (_, args, ctx) => ctx.questionnaire.publishHistory,
     list: (root, { input: { listId } }, ctx) =>
       find(ctx.questionnaire.collectionLists.lists, { id: listId }),
     prepopSchemaVersions: async (_, args) => {
