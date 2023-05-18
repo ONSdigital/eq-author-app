@@ -7,7 +7,14 @@
         "properties": {
           "type": {
             "not": {
-              "enum": ["Checkbox", "Radio", "MutuallyExclusive", "Select"]
+              "enum": [
+                "Checkbox",
+                "Radio",
+                "MutuallyExclusive",
+                "Select",
+                "Date",
+                "DateRange"
+              ]
             }
           }
         }
@@ -220,28 +227,41 @@
       "required": ["options"]
     },
     "dateAnswer": {
-      "if": {
-        "type": "object",
-        "properties": {
-          "advancedProperties": {
-            "const": true
+      "allOf": [
+        {
+          "type": "object",
+          "properties": {
+            "label": {
+              "$ref": "definitions.json#/definitions/populatedString"
+            }
+          },
+          "if": {
+            "type": "object",
+            "properties": {
+              "advancedProperties": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "type": "object",
+            "properties": {
+              "validation": {
+                "$ref": "validation.json#/definitions/dateValidations"
+              }
+            }
           }
         }
-      },
-      "then": {
-        "type": "object",
-        "properties": {
-          "validation": {
-            "$ref": "validation.json#/definitions/dateValidations"
-          }
-        }
-      }
+      ]
     },
     "dateRangeAnswer": {
       "allOf": [
         {
           "type": "object",
           "properties": {
+            "label": {
+              "$ref": "definitions.json#/definitions/populatedString"
+            },
             "secondaryLabel": {
               "$ref": "definitions.json#/definitions/populatedString"
             }
