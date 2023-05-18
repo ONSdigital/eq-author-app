@@ -37,6 +37,7 @@ describe("Section Summary", () => {
       id: "testID1",
       sectionSummary: false,
       collapsibleSummary: false,
+      errors: [],
     };
   });
 

@@ -17,4 +17,5 @@ module.exports = (ajv) => {
   require("./idPreceedsCurrentEntity")(ajv);
   require("./requiredWhenSectionSetting")(ajv);
   require("./validateSecondaryCondition")(ajv);
+  require("./validatePageDescription")(ajv);
 };

@@ -34,7 +34,12 @@
     "pageDescription": {
       "type": "string",
       "pattern": "\\w+",
-      "errorMessage": "PAGE_DESCRIPTION_MISSING"
+      "errorMessage": "PAGE_DESCRIPTION_MISSING",
+      "allOf": [
+        {
+          "validatePageDescription": true
+        }
+      ]
     },
     "confirmation": {
       "$ref": "confirmationPage.json"
