@@ -254,6 +254,17 @@ const UnwrappedListCollectorPageEditor = (props) => {
   if (data) {
     lists = data.collectionLists?.lists || [];
   }
+
+  const pageDescriptionErrors = page.validationErrorInfo.errors.filter(
+    (error) => error.field === "pageDescription"
+  );
+  const anotherPageDescriptionErrors = page.validationErrorInfo.errors.filter(
+    (error) => error.field === "anotherPageDescription"
+  );
+  const addItemPageDescriptionErrors = page.validationErrorInfo.errors.filter(
+    (error) => error.field === "addItemPageDescription"
+  );
+
   return (
     <div data-test="list-page-editor">
       <PageHeader
@@ -555,7 +566,7 @@ const UnwrappedListCollectorPageEditor = (props) => {
             <HorizontalRule />
             <PageTitleContainer
               pageDescription={entity.pageDescription}
-              errors={page.validationErrorInfo.errors}
+              errors={pageDescriptionErrors}
               onChange={handleOnChange}
               onUpdate={handleOnUpdate}
             />
@@ -597,7 +608,7 @@ const UnwrappedListCollectorPageEditor = (props) => {
               pageDescription={entity.addItemPageDescription}
               altFieldName="addItemPageDescription"
               altError="ADD_ITEM_PAGE_DESCRIPTION_MISSING"
-              errors={page.validationErrorInfo.errors}
+              errors={addItemPageDescriptionErrors}
               onChange={handleOnChange}
               onUpdate={handleOnUpdate}
             />
@@ -721,7 +732,7 @@ const UnwrappedListCollectorPageEditor = (props) => {
               pageDescription={entity.anotherPageDescription}
               altFieldName="anotherPageDescription"
               altError="ANOTHER_PAGE_DESCRIPTION_MISSING"
-              errors={page.validationErrorInfo.errors}
+              errors={anotherPageDescriptionErrors}
               onChange={handleOnChange}
               onUpdate={handleOnUpdate}
             />

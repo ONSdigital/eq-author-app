@@ -166,6 +166,8 @@ export const pageDescriptionErrors = {
     "Section introduction page description required",
   ADD_ITEM_PAGE_DESCRIPTION_MISSING: "Page description required",
   ANOTHER_PAGE_DESCRIPTION_MISSING: "Page description required",
+  ERR_UNIQUE_PAGE_DESCRIPTION:
+    "The page description entered has already been used for another page. Enter a unique page description.",
 };
 
 export const textAreaErrors = {

@@ -602,6 +602,16 @@ const Resolvers = {
       const newSection = omit(cloneDeep(section), "id");
       set(newSection, "alias", addPrefix(newSection.alias));
       set(newSection, "title", addPrefix(newSection.title));
+      set(
+        newSection,
+        "introductionPageDescription",
+        addPrefix(newSection.introductionPageDescription)
+      );
+      set(
+        newSection,
+        "sectionSummaryPageDescription",
+        addPrefix(newSection.sectionSummaryPageDescription)
+      );
       const duplicatedSection = createSection(newSection);
       const remappedSection = remapAllNestedIds(duplicatedSection);
       ctx.questionnaire.sections.splice(input.position, 0, remappedSection);
@@ -707,7 +717,6 @@ const Resolvers = {
           : null
       );
       const answer = find(concat(answers, additionalAnswers), { id: input.id });
-      const oldAnswerLabel = answer.label;
       merge(answer, input);
 
       if (answer.type === DATE && !input.label && input?.properties?.format) {
@@ -718,7 +727,7 @@ const Resolvers = {
       }
 
       const pages = getPages(ctx);
-      onAnswerUpdated(ctx, oldAnswerLabel, input, pages);
+      onAnswerUpdated(input, pages);
 
       const page = getPageByAnswerId(ctx, answer.id);
       if (answer.repeatingLabelAndInput && !page.totalValidation) {
@@ -1499,6 +1508,12 @@ const Resolvers = {
       });
 
       if (publishResult.success === false) {
+        return ctx.questionnaire;
+      }
+
+      if (convertedResponse.status !== 200) {
+        publishResult.success = false;
+        publishResult.errorMessage = `Publisher failed to convert questionnaire - ${convertedResponse.statusText}`;
         return ctx.questionnaire;
       }
 

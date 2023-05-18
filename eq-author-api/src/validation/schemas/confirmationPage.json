@@ -11,7 +11,12 @@
     "pageDescription": {
       "type": "string",
       "pattern": "\\w+",
-      "errorMessage": "PAGE_DESCRIPTION_MISSING"
+      "errorMessage": "PAGE_DESCRIPTION_MISSING",
+      "allOf": [
+        {
+          "validatePageDescription": true
+        }
+      ]
     },
     "skipConditions": {
       "type": "array",
@@ -39,9 +44,7 @@
           }
         }
       },
-      "required": [
-        "label"
-      ]
+      "required": ["label"]
     },
     "negative": {
       "type": "object",
@@ -63,15 +66,8 @@
           }
         }
       },
-      "required": [
-        "label"
-      ]
+      "required": ["label"]
     }
   },
-  "required": [
-    "id",
-    "title",
-    "pageDescription",
-    "positive"
-  ]
+  "required": ["id", "title", "pageDescription", "positive"]
 }

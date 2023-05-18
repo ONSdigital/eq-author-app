@@ -121,6 +121,13 @@ const transformedQuestionnaire = (sections, version) => {
     ? version.createdAt.toDate()
     : new Date(version.createdAt);
   version.editors = version.editors || [];
+
+  version?.publishHistory?.forEach((publishHistoryEvent) => {
+    publishHistoryEvent.publishDate = publishHistoryEvent.publishDate.seconds
+      ? publishHistoryEvent.publishDate.toDate()
+      : new Date(publishHistoryEvent.publishDate);
+  });
+
   return {
     ...version,
     sections: newSections || [],

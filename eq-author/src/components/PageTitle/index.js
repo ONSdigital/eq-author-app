@@ -29,8 +29,14 @@ const PageTitleContainer = ({
 }) => {
   const pageDescriptionError =
     altFieldName && altError
-      ? find(errors, { errorCode: altError })
-      : find(errors, { errorCode: "PAGE_DESCRIPTION_MISSING" });
+      ? find(errors, { errorCode: altError }) ||
+        find(errors, {
+          errorCode: "ERR_UNIQUE_PAGE_DESCRIPTION",
+        })
+      : find(errors, { errorCode: "PAGE_DESCRIPTION_MISSING" }) ||
+        find(errors, {
+          errorCode: "ERR_UNIQUE_PAGE_DESCRIPTION",
+        });
 
   const allErrorCodes = Object.keys(pageDescriptionErrors);
   const errorCode = allErrorCodes.find(
