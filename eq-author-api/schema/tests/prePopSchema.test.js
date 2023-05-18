@@ -48,22 +48,11 @@ describe("questionnaire", () => {
 
   describe("update", () => {
     it("should update the prepopSchema", async () => {
-      const changes = {
-        furtherContent: "Test",
-        viewPrintAnswers: false,
-        emailConfirmation: false,
-        feedback: false,
-      };
-
-      const updatedPrepopSchema = await updatePrepopSchema(ctx, {
-        ...changes,
-      });
-
-      expect(updatedPrepopSchema).toEqual({
-        id: questionnaire.submission.id,
-        comments: null,
-        ...changes,
-      });
+      const updatedPrepopSchema = await updatePrepopSchema(
+        ctx,
+        prepopSchemaData
+      );
+      expect(updatedPrepopSchema).toEqual({ prepopSchemaData });
     });
   });
 });

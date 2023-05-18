@@ -6,6 +6,7 @@ const updatePrepopSchemaMutation = `
       id
       schema
     }
+  }
 `;
 
 const updatePrepopSchema = async (ctx, input) => {
