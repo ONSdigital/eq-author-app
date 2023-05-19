@@ -46,6 +46,7 @@ const migrations = [
   require("./convertSectionPageDescription"),
   require("./updateIntroductionEnabledWithValidation"),
   require("./addRepeatingLabelAndInputFields"),
+  require("./addCollectionListAnswerRepeatingProperties"),
 ];
 
 const currentVersion = migrations.length;
