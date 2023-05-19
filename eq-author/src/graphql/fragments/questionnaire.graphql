@@ -1,3 +1,6 @@
+#import "graphql/lists/list.graphql"
+#import "graphql/fragments/comment.graphql"
+
 fragment Questionnaire on Questionnaire {
   id
   title
@@ -31,8 +34,38 @@ fragment Questionnaire on Questionnaire {
     name
     email
   }
+  totalErrorCount
   isPublic
   permission
+  dataVersion
+  publishStatus
+  collectionLists {
+    id
+    lists {
+      ...List
+    }
+  }
+  locked
+  metadata {
+    id
+    displayName
+    type
+    key
+    dateValue
+    regionValue
+    languageValue
+    textValue
+  }
+  submission {
+    id
+    furtherContent
+    viewPrintAnswers
+    emailConfirmation
+    feedback
+    comments {
+      ...Comment
+    }
+  }
   validationErrorInfo {
     id
     errors {
