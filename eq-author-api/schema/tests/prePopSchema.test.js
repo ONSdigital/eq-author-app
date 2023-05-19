@@ -9,6 +9,9 @@ const {
 
 const { BUSINESS } = require("../../constants/questionnaireTypes");
 
+jest.mock("node-fetch");
+const fetch = require("node-fetch");
+
 describe("questionnaire", () => {
   let ctx, questionnaire;
 
@@ -20,6 +23,28 @@ describe("questionnaire", () => {
   afterEach(async () => {
     await deleteQuestionnaire(ctx, questionnaire.id);
   });
+
+  fetch.mockImplementation(() =>
+    Promise.resolve({
+      status: 200,
+      json: () => ({
+        id: "121-222-789",
+        schema: {
+          id: "121-222-789",
+          version: "1",
+          dateCreated: "2023-01-12T13:37:27+00:00",
+          turnover: {
+            type: "number",
+            example: "1000",
+          },
+          employeeCount: {
+            type: "number",
+            example: "50",
+          },
+        },
+      }),
+    })
+  );
 
   const prepopSchemaData = {
     id: "121-222-789",
