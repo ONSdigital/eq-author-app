@@ -770,18 +770,14 @@ type publishHistoryEvent {
   errorMessage: String
 }
 
-type publishHistoryItem {
+type publishHistory {
+  id: ID!
   cirId: ID
   surveyId: String
   formType: String
-  cirVersion: String
-  publishDate: Date
+  version: String
+  publishDate: DateTime
   success: Boolean
-}
-
-type publishHistory {
-  id: ID!
-  historyItems: [publishHistoryItem]!
 }
 
 type Query {
@@ -806,7 +802,7 @@ type Query {
   collectionLists: CollectionLists
   list(input: QueryInput!): List
   prepopSchemaVersions(id: ID!): PrepopSchemaVersions
-  publishHistory: [publishHistory]
+  publishHistory(success: Boolean): [publishHistory]
 }
 
 input CommonFilters {

@@ -54,12 +54,20 @@ const formatDate = (date) => moment(date).format("DD/MM/YYYY [at] HH:mm:ss");
 const PublishHistory = () => {
   let historyItems = [];
 
-  const { data } = useQuery(GET_PUBLISH_HISTORY_QUERY, {
+  const { data, loading, error } = useQuery(GET_PUBLISH_HISTORY_QUERY, {
     fetchPolicy: "cache-and-network",
   });
 
+  console.log(`Hello World `, { data });
+
+  if (loading) {
+    return "Loading...";
+  }
+  if (error) {
+    return <pre>{error.message}</pre>;
+  }
   if (data) {
-    historyItems = data.publishHistory.historyItems || [];
+    historyItems = data.publishHistory || [];
   }
 
   return (
@@ -86,11 +94,11 @@ const PublishHistory = () => {
               {historyItems.map((historyItem) => {
                 return (
                   <tr key={historyItem.id}>
-                    <td>{formatDate(historyItem.published_at)}</td>
-                    <td>{historyItem.survey_id}</td>
-                    <td>{historyItem.form_type}</td>
-                    <td>{historyItem.id}</td>
-                    <td>{historyItem.ci_version}</td>
+                    <td>{formatDate(historyItem.publishDate)}</td>
+                    <td>{historyItem.surveyId}</td>
+                    <td>{historyItem.formType}</td>
+                    <td>{historyItem.cirId}</td>
+                    <td>{historyItem.version}</td>
                   </tr>
                 );
               })}

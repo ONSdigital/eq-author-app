@@ -1,13 +1,11 @@
-query GetPublishHistory {
-  publishHistory {
+query GetPublishHistory($success: Boolean = true) {
+  publishHistory(success: $success) {
     id
-    historyItems {
-      cirId
-      cirVersion
-      surveyId
-      formType
-      publishDate
-      success
-    }
+    cirId
+    version
+    surveyId
+    formType
+    publishDate
+    success
   }
 }
