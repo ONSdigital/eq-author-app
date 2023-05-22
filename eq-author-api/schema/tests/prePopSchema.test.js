@@ -77,7 +77,7 @@ describe("questionnaire", () => {
         ctx,
         prepopSchemaData
       );
-      expect(updatedPrepopSchema).toEqual({ prepopSchemaData });
+      expect(updatedPrepopSchema).toEqual(prepopSchemaData);
     });
   });
 });
