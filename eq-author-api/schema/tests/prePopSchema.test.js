@@ -5,7 +5,7 @@ const {
 const {
   queryPrepopSchema,
   updatePrepopSchema,
-} = require("../../tests/utils/contextBuilder/prepopSchema");
+} = require("../../tests/utils/contextBuilder/prepopschemaX");
 
 const { BUSINESS } = require("../../constants/questionnaireTypes");
 
