@@ -140,7 +140,6 @@ describe("SignInPage", () => {
         searchParams:
           "mode=resetPassword&oobCode=EpfWvpD2DTKoIHIp5pPfx5OXGml5baxIcVY7U8DBMe4AAAF",
       };
-
       act(() => {
         renderSignIn({ ...props });
       });
