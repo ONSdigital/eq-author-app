@@ -67,7 +67,13 @@ const PublishHistory = () => {
     return <pre>{error.message}</pre>;
   }
   if (data) {
-    historyItems = data.publishHistory.filter((event) => event.success) || [];
+    historyItems =
+      data.publishHistory
+        .filter((event) => event.success)
+        .sort((a, b) => {
+          return b.publishDate - a.publishDate;
+        })
+        .reverse() || [];
   }
 
   return (
