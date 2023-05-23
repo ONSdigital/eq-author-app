@@ -128,9 +128,15 @@ const Row = memo((props) => {
   const [qCode, setQcode] = useState(
     initialQcode ?? drivingQCode ?? anotherQCode
   );
-  const [updateOption] = useMutation(UPDATE_OPTION_QCODE);
-  const [updateAnswer] = useMutation(UPDATE_ANSWER_QCODE);
-  const [updateListCollector] = useMutation(UPDATE_LIST_COLLECTOR_PAGE);
+  const [updateOption] = useMutation(UPDATE_OPTION_QCODE, {
+    refetchQueries: ["GetQuestionnaire"],
+  });
+  const [updateAnswer] = useMutation(UPDATE_ANSWER_QCODE, {
+    refetchQueries: ["GetQuestionnaire"],
+  });
+  const [updateListCollector] = useMutation(UPDATE_LIST_COLLECTOR_PAGE, {
+    refetchQueries: ["GetQuestionnaire"],
+  });
 
   const handleBlur = useCallback(
     (qCode) => {
