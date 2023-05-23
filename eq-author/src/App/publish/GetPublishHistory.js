@@ -4,6 +4,9 @@ import styled from "styled-components";
 import { colors } from "constants/theme.js";
 import moment from "moment";
 
+import Loading from "components/Loading";
+import Error from "components/Error";
+
 import GET_PUBLISH_HISTORY_QUERY from "./GetPublishHistory.graphql";
 
 const HorizontalSeparator = styled.hr`
@@ -58,22 +61,26 @@ const PublishHistory = () => {
     fetchPolicy: "cache-and-network",
   });
 
-  console.log(`Hello World `, { data });
-
   if (loading) {
-    return "Loading...";
+    return (
+      <div>
+        <Loading height="38rem">Publishing history loading…</Loading>
+      </div>
+    );
   }
   if (error) {
-    return <pre>{error.message}</pre>;
+    return <Error>Error fetching publishing history</Error>;
   }
   if (data) {
     if (data.publishHistory) {
       historyItems = data.publishHistory
         .filter((event) => event.success)
+        .map((obj) => {
+          return { ...obj, publishDate: new Date(obj.publishDate) };
+        })
         .sort((a, b) => {
           return b.publishDate - a.publishDate;
-        })
-        .reverse();
+        });
     } else {
       historyItems = [];
     }

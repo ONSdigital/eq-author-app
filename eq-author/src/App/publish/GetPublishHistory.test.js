@@ -1,87 +1,22 @@
 import React from "react";
+import { useQuery } from "@apollo/react-hooks";
+
 import { render, screen } from "@testing-library/react";
+import Loading from "components/Loading";
 
-import PublishHistory, { formatDate } from "./GetPublishHistory";
+import PublishHistory from "./GetPublishHistory";
 
-const emptyCirReturn = [];
-const validCirReturn = [
-  {
-    ci_version: 5,
-    data_version: "0.0.1",
-    form_type: "0005",
-    id: "fcc74c4f-400b-430c-8a77-b18bff92332c",
-    language: "en",
-    published_at: "2023-05-09T07:25:29.342666Z",
-    schema_version: "0.0.1",
-    status: "DRAFT",
-    survey_id: "134",
-    title: "What is most important in data structures.",
-  },
-  {
-    ci_version: 4,
-    data_version: "0.0.1",
-    form_type: "0005",
-    id: "bd780acf-6c8f-436c-8bcc-501627536b53",
-    language: "en",
-    published_at: "2023-05-09T07:25:28.564217Z",
-    schema_version: "0.0.1",
-    status: "DRAFT",
-    survey_id: "134",
-    title: "What is most important in data structures.",
-  },
-  {
-    ci_version: 3,
-    data_version: "0.0.1",
-    form_type: "0005",
-    id: "0fe75d47-face-44c9-b511-7a31ea067e59",
-    language: "en",
-    published_at: "2023-05-09T07:25:26.229856Z",
-    schema_version: "0.0.1",
-    status: "DRAFT",
-    survey_id: "134",
-    title: "What is most important in data structures.",
-  },
-  {
-    ci_version: 2,
-    data_version: "0.0.1",
-    form_type: "0005",
-    id: "284ee417-67d1-4715-a020-d3db24c2e751",
-    language: "en",
-    published_at: "2023-05-09T07:25:25.044209Z",
-    schema_version: "0.0.1",
-    status: "DRAFT",
-    survey_id: "134",
-    title: "What is most important in data structures.",
-  },
-  {
-    ci_version: 1,
-    data_version: "0.0.1",
-    form_type: "0005",
-    id: "a3e2d8d0-806e-4562-ae7b-d30ef129328e",
-    language: "en",
-    published_at: "2023-05-09T07:25:13.209653Z",
-    schema_version: "0.0.1",
-    status: "DRAFT",
-    survey_id: "134",
-    title: "What is most important in data structures.",
-  },
-];
+jest.mock("@apollo/react-hooks", () => ({
+  ...jest.requireActual("@apollo/react-hooks"),
+  useQuery: jest.fn(),
+}));
 
 describe("Test empty return", () => {
-  let originalFetch;
-
-  beforeEach(() => {
-    originalFetch = global.fetch;
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        json: () => Promise.resolve(emptyCirReturn),
-      })
-    );
-  });
-
-  afterEach(() => {
-    global.fetch = originalFetch;
-  });
+  useQuery.mockImplementationOnce(() => ({
+    loading: false,
+    error: false,
+    data: undefined,
+  }));
 
   it("Should return no data text", async () => {
     render(<PublishHistory />);
@@ -92,21 +27,76 @@ describe("Test empty return", () => {
   });
 });
 
+describe("Loading in call to publish history", () => {
+  useQuery.mockImplementationOnce(() => ({
+    loading: true,
+    error: false,
+    data: undefined,
+  }));
+
+  it("Should return loading message", async () => {
+    const { getByTestId } = render(<PublishHistory />);
+    expect(getByTestId("loading")).toBeInTheDocument();
+  });
+});
+
+describe("Error in call to publish history", () => {
+  useQuery.mockImplementationOnce(() => ({
+    loading: false,
+    error: true,
+    data: undefined,
+  }));
+
+  it("Should return error message", async () => {
+    render(<PublishHistory />);
+    const error = await screen.findByTestId("error");
+    expect(error.textContent).toBe("Error fetching publishing history");
+  });
+});
+
 describe("Test valid return", () => {
-  let originalFetch;
-
-  beforeEach(() => {
-    originalFetch = global.fetch;
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        json: () => Promise.resolve(validCirReturn),
-      })
-    );
-  });
-
-  afterEach(() => {
-    global.fetch = originalFetch;
-  });
+  useQuery.mockImplementation(() => ({
+    loading: false,
+    error: false,
+    data: {
+      publishHistory: [
+        {
+          id: "cb0bb329-6d54-4779-a9a7-e4a43055cd82",
+          surveyId: "134",
+          formType: "0005",
+          publishDate: "2023-05-18T13:33:16.465Z",
+          success: false,
+        },
+        {
+          id: "459f73a5-5522-454f-8bda-dfa97ad65376",
+          surveyId: "134",
+          formType: "0005",
+          publishDate: "2023-05-19T09:48:37.281Z",
+          cirId: "c56afe93-63c6-47d6-8583-edb36596827b",
+          version: "1",
+          success: true,
+        },
+        {
+          id: "45f8ac6c-1b7f-4e56-8adc-252bf624e4d6",
+          surveyId: "134",
+          formType: "0005",
+          publishDate: "2023-05-22T11:01:19.654Z",
+          cirId: "6c63549f-27bb-4ff8-aebe-d386e9046b80",
+          version: "1",
+          success: true,
+        },
+        {
+          id: "5f4b236c-ef28-4db4-ba50-65c457e540a3",
+          surveyId: "134",
+          formType: "0005",
+          publishDate: "2023-05-18T13:35:07.205Z",
+          cirId: "d737af81-b596-430d-92b6-aad12ab4c630",
+          version: "1",
+          success: true,
+        },
+      ],
+    },
+  }));
 
   it("Should return history table and not no data message", async () => {
     render(<PublishHistory />);
@@ -116,10 +106,17 @@ describe("Test valid return", () => {
     const text = screen.queryByTestId("no-published-versions-text");
     expect(text).not.toBeInTheDocument();
   });
-});
 
-// describe("Test date time conversation", () => {
-//     it('Should convert a timestamp to human readble date time format', () => {
-//         expect(formatDate('2023-05-09T07:25:29.342666Z')).toBe('09/05/2023 at 08:25:29');
-//     });
-// });
+  it("Should return history table and have 3 rows", async () => {
+    render(<PublishHistory />);
+    // Row count of 4, to include header, bit remove entry with 'success: false'
+    const trElements = screen.getAllByRole("row");
+    expect(trElements).toHaveLength(4);
+  });
+
+  it("Should return history table and have most recent date in first data row with date correctly formatted", async () => {
+    render(<PublishHistory />);
+    const firstDataRow = screen.getAllByRole("row")[1];
+    expect(firstDataRow).toHaveTextContent("22/05/2023 at 12:01:19");
+  });
+});
