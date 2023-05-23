@@ -13,6 +13,9 @@ const filterUnacceptableMeta = omit([
   "account_service_url",
 ]);
 
+const today = new Date();
+const nextMonth = new Date(today.setMonth(today.getMonth() + 1));
+
 const defaultMetadata = (questionnaireId, tokenIssueTime, schemaUrl) => ({
   tx_id: uuidv1(),
   jti: uuidv1(),
@@ -25,6 +28,7 @@ const defaultMetadata = (questionnaireId, tokenIssueTime, schemaUrl) => ({
   trad_as: "ESSENTIAL ENTERPRISE LTD",
   eq_id: questionnaireId,
   collection_exercise_sid: uuidv1(),
+  response_expires_at: nextMonth,
   period_id: "201605",
   schema_url: `${schemaUrl}${questionnaireId}?r${tokenIssueTime}`,
   questionnaire_id: uuidv1(),
