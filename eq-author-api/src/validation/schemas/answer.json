@@ -7,14 +7,7 @@
         "properties": {
           "type": {
             "not": {
-              "enum": [
-                "Checkbox",
-                "Radio",
-                "MutuallyExclusive",
-                "Select",
-                "Date",
-                "DateRange"
-              ]
+              "enum": ["Checkbox", "Radio", "MutuallyExclusive", "Select"]
             }
           }
         }
@@ -128,18 +121,29 @@
       },
       "if": {
         "properties": {
-          "repeatingLabelAndInput": {
-            "const": true
+          "type": {
+            "not": {
+              "enum": ["Date", "DateRange"]
+            }
           }
         }
       },
       "then": {
-        "properties": {
-          "repeatingLabelAndInputListId": {
-            "$ref": "definitions.json#/definitions/populatedString"
-          },
-          "label": {
-            "$ref": "definitions.json#/definitions/pipedString"
+        "if": {
+          "properties": {
+            "repeatingLabelAndInput": {
+              "const": true
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "repeatingLabelAndInputListId": {
+              "$ref": "definitions.json#/definitions/populatedString"
+            },
+            "label": {
+              "$ref": "definitions.json#/definitions/pipedString"
+            }
           }
         }
       },
@@ -227,41 +231,28 @@
       "required": ["options"]
     },
     "dateAnswer": {
-      "allOf": [
-        {
-          "type": "object",
-          "properties": {
-            "label": {
-              "$ref": "definitions.json#/definitions/populatedString"
-            }
-          },
-          "if": {
-            "type": "object",
-            "properties": {
-              "advancedProperties": {
-                "const": true
-              }
-            }
-          },
-          "then": {
-            "type": "object",
-            "properties": {
-              "validation": {
-                "$ref": "validation.json#/definitions/dateValidations"
-              }
-            }
+      "if": {
+        "type": "object",
+        "properties": {
+          "advancedProperties": {
+            "const": true
           }
         }
-      ]
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "validation": {
+            "$ref": "validation.json#/definitions/dateValidations"
+          }
+        }
+      }
     },
     "dateRangeAnswer": {
       "allOf": [
         {
           "type": "object",
           "properties": {
-            "label": {
-              "$ref": "definitions.json#/definitions/populatedString"
-            },
             "secondaryLabel": {
               "$ref": "definitions.json#/definitions/populatedString"
             }
