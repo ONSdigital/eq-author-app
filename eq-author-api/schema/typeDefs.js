@@ -802,7 +802,7 @@ type Query {
   collectionLists: CollectionLists
   list(input: QueryInput!): List
   prepopSchemaVersions(id: ID!): PrepopSchemaVersions
-  publishHistory(success: Boolean): [publishHistory]
+  publishHistory: [publishHistory]
 }
 
 input CommonFilters {

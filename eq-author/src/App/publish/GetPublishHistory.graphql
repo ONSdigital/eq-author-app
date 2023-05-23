@@ -1,5 +1,5 @@
-query GetPublishHistory($success: Boolean = true) {
-  publishHistory(success: $success) {
+query GetPublishHistory {
+  publishHistory {
     id
     cirId
     version

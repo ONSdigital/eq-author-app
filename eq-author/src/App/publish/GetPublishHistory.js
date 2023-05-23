@@ -67,7 +67,7 @@ const PublishHistory = () => {
     return <pre>{error.message}</pre>;
   }
   if (data) {
-    historyItems = data.publishHistory || [];
+    historyItems = data.publishHistory.filter((event) => event.success) || [];
   }
 
   return (
