@@ -2,7 +2,6 @@ import React from "react";
 import { useQuery } from "@apollo/react-hooks";
 
 import { render, screen } from "@testing-library/react";
-import Loading from "components/Loading";
 
 import PublishHistory from "./GetPublishHistory";
 
