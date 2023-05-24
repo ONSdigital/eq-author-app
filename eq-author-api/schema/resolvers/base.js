@@ -1529,7 +1529,7 @@ const Resolvers = {
             const responseJson = await res.json();
 
             publishResult.cirId = responseJson.id;
-            publishResult.version = responseJson.version;
+            publishResult.cirVersion = responseJson.version;
             publishResult.success = true;
           } else {
             publishResult.success = false;
