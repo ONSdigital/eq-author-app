@@ -114,7 +114,7 @@ const PublishHistory = () => {
                     <td>{historyItem.surveyId}</td>
                     <td>{historyItem.formType}</td>
                     <td>{historyItem.cirId}</td>
-                    <td>{historyItem.version}</td>
+                    <td>{historyItem.cirVersion}</td>
                   </tr>
                 );
               })}

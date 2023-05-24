@@ -82,7 +82,7 @@ type Questionnaire {
   publishDetails: [PublishDetails]
   totalErrorCount: Int!
   locked: Boolean
-  publishHistory: [publishHistoryEvent]
+  publishHistory: [PublishHistoryEvent]
   validationErrorInfo: ValidationErrorInfo
   submission: Submission
 }
@@ -759,25 +759,15 @@ type PrepopSchemaVersions {
   versions: [Version!]!
 }
 
-type publishHistoryEvent {
+type PublishHistoryEvent {
   id: ID!
   cirId: ID
   surveyId: String
   formType: String
   cirVersion: String
-  publishDate: Date
-  success: Boolean
-  errorMessage: String
-}
-
-type publishHistory {
-  id: ID!
-  cirId: ID
-  surveyId: String
-  formType: String
-  version: String
   publishDate: DateTime
   success: Boolean
+  errorMessage: String
 }
 
 type Query {
@@ -802,7 +792,7 @@ type Query {
   collectionLists: CollectionLists
   list(input: QueryInput!): List
   prepopSchemaVersions(id: ID!): PrepopSchemaVersions
-  publishHistory: [publishHistory]
+  publishHistory: [PublishHistoryEvent]
 }
 
 input CommonFilters {

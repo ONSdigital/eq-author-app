@@ -2,10 +2,11 @@ query GetPublishHistory {
   publishHistory {
     id
     cirId
-    version
+    cirVersion
     surveyId
     formType
     publishDate
     success
+    errorMessage
   }
 }
