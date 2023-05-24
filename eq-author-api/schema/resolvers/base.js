@@ -451,6 +451,7 @@ const Resolvers = {
         createdAt: new Date(),
         editors: [],
         publishStatus: UNPUBLISHED,
+        publishHistory: [],
         surveyVersion: 1,
         locked: false,
       };
