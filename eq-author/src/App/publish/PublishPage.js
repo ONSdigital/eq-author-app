@@ -49,7 +49,9 @@ const StyledButton = styled(Button)`
 `;
 
 const PublishPage = () => {
-  const [publishSchema] = useMutation(PUBLISH_SCHEMA);
+  const [publishSchema] = useMutation(PUBLISH_SCHEMA, {
+    refetchQueries: ["GetPublishHistory"],
+  });
   return (
     <Theme themeName="onsLegacyFont">
       <Container data-test="publish-page-container">
