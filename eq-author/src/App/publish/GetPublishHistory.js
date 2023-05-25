@@ -52,7 +52,8 @@ const Content = styled.div`
   margin-bottom: 1em;
 `;
 
-const formatDate = (date) => moment(date).format("DD/MM/YYYY [at] HH:mm:ss");
+const formatDate = (date) =>
+  moment(date).locale("en-gb").format("DD/MM/YYYY [at] HH:mm:ss");
 
 const PublishHistory = () => {
   let historyItems = [];
