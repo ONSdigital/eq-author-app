@@ -108,7 +108,7 @@ describe("Test valid return", () => {
 
   it("Should return history table and have 3 rows", async () => {
     render(<PublishHistory />);
-    // Row count of 4, to include header, bit remove entry with 'success: false'
+    // Row count of 4, to include header, but remove entry with 'success: false'
     const trElements = screen.getAllByRole("row");
     expect(trElements).toHaveLength(4);
   });
