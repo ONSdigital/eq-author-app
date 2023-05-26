@@ -79,7 +79,7 @@ describe("Test valid return", () => {
           id: "45f8ac6c-1b7f-4e56-8adc-252bf624e4d6",
           surveyId: "134",
           formType: "0005",
-          publishDate: "2023-05-22T11:01:19.654Z",
+          publishDate: "2023-05-22T13:01:19.654Z",
           cirId: "6c63549f-27bb-4ff8-aebe-d386e9046b80",
           version: "1",
           success: true,
@@ -88,7 +88,7 @@ describe("Test valid return", () => {
           id: "5f4b236c-ef28-4db4-ba50-65c457e540a3",
           surveyId: "134",
           formType: "0005",
-          publishDate: "2023-05-18T13:35:07.205Z",
+          publishDate: "2023-05-17T13:35:07.205Z",
           cirId: "d737af81-b596-430d-92b6-aad12ab4c630",
           version: "1",
           success: true,
@@ -113,9 +113,10 @@ describe("Test valid return", () => {
     expect(trElements).toHaveLength(4);
   });
 
-  it("Should return history table and have most recent date in first data row with date correctly formatted", async () => {
+  it("Should return history table and be in date order, most recent first", async () => {
     render(<PublishHistory />);
-    const firstDataRow = screen.getAllByRole("row")[1];
-    expect(firstDataRow).toHaveTextContent("22/05/2023 at 12:01:19");
+    expect(screen.getAllByRole("row")[1]).toHaveTextContent("22/05/2023");
+    expect(screen.getAllByRole("row")[2]).toHaveTextContent("19/05/2023");
+    expect(screen.getAllByRole("row")[3]).toHaveTextContent("17/05/2023");
   });
 });
