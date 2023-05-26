@@ -27,7 +27,7 @@ const HistoryTable = styled.div`
   table,
   th,
   td {
-    border: 1px solid #666666;
+    border: 1px solid ${colors.darkGrey};
     text-align: left;
   }
 
@@ -37,7 +37,7 @@ const HistoryTable = styled.div`
   }
 
   thead {
-    background-color: #e4e8eb;
+    background-color: ${colors.lightMediumGrey};
     font-weight: bold;
   }
   th,
