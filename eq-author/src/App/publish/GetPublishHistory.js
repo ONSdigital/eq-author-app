@@ -111,7 +111,11 @@ const PublishHistory = () => {
               {historyItems.map((historyItem) => {
                 return (
                   <tr key={historyItem.id}>
-                    <td>{formatDate(historyItem.publishDate)}</td>
+                    <td>{`${new Date(
+                      historyItem.publishDate
+                    ).toLocaleDateString("en-GB")} at ${new Date(
+                      historyItem.publishDate
+                    ).toLocaleTimeString("en-GB")}`}</td>
                     <td>{historyItem.surveyId}</td>
                     <td>{historyItem.formType}</td>
                     <td>{historyItem.cirId}</td>
