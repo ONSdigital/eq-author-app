@@ -121,18 +121,29 @@
       },
       "if": {
         "properties": {
-          "repeatingLabelAndInput": {
-            "const": true
+          "type": {
+            "not": {
+              "enum": ["Date", "DateRange"]
+            }
           }
         }
       },
       "then": {
-        "properties": {
-          "repeatingLabelAndInputListId": {
-            "$ref": "definitions.json#/definitions/populatedString"
-          },
-          "label": {
-            "$ref": "definitions.json#/definitions/pipedString"
+        "if": {
+          "properties": {
+            "repeatingLabelAndInput": {
+              "const": true
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "repeatingLabelAndInputListId": {
+              "$ref": "definitions.json#/definitions/populatedString"
+            },
+            "label": {
+              "$ref": "definitions.json#/definitions/pipedString"
+            }
           }
         }
       },
