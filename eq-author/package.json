@@ -26,7 +26,7 @@
     "@hot-loader/react-dom": "latest",
     "@storybook/addon-a11y": "^6.4.9",
     "@storybook/addon-actions": "^6.2.8",
-    "@storybook/addon-essentials": "^6.0.18",
+    "@storybook/addon-essentials": "^7.0.18",
     "@storybook/addon-links": "^6.1.18",
     "@storybook/react": "^6.0.18",
     "@testing-library/jest-dom": "latest",
