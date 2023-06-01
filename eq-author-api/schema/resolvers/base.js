@@ -289,6 +289,7 @@ const Resolvers = {
     submission: (root, _, ctx) => ctx.questionnaire.submission,
     introduction: (root, _, ctx) => ctx.questionnaire.introduction,
     collectionLists: (_, args, ctx) => ctx.questionnaire.collectionLists,
+    publishHistory: (_, args, ctx) => ctx.questionnaire.publishHistory,
     list: (root, { input: { listId } }, ctx) =>
       find(ctx.questionnaire.collectionLists.lists, { id: listId }),
     prepopSchemaVersions: async (_, args) => {
@@ -451,6 +452,7 @@ const Resolvers = {
         createdAt: new Date(),
         editors: [],
         publishStatus: UNPUBLISHED,
+        publishHistory: [],
         surveyVersion: 1,
         locked: false,
       };
@@ -1529,7 +1531,7 @@ const Resolvers = {
             const responseJson = await res.json();
 
             publishResult.cirId = responseJson.id;
-            publishResult.version = responseJson.version;
+            publishResult.cirVersion = responseJson.version;
             publishResult.success = true;
           } else {
             publishResult.success = false;

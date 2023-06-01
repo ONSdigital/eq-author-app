@@ -45,7 +45,7 @@ describe("publish schema", () => {
         formType: "",
         publishDate: expect.any(Date),
         cirId: "cir-id-1",
-        version: "1",
+        cirVersion: "1",
         success: true,
       },
     ]);
@@ -59,7 +59,7 @@ describe("publish schema", () => {
         formType: "",
         publishDate: new Date(),
         cirId: "cir-id-2",
-        version: "1",
+        cirVersion: "1",
         success: true,
       },
     ];
@@ -73,7 +73,7 @@ describe("publish schema", () => {
         formType: "",
         publishDate: expect.any(Date),
         cirId: "cir-id-2",
-        version: "1",
+        cirVersion: "1",
         success: true,
       },
       {
@@ -82,7 +82,7 @@ describe("publish schema", () => {
         formType: "",
         publishDate: expect.any(Date),
         cirId: "cir-id-1",
-        version: "1",
+        cirVersion: "1",
         success: true,
       },
     ]);

@@ -5,10 +5,12 @@ import PublishPage from "./PublishPage";
 
 const mockUseSubscription = jest.fn();
 const mockUseMutation = jest.fn();
+const mockUseQuery = jest.fn();
 
 jest.mock("@apollo/react-hooks", () => ({
   useMutation: () => [mockUseMutation],
   useSubscription: () => [mockUseSubscription],
+  useQuery: () => [mockUseQuery],
 }));
 
 describe("Publish page", () => {
