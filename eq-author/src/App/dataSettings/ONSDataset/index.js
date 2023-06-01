@@ -93,6 +93,7 @@ const StyledButton = styled(Button)`
 
 const ONSDatasetPage = () => {
   const params = useParams();
+  const questionnaireID = params.questionnaireID;
 
   const [surveyID, setSurveyID] = useState("surveyID");
   const [showDataset, setShowDataset] = useState(false);
@@ -123,14 +124,25 @@ const ONSDatasetPage = () => {
     return formattedDate;
   };
 
-  const [linkPrepopSchema] = useMutation(UPDATE_PREPOP_SCHEMA);
+  const [linkPrepopSchema] = useMutation(UPDATE_PREPOP_SCHEMA, {
+    refetchQueries: ["GetPrepopSchema"],
+  });
 
-  const { data: prepopSchema } = useQuery(GET_PREPOP_SCHEMA);
-  const schemaData = prepopSchema
-    ? prepopSchema.prepopSchema
-      ? prepopSchema.prepopSchema.schema
-      : null
-    : null;
+  const { data: prepopSchema } = useQuery(GET_PREPOP_SCHEMA, {
+    variables: { input: questionnaireID },
+    fetchPolicy: "network-only",
+  });
+
+  const buildData = () => {
+    const schemaData = prepopSchema
+      ? prepopSchema.prepopSchema
+        ? prepopSchema.prepopSchema.schema
+        : null
+      : null;
+    return schemaData;
+  };
+
+  const tableData = buildData();
 
   return (
     <Theme themeName="onsLegacyFont">
@@ -236,10 +248,10 @@ const ONSDatasetPage = () => {
                           </Table>
                         </>
                       )}
-                      {schemaData && (
+                      {tableData && (
                         <>
                           <Title>Linked data</Title>
-                          <Table data-test="datasets-table">
+                          <Table data-test="tableData-table">
                             <TableHead>
                               <TableRow>
                                 <StyledTableHeadColumn width="40%">
@@ -247,22 +259,28 @@ const ONSDatasetPage = () => {
                                 </StyledTableHeadColumn>
                               </TableRow>
                             </TableHead>
-                            {prepopSchema && (
-                              <StyledTableBody>
-                                {Object.keys(schemaData).map((key, index) => {
-                                  return (
-                                    <TableRow
-                                      key={index}
-                                      data-test={`schemadata-row`}
-                                    >
-                                      <SpacedTableColumn>
-                                        {key}
-                                      </SpacedTableColumn>
-                                    </TableRow>
-                                  );
-                                })}
-                              </StyledTableBody>
-                            )}
+                            <StyledTableBody>
+                              <TableRow data-test={`tableData-row-id`}>
+                                <SpacedTableColumn>ID</SpacedTableColumn>
+                                <SpacedTableColumn>
+                                  {tableData.id}
+                                </SpacedTableColumn>
+                              </TableRow>
+                              <TableRow data-test={`tableData-row-version`}>
+                                <SpacedTableColumn>Version</SpacedTableColumn>
+                                <SpacedTableColumn>
+                                  {tableData.version}
+                                </SpacedTableColumn>
+                              </TableRow>
+                              <TableRow data-test={`tableData-row-dateCreated`}>
+                                <SpacedTableColumn>
+                                  Date created
+                                </SpacedTableColumn>
+                                <SpacedTableColumn>
+                                  {tableData.dateCreated}
+                                </SpacedTableColumn>
+                              </TableRow>
+                            </StyledTableBody>
                           </Table>
                         </>
                       )}
@@ -277,5 +295,11 @@ const ONSDatasetPage = () => {
     </Theme>
   );
 };
+
+// ONSDataSetPage.propTypes = {
+//   data: PropTypes.shape({
+//     questionnaire: CustomPropTypes.questionnaire,
+//   }),
+// };
 
 export default withRouter(ONSDatasetPage);
