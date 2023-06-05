@@ -137,7 +137,19 @@ type DeletedQuestionnaire {
   id: ID!
 }
 
-type Folder implements Skippable {
+interface Folder {
+  id: ID!
+  alias: String
+  title: String
+  pages: [Page]
+  skipConditions: [ExpressionGroup2]
+  position: Int!
+  section: Section!
+  displayName: String!
+  validationErrorInfo: ValidationErrorInfo
+}
+
+type BasicFolder implements Folder & Skippable {
   id: ID!
   alias: String
   title: String
