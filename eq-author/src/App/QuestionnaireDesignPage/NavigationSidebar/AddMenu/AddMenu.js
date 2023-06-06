@@ -12,6 +12,7 @@ import IconFolder from "assets/icon-folder.svg?inline";
 import IconIntroduction from "assets/icon-introduction-page.svg?inline";
 import IconImport from "assets/icon-import.svg?inline";
 import IconListCollectorPage from "assets/icon-list-collector.svg?inline";
+import IconListCollectorFolder from "assets/icon-list-collector-folder.svg?inline";
 
 import PopupTransition from "../PopupTransition";
 import { MenuButton, MenuAddButton } from "./AddMenuButtons";
@@ -140,14 +141,7 @@ const AddMenu = ({
     handleClick: () => onAddListCollectorPage(),
     disabled: !canAddListCollectorPage,
     dataTest: "btn-add-list-collector-page",
-    icon: IconListCollectorPage,
-    text: "List collector",
-  });
-  extraButtons.splice(2, 0, {
-    handleClick: () => onAddListCollectorPage(true),
-    disabled: !canAddListCollectorPage,
-    dataTest: "btn-add-list-collector-page-inside",
-    icon: IconQuestion,
+    icon: IconListCollectorFolder,
     text: "List collector",
   });
 
