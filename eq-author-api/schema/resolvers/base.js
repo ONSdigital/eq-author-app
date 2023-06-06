@@ -1598,7 +1598,7 @@ const Resolvers = {
 
   Skippable: {
     __resolveType: ({ pageType, pages }) =>
-      pageType ? pageType : pages ? "Folder" : "QuestionConfirmation",
+      pageType ? pageType : pages ? "BasicFolder" : "QuestionConfirmation",
   },
 
   Routable: {
