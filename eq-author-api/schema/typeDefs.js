@@ -917,6 +917,8 @@ type Mutation {
   moveFolder(input: MoveFolderInput!): Questionnaire
   duplicateFolder(input: DuplicateFolderInput!): Folder
 
+  createListCollectorFolder(input: CreateListCollectorFolderInput!): Folder
+
   toggleQuestionnaireStarred(input: ToggleQuestionnaireStarredInput!): Questionnaire
 
   updatePage(input: UpdatePageInput!): Page
@@ -1277,6 +1279,11 @@ input DeleteFolderInput {
 
 input DuplicateFolderInput {
   id: ID!
+  position: Int!
+}
+
+input CreateListCollectorFolderInput {
+  sectionId: ID!
   position: Int!
 }
 

@@ -48,6 +48,7 @@ const {
   createExpressionGroup,
   createLeftSide,
   createFolder,
+  createListCollectorFolder,
   createSection,
   createList,
 } = require("../../src/businessLogic");
@@ -695,6 +696,15 @@ const Resolvers = {
 
       return remappedFolder;
     }),
+    createListCollectorFolder: createMutation(
+      (root, { input: { position, ...params } }, ctx) => {
+        const listCollectorFolder = createListCollectorFolder();
+        const section = getSectionById(ctx, params.sectionId);
+        section.folders.splice(position, 0, listCollectorFolder);
+
+        return listCollectorFolder;
+      }
+    ),
     createAnswer: createMutation((root, { input }, ctx) => {
       const page = getPageById(ctx, input.questionPageId);
       const answer = createAnswer(input, page);
