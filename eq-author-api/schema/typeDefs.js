@@ -142,7 +142,6 @@ interface Folder {
   alias: String
   title: String
   pages: [Page]
-  skipConditions: [ExpressionGroup2]
   position: Int!
   section: Section!
   displayName: String!
@@ -155,6 +154,18 @@ type BasicFolder implements Folder & Skippable {
   title: String
   pages: [Page]
   skipConditions: [ExpressionGroup2]
+  position: Int!
+  section: Section!
+  displayName: String!
+  validationErrorInfo: ValidationErrorInfo
+}
+
+type ListCollectorFolder implements Folder {
+  id: ID!
+  alias: String
+  title: String
+  listId: ID
+  pages: [Page]
   position: Int!
   section: Section!
   displayName: String!
