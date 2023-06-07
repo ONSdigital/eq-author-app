@@ -37,22 +37,6 @@ useQuery.mockImplementation(() => ({
         },
       ],
     },
-    prepopSchema: {
-      id: "121-222-789",
-      schema: {
-        id: "121-222-789",
-        version: "1",
-        dateCreated: "2023-01-12T13:37:27+00:00",
-        turnover: {
-          type: "number",
-          example: "1000",
-        },
-        employeeCount: {
-          type: "number",
-          example: "50",
-        },
-      },
-    },
   },
 }));
 
@@ -152,6 +136,29 @@ describe("ONS dataset page", () => {
 
   describe("linked data", () => {
     it("should show linked data table", () => {
+      useQuery.mockImplementation(() => ({
+        loading: false,
+        error: false,
+        data: {
+          prepopSchema: {
+            id: "121-222-789",
+            schema: {
+              id: "121-222-789",
+              version: "1",
+              dateCreated: "2023-01-12T13:37:27+00:00",
+              turnover: {
+                type: "number",
+                example: "1000",
+              },
+              employeeCount: {
+                type: "number",
+                example: "50",
+              },
+            },
+          },
+        },
+      }));
+
       const { getByText, getByTestId } = renderONSDatasetPage(
         questionnaire,
         props,
