@@ -39,6 +39,69 @@ Resolvers.QuestionPage = {
   },
 };
 
+Resolvers.ListCollectorQualifierPage = {
+  section: ({ id }, input, ctx) => getSectionByPageId(ctx, id),
+  folder: ({ id }, args, ctx) => getFolderByPageId(ctx, id),
+  position: ({ id }, args, ctx) => {
+    const folder = getFolderByPageId(ctx, id);
+    return folder.pages.findIndex((page) => page.id === id);
+  },
+  displayName: (page) => getName(page, "QuestionPage"),
+  validationErrorInfo: ({ id }, args, ctx) => {
+    const pageErrors = ctx.validationErrorInfo.filter(
+      ({ pageId, type }) => id === pageId && !type.startsWith("confirmation")
+    );
+
+    return {
+      id,
+      errors: pageErrors,
+      totalCount: pageErrors.length,
+    };
+  },
+};
+
+Resolvers.ListCollectorAddItemPage = {
+  section: ({ id }, input, ctx) => getSectionByPageId(ctx, id),
+  folder: ({ id }, args, ctx) => getFolderByPageId(ctx, id),
+  position: ({ id }, args, ctx) => {
+    const folder = getFolderByPageId(ctx, id);
+    return folder.pages.findIndex((page) => page.id === id);
+  },
+  displayName: (page) => getName(page, "QuestionPage"),
+  validationErrorInfo: ({ id }, args, ctx) => {
+    const pageErrors = ctx.validationErrorInfo.filter(
+      ({ pageId, type }) => id === pageId && !type.startsWith("confirmation")
+    );
+
+    return {
+      id,
+      errors: pageErrors,
+      totalCount: pageErrors.length,
+    };
+  },
+};
+
+Resolvers.ListCollectorConfirmationPage = {
+  section: ({ id }, input, ctx) => getSectionByPageId(ctx, id),
+  folder: ({ id }, args, ctx) => getFolderByPageId(ctx, id),
+  position: ({ id }, args, ctx) => {
+    const folder = getFolderByPageId(ctx, id);
+    return folder.pages.findIndex((page) => page.id === id);
+  },
+  displayName: (page) => getName(page, "QuestionPage"),
+  validationErrorInfo: ({ id }, args, ctx) => {
+    const pageErrors = ctx.validationErrorInfo.filter(
+      ({ pageId, type }) => id === pageId && !type.startsWith("confirmation")
+    );
+
+    return {
+      id,
+      errors: pageErrors,
+      totalCount: pageErrors.length,
+    };
+  },
+};
+
 Resolvers.Mutation = {
   createQuestionPage: createMutation(
     (root, { input: { position, ...pageInput } }, ctx) => {
