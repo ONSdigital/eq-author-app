@@ -1,12 +1,20 @@
 const { v4: uuidv4 } = require("uuid");
-const createQuestionPage = require("./createQuestionPage");
+const {
+  createListCollectorQualifierPage,
+  createListCollectorAddItemPage,
+  createListCollectorConfirmationPage,
+} = require("./createListCollectorPages");
 
 const createListCollectorFolder = () => ({
   id: uuidv4(),
   alias: "",
   title: "",
   listId: "",
-  pages: [createQuestionPage()],
+  pages: [
+    createListCollectorQualifierPage(),
+    createListCollectorAddItemPage(),
+    createListCollectorConfirmationPage(),
+  ],
   displayName: "",
 });
 

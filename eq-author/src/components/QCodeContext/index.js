@@ -105,7 +105,10 @@ export const getFlattenedAnswerRows = (questionnaire) => {
   }
 
   return pages?.flatMap((page) => {
-    if (page.pageType !== LIST_COLLECTOR_PAGE) {
+    if (
+      page.pageType !== LIST_COLLECTOR_PAGE &&
+      page.pageType !== "ListCollectorAddItemPage"
+    ) {
       const answerRows = page.answers.flatMap(flattenAnswer);
 
       // Add page title / shortcode alias (for display in QCodesTable) to first answer only

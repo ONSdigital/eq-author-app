@@ -14,6 +14,11 @@ const createTheme = require("./createTheme");
 const updateDestination = require("./updateDestination");
 const createList = require("./createList");
 const createListCollectorPage = require("./createListCollectorPage");
+const {
+  createListCollectorQualifierPage,
+  createListCollectorAddItemPage,
+  createListCollectorConfirmationPage,
+} = require("./createListCollectorPages");
 
 module.exports = {
   createRouting,
@@ -32,4 +37,7 @@ module.exports = {
   updateDestination,
   createList,
   createListCollectorPage,
+  createListCollectorQualifierPage,
+  createListCollectorAddItemPage,
+  createListCollectorConfirmationPage,
 };

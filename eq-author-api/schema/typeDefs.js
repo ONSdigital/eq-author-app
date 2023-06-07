@@ -248,6 +248,44 @@ type QuestionPage implements Page & Skippable & Routable {
   pageDescription: String
 }
 
+type ListCollectorQualifierPage implements Page {
+  id: ID!
+  title: String!
+  alias: String
+  displayName: String!
+  pageType: PageType!
+  folder: Folder!
+  section: Section!
+  position: Int!
+  answers: [Answer]
+  validationErrorInfo: ValidationErrorInfo
+}
+
+type ListCollectorAddItemPage implements Page {
+  id: ID!
+  title: String!
+  alias: String
+  displayName: String!
+  pageType: PageType!
+  folder: Folder!
+  section: Section!
+  position: Int!
+  validationErrorInfo: ValidationErrorInfo
+}
+
+type ListCollectorConfirmationPage implements Page {
+  id: ID!
+  title: String!
+  alias: String
+  displayName: String!
+  pageType: PageType!
+  folder: Folder!
+  section: Section!
+  position: Int!
+  answers: [Answer]
+  validationErrorInfo: ValidationErrorInfo
+}
+
 type ListCollectorPage implements Page & Skippable & Routable {
   id: ID!
   title: String!
@@ -551,6 +589,9 @@ enum PageType {
   InterstitialPage
   CalculatedSummaryPage
   ListCollectorPage
+  ListCollectorQualifierPage
+  ListCollectorAddItemPage
+  ListCollectorConfirmationPage
 }
 
 enum AnswerType {
