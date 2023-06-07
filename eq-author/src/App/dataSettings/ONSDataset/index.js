@@ -174,78 +174,82 @@ const ONSDatasetPage = () => {
                       <Common.TabContent>
                         Only one dataset can be linked per questionnaire.
                       </Common.TabContent>
-                      <StyledTitle>Select a survey ID</StyledTitle>
-                      <CustomSelect
-                        name="listId"
-                        data-test="list-select"
-                        onChange={handleChange}
-                        value={surveyID}
-                      >
-                        <Option value="surveyID" data-test="default-option">
-                          Survey ID
-                        </Option>
-                        {SURVEY_IDS.map((surveyID) => (
-                          <Option key={surveyID} value={surveyID}>
-                            {surveyID}
-                          </Option>
-                        ))}
-                      </CustomSelect>
-                      {showDataset && (
+                      {!tableData && (
                         <>
-                          <Title>Datasets for survey ID {surveyID}</Title>
-                          <Table data-test="datasets-table">
-                            <TableHead>
-                              <TableRow>
-                                <StyledTableHeadColumn width="40%">
-                                  Version
-                                </StyledTableHeadColumn>
-                                <StyledTableHeadColumn width="40%">
-                                  Date created
-                                </StyledTableHeadColumn>
-                                <StyledTableHeadColumn width="20%">
-                                  Link dataset
-                                </StyledTableHeadColumn>
-                              </TableRow>
-                            </TableHead>
-                            {surveyData.prepopSchemaVersions && (
-                              <StyledTableBody>
-                                {surveyData.prepopSchemaVersions.versions.map(
-                                  (version) => {
-                                    return (
-                                      <TableRow
-                                        key={version.id}
-                                        data-test={`dataset-row`}
-                                      >
-                                        <SpacedTableColumn>
-                                          {version.version}
-                                        </SpacedTableColumn>
-                                        <SpacedTableColumn>
-                                          {formatDate(version.dateCreated)}
-                                        </SpacedTableColumn>
-                                        <SpacedTableColumn>
-                                          <StyledButton
-                                            onClick={() =>
-                                              linkPrepopSchema({
-                                                variables: {
-                                                  input: {
-                                                    id: version.id,
-                                                  },
-                                                },
-                                              })
-                                            }
-                                            type="button"
-                                            variant="secondary"
+                          <StyledTitle>Select a survey ID</StyledTitle>
+                          <CustomSelect
+                            name="listId"
+                            data-test="list-select"
+                            onChange={handleChange}
+                            value={surveyID}
+                          >
+                            <Option value="surveyID" data-test="default-option">
+                              Survey ID
+                            </Option>
+                            {SURVEY_IDS.map((surveyID) => (
+                              <Option key={surveyID} value={surveyID}>
+                                {surveyID}
+                              </Option>
+                            ))}
+                          </CustomSelect>
+                          {showDataset && (
+                            <>
+                              <Title>Datasets for survey ID {surveyID}</Title>
+                              <Table data-test="datasets-table">
+                                <TableHead>
+                                  <TableRow>
+                                    <StyledTableHeadColumn width="40%">
+                                      Version
+                                    </StyledTableHeadColumn>
+                                    <StyledTableHeadColumn width="40%">
+                                      Date created
+                                    </StyledTableHeadColumn>
+                                    <StyledTableHeadColumn width="20%">
+                                      Link dataset
+                                    </StyledTableHeadColumn>
+                                  </TableRow>
+                                </TableHead>
+                                {surveyData.prepopSchemaVersions && (
+                                  <StyledTableBody>
+                                    {surveyData.prepopSchemaVersions.versions.map(
+                                      (version) => {
+                                        return (
+                                          <TableRow
+                                            key={version.id}
+                                            data-test={`dataset-row`}
                                           >
-                                            Link
-                                          </StyledButton>
-                                        </SpacedTableColumn>
-                                      </TableRow>
-                                    );
-                                  }
+                                            <SpacedTableColumn>
+                                              {version.version}
+                                            </SpacedTableColumn>
+                                            <SpacedTableColumn>
+                                              {formatDate(version.dateCreated)}
+                                            </SpacedTableColumn>
+                                            <SpacedTableColumn>
+                                              <StyledButton
+                                                onClick={() =>
+                                                  linkPrepopSchema({
+                                                    variables: {
+                                                      input: {
+                                                        id: version.id,
+                                                      },
+                                                    },
+                                                  })
+                                                }
+                                                type="button"
+                                                variant="secondary"
+                                              >
+                                                Link
+                                              </StyledButton>
+                                            </SpacedTableColumn>
+                                          </TableRow>
+                                        );
+                                      }
+                                    )}
+                                  </StyledTableBody>
                                 )}
-                              </StyledTableBody>
-                            )}
-                          </Table>
+                              </Table>
+                            </>
+                          )}
                         </>
                       )}
                       {tableData && (
