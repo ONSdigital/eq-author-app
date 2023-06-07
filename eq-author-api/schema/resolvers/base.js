@@ -1662,10 +1662,29 @@ const Resolvers = {
   },
 
   Folder: {
-    __resolveType: () => "BasicFolder",
+    __resolveType: (folder) => {
+      return Object.prototype.hasOwnProperty.call(folder, "listId")
+        ? "ListCollectorFolder"
+        : "BasicFolder";
+    },
   },
 
   BasicFolder: {
+    section: ({ id }, args, ctx) => getSectionByFolderId(ctx, id),
+    position: ({ id }, args, ctx) => {
+      const section = getSectionByFolderId(ctx, id);
+      return findIndex(section.folders, { id });
+    },
+    displayName: ({ alias, title }) => alias || title || "Untitled folder",
+    validationErrorInfo: ({ id }, args, ctx) =>
+      returnValidationErrors(
+        ctx,
+        id,
+        ({ folderId, pageId }) => id === folderId && !pageId
+      ),
+  },
+
+  ListCollectorFolder: {
     section: ({ id }, args, ctx) => getSectionByFolderId(ctx, id),
     position: ({ id }, args, ctx) => {
       const section = getSectionByFolderId(ctx, id);
