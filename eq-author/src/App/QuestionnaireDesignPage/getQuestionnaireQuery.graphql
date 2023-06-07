@@ -124,6 +124,9 @@ fragment PageNav on Section {
       ...Pages
       ...ConfirmationPages
       ...ListCollectorPages
+      ...ListCollectorQualifierPages
+      ...ListCollectorAddItemPages
+      ...ListCollectorConfirmationPages
     }
     validationErrorInfo {
       id
@@ -147,6 +150,16 @@ fragment Pages on Page {
       errorCode
     }
     totalCount
+  }
+  ... on ListCollectorQualifierPage {
+    answers {
+      ...Answers
+    }
+  }
+  ... on ListCollectorConfirmationPage {
+    answers {
+      ...Answers
+    }
   }
   ... on CalculatedSummaryPage {
     pageDescription
@@ -205,6 +218,69 @@ fragment ListCollectorPages on ListCollectorPage {
   }
   comments {
     ...Comment
+  }
+}
+
+fragment ListCollectorConfirmationPages on ListCollectorConfirmationPage {
+  id
+  alias
+  title
+  position
+  displayName
+  pageType
+  answers {
+    ...Answers
+  }
+  validationErrorInfo {
+    id
+    errors {
+      id
+      type
+      field
+      errorCode
+    }
+    totalCount
+  }
+}
+
+fragment ListCollectorAddItemPages on ListCollectorAddItemPage {
+  id
+  alias
+  title
+  position
+  displayName
+  pageType
+  validationErrorInfo {
+    id
+    errors {
+      id
+      type
+      field
+      errorCode
+    }
+    totalCount
+  }
+}
+
+fragment ListCollectorQualifierPages on ListCollectorQualifierPage {
+  id
+  alias
+  title
+  position
+  displayName
+  pageType
+  answers {
+    ...Answers
+  }
+  validationErrorInfo {
+    id
+    errors {
+      id
+      type
+      field
+      errorCode
+    }
+    totalCount
   }
 }
 
