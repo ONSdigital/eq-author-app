@@ -83,8 +83,8 @@ export const useSetNavigationCallbacksForPage = ({ page, folder, section }) => {
         }),
       onAddListCollectorFolder: () =>
         addListCollectorFolder({
-          folderId: folder.id,
-          position: page.position + 1,
+          sectionId: section.id,
+          position: folder.position + 1,
         }),
     },
     [page, folder, section]
