@@ -11,7 +11,6 @@ import IconConfirmation from "assets/icon-playback.svg?inline";
 import IconFolder from "assets/icon-folder.svg?inline";
 import IconIntroduction from "assets/icon-introduction-page.svg?inline";
 import IconImport from "assets/icon-import.svg?inline";
-import IconListCollectorPage from "assets/icon-list-collector.svg?inline";
 import IconListCollectorFolder from "assets/icon-list-collector-folder.svg?inline";
 
 import PopupTransition from "../PopupTransition";
@@ -46,7 +45,7 @@ const AddMenu = ({
   canAddQuestionPage,
   onAddSection,
   onStartImportingContent,
-  onAddListCollectorPage,
+  onAddListCollectorFolder,
   onAddIntroductionPage,
   canAddIntroductionPage,
   canAddSection,
@@ -55,7 +54,7 @@ const AddMenu = ({
   onAddQuestionConfirmation,
   canAddQuestionConfirmation,
   canImportContent,
-  canAddListCollectorPage,
+  canAddListCollectorFolder,
   onAddFolder,
   canAddFolder,
   isFolder,
@@ -138,9 +137,9 @@ const AddMenu = ({
   ];
 
   defaultButtons.splice(5, 0, {
-    handleClick: () => onAddListCollectorPage(),
-    disabled: !canAddListCollectorPage,
-    dataTest: "btn-add-list-collector-page",
+    handleClick: () => onAddListCollectorFolder(),
+    disabled: !canAddListCollectorFolder,
+    dataTest: "btn-add-list-collector-folder",
     icon: IconListCollectorFolder,
     text: "List collector",
   });
@@ -189,8 +188,8 @@ AddMenu.propTypes = {
   folderTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   canImportContent: PropTypes.bool,
   onStartImportingContent: PropTypes.func.isRequired,
-  onAddListCollectorPage: PropTypes.func.isRequired,
-  canAddListCollectorPage: PropTypes.bool.isRequired,
+  onAddListCollectorFolder: PropTypes.func.isRequired,
+  canAddListCollectorFolder: PropTypes.bool.isRequired,
   onAddIntroductionPage: PropTypes.func.isRequired,
   canAddIntroductionPage: PropTypes.bool.isRequired,
 };

@@ -35,7 +35,7 @@ export const UnwrappedNavigationHeader = ({
     onAddQuestionPage,
     onAddFolder,
     onAddCalculatedSummaryPage,
-    onAddListCollectorPage,
+    onAddListCollectorFolder,
   } = useNavigationCallbacks();
 
   const canAddQuestionCalculatedSummmaryPagesAndFolder = [
@@ -86,8 +86,8 @@ export const UnwrappedNavigationHeader = ({
     setOpenMenu(!openMenu);
   };
 
-  const handleAddListCollectorPage = (createInsideFolder) => {
-    onAddListCollectorPage(createInsideFolder);
+  const handleAddListCollectorFolder = () => {
+    onAddListCollectorFolder();
     setOpenMenu(!openMenu);
   };
 
@@ -117,7 +117,7 @@ export const UnwrappedNavigationHeader = ({
         onAddSection={handleAddSection}
         onAddQuestionConfirmation={handleAddQuestionConfirmation}
         onAddFolder={handleAddFolder}
-        onAddListCollectorPage={handleAddListCollectorPage}
+        onAddListCollectorFolder={handleAddListCollectorFolder}
         onAddIntroductionPage={handleAddIntroductionPage}
         onStartImportingContent={handleStartImportingContent}
         canAddQuestionPage={canAddQuestionCalculatedSummmaryPagesAndFolder}
@@ -125,7 +125,9 @@ export const UnwrappedNavigationHeader = ({
           canAddQuestionCalculatedSummmaryPagesAndFolder
         }
         canAddQuestionConfirmation={canAddQuestionConfirmation}
-        canAddListCollectorPage={canAddQuestionCalculatedSummmaryPagesAndFolder}
+        canAddListCollectorFolder={
+          canAddQuestionCalculatedSummmaryPagesAndFolder
+        }
         canAddIntroductionPage={canAddIntroductionPage}
         canAddFolder={canAddQuestionCalculatedSummmaryPagesAndFolder}
         canAddSection={canAddSection}
