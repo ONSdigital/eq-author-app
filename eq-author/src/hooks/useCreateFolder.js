@@ -12,6 +12,19 @@ export const useCreateFolderMutation = () => {
     }).then(({ data: { createFolder } }) => callback(createFolder));
 };
 
+export const useCreateListCollectorFolderMutation = () => {
+  const [onAddListCollectorFolder] = useMutation(
+    CREATE_LIST_COLLECTOR_FOLDER_MUTATION
+  );
+
+  return (input, callback) =>
+    onAddListCollectorFolder({
+      variables: { input },
+    }).then(({ data: { createListCollectorFolder } }) =>
+      callback(createListCollectorFolder)
+    );
+};
+
 export const useCreateFolder = () => {
   const redirectToFolder = useRedirectToFolder();
   const createFolder = useCreateFolderMutation();
@@ -31,15 +44,11 @@ export const useCreatePageWithFolder = () => {
 };
 
 export const useCreateListCollectorFolder = () => {
-  const [onAddListCollectorFolder] = useMutation(
-    CREATE_LIST_COLLECTOR_FOLDER_MUTATION
-  );
-  const redirectToPage = useRedirectToPage();
+  const redirectToFolder = useRedirectToFolder();
+  const createListCollectorFolder = useCreateListCollectorFolderMutation();
 
   return (input) =>
-    onAddListCollectorFolder({
-      variables: { input },
-    }).then(({ data: { createListCollectorFolder } }) =>
-      redirectToPage({ pageId: createListCollectorFolder.id })
+    createListCollectorFolder(input, (newListCollectorFolder) =>
+      redirectToFolder({ folderId: newListCollectorFolder.id })
     );
 };
