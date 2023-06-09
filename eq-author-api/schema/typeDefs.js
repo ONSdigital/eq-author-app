@@ -172,6 +172,44 @@ type ListCollectorFolder implements Folder {
   validationErrorInfo: ValidationErrorInfo
 }
 
+type ListCollectorQualifierPage implements Page {
+  id: ID!
+  title: String!
+  alias: String
+  displayName: String!
+  pageType: PageType!
+  folder: Folder!
+  section: Section!
+  position: Int!
+  answers: [Answer]
+  validationErrorInfo: ValidationErrorInfo
+}
+
+type ListCollectorAddItemPage implements Page {
+  id: ID!
+  title: String!
+  alias: String
+  displayName: String!
+  pageType: PageType!
+  folder: Folder!
+  section: Section!
+  position: Int!
+  validationErrorInfo: ValidationErrorInfo
+}
+
+type ListCollectorConfirmationPage implements Page {
+  id: ID!
+  title: String!
+  alias: String
+  displayName: String!
+  pageType: PageType!
+  folder: Folder!
+  section: Section!
+  position: Int!
+  answers: [Answer]
+  validationErrorInfo: ValidationErrorInfo
+}
+
 type Section {
   id: ID!
   title: String!
@@ -246,44 +284,6 @@ type QuestionPage implements Page & Skippable & Routable {
   validationErrorInfo: ValidationErrorInfo
   comments: [Comment]
   pageDescription: String
-}
-
-type ListCollectorQualifierPage implements Page {
-  id: ID!
-  title: String!
-  alias: String
-  displayName: String!
-  pageType: PageType!
-  folder: Folder!
-  section: Section!
-  position: Int!
-  answers: [Answer]
-  validationErrorInfo: ValidationErrorInfo
-}
-
-type ListCollectorAddItemPage implements Page {
-  id: ID!
-  title: String!
-  alias: String
-  displayName: String!
-  pageType: PageType!
-  folder: Folder!
-  section: Section!
-  position: Int!
-  validationErrorInfo: ValidationErrorInfo
-}
-
-type ListCollectorConfirmationPage implements Page {
-  id: ID!
-  title: String!
-  alias: String
-  displayName: String!
-  pageType: PageType!
-  folder: Folder!
-  section: Section!
-  position: Int!
-  answers: [Answer]
-  validationErrorInfo: ValidationErrorInfo
 }
 
 type ListCollectorPage implements Page & Skippable & Routable {

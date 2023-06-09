@@ -1,11 +1,17 @@
-#import "./fragments/folder.graphql"
-#import "./fragments/page.graphql"
 #import "./fragments/validationErrorInfo.graphql"
+#import "./fragments/page.graphql"
 #import "./fragments/comment.graphql"
 
 mutation CreateListCollectorFolder($input: CreateListCollectorFolderInput!) {
   createListCollectorFolder(input: $input) {
-    ...Folder
+    id
+    alias
+    displayName
+    position
+    title
+    ... on ListCollectorFolder {
+      listId
+    }
     section {
       id
       allowRepeatingSection
@@ -37,9 +43,102 @@ mutation CreateListCollectorFolder($input: CreateListCollectorFolderInput!) {
           ... on ListCollectorPage {
             id
           }
+          ... on ListCollectorQualifierPage {
+            id
+            alias
+            title
+            position
+            displayName
+            pageType
+            answers {
+              id
+            }
+            validationErrorInfo {
+              ...ValidationErrorInfo
+            }
+          }
+          ... on ListCollectorAddItemPage {
+            id
+            alias
+            title
+            position
+            displayName
+            pageType
+            validationErrorInfo {
+              ...ValidationErrorInfo
+            }
+          }
+          ... on ListCollectorConfirmationPage {
+            id
+            alias
+            title
+            position
+            displayName
+            pageType
+            answers {
+              id
+            }
+            validationErrorInfo {
+              ...ValidationErrorInfo
+            }
+          }
           validationErrorInfo {
             ...ValidationErrorInfo
           }
+        }
+      }
+    }
+    validationErrorInfo {
+      ...ValidationErrorInfo
+    }
+    pages {
+      ... on ListCollectorQualifierPage {
+        id
+        alias
+        title
+        position
+        displayName
+        pageType
+        answers {
+          id
+          ... on MultipleChoiceAnswer {
+            options {
+              id
+            }
+          }
+        }
+        validationErrorInfo {
+          ...ValidationErrorInfo
+        }
+      }
+      ... on ListCollectorAddItemPage {
+        id
+        alias
+        title
+        position
+        displayName
+        pageType
+        validationErrorInfo {
+          ...ValidationErrorInfo
+        }
+      }
+      ... on ListCollectorConfirmationPage {
+        id
+        alias
+        title
+        position
+        displayName
+        pageType
+        answers {
+          id
+          ... on MultipleChoiceAnswer {
+            options {
+              id
+            }
+          }
+        }
+        validationErrorInfo {
+          ...ValidationErrorInfo
         }
       }
     }
