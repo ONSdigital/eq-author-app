@@ -1,5 +1,6 @@
 import React from "react";
 import { useMutation, useQuery } from "@apollo/react-hooks";
+import { colors } from "constants/theme";
 import {
   useCreatePageWithFolder,
   useCreateFolder,
@@ -21,7 +22,6 @@ import Error from "components/Error";
 import Panel from "components/Panel";
 import EditorPage from "components/EditorLayout";
 import EditorToolbar from "components/EditorToolbar";
-import Collapsible from "components/Collapsible";
 import Button from "components/buttons/Button";
 import IconText from "components/IconText";
 
@@ -36,12 +36,8 @@ import MOVE_FOLDER_MUTATION from "graphql/moveFolder.graphql";
 import DUPLICATE_FOLDER_MUTATION from "graphql/duplicateFolder.graphql";
 import DELETE_FOLDER_MUTATION from "App/folder/graphql/deleteFolder.graphql";
 
-import { colors } from "constants/theme";
-
-const Guidance = styled(Collapsible)`
-  margin-left: 2em;
-  margin-right: 2em;
-`;
+import ListCollectorFolderEditor from "./ListCollectorFolderEditor";
+import BasicFolderEditor from "./BasicFolderEditor";
 
 const StyledPanel = styled(Panel)`
   & > h2 {
@@ -216,26 +212,14 @@ const FolderDesignPage = ({ history, match }) => {
             })
           }
         />
-        <h2>Folders</h2>
-        <p>
-          Folders are used to apply an action or event to multiple questions at
-          once. Respondents do not see the folders.
-        </p>
-        <Guidance
-          title="What is the benefit of using folders?"
-          key={`guidance-folder-${folderId}`}
-        >
-          <p>
-            Folders are groups of related questions. Logic can be applied to the
-            whole folder or each question within the folder, they allow you to
-            build more complex navigation in your questionnaire.
-          </p>
-          <p>
-            Folders do not appear as sections when respondents are completing
-            the questionnaire; respondents only see the questions contained
-            within folders if they meet the conditions you have applied.
-          </p>
-        </Guidance>
+        {
+          // Renders ListCollectorFolderEditor if the folder is a list collector folder (has listId property), else renders BasicFolderEditor
+          Object.prototype.hasOwnProperty.call(folder, "listId") ? (
+            <ListCollectorFolderEditor questionnaireId={questionnaireId} />
+          ) : (
+            <BasicFolderEditor folderId={folderId} />
+          )
+        }
       </StyledPanel>
       <ButtonGroup>
         <BorderedButton

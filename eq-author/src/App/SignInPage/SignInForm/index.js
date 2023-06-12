@@ -82,12 +82,11 @@ const SignInForm = ({
     } else if (password === "") {
       setErrorMessage("Enter password");
       return;
+    } else if (password.length < 8 && password.length !== 0) {
+      setErrorMessage("Your password has expired.");
+      setPasswordExpired(true);
+      return;
     }
-    // else if (password.length < 8 && password.length !== 0) {
-    //   setErrorMessage("Your password has expired.");
-    //   setPasswordExpired(true);
-    //   return;
-    // }
     isCommonPassword(password).then((commonPassword) => {
       if (commonPassword) {
         setErrorMessage("Common phrases and passwords are not allowed.");
