@@ -120,21 +120,55 @@ describe("ONS dataset page", () => {
     });
 
     it("should select a survey id", async () => {
-      const { getByText, getByTestId, getAllByTestId } = renderONSDatasetPage(
-        questionnaire,
-        props,
-        user,
-        mocks
-      );
+      const { getByText, getByTestId, getAllByTestId, findAllByText } =
+        renderONSDatasetPage(questionnaire, props, user, mocks);
 
       const select = getByTestId("list-select");
       fireEvent.change(select, { target: { value: "123" } });
 
       expect(getByText("Datasets for survey ID 123")).toBeTruthy();
       expect(getByTestId("datasets-table")).toBeTruthy();
-      expect(getByText("Date created")).toBeTruthy();
+      expect(findAllByText("Date created")).toBeTruthy();
       expect(getAllByTestId("dataset-row")).toBeTruthy();
       expect(getByText("2023/03/23")).toBeTruthy();
+    });
+  });
+
+  describe("linked data", () => {
+    it("should show linked data table", () => {
+      useQuery.mockImplementation(() => ({
+        loading: false,
+        error: false,
+        data: {
+          prepopSchema: {
+            id: "121-222-789",
+            schema: {
+              id: "121-222-789",
+              version: "1",
+              dateCreated: "2023-01-12T13:37:27+00:00",
+              turnover: {
+                type: "number",
+                example: "1000",
+              },
+              employeeCount: {
+                type: "number",
+                example: "50",
+              },
+            },
+          },
+        },
+      }));
+
+      const { getByText, getByTestId } = renderONSDatasetPage(
+        questionnaire,
+        props,
+        user,
+        mocks
+      );
+      expect(getByText("Linked data")).toBeTruthy();
+      expect(getByTestId("tableData-row-id")).toBeTruthy();
+      expect(getByTestId("tableData-row-version")).toBeTruthy();
+      expect(getByTestId("tableData-row-dateCreated")).toBeTruthy();
     });
   });
 });
