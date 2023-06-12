@@ -215,7 +215,10 @@ const FolderDesignPage = ({ history, match }) => {
         {
           // Renders ListCollectorFolderEditor if the folder is a list collector folder (has listId property), else renders BasicFolderEditor
           Object.prototype.hasOwnProperty.call(folder, "listId") ? (
-            <ListCollectorFolderEditor questionnaireId={questionnaireId} />
+            <ListCollectorFolderEditor
+              questionnaireId={questionnaireId}
+              folder={folder}
+            />
           ) : (
             <BasicFolderEditor folderId={folderId} />
           )

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { Link } from "react-router-dom";
+import { colors } from "constants/theme.js";
 
 import Collapsible from "components/Collapsible";
 import { Field, Input, Label } from "components/Forms";
@@ -12,6 +13,7 @@ import Error from "components/Error";
 import SelectIcon from "assets/icon-select.svg";
 
 import GET_COLLECTION_LISTS_QUERY from "graphql/lists/collectionLists.graphql";
+import UPDATE_FOLDER_MUTATION from "graphql/updateFolderMutation.graphql";
 
 import { buildCollectionListsPath } from "utils/UrlUtils";
 
@@ -41,9 +43,9 @@ const OrderedList = styled.ol`
 
 const ListItem = styled.li``;
 
-const CustomSelect = styled.select`
+const Select = styled.select`
   font-size: 1em;
-  border: 2px solid #d6d8da;
+  border: 2px solid ${colors.lightGrey};
   border-radius: 4px;
   appearance: none;
   background: white url(${SelectIcon}) no-repeat right center;
@@ -51,7 +53,7 @@ const CustomSelect = styled.select`
   transition: opacity 100ms ease-in-out;
   border-radius: 4px;
   padding: 0.3em 1.5em 0.3em 0.3em;
-  color: #222222;
+  color: ${colors.text};
   display: block;
   min-width: 30%;
 
@@ -60,8 +62,14 @@ const CustomSelect = styled.select`
   }
 `;
 
-const ListCollectorFolderEditor = ({ questionnaireId }) => {
+const Option = styled.option``;
+
+const ListCollectorFolderEditor = ({ questionnaireId, folder }) => {
+  const [selectedListId, setSelectedListId] = useState(folder.listId);
+
   let lists = [];
+  const [updateFolder] = useMutation(UPDATE_FOLDER_MUTATION);
+
   const { loading, error, data } = useQuery(GET_COLLECTION_LISTS_QUERY, {
     fetchPolicy: "cache-and-network",
   });
@@ -77,6 +85,18 @@ const ListCollectorFolderEditor = ({ questionnaireId }) => {
   if (data) {
     lists = data.collectionLists?.lists || [];
   }
+
+  const handleUpdateList = (listId) => {
+    setSelectedListId(listId);
+    updateFolder({
+      variables: {
+        input: {
+          folderId: folder.id,
+          listId,
+        },
+      },
+    });
+  };
 
   return (
     <StyledField>
@@ -176,25 +196,30 @@ const ListCollectorFolderEditor = ({ questionnaireId }) => {
         </Link>
       </ContentContainer>
       <Title>Linked collection list</Title>
-      <CustomSelect
+      <Select
         name="listId"
         data-test="list-select"
-        // onChange={handleOnUpdate}
-        // value={entity.listId}
+        onChange={({ target }) => handleUpdateList(target.value)}
+        value={selectedListId}
         // hasError={some(page.validationErrorInfo.errors, {
         //   field: "listId",
         // })}
       >
-        <option value="">Select list</option>
+        <Option value="">Select list</Option>
         {lists.map((list) => (
-          <option key={list.id} value={list.id}>
+          <Option key={list.id} value={list.id}>
             {list.displayName}
-          </option>
+          </Option>
         ))}
-        <option value="newList">Create new list</option>
-      </CustomSelect>
+        <Option value="newList">Create new list</Option>
+      </Select>
     </StyledField>
   );
+};
+
+ListCollectorFolderEditor.propTypes = {
+  questionnaireId: PropTypes.string,
+  folder: PropTypes.object, //eslint-disable-line
 };
 
 export default ListCollectorFolderEditor;

@@ -1312,6 +1312,7 @@ input UpdateFolderInput {
   folderId: ID!
   alias: String
   title: String
+  listId: ID
 }
 
 input DeleteFolderInput {
