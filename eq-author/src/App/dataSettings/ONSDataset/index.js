@@ -29,8 +29,8 @@ import {
   TableHeadColumn,
 } from "components/datatable/Elements";
 
-import iconLink from "./icons/icon-link.svg";
 import Modal from "components-themed/Modal";
+import UnlinkButton from "components/buttons/UnlinkButton";
 
 const StyledTitle = styled.h2`
   font-size: 1.1em;
@@ -96,32 +96,7 @@ const StyledButton = styled(Button)`
 
 const TitleContainer = styled.div`
   display: grid;
-  grid-template-columns: 50% 50%;
-`;
-
-const UnLinkButton = styled(Button)`
-  font-weight: bold;
-  font-size: 1rem;
-  /* line-height: 1.2; */
-  align-items: center;
-  margin: 0 1em 0 auto;
-  border-radius: 0;
-  color: ${colors.blue};
-  background-color: ${colors.lighterGrey};
-
-  &::before {
-    content: "";
-    background: url(${iconLink}) no-repeat center;
-    /* display: inline-block; */
-    width: 1.3rem;
-    height: 0.7rem;
-    margin-right: 0.9em;
-  }
-
-  &:hover {
-    background: ${colors.darkGrey};
-    color: ${colors.white};
-  }
+  grid-template-columns: 80% 20%;
 `;
 
 const ONSDatasetPage = () => {
@@ -319,14 +294,12 @@ const ONSDatasetPage = () => {
                           <>
                             <TitleContainer>
                               <Title>Dataset for Survey ID {surveyID}</Title>
-                              <UnLinkButton
-                                variant="tertiary"
-                                small
+                              <UnlinkButton
+                                data-test="btn-unlink-dataset"
                                 onClick={handleUnlinkClick}
-                                data-test="unlink-dataset-button"
                               >
                                 Unlink dataset
-                              </UnLinkButton>
+                              </UnlinkButton>
                             </TitleContainer>
                             <Table data-test="tableData-table">
                               <TableHead>
