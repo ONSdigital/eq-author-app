@@ -974,6 +974,7 @@ type Mutation {
   updateCommentsAsRead(input: UpdateCommentsAsReadInput!): [Comment]
   publishSchema: Questionnaire!
   updatePrepopSchema(input: UpdatePrepopSchemaInput!): PrepopSchema
+  unlinkPrepopSchema: Questionnaire
 }
 
 input CreateListCollectorPageInput {

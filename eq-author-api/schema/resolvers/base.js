@@ -1564,6 +1564,14 @@ const Resolvers = {
         throw Error(err);
       }
     }),
+    unlinkPrepopSchema: createMutation(async (root, args, ctx) => {
+      logger.info(
+        { qid: ctx.questionnaire.id },
+        `Unlinked PrepopSchema with ID: ${ctx.questionnaire.prepopSchema.id} from questionnaire: ${ctx.questionnaire.id}`
+      );
+      ctx.questionnaire.prepopSchema = undefined;
+      return ctx.questionnaire;
+    }),
   },
 
   Questionnaire: {

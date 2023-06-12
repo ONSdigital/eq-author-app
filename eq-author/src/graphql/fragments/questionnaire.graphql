@@ -43,4 +43,8 @@ fragment Questionnaire on Questionnaire {
     }
     totalCount
   }
+  prepopSchema {
+    id
+    schema
+  }
 }

@@ -1,0 +1,4 @@
+fragment PrepopSchema on PrepopSchema {
+  id
+  schema
+}
