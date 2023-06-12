@@ -1,13 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { colors } from "constants/theme.js";
+import { useMutation, useQuery } from "@apollo/react-hooks";
 import { Link } from "react-router-dom";
 
 import Collapsible from "components/Collapsible";
 import { Field, Input, Label } from "components/Forms";
+import Loading from "components/Loading";
+import Error from "components/Error";
 
 import SelectIcon from "assets/icon-select.svg";
+
+import GET_COLLECTION_LISTS_QUERY from "graphql/lists/collectionLists.graphql";
 
 import { buildCollectionListsPath } from "utils/UrlUtils";
 
@@ -37,7 +41,43 @@ const OrderedList = styled.ol`
 
 const ListItem = styled.li``;
 
+const CustomSelect = styled.select`
+  font-size: 1em;
+  border: 2px solid #d6d8da;
+  border-radius: 4px;
+  appearance: none;
+  background: white url(${SelectIcon}) no-repeat right center;
+  position: relative;
+  transition: opacity 100ms ease-in-out;
+  border-radius: 4px;
+  padding: 0.3em 1.5em 0.3em 0.3em;
+  color: #222222;
+  display: block;
+  min-width: 30%;
+
+  &:hover {
+    outline: none;
+  }
+`;
+
 const ListCollectorFolderEditor = ({ questionnaireId }) => {
+  let lists = [];
+  const { loading, error, data } = useQuery(GET_COLLECTION_LISTS_QUERY, {
+    fetchPolicy: "cache-and-network",
+  });
+
+  if (loading) {
+    return <Loading height="100%">Questionnaire lists loading…</Loading>;
+  }
+
+  if (error) {
+    return <Error>Something went wrong</Error>;
+  }
+
+  if (data) {
+    lists = data.collectionLists?.lists || [];
+  }
+
   return (
     <StyledField>
       <Label htmlFor="list-collector-title">List collector title</Label>
@@ -136,6 +176,23 @@ const ListCollectorFolderEditor = ({ questionnaireId }) => {
         </Link>
       </ContentContainer>
       <Title>Linked collection list</Title>
+      <CustomSelect
+        name="listId"
+        data-test="list-select"
+        // onChange={handleOnUpdate}
+        // value={entity.listId}
+        // hasError={some(page.validationErrorInfo.errors, {
+        //   field: "listId",
+        // })}
+      >
+        <option value="">Select list</option>
+        {lists.map((list) => (
+          <option key={list.id} value={list.id}>
+            {list.displayName}
+          </option>
+        ))}
+        <option value="newList">Create new list</option>
+      </CustomSelect>
     </StyledField>
   );
 };
