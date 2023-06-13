@@ -162,7 +162,7 @@ const ONSDatasetPage = () => {
     setShowUnlinkModal(true);
   };
 
-  const UnlinkDataset = () => {
+  const unlinkDataset = () => {
     unlinkPrepopSchema();
     setSurveyID(undefined);
     setShowDataset(false);
@@ -176,7 +176,7 @@ const ONSDatasetPage = () => {
         positiveButtonText="Unlink"
         warningMessage="The dataset will be unlinked from the questionnaire. You will not be able to pipe data fields from this dataset. Any piped answers or example values will be deleted."
         isOpen={showUnlinkModal}
-        onConfirm={() => UnlinkDataset()}
+        onConfirm={() => unlinkDataset()}
         onClose={() => setShowUnlinkModal(false)}
       />
       <Theme themeName="onsLegacyFont">
@@ -277,6 +277,7 @@ const ONSDatasetPage = () => {
                                                   }
                                                   type="button"
                                                   variant="secondary"
+                                                  data-test="btn-link"
                                                 >
                                                   Link
                                                 </StyledButton>

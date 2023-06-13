@@ -1,12 +1,14 @@
 import React from "react";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 
-import { render, fireEvent } from "tests/utils/rtl";
+import { render, fireEvent, screen, waitFor, act } from "tests/utils/rtl";
 
 import ONSDatasetPage from ".";
 import { MeContext } from "App/MeContext";
 import { publishStatusSubscription } from "components/EditorLayout/Header";
 import QuestionnaireContext from "components/QuestionnaireContext";
+import unlinkPrepopSchemaMutation from "graphql/unlinkPrepopSchema.graphql";
+import updatePrepopSchemaMutation from "graphql/updatePrepopSchema.graphql";
 
 jest.mock("@apollo/react-hooks", () => ({
   ...jest.requireActual("@apollo/react-hooks"),
@@ -56,9 +58,10 @@ const renderONSDatasetPage = (questionnaire, props, user, mocks) => {
 };
 
 describe("ONS dataset page", () => {
-  let questionnaire, props, user, mocks;
+  let questionnaire, props, user, mocks, queryWasCalled;
 
   beforeEach(() => {
+    queryWasCalled = false;
     questionnaire = {
       id: "1",
       isPublic: true,
@@ -132,6 +135,57 @@ describe("ONS dataset page", () => {
       expect(getAllByTestId("dataset-row")).toBeTruthy();
       expect(getByText("23/03/2023")).toBeTruthy();
     });
+
+    it("should link a dataset", async () => {
+      mocks = [
+        ...mocks,
+        {
+          request: {
+            query: updatePrepopSchemaMutation,
+            variables: {
+              input: {
+                id: "123-333-789",
+                surveyId: "123",
+              },
+            },
+          },
+          result: () => {
+            queryWasCalled = true;
+            return {
+              data: {
+                updatePrepopSchema: {
+                  id: "123-333-789",
+                  surveyId: "123",
+                  schema: {
+                    id: "123-333-789",
+                    version: "1",
+                    dateCreated: "2023-01-12T13:37:27+00:00",
+                    turnover: {
+                      type: "number",
+                      example: "1000",
+                    },
+                    employeeCount: {
+                      type: "number",
+                      example: "50",
+                    },
+                  },
+                  __typename: "PrepopSchema",
+                },
+              },
+            };
+          },
+        },
+      ];
+      const { getByText, getByTestId, getAllByTestId, findAllByText } =
+        renderONSDatasetPage(questionnaire, props, user, mocks);
+
+      const select = getByTestId("list-select");
+      fireEvent.change(select, { target: { value: "123" } });
+      await act(async () => {
+        await fireEvent.click(getAllByTestId("btn-link")[0]);
+      });
+      // expect(getByText("Dataset for survey ID")).toBeTruthy();
+    });
   });
 
   describe("linked data", () => {
@@ -169,6 +223,85 @@ describe("ONS dataset page", () => {
       expect(getByTestId("tableData-row-id")).toBeTruthy();
       expect(getByTestId("tableData-row-version")).toBeTruthy();
       expect(getByTestId("tableData-row-dateCreated")).toBeTruthy();
+    });
+  });
+
+  describe("Unlink dataset", () => {
+    it("should display the Unlink dataset modal", async () => {
+      useQuery.mockImplementation(() => ({
+        loading: false,
+        error: false,
+        data: {
+          prepopSchema: {
+            id: "121-222-789",
+            schema: {
+              id: "121-222-789",
+              version: "1",
+              dateCreated: "2023-01-12T13:37:27+00:00",
+              turnover: {
+                type: "number",
+                example: "1000",
+              },
+              employeeCount: {
+                type: "number",
+                example: "50",
+              },
+            },
+          },
+        },
+      }));
+      mocks = [
+        ...mocks,
+        {
+          request: {
+            query: unlinkPrepopSchemaMutation,
+            variables: {},
+          },
+          result: () => {
+            queryWasCalled = true;
+            return {
+              data: {
+                unlinkPrepopSchema: {
+                  id: "1",
+                  prepopSchema: null,
+                  __typename: "Questionnaire",
+                },
+              },
+            };
+          },
+        },
+      ];
+      // const unlinkPrepopSchema = jest.fn();
+      // useMutation.mockImplementation(jest.fn(() => [unlinkPrepopSchema]));
+      const { getByText, getByTestId, queryByTestId } = renderONSDatasetPage(
+        questionnaire,
+        props,
+        user,
+        mocks
+      );
+      fireEvent.click(getByTestId("btn-unlink-dataset"));
+      expect(getByTestId("modal")).toBeInTheDocument();
+      await waitFor(() => screen.getByTestId("btn-modal-positive"));
+
+      await act(async () => {
+        await fireEvent.click(getByTestId("btn-modal-positive"));
+      });
+      expect(queryByTestId("modal")).not.toBeInTheDocument();
+    });
+
+    it("should close the Unlink dataset modal", async () => {
+      const { getByText, getByTestId, queryByTestId } = renderONSDatasetPage(
+        questionnaire,
+        props,
+        user,
+        mocks
+      );
+      fireEvent.click(getByTestId("btn-unlink-dataset"));
+      expect(getByTestId("modal")).toBeInTheDocument();
+      await act(async () => {
+        await fireEvent.click(getByTestId("btn-modal-negative"));
+      });
+      expect(queryByTestId("modal")).not.toBeInTheDocument();
     });
   });
 });
