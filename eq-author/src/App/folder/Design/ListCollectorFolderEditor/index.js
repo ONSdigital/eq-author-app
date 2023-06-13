@@ -66,7 +66,9 @@ const Select = styled.select`
 const Option = styled.option``;
 
 const ListCollectorFolderEditor = ({ questionnaireId, folder, history }) => {
-  const [selectedListId, setSelectedListId] = useState(folder.listId);
+  const { id, listId, title } = folder;
+  const [selectedListId, setSelectedListId] = useState(listId);
+  const [folderTitle, setFolderTitle] = useState(title);
 
   let lists = [];
   const [updateFolder] = useMutation(UPDATE_FOLDER_MUTATION);
@@ -98,7 +100,7 @@ const ListCollectorFolderEditor = ({ questionnaireId, folder, history }) => {
     updateFolder({
       variables: {
         input: {
-          folderId: folder.id,
+          folderId: id,
           listId,
         },
       },
@@ -108,7 +110,17 @@ const ListCollectorFolderEditor = ({ questionnaireId, folder, history }) => {
   return (
     <StyledField>
       <Label htmlFor="list-collector-title">List collector title</Label>
-      <StyledInput id="list-collector-title" name="list-collector-title" />
+      <StyledInput
+        id="list-collector-title"
+        name="list-collector-title"
+        onChange={({ value }) => setFolderTitle(value)}
+        onBlur={() =>
+          updateFolder({
+            variables: { input: { folderId: id, title: folderTitle } },
+          })
+        }
+        value={folderTitle}
+      />
       <Title marginBottom="-0.5">List collector question pattern</Title>
       <ContentContainer width="90">
         <Content>
@@ -212,7 +224,7 @@ const ListCollectorFolderEditor = ({ questionnaireId, folder, history }) => {
         //   field: "listId",
         // })}
       >
-        <Option value="">Select list</Option>
+        <Option value="">Select collection list</Option>
         {lists.map((list) => (
           <Option key={list.id} value={list.id}>
             {list.displayName}
