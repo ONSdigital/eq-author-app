@@ -152,6 +152,10 @@ const ONSDatasetPage = () => {
         ? prepopSchema.prepopSchema.schema
         : null
       : null;
+
+    if (schemaData) {
+      schemaData.surveyId = prepopSchema.prepopSchema?.surveyId;
+    }
     return schemaData;
   };
 
@@ -269,6 +273,7 @@ const ONSDatasetPage = () => {
                                                       variables: {
                                                         input: {
                                                           id: version.id,
+                                                          surveyId: surveyID,
                                                         },
                                                       },
                                                     })
@@ -293,7 +298,9 @@ const ONSDatasetPage = () => {
                         {tableData && (
                           <>
                             <TitleContainer>
-                              <Title>Dataset for Survey ID {surveyID}</Title>
+                              <Title>
+                                Dataset for Survey ID {tableData.surveyId}
+                              </Title>
                               <UnlinkButton
                                 data-test="btn-unlink-dataset"
                                 onClick={handleUnlinkClick}

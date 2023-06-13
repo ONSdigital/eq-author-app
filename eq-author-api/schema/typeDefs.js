@@ -761,7 +761,8 @@ type PrepopSchemaVersions {
 }
 
 type PrepopSchema {
-  id: ID
+  id: ID!
+  surveyId: ID!
   schema: JSON
 }
 
@@ -1673,6 +1674,7 @@ input deleteHistoryNoteInput {
 
 input UpdatePrepopSchemaInput {
   id: ID!
+  surveyId: ID!
   schema: JSON
 }
 `;

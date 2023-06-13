@@ -45,6 +45,7 @@ fragment Questionnaire on Questionnaire {
   }
   prepopSchema {
     id
+    surveyId
     schema
   }
 }
