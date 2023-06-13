@@ -1,0 +1,6 @@
+query GetPrepopSchema {
+  prepopSchema {
+    id
+    schema
+  }
+}

@@ -41,6 +41,10 @@ const getQuestionnaireQuery = `
         emailConfirmation
         feedback
       }
+      prepopSchema {
+        id
+        schema
+      }
       locked
       validationErrorInfo {
         id
