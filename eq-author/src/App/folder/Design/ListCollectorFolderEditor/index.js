@@ -4,14 +4,12 @@ import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { Link } from "react-router-dom";
-import { colors } from "constants/theme.js";
 
 import Collapsible from "components/Collapsible";
 import { Field, Input, Label } from "components/Forms";
 import Loading from "components/Loading";
 import Error from "components/Error";
-
-import SelectIcon from "assets/icon-select.svg";
+import Select from "components/Select";
 
 import GET_COLLECTION_LISTS_QUERY from "graphql/lists/collectionLists.graphql";
 import UPDATE_FOLDER_MUTATION from "graphql/updateFolderMutation.graphql";
@@ -43,27 +41,6 @@ const OrderedList = styled.ol`
 `;
 
 const ListItem = styled.li``;
-
-const Select = styled.select`
-  font-size: 1em;
-  border: 2px solid ${colors.lightGrey};
-  border-radius: 4px;
-  appearance: none;
-  background: white url(${SelectIcon}) no-repeat right center;
-  position: relative;
-  transition: opacity 100ms ease-in-out;
-  border-radius: 4px;
-  padding: 0.3em 1.5em 0.3em 0.3em;
-  color: ${colors.text};
-  display: block;
-  min-width: 30%;
-
-  &:hover {
-    outline: none;
-  }
-`;
-
-const Option = styled.option``;
 
 const ListCollectorFolderEditor = ({ questionnaireId, folder, history }) => {
   const { id, listId, title } = folder;
@@ -217,21 +194,16 @@ const ListCollectorFolderEditor = ({ questionnaireId, folder, history }) => {
       <Title>Linked collection list</Title>
       <Select
         name="listId"
-        data-test="list-select"
-        onChange={({ target }) => handleUpdateList(target.value)}
+        dataTest="list-select"
         value={selectedListId}
+        defaultValue="Select collection list"
+        options={lists}
+        additionalOption={{ value: "newList", displayName: "Create new list" }}
+        handleChange={({ target }) => handleUpdateList(target.value)}
         // hasError={some(page.validationErrorInfo.errors, {
         //   field: "listId",
         // })}
-      >
-        <Option value="">Select collection list</Option>
-        {lists.map((list) => (
-          <Option key={list.id} value={list.id}>
-            {list.displayName}
-          </Option>
-        ))}
-        <Option value="newList">Create new list</Option>
-      </Select>
+      />
     </StyledField>
   );
 };
