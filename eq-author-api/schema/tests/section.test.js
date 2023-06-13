@@ -263,7 +263,7 @@ describe("section", () => {
         expect(queriedSection.validationErrorInfo.errors).toHaveLength(0);
       });
 
-      it("should not validate the section title if Hub is off and preview questions is on", async () => {
+      it("should validate the section title if Hub is off and preview questions is on", async () => {
         ctx = await buildContext({
           sections: [
             {
