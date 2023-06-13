@@ -130,7 +130,7 @@ describe("ONS dataset page", () => {
       expect(getByTestId("datasets-table")).toBeTruthy();
       expect(findAllByText("Date created")).toBeTruthy();
       expect(getAllByTestId("dataset-row")).toBeTruthy();
-      expect(getByText("2023/03/23")).toBeTruthy();
+      expect(getByText("23/03/2023")).toBeTruthy();
     });
   });
 
@@ -165,7 +165,7 @@ describe("ONS dataset page", () => {
         user,
         mocks
       );
-      expect(getByText("Linked data")).toBeTruthy();
+      expect(getByText("Dataset for survey ID")).toBeTruthy();
       expect(getByTestId("tableData-row-id")).toBeTruthy();
       expect(getByTestId("tableData-row-version")).toBeTruthy();
       expect(getByTestId("tableData-row-dateCreated")).toBeTruthy();

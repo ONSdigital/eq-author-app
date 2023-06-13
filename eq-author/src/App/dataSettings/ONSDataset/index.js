@@ -296,7 +296,7 @@ const ONSDatasetPage = () => {
                           <>
                             <TitleContainer>
                               <Title>
-                                Dataset for Survey ID {tableData.surveyId}
+                                Dataset for survey ID {tableData.surveyId}
                               </Title>
                               <UnlinkButton
                                 data-test="btn-unlink-dataset"
