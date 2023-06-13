@@ -7,6 +7,10 @@ module.exports = (ajv) =>
       _parentSchema,
       { rootData: questionnaire }
     ) {
-      return Boolean(data?.length || !questionnaire.introduction[settingName]);
+      if (questionnaire.introduction) {
+        return Boolean(
+          data?.length || !questionnaire.introduction[settingName]
+        );
+      }
     },
   });
