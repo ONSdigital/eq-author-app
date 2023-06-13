@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { Link } from "react-router-dom";
@@ -64,7 +65,7 @@ const Select = styled.select`
 
 const Option = styled.option``;
 
-const ListCollectorFolderEditor = ({ questionnaireId, folder }) => {
+const ListCollectorFolderEditor = ({ questionnaireId, folder, history }) => {
   const [selectedListId, setSelectedListId] = useState(folder.listId);
 
   let lists = [];
@@ -87,6 +88,12 @@ const ListCollectorFolderEditor = ({ questionnaireId, folder }) => {
   }
 
   const handleUpdateList = (listId) => {
+    // Redirect to Collection Lists page when `Create new list` is selected from dropdown
+    if (listId === "newList") {
+      history.push(buildCollectionListsPath({ questionnaireId }));
+      return;
+    }
+
     setSelectedListId(listId);
     updateFolder({
       variables: {
@@ -220,6 +227,7 @@ const ListCollectorFolderEditor = ({ questionnaireId, folder }) => {
 ListCollectorFolderEditor.propTypes = {
   questionnaireId: PropTypes.string,
   folder: PropTypes.object, //eslint-disable-line
+  history: CustomPropTypes.history,
 };
 
 export default ListCollectorFolderEditor;

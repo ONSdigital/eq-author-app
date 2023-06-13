@@ -218,6 +218,7 @@ const FolderDesignPage = ({ history, match }) => {
             <ListCollectorFolderEditor
               questionnaireId={questionnaireId}
               folder={folder}
+              history={history}
             />
           ) : (
             <BasicFolderEditor folderId={folderId} />
