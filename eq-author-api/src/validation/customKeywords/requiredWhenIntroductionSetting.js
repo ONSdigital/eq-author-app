@@ -11,6 +11,8 @@ module.exports = (ajv) =>
         return Boolean(
           data?.length || !questionnaire.introduction[settingName]
         );
+      } else {
+        return true;
       }
     },
   });
