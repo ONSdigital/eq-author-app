@@ -31,6 +31,7 @@ import {
 
 import Modal from "components-themed/Modal";
 import UnlinkButton from "components/buttons/UnlinkButton";
+import moment from "moment";
 
 const StyledTitle = styled.h2`
   font-size: 1.1em;
@@ -99,6 +100,8 @@ const TitleContainer = styled.div`
   grid-template-columns: 80% 20%;
 `;
 
+const formatDate = (date) => moment(date).locale("en-gb").format("DD/MM/YYYY");
+
 const ONSDatasetPage = () => {
   const params = useParams();
   const questionnaireID = params.questionnaireID;
@@ -126,12 +129,6 @@ const ONSDatasetPage = () => {
       id: surveyID || "surveyID",
     },
   });
-
-  const formatDate = (date) => {
-    let formattedDate = date.replaceAll("-", "/");
-    formattedDate = formattedDate.split("T")[0];
-    return formattedDate;
-  };
 
   const [linkPrepopSchema] = useMutation(UPDATE_PREPOP_SCHEMA, {
     refetchQueries: ["GetPrepopSchema"],
@@ -336,7 +333,7 @@ const ONSDatasetPage = () => {
                                     Date created
                                   </SpacedTableColumn>
                                   <SpacedTableColumn>
-                                    {tableData.dateCreated}
+                                    {formatDate(tableData.dateCreated)}
                                   </SpacedTableColumn>
                                 </TableRow>
                               </StyledTableBody>
