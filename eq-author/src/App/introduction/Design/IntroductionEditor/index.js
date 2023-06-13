@@ -22,8 +22,6 @@ import CollapsiblesEditor from "./CollapsiblesEditor";
 
 import UPDATE_INTRODUCTION_MUTATION from "graphql/updateQuestionnaireIntroduction.graphql";
 
-import { enableOn } from "utils/featureFlags";
-
 const Section = styled.section`
   &:not(:last-of-type) {
     border-bottom: 1px solid #e0e0e0;
@@ -350,40 +348,36 @@ const IntroductionEditor = ({ introduction, history }) => {
           </InformationPanel>
         </Padding>
       </Section>
-      {enableOn(["previewQuestions"]) && (
-        <Section>
-          <Padding>
-            <InlineField
-              open={contactDetailsIncludeRuRef}
-              style={{ marginBottom: "0" }}
-            >
-              <Label htmlFor="toggle-preview-questions">
-                Preview questions
-              </Label>
-              <ToggleSwitch
-                id="toggle-preview-questions"
-                name="toggle-preview-questions"
-                hideLabels={false}
-                onChange={() =>
-                  updateQuestionnaireIntroduction({
-                    variables: {
-                      input: {
-                        previewQuestions: !previewQuestions,
-                      },
+      <Section>
+        <Padding>
+          <InlineField
+            open={contactDetailsIncludeRuRef}
+            style={{ marginBottom: "0" }}
+          >
+            <Label htmlFor="toggle-preview-questions">Preview questions</Label>
+            <ToggleSwitch
+              id="toggle-preview-questions"
+              name="toggle-preview-questions"
+              hideLabels={false}
+              onChange={() =>
+                updateQuestionnaireIntroduction({
+                  variables: {
+                    input: {
+                      previewQuestions: !previewQuestions,
                     },
-                  })
-                }
-                checked={previewQuestions}
-              />
-            </InlineField>
-            <SectionDescription>
-              This displays a link on the introduction page that takes
-              respondents to a preview of all the questions on one page in a
-              collapsible format.
-            </SectionDescription>
-          </Padding>
-        </Section>
-      )}
+                  },
+                })
+              }
+              checked={previewQuestions}
+            />
+          </InlineField>
+          <SectionDescription>
+            This displays a link on the introduction page that takes respondents
+            to a preview of all the questions on one page in a collapsible
+            format.
+          </SectionDescription>
+        </Padding>
+      </Section>
       <Section>
         <Padding>
           <SectionTitle style={{ marginBottom: "0" }}>
