@@ -188,7 +188,6 @@ const buildContext = async (questionnaireConfig, userConfig = {}) => {
     const { collapsibles, ...introductionProps } = introduction;
     if (Object.keys(introductionProps).length > 0) {
       await updateQuestionnaireIntroduction(ctx, {
-        id: questionnaire.introduction.id,
         ...introductionProps,
       });
     }
