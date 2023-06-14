@@ -246,9 +246,9 @@ const ONSDatasetPage = () => {
                                       </StyledTableHeadColumn>
                                     </TableRow>
                                   </TableHead>
-                                  {surveyData.prepopSchemaVersions && (
+                                  {surveyData?.prepopSchemaVersions && (
                                     <StyledTableBody>
-                                      {surveyData.prepopSchemaVersions.versions.map(
+                                      {surveyData?.prepopSchemaVersions?.versions?.map(
                                         (version) => {
                                           return (
                                             <TableRow
