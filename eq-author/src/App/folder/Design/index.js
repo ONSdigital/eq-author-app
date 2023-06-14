@@ -171,6 +171,13 @@ const FolderDesignPage = ({ history, match }) => {
     folder: { id, position, section, alias, displayName, validationErrorInfo },
   } = data;
 
+  // Checks if folder is a list collector folder by checking if folder has listId attribute
+  const isListCollectorFolder = () => {
+    if (Object.prototype.hasOwnProperty.call(folder, "listId")) {
+      return true;
+    }
+  };
+
   return (
     <EditorPage
       title={displayName}
@@ -212,39 +219,42 @@ const FolderDesignPage = ({ history, match }) => {
             })
           }
         />
-        {
-          // Renders ListCollectorFolderEditor if the folder is a list collector folder (has listId property), else renders BasicFolderEditor
-          Object.prototype.hasOwnProperty.call(folder, "listId") ? (
-            <ListCollectorFolderEditor
-              questionnaireId={questionnaireId}
-              folder={folder}
-              history={history}
-            />
-          ) : (
-            <BasicFolderEditor folderId={folderId} />
-          )
-        }
+        {isListCollectorFolder() ? (
+          <ListCollectorFolderEditor
+            questionnaireId={questionnaireId}
+            folder={folder}
+            history={history}
+          />
+        ) : (
+          <BasicFolderEditor folderId={folderId} />
+        )}
       </StyledPanel>
-      <ButtonGroup>
-        <BorderedButton
-          variant="tertiary"
-          small
-          onClick={() => onAddQuestionPage({ folderId, position: 0 })}
-          data-test="btn-add-page-inside-folder"
-        >
-          <IconText icon={AddPage}>Add question inside folder</IconText>
-        </BorderedButton>
-        <BorderedButton
-          variant="tertiary"
-          small
-          onClick={() =>
-            addPageWithFolder({ sectionId: section.id, position: position + 1 })
-          }
-          data-test="btn-add-page-outside-folder"
-        >
-          <IconText icon={AddPage}>Add question outside folder</IconText>
-        </BorderedButton>
-      </ButtonGroup>
+
+      {!isListCollectorFolder() && (
+        <ButtonGroup>
+          <BorderedButton
+            variant="tertiary"
+            small
+            onClick={() => onAddQuestionPage({ folderId, position: 0 })}
+            data-test="btn-add-page-inside-folder"
+          >
+            <IconText icon={AddPage}>Add question inside folder</IconText>
+          </BorderedButton>
+          <BorderedButton
+            variant="tertiary"
+            small
+            onClick={() =>
+              addPageWithFolder({
+                sectionId: section.id,
+                position: position + 1,
+              })
+            }
+            data-test="btn-add-page-outside-folder"
+          >
+            <IconText icon={AddPage}>Add question outside folder</IconText>
+          </BorderedButton>
+        </ButtonGroup>
+      )}
     </EditorPage>
   );
 };
