@@ -25,8 +25,7 @@ module.exports = (metadata) => {
     description:
       "<ul><li>Data should relate to all sites in England, Scotland, Wales and Northern Ireland unless otherwise stated. </li><li>You can provide info estimates if actual figures are not available.</li><li>We will treat your data securely and confidentially.</li></ul>",
     legalBasis: NOTICE_1,
-    // TODO: When preview questions feature is implemented, uncomment this line - this line will enable previewQuestions by default when a questionnaire is created
-    // previewQuestions: true,
+    previewQuestions: true,
     secondaryTitle: "<p>Information you need</p>",
     secondaryDescription:
       "<p>You can select the dates of the period you are reporting for, if the given dates are not appropriate.</p>",
