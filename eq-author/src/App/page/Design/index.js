@@ -29,9 +29,9 @@ import {
   QuestionPage,
   CalculatedSummaryPage,
   ListCollectorPage,
-  QualifierPage,
-  AddItemPage,
-  ConfirmationPage,
+  ListCollectorQualifierPage,
+  ListCollectorAddItemPage,
+  ListCollectorConfirmationPage,
 } from "constants/page-types";
 
 import RedirectRoute from "components/RedirectRoute";
@@ -40,9 +40,9 @@ const availableTabMatrix = {
   QuestionPage: { design: true, preview: true, logic: true },
   CalculatedSummaryPage: { design: true, preview: true, logic: true },
   ListCollectorPage: { design: true, preview: true, logic: false },
-  QualifierPage: { design: true, preview: true, logic: false },
-  AddItemPage: { design: true, preview: true, logic: false },
-  ConfirmationPage: { design: true, preview: true, logic: false },
+  ListCollectorQualifierPage: { design: true, preview: true, logic: false },
+  ListCollectorAddItemPage: { design: true, preview: true, logic: false },
+  ListCollectorConfirmationPage: { design: true, preview: true, logic: false },
 };
 
 export const PAGE_QUERY = gql`
@@ -138,15 +138,15 @@ export const UnwrappedPageRoute = (props) => {
       );
     }
 
-    if (page.pageType === QualifierPage) {
+    if (page.pageType === ListCollectorQualifierPage) {
       return <QualifierPageEditor />;
     }
 
-    if (page.pageType === AddItemPage) {
+    if (page.pageType === ListCollectorAddItemPage) {
       return <AddItemPageEditor />;
     }
 
-    if (page.pageType === ConfirmationPage) {
+    if (page.pageType === ListCollectorConfirmationPage) {
       return <ConfirmationPageEditor />;
     }
   };
