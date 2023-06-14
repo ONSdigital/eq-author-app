@@ -21,6 +21,7 @@ import CalculatedSummaryPageEditor from "./CalculatedSummaryPageEditor";
 import ListCollectorPageEditor from "./ListCollectorPageEditor";
 import QualifierPageEditor from "./ListCollectorPageEditors/QualifierPageEditor";
 import AddItemPageEditor from "./ListCollectorPageEditors/AddItemPageEditor";
+import ConfirmationPageEditor from "./ListCollectorPageEditors/ConfirmationPageEditor";
 
 import withFetchAnswers from "./withFetchAnswers";
 
@@ -30,6 +31,7 @@ import {
   ListCollectorPage,
   QualifierPage,
   AddItemPage,
+  ConfirmationPage,
 } from "constants/page-types";
 
 import RedirectRoute from "components/RedirectRoute";
@@ -40,6 +42,7 @@ const availableTabMatrix = {
   ListCollectorPage: { design: true, preview: true, logic: false },
   QualifierPage: { design: true, preview: true, logic: false },
   AddItemPage: { design: true, preview: true, logic: false },
+  ConfirmationPage: { design: true, preview: true, logic: false },
 };
 
 export const PAGE_QUERY = gql`
@@ -50,6 +53,7 @@ export const PAGE_QUERY = gql`
       ...ListCollectorPage
       ...ListCollectorQualifierPage
       ...ListCollectorAddItemPage
+      ...ListCollectorConfirmationPage
       folder {
         id
         position
@@ -61,6 +65,7 @@ export const PAGE_QUERY = gql`
   ${ListCollectorPageEditor.fragments.ListCollectorPage}
   ${QualifierPageEditor.fragments.ListCollectorQualifierPage}
   ${AddItemPageEditor.fragments.ListCollectorAddItemPage}
+  ${ConfirmationPageEditor.fragments.ListCollectorConfirmationPage}
 `;
 
 export const UnwrappedPageRoute = (props) => {
@@ -139,6 +144,10 @@ export const UnwrappedPageRoute = (props) => {
 
     if (page.pageType === AddItemPage) {
       return <AddItemPageEditor />;
+    }
+
+    if (page.pageType === ConfirmationPage) {
+      return <ConfirmationPageEditor />;
     }
   };
 
