@@ -5,6 +5,7 @@ const {
 const {
   queryPrepopSchema,
   updatePrepopSchema,
+  unlinkPrepopSchema,
 } = require("../../tests/utils/contextBuilder/prepopSchema");
 
 const { BUSINESS } = require("../../constants/questionnaireTypes");
@@ -65,7 +66,7 @@ describe("questionnaire", () => {
     },
   };
 
-  describe("read", () => {
+  describe("should query the prepop schema", () => {
     it("should return the questionnaire prepopSchema", async () => {
       ctx.questionnaire.prepopSchema = prepopSchemaData;
       const prepopSchema = await queryPrepopSchema(ctx);
@@ -73,13 +74,20 @@ describe("questionnaire", () => {
     });
   });
 
-  describe("update", () => {
+  describe("should update the prepop schema", () => {
     it("should update the prepopSchema", async () => {
       const updatedPrepopSchema = await updatePrepopSchema(
         ctx,
         prepopSchemaData
       );
       expect(updatedPrepopSchema).toEqual(prepopSchemaData);
+    });
+  });
+
+  describe("should unlink the prepop schema", () => {
+    it("should unlink the prepop schema", async () => {
+      const unlinkedPrepopSchema = await unlinkPrepopSchema(ctx);
+      expect(unlinkedPrepopSchema.prepopSchema).toEqual(null);
     });
   });
 });
