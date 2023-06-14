@@ -1,5 +1,5 @@
 import React from "react";
-import { useQuery, useMutation } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/react-hooks";
 
 import { render, fireEvent, screen, waitFor, act } from "tests/utils/rtl";
 
@@ -58,10 +58,9 @@ const renderONSDatasetPage = (questionnaire, props, user, mocks) => {
 };
 
 describe("ONS dataset page", () => {
-  let questionnaire, props, user, mocks, queryWasCalled;
+  let questionnaire, props, user, mocks;
 
   beforeEach(() => {
-    queryWasCalled = false;
     questionnaire = {
       id: "1",
       isPublic: true,
@@ -110,7 +109,7 @@ describe("ONS dataset page", () => {
     ).toBeTruthy();
   });
   describe("survey picker", () => {
-    it("should a select picker with all options", () => {
+    it("should display a select picker with all options", () => {
       const { getByText, getByTestId } = renderONSDatasetPage(
         questionnaire,
         props,
@@ -150,7 +149,6 @@ describe("ONS dataset page", () => {
             },
           },
           result: () => {
-            queryWasCalled = true;
             return {
               data: {
                 updatePrepopSchema: {
@@ -176,15 +174,18 @@ describe("ONS dataset page", () => {
           },
         },
       ];
-      const { getByText, getByTestId, getAllByTestId, findAllByText } =
-        renderONSDatasetPage(questionnaire, props, user, mocks);
+      const { getByTestId, getAllByTestId } = renderONSDatasetPage(
+        questionnaire,
+        props,
+        user,
+        mocks
+      );
 
       const select = getByTestId("list-select");
       fireEvent.change(select, { target: { value: "123" } });
       await act(async () => {
         await fireEvent.click(getAllByTestId("btn-link")[0]);
       });
-      // expect(getByText("Dataset for survey ID")).toBeTruthy();
     });
   });
 
@@ -258,7 +259,6 @@ describe("ONS dataset page", () => {
             variables: {},
           },
           result: () => {
-            queryWasCalled = true;
             return {
               data: {
                 unlinkPrepopSchema: {
@@ -271,9 +271,7 @@ describe("ONS dataset page", () => {
           },
         },
       ];
-      // const unlinkPrepopSchema = jest.fn();
-      // useMutation.mockImplementation(jest.fn(() => [unlinkPrepopSchema]));
-      const { getByText, getByTestId, queryByTestId } = renderONSDatasetPage(
+      const { getByTestId, queryByTestId } = renderONSDatasetPage(
         questionnaire,
         props,
         user,
@@ -290,7 +288,7 @@ describe("ONS dataset page", () => {
     });
 
     it("should close the Unlink dataset modal", async () => {
-      const { getByText, getByTestId, queryByTestId } = renderONSDatasetPage(
+      const { getByTestId, queryByTestId } = renderONSDatasetPage(
         questionnaire,
         props,
         user,
