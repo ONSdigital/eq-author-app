@@ -29,6 +29,7 @@ describe("questionnaire", () => {
       status: 200,
       json: () => ({
         id: "121-222-789",
+        surveyId: "121",
         schema: {
           id: "121-222-789",
           version: "1",
@@ -48,6 +49,7 @@ describe("questionnaire", () => {
 
   const prepopSchemaData = {
     id: "121-222-789",
+    surveyId: "121",
     schema: {
       id: "121-222-789",
       version: "1",

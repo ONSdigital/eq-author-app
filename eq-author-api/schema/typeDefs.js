@@ -761,8 +761,8 @@ type PrepopSchemaVersions {
 }
 
 type PrepopSchema {
-  id: ID!
-  surveyId: ID!
+  id: ID
+  surveyId: ID
   schema: JSON
 }
 
