@@ -15,6 +15,10 @@ const {
   moveSection,
 } = require("../../tests/utils/contextBuilder/section");
 
+const {
+  updateQuestionnaireIntroduction,
+} = require("../../tests/utils/contextBuilder/questionnaireIntroduction");
+
 const { NUMBER } = require("../../constants/answerTypes");
 
 describe("section", () => {
@@ -236,7 +240,30 @@ describe("section", () => {
         ctx.comments = {};
       });
 
-      it("should not validate the section title if Hub is off", async () => {
+      it("should not validate the section title if Hub is off and preview questions is off", async () => {
+        ctx = await buildContext({
+          sections: [
+            {
+              title: "",
+            },
+          ],
+          introduction: {
+            previewQuestions: false,
+          },
+          hub: false,
+        });
+
+        questionnaire = ctx.questionnaire;
+        const section = questionnaire.sections[0];
+
+        const queriedSection = await querySection(ctx, section.id);
+        expect(queriedSection.validationErrorInfo).toMatchObject({
+          totalCount: 0,
+        });
+        expect(queriedSection.validationErrorInfo.errors).toHaveLength(0);
+      });
+
+      it("should validate the section title if Hub is off and preview questions is on", async () => {
         ctx = await buildContext({
           sections: [
             {
@@ -251,9 +278,9 @@ describe("section", () => {
 
         const queriedSection = await querySection(ctx, section.id);
         expect(queriedSection.validationErrorInfo).toMatchObject({
-          totalCount: 0,
+          totalCount: 1,
         });
-        expect(queriedSection.validationErrorInfo.errors).toHaveLength(0);
+        expect(queriedSection.validationErrorInfo.errors).toHaveLength(1);
       });
 
       describe("Section introduction", () => {
@@ -266,6 +293,9 @@ describe("section", () => {
             introductionContent: "",
             introductionPageDescription: "",
           };
+          await updateQuestionnaireIntroduction(ctx, {
+            previewQuestions: false,
+          });
           const updatedSection = await updateSection(ctx, update);
 
           expect(updatedSection.validationErrorInfo).toMatchObject({
@@ -284,6 +314,9 @@ describe("section", () => {
             introductionContent: "introduction content",
             introductionPageDescription: "introduction description",
           };
+          await updateQuestionnaireIntroduction(ctx, {
+            previewQuestions: false,
+          });
           const updatedSection = await updateSection(ctx, update);
 
           expect(updatedSection.validationErrorInfo).toMatchObject({
@@ -302,6 +335,9 @@ describe("section", () => {
             introductionContent: "",
             introductionPageDescription: "introduction description",
           };
+          await updateQuestionnaireIntroduction(ctx, {
+            previewQuestions: false,
+          });
           const updatedSection = await updateSection(ctx, update);
 
           expect(updatedSection.validationErrorInfo).toMatchObject({
@@ -320,6 +356,9 @@ describe("section", () => {
             introductionContent: "introduction content",
             introductionPageDescription: "introduction description",
           };
+          await updateQuestionnaireIntroduction(ctx, {
+            previewQuestions: false,
+          });
           const updatedSection = await updateSection(ctx, update);
 
           expect(updatedSection.validationErrorInfo).toMatchObject({
@@ -338,6 +377,9 @@ describe("section", () => {
             introductionContent: "introduction content",
             introductionPageDescription: "",
           };
+          await updateQuestionnaireIntroduction(ctx, {
+            previewQuestions: false,
+          });
           const updatedSection = await updateSection(ctx, update);
 
           expect(updatedSection.validationErrorInfo).toMatchObject({
@@ -356,6 +398,9 @@ describe("section", () => {
             sectionSummary: false,
             sectionSummaryPageDescription: "",
           };
+          await updateQuestionnaireIntroduction(ctx, {
+            previewQuestions: false,
+          });
           const updatedSection = await updateSection(ctx, update);
 
           expect(updatedSection.validationErrorInfo).toMatchObject({

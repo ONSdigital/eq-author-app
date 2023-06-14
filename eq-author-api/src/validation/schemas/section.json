@@ -16,6 +16,9 @@
           "requiredWhenQuestionnaireSetting": "hub"
         },
         {
+          "requiredWhenIntroductionSetting": "previewQuestions"
+        },
+        {
           "requiredWhenQuestionnaireSetting": "collapsibleSummary"
         },
         {

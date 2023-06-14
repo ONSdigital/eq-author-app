@@ -18,4 +18,5 @@ module.exports = (ajv) => {
   require("./requiredWhenSectionSetting")(ajv);
   require("./validateSecondaryCondition")(ajv);
   require("./validatePageDescription")(ajv);
+  require("./requiredWhenIntroductionSetting")(ajv);
 };
