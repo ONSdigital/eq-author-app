@@ -7,7 +7,8 @@ import { colors, focusStyle } from "constants/theme";
 
 import { buildFolderPath } from "utils/UrlUtils";
 
-import IconFolder from "assets/icon-folder.svg?inline";
+import IconBasicFolder from "assets/icon-folder.svg?inline";
+import IconListCollectorFolder from "assets/icon-list-collector-folder.svg?inline";
 
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import CollapsibleNavItem from "components/CollapsibleNavItem";
@@ -45,6 +46,7 @@ const Folder = ({
   pages,
   validationErrorInfo,
   position,
+  listId,
 }) => {
   const { entityId, tab = "design" } = useParams();
 
@@ -64,7 +66,7 @@ const Folder = ({
           <FolderNavItem
             title={displayName}
             open
-            icon={IconFolder}
+            icon={listId ? IconListCollectorFolder : IconBasicFolder}
             disabled={isCurrentFolder(folderId, entityId)}
             titleUrl={buildFolderPath({
               questionnaireId,
@@ -111,6 +113,7 @@ Folder.propTypes = {
   pages: PropTypes.array.isRequired, // eslint-disable-line
   validationErrorInfo: PropTypes.object.isRequired, // eslint-disable-line
   position: PropTypes.number.isRequired,
+  listId: PropTypes.string,
 };
 
 export default Folder;

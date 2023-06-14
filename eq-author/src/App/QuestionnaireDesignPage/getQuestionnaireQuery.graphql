@@ -128,6 +128,9 @@ fragment PageNav on Section {
       ...ListCollectorAddItemPages
       ...ListCollectorConfirmationPages
     }
+    ... on ListCollectorFolder {
+      listId
+    }
     validationErrorInfo {
       id
       totalCount
