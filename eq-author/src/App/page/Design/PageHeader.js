@@ -29,6 +29,12 @@ import { Toolbar, Buttons } from "./EditorToolbar";
 import IconMove from "assets/icon-move.svg?inline";
 import MovePageModal from "./MoveEntityModal";
 
+import {
+  ListCollectorQualifierPage,
+  ListCollectorAddItemPage,
+  ListCollectorConfirmationPage,
+} from "constants/page-types";
+
 const ShortCodeLabel = styled(Label)`
   grid-column-start: 1;
   grid-row-start: 1;
@@ -41,6 +47,12 @@ export class PageHeader extends React.Component {
     showMovePageDialog: false,
   };
 
+  listCollectorPageTypes = [
+    ListCollectorQualifierPage,
+    ListCollectorAddItemPage,
+    ListCollectorConfirmationPage,
+  ];
+
   handleDuplicatePage = (e) => {
     e.preventDefault();
     const { match, onDuplicatePage, page } = this.props;
@@ -50,6 +62,15 @@ export class PageHeader extends React.Component {
       position: page.position + 1,
     });
   };
+
+  isListCollectorPageType = () => {
+    const { page } = this.props;
+
+    return this.listCollectorPageTypes.some(
+      (listCollectorPageType) => listCollectorPageType === page.pageType
+    );
+  };
+
   handleOpenDeleteConfirmDialog = () =>
     this.setState({ showDeleteConfirmDialog: true });
 
@@ -77,9 +98,10 @@ export class PageHeader extends React.Component {
   };
 
   isMoveDisabled = (questionnaire) =>
-    questionnaire.sections[0].folders[0]?.pages.length <= 1 &&
-    questionnaire.sections[0].folders.length <= 1 &&
-    questionnaire.sections.length === 1;
+    (questionnaire.sections[0].folders[0]?.pages.length <= 1 &&
+      questionnaire.sections[0].folders.length <= 1 &&
+      questionnaire.sections.length === 1) ||
+    this.isListCollectorPageType();
 
   deleteModalTitle = (pageType) => {
     switch (pageType) {
@@ -120,12 +142,13 @@ export class PageHeader extends React.Component {
             <DuplicateButton
               onClick={this.handleDuplicatePage}
               data-test="btn-duplicate-page"
-              disabled={isDuplicateDisabled}
+              disabled={isDuplicateDisabled || this.isListCollectorPageType()}
             >
               Duplicate
             </DuplicateButton>
             <IconButtonDelete
               onClick={this.handleOpenDeleteConfirmDialog}
+              disabled={this.isListCollectorPageType()}
               data-test="btn-delete"
             >
               Delete

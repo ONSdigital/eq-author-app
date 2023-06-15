@@ -3,10 +3,22 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme.js";
 
+import PageHeader from "../../PageHeader";
+
 import gql from "graphql-tag";
 
-const QualifierPageEditor = () => {
-  return <p>Qualifier page</p>;
+const Title = styled.h4`
+  margin-bottom: ${(props) => props.marginBottom}em;
+`;
+
+const ContentContainer = styled.div`
+  width: ${(props) => props.width}%;
+`;
+
+const Content = styled.p``;
+
+const QualifierPageEditor = ({ page }) => {
+  return <PageHeader page={page} />;
 };
 
 QualifierPageEditor.fragments = {

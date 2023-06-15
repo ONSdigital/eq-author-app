@@ -139,7 +139,7 @@ export const UnwrappedPageRoute = (props) => {
     }
 
     if (page.pageType === ListCollectorQualifierPage) {
-      return <QualifierPageEditor />;
+      return <QualifierPageEditor page={page} />;
     }
 
     if (page.pageType === ListCollectorAddItemPage) {
