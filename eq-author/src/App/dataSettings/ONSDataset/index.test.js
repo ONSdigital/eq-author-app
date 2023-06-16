@@ -214,16 +214,16 @@ describe("ONS dataset page", () => {
         },
       }));
 
-      const { getByText, getByTestId } = renderONSDatasetPage(
+      const { getByText } = renderONSDatasetPage(
         questionnaire,
         props,
         user,
         mocks
       );
       expect(getByText("Dataset for survey ID")).toBeTruthy();
-      expect(getByTestId("tableData-row-id")).toBeTruthy();
-      expect(getByTestId("tableData-row-version")).toBeTruthy();
-      expect(getByTestId("tableData-row-dateCreated")).toBeTruthy();
+      expect(getByText("ID:")).toBeTruthy();
+      expect(getByText("Version:")).toBeTruthy();
+      expect(getByText("Date created:")).toBeTruthy();
     });
   });
 

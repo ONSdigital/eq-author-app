@@ -40,9 +40,11 @@ const StyledTitle = styled.h2`
   margin: 0 0 0.5em 0;
 `;
 const Title = styled.h2`
-  font-size: 1.2em;
+  font-size: 1.4em;
   font-weight: bold;
   color: ${colors.text};
+  margin: 0 0 0 0;
+  padding-bottom: 1em;
 `;
 
 const Option = styled.option``;
@@ -95,12 +97,15 @@ const StyledButton = styled(Button)`
   left: 30%;
 `;
 
-const TitleContainer = styled.div`
-  display: grid;
-  grid-template-columns: 80% 20%;
+const formatDate = (date) => moment(date).locale("en-gb").format("DD/MM/YYYY");
+
+const CustomGrid = styled(Grid)`
+  margin-top: 0.5em;
 `;
 
-const formatDate = (date) => moment(date).locale("en-gb").format("DD/MM/YYYY");
+const CustomColumn = styled(Column)`
+  font-weight: bold;
+`;
 
 const ONSDatasetPage = () => {
   const params = useParams();
@@ -295,50 +300,45 @@ const ONSDatasetPage = () => {
                         )}
                         {tableData && (
                           <>
-                            <TitleContainer>
-                              <Title>
-                                Dataset for survey ID {tableData.surveyId}
-                              </Title>
-                              <UnlinkButton
-                                data-test="btn-unlink-dataset"
-                                onClick={handleUnlinkClick}
-                              >
-                                Unlink dataset
-                              </UnlinkButton>
-                            </TitleContainer>
-                            <Table data-test="tableData-table">
-                              <TableHead>
-                                <TableRow>
-                                  <StyledTableHeadColumn width="40%">
-                                    Field
-                                  </StyledTableHeadColumn>
-                                </TableRow>
-                              </TableHead>
-                              <StyledTableBody>
-                                <TableRow data-test={`tableData-row-id`}>
-                                  <SpacedTableColumn>ID</SpacedTableColumn>
-                                  <SpacedTableColumn>
-                                    {tableData.id}
-                                  </SpacedTableColumn>
-                                </TableRow>
-                                <TableRow data-test={`tableData-row-version`}>
-                                  <SpacedTableColumn>Version</SpacedTableColumn>
-                                  <SpacedTableColumn>
-                                    {tableData.version}
-                                  </SpacedTableColumn>
-                                </TableRow>
-                                <TableRow
-                                  data-test={`tableData-row-dateCreated`}
+                            <Grid>
+                              <Column gutters={false} cols={10}>
+                                <Title>
+                                  Dataset for survey ID {tableData.surveyId}
+                                </Title>
+                              </Column>
+                              <Column gutters={false} cols={2}>
+                                <UnlinkButton
+                                  data-test="btn-unlink-dataset"
+                                  onClick={handleUnlinkClick}
                                 >
-                                  <SpacedTableColumn>
-                                    Date created
-                                  </SpacedTableColumn>
-                                  <SpacedTableColumn>
-                                    {formatDate(tableData.dateCreated)}
-                                  </SpacedTableColumn>
-                                </TableRow>
-                              </StyledTableBody>
-                            </Table>
+                                  Unlink dataset
+                                </UnlinkButton>
+                              </Column>
+                            </Grid>
+                            <CustomGrid>
+                              <Column gutters={false} cols={2}>
+                                ID:
+                              </Column>
+                              <CustomColumn gutters={false} cols={2}>
+                                {tableData.id}
+                              </CustomColumn>
+                            </CustomGrid>
+                            <CustomGrid>
+                              <Column gutters={false} cols={2}>
+                                Version:
+                              </Column>
+                              <CustomColumn gutters={false} cols={2}>
+                                {tableData.version}
+                              </CustomColumn>
+                            </CustomGrid>
+                            <CustomGrid>
+                              <Column gutters={false} cols={2}>
+                                Date created:
+                              </Column>
+                              <CustomColumn gutters={false} cols={2}>
+                                {formatDate(tableData.dateCreated)}
+                              </CustomColumn>
+                            </CustomGrid>
                           </>
                         )}
                       </Common.StyledPanel>
@@ -353,11 +353,5 @@ const ONSDatasetPage = () => {
     </>
   );
 };
-
-// ONSDataSetPage.propTypes = {
-//   data: PropTypes.shape({
-//     questionnaire: CustomPropTypes.questionnaire,
-//   }),
-// };
 
 export default withRouter(ONSDatasetPage);
