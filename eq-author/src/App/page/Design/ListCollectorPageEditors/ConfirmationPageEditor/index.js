@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+import { useMutation } from "@apollo/react-hooks";
 import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme.js";
+import gql from "graphql-tag";
 
 import { Field } from "components/Forms";
 import RichTextEditor from "components/RichTextEditor";
@@ -9,7 +11,7 @@ import PageTitle from "components/PageTitle";
 
 import PageHeader from "../../PageHeader";
 
-import gql from "graphql-tag";
+import UPDATE_PAGE_MUTATION from "graphql/updatePage.graphql";
 
 const Title = styled.h4`
   margin-bottom: -0.5em;
@@ -33,9 +35,21 @@ const HorizontalSeparator = styled.hr`
 `;
 
 const ConfirmationPageEditor = ({ page }) => {
+  const { id, alias } = page;
+  const [confirmationPageAlias, setConfirmationPageAlias] = useState(alias);
+
+  const [updatePage] = useMutation(UPDATE_PAGE_MUTATION);
+
   return (
     <>
-      <PageHeader page={page} />
+      <PageHeader
+        page={page}
+        onUpdate={({ value }) =>
+          updatePage({ variables: { input: { id, alias: value } } })
+        }
+        onChange={({ value }) => setConfirmationPageAlias(value)}
+        alias={confirmationPageAlias}
+      />
       <StyledField>
         <Title>What is the question to confirm list completion?</Title>
         <ContentContainer>
