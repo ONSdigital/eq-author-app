@@ -1710,7 +1710,8 @@ const Resolvers = {
       const section = getSectionByFolderId(ctx, id);
       return findIndex(section.folders, { id });
     },
-    displayName: ({ alias, title }) => alias || title || "Untitled folder",
+    displayName: ({ alias, title }) =>
+      alias || title || "Untitled list collector",
     validationErrorInfo: ({ id }, args, ctx) =>
       returnValidationErrors(
         ctx,

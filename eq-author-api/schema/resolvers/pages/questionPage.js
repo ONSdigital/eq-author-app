@@ -46,7 +46,7 @@ Resolvers.ListCollectorQualifierPage = {
     const folder = getFolderByPageId(ctx, id);
     return folder.pages.findIndex((page) => page.id === id);
   },
-  displayName: (page) => getName(page, "QuestionPage"),
+  displayName: (page) => getName(page, "ListCollectorQualifierPage"),
   validationErrorInfo: ({ id }, args, ctx) => {
     const pageErrors = ctx.validationErrorInfo.filter(
       ({ pageId, type }) => id === pageId && !type.startsWith("confirmation")
@@ -67,7 +67,7 @@ Resolvers.ListCollectorAddItemPage = {
     const folder = getFolderByPageId(ctx, id);
     return folder.pages.findIndex((page) => page.id === id);
   },
-  displayName: (page) => getName(page, "QuestionPage"),
+  displayName: (page) => getName(page, "ListCollectorAddItemPage"),
   validationErrorInfo: ({ id }, args, ctx) => {
     const pageErrors = ctx.validationErrorInfo.filter(
       ({ pageId, type }) => id === pageId && !type.startsWith("confirmation")
@@ -88,7 +88,7 @@ Resolvers.ListCollectorConfirmationPage = {
     const folder = getFolderByPageId(ctx, id);
     return folder.pages.findIndex((page) => page.id === id);
   },
-  displayName: (page) => getName(page, "QuestionPage"),
+  displayName: (page) => getName(page, "ListCollectorConfirmationPage"),
   validationErrorInfo: ({ id }, args, ctx) => {
     const pageErrors = ctx.validationErrorInfo.filter(
       ({ pageId, type }) => id === pageId && !type.startsWith("confirmation")
