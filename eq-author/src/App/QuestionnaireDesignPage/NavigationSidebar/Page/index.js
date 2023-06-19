@@ -51,6 +51,9 @@ const Page = ({
     QuestionPage: IconQuestionPage,
     CalculatedSummaryPage: IconSummaryPage,
     ListCollectorPage: IconListCollectorPage,
+    ListCollectorQualifierPage: IconQuestionPage,
+    ListCollectorAddItemPage: IconQuestionPage,
+    ListCollectorConfirmationPage: IconQuestionPage,
   };
 
   return (
