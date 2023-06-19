@@ -1,11 +1,10 @@
 import React from "react";
-import PropTypes from "prop-types";
+import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme.js";
 
-import { Field, Label, Input } from "components/Forms";
+import { Field, Label } from "components/Forms";
 import RichTextEditor from "components/RichTextEditor";
-import ToggleSwitch from "components/buttons/ToggleSwitch";
 import CollapsibleToggled from "components/CollapsibleToggled";
 import PageTitle from "components/PageTitle";
 
@@ -123,6 +122,10 @@ const QualifierPageEditor = ({ page }) => {
       </StyledField>
     </>
   );
+};
+
+QualifierPageEditor.propTypes = {
+  page: CustomPropTypes.page,
 };
 
 QualifierPageEditor.fragments = {
