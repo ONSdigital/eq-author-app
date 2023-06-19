@@ -147,7 +147,7 @@ export const UnwrappedPageRoute = (props) => {
     }
 
     if (page.pageType === ListCollectorConfirmationPage) {
-      return <ConfirmationPageEditor />;
+      return <ConfirmationPageEditor page={page} />;
     }
   };
 
