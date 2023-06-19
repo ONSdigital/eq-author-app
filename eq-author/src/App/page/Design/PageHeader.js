@@ -98,15 +98,21 @@ export class PageHeader extends React.Component {
   };
 
   render() {
-    const { page, onChange, onUpdate, isDuplicateDisabled, questionnaire } =
-      this.props;
+    const {
+      page,
+      onChange,
+      onUpdate,
+      isDuplicateDisabled,
+      questionnaire,
+      alias,
+    } = this.props;
 
     return (
       <>
         <Toolbar>
           <ShortCodeLabel htmlFor="alias">Short code</ShortCodeLabel>
           <AliasEditor
-            alias={page.alias}
+            alias={alias ?? page.alias}
             onUpdate={onUpdate}
             onChange={onChange}
           />
@@ -191,6 +197,7 @@ PageHeader.propTypes = {
   onDeletePage: PropTypes.func.isRequired,
   onDuplicatePage: PropTypes.func.isRequired,
   alertText: PropTypes.string.isRequired,
+  alias: PropTypes.string,
 };
 
 export default flowRight(

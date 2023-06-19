@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+import { useMutation } from "@apollo/react-hooks";
 import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme.js";
+import gql from "graphql-tag";
 
 import { Field, Label } from "components/Forms";
 import RichTextEditor from "components/RichTextEditor";
@@ -11,7 +13,7 @@ import PageTitle from "components/PageTitle";
 import PageHeader from "../../PageHeader";
 import AnswersEditor from "../../QuestionPageEditor/AnswersEditor";
 
-import gql from "graphql-tag";
+import UPDATE_PAGE_MUTATION from "graphql/updatePage.graphql";
 
 const Title = styled.h4`
   margin-bottom: -0.5em;
@@ -44,9 +46,21 @@ const HorizontalSeparator = styled.hr`
 `;
 
 const QualifierPageEditor = ({ page }) => {
+  const { id, alias } = page;
+  const [qualifierPageAlias, setQualifierPageAlias] = useState(alias);
+
+  const [updatePage] = useMutation(UPDATE_PAGE_MUTATION);
+
   return (
     <>
-      <PageHeader page={page} />
+      <PageHeader
+        page={page}
+        onUpdate={({ value }) =>
+          updatePage({ variables: { input: { id, alias: value } } })
+        }
+        onChange={({ value }) => setQualifierPageAlias(value)}
+        alias={qualifierPageAlias}
+      />
       <StyledField>
         <Title>What is the qualifier question?</Title>
         <ContentContainer width="90">
