@@ -45,7 +45,7 @@ const Answer = styled.div`
     border-color: ${colors.blue};
     box-shadow: 0 0 0 1px ${colors.blue};
   }
-  margin: 0 2em 1em;
+  margin: ${(props) => !props.withoutMargin && `0 2em 1em`};
 `;
 
 const AnswerHeader = styled.div`
@@ -191,6 +191,7 @@ class AnswerEditor extends React.Component {
         aria-label={`${this.props.answer.type} answer`}
         data-test="answer-editor"
         className="answer"
+        withoutMargin={this.props.withoutMargin}
       >
         <Modal
           title={DELETE_ANSWER_TITLE(
@@ -293,6 +294,7 @@ AnswerEditor.propTypes = {
   renderPanel: PropTypes.func,
   page: PropTypes.object, //eslint-disable-line
   metadata: PropTypes.array, //eslint-disable-line
+  withoutMargin: PropTypes.bool,
 };
 
 AnswerEditor.fragments = {

@@ -24,6 +24,7 @@ export const AnswersEditor = ({
   moveAnswer,
   page,
   metadata,
+  withoutMargin,
 }) => {
   let multipleAnswers = false;
   multipleAnswers = answers?.length > 1;
@@ -44,6 +45,7 @@ export const AnswersEditor = ({
             multipleAnswers={multipleAnswers}
             page={page}
             metadata={metadata}
+            withoutMargin={withoutMargin}
           />
         )}
       </Reorder>
@@ -63,6 +65,7 @@ AnswersEditor.propTypes = {
   moveAnswer: PropTypes.func.isRequired,
   page: PropTypes.object, //eslint-disable-line
   metadata: PropTypes.array, //eslint-disable-line
+  withoutMargin: PropTypes.bool,
 };
 
 AnswersEditor.fragments = {
