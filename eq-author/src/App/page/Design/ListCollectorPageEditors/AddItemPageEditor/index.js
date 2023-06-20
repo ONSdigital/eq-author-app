@@ -36,8 +36,10 @@ const HorizontalSeparator = styled.hr`
 `;
 
 const AddItemPageEditor = ({ page }) => {
-  const { id, alias, title } = page;
+  const { id, alias, title, pageDescription } = page;
   const [addItemPageAlias, setAddItemPageAlias] = useState(alias);
+  const [addItemPageDescription, setAddItemPageDescription] =
+    useState(pageDescription);
 
   const [updatePage] = useMutation(UPDATE_PAGE_MUTATION);
   return (
@@ -140,10 +142,13 @@ const AddItemPageEditor = ({ page }) => {
         <ContentContainer width="98">
           <PageTitle
             heading="Page title and description"
-            pageDescription="" // TODO: Update this
-            inputTitlePrefix="Page"
-            onChange={() => console.log("onChange")}
-            onUpdate={() => console.log("onUpdate")}
+            pageDescription={addItemPageDescription}
+            onChange={({ value }) => setAddItemPageDescription(value)}
+            onUpdate={({ value }) =>
+              updatePage({
+                variables: { input: { id, pageDescription: value } },
+              })
+            }
             // altFieldName=""
             // altError=""
             // errors={[]}
@@ -165,6 +170,7 @@ AddItemPageEditor.fragments = {
       alias
       title
       pageType
+      pageDescription
       position
       folder {
         id

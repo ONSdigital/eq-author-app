@@ -1,5 +1,4 @@
 fragment ListCollectorQualifierPage on ListCollectorQualifierPage {
   additionalGuidanceEnabled
   additionalGuidanceContent
-  pageDescription
 }

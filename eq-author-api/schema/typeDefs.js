@@ -195,6 +195,7 @@ type ListCollectorAddItemPage implements Page {
   alias: String
   displayName: String!
   pageType: PageType!
+  pageDescription: String
   folder: Folder!
   section: Section!
   position: Int!
@@ -207,6 +208,7 @@ type ListCollectorConfirmationPage implements Page {
   alias: String
   displayName: String!
   pageType: PageType!
+  pageDescription: String
   folder: Folder!
   section: Section!
   position: Int!
