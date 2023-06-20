@@ -46,7 +46,13 @@ const HorizontalSeparator = styled.hr`
 `;
 
 const QualifierPageEditor = ({ page }) => {
-  const { id, alias, title } = page;
+  const {
+    id,
+    alias,
+    title,
+    additionalGuidanceEnabled,
+    additionalGuidanceContent,
+  } = page;
   const [qualifierPageAlias, setQualifierPageAlias] = useState(alias);
 
   const [updatePage] = useMutation(UPDATE_PAGE_MUTATION);
@@ -83,12 +89,7 @@ const QualifierPageEditor = ({ page }) => {
           value={title}
           onUpdate={({ value }) =>
             updatePage({
-              variables: {
-                input: {
-                  id,
-                  title: value,
-                },
-              },
+              variables: { input: { id, title: value } },
             })
           }
           // errorValidationMsg={}
@@ -99,13 +100,18 @@ const QualifierPageEditor = ({ page }) => {
           id="qualifier-page-additional-guidance-toggle"
           title="Additional guidance panel"
           quoted={false}
-          onChange={() => console.log("Temporary function")}
+          onChange={({ value }) =>
+            updatePage({
+              variables: { input: { id, additionalGuidanceEnabled: value } },
+            })
+          }
+          isOpen={additionalGuidanceEnabled}
         >
           <RichTextEditor
             id="qualifier-page-additional-guidance-text-editor"
             name="qualifier-page-additional-guidance-text-editor"
             multiline
-            // value={}
+            value={additionalGuidanceContent}
             onUpdate={() => console.log("Temporary function")}
             // errorValidationMsg={}
             // controls={}
@@ -157,6 +163,8 @@ QualifierPageEditor.fragments = {
       title
       pageType
       position
+      additionalGuidanceEnabled
+      additionalGuidanceContent
       answers {
         ...AnswerEditor
       }

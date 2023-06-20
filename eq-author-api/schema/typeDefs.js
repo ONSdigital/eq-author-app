@@ -182,6 +182,8 @@ type ListCollectorQualifierPage implements Page {
   folder: Folder!
   section: Section!
   position: Int!
+  additionalGuidanceEnabled: Boolean
+  additionalGuidanceContent: String
   answers: [Answer]
   validationErrorInfo: ValidationErrorInfo
 }
@@ -1352,7 +1354,8 @@ input UpdatePageInput {
   additionalInfoContent: String
   additionalInfoEnabled: Boolean
   pageDescription: String
-
+  additionalGuidanceEnabled: Boolean
+  additionalGuidanceContent: String
 }
 
 input DeletePageInput {
