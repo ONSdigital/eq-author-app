@@ -52,8 +52,11 @@ const QualifierPageEditor = ({ page }) => {
     title,
     additionalGuidanceEnabled,
     additionalGuidanceContent,
+    pageDescription,
   } = page;
   const [qualifierPageAlias, setQualifierPageAlias] = useState(alias);
+  const [qualifierPageDescription, setQualifierPageDescription] =
+    useState(pageDescription);
 
   const [updatePage] = useMutation(UPDATE_PAGE_MUTATION);
 
@@ -141,10 +144,15 @@ const QualifierPageEditor = ({ page }) => {
         <ContentContainer width="98">
           <PageTitle
             heading="Page title and description"
-            pageDescription="" // TODO: Update this
-            inputTitlePrefix="Page"
-            onChange={() => console.log("onChange")}
-            onUpdate={() => console.log("onUpdate")}
+            pageDescription={qualifierPageDescription}
+            onChange={({ value }) => setQualifierPageDescription(value)}
+            onUpdate={({ value }) =>
+              updatePage({
+                variables: {
+                  input: { id, pageDescription: value },
+                },
+              })
+            }
             // altFieldName=""
             // altError=""
             // errors={[]}
@@ -166,6 +174,7 @@ QualifierPageEditor.fragments = {
       alias
       title
       pageType
+      pageDescription
       position
       additionalGuidanceEnabled
       additionalGuidanceContent
