@@ -8,15 +8,12 @@ const createListCollectorQualifierPage = (input = { position: 0 }) => ({
   title: "",
   pageDescription: "",
   description: "",
-  descriptionEnabled: false,
-  guidanceEnabled: false,
-  definitionEnabled: false,
-  additionalInfoEnabled: false,
-  answers: [createAnswer({ type: "Radio" })],
   displayName: "",
-  routing: null,
   alias: null,
+  additionalGuidanceEnabled: false,
+  additionalGuidanceContent: "",
   ...omit(input, "folderId"),
+  answers: [createAnswer({ type: "Radio" })],
 });
 
 const createListCollectorAddItemPage = (input = { position: 1 }) => ({
@@ -30,10 +27,9 @@ const createListCollectorAddItemPage = (input = { position: 1 }) => ({
   definitionEnabled: false,
   additionalInfoEnabled: false,
   displayName: "",
-  answers: [],
-  routing: null,
   alias: null,
   ...omit(input, "folderId"),
+  answers: [],
 });
 
 const createListCollectorConfirmationPage = (input = { position: 2 }) => ({
@@ -46,11 +42,10 @@ const createListCollectorConfirmationPage = (input = { position: 2 }) => ({
   guidanceEnabled: false,
   definitionEnabled: false,
   additionalInfoEnabled: false,
-  answers: [createAnswer({ type: "Radio" })],
   displayName: "",
-  routing: null,
   alias: null,
   ...omit(input, "folderId"),
+  answers: [createAnswer({ type: "Radio" })],
 });
 
 module.exports = {
