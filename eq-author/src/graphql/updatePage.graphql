@@ -1,7 +1,6 @@
 #import "./fragments/page.graphql"
 #import "./fragments/validationErrorInfo.graphql"
 
-# TODO: Change this to be updatePage instead of updateQuestionPage
 mutation UpdatePage($input: UpdatePageInput!) {
   updatePage(input: $input) {
     ...Page

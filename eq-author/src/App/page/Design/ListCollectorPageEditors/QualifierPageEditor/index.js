@@ -86,25 +86,23 @@ const QualifierPageEditor = ({ page }) => {
           // controls={}
           testSelector="qualifier-question"
         />
-        <InlineField>
-          <Label>Additional guidance panel</Label>
-          <CollapsibleToggled
-            id="qualifier-page-additional-guidance-toggle"
-            quoted={false}
-            onChange={() => console.log("Temporary function")}
-          >
-            <RichTextEditor
-              id="qualifier-page-additional-guidance-text-editor"
-              name="qualifier-page-additional-guidance-text-editor"
-              multiline
-              // value={}
-              onUpdate={() => console.log("Temporary function")}
-              // errorValidationMsg={}
-              // controls={}
-              testSelector="qualifier-page-additional-guidance"
-            />
-          </CollapsibleToggled>
-        </InlineField>
+        <CollapsibleToggled
+          id="qualifier-page-additional-guidance-toggle"
+          title="Additional guidance panel"
+          quoted={false}
+          onChange={() => console.log("Temporary function")}
+        >
+          <RichTextEditor
+            id="qualifier-page-additional-guidance-text-editor"
+            name="qualifier-page-additional-guidance-text-editor"
+            multiline
+            // value={}
+            onUpdate={() => console.log("Temporary function")}
+            // errorValidationMsg={}
+            // controls={}
+            testSelector="qualifier-page-additional-guidance"
+          />
+        </CollapsibleToggled>
         <ContentContainer width="100">
           <AnswersEditor
             answers={page.answers}
