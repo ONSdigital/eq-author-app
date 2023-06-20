@@ -112,7 +112,11 @@ const QualifierPageEditor = ({ page }) => {
             name="qualifier-page-additional-guidance-text-editor"
             multiline
             value={additionalGuidanceContent}
-            onUpdate={() => console.log("Temporary function")}
+            onUpdate={({ value }) =>
+              updatePage({
+                variables: { input: { id, additionalGuidanceContent: value } },
+              })
+            }
             // errorValidationMsg={}
             // controls={}
             testSelector="qualifier-page-additional-guidance"
