@@ -107,6 +107,10 @@ const CustomColumn = styled(Column)`
   font-weight: bold;
 `;
 
+const UnlinkButtonWrapper = styled.div`
+  text-align: right;
+`;
+
 const ONSDatasetPage = () => {
   const params = useParams();
   const questionnaireID = params.questionnaireID;
@@ -307,12 +311,14 @@ const ONSDatasetPage = () => {
                                 </Title>
                               </Column>
                               <Column gutters={false} cols={4}>
-                                <UnlinkButton
-                                  data-test="btn-unlink-dataset"
-                                  onClick={handleUnlinkClick}
-                                >
-                                  Unlink dataset
-                                </UnlinkButton>
+                                <UnlinkButtonWrapper>
+                                  <UnlinkButton
+                                    data-test="btn-unlink-dataset"
+                                    onClick={handleUnlinkClick}
+                                  >
+                                    Unlink dataset
+                                  </UnlinkButton>
+                                </UnlinkButtonWrapper>
                               </Column>
                             </Grid>
                             <CustomGrid>
