@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { colors } from "constants/theme.js";
 import gql from "graphql-tag";
 
-import { Field, Label } from "components/Forms";
+import { Field } from "components/Forms";
 import RichTextEditor from "components/RichTextEditor";
 import CollapsibleToggled from "components/CollapsibleToggled";
 import PageTitle from "components/PageTitle";
@@ -22,15 +22,6 @@ const Title = styled.h4`
 const StyledField = styled(Field)`
   margin-left: 2em;
   margin-top: -1em;
-`;
-
-const InlineField = styled(Field)`
-  display: flex;
-  align-items: center;
-  margin-bottom: ${(props) => (props.open ? "0.4em" : "2em")};
-  > * {
-    margin-bottom: 0;
-  }
 `;
 
 const ContentContainer = styled.div`

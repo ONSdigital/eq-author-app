@@ -36,7 +36,7 @@ const HorizontalSeparator = styled.hr`
 `;
 
 const AddItemPageEditor = ({ page }) => {
-  const { id, alias } = page;
+  const { id, alias, title } = page;
   const [addItemPageAlias, setAddItemPageAlias] = useState(alias);
 
   const [updatePage] = useMutation(UPDATE_PAGE_MUTATION);
@@ -66,8 +66,12 @@ const AddItemPageEditor = ({ page }) => {
           name="add-item-question"
           label="Question for adding a list item"
           multiline
-          // value={}
-          onUpdate={() => console.log("Temporary function")}
+          value={title}
+          onUpdate={({ value }) =>
+            updatePage({
+              variables: { input: { id, title: value } },
+            })
+          }
           // errorValidationMsg={}
           // controls={}
           testSelector="add-item-question"
