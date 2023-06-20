@@ -1339,8 +1339,20 @@ input CreateListCollectorFolderInput {
 
 input UpdatePageInput {
   id: ID!
-  title: String!
+  alias: String
+  title: String
   description: String
+  descriptionEnabled: Boolean
+  guidance: String
+  guidanceEnabled: Boolean
+  definitionLabel: String
+  definitionContent: String
+  definitionEnabled: Boolean
+  additionalInfoLabel: String
+  additionalInfoContent: String
+  additionalInfoEnabled: Boolean
+  pageDescription: String
+
 }
 
 input DeletePageInput {
