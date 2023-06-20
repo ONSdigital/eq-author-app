@@ -46,7 +46,7 @@ const HorizontalSeparator = styled.hr`
 `;
 
 const QualifierPageEditor = ({ page }) => {
-  const { id, alias } = page;
+  const { id, alias, title } = page;
   const [qualifierPageAlias, setQualifierPageAlias] = useState(alias);
 
   const [updatePage] = useMutation(UPDATE_PAGE_MUTATION);
@@ -80,8 +80,17 @@ const QualifierPageEditor = ({ page }) => {
           name="qualifier-question"
           label="Qualifier question"
           multiline
-          // value={}
-          onUpdate={() => console.log("Temporary function")}
+          value={title}
+          onUpdate={({ value }) =>
+            updatePage({
+              variables: {
+                input: {
+                  id,
+                  title: value,
+                },
+              },
+            })
+          }
           // errorValidationMsg={}
           // controls={}
           testSelector="qualifier-question"

@@ -16,7 +16,7 @@ import withChangeUpdate from "enhancers/withChangeUpdate";
 import AnswerTransition from "../AnswersEditor/AnswerTransition";
 
 import focusOnElement from "utils/focusOnElement";
-import pageFragment from "graphql/fragments/page.graphql";
+import pageFragment from "graphql/fragments/questionPage.graphql";
 
 import {
   getErrorByField,
