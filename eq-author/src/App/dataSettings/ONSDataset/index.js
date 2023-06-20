@@ -301,12 +301,12 @@ const ONSDatasetPage = () => {
                         {tableData && (
                           <>
                             <Grid>
-                              <Column gutters={false} cols={10}>
+                              <Column gutters={false} cols={8}>
                                 <Title>
                                   Dataset for survey ID {tableData.surveyId}
                                 </Title>
                               </Column>
-                              <Column gutters={false} cols={2}>
+                              <Column gutters={false} cols={4}>
                                 <UnlinkButton
                                   data-test="btn-unlink-dataset"
                                   onClick={handleUnlinkClick}
