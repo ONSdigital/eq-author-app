@@ -227,7 +227,7 @@ const ListCollectorFolderEditor = ({ questionnaireId, folder, history }) => {
 
 ListCollectorFolderEditor.propTypes = {
   questionnaireId: PropTypes.string,
-  folder: PropTypes.object, //eslint-disable-line
+  folder: CustomPropTypes.folder,
   history: CustomPropTypes.history,
 };
 
