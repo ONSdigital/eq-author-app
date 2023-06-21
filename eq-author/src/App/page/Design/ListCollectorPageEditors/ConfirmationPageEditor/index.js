@@ -35,7 +35,7 @@ const HorizontalSeparator = styled.hr`
 `;
 
 const ConfirmationPageEditor = ({ page }) => {
-  const { id, alias } = page;
+  const { id, alias, title } = page;
   const [confirmationPageAlias, setConfirmationPageAlias] = useState(alias);
 
   const [updatePage] = useMutation(UPDATE_PAGE_MUTATION);
@@ -69,8 +69,12 @@ const ConfirmationPageEditor = ({ page }) => {
           name="confirmation-question"
           label="Question to confirm list completion"
           multiline
-          // value={}
-          onUpdate={() => console.log("Temporary function")}
+          value={title}
+          onUpdate={({ value }) =>
+            updatePage({
+              variables: { input: { id, title: value } },
+            })
+          }
           // errorValidationMsg={}
           // controls={}
           testSelector="confirmation-question"
