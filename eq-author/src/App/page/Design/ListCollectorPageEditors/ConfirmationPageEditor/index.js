@@ -20,13 +20,10 @@ const Title = styled.h4`
 `;
 
 const StyledField = styled(Field)`
-  margin-left: 2em;
-  margin-top: -1em;
+  padding: 0 2em;
 `;
 
-const ContentContainer = styled.div`
-  width: ${(props) => props.width}%;
-`;
+const ContentContainer = styled.span``;
 
 const Content = styled.p``;
 
@@ -92,22 +89,18 @@ const ConfirmationPageEditor = ({ page }) => {
           testSelector="confirmation-question"
         />
         <HorizontalSeparator />
-        <ContentContainer width="98">
-          <PageTitle
-            heading="Page title and description"
-            pageDescription={confirmationPageDescription}
-            inputTitlePrefix="Page"
-            onChange={({ value }) => setConfirmationPageDescription(value)}
-            onUpdate={({ value }) =>
-              updatePage({
-                variables: { input: { id, pageDescription: value } },
-              })
-            }
-            // altFieldName=""
-            // altError=""
-            errors={validationErrorInfo.errors}
-          />
-        </ContentContainer>
+        <PageTitle
+          heading="Page title and description"
+          pageDescription={confirmationPageDescription}
+          inputTitlePrefix="Page"
+          onChange={({ value }) => setConfirmationPageDescription(value)}
+          onUpdate={({ value }) =>
+            updatePage({
+              variables: { input: { id, pageDescription: value } },
+            })
+          }
+          errors={validationErrorInfo.errors}
+        />
       </StyledField>
     </>
   );

@@ -22,13 +22,10 @@ const Title = styled.h4`
 `;
 
 const StyledField = styled(Field)`
-  margin-left: 2em;
-  margin-top: -1em;
+  padding: 0 2em;
 `;
 
-const ContentContainer = styled.div`
-  width: ${(props) => props.width}%;
-`;
+const ContentContainer = styled.span``;
 
 const Content = styled.p``;
 
@@ -74,7 +71,7 @@ const QualifierPageEditor = ({ page }) => {
       />
       <StyledField>
         <Title>What is the qualifier question?</Title>
-        <ContentContainer width="90">
+        <ContentContainer>
           <Content>
             The qualifier question uses two radios to determine if there is a
             list to collect.
@@ -127,37 +124,33 @@ const QualifierPageEditor = ({ page }) => {
             testSelector="qualifier-page-additional-guidance"
           />
         </CollapsibleToggled>
-        <ContentContainer width="100">
-          <AnswersEditor
-            answers={page.answers}
-            // onUpdate={onUpdateAnswer}
-            // onAddOption={onAddOption}
-            // onAddExclusive={onAddExclusive}
-            // onUpdateOption={onUpdateOption}
-            // onDeleteOption={onDeleteOption}
-            // onDeleteAnswer={(answerId) => onDeleteAnswer(id, answerId)}
-            data-test="qualifier-page-answers-editor"
-            page={page}
-            metadata={page.section.questionnaire.metadata}
-            withoutMargin
-          />
-        </ContentContainer>
+        <AnswersEditor
+          answers={page.answers}
+          // onUpdate={onUpdateAnswer}
+          // onAddOption={onAddOption}
+          // onAddExclusive={onAddExclusive}
+          // onUpdateOption={onUpdateOption}
+          // onDeleteOption={onDeleteOption}
+          // onDeleteAnswer={(answerId) => onDeleteAnswer(id, answerId)}
+          data-test="qualifier-page-answers-editor"
+          page={page}
+          metadata={page.section.questionnaire.metadata}
+          withoutMargin
+        />
         <HorizontalSeparator />
-        <ContentContainer width="98">
-          <PageTitle
-            heading="Page title and description"
-            pageDescription={qualifierPageDescription}
-            onChange={({ value }) => setQualifierPageDescription(value)}
-            onUpdate={({ value }) =>
-              updatePage({
-                variables: {
-                  input: { id, pageDescription: value },
-                },
-              })
-            }
-            errors={validationErrorInfo.errors}
-          />
-        </ContentContainer>
+        <PageTitle
+          heading="Page title and description"
+          pageDescription={qualifierPageDescription}
+          onChange={({ value }) => setQualifierPageDescription(value)}
+          onUpdate={({ value }) =>
+            updatePage({
+              variables: {
+                input: { id, pageDescription: value },
+              },
+            })
+          }
+          errors={validationErrorInfo.errors}
+        />
       </StyledField>
     </>
   );

@@ -21,12 +21,7 @@ const Title = styled.h4`
 `;
 
 const StyledField = styled(Field)`
-  margin-left: 2em;
-  margin-top: -1em;
-`;
-
-const ContentContainer = styled.div`
-  width: ${(props) => props.width}%;
+  padding: 0 2em;
 `;
 
 const Content = styled.p``;
@@ -67,13 +62,11 @@ const AddItemPageEditor = ({ page }) => {
         <Title marginBottom="-0.5">
           What is the question for adding a list item?
         </Title>
-        <ContentContainer>
-          <Content>
-            The question for adding a list item enables input or selection of
-            one list item at a time. The associated answer template of the
-            linked collection list determines the answer type for this question.
-          </Content>
-        </ContentContainer>
+        <Content>
+          The question for adding a list item enables input or selection of one
+          list item at a time. The associated answer template of the linked
+          collection list determines the answer type for this question.
+        </Content>
         <RichTextEditor
           id="add-item-question"
           name="add-item-question"
@@ -150,21 +143,17 @@ const AddItemPageEditor = ({ page }) => {
           </Content>
         </Collapsible>
         <HorizontalSeparator />
-        <ContentContainer width="98">
-          <PageTitle
-            heading="Page title and description"
-            pageDescription={addItemPageDescription}
-            onChange={({ value }) => setAddItemPageDescription(value)}
-            onUpdate={({ value }) =>
-              updatePage({
-                variables: { input: { id, pageDescription: value } },
-              })
-            }
-            // altFieldName=""
-            // altError=""
-            errors={validationErrorInfo.errors}
-          />
-        </ContentContainer>
+        <PageTitle
+          heading="Page title and description"
+          pageDescription={addItemPageDescription}
+          onChange={({ value }) => setAddItemPageDescription(value)}
+          onUpdate={({ value }) =>
+            updatePage({
+              variables: { input: { id, pageDescription: value } },
+            })
+          }
+          errors={validationErrorInfo.errors}
+        />
       </StyledField>
     </>
   );
