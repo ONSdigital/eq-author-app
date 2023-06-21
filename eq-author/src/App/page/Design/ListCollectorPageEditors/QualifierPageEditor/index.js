@@ -10,6 +10,8 @@ import RichTextEditor from "components/RichTextEditor";
 import CollapsibleToggled from "components/CollapsibleToggled";
 import PageTitle from "components/PageTitle";
 
+import { LIST_COLLECTOR_ERROR_MESSAGES } from "constants/validationMessages";
+
 import PageHeader from "../../PageHeader";
 import AnswersEditor from "../../QuestionPageEditor/AnswersEditor";
 
@@ -44,12 +46,21 @@ const QualifierPageEditor = ({ page }) => {
     additionalGuidanceEnabled,
     additionalGuidanceContent,
     pageDescription,
+    validationErrorInfo,
   } = page;
   const [qualifierPageAlias, setQualifierPageAlias] = useState(alias);
   const [qualifierPageDescription, setQualifierPageDescription] =
     useState(pageDescription);
 
   const [updatePage] = useMutation(UPDATE_PAGE_MUTATION);
+
+  const getErrorMessage = (field) => {
+    const errorCodeResult = validationErrorInfo.errors.find(
+      (error) => error.field === field
+    )?.errorCode;
+
+    return LIST_COLLECTOR_ERROR_MESSAGES[errorCodeResult];
+  };
 
   return (
     <>
@@ -86,7 +97,7 @@ const QualifierPageEditor = ({ page }) => {
               variables: { input: { id, title: value } },
             })
           }
-          // errorValidationMsg={}
+          errorValidationMsg={getErrorMessage("title")}
           // controls={}
           testSelector="qualifier-question"
         />

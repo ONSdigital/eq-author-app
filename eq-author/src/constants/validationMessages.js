@@ -7,6 +7,7 @@ export default {
   PIPING_TITLE_DELETED: ({ message }) => message,
 };
 
+// TODO: Remove after legacy list collector pages are removed
 export const LIST_COLLECTOR_ERRORS = [
   {
     field: "repeatingLabelAndInputListId",
@@ -333,6 +334,10 @@ export const FORM_TYPE_ERRORS = {
 
 export const EQ_ID_ERRORS = {
   ERR_VALID_REQUIRED: "Enter an eQ ID",
+};
+
+export const LIST_COLLECTOR_ERROR_MESSAGES = {
+  ERR_VALID_REQUIRED: "Enter a qualifier question title",
 };
 
 export const MISSING_LABEL = "Enter a label";
