@@ -258,6 +258,33 @@
           }
         }
       }
+    },
+    {
+      "if": {
+        "properties": {
+          "pageType": {
+            "enum": ["ListCollectorQualifierPage"]
+          }
+        }
+      },
+      "then": {
+        "if": {
+          "properties": {
+            "additionalGuidanceEnabled": {
+              "const": true
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "additionalGuidanceContent": {
+              "type": "string",
+              "pattern": "\\w+",
+              "errorMessage": "ERR_ADDITONAL_GUIDANCE_CONTENT_REQUIRED"
+            }
+          }
+        }
+      }
     }
   ],
   "required": ["id", "title", "pageDescription"]

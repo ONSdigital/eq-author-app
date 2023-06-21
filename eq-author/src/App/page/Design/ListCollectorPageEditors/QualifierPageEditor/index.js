@@ -122,7 +122,7 @@ const QualifierPageEditor = ({ page }) => {
                 variables: { input: { id, additionalGuidanceContent: value } },
               })
             }
-            // errorValidationMsg={}
+            errorValidationMsg={getErrorMessage("additionalGuidanceContent")}
             // controls={}
             testSelector="qualifier-page-additional-guidance"
           />

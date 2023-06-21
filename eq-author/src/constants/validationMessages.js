@@ -343,6 +343,7 @@ export const LIST_COLLECTOR_FOLDER_ERRORS = {
 
 export const LIST_COLLECTOR_QUALIFIER_PAGE_ERRORS = {
   ERR_VALID_REQUIRED: "Enter a qualifier question title",
+  ERR_ADDITONAL_GUIDANCE_CONTENT_REQUIRED: "Enter additional guidance content",
 };
 
 export const LIST_COLLECTOR_ADD_ITEM_PAGE_ERRORS = {
