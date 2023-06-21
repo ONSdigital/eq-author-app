@@ -35,8 +35,10 @@ const HorizontalSeparator = styled.hr`
 `;
 
 const ConfirmationPageEditor = ({ page }) => {
-  const { id, alias, title } = page;
+  const { id, alias, title, pageDescription } = page;
   const [confirmationPageAlias, setConfirmationPageAlias] = useState(alias);
+  const [confirmationPageDescription, setConfirmationPageDescription] =
+    useState(pageDescription);
 
   const [updatePage] = useMutation(UPDATE_PAGE_MUTATION);
 
@@ -83,10 +85,14 @@ const ConfirmationPageEditor = ({ page }) => {
         <ContentContainer width="98">
           <PageTitle
             heading="Page title and description"
-            pageDescription="" // TODO: Update this
+            pageDescription={confirmationPageDescription}
             inputTitlePrefix="Page"
-            onChange={() => console.log("onChange")}
-            onUpdate={() => console.log("onUpdate")}
+            onChange={({ value }) => setConfirmationPageDescription(value)}
+            onUpdate={({ value }) =>
+              updatePage({
+                variables: { input: { id, pageDescription: value } },
+              })
+            }
             // altFieldName=""
             // altError=""
             // errors={[]}
@@ -108,6 +114,7 @@ ConfirmationPageEditor.fragments = {
       alias
       title
       pageType
+      pageDescription
       position
       answers {
         ...AnswerEditor
