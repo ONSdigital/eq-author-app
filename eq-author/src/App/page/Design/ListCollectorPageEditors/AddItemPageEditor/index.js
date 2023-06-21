@@ -10,6 +10,8 @@ import RichTextEditor from "components/RichTextEditor";
 import Collapsible from "components/Collapsible";
 import PageTitle from "components/PageTitle";
 
+import { LIST_COLLECTOR_ADD_ITEM_PAGE_ERRORS } from "constants/validationMessages";
+
 import PageHeader from "../../PageHeader";
 
 import UPDATE_PAGE_MUTATION from "graphql/updatePage.graphql";
@@ -36,12 +38,21 @@ const HorizontalSeparator = styled.hr`
 `;
 
 const AddItemPageEditor = ({ page }) => {
-  const { id, alias, title, pageDescription } = page;
+  const { id, alias, title, pageDescription, validationErrorInfo } = page;
   const [addItemPageAlias, setAddItemPageAlias] = useState(alias);
   const [addItemPageDescription, setAddItemPageDescription] =
     useState(pageDescription);
 
   const [updatePage] = useMutation(UPDATE_PAGE_MUTATION);
+
+  const getErrorMessage = (field) => {
+    const errorCodeResult = validationErrorInfo.errors.find(
+      (error) => error.field === field
+    )?.errorCode;
+
+    return LIST_COLLECTOR_ADD_ITEM_PAGE_ERRORS[errorCodeResult];
+  };
+
   return (
     <>
       <PageHeader
@@ -74,7 +85,7 @@ const AddItemPageEditor = ({ page }) => {
               variables: { input: { id, title: value } },
             })
           }
-          // errorValidationMsg={}
+          errorValidationMsg={getErrorMessage("title")}
           // controls={}
           testSelector="add-item-question"
         />

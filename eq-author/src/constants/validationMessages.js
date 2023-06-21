@@ -336,8 +336,12 @@ export const EQ_ID_ERRORS = {
   ERR_VALID_REQUIRED: "Enter an eQ ID",
 };
 
-export const LIST_COLLECTOR_ERROR_MESSAGES = {
+export const LIST_COLLECTOR_QUALIFIER_PAGE_ERRORS = {
   ERR_VALID_REQUIRED: "Enter a qualifier question title",
+};
+
+export const LIST_COLLECTOR_ADD_ITEM_PAGE_ERRORS = {
+  ERR_VALID_REQUIRED: "Enter a title for the question for adding a list item",
 };
 
 export const MISSING_LABEL = "Enter a label";

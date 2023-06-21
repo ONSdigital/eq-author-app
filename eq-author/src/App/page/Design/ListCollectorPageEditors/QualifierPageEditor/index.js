@@ -10,7 +10,7 @@ import RichTextEditor from "components/RichTextEditor";
 import CollapsibleToggled from "components/CollapsibleToggled";
 import PageTitle from "components/PageTitle";
 
-import { LIST_COLLECTOR_ERROR_MESSAGES } from "constants/validationMessages";
+import { LIST_COLLECTOR_QUALIFIER_PAGE_ERRORS } from "constants/validationMessages";
 
 import PageHeader from "../../PageHeader";
 import AnswersEditor from "../../QuestionPageEditor/AnswersEditor";
@@ -59,7 +59,7 @@ const QualifierPageEditor = ({ page }) => {
       (error) => error.field === field
     )?.errorCode;
 
-    return LIST_COLLECTOR_ERROR_MESSAGES[errorCodeResult];
+    return LIST_COLLECTOR_QUALIFIER_PAGE_ERRORS[errorCodeResult];
   };
 
   return (
