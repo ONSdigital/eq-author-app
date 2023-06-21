@@ -105,7 +105,7 @@ const ConfirmationPageEditor = ({ page }) => {
             }
             // altFieldName=""
             // altError=""
-            // errors={[]}
+            errors={validationErrorInfo.errors}
           />
         </ContentContainer>
       </StyledField>
