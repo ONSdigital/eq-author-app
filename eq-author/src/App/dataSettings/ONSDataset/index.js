@@ -40,11 +40,10 @@ const StyledTitle = styled.h2`
   margin: 0 0 0.5em 0;
 `;
 const Title = styled.h2`
-  font-size: 1.4em;
+  font-size: 1.2em;
   font-weight: bold;
   color: ${colors.text};
-  margin: 0 0 0 0;
-  padding-bottom: 1em;
+  margin: 1.5em 0 1em 0;
 `;
 
 const Option = styled.option``;
@@ -306,9 +305,9 @@ const ONSDatasetPage = () => {
                           <>
                             <Grid>
                               <Column gutters={false} cols={8}>
-                                <Title>
+                                <Common.TabTitle>
                                   Dataset for survey ID {tableData.surveyId}
-                                </Title>
+                                </Common.TabTitle>
                               </Column>
                               <Column gutters={false} cols={4}>
                                 <UnlinkButtonWrapper>
