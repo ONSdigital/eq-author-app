@@ -18,6 +18,7 @@ const StyledSelect = styled.select`
   color: ${colors.text};
   display: block;
   min-width: 30%;
+  border-color: ${({ hasError }) => hasError && colors.errorPrimary};
 
   &:hover {
     outline: none;
@@ -34,6 +35,7 @@ const Select = ({
   options,
   additionalOption,
   handleChange,
+  hasError,
 }) => {
   return (
     <StyledSelect
@@ -41,6 +43,7 @@ const Select = ({
       data-test={dataTest}
       value={value}
       onChange={handleChange}
+      hasError={hasError}
     >
       {defaultValue && <Option value="">{defaultValue}</Option>}
       {options.map((option) => (
@@ -94,6 +97,10 @@ Select.propTypes = {
    * Function run onChange.
    */
   handleChange: PropTypes.func.isRequired,
+  /**
+   * Value for if component has a validation error and should use error styling.
+   */
+  hasError: PropTypes.bool,
 };
 
 export default Select;

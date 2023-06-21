@@ -336,6 +336,11 @@ export const EQ_ID_ERRORS = {
   ERR_VALID_REQUIRED: "Enter an eQ ID",
 };
 
+export const LIST_COLLECTOR_FOLDER_ERRORS = {
+  ERR_VALID_REQUIRED: "Enter a list collector title",
+  ERR_COLLECTION_LIST_REQUIRED: "Collection list required",
+};
+
 export const LIST_COLLECTOR_QUALIFIER_PAGE_ERRORS = {
   ERR_VALID_REQUIRED: "Enter a qualifier question title",
 };
@@ -347,10 +352,6 @@ export const LIST_COLLECTOR_ADD_ITEM_PAGE_ERRORS = {
 export const LIST_COLLECTOR_CONFIRMATION_PAGE_ERRORS = {
   ERR_VALID_REQUIRED:
     "Enter a title for the question to confirm list completion",
-};
-
-export const LIST_COLLECTOR_FOLDER_ERRORS = {
-  ERR_VALID_REQUIRED: "Enter a list collector title",
 };
 
 export const MISSING_LABEL = "Enter a label";

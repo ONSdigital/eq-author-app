@@ -214,10 +214,13 @@ const ListCollectorFolderEditor = ({ questionnaireId, folder, history }) => {
         options={lists}
         additionalOption={{ value: "newList", displayName: "Create new list" }}
         handleChange={({ target }) => handleUpdateList(target.value)}
-        // hasError={some(page.validationErrorInfo.errors, {
-        //   field: "listId",
-        // })}
+        hasError={validationErrorInfo.errors.some(
+          (error) => error.field === "listId"
+        )}
       />
+      {getErrorMessage("listId") && (
+        <ValidationError>{getErrorMessage("listId")}</ValidationError>
+      )}
     </StyledField>
   );
 };

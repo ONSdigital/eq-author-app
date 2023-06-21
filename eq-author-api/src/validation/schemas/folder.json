@@ -26,18 +26,40 @@
       }
     }
   },
-  "if": {
-    "properties": {
-      "listId": {
-        "type": "string"
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "listId": {
+            "type": "string"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "title": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "listId": {
+            "type": "string"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "listId": {
+            "type": "string",
+            "pattern": "\\w+",
+            "errorMessage": "ERR_COLLECTION_LIST_REQUIRED"
+          }
+        }
       }
     }
-  },
-  "then": {
-    "properties": {
-      "title": {
-        "$ref": "definitions.json#/definitions/populatedString"
-      }
-    }
-  }
+  ]
 }
