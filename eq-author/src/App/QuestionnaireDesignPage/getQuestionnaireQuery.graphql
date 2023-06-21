@@ -115,6 +115,8 @@ fragment Sections on Section {
 }
 fragment PageNav on Section {
   id
+  showOnHub
+  sectionSummary
   folders {
     id
     alias
@@ -298,6 +300,7 @@ fragment Answers on Answer {
   secondaryLabelDefault
   type
   properties
+  advancedProperties
   ... on BasicAnswer {
     secondaryQCode
   }
@@ -347,6 +350,7 @@ fragment Introduction on Questionnaire {
   id
   introduction {
     id
+    showOnHub
     validationErrorInfo {
       id
       totalCount
