@@ -5,6 +5,7 @@ mutation UpdateFolder($input: UpdateFolderInput!) {
     id
     alias
     displayName
+    title
     validationErrorInfo {
       ...ValidationErrorInfo
     }
