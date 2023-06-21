@@ -344,6 +344,11 @@ export const LIST_COLLECTOR_ADD_ITEM_PAGE_ERRORS = {
   ERR_VALID_REQUIRED: "Enter a title for the question for adding a list item",
 };
 
+export const LIST_COLLECTOR_CONFIRMATION_PAGE_ERRORS = {
+  ERR_VALID_REQUIRED:
+    "Enter a title for the question to confirm list completion",
+};
+
 export const MISSING_LABEL = "Enter a label";
 
 export const ADDITIONAL_LABEL_MISSING = "Enter a label";

@@ -9,6 +9,8 @@ import { Field } from "components/Forms";
 import RichTextEditor from "components/RichTextEditor";
 import PageTitle from "components/PageTitle";
 
+import { LIST_COLLECTOR_CONFIRMATION_PAGE_ERRORS } from "constants/validationMessages";
+
 import PageHeader from "../../PageHeader";
 
 import UPDATE_PAGE_MUTATION from "graphql/updatePage.graphql";
@@ -35,12 +37,20 @@ const HorizontalSeparator = styled.hr`
 `;
 
 const ConfirmationPageEditor = ({ page }) => {
-  const { id, alias, title, pageDescription } = page;
+  const { id, alias, title, pageDescription, validationErrorInfo } = page;
   const [confirmationPageAlias, setConfirmationPageAlias] = useState(alias);
   const [confirmationPageDescription, setConfirmationPageDescription] =
     useState(pageDescription);
 
   const [updatePage] = useMutation(UPDATE_PAGE_MUTATION);
+
+  const getErrorMessage = (field) => {
+    const errorCodeResult = validationErrorInfo.errors.find(
+      (error) => error.field === field
+    )?.errorCode;
+
+    return LIST_COLLECTOR_CONFIRMATION_PAGE_ERRORS[errorCodeResult];
+  };
 
   return (
     <>
@@ -77,7 +87,7 @@ const ConfirmationPageEditor = ({ page }) => {
               variables: { input: { id, title: value } },
             })
           }
-          // errorValidationMsg={}
+          errorValidationMsg={getErrorMessage("title")}
           // controls={}
           testSelector="confirmation-question"
         />
