@@ -180,6 +180,7 @@ AddItemPageEditor.fragments = {
       id
       alias
       title
+      displayName
       pageType
       pageDescription
       position
