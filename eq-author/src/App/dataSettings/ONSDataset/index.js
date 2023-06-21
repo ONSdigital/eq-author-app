@@ -148,7 +148,7 @@ const ONSDatasetPage = () => {
 
   const { data: prepopSchema } = useQuery(GET_PREPOP_SCHEMA, {
     variables: { input: questionnaireID },
-    fetchPolicy: "network-only",
+    fetchPolicy: "cache-and-network",
   });
 
   const buildData = () => {
