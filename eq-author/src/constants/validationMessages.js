@@ -349,6 +349,10 @@ export const LIST_COLLECTOR_CONFIRMATION_PAGE_ERRORS = {
     "Enter a title for the question to confirm list completion",
 };
 
+export const LIST_COLLECTOR_FOLDER_ERRORS = {
+  ERR_VALID_REQUIRED: "Enter a list collector title",
+};
+
 export const MISSING_LABEL = "Enter a label";
 
 export const ADDITIONAL_LABEL_MISSING = "Enter a label";

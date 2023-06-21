@@ -11,7 +11,7 @@
         "type": "object",
         "allOf": [
           {
-           "$ref": "page.json"
+            "$ref": "page.json"
           },
           {
             "$ref": "listCollectorPage.json"
@@ -23,6 +23,20 @@
       "type": "array",
       "items": {
         "$ref": "logic.json#/definitions/expressionGroup"
+      }
+    }
+  },
+  "if": {
+    "properties": {
+      "listId": {
+        "type": "string"
+      }
+    }
+  },
+  "then": {
+    "properties": {
+      "title": {
+        "$ref": "definitions.json#/definitions/populatedString"
       }
     }
   }

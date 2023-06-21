@@ -10,6 +10,9 @@ import { Field, Input, Label } from "components/Forms";
 import Loading from "components/Loading";
 import Error from "components/Error";
 import Select from "components/Select";
+import ValidationError from "components/ValidationError";
+
+import { LIST_COLLECTOR_FOLDER_ERRORS } from "constants/validationMessages";
 
 import GET_COLLECTION_LISTS_QUERY from "graphql/lists/collectionLists.graphql";
 import UPDATE_FOLDER_MUTATION from "graphql/updateFolderMutation.graphql";
@@ -43,7 +46,7 @@ const OrderedList = styled.ol`
 const ListItem = styled.li``;
 
 const ListCollectorFolderEditor = ({ questionnaireId, folder, history }) => {
-  const { id, listId, title } = folder;
+  const { id, listId, title, validationErrorInfo } = folder;
   const [selectedListId, setSelectedListId] = useState(listId);
   const [folderTitle, setFolderTitle] = useState(title);
 
@@ -84,6 +87,14 @@ const ListCollectorFolderEditor = ({ questionnaireId, folder, history }) => {
     });
   };
 
+  const getErrorMessage = (field) => {
+    const errorCodeResult = validationErrorInfo.errors.find(
+      (error) => error.field === field
+    )?.errorCode;
+
+    return LIST_COLLECTOR_FOLDER_ERRORS[errorCodeResult];
+  };
+
   return (
     <StyledField>
       <Label htmlFor="list-collector-title">List collector title</Label>
@@ -98,6 +109,9 @@ const ListCollectorFolderEditor = ({ questionnaireId, folder, history }) => {
         }
         value={folderTitle}
       />
+      {getErrorMessage("title") && (
+        <ValidationError>{getErrorMessage("title")}</ValidationError>
+      )}
       <Title marginBottom="-0.5">List collector question pattern</Title>
       <ContentContainer width="90">
         <Content>
