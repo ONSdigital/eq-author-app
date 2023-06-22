@@ -7,20 +7,21 @@ import { propType } from "graphql-anywhere";
 
 import Loading from "components/Loading";
 import EditorLayout from "components/EditorLayout";
+import Panel from "components/Panel";
 
 import QuestionPageEditor from "App/page/Design/QuestionPageEditor";
 import CalculatedSummaryPageEditor from "App/page/Design/CalculatedSummaryPageEditor";
 import ListCollectorPageEditor from "App/page/Design/ListCollectorPageEditor";
 import QualifierPageEditor from "App/page/Design/ListCollectorPageEditors/QualifierPageEditor";
 import AddItemPageEditor from "App/page/Design/ListCollectorPageEditors/AddItemPageEditor";
+import ConfirmationPageEditor from "App/page/Design/ListCollectorPageEditors/ConfirmationPageEditor";
 
 import QuestionPagePreview from "./QuestionPagePreview";
 import CalculatedSummaryPreview from "./CalculatedSummaryPreview";
 import ListCollectorPagePreview from "./ListCollectorPagePreview";
 import QualifierPagePreview from "./ListCollectorPagePreviews/QualifierPagePreview";
 import AddItemPagePreview from "./ListCollectorPagePreviews/AddItemPagePreview";
-
-import Panel from "components/Panel";
+import ConfirmationPagePreview from "./ListCollectorPagePreviews/ConfirmationPagePreview";
 
 export const UnwrappedPreviewPageRoute = (props) => {
   const { loading, data } = props;
@@ -52,6 +53,9 @@ export const UnwrappedPreviewPageRoute = (props) => {
   if (page.pageType === "ListCollectorAddItemPage") {
     return <AddItemPagePreview page={page} />;
   }
+  if (page.pageType === "ListCollectorConfirmationPage") {
+    return <ConfirmationPagePreview page={page} />;
+  }
 };
 
 UnwrappedPreviewPageRoute.propTypes = {
@@ -69,6 +73,7 @@ export const PAGE_QUERY = gql`
       ...ListCollectorPage
       ...ListCollectorQualifierPage
       ...ListCollectorAddItemPage
+      ...ListCollectorConfirmationPage
     }
   }
   ${QuestionPageEditor.fragments.QuestionPage}
@@ -76,6 +81,7 @@ export const PAGE_QUERY = gql`
   ${ListCollectorPageEditor.fragments.ListCollectorPage}
   ${QualifierPageEditor.fragments.ListCollectorQualifierPage}
   ${AddItemPageEditor.fragments.ListCollectorAddItemPage}
+  ${ConfirmationPageEditor.fragments.ListCollectorConfirmationPage}
 `;
 
 export default withApollo((props) => (

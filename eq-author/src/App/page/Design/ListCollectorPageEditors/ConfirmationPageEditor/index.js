@@ -14,6 +14,7 @@ import { LIST_COLLECTOR_CONFIRMATION_PAGE_ERRORS } from "constants/validationMes
 import PageHeader from "../../PageHeader";
 
 import UPDATE_PAGE_MUTATION from "graphql/updatePage.graphql";
+import CommentFragment from "graphql/fragments/comment.graphql";
 
 const Title = styled.h4`
   margin-bottom: -0.5em;
@@ -143,10 +144,14 @@ ConfirmationPageEditor.fragments = {
           }
         }
       }
+      comments {
+        ...Comment
+      }
       validationErrorInfo {
         ...ValidationErrorInfo
       }
     }
+    ${CommentFragment}
   `,
 };
 

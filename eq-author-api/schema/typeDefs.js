@@ -215,6 +215,7 @@ type ListCollectorConfirmationPage implements Page {
   section: Section!
   position: Int!
   answers: [Answer]
+  comments: [Comment]
   validationErrorInfo: ValidationErrorInfo
 }
 

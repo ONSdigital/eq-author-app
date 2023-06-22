@@ -95,6 +95,9 @@ Resolvers.ListCollectorConfirmationPage = {
     return folder.pages.findIndex((page) => page.id === id);
   },
   displayName: (page) => getName(page, "ListCollectorConfirmationPage"),
+  comments: ({ id }, args, ctx) => {
+    return ctx.comments[id];
+  },
   validationErrorInfo: ({ id }, args, ctx) => {
     const pageErrors = ctx.validationErrorInfo.filter(
       ({ pageId, type }) => id === pageId && !type.startsWith("confirmation")
