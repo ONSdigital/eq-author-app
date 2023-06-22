@@ -186,6 +186,7 @@ type ListCollectorQualifierPage implements Page {
   additionalGuidanceEnabled: Boolean
   additionalGuidanceContent: String
   answers: [Answer]
+  comments: [Comment]
   validationErrorInfo: ValidationErrorInfo
 }
 

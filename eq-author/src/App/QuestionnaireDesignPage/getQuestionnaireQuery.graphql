@@ -160,6 +160,9 @@ fragment Pages on Page {
     answers {
       ...Answers
     }
+    comments {
+      ...Comment
+    }
   }
   ... on ListCollectorConfirmationPage {
     answers {
