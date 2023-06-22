@@ -164,6 +164,11 @@ fragment Pages on Page {
       ...Comment
     }
   }
+  ... on ListCollectorAddItemPage {
+    comments {
+      ...Comment
+    }
+  }
   ... on ListCollectorConfirmationPage {
     answers {
       ...Answers

@@ -18,7 +18,7 @@ const Title = styled.h4`
 
 const QualifierPagePreview = ({ page }) => {
   const { id, displayName, comments, validationErrorInfo } = page;
-  console.log("comments :>> ", comments);
+
   return (
     <EditorLayout
       preview

@@ -15,6 +15,7 @@ import { LIST_COLLECTOR_ADD_ITEM_PAGE_ERRORS } from "constants/validationMessage
 import PageHeader from "../../PageHeader";
 
 import UPDATE_PAGE_MUTATION from "graphql/updatePage.graphql";
+import CommentFragment from "graphql/fragments/comment.graphql";
 
 const Title = styled.h4`
   margin-bottom: ${(props) => props.marginBottom}em;
@@ -193,10 +194,14 @@ AddItemPageEditor.fragments = {
           }
         }
       }
+      comments {
+        ...Comment
+      }
       validationErrorInfo {
         ...ValidationErrorInfo
       }
     }
+    ${CommentFragment}
   `,
 };
 

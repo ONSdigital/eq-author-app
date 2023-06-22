@@ -200,6 +200,7 @@ type ListCollectorAddItemPage implements Page {
   folder: Folder!
   section: Section!
   position: Int!
+  comments: [Comment]
   validationErrorInfo: ValidationErrorInfo
 }
 
