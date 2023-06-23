@@ -82,7 +82,7 @@ const Padding = styled.div`
 const Buttons = styled.div`
   display: flex;
   height: ${(props) => props.isListCollectorPageType && `2em`};
-  width: ${(props) => props.isListCollectorPageType && `6em`};
+  width: ${(props) => props.isListCollectorPageType && `6.4em`};
   z-index: 2;
   button {
     margin-right: 0.2em;
