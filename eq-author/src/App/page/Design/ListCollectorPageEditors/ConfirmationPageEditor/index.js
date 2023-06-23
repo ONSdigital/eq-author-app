@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
+import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme.js";
 import gql from "graphql-tag";
+import { flow } from "lodash";
 
 import { Field } from "components/Forms";
 import RichTextEditor from "components/RichTextEditor";
@@ -12,6 +14,8 @@ import PageTitle from "components/PageTitle";
 import { LIST_COLLECTOR_CONFIRMATION_PAGE_ERRORS } from "constants/validationMessages";
 
 import PageHeader from "../../PageHeader";
+import AnswersEditor from "../../QuestionPageEditor/AnswersEditor";
+import withUpdateOption from "../../answers/withUpdateOption";
 
 import UPDATE_PAGE_MUTATION from "graphql/updatePage.graphql";
 import CommentFragment from "graphql/fragments/comment.graphql";
@@ -34,7 +38,7 @@ const HorizontalSeparator = styled.hr`
   margin: 1.5em 0;
 `;
 
-const ConfirmationPageEditor = ({ page }) => {
+const ConfirmationPageEditor = ({ page, onUpdateOption }) => {
   const { id, alias, title, pageDescription, validationErrorInfo } = page;
   const [confirmationPageAlias, setConfirmationPageAlias] = useState(alias);
   const [confirmationPageDescription, setConfirmationPageDescription] =
@@ -89,6 +93,14 @@ const ConfirmationPageEditor = ({ page }) => {
           // controls={}
           testSelector="confirmation-question"
         />
+        <AnswersEditor
+          answers={page.answers}
+          onUpdateOption={onUpdateOption}
+          data-test="list-collector-confirmation-page-answers-editor"
+          page={page}
+          metadata={page.section.questionnaire.metadata}
+          withoutMargin
+        />
         <HorizontalSeparator />
         <PageTitle
           heading="Page title and description"
@@ -109,6 +121,7 @@ const ConfirmationPageEditor = ({ page }) => {
 
 ConfirmationPageEditor.propTypes = {
   page: CustomPropTypes.page,
+  onUpdateOption: PropTypes.func,
 };
 
 ConfirmationPageEditor.fragments = {
@@ -155,4 +168,4 @@ ConfirmationPageEditor.fragments = {
   `,
 };
 
-export default ConfirmationPageEditor;
+export default flow(withUpdateOption)(ConfirmationPageEditor);
