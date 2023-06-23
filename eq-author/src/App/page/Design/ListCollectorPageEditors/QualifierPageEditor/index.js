@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
+import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme.js";
 import gql from "graphql-tag";
+import { flow } from "lodash";
 
 import { Field } from "components/Forms";
 import RichTextEditor from "components/RichTextEditor";
@@ -14,6 +16,7 @@ import { LIST_COLLECTOR_QUALIFIER_PAGE_ERRORS } from "constants/validationMessag
 
 import PageHeader from "../../PageHeader";
 import AnswersEditor from "../../QuestionPageEditor/AnswersEditor";
+import withUpdateOption from "../../answers/withUpdateOption";
 
 import UPDATE_PAGE_MUTATION from "graphql/updatePage.graphql";
 import CommentFragment from "graphql/fragments/comment.graphql";
@@ -36,7 +39,7 @@ const HorizontalSeparator = styled.hr`
   margin: 1.5em 0;
 `;
 
-const QualifierPageEditor = ({ page }) => {
+const QualifierPageEditor = ({ page, onUpdateOption }) => {
   const {
     id,
     alias,
@@ -127,12 +130,7 @@ const QualifierPageEditor = ({ page }) => {
         </CollapsibleToggled>
         <AnswersEditor
           answers={page.answers}
-          // onUpdate={onUpdateAnswer}
-          // onAddOption={onAddOption}
-          // onAddExclusive={onAddExclusive}
-          // onUpdateOption={onUpdateOption}
-          // onDeleteOption={onDeleteOption}
-          // onDeleteAnswer={(answerId) => onDeleteAnswer(id, answerId)}
+          onUpdateOption={onUpdateOption}
           data-test="qualifier-page-answers-editor"
           page={page}
           metadata={page.section.questionnaire.metadata}
@@ -159,6 +157,7 @@ const QualifierPageEditor = ({ page }) => {
 
 QualifierPageEditor.propTypes = {
   page: CustomPropTypes.page,
+  onUpdateOption: PropTypes.func,
 };
 
 QualifierPageEditor.fragments = {
@@ -207,4 +206,4 @@ QualifierPageEditor.fragments = {
   `,
 };
 
-export default QualifierPageEditor;
+export default flow(withUpdateOption)(QualifierPageEditor);
