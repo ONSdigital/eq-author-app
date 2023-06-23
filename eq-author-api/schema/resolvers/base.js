@@ -1556,7 +1556,7 @@ const Resolvers = {
       return ctx.questionnaire;
     }),
     updatePrepopSchema: createMutation(async (root, { input }, ctx) => {
-      const { id } = input;
+      const { id, surveyId } = input;
       const url = `${process.env.PREPOP_SCHEMA_GATEWAY}schemaVersionGet?id=${id}`;
 
       try {
@@ -1566,6 +1566,8 @@ const Resolvers = {
         if (prepopSchemaVersion) {
           logger.info(`Schema version data returned - ${prepopSchemaVersion}`);
           ctx.questionnaire.prepopSchema = prepopSchemaVersion;
+          ctx.questionnaire.prepopSchema.surveyId = surveyId;
+          prepopSchemaVersion.surveyId = surveyId;
           return prepopSchemaVersion;
         } else {
           logger.info(`Schema version data not found - ${id}`);
@@ -1573,6 +1575,14 @@ const Resolvers = {
       } catch (err) {
         throw Error(err);
       }
+    }),
+    unlinkPrepopSchema: createMutation(async (root, args, ctx) => {
+      logger.info(
+        { qid: ctx.questionnaire.id },
+        `Unlinked PrepopSchema with ID: ${ctx.questionnaire.prepopSchema.id} from questionnaire: ${ctx.questionnaire.id}`
+      );
+      ctx.questionnaire.prepopSchema = undefined;
+      return ctx.questionnaire;
     }),
   },
 
