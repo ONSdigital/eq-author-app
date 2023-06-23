@@ -36,6 +36,7 @@ import {
   DELETE_ANSWER_TITLE,
   DELETE_BUTTON_TEXT,
 } from "constants/modal-content";
+import isListCollectorPageType from "utils/isListCollectorPageType";
 
 const Answer = styled.div`
   border: 1px solid ${colors.bordersLight};
@@ -80,6 +81,8 @@ const Padding = styled.div`
 
 const Buttons = styled.div`
   display: flex;
+  height: ${(props) => props.isListCollectorPageType && `2em`};
+  width: ${(props) => props.isListCollectorPageType && `6em`};
   z-index: 2;
   button {
     margin-right: 0.2em;
@@ -207,68 +210,76 @@ class AnswerEditor extends React.Component {
             <AnswerType data-test="answer-type">
               {this.getAnswerTypeText(this.props.answer)} answer
             </AnswerType>
-            <Buttons>
-              <Tooltip
-                content="Move answer up"
-                place="top"
-                offset={{ top: 0, bottom: 10 }}
-              >
-                <MoveButton
-                  color="white"
-                  disabled={
-                    !this.props.canMoveUp ||
-                    this.props.answer.type === MUTUALLY_EXCLUSIVE
-                  }
-                  tabIndex={
-                    !this.props.canMoveUp ||
-                    this.props.answer.type === MUTUALLY_EXCLUSIVE
-                      ? -1
-                      : undefined
-                  }
-                  aria-label={"Move answer up"}
-                  onClick={this.props.onMoveUp}
-                  data-test="btn-move-answer-up"
-                >
-                  <IconUp />
-                </MoveButton>
-              </Tooltip>
-              <Tooltip
-                content="Move answer down"
-                place="top"
-                offset={{ top: 0, bottom: 10 }}
-              >
-                <MoveButton
-                  color="white"
-                  disabled={
-                    !this.props.canMoveDown ||
-                    this.props.answer.type === MUTUALLY_EXCLUSIVE
-                  }
-                  tabIndex={
-                    !this.props.canMoveDown ||
-                    this.props.answer.type === MUTUALLY_EXCLUSIVE
-                      ? -1
-                      : undefined
-                  }
-                  aria-label={"Move answer down"}
-                  onClick={this.props.onMoveDown}
-                  data-test="btn-move-answer-down"
-                >
-                  <IconDown />
-                </MoveButton>
-              </Tooltip>
-              <Tooltip
-                content="Delete answer"
-                place="top"
-                offset={{ top: 0, bottom: 10 }}
-              >
-                <DeleteButton
-                  color="white"
-                  size="medium"
-                  onClick={this.handleOpenDeleteModal}
-                  aria-label="Delete answer"
-                  data-test="btn-delete-answer"
-                />
-              </Tooltip>
+            <Buttons
+              isListCollectorPageType={isListCollectorPageType(
+                this.props.page.pageType
+              )}
+            >
+              {!isListCollectorPageType(this.props.page.pageType) && (
+                <>
+                  <Tooltip
+                    content="Move answer up"
+                    place="top"
+                    offset={{ top: 0, bottom: 10 }}
+                  >
+                    <MoveButton
+                      color="white"
+                      disabled={
+                        !this.props.canMoveUp ||
+                        this.props.answer.type === MUTUALLY_EXCLUSIVE
+                      }
+                      tabIndex={
+                        !this.props.canMoveUp ||
+                        this.props.answer.type === MUTUALLY_EXCLUSIVE
+                          ? -1
+                          : undefined
+                      }
+                      aria-label={"Move answer up"}
+                      onClick={this.props.onMoveUp}
+                      data-test="btn-move-answer-up"
+                    >
+                      <IconUp />
+                    </MoveButton>
+                  </Tooltip>
+                  <Tooltip
+                    content="Move answer down"
+                    place="top"
+                    offset={{ top: 0, bottom: 10 }}
+                  >
+                    <MoveButton
+                      color="white"
+                      disabled={
+                        !this.props.canMoveDown ||
+                        this.props.answer.type === MUTUALLY_EXCLUSIVE
+                      }
+                      tabIndex={
+                        !this.props.canMoveDown ||
+                        this.props.answer.type === MUTUALLY_EXCLUSIVE
+                          ? -1
+                          : undefined
+                      }
+                      aria-label={"Move answer down"}
+                      onClick={this.props.onMoveDown}
+                      data-test="btn-move-answer-down"
+                    >
+                      <IconDown />
+                    </MoveButton>
+                  </Tooltip>
+                  <Tooltip
+                    content="Delete answer"
+                    place="top"
+                    offset={{ top: 0, bottom: 10 }}
+                  >
+                    <DeleteButton
+                      color="white"
+                      size="medium"
+                      onClick={this.handleOpenDeleteModal}
+                      aria-label="Delete answer"
+                      data-test="btn-delete-answer"
+                    />
+                  </Tooltip>
+                </>
+              )}
             </Buttons>
           </AnswerTypePanel>
         </AnswerHeader>
