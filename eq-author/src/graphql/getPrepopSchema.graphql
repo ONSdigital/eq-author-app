@@ -1,6 +1,6 @@
+#import "graphql/fragments/prepopSchema.graphql"
 query GetPrepopSchema {
   prepopSchema {
-    id
-    schema
+    ...PrepopSchema
   }
 }

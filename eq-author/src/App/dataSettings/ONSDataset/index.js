@@ -6,6 +6,7 @@ import { withRouter, useParams } from "react-router-dom";
 import GET_PREPOP_SCHEMA_VERSIONS_QUERY from "graphql/getPrepopSchemaVersions.graphql";
 import UPDATE_PREPOP_SCHEMA from "graphql/updatePrepopSchema.graphql";
 import GET_PREPOP_SCHEMA from "graphql/getPrepopSchema.graphql";
+import UNLINK_PREPOP_SCHEMA from "graphql/unlinkPrepopSchema.graphql";
 
 import VerticalTabs from "components/VerticalTabs";
 import * as Common from "../common";
@@ -27,6 +28,10 @@ import {
   TableColumn,
   TableHeadColumn,
 } from "components/datatable/Elements";
+
+import Modal from "components-themed/Modal";
+import UnlinkButton from "components/buttons/UnlinkButton";
+import moment from "moment";
 
 const StyledTitle = styled.h2`
   font-size: 1.1em;
@@ -91,12 +96,27 @@ const StyledButton = styled(Button)`
   left: 30%;
 `;
 
+const formatDate = (date) => moment(date).locale("en-gb").format("DD/MM/YYYY");
+
+const CustomGrid = styled(Grid)`
+  margin-top: 0.5em;
+`;
+
+const CustomColumn = styled(Column)`
+  font-weight: bold;
+`;
+
+const UnlinkButtonWrapper = styled.div`
+  text-align: right;
+`;
+
 const ONSDatasetPage = () => {
   const params = useParams();
   const questionnaireID = params.questionnaireID;
 
   const [surveyID, setSurveyID] = useState("surveyID");
   const [showDataset, setShowDataset] = useState(false);
+  const [showUnlinkModal, setShowUnlinkModal] = useState(false);
 
   useEffect(() => {
     setSurveyID(surveyID);
@@ -118,19 +138,17 @@ const ONSDatasetPage = () => {
     },
   });
 
-  const formatDate = (date) => {
-    let formattedDate = date.replaceAll("-", "/");
-    formattedDate = formattedDate.split("T")[0];
-    return formattedDate;
-  };
-
   const [linkPrepopSchema] = useMutation(UPDATE_PREPOP_SCHEMA, {
+    refetchQueries: ["GetPrepopSchema"],
+  });
+
+  const [unlinkPrepopSchema] = useMutation(UNLINK_PREPOP_SCHEMA, {
     refetchQueries: ["GetPrepopSchema"],
   });
 
   const { data: prepopSchema } = useQuery(GET_PREPOP_SCHEMA, {
     variables: { input: questionnaireID },
-    fetchPolicy: "network-only",
+    fetchPolicy: "cache-and-network",
   });
 
   const buildData = () => {
@@ -139,171 +157,206 @@ const ONSDatasetPage = () => {
         ? prepopSchema.prepopSchema.schema
         : null
       : null;
+
+    if (schemaData) {
+      schemaData.surveyId = prepopSchema.prepopSchema?.surveyId;
+    }
     return schemaData;
   };
 
   const tableData = buildData();
 
+  const handleUnlinkClick = () => {
+    setShowUnlinkModal(true);
+  };
+
+  const unlinkDataset = () => {
+    unlinkPrepopSchema();
+    setSurveyID(undefined);
+    setShowDataset(false);
+    setShowUnlinkModal(false);
+  };
+
   return (
-    <Theme themeName="onsLegacyFont">
-      <Common.Container>
-        <ScrollPane>
-          <Header title={Common.headerTitle} />
-          <Common.PageContainer tabIndex="-1" className="keyNav">
-            <Common.PageMainCanvas>
-              <Grid>
-                <VerticalTabs
-                  title={Common.navHeading}
-                  cols={2.5}
-                  tabItems={Common.tabItems({
-                    params,
-                  })}
-                />
-                <Column gutters={false} cols={9.5}>
-                  <Common.SampleFileDataContainer>
-                    <Common.StyledPanel>
-                      <Common.TabTitle>
-                        Select an ONS dataset to link to
-                      </Common.TabTitle>
-                      <Common.TabContent>
-                        Linking to an ONS dataset will allow you to pipe data
-                        that respondents have provided in previous
-                        questionnaires into question titles or percentage answer
-                        type labels.
-                      </Common.TabContent>
-                      <Common.TabContent>
-                        Only one dataset can be linked per questionnaire.
-                      </Common.TabContent>
-                      {!tableData && (
-                        <>
-                          <StyledTitle>Select a survey ID</StyledTitle>
-                          <CustomSelect
-                            name="listId"
-                            data-test="list-select"
-                            onChange={handleChange}
-                            value={surveyID}
-                          >
-                            <Option value="surveyID" data-test="default-option">
-                              Survey ID
-                            </Option>
-                            {SURVEY_IDS.map((surveyID) => (
-                              <Option key={surveyID} value={surveyID}>
-                                {surveyID}
+    <>
+      <Modal
+        title="Unlink dataset"
+        positiveButtonText="Unlink"
+        warningMessage="The dataset will be unlinked from the questionnaire. You will not be able to pipe data fields from this dataset. Any piped answers or example values will be deleted."
+        isOpen={showUnlinkModal}
+        onConfirm={() => unlinkDataset()}
+        onClose={() => setShowUnlinkModal(false)}
+      />
+      <Theme themeName="onsLegacyFont">
+        <Common.Container>
+          <ScrollPane>
+            <Header title={Common.headerTitle} />
+            <Common.PageContainer tabIndex="-1" className="keyNav">
+              <Common.PageMainCanvas>
+                <Grid>
+                  <VerticalTabs
+                    title={Common.navHeading}
+                    cols={2.5}
+                    tabItems={Common.tabItems({
+                      params,
+                    })}
+                  />
+                  <Column gutters={false} cols={9.5}>
+                    <Common.SampleFileDataContainer>
+                      <Common.StyledPanel>
+                        {!tableData && (
+                          <>
+                            <Common.TabTitle>
+                              Select an ONS dataset to link to
+                            </Common.TabTitle>
+                            <Common.TabContent>
+                              Linking to an ONS dataset will allow you to pipe
+                              data that respondents have provided in previous
+                              questionnaires into question titles or percentage
+                              answer type labels.
+                            </Common.TabContent>
+                            <Common.TabContent>
+                              Only one dataset can be linked per questionnaire.
+                            </Common.TabContent>
+                            <StyledTitle>Select a survey ID</StyledTitle>
+                            <CustomSelect
+                              name="listId"
+                              data-test="list-select"
+                              onChange={handleChange}
+                              value={surveyID}
+                            >
+                              <Option
+                                value="surveyID"
+                                data-test="default-option"
+                              >
+                                Survey ID
                               </Option>
-                            ))}
-                          </CustomSelect>
-                          {showDataset && (
-                            <>
-                              <Title>Datasets for survey ID {surveyID}</Title>
-                              <Table data-test="datasets-table">
-                                <TableHead>
-                                  <TableRow>
-                                    <StyledTableHeadColumn width="40%">
-                                      Version
-                                    </StyledTableHeadColumn>
-                                    <StyledTableHeadColumn width="40%">
-                                      Date created
-                                    </StyledTableHeadColumn>
-                                    <StyledTableHeadColumn width="20%">
-                                      Link dataset
-                                    </StyledTableHeadColumn>
-                                  </TableRow>
-                                </TableHead>
-                                {surveyData.prepopSchemaVersions && (
-                                  <StyledTableBody>
-                                    {surveyData.prepopSchemaVersions.versions.map(
-                                      (version) => {
-                                        return (
-                                          <TableRow
-                                            key={version.id}
-                                            data-test={`dataset-row`}
-                                          >
-                                            <SpacedTableColumn>
-                                              {version.version}
-                                            </SpacedTableColumn>
-                                            <SpacedTableColumn>
-                                              {formatDate(version.dateCreated)}
-                                            </SpacedTableColumn>
-                                            <SpacedTableColumn>
-                                              <StyledButton
-                                                onClick={() =>
-                                                  linkPrepopSchema({
-                                                    variables: {
-                                                      input: {
-                                                        id: version.id,
+                              {SURVEY_IDS.map((surveyID) => (
+                                <Option key={surveyID} value={surveyID}>
+                                  {surveyID}
+                                </Option>
+                              ))}
+                            </CustomSelect>
+                            {showDataset && (
+                              <>
+                                <Title>Datasets for survey ID {surveyID}</Title>
+                                <Table data-test="datasets-table">
+                                  <TableHead>
+                                    <TableRow>
+                                      <StyledTableHeadColumn width="40%">
+                                        Version
+                                      </StyledTableHeadColumn>
+                                      <StyledTableHeadColumn width="40%">
+                                        Date created
+                                      </StyledTableHeadColumn>
+                                      <StyledTableHeadColumn width="20%">
+                                        Link dataset
+                                      </StyledTableHeadColumn>
+                                    </TableRow>
+                                  </TableHead>
+                                  {surveyData?.prepopSchemaVersions && (
+                                    <StyledTableBody>
+                                      {surveyData?.prepopSchemaVersions?.versions?.map(
+                                        (version) => {
+                                          return (
+                                            <TableRow
+                                              key={version.id}
+                                              data-test={`dataset-row`}
+                                            >
+                                              <SpacedTableColumn>
+                                                {version.version}
+                                              </SpacedTableColumn>
+                                              <SpacedTableColumn>
+                                                {formatDate(
+                                                  version.dateCreated
+                                                )}
+                                              </SpacedTableColumn>
+                                              <SpacedTableColumn>
+                                                <StyledButton
+                                                  onClick={() =>
+                                                    linkPrepopSchema({
+                                                      variables: {
+                                                        input: {
+                                                          id: version.id,
+                                                          surveyId: surveyID,
+                                                        },
                                                       },
-                                                    },
-                                                  })
-                                                }
-                                                type="button"
-                                                variant="secondary"
-                                              >
-                                                Link
-                                              </StyledButton>
-                                            </SpacedTableColumn>
-                                          </TableRow>
-                                        );
-                                      }
-                                    )}
-                                  </StyledTableBody>
-                                )}
-                              </Table>
-                            </>
-                          )}
-                        </>
-                      )}
-                      {tableData && (
-                        <>
-                          <Title>Linked data</Title>
-                          <Table data-test="tableData-table">
-                            <TableHead>
-                              <TableRow>
-                                <StyledTableHeadColumn width="40%">
-                                  Field
-                                </StyledTableHeadColumn>
-                              </TableRow>
-                            </TableHead>
-                            <StyledTableBody>
-                              <TableRow data-test={`tableData-row-id`}>
-                                <SpacedTableColumn>ID</SpacedTableColumn>
-                                <SpacedTableColumn>
-                                  {tableData.id}
-                                </SpacedTableColumn>
-                              </TableRow>
-                              <TableRow data-test={`tableData-row-version`}>
-                                <SpacedTableColumn>Version</SpacedTableColumn>
-                                <SpacedTableColumn>
-                                  {tableData.version}
-                                </SpacedTableColumn>
-                              </TableRow>
-                              <TableRow data-test={`tableData-row-dateCreated`}>
-                                <SpacedTableColumn>
-                                  Date created
-                                </SpacedTableColumn>
-                                <SpacedTableColumn>
-                                  {tableData.dateCreated}
-                                </SpacedTableColumn>
-                              </TableRow>
-                            </StyledTableBody>
-                          </Table>
-                        </>
-                      )}
-                    </Common.StyledPanel>
-                  </Common.SampleFileDataContainer>
-                </Column>
-              </Grid>
-            </Common.PageMainCanvas>
-          </Common.PageContainer>
-        </ScrollPane>
-      </Common.Container>
-    </Theme>
+                                                    })
+                                                  }
+                                                  type="button"
+                                                  variant="secondary"
+                                                  data-test="btn-link"
+                                                >
+                                                  Link
+                                                </StyledButton>
+                                              </SpacedTableColumn>
+                                            </TableRow>
+                                          );
+                                        }
+                                      )}
+                                    </StyledTableBody>
+                                  )}
+                                </Table>
+                              </>
+                            )}
+                          </>
+                        )}
+                        {tableData && (
+                          <>
+                            <Grid>
+                              <Column gutters={false} cols={8}>
+                                <Common.TabTitle>
+                                  Dataset for survey ID {tableData.surveyId}
+                                </Common.TabTitle>
+                              </Column>
+                              <Column gutters={false} cols={4}>
+                                <UnlinkButtonWrapper>
+                                  <UnlinkButton
+                                    data-test="btn-unlink-dataset"
+                                    onClick={handleUnlinkClick}
+                                  >
+                                    Unlink dataset
+                                  </UnlinkButton>
+                                </UnlinkButtonWrapper>
+                              </Column>
+                            </Grid>
+                            <CustomGrid>
+                              <Column gutters={false} cols={2}>
+                                ID:
+                              </Column>
+                              <CustomColumn gutters={false} cols={2}>
+                                {tableData.id}
+                              </CustomColumn>
+                            </CustomGrid>
+                            <CustomGrid>
+                              <Column gutters={false} cols={2}>
+                                Version:
+                              </Column>
+                              <CustomColumn gutters={false} cols={2}>
+                                {tableData.version}
+                              </CustomColumn>
+                            </CustomGrid>
+                            <CustomGrid>
+                              <Column gutters={false} cols={2}>
+                                Date created:
+                              </Column>
+                              <CustomColumn gutters={false} cols={2}>
+                                {formatDate(tableData.dateCreated)}
+                              </CustomColumn>
+                            </CustomGrid>
+                          </>
+                        )}
+                      </Common.StyledPanel>
+                    </Common.SampleFileDataContainer>
+                  </Column>
+                </Grid>
+              </Common.PageMainCanvas>
+            </Common.PageContainer>
+          </ScrollPane>
+        </Common.Container>
+      </Theme>
+    </>
   );
 };
-
-// ONSDataSetPage.propTypes = {
-//   data: PropTypes.shape({
-//     questionnaire: CustomPropTypes.questionnaire,
-//   }),
-// };
 
 export default withRouter(ONSDatasetPage);
