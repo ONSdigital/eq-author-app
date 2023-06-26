@@ -118,7 +118,14 @@ class AnswerEditor extends React.Component {
     }
     if (type === RADIO) {
       return (
-        <MultipleChoiceAnswer minOptions={2} type={type} {...this.props} />
+        <MultipleChoiceAnswer
+          minOptions={2}
+          type={type}
+          isListCollectorPageType={isListCollectorPageType(
+            this.props.page.pageType
+          )}
+          {...this.props}
+        />
       );
     }
     if (type === SELECT) {

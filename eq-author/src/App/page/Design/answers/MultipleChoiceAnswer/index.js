@@ -91,6 +91,7 @@ export const UnwrappedMultipleChoiceAnswer = ({
   descriptionPlaceholder,
   onDeleteOption,
   onAddOption,
+  isListCollectorPageType,
   ...otherProps
 }) => {
   const [updateAnswer] = useMutation(UPDATE_ANSWER);
@@ -121,7 +122,7 @@ export const UnwrappedMultipleChoiceAnswer = ({
   const showDeleteOption = numberOfOptions > minOptions;
   return (
     <>
-      {type !== MUTUALLY_EXCLUSIVE && (
+      {type !== MUTUALLY_EXCLUSIVE && !isListCollectorPageType && (
         <Field>
           <Label htmlFor={`answer-label-${answer.id}`}>
             {answer.type === SELECT ? `Label` : `Label (optional)`}
@@ -307,6 +308,7 @@ UnwrappedMultipleChoiceAnswer.propTypes = {
   optionErrorMsg: PropTypes.string,
   errorLabel: PropTypes.string,
   type: PropTypes.string,
+  isListCollectorPageType: PropTypes.bool,
 };
 
 UnwrappedMultipleChoiceAnswer.fragments = {
