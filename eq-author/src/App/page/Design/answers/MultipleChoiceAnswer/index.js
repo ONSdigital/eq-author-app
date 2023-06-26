@@ -265,36 +265,40 @@ export const UnwrappedMultipleChoiceAnswer = ({
             </CollapsibleContent>
           </Collapsible>
         )}
-        <div>
-          {answer.type !== MUTUALLY_EXCLUSIVE && answer.type !== SELECT ? (
-            <StyledSplitButton
-              onPrimaryAction={handleAddOption}
-              primaryText={
-                answer.type === CHECKBOX ? "Add checkbox" : "Add another option"
-              }
-              onToggleOpen={(setopen) => setOpen(setopen)}
-              open={open}
-              dataTest="btn-add-option"
-            >
-              <Dropdown>
-                <MenuItem
-                  onClick={handleAddOther}
-                  data-test="btn-add-option-other"
-                >
-                  Add &ldquo;Other&rdquo; option
-                </MenuItem>
-              </Dropdown>
-            </StyledSplitButton>
-          ) : (
-            <AddOptionButton
-              onClick={handleAddOption}
-              variant="secondary"
-              dataTest="btn-add-option"
-            >
-              Add another option
-            </AddOptionButton>
-          )}
-        </div>
+        {!isListCollectorPageType && (
+          <div>
+            {answer.type !== MUTUALLY_EXCLUSIVE && answer.type !== SELECT ? (
+              <StyledSplitButton
+                onPrimaryAction={handleAddOption}
+                primaryText={
+                  answer.type === CHECKBOX
+                    ? "Add checkbox"
+                    : "Add another option"
+                }
+                onToggleOpen={(setopen) => setOpen(setopen)}
+                open={open}
+                dataTest="btn-add-option"
+              >
+                <Dropdown>
+                  <MenuItem
+                    onClick={handleAddOther}
+                    data-test="btn-add-option-other"
+                  >
+                    Add &ldquo;Other&rdquo; option
+                  </MenuItem>
+                </Dropdown>
+              </StyledSplitButton>
+            ) : (
+              <AddOptionButton
+                onClick={handleAddOption}
+                variant="secondary"
+                dataTest="btn-add-option"
+              >
+                Add another option
+              </AddOptionButton>
+            )}
+          </div>
+        )}
       </AnswerWrapper>
     </>
   );
