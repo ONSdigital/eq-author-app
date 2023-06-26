@@ -37,7 +37,7 @@ import withMoveOption from "../withMoveOption";
 
 const AnswerWrapper = styled.div`
   margin: 1em 0 0;
-  width: 85%;
+  width: ${({ isListCollectorPageType }) => !isListCollectorPageType && `85%`};
 `;
 
 const ExclusiveOr = styled.div`
@@ -187,7 +187,7 @@ export const UnwrappedMultipleChoiceAnswer = ({
           </CollapsibleContent>
         </Collapsible>
       )}
-      <AnswerWrapper>
+      <AnswerWrapper isListCollectorPageType={isListCollectorPageType}>
         <TransitionGroup
           component={Options}
           data-test="multiple-choice-options"
