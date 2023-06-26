@@ -172,7 +172,11 @@
       "if": {
         "properties": {
           "pageType": {
-            "enum": ["QuestionPage"]
+            "enum": [
+              "QuestionPage",
+              "ListCollectorQualifierPage",
+              "ListCollectorConfirmationPage"
+            ]
           }
         }
       },
