@@ -118,6 +118,20 @@ export const UnwrappedMultipleChoiceAnswer = ({
     onAddOption(answer.id, { hasAdditionalAnswer: true }).then(focusOnEntity);
   };
 
+  const getOptionLabel = (index) => {
+    if (answer.type === SELECT) {
+      return `Label ${index + 1}`;
+    }
+    if (isListCollectorPageType) {
+      if (index === 0) {
+        return "Positive answer label";
+      }
+      if (index === 1) {
+        return "Negative answer label";
+      }
+    }
+  };
+
   const numberOfOptions = answer.options.length + (answer.other ? 1 : 0);
   const showDeleteOption = numberOfOptions > minOptions;
   return (
@@ -202,7 +216,7 @@ export const UnwrappedMultipleChoiceAnswer = ({
                 {...otherProps}
                 {...props}
                 label={
-                  answer.type === SELECT ? `Label ${props.index + 1}` : `Label` //eslint-disable-line react/prop-types
+                  getOptionLabel(props.index) //eslint-disable-line react/prop-types
                 }
                 type={type}
                 option={option}
