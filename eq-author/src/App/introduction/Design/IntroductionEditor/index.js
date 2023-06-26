@@ -102,7 +102,8 @@ const IntroductionEditor = ({ introduction, history }) => {
     contactDetailsIncludeRuRef,
     additionalGuidancePanel,
     additionalGuidancePanelSwitch,
-    previewQuestions,
+    // TODO: previewQuestions
+    // previewQuestions,
     secondaryTitle,
     secondaryDescription,
     tertiaryTitle,
@@ -130,6 +131,7 @@ const IntroductionEditor = ({ introduction, history }) => {
 
   const params = useParams();
 
+  // TODO: previewQuestions
   return (
     <>
       <IntroductionHeader history={history} />
@@ -348,12 +350,9 @@ const IntroductionEditor = ({ introduction, history }) => {
           </InformationPanel>
         </Padding>
       </Section>
-      <Section>
+      {/* <Section>
         <Padding>
-          <InlineField
-            open={contactDetailsIncludeRuRef}
-            style={{ marginBottom: "0" }}
-          >
+          <InlineField open={previewQuestions} style={{ marginBottom: "0" }}>
             <Label htmlFor="toggle-preview-questions">Preview questions</Label>
             <ToggleSwitch
               id="toggle-preview-questions"
@@ -377,7 +376,7 @@ const IntroductionEditor = ({ introduction, history }) => {
             format.
           </SectionDescription>
         </Padding>
-      </Section>
+      </Section> */}
       <Section>
         <Padding>
           <SectionTitle style={{ marginBottom: "0" }}>
