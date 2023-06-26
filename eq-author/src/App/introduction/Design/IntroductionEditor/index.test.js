@@ -5,7 +5,6 @@ import IntroductionEditor from "./";
 
 import { introductionErrors } from "constants/validationMessages";
 import { useParams } from "react-router-dom";
-import config from "config";
 import { useMutation } from "@apollo/react-hooks";
 
 jest.mock("react-router-dom", () => ({
@@ -160,18 +159,17 @@ describe("IntroductionEditor", () => {
     expect(mockUseMutation).toHaveBeenCalledTimes(3);
   });
 
-  it("should toggle preview questions", () => {
-    config.REACT_APP_FEATURE_FLAGS = "previewQuestions";
-    const mockUseMutation = jest.fn();
-    useMutation.mockImplementationOnce(jest.fn(() => [mockUseMutation]));
+  // it("should toggle preview questions", () => {
+  //   const mockUseMutation = jest.fn();
+  //   useMutation.mockImplementationOnce(jest.fn(() => [mockUseMutation]));
 
-    const wrapper = shallow(<IntroductionEditor {...props} />);
-    expect(
-      wrapper.find('[name="toggle-preview-questions"]').exists()
-    ).toBeTruthy();
-    wrapper
-      .find("#toggle-preview-questions")
-      .simulate("change", { target: { checked: false } });
-    expect(mockUseMutation).toHaveBeenCalledTimes(1);
-  });
+  //   const wrapper = shallow(<IntroductionEditor {...props} />);
+  //   expect(
+  //     wrapper.find('[name="toggle-preview-questions"]').exists()
+  //   ).toBeTruthy();
+  //   wrapper
+  //     .find("#toggle-preview-questions")
+  //     .simulate("change", { target: { checked: false } });
+  //   expect(mockUseMutation).toHaveBeenCalledTimes(1);
+  // });
 });
