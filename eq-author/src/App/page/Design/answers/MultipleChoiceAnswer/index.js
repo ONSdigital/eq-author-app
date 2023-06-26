@@ -168,11 +168,13 @@ export const UnwrappedMultipleChoiceAnswer = ({
           />
         </Field>
       )}
-      <AnswerProperties
-        answer={answer}
-        updateAnswer={updateAnswer}
-        page={otherProps.page}
-      />
+      {!isListCollectorPageType && (
+        <AnswerProperties
+          answer={answer}
+          updateAnswer={updateAnswer}
+          page={otherProps.page}
+        />
+      )}
       {type === SELECT && (
         <Collapsible title="Why is there a minimum requirement of 25 labels?">
           <CollapsibleContent>
