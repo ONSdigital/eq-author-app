@@ -25,7 +25,6 @@ const createListCollectorAddItemPage = (input = { position: 1 }) => ({
   additionalInfoEnabled: false,
   alias: null,
   ...omit(input, "folderId"),
-  answers: [],
 });
 
 const createListCollectorConfirmationPage = (input = { position: 2 }) => ({

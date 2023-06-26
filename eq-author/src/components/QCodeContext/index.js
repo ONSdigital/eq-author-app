@@ -13,7 +13,10 @@ import {
   SELECT_OPTION,
 } from "constants/answer-types";
 
-import { ListCollectorPage as LIST_COLLECTOR_PAGE } from "constants/page-types";
+import {
+  ListCollectorPage as LIST_COLLECTOR_PAGE,
+  ListCollectorAddItemPage as LIST_COLLECTOR_ADD_ITEM_PAGE,
+} from "constants/page-types";
 import { DRIVING, ANOTHER } from "constants/list-answer-types";
 
 export const QCodeContext = createContext();
@@ -92,7 +95,9 @@ const formatListCollector = (listCollectorPage) => [
 // from input questionnaire object
 export const getFlattenedAnswerRows = (questionnaire) => {
   const pages = getPages(questionnaire)?.filter(
-    ({ pageType }) => pageType !== "CalculatedSummaryPage"
+    ({ pageType }) =>
+      pageType !== "CalculatedSummaryPage" &&
+      pageType !== LIST_COLLECTOR_ADD_ITEM_PAGE
   );
 
   if (questionnaire?.collectionLists?.lists) {
@@ -105,10 +110,7 @@ export const getFlattenedAnswerRows = (questionnaire) => {
   }
 
   return pages?.flatMap((page) => {
-    if (
-      page.pageType !== LIST_COLLECTOR_PAGE &&
-      page.pageType !== "ListCollectorAddItemPage"
-    ) {
+    if (page.pageType !== LIST_COLLECTOR_PAGE) {
       const answerRows = page.answers.flatMap(flattenAnswer);
 
       // Add page title / shortcode alias (for display in QCodesTable) to first answer only
