@@ -210,12 +210,15 @@ export const UnwrappedMultipleChoiceAnswer = ({
                 onUpdate={onUpdateOption}
                 onEnterKey={handleAddOption}
                 hasDeleteButton={showDeleteOption}
-                hideMoveButtons={numberOfOptions === 1}
+                hideMoveButtons={
+                  isListCollectorPageType || numberOfOptions === 1
+                }
                 answer={answer}
                 hasMultipleOptions={
                   answer.type === MUTUALLY_EXCLUSIVE &&
                   answer.options.length > 1
                 }
+                isListCollectorPageType={isListCollectorPageType}
               />
             )}
           </Reorder>

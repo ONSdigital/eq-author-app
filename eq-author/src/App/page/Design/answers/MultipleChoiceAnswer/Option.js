@@ -58,7 +58,8 @@ export const ButtonsContainer = styled.div`
 export const Flex = styled.div`
   display: flex;
   align-items: flex-start;
-  margin-top: 1.5em;
+  margin-top: ${({ isListCollectorPageType }) =>
+    !isListCollectorPageType && `1.5em`};
 `;
 
 export const OptionField = styled(Field)`
@@ -113,6 +114,7 @@ export const StatelessOption = ({
   onMoveDown,
   hideMoveButtons,
   hasMultipleOptions,
+  isListCollectorPageType,
 }) => {
   const [otherLabelValue, setOtherLabelValue] = useState(
     option?.additionalAnswer?.label ?? ""
@@ -341,7 +343,7 @@ export const StatelessOption = ({
         {renderToolbar()}
         {!option.dynamicAnswer && (
           <>
-            <Flex>
+            <Flex isListCollectorPageType={isListCollectorPageType}>
               {type !== SELECT && (
                 <DummyMultipleChoice
                   type={type}
@@ -489,6 +491,7 @@ StatelessOption.propTypes = {
   hideMoveButtons: PropTypes.bool,
   hasMultipleOptions: PropTypes.bool,
   answer: PropTypes.object, //eslint-disable-line
+  isListCollectorPageType: PropTypes.bool,
 };
 
 StatelessOption.fragments = {
