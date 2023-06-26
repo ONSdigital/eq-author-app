@@ -66,10 +66,18 @@ module.exports = (answer, page) => {
     const createOption = require("./createOption");
 
     defaultOptions = [];
-    defaultOptions.push(createOption());
+    if (answer.isListCollectorPageType) {
+      defaultOptions.push(createOption({ label: "Yes" }));
+    } else {
+      defaultOptions.push(createOption());
+    }
 
     if (answer.type === "Radio") {
-      defaultOptions.push(createOption());
+      if (answer.isListCollectorPageType) {
+        defaultOptions.push(createOption({ label: "No" }));
+      } else {
+        defaultOptions.push(createOption());
+      }
     }
     if (answer.type === "Select") {
       for (let i = 0; i < 24; i++) {
