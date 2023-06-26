@@ -43,6 +43,7 @@ const getQuestionnaireQuery = `
       }
       prepopSchema {
         id
+        surveyId
         schema
       }
       locked

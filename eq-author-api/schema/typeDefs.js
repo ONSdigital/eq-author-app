@@ -762,6 +762,7 @@ type PrepopSchemaVersions {
 
 type PrepopSchema {
   id: ID
+  surveyId: ID
   schema: JSON
 }
 
@@ -974,6 +975,7 @@ type Mutation {
   updateCommentsAsRead(input: UpdateCommentsAsReadInput!): [Comment]
   publishSchema: Questionnaire!
   updatePrepopSchema(input: UpdatePrepopSchemaInput!): PrepopSchema
+  unlinkPrepopSchema: Questionnaire
 }
 
 input CreateListCollectorPageInput {
@@ -1672,6 +1674,7 @@ input deleteHistoryNoteInput {
 
 input UpdatePrepopSchemaInput {
   id: ID!
+  surveyId: ID!
   schema: JSON
 }
 `;

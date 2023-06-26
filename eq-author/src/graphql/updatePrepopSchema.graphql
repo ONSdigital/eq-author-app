@@ -1,6 +1,6 @@
+#import "graphql/fragments/prepopSchema.graphql"
 mutation UpdatePrepopSchema($input: UpdatePrepopSchemaInput!) {
   updatePrepopSchema(input: $input) {
-    id
-    schema
+    ...PrepopSchema
   }
 }
