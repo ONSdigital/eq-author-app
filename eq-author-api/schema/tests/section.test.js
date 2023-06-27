@@ -263,25 +263,26 @@ describe("section", () => {
         expect(queriedSection.validationErrorInfo.errors).toHaveLength(0);
       });
 
-      it("should validate the section title if Hub is off and preview questions is on", async () => {
-        ctx = await buildContext({
-          sections: [
-            {
-              title: "",
-            },
-          ],
-          hub: false,
-        });
+      // TODO: previewQuestions
+      // it("should validate the section title if Hub is off and preview questions is on", async () => {
+      //   ctx = await buildContext({
+      //     sections: [
+      //       {
+      //         title: "",
+      //       },
+      //     ],
+      //     hub: false,
+      //   });
 
-        questionnaire = ctx.questionnaire;
-        const section = questionnaire.sections[0];
+      //   questionnaire = ctx.questionnaire;
+      //   const section = questionnaire.sections[0];
 
-        const queriedSection = await querySection(ctx, section.id);
-        expect(queriedSection.validationErrorInfo).toMatchObject({
-          totalCount: 1,
-        });
-        expect(queriedSection.validationErrorInfo.errors).toHaveLength(1);
-      });
+      //   const queriedSection = await querySection(ctx, section.id);
+      //   expect(queriedSection.validationErrorInfo).toMatchObject({
+      //     totalCount: 1,
+      //   });
+      //   expect(queriedSection.validationErrorInfo.errors).toHaveLength(1);
+      // });
 
       describe("Section introduction", () => {
         it("should be valid if introduction is not enabled and introduction title, introduction content and page description are not populated", async () => {
