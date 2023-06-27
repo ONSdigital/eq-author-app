@@ -6,6 +6,9 @@ mutation UpdateFolder($input: UpdateFolderInput!) {
     alias
     displayName
     title
+    ... on ListCollectorFolder {
+      listId
+    }
     validationErrorInfo {
       ...ValidationErrorInfo
     }
