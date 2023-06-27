@@ -67,6 +67,7 @@ module.exports = (answer, page) => {
 
     defaultOptions = [];
     if (answer.isListCollectorPageType) {
+      answer.label = "";
       defaultOptions.push(createOption({ label: "Yes" }));
     } else {
       defaultOptions.push(createOption());
