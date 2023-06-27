@@ -10,7 +10,6 @@ import EditorLayout from "components/EditorLayout";
 import Panel from "components/Panel";
 import Loading from "components/Loading";
 import Error from "components/Error";
-import { useQuestionnaire } from "components/QuestionnaireContext";
 import IconText from "components/IconText";
 
 import Title from "components/preview/elements/PageTitle";
@@ -18,8 +17,6 @@ import { Answer } from "components/preview/Answers";
 import EmptyAnswersError from "components/preview/Error";
 
 import IconInfo from "assets/icon-missing-collection-list-answers.svg?inline";
-
-import { getFolderByPageId } from "utils/questionnaireUtils";
 
 import GET_COLLECTION_LISTS from "graphql/lists/collectionLists.graphql";
 
@@ -50,8 +47,8 @@ const Answers = styled.div`
 `;
 
 const AddItemPagePreview = ({ page }) => {
-  const { questionnaire } = useQuestionnaire();
-  const { id, title, displayName, comments, validationErrorInfo } = page;
+  const { id, title, displayName, folder, comments, validationErrorInfo } =
+    page;
 
   const { data, loading, error } = useQuery(GET_COLLECTION_LISTS, {
     fetchPolicy: "cache-and-network",
@@ -72,8 +69,6 @@ const AddItemPagePreview = ({ page }) => {
       </EditorLayout>
     );
   }
-
-  const folder = getFolderByPageId(questionnaire, id);
 
   const { lists } = data?.collectionLists;
   const selectedList = lists.find(({ id }) => id === folder.listId);
