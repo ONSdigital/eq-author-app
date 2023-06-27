@@ -9,6 +9,7 @@ import { Field } from "components/Forms";
 import EditorLayout from "components/EditorLayout";
 import Panel from "components/Panel";
 import Title from "components/preview/elements/PageTitle";
+import Error from "components/preview/Error";
 
 const Container = styled.div`
   padding: 2em;
@@ -101,17 +102,23 @@ const QualifierPagePreview = ({ page }) => {
         <Container>
           <Title title={title} />
           {answers.map((answer) => {
-            return answer.options.map((option) => (
-              <OptionItem key={option.id}>
-                <Input type="radio" />
-                <OptionContentWrapper>
-                  <OptionLabel>{option.label}</OptionLabel>
-                  {option.description && (
-                    <OptionDescription>{option.description}</OptionDescription>
-                  )}
-                </OptionContentWrapper>
-              </OptionItem>
-            ));
+            return answer.options.map((option) =>
+              option.label ? (
+                <OptionItem key={option.id}>
+                  <Input type="radio" />
+                  <OptionContentWrapper>
+                    <OptionLabel>{option.label}</OptionLabel>
+                    {option.description && (
+                      <OptionDescription>
+                        {option.description}
+                      </OptionDescription>
+                    )}
+                  </OptionContentWrapper>
+                </OptionItem>
+              ) : (
+                <Error>Missing label</Error>
+              )
+            );
           })}
         </Container>
       </Panel>
