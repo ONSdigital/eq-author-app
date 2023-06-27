@@ -2,13 +2,26 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme.js";
+import { useQuery } from "@apollo/react-hooks";
 
 import CommentsPanel from "App/Comments";
 
-import { Field } from "components/Forms";
 import EditorLayout from "components/EditorLayout";
 import Panel from "components/Panel";
+import Loading from "components/Loading";
+import Error from "components/Error";
+import { useQuestionnaire } from "components/QuestionnaireContext";
+import IconText from "components/IconText";
+
 import Title from "components/preview/elements/PageTitle";
+import { Answer } from "components/preview/Answers";
+import EmptyAnswersError from "components/preview/Error";
+
+import IconInfo from "assets/icon-missing-collection-list-answers.svg?inline";
+
+import { getFolderByPageId } from "utils/questionnaireUtils";
+
+import GET_COLLECTION_LISTS from "graphql/lists/collectionLists.graphql";
 
 const Container = styled.div`
   padding: 2em;
@@ -32,8 +45,40 @@ const Container = styled.div`
   }
 `;
 
+const Answers = styled.div`
+  margin-bottom: 1em;
+`;
+
 const AddItemPagePreview = ({ page }) => {
+  const { questionnaire } = useQuestionnaire();
   const { id, title, displayName, comments, validationErrorInfo } = page;
+
+  const { data, loading, error } = useQuery(GET_COLLECTION_LISTS, {
+    fetchPolicy: "cache-and-network",
+  });
+
+  if (loading) {
+    return (
+      <EditorLayout>
+        <Loading height="100%">Questionnaire lists loading…</Loading>
+      </EditorLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <EditorLayout>
+        <Error>Something went wrong</Error>
+      </EditorLayout>
+    );
+  }
+
+  const folder = getFolderByPageId(questionnaire, id);
+
+  const { lists } = data?.collectionLists;
+  const selectedList = lists.find(({ id }) => id === folder.listId);
+
+  const { answers } = selectedList;
 
   return (
     <EditorLayout
@@ -46,6 +91,22 @@ const AddItemPagePreview = ({ page }) => {
       <Panel>
         <Container>
           <Title title={title} />
+          {answers.length ? (
+            <Answers>
+              {answers.map((answer) => (
+                <Answer key={answer.id} answer={answer} />
+              ))}
+            </Answers>
+          ) : (
+            <EmptyAnswersError
+              data-test="empty-collection-list-answers-error"
+              large
+            >
+              <IconText icon={IconInfo}>
+                No answers have been added to this collection list
+              </IconText>
+            </EmptyAnswersError>
+          )}
         </Container>
       </Panel>
     </EditorLayout>
