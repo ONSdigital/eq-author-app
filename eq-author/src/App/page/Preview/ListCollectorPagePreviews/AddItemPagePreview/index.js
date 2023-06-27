@@ -70,10 +70,13 @@ const AddItemPagePreview = ({ page }) => {
     );
   }
 
+  let answers = [];
   const { lists } = data?.collectionLists;
   const selectedList = lists.find(({ id }) => id === folder.listId);
 
-  const { answers } = selectedList;
+  if (selectedList != null) {
+    answers = selectedList.answers;
+  }
 
   return (
     <EditorLayout
@@ -98,7 +101,9 @@ const AddItemPagePreview = ({ page }) => {
               large
             >
               <IconText icon={IconInfo}>
-                No answers have been added to this collection list
+                {selectedList == null
+                  ? "Collection list is not selected"
+                  : "No answers have been added to this collection list"}
               </IconText>
             </EmptyAnswersError>
           )}
