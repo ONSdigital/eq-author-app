@@ -65,18 +65,21 @@ const Input = styled.input`
   box-shadow: inset 0 0 0 3px #fff;
 `;
 
+const OptionContentWrapper = styled.div`
+  padding: 0.7em 1em 0.7em 2.5em;
+`;
+
 const OptionLabel = styled.label`
   display: block;
   font-size: 1em;
   color: inherit;
   line-height: 1.4;
   font-weight: 600;
-  padding: 0.7em 1em 0.7em 2.5em;
   margin: 0;
 `;
 
 const OptionDescription = styled.div`
-  font-size: 1em;
+  font-size: 0.8em;
   margin-top: 0.2em;
   color: ${colors.text};
   width: 100%;
@@ -101,9 +104,12 @@ const QualifierPagePreview = ({ page }) => {
             return answer.options.map((option) => (
               <OptionItem key={option.id}>
                 <Input type="radio" />
-                <OptionLabel>
-                  <OptionDescription>{option.label}</OptionDescription>
-                </OptionLabel>
+                <OptionContentWrapper>
+                  <OptionLabel>{option.label}</OptionLabel>
+                  {option.description && (
+                    <OptionDescription>{option.description}</OptionDescription>
+                  )}
+                </OptionContentWrapper>
               </OptionItem>
             ));
           })}
