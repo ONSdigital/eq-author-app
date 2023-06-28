@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
+import { colors } from "constants/theme";
 import styled from "styled-components";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { Link } from "react-router-dom";
@@ -31,6 +32,21 @@ const Content = styled.p``;
 
 const StyledInput = styled(Input)`
   width: 30em;
+  ${({ hasError }) =>
+    hasError &&
+    `
+    border-color: ${colors.errorPrimary};
+    &:focus,
+    &:focus-within {
+      border-color: ${colors.errorPrimary};
+      outline-color: ${colors.errorPrimary};
+      box-shadow: 0 0 0 2px ${colors.errorPrimary};
+    }
+    &:hover {
+      border-color: ${colors.errorPrimary};
+      outline-color: ${colors.errorPrimary};
+    }
+  `}
 `;
 
 const StyledField = styled(Field)`
@@ -97,10 +113,10 @@ const ListCollectorFolderEditor = ({ questionnaireId, folder, history }) => {
 
   return (
     <StyledField>
-      <Label htmlFor="list-collector-title">List collector title</Label>
+      <Label htmlFor="list-collector-folder-title">List collector title</Label>
       <StyledInput
-        id="list-collector-title"
-        name="list-collector-title"
+        id="list-collector-folder-title"
+        name="list-collector-folder-title"
         onChange={({ value }) => setFolderTitle(value)}
         onBlur={() =>
           updateFolder({
@@ -108,6 +124,7 @@ const ListCollectorFolderEditor = ({ questionnaireId, folder, history }) => {
           })
         }
         value={folderTitle}
+        hasError={getErrorMessage("title")}
       />
       {getErrorMessage("title") && (
         <ValidationError>{getErrorMessage("title")}</ValidationError>
