@@ -25,6 +25,8 @@ import ConfirmationPageEditor from "./ListCollectorPageEditors/ConfirmationPageE
 
 import withFetchAnswers from "./withFetchAnswers";
 
+import isListCollectorPageType from "utils/isListCollectorPageType";
+
 import {
   QuestionPage,
   CalculatedSummaryPage,
@@ -187,7 +189,9 @@ export const UnwrappedPageRoute = (props) => {
     <PageContextProvider value={page}>
       <EditorLayout
         title={page?.displayName || ""}
-        onAddQuestionPage={onAddQuestionPage}
+        onAddQuestionPage={
+          !isListCollectorPageType(page?.pageType) && onAddQuestionPage
+        }
         validationErrorInfo={page?.validationErrorInfo}
         comments={comments}
         {...(availableTabMatrix[page?.pageType] || {})}
