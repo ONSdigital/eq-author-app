@@ -64,9 +64,9 @@ const ConfirmationPageEditor = ({ page, onUpdateOption }) => {
   };
 
   useSetNavigationCallbacksForPage({
-    page: page,
-    folder: folder,
-    section: section,
+    page,
+    folder,
+    section,
   });
 
   return (

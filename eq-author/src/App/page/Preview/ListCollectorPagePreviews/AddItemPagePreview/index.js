@@ -59,9 +59,9 @@ const AddItemPagePreview = ({ page }) => {
   } = page;
 
   useSetNavigationCallbacksForPage({
-    page: page,
-    folder: folder,
-    section: section,
+    page,
+    folder,
+    section,
   });
 
   const { data, loading, error } = useQuery(GET_COLLECTION_LISTS, {

@@ -59,9 +59,9 @@ const AddItemPageEditor = ({ page }) => {
   };
 
   useSetNavigationCallbacksForPage({
-    page: page,
-    folder: folder,
-    section: section,
+    page,
+    folder,
+    section,
   });
 
   return (

@@ -100,9 +100,9 @@ const QualifierPagePreview = ({ page }) => {
   } = page;
 
   useSetNavigationCallbacksForPage({
-    page: page,
-    folder: folder,
-    section: section,
+    page,
+    folder,
+    section,
   });
 
   return (
