@@ -1547,7 +1547,24 @@ const Resolvers = {
     }),
     updatePrepopSchema: createMutation(async (root, { input }, ctx) => {
       const { id, surveyId } = input;
-      const url = `${process.env.PREPOP_SCHEMA_GATEWAY}schemaVersionGet?id=${id}`;
+      const url = `https://sds-api-mock-gateway-74jbrn8r.nw.gateway.dev/schemaVersionGet?id=${surveyId}`;
+
+      const getPrepopMetadata = (prepopSchemaVersion) => {
+        const prepopSchema = {};
+
+        prepopSchemaVersion.schema.properties.company_name.id = uuidv4();
+        prepopSchemaVersion.schema.properties.company_name.fieldName =
+          "company_name";
+        prepopSchemaVersion.schema.properties.company_name.exampleValue =
+          prepopSchemaVersion.schema.properties.company_name.examples[0];
+        delete prepopSchemaVersion.schema.properties.company_name.minLength;
+        delete prepopSchemaVersion.schema.properties.company_name.examples;
+        prepopSchema.data = [
+          prepopSchemaVersion.schema.properties.company_name,
+        ];
+
+        return prepopSchema;
+      };
 
       try {
         const response = await fetch(url);
@@ -1555,8 +1572,10 @@ const Resolvers = {
 
         if (prepopSchemaVersion) {
           logger.info(`Schema version data returned - ${prepopSchemaVersion}`);
-          ctx.questionnaire.prepopSchema = prepopSchemaVersion;
-          ctx.questionnaire.prepopSchema.surveyId = surveyId;
+          ctx.questionnaire.prepopSchema = {};
+          ctx.questionnaire.prepopSchema =
+            getPrepopMetadata(prepopSchemaVersion);
+          // ctx.questionnaire.prepopSchema.surveyId = surveyId;
           prepopSchemaVersion.surveyId = surveyId;
           return prepopSchemaVersion;
         } else {

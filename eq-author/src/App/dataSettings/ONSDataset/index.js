@@ -136,6 +136,7 @@ const ONSDatasetPage = () => {
     variables: {
       id: surveyID || "surveyID",
     },
+    fetchPolicy: "network-only",
   });
 
   const [linkPrepopSchema] = useMutation(UPDATE_PREPOP_SCHEMA, {
