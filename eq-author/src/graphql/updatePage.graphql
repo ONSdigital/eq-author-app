@@ -1,6 +1,8 @@
 #import "./fragments/page.graphql"
 #import "./fragments/questionPage.graphql"
 #import "./fragments/list-collector-qualifier-page.graphql"
+#import "./fragments/list-collector-add-item-page.graphql"
+#import "./fragments/list-collector-confirmation-page.graphql"
 #import "./fragments/validationErrorInfo.graphql"
 
 mutation UpdatePage($input: UpdatePageInput!) {
@@ -8,6 +10,8 @@ mutation UpdatePage($input: UpdatePageInput!) {
     ...Page
     ...QuestionPage
     ...ListCollectorQualifierPage
+    ...ListCollectorAddItemPage
+    ...ListCollectorConfirmationPage
     validationErrorInfo {
       ...ValidationErrorInfo
     }
