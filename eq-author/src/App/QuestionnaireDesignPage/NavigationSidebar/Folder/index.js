@@ -66,7 +66,9 @@ const Folder = ({
           <FolderNavItem
             title={displayName}
             open
-            icon={listId != null ? IconListCollectorFolder : IconBasicFolder} // `!= null` checks null and undefined
+            icon={
+              listId === undefined ? IconBasicFolder : IconListCollectorFolder
+            }
             disabled={isCurrentFolder(folderId, entityId)}
             titleUrl={buildFolderPath({
               questionnaireId,
