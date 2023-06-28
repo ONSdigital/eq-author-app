@@ -10,6 +10,7 @@ import { flow } from "lodash";
 import { Field } from "components/Forms";
 import RichTextEditor from "components/RichTextEditor";
 import PageTitle from "components/PageTitle";
+import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
 
 import { LIST_COLLECTOR_CONFIRMATION_PAGE_ERRORS } from "constants/validationMessages";
 
@@ -39,7 +40,15 @@ const HorizontalSeparator = styled.hr`
 `;
 
 const ConfirmationPageEditor = ({ page, onUpdateOption }) => {
-  const { id, alias, title, pageDescription, validationErrorInfo } = page;
+  const {
+    id,
+    alias,
+    title,
+    pageDescription,
+    folder,
+    section,
+    validationErrorInfo,
+  } = page;
   const [confirmationPageAlias, setConfirmationPageAlias] = useState(alias);
   const [confirmationPageDescription, setConfirmationPageDescription] =
     useState(pageDescription);
@@ -53,6 +62,12 @@ const ConfirmationPageEditor = ({ page, onUpdateOption }) => {
 
     return LIST_COLLECTOR_CONFIRMATION_PAGE_ERRORS[errorCodeResult];
   };
+
+  useSetNavigationCallbacksForPage({
+    page: page,
+    folder: folder,
+    section: section,
+  });
 
   return (
     <>

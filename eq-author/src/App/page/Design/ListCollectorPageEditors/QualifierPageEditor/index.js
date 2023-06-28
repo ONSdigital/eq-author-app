@@ -11,6 +11,7 @@ import { Field } from "components/Forms";
 import RichTextEditor from "components/RichTextEditor";
 import CollapsibleToggled from "components/CollapsibleToggled";
 import PageTitle from "components/PageTitle";
+import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
 
 import { LIST_COLLECTOR_QUALIFIER_PAGE_ERRORS } from "constants/validationMessages";
 
@@ -47,6 +48,8 @@ const QualifierPageEditor = ({ page, onUpdateOption }) => {
     additionalGuidanceEnabled,
     additionalGuidanceContent,
     pageDescription,
+    folder,
+    section,
     validationErrorInfo,
   } = page;
   const [qualifierPageAlias, setQualifierPageAlias] = useState(alias);
@@ -62,6 +65,12 @@ const QualifierPageEditor = ({ page, onUpdateOption }) => {
 
     return LIST_COLLECTOR_QUALIFIER_PAGE_ERRORS[errorCodeResult];
   };
+
+  useSetNavigationCallbacksForPage({
+    page: page,
+    folder: folder,
+    section: section,
+  });
 
   return (
     <>

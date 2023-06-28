@@ -10,6 +10,7 @@ import EditorLayout from "components/EditorLayout";
 import Panel from "components/Panel";
 import Title from "components/preview/elements/PageTitle";
 import Error from "components/preview/Error";
+import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
 
 const Container = styled.div`
   padding: 2em;
@@ -87,8 +88,22 @@ const OptionDescription = styled.div`
 `;
 
 const ConfirmationPagePreview = ({ page }) => {
-  const { id, title, displayName, answers, comments, validationErrorInfo } =
-    page;
+  const {
+    id,
+    title,
+    displayName,
+    answers,
+    folder,
+    section,
+    comments,
+    validationErrorInfo,
+  } = page;
+
+  useSetNavigationCallbacksForPage({
+    page: page,
+    folder: folder,
+    section: section,
+  });
 
   return (
     <EditorLayout

@@ -15,6 +15,7 @@ import IconText from "components/IconText";
 import Title from "components/preview/elements/PageTitle";
 import { Answer } from "components/preview/Answers";
 import EmptyAnswersError from "components/preview/Error";
+import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
 
 import IconInfo from "assets/icon-missing-collection-list-answers.svg?inline";
 
@@ -47,8 +48,21 @@ const Answers = styled.div`
 `;
 
 const AddItemPagePreview = ({ page }) => {
-  const { id, title, displayName, folder, comments, validationErrorInfo } =
-    page;
+  const {
+    id,
+    title,
+    displayName,
+    folder,
+    section,
+    comments,
+    validationErrorInfo,
+  } = page;
+
+  useSetNavigationCallbacksForPage({
+    page: page,
+    folder: folder,
+    section: section,
+  });
 
   const { data, loading, error } = useQuery(GET_COLLECTION_LISTS, {
     fetchPolicy: "cache-and-network",

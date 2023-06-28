@@ -9,6 +9,7 @@ import { Field } from "components/Forms";
 import RichTextEditor from "components/RichTextEditor";
 import Collapsible from "components/Collapsible";
 import PageTitle from "components/PageTitle";
+import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
 
 import { LIST_COLLECTOR_ADD_ITEM_PAGE_ERRORS } from "constants/validationMessages";
 
@@ -34,7 +35,15 @@ const HorizontalSeparator = styled.hr`
 `;
 
 const AddItemPageEditor = ({ page }) => {
-  const { id, alias, title, pageDescription, validationErrorInfo } = page;
+  const {
+    id,
+    alias,
+    title,
+    pageDescription,
+    folder,
+    section,
+    validationErrorInfo,
+  } = page;
   const [addItemPageAlias, setAddItemPageAlias] = useState(alias);
   const [addItemPageDescription, setAddItemPageDescription] =
     useState(pageDescription);
@@ -48,6 +57,12 @@ const AddItemPageEditor = ({ page }) => {
 
     return LIST_COLLECTOR_ADD_ITEM_PAGE_ERRORS[errorCodeResult];
   };
+
+  useSetNavigationCallbacksForPage({
+    page: page,
+    folder: folder,
+    section: section,
+  });
 
   return (
     <>
