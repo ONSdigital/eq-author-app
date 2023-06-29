@@ -183,6 +183,33 @@ const publishCommentUpdates = (questionnaireId) => {
   });
 };
 
+const getPrepopMetadata = (properties) => {
+  const prepopSchema = [];
+
+  const keys = Object.keys(properties);
+  const metadataKeys = keys.filter(
+    (key) => key !== "items" && key !== "identifier" && key !== "schema_version"
+  );
+
+  metadataKeys.forEach((key) => {
+    if (properties[key]) {
+      // populate prepopSchema fields
+      properties[key].fieldName = key;
+      properties[key].id = uuidv4();
+      properties[key].exampleValue = properties[key].examples[0];
+
+      // delete redundant fields
+      delete properties[key].examples[0];
+      delete properties[key].minLength;
+      delete properties[key].examples;
+
+      prepopSchema.push(properties[key]);
+    }
+  });
+
+  return prepopSchema;
+};
+
 const Resolvers = {
   Query: {
     questionnaires: async (root, { input = {} }, ctx) => {
@@ -1549,23 +1576,6 @@ const Resolvers = {
       const { id, surveyId } = input;
       const url = `https://sds-api-mock-gateway-74jbrn8r.nw.gateway.dev/schemaVersionGet?id=${surveyId}`;
 
-      const getPrepopMetadata = (prepopSchemaVersion) => {
-        const prepopSchema = {};
-
-        prepopSchemaVersion.schema.properties.company_name.id = uuidv4();
-        prepopSchemaVersion.schema.properties.company_name.fieldName =
-          "company_name";
-        prepopSchemaVersion.schema.properties.company_name.exampleValue =
-          prepopSchemaVersion.schema.properties.company_name.examples[0];
-        delete prepopSchemaVersion.schema.properties.company_name.minLength;
-        delete prepopSchemaVersion.schema.properties.company_name.examples;
-        prepopSchema.data = [
-          prepopSchemaVersion.schema.properties.company_name,
-        ];
-
-        return prepopSchema;
-      };
-
       try {
         const response = await fetch(url);
         const prepopSchemaVersion = await response.json();
@@ -1573,10 +1583,12 @@ const Resolvers = {
         if (prepopSchemaVersion) {
           logger.info(`Schema version data returned - ${prepopSchemaVersion}`);
           ctx.questionnaire.prepopSchema = {};
-          ctx.questionnaire.prepopSchema =
-            getPrepopMetadata(prepopSchemaVersion);
-          // ctx.questionnaire.prepopSchema.surveyId = surveyId;
+          ctx.questionnaire.prepopSchema.data = getPrepopMetadata(
+            prepopSchemaVersion.schema.properties
+          );
+          ctx.questionnaire.prepopSchema.surveyId = surveyId;
           prepopSchemaVersion.surveyId = surveyId;
+          prepopSchemaVersion.id = uuidv4();
           return prepopSchemaVersion;
         } else {
           logger.info(`Schema version data not found - ${id}`);
