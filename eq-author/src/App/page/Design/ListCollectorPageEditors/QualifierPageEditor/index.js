@@ -128,6 +128,7 @@ const QualifierPageEditor = ({ page, onUpdateOption }) => {
               variables: { input: { id, additionalGuidanceEnabled: value } },
             })
           }
+          inline
           isOpen={additionalGuidanceEnabled}
         >
           <RichTextEditor
