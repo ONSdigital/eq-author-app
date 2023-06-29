@@ -20,7 +20,15 @@ import UPDATE_FOLDER_MUTATION from "graphql/updateFolderMutation.graphql";
 
 import { buildCollectionListsPath } from "utils/UrlUtils";
 
-const Title = styled.h4`
+// Uses h2 with overwritten h4 styling to improve accessibility - https://www.w3schools.com/tags/tag_hn.asp
+const Title = styled.h2`
+  display: block;
+  font-size: 1em;
+  margin-top: 1.33em;
+  margin-bottom: 1.33em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
   margin-bottom: ${(props) => props.marginBottom}em;
 `;
 
