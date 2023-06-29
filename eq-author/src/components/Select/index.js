@@ -32,6 +32,7 @@ const Select = ({
   dataTest,
   value,
   defaultValue,
+  ariaLabel,
   options,
   additionalOption,
   handleChange,
@@ -43,6 +44,7 @@ const Select = ({
       data-test={dataTest}
       value={value}
       onChange={handleChange}
+      aria-label={ariaLabel}
       hasError={hasError}
     >
       {defaultValue && <Option value="">{defaultValue}</Option>}
@@ -77,6 +79,10 @@ Select.propTypes = {
    * Text displayed for optional empty default option.
    */
   defaultValue: PropTypes.string,
+  /**
+   * Label value read by screen readers.
+   */
+  ariaLabel: PropTypes.string,
   /**
    * Array of option objects available in the select menu.
    */

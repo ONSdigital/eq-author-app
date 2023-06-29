@@ -231,6 +231,7 @@ const ListCollectorFolderEditor = ({ questionnaireId, folder, history }) => {
         options={lists}
         additionalOption={{ value: "newList", displayName: "Create new list" }}
         handleChange={({ target }) => handleUpdateList(target.value)}
+        ariaLabel={"Linked collection list"}
         hasError={validationErrorInfo.errors.some(
           (error) => error.field === "listId"
         )}
