@@ -21,8 +21,16 @@ import withUpdateOption from "../../answers/withUpdateOption";
 import UPDATE_PAGE_MUTATION from "graphql/updatePage.graphql";
 import CommentFragment from "graphql/fragments/comment.graphql";
 
-const Title = styled.h4`
+// Uses h2 with overwritten h4 styling to improve accessibility - https://www.w3schools.com/tags/tag_hn.asp
+const Title = styled.h2`
+  display: block;
+  font-size: 1em;
+  margin-top: 1.33em;
   margin-bottom: -0.5em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+  margin-bottom: ${(props) => props.marginBottom}em;
 `;
 
 const StyledField = styled(Field)`
