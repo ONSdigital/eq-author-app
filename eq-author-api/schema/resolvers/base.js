@@ -186,25 +186,23 @@ const publishCommentUpdates = (questionnaireId) => {
 const getPrepopMetadata = (properties) => {
   const prepopSchema = [];
 
-  const keys = Object.keys(properties);
-  const metadataKeys = keys.filter(
+  const metadataKeys = Object.keys(properties).filter(
     (key) => key !== "items" && key !== "identifier" && key !== "schema_version"
   );
 
   metadataKeys.forEach((key) => {
-    if (properties[key]) {
-      // populate prepopSchema fields
-      properties[key].fieldName = key;
-      properties[key].id = uuidv4();
-      properties[key].exampleValue = properties[key].examples[0];
+    // populate prepopSchema fields
+    properties[key] = {
+      ...properties[key],
+      fieldName: key,
+      id: uuidv4(),
+      exampleValue: properties[key].examples[0],
+    };
 
-      // delete redundant fields
-      delete properties[key].examples[0];
-      delete properties[key].minLength;
-      delete properties[key].examples;
+    // delete redundant fields
+    properties[key] = omit(properties[key], ["minLength", "examples"]);
 
-      prepopSchema.push(properties[key]);
-    }
+    prepopSchema.push(properties[key]);
   });
 
   return prepopSchema;
@@ -1574,7 +1572,7 @@ const Resolvers = {
     }),
     updatePrepopSchema: createMutation(async (root, { input }, ctx) => {
       const { id, surveyId } = input;
-      const url = `https://sds-api-mock-gateway-74jbrn8r.nw.gateway.dev/schemaVersionGet?id=${surveyId}`;
+      const url = `${process.env.PREPOP_SCHEMA_GATEWAY}schemaVersionGet?id=${surveyId}`;
 
       try {
         const response = await fetch(url);
@@ -1582,14 +1580,17 @@ const Resolvers = {
 
         if (prepopSchemaVersion) {
           logger.info(`Schema version data returned - ${prepopSchemaVersion}`);
-          ctx.questionnaire.prepopSchema = { ...input };
 
-          if (input.surveyId === "999") {
-            ctx.questionnaire.prepopSchema.data =
-              getPrepopMetadata(prepopSchemaVersion.schema.properties) ||
-              prepopSchemaVersion.schema;
+          if (surveyId === "999") {
+            ctx.questionnaire.prepopSchema = { ...input };
+            ctx.questionnaire.prepopSchema.data = getPrepopMetadata(
+              prepopSchemaVersion.schema.properties
+            );
           } else {
-            ctx.questionnaire.prepopSchema = prepopSchemaVersion;
+            ctx.questionnaire.prepopSchema = {
+              surveyId: surveyId,
+              ...prepopSchemaVersion,
+            };
           }
 
           return prepopSchemaVersion;
