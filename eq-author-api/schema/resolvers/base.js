@@ -1579,14 +1579,18 @@ const Resolvers = {
       try {
         const response = await fetch(url);
         const prepopSchemaVersion = await response.json();
-        console.log("prepopSchemaVersion", prepopSchemaVersion);
 
         if (prepopSchemaVersion) {
           logger.info(`Schema version data returned - ${prepopSchemaVersion}`);
           ctx.questionnaire.prepopSchema = { ...input };
-          ctx.questionnaire.prepopSchema.data =
-            getPrepopMetadata(prepopSchemaVersion.schema.properties) ||
-            prepopSchemaVersion.schema;
+
+          if (input.surveyId === "999") {
+            ctx.questionnaire.prepopSchema.data =
+              getPrepopMetadata(prepopSchemaVersion.schema.properties) ||
+              prepopSchemaVersion.schema;
+          } else {
+            ctx.questionnaire.prepopSchema = prepopSchemaVersion;
+          }
 
           return prepopSchemaVersion;
         } else {
