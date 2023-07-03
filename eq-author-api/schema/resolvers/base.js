@@ -1579,16 +1579,15 @@ const Resolvers = {
       try {
         const response = await fetch(url);
         const prepopSchemaVersion = await response.json();
+        console.log("prepopSchemaVersion", prepopSchemaVersion);
 
         if (prepopSchemaVersion) {
           logger.info(`Schema version data returned - ${prepopSchemaVersion}`);
-          ctx.questionnaire.prepopSchema = {};
-          ctx.questionnaire.prepopSchema.data = getPrepopMetadata(
-            prepopSchemaVersion.schema.properties
-          );
-          ctx.questionnaire.prepopSchema.surveyId = surveyId;
-          prepopSchemaVersion.surveyId = surveyId;
-          prepopSchemaVersion.id = uuidv4();
+          ctx.questionnaire.prepopSchema = { ...input };
+          ctx.questionnaire.prepopSchema.data =
+            getPrepopMetadata(prepopSchemaVersion.schema.properties) ||
+            prepopSchemaVersion.schema;
+
           return prepopSchemaVersion;
         } else {
           logger.info(`Schema version data not found - ${id}`);

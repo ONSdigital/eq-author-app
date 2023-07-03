@@ -2,4 +2,7 @@ fragment PrepopSchema on PrepopSchema {
   id
   surveyId
   schema
+  data
+  dateCreated
+  version
 }

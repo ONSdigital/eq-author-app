@@ -153,12 +153,8 @@ const ONSDatasetPage = () => {
   });
 
   const buildData = () => {
-    const schemaData = prepopSchema
-      ? prepopSchema.prepopSchema
-        ? prepopSchema.prepopSchema.schema
-        : null
-      : null;
-
+    console.log("prepopSchema", prepopSchema);
+    const schemaData = prepopSchema ? prepopSchema.prepopSchema : null;
     if (schemaData) {
       schemaData.surveyId = prepopSchema.prepopSchema?.surveyId;
     }
@@ -280,6 +276,10 @@ const ONSDatasetPage = () => {
                                                         input: {
                                                           id: version.id,
                                                           surveyId: surveyID,
+                                                          version:
+                                                            version.version,
+                                                          dateCreated:
+                                                            version.dateCreated,
                                                         },
                                                       },
                                                     })
