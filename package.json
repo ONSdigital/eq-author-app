@@ -22,7 +22,7 @@
   "homepage": "https://github.com/ONSdigital/eq-author-app#readme",
   "dependencies": {
     "husky": "latest",
-    "lint-staged": "10.5.4",
+    "lint-staged": "13.2.3",
     "prettier": "^2.5.1",
     "prettylint": "latest"
   },
