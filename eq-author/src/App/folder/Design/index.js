@@ -182,7 +182,7 @@ const FolderDesignPage = ({ history, match }) => {
     <EditorPage
       title={displayName}
       design
-      logic
+      logic={!isListCollectorFolder()}
       validationErrorInfo={validationErrorInfo}
     >
       <StyledPanel data-test="folders-page">

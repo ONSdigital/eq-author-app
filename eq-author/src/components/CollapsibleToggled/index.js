@@ -88,7 +88,7 @@ CollapsibleToggled.propTypes = {
    */
   id: PropTypes.string,
   /**
-   * The title of the collapsible - used for non-inline toggles.
+   * The title of the collapsible.
    */
   title: PropTypes.string,
   /**
