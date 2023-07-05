@@ -25,6 +25,13 @@ describe("questionnaire", () => {
     await deleteQuestionnaire(ctx, questionnaire.id);
   });
 
+  let input = {
+    id: "121-222-789",
+    surveyId: "121",
+    dateCreated: null,
+    version: null,
+  };
+
   fetch.mockImplementation(() =>
     Promise.resolve({
       status: 200,
@@ -76,10 +83,56 @@ describe("questionnaire", () => {
 
   describe("should update the prepop schema", () => {
     it("should update the prepopSchema", async () => {
-      const updatedPrepopSchema = await updatePrepopSchema(
-        ctx,
-        prepopSchemaData
+      const updatedPrepopSchema = await updatePrepopSchema(ctx, input);
+      expect(updatedPrepopSchema).toEqual({ ...prepopSchemaData, ...input });
+    });
+
+    it("should update the prepop schema when surveyId is equal to 999", async () => {
+      input = {
+        id: "999-222-789",
+        surveyId: "999",
+      };
+
+      const prepopSchemaData = {
+        id: "999-222-789",
+        surveyId: "999",
+        dateCreated: "2023-01-12T13:37:27+00:00",
+        version: "1",
+        schema: {
+          properties: {
+            companyName: {
+              type: "string",
+              exampleValue: "Joe Bloggs PLC",
+              fieldName: "companyName",
+              id: expect.any(String),
+            },
+          },
+        },
+      };
+
+      fetch.mockImplementationOnce(() =>
+        Promise.resolve({
+          status: 200,
+          json: () => ({
+            id: "999-222-789",
+            surveyId: "999",
+            dateCreated: "2023-01-12T13:37:27+00:00",
+            version: "1",
+            schema: {
+              properties: {
+                companyName: {
+                  type: "string",
+                  minLength: 1,
+                  examples: ["Joe Bloggs PLC"],
+                },
+              },
+            },
+          }),
+        })
       );
+
+      const updatedPrepopSchema = await updatePrepopSchema(ctx, input);
+
       expect(updatedPrepopSchema).toEqual(prepopSchemaData);
     });
   });

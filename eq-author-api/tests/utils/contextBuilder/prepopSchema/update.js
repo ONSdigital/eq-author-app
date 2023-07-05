@@ -6,6 +6,8 @@ const updatePrepopSchemaMutation = `
       id
       surveyId
       schema
+      dateCreated
+      version
     }
   }
 `;
