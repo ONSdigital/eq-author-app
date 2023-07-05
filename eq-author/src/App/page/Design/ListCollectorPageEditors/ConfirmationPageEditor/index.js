@@ -30,7 +30,6 @@ const Title = styled.h2`
   margin-left: 0;
   margin-right: 0;
   font-weight: bold;
-  margin-bottom: ${(props) => props.marginBottom}em;
 `;
 
 const StyledField = styled(Field)`
