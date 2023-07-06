@@ -299,6 +299,8 @@ describe("ONS dataset page", () => {
       expect(getByText("ID:")).toBeTruthy();
       expect(getByText("Version:")).toBeTruthy();
       expect(getByText("Date created:")).toBeTruthy();
+      expect(getByText("Data fields available for piping")).toBeTruthy();
+      expect(getByText("Public Limited Company")).toBeTruthy();
     });
   });
 

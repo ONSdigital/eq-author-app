@@ -72,8 +72,6 @@ const StyledTableBody = styled(TableBody)`
 
 const SpacedTableColumn = styled(TableColumn)`
   padding: 0.5em 0.5em 0.2em;
-
-  /* font-weight: bold; */
   color: ${colors.text};
   word-break: break-word;
   border: 1px solid ${colors.bordersDark};
