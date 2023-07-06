@@ -79,7 +79,11 @@ const Folder = ({
             childErrorCount={calculatePageErrors(pages)}
             isDragging={isDragging}
           >
-            <Droppable droppableId={folderId} type={`folder-content`}>
+            <Droppable
+              droppableId={folderId}
+              type={`folder-content`}
+              isDropDisabled={listId != null} // TODO: Update this to allow follow up questions when completing the follow up task
+            >
               {(
                 { innerRef, placeholder, droppableProps },
                 { isDraggingOver }
