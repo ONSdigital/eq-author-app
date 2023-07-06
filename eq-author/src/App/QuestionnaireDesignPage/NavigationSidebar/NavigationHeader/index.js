@@ -20,6 +20,8 @@ import withCreateIntroductionPage from "../../withCreateIntroductionPage";
 
 import { QuestionPage } from "constants/page-types";
 
+import isListCollectorPageType from "utils/isListCollectorPageType";
+
 export const UnwrappedNavigationHeader = ({
   onCreateQuestionConfirmation,
   onAddSection,
@@ -38,11 +40,13 @@ export const UnwrappedNavigationHeader = ({
     onAddListCollectorFolder,
   } = useNavigationCallbacks();
 
-  const canAddQuestionCalculatedSummmaryPagesAndFolder = [
-    PAGE,
-    FOLDER,
-    SECTION,
-  ].includes(entityName);
+  const page = getPageById(questionnaire, entityId);
+
+  const canAddQuestionAndCalculatedSummmaryPages =
+    [PAGE, FOLDER, SECTION].includes(entityName) &&
+    !isListCollectorPageType(page?.pageType);
+
+  const canAddFolder = [PAGE, FOLDER, SECTION].includes(entityName);
 
   const canAddSection = [PAGE, FOLDER, SECTION, INTRODUCTION].includes(
     entityName
@@ -50,7 +54,6 @@ export const UnwrappedNavigationHeader = ({
 
   let canAddQuestionConfirmation = false;
   if (entityName === PAGE) {
-    const page = getPageById(questionnaire, entityId);
     canAddQuestionConfirmation =
       page?.pageType === QuestionPage && !page?.confirmation;
   }
@@ -120,16 +123,12 @@ export const UnwrappedNavigationHeader = ({
         onAddListCollectorFolder={handleAddListCollectorFolder}
         onAddIntroductionPage={handleAddIntroductionPage}
         onStartImportingContent={handleStartImportingContent}
-        canAddQuestionPage={canAddQuestionCalculatedSummmaryPagesAndFolder}
-        canAddCalculatedSummaryPage={
-          canAddQuestionCalculatedSummmaryPagesAndFolder
-        }
+        canAddQuestionPage={canAddQuestionAndCalculatedSummmaryPages}
+        canAddCalculatedSummaryPage={canAddQuestionAndCalculatedSummmaryPages}
         canAddQuestionConfirmation={canAddQuestionConfirmation}
-        canAddListCollectorFolder={
-          canAddQuestionCalculatedSummmaryPagesAndFolder
-        }
+        canAddListCollectorFolder={canAddFolder}
         canAddIntroductionPage={canAddIntroductionPage}
-        canAddFolder={canAddQuestionCalculatedSummmaryPagesAndFolder}
+        canAddFolder={canAddFolder}
         canAddSection={canAddSection}
         canImportContent={canImportContent}
         isFolder={isFolder}
