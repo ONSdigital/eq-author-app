@@ -1581,7 +1581,7 @@ const Resolvers = {
         if (prepopSchemaVersion) {
           logger.info(`Schema version data returned - ${prepopSchemaVersion}`);
 
-          if (surveyId === "999") {
+          if (prepopSchemaVersion?.schema?.properties) {
             ctx.questionnaire.prepopSchema = { ...input };
             ctx.questionnaire.prepopSchema.data = getPrepopMetadata(
               prepopSchemaVersion.schema.properties

@@ -154,8 +154,7 @@ const ONSDatasetPage = () => {
 
   const buildData = () => {
     let schemaData;
-
-    if (prepopSchema?.prepopSchema?.surveyId === "999") {
+    if (prepopSchema?.prepopSchema?.data) {
       schemaData = prepopSchema ? prepopSchema.prepopSchema : null;
     } else {
       schemaData = prepopSchema
