@@ -1,11 +1,10 @@
 import React from "react";
-import PropTypes from "prop-types";
+import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme.js";
 
 import CommentsPanel from "App/Comments";
 
-import { Field } from "components/Forms";
 import EditorLayout from "components/EditorLayout";
 import Panel from "components/Panel";
 import Title from "components/preview/elements/PageTitle";
@@ -139,6 +138,10 @@ const ConfirmationPagePreview = ({ page }) => {
       </Panel>
     </EditorLayout>
   );
+};
+
+ConfirmationPagePreview.propTypes = {
+  page: CustomPropTypes.page,
 };
 
 export default ConfirmationPagePreview;

@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme.js";
 import { useQuery } from "@apollo/react-hooks";
@@ -125,6 +125,10 @@ const AddItemPagePreview = ({ page }) => {
       </Panel>
     </EditorLayout>
   );
+};
+
+AddItemPagePreview.propTypes = {
+  page: CustomPropTypes.page,
 };
 
 export default AddItemPagePreview;
