@@ -1586,14 +1586,9 @@ const Resolvers = {
             ctx.questionnaire.prepopSchema.data = getPrepopMetadata(
               prepopSchemaVersion.schema.properties
             );
-          } else {
-            ctx.questionnaire.prepopSchema = {
-              surveyId: surveyId,
-              ...prepopSchemaVersion,
-            };
           }
 
-          return prepopSchemaVersion;
+          return ctx.questionnaire.prepopSchema;
         } else {
           logger.info(`Schema version data not found - ${id}`);
         }

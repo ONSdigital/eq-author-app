@@ -763,7 +763,6 @@ type PrepopSchemaVersions {
 type PrepopSchema {
   id: ID
   surveyId: ID
-  schema: JSON
   data: [JSON]
   dateCreated: String
   version: String
@@ -1680,6 +1679,6 @@ input UpdatePrepopSchemaInput {
   surveyId: ID!
   version: String
   dateCreated: String
-  schema: JSON
+  data: [JSON]
 }
 `;

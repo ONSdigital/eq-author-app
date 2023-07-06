@@ -73,13 +73,13 @@ const StyledTableBody = styled(TableBody)`
 const SpacedTableColumn = styled(TableColumn)`
   padding: 0.5em 0.5em 0.2em;
 
-  font-weight: bold;
-  color: ${colors.textLight};
+  /* font-weight: bold; */
+  color: ${colors.text};
   word-break: break-word;
   border: 1px solid ${colors.bordersDark};
+  padding-left: 1.2em;
   :not(:last-of-type) {
     border-right: 1px solid ${colors.bordersDark};
-    padding-left: 1em;
   }
 `;
 
@@ -96,6 +96,12 @@ const StyledButton = styled(Button)`
   left: 30%;
 `;
 
+const StyledUl = styled.ul`
+  margin: 0;
+  padding: 0 0 0 1.5em;
+`;
+const StyledLi = styled.li``;
+
 const formatDate = (date) => moment(date).locale("en-gb").format("DD/MM/YYYY");
 
 const CustomGrid = styled(Grid)`
@@ -108,6 +114,10 @@ const CustomColumn = styled(Column)`
 
 const UnlinkButtonWrapper = styled.div`
   text-align: right;
+`;
+
+const DataFieldsWrapper = styled.div`
+  margin-top: 1em;
 `;
 
 const ONSDatasetPage = () => {
@@ -156,14 +166,7 @@ const ONSDatasetPage = () => {
     let schemaData;
     if (prepopSchema?.prepopSchema?.data) {
       schemaData = prepopSchema ? prepopSchema.prepopSchema : null;
-    } else {
-      schemaData = prepopSchema
-        ? prepopSchema.prepopSchema
-          ? prepopSchema.prepopSchema.schema
-          : null
-        : null;
     }
-
     if (schemaData) {
       schemaData.surveyId = prepopSchema.prepopSchema?.surveyId;
     }
@@ -171,6 +174,8 @@ const ONSDatasetPage = () => {
   };
 
   const tableData = buildData();
+
+  const dataFields = tableData?.data;
 
   const handleUnlinkClick = () => {
     setShowUnlinkModal(true);
@@ -269,15 +274,15 @@ const ONSDatasetPage = () => {
                                               key={version.id}
                                               data-test={`dataset-row`}
                                             >
-                                              <SpacedTableColumn>
+                                              <SpacedTableColumn bold>
                                                 {version.version}
                                               </SpacedTableColumn>
-                                              <SpacedTableColumn>
+                                              <SpacedTableColumn bold>
                                                 {formatDate(
                                                   version.dateCreated
                                                 )}
                                               </SpacedTableColumn>
-                                              <SpacedTableColumn>
+                                              <SpacedTableColumn bold>
                                                 <StyledButton
                                                   onClick={() =>
                                                     linkPrepopSchema({
@@ -354,6 +359,122 @@ const ONSDatasetPage = () => {
                                 {formatDate(tableData.dateCreated)}
                               </CustomColumn>
                             </CustomGrid>
+                            <DataFieldsWrapper>
+                              <StyledTitle>
+                                Data fields available for piping
+                              </StyledTitle>
+                              <Common.TabContent>
+                                A respondent&apos;s answers to previous
+                                questions are stored in ONS datasets as data
+                                fields. Data fields can be piped into question
+                                and section pages using the toolbar.
+                              </Common.TabContent>
+                              <Common.TabContent>
+                                Data fields are defined as either:
+                                <StyledUl>
+                                  <StyledLi>
+                                    single data fields, which have one entry
+                                    with no restrictions on piping
+                                  </StyledLi>
+                                  <StyledLi>
+                                    multivalued data fields, which have one or
+                                    more entities and are only available for
+                                    piping in repeating sections
+                                  </StyledLi>
+                                </StyledUl>
+                              </Common.TabContent>
+                              <Common.TabContent>
+                                The data field name will be used as a temporary
+                                placeholder when piping into question and
+                                section pages.
+                              </Common.TabContent>
+                              <Common.TabContent>
+                                The value assigned to the piped data field will
+                                replace the relevant placeholder when previewing
+                                the questionnaire in eQ. The value will then be
+                                replaced by relevant sample file data when the
+                                respondent views the live questionnaire.
+                              </Common.TabContent>
+                              <Table data-test="data-fields-table">
+                                <TableHead>
+                                  <TableRow>
+                                    <StyledTableHeadColumn width="30%">
+                                      Data field name
+                                    </StyledTableHeadColumn>
+                                    <StyledTableHeadColumn width="30%">
+                                      Answer type
+                                    </StyledTableHeadColumn>
+                                    <StyledTableHeadColumn width="40%">
+                                      Example value
+                                    </StyledTableHeadColumn>
+                                  </TableRow>
+                                </TableHead>
+                                {dataFields.map((field) => {
+                                  return (
+                                    <TableRow
+                                      key={field.id}
+                                      data-test={`data-field-row`}
+                                    >
+                                      <SpacedTableColumn>
+                                        {field.fieldName}
+                                      </SpacedTableColumn>
+                                      <SpacedTableColumn>
+                                        {field.type === "string" && "Text"}
+                                      </SpacedTableColumn>
+                                      <SpacedTableColumn>
+                                        {field.exampleValue}
+                                      </SpacedTableColumn>
+                                    </TableRow>
+                                  );
+                                })}
+                                {/* {surveyData?.prepopSchemaVersions && (
+                                  <StyledTableBody> */}
+                                {/* {surveyData?.prepopSchemaVersions?.versions?.map(
+                                        (version) => {
+                                          return (
+                                            <TableRow
+                                              key={version.id}
+                                              data-test={`dataset-row`}
+                                            >
+                                              <SpacedTableColumn>
+                                                {version.version}
+                                              </SpacedTableColumn>
+                                              <SpacedTableColumn>
+                                                {formatDate(
+                                                  version.dateCreated
+                                                )}
+                                              </SpacedTableColumn>
+                                              <SpacedTableColumn>
+                                                <StyledButton
+                                                  onClick={() =>
+                                                    linkPrepopSchema({
+                                                      variables: {
+                                                        input: {
+                                                          id: version.id,
+                                                          surveyId: surveyID,
+                                                          version:
+                                                            version.version,
+                                                          dateCreated:
+                                                            version.dateCreated,
+                                                        },
+                                                      },
+                                                    })
+                                                  }
+                                                  type="button"
+                                                  variant="secondary"
+                                                  data-test="btn-link"
+                                                >
+                                                  Link
+                                                </StyledButton>
+                                              </SpacedTableColumn>
+                                            </TableRow>
+                                          );
+                                        }
+                                      )} */}
+                                {/* </StyledTableBody>
+                                )} */}
+                              </Table>
+                            </DataFieldsWrapper>
                           </>
                         )}
                       </Common.StyledPanel>

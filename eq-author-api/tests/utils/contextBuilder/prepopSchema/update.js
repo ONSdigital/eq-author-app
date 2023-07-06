@@ -5,7 +5,7 @@ const updatePrepopSchemaMutation = `
     updatePrepopSchema(input: $input) {
       id
       surveyId
-      schema
+      data
       dateCreated
       version
     }
@@ -14,6 +14,7 @@ const updatePrepopSchemaMutation = `
 
 const updatePrepopSchema = async (ctx, input) => {
   const result = await executeQuery(updatePrepopSchemaMutation, { input }, ctx);
+  console.log("result", result);
   return result.data.updatePrepopSchema;
 };
 
