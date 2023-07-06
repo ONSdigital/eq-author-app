@@ -58,6 +58,7 @@ const AddMenu = ({
   onAddFolder,
   canAddFolder,
   isFolder,
+  isListCollectorFolder,
   folderTitle,
 }) => {
   const defaultButtons = [
@@ -136,6 +137,13 @@ const AddMenu = ({
     },
   ];
 
+  // Removes add calculated summary page from buttons on list collector folders
+  const filteredExtraButtons = isListCollectorFolder
+    ? extraButtons.filter(
+        (button) => button.dataTest !== "btn-add-calculated-summary-inside"
+      )
+    : extraButtons;
+
   defaultButtons.splice(5, 0, {
     handleClick: () => onAddListCollectorFolder(),
     disabled: !canAddListCollectorFolder,
@@ -158,7 +166,7 @@ const AddMenu = ({
       <AddMenuWindow data-test="addmenu-window">
         {isFolder && (
           <FolderAddSubMenu folderTitle={folderTitle}>
-            {extraButtons.map((item) => (
+            {filteredExtraButtons.map((item) => (
               <MenuButton key={`${item.dataTest}-folder`} {...item} />
             ))}
           </FolderAddSubMenu>
@@ -185,6 +193,7 @@ AddMenu.propTypes = {
   onAddFolder: PropTypes.func.isRequired,
   canAddFolder: PropTypes.bool.isRequired,
   isFolder: PropTypes.bool.isRequired,
+  isListCollectorFolder: PropTypes.bool,
   folderTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   canImportContent: PropTypes.bool,
   onStartImportingContent: PropTypes.func.isRequired,

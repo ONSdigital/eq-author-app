@@ -7,7 +7,7 @@ export default {
   PIPING_TITLE_DELETED: ({ message }) => message,
 };
 
-// TODO: Remove after legacy list collector pages are removed
+// TODO: List collector folder - remove after legacy list collector pages are removed
 export const LIST_COLLECTOR_ERRORS = [
   {
     field: "repeatingLabelAndInputListId",

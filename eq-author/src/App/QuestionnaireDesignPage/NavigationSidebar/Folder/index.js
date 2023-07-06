@@ -82,7 +82,7 @@ const Folder = ({
             <Droppable
               droppableId={folderId}
               type={`folder-content`}
-              isDropDisabled={listId != null} // TODO: Update this to allow follow up questions when completing the follow up task
+              isDropDisabled={listId != null} // TODO: List collector folder - update this to allow follow up questions when completing the follow up task
             >
               {(
                 { innerRef, placeholder, droppableProps },

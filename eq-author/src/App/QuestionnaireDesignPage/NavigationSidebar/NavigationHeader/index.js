@@ -41,10 +41,14 @@ export const UnwrappedNavigationHeader = ({
   } = useNavigationCallbacks();
 
   const page = getPageById(questionnaire, entityId);
+  const folder = getFolderById(questionnaire, entityId);
+  const isListCollectorFolder =
+    entityName === FOLDER && folder?.listId !== undefined;
 
   const canAddQuestionAndCalculatedSummmaryPages =
-    [PAGE, FOLDER, SECTION].includes(entityName) &&
-    !isListCollectorPageType(page?.pageType);
+    ([PAGE, SECTION].includes(entityName) &&
+      !isListCollectorPageType(page?.pageType)) ||
+    !isListCollectorFolder; // TODO: List collector folder - allow question pages to be added when completing the follow up question task
 
   const canAddFolder = [PAGE, FOLDER, SECTION].includes(entityName);
 
@@ -132,6 +136,7 @@ export const UnwrappedNavigationHeader = ({
         canAddSection={canAddSection}
         canImportContent={canImportContent}
         isFolder={isFolder}
+        isListCollectorFolder={isListCollectorFolder}
         folderTitle={isFolder && getFolderById(questionnaire, entityId)?.alias}
       />
       {importingContent && (
