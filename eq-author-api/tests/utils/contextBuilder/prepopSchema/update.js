@@ -14,7 +14,6 @@ const updatePrepopSchemaMutation = `
 
 const updatePrepopSchema = async (ctx, input) => {
   const result = await executeQuery(updatePrepopSchemaMutation, { input }, ctx);
-  console.log("result", result);
   return result.data.updatePrepopSchema;
 };
 

@@ -425,52 +425,6 @@ const ONSDatasetPage = () => {
                                     </TableRow>
                                   );
                                 })}
-                                {/* {surveyData?.prepopSchemaVersions && (
-                                  <StyledTableBody> */}
-                                {/* {surveyData?.prepopSchemaVersions?.versions?.map(
-                                        (version) => {
-                                          return (
-                                            <TableRow
-                                              key={version.id}
-                                              data-test={`dataset-row`}
-                                            >
-                                              <SpacedTableColumn>
-                                                {version.version}
-                                              </SpacedTableColumn>
-                                              <SpacedTableColumn>
-                                                {formatDate(
-                                                  version.dateCreated
-                                                )}
-                                              </SpacedTableColumn>
-                                              <SpacedTableColumn>
-                                                <StyledButton
-                                                  onClick={() =>
-                                                    linkPrepopSchema({
-                                                      variables: {
-                                                        input: {
-                                                          id: version.id,
-                                                          surveyId: surveyID,
-                                                          version:
-                                                            version.version,
-                                                          dateCreated:
-                                                            version.dateCreated,
-                                                        },
-                                                      },
-                                                    })
-                                                  }
-                                                  type="button"
-                                                  variant="secondary"
-                                                  data-test="btn-link"
-                                                >
-                                                  Link
-                                                </StyledButton>
-                                              </SpacedTableColumn>
-                                            </TableRow>
-                                          );
-                                        }
-                                      )} */}
-                                {/* </StyledTableBody>
-                                )} */}
                               </Table>
                             </DataFieldsWrapper>
                           </>
