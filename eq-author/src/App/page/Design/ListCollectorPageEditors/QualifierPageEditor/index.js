@@ -12,6 +12,11 @@ import RichTextEditor from "components/RichTextEditor";
 import CollapsibleToggled from "components/CollapsibleToggled";
 import PageTitle from "components/PageTitle";
 import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
+import {
+  ANSWER,
+  METADATA,
+  VARIABLES,
+} from "components/ContentPickerSelectv3/content-types";
 
 import { LIST_COLLECTOR_QUALIFIER_PAGE_ERRORS } from "constants/validationMessages";
 
@@ -46,6 +51,11 @@ const HorizontalSeparator = styled.hr`
   border-top: 0.0625em solid ${colors.lightMediumGrey};
   margin: 1.5em 0;
 `;
+
+const titleControls = {
+  emphasis: true,
+  piping: true,
+};
 
 const QualifierPageEditor = ({ page, onUpdateOption }) => {
   const {
@@ -115,7 +125,8 @@ const QualifierPageEditor = ({ page, onUpdateOption }) => {
             })
           }
           errorValidationMsg={getErrorMessage("title")}
-          // controls={}
+          controls={titleControls}
+          allowableTypes={[ANSWER, METADATA, VARIABLES]}
           testSelector="qualifier-question"
         />
         <CollapsibleToggled
