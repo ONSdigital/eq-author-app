@@ -44,7 +44,7 @@ const PipingMenu = ({
   disabled,
   canFocus,
   allowableTypes = [ANSWER, METADATA],
-  allCalculatedSummaryPages,
+  allCalculatedSummaryPages = [], // Default array is empty to disable variable piping button
   listId,
 }) => {
   const [pickerContent, setPickerContent] = useState(ANSWER);
@@ -131,7 +131,7 @@ const PipingMenu = ({
           title="Pipe variable"
           disabled={
             disabled ||
-            (pageType === "QuestionPage" &&
+            (pageType !== "CalculatedSummaryPage" &&
               !allCalculatedSummaryPages[0]?.summaryAnswers.length)
           }
           onClick={() => handleButtonClick(VARIABLES)}
