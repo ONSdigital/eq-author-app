@@ -11,6 +11,11 @@ import { Field } from "components/Forms";
 import RichTextEditor from "components/RichTextEditor";
 import PageTitle from "components/PageTitle";
 import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
+import {
+  ANSWER,
+  METADATA,
+  VARIABLES,
+} from "components/ContentPickerSelectv3/content-types";
 
 import { LIST_COLLECTOR_CONFIRMATION_PAGE_ERRORS } from "constants/validationMessages";
 
@@ -45,6 +50,11 @@ const HorizontalSeparator = styled.hr`
   border-top: 0.0625em solid ${colors.lightMediumGrey};
   margin: 1.5em 0;
 `;
+
+const titleControls = {
+  emphasis: true,
+  piping: true,
+};
 
 const ConfirmationPageEditor = ({ page, onUpdateOption }) => {
   const {
@@ -112,7 +122,8 @@ const ConfirmationPageEditor = ({ page, onUpdateOption }) => {
             })
           }
           errorValidationMsg={getErrorMessage("title")}
-          // controls={}
+          controls={titleControls}
+          allowableTypes={[ANSWER, METADATA, VARIABLES]}
           testSelector="confirmation-question"
         />
         <AnswersEditor
