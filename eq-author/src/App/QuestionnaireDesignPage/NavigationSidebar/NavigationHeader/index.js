@@ -48,7 +48,7 @@ export const UnwrappedNavigationHeader = ({
   const canAddQuestionAndCalculatedSummmaryPages =
     ([PAGE, SECTION].includes(entityName) &&
       !isListCollectorPageType(page?.pageType)) ||
-    (isFolder && !isListCollectorFolder); // TODO: List collector folder - allow question pages to be added but not calculated summary when completing the follow up question task
+    isFolder;
 
   const canAddFolder = [PAGE, FOLDER, SECTION].includes(entityName);
 

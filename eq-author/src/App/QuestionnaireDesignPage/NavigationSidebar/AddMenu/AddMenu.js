@@ -113,10 +113,11 @@ const AddMenu = ({
     },
   ];
 
+  // Buttons to add content inside a folder when selected entity is a folder
   const extraButtons = [
     {
       handleClick: () => onAddQuestionPage(true),
-      disabled: !canAddQuestionPage,
+      disabled: !canAddQuestionPage || isListCollectorFolder, // TODO: List collector folder - remove `isListCollectorFolder` to allow adding question pages when completing the follow up question task
       dataTest: "btn-add-question-page-inside",
       icon: IconQuestion,
       text: "Question",
@@ -130,7 +131,7 @@ const AddMenu = ({
     },
     {
       handleClick: () => onStartImportingContent(true),
-      disabled: !canImportContent,
+      disabled: !canImportContent || isListCollectorFolder, // TODO: List collector folder - remove `isListCollectorFolder` to allow importing question pages when completing the follow up question task
       dataTest: "btn-import-content",
       icon: IconImport,
       text: "Import content",
