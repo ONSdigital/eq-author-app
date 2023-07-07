@@ -376,7 +376,7 @@ const ONSDatasetPage = () => {
                                   </StyledLi>
                                   <StyledLi>
                                     multivalued data fields, which have one or
-                                    more entities and are only available for
+                                    more entries and are only available for
                                     piping in repeating sections
                                   </StyledLi>
                                 </StyledUl>
