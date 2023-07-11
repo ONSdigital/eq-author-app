@@ -299,16 +299,16 @@ class AnswerEditor extends React.Component {
 
 AnswerEditor.propTypes = {
   answer: CustomPropTypes.answer,
-  onUpdate: PropTypes.func.isRequired,
-  onDeleteAnswer: PropTypes.func.isRequired,
-  onAddOption: PropTypes.func.isRequired,
-  onAddExclusive: PropTypes.func.isRequired,
-  onUpdateOption: PropTypes.func.isRequired,
-  onDeleteOption: PropTypes.func.isRequired,
-  canMoveDown: PropTypes.bool.isRequired,
-  canMoveUp: PropTypes.bool.isRequired,
-  onMoveUp: PropTypes.func.isRequired,
-  onMoveDown: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func,
+  onDeleteAnswer: PropTypes.func,
+  onAddOption: PropTypes.func,
+  onAddExclusive: PropTypes.func,
+  onUpdateOption: PropTypes.func,
+  onDeleteOption: PropTypes.func,
+  canMoveDown: PropTypes.bool,
+  canMoveUp: PropTypes.bool,
+  onMoveUp: PropTypes.func,
+  onMoveDown: PropTypes.func,
   renderPanel: PropTypes.func,
   page: PropTypes.object, //eslint-disable-line
   metadata: PropTypes.array, //eslint-disable-line
