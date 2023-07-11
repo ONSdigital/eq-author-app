@@ -763,7 +763,9 @@ type PrepopSchemaVersions {
 type PrepopSchema {
   id: ID
   surveyId: ID
-  schema: JSON
+  data: [JSON]
+  dateCreated: String
+  version: String
 }
 
 type PublishHistoryEvent {
@@ -1675,6 +1677,8 @@ input deleteHistoryNoteInput {
 input UpdatePrepopSchemaInput {
   id: ID!
   surveyId: ID!
-  schema: JSON
+  version: String
+  dateCreated: String
+  data: [JSON]
 }
 `;

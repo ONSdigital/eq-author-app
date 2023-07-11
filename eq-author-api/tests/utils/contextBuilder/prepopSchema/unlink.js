@@ -7,7 +7,9 @@ const unlinkPrepopSchemaMutation = `
       prepopSchema {
         id
         surveyId
-        schema        
+        dateCreated
+        version
+        data    
       }
     }
   }

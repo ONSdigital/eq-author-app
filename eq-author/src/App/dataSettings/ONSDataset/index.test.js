@@ -145,29 +145,100 @@ describe("ONS dataset page", () => {
               input: {
                 id: "123-333-789",
                 surveyId: "123",
+                version: "1",
+                dateCreated: "2023-01-12T13:37:27+00:00",
               },
             },
           },
           result: () => {
             return {
               data: {
-                updatePrepopSchema: {
-                  id: "123-333-789",
-                  surveyId: "123",
-                  schema: {
-                    id: "123-333-789",
-                    version: "1",
-                    dateCreated: "2023-01-12T13:37:27+00:00",
-                    turnover: {
-                      type: "number",
-                      example: "1000",
+                id: "121",
+                schema: {
+                  $schema: "https://json-schema.org/draft/2020-12/schema",
+                  $id: "roofing_tiles_and_slate.json",
+                  title: "SDS schema for the Roofing Tiles + Slate survey",
+                  type: "object",
+                  properties: {
+                    schemaVersion: {
+                      const: "v1",
+                      description: "Version of the schema spec",
                     },
-                    employeeCount: {
-                      type: "number",
-                      example: "50",
+                    identifier: {
+                      type: "string",
+                      description:
+                        "The unique top-level identifier. This is the reporting unit reference without the check letter appended",
+                      minLength: 11,
+                      pattern: "^[a-zA-Z0-9]+$",
+                      examples: ["34942807969"],
+                    },
+                    companyName: {
+                      type: "string",
+                      minLength: 1,
+                      examples: ["Joe Bloggs PLC"],
+                    },
+                    companyType: {
+                      type: "string",
+                      minLength: 1,
+                      examples: ["Public Limited Company"],
+                    },
+                    items: {
+                      type: "object",
+                      properties: {
+                        localUnits: {
+                          type: "array",
+                          description: "The data about each item",
+                          minItems: 1,
+                          uniqueItems: true,
+                          items: {
+                            type: "object",
+                            properties: {
+                              identifier: {
+                                type: "string",
+                                minLength: 1,
+                                description:
+                                  "The unique identifier for the items. This is the local unit reference.",
+                                examples: ["3340224"],
+                              },
+                              luName: {
+                                type: "string",
+                                minLength: 1,
+                                description: "Name of the local unit",
+                                examples: ["STUBBS BUILDING PRODUCTS LTD"],
+                              },
+                              luAddress: {
+                                type: "array",
+                                description:
+                                  "The fields of the address for the local unit",
+                                items: {
+                                  type: "string",
+                                  minLength: 1,
+                                },
+                                minItems: 1,
+                                uniqueItems: true,
+                                examples: [
+                                  [
+                                    "WELLINGTON ROAD",
+                                    "LOCHMABEN",
+                                    "SWINDON",
+                                    "BEDS",
+                                    "GLOS",
+                                    "DE41 2WA",
+                                  ],
+                                ],
+                              },
+                            },
+                            additionalProperties: false,
+                            required: ["identifier", "lu_name", "lu_address"],
+                          },
+                        },
+                      },
+                      additionalProperties: false,
+                      required: ["local_units"],
                     },
                   },
-                  __typename: "PrepopSchema",
+                  additionalProperties: false,
+                  required: ["schema_version", "identifier", "items"],
                 },
               },
             };
@@ -197,19 +268,23 @@ describe("ONS dataset page", () => {
         data: {
           prepopSchema: {
             id: "121-222-789",
-            schema: {
-              id: "121-222-789",
-              version: "1",
-              dateCreated: "2023-01-12T13:37:27+00:00",
-              turnover: {
-                type: "number",
-                example: "1000",
+            surveyId: "121",
+            version: "2",
+            dateCreated: "2023-01-12T13:37:27+00:00",
+            data: [
+              {
+                fieldName: "company_name",
+                type: "string",
+                id: "84b92922-308d-40bb-bd6d-6c0f06e37c75",
+                exampleValue: "Joe Bloggs PLC",
               },
-              employeeCount: {
-                type: "number",
-                example: "50",
+              {
+                type: "string",
+                fieldName: "company_type",
+                id: "5a92b57f-5e16-4bc2-a159-01bf63a5af13",
+                exampleValue: "Public Limited Company",
               },
-            },
+            ],
           },
         },
       }));
@@ -220,10 +295,12 @@ describe("ONS dataset page", () => {
         user,
         mocks
       );
-      expect(getByText("Dataset for survey ID")).toBeTruthy();
+      expect(getByText("Dataset for survey ID 121")).toBeTruthy();
       expect(getByText("ID:")).toBeTruthy();
       expect(getByText("Version:")).toBeTruthy();
       expect(getByText("Date created:")).toBeTruthy();
+      expect(getByText("Data fields available for piping")).toBeTruthy();
+      expect(getByText("Public Limited Company")).toBeTruthy();
     });
   });
 
@@ -235,19 +312,23 @@ describe("ONS dataset page", () => {
         data: {
           prepopSchema: {
             id: "121-222-789",
-            schema: {
-              id: "121-222-789",
-              version: "1",
-              dateCreated: "2023-01-12T13:37:27+00:00",
-              turnover: {
-                type: "number",
-                example: "1000",
+            surveyId: "121",
+            version: "2",
+            dateCreated: "2023-01-12T13:37:27+00:00",
+            data: [
+              {
+                fieldName: "company_name",
+                type: "string",
+                id: "84b92922-308d-40bb-bd6d-6c0f06e37c75",
+                exampleValue: "Joe Bloggs PLC",
               },
-              employeeCount: {
-                type: "number",
-                example: "50",
+              {
+                type: "string",
+                fieldName: "company_type",
+                id: "5a92b57f-5e16-4bc2-a159-01bf63a5af13",
+                exampleValue: "Public Limited Company",
               },
-            },
+            ],
           },
         },
       }));
@@ -288,6 +369,32 @@ describe("ONS dataset page", () => {
     });
 
     it("should close the Unlink dataset modal", async () => {
+      useQuery.mockImplementationOnce(() => ({
+        loading: false,
+        error: false,
+        data: {
+          prepopSchema: {
+            id: "121-222-789",
+            surveyId: "121",
+            version: "2",
+            dateCreated: "2023-01-12T13:37:27+00:00",
+            data: [
+              {
+                fieldName: "company_name",
+                type: "string",
+                id: "84b92922-308d-40bb-bd6d-6c0f06e37c75",
+                exampleValue: "Joe Bloggs PLC",
+              },
+              {
+                type: "string",
+                fieldName: "company_type",
+                id: "5a92b57f-5e16-4bc2-a159-01bf63a5af13",
+                exampleValue: "Public Limited Company",
+              },
+            ],
+          },
+        },
+      }));
       const { getByTestId, queryByTestId } = renderONSDatasetPage(
         questionnaire,
         props,
