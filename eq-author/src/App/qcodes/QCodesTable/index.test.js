@@ -135,14 +135,14 @@ const optionsSetup = (dataVersion) => {
       id: "checkbox-answer-id",
       options: [
         {
-          id: "checkbox-option-1-id",
-          label: "checkbox-option-1-label",
-          qCode: "option-1",
+          id: "checkbox-optionValue-1-id",
+          label: "checkbox-optionValue-1-label",
+          optionValue: "option-1",
         },
         {
-          id: "checkbox-option-2-id",
-          label: "checkbox-option-2-label",
-          qCode: "option-2",
+          id: "checkbox-optionValue-2-id",
+          label: "checkbox-optionValue-2-label",
+          optionValue: "option-2",
         },
       ],
       mutuallyExclusiveOption: {
@@ -189,9 +189,10 @@ describe("Qcode Table", () => {
     const fieldHeadings = [
       "Short code",
       "Question",
-      "Type",
+      "Answer type",
       "Answer label",
-      "Qcode",
+      "Qcode for answer type",
+      "Value for checkbox, radio and select answer labels",
     ];
     fieldHeadings.forEach((heading) => expect(getByText(heading)).toBeTruthy());
   });
@@ -605,38 +606,42 @@ describe("Qcode Table", () => {
           });
 
           it("should display answer label", () => {
-            expect(utils.getByText(/checkbox-option-1-label/)).toBeVisible();
-            expect(utils.getByText(/checkbox-option-2-label/)).toBeVisible();
+            expect(
+              utils.getByText(/checkbox-optionValue-1-label/)
+            ).toBeVisible();
+            expect(
+              utils.getByText(/checkbox-optionValue-2-label/)
+            ).toBeVisible();
             expect(
               utils.getByText(/Mutually-exclusive-option-label/)
             ).toBeVisible();
           });
 
-          it("should display answer qCode", () => {
+          it("should display answer optionValue", () => {
             expect(
-              utils.getByTestId("checkbox-option-1-id-test-input").value
+              utils.getByTestId("checkbox-optionValue-1-id-test-input").value
             ).toEqual("option-1");
             expect(
-              utils.getByTestId("checkbox-option-2-id-test-input").value
+              utils.getByTestId("checkbox-optionValue-2-id-test-input").value
             ).toEqual("option-2");
             expect(
               utils.getByTestId("checkbox-option-3-id-test-input").value
             ).toEqual("mutually-exclusive-option");
           });
 
-          it("should save qCode for option", () => {
+          it("should save optionValue for option", () => {
             fireEvent.change(
-              utils.getByTestId("checkbox-option-1-id-test-input"),
+              utils.getByTestId("checkbox-optionValue-1-id-test-input"),
               {
                 target: { value: "187" },
               }
             );
             fireEvent.blur(
-              utils.getByTestId("checkbox-option-1-id-test-input")
+              utils.getByTestId("checkbox-optionValue-1-id-test-input")
             );
             expect(mock).toHaveBeenCalledWith({
               variables: {
-                input: { id: "checkbox-option-1-id", qCode: "187" },
+                input: { id: "checkbox-optionValue-1-id", optionValue: "187" },
               },
             });
           });

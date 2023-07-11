@@ -31,6 +31,7 @@ const createAnswerMutation = `
           description
           value
           qCode
+          optionValue
           answer {
             id
           }

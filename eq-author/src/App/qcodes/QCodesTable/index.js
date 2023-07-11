@@ -47,6 +47,7 @@ import { DRIVING, ANOTHER } from "constants/list-answer-types";
 import {
   QCODE_IS_NOT_UNIQUE,
   QCODE_REQUIRED,
+  VALUE_REQUIRED,
 } from "constants/validationMessages";
 
 const SpacedTableColumn = styled(TableColumn)`
@@ -73,7 +74,7 @@ const StyledTableBody = styled(TableBody)`
   background-color: white;
 `;
 
-const QcodeValidationError = styled(ValidationError)`
+const StyledValidationError = styled(ValidationError)`
   justify-content: unset;
   margin: 0;
   padding-top: 0.2em;
@@ -115,6 +116,7 @@ const Row = memo((props) => {
     questionShortCode,
     label,
     qCode: initialQcode,
+    optionValue: initialOptionValue,
     type,
     errorMessage,
     option,
@@ -135,6 +137,10 @@ const Row = memo((props) => {
     refetchQueries: ["GetQuestionnaire"],
   });
   const [updateListCollector] = useMutation(UPDATE_LIST_COLLECTOR_PAGE, {
+    refetchQueries: ["GetQuestionnaire"],
+  });
+  const [optionValue, setOptionValue] = useState(initialOptionValue);
+  const [updateOptionValue] = useMutation(UPDATE_OPTION_QCODE, {
     refetchQueries: ["GetQuestionnaire"],
   });
 
@@ -168,6 +174,13 @@ const Row = memo((props) => {
       updateOption,
       updateListCollector,
     ]
+  );
+
+  const handleBlurOptionValue = useCallback(
+    (optionValue) => {
+      updateOptionValue(mutationVariables({ id, optionValue }));
+    },
+    [id, updateOptionValue]
   );
 
   return (
@@ -204,11 +217,11 @@ const Row = memo((props) => {
               aria-label="QCode input field"
             />
             {errorMessage && (
-              <QcodeValidationError>{errorMessage}</QcodeValidationError>
+              <StyledValidationError>{errorMessage}</StyledValidationError>
             )}
           </SpacedTableColumn>
         )
-      ) : [CHECKBOX, RADIO_OPTION, SELECT_OPTION].includes(type) ? (
+      ) : [CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type) ? (
         <EmptyTableColumn />
       ) : (
         <SpacedTableColumn>
@@ -222,9 +235,27 @@ const Row = memo((props) => {
             aria-label="QCode input field"
           />
           {errorMessage && (
-            <QcodeValidationError>{errorMessage}</QcodeValidationError>
+            <StyledValidationError>{errorMessage}</StyledValidationError>
           )}
         </SpacedTableColumn>
+      )}
+      {[CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type) ? (
+        <SpacedTableColumn>
+          <ErrorWrappedInput
+            name={`${id}-optionValue-entry`}
+            data-test={`${id}-test-input`}
+            value={optionValue}
+            onChange={(e) => setOptionValue(e.value)}
+            onBlur={() => handleBlurOptionValue(optionValue)}
+            hasError={Boolean(errorMessage)}
+            aria-label="optionValue input field"
+          />
+          {errorMessage && (
+            <StyledValidationError>{errorMessage}</StyledValidationError>
+          )}
+        </SpacedTableColumn>
+      ) : (
+        <EmptyTableColumn />
       )}
     </TableRow>
   );
@@ -237,6 +268,7 @@ Row.propTypes = {
   questionShortCode: PropTypes.string,
   label: PropTypes.string,
   qCode: PropTypes.string,
+  optionValue: PropTypes.string,
   type: PropTypes.string,
   qCodeCheck: PropTypes.func,
   errorMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
@@ -249,8 +281,11 @@ Row.propTypes = {
 
 export const QCodeTable = () => {
   const { answerRows, duplicatedQCodes, dataVersion } = useQCodeContext();
-  const getErrorMessage = (qCode) =>
-    (!qCode && QCODE_REQUIRED) ||
+  const getErrorMessage = (qCode, optionValue, type) =>
+    ([CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type) &&
+      !optionValue &&
+      VALUE_REQUIRED) ||
+    (!optionValue && !qCode && QCODE_REQUIRED) ||
     (duplicatedQCodes.includes(qCode) && QCODE_IS_NOT_UNIQUE);
 
   return (
@@ -259,9 +294,12 @@ export const QCodeTable = () => {
         <TableRow>
           <TableHeadColumn width="20%">Short code</TableHeadColumn>
           <TableHeadColumn width="20%">Question</TableHeadColumn>
-          <TableHeadColumn width="20%">Type</TableHeadColumn>
+          <TableHeadColumn width="20%">Answer type</TableHeadColumn>
           <TableHeadColumn width="20%">Answer label</TableHeadColumn>
-          <TableHeadColumn width="20%">Qcode</TableHeadColumn>
+          <TableHeadColumn width="20%">Qcode for answer type</TableHeadColumn>
+          <TableHeadColumn width="20%">
+            Value for checkbox, radio and select answer labels
+          </TableHeadColumn>
         </TableRow>
       </TableHead>
       <StyledTableBody>
@@ -276,13 +314,21 @@ export const QCodeTable = () => {
                   key={`${item.id}-${index}`}
                   dataVersion={dataVersion}
                   {...item}
-                  errorMessage={getErrorMessage(item.qCode)}
+                  errorMessage={getErrorMessage(
+                    item.qCode,
+                    item.optionValue,
+                    item.type
+                  )}
                 />
                 <Row
                   key={`${item.additionalAnswer.id}-${index}`}
                   dataVersion={dataVersion}
                   {...item.additionalAnswer}
-                  errorMessage={getErrorMessage(item.additionalAnswer.qCode)}
+                  errorMessage={getErrorMessage(
+                    item.additionalAnswer.qCode,
+                    item.optionValue,
+                    item.type
+                  )}
                 />
               </>
             );
@@ -293,7 +339,9 @@ export const QCodeTable = () => {
                 dataVersion={dataVersion}
                 {...item}
                 errorMessage={getErrorMessage(
-                  item.qCode ?? item.drivingQCode ?? item.anotherQCode // Uses a different QCode depending on the QCode defined in item
+                  item.qCode,
+                  item.optionValue,
+                  item.type
                 )}
               />
             );

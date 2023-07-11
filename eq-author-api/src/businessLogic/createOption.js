@@ -17,6 +17,7 @@ module.exports = (input = {}) => {
     label: "",
     qCode: "",
     ...omit(["answerId", "hasAdditionalAnswer"], input),
+    optionValue: "",
     additionalAnswer,
   };
 };

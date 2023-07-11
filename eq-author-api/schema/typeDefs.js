@@ -371,6 +371,7 @@ type Option {
   dynamicAnswer: Boolean
   dynamicAnswerID: ID
   answer: Answer
+  optionValue: String
   additionalAnswer: BasicAnswer
   mutuallyExclusive: Boolean
   validationErrorInfo: ValidationErrorInfo
@@ -1416,6 +1417,7 @@ input CreateOptionInput {
   value: String
   qCode: String
   answerId: ID!
+  optionValue: String
   hasAdditionalAnswer: Boolean
 }
 
@@ -1425,6 +1427,7 @@ input CreateMutuallyExclusiveOptionInput {
   value: String
   qCode: String
   answerId: ID!
+  optionValue: String
 }
 
 input MoveOptionInput {
@@ -1438,6 +1441,7 @@ input UpdateOptionInput {
   description: String
   value: String
   qCode: String
+  optionValue: String
   additionalAnswer: UpdateAnswerInput
   dynamicAnswer: Boolean
   dynamicAnswerID: ID

@@ -233,6 +233,7 @@ fragment Answers on Answer {
       description
       value
       qCode
+      optionValue
       additionalAnswer {
         id
         description

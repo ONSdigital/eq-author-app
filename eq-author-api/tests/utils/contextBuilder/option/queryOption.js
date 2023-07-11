@@ -9,6 +9,7 @@ const getOptionQuery = `
       description
       value
       qCode
+      optionValue
       additionalAnswer {
         id
         label
