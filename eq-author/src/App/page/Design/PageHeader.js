@@ -190,13 +190,13 @@ PageHeader.propTypes = {
       questionnaireId: PropTypes.string.isRequired,
       pageId: PropTypes.string.isRequired,
     }).isRequired,
-  }).isRequired,
+  }),
   isMoveDisabled: PropTypes.bool,
   isDuplicateDisabled: PropTypes.bool,
   onMovePage: PropTypes.func.isRequired,
   onDeletePage: PropTypes.func.isRequired,
   onDuplicatePage: PropTypes.func.isRequired,
-  alertText: PropTypes.string.isRequired,
+  alertText: PropTypes.string,
   alias: PropTypes.string,
 };
 
