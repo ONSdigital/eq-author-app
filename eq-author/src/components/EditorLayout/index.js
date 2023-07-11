@@ -71,6 +71,7 @@ const EditorLayout = ({
   comments,
   ...otherProps
 }) => {
+  console.log("onAddQuestionPage :>> ", onAddQuestionPage);
   const { me } = useMe();
 
   return (

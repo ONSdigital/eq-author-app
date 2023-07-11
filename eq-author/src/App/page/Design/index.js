@@ -190,7 +190,9 @@ export const UnwrappedPageRoute = (props) => {
       <EditorLayout
         title={page?.displayName || ""}
         onAddQuestionPage={
-          !isListCollectorPageType(page?.pageType) && onAddQuestionPage
+          !isListCollectorPageType(page?.pageType)
+            ? onAddQuestionPage
+            : undefined
         }
         validationErrorInfo={page?.validationErrorInfo}
         comments={comments}
