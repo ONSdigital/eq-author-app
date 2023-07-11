@@ -183,6 +183,31 @@ const publishCommentUpdates = (questionnaireId) => {
   });
 };
 
+const getPrepopMetadata = (properties) => {
+  const prepopSchema = [];
+
+  const metadataKeys = Object.keys(properties).filter(
+    (key) => key !== "items" && key !== "identifier" && key !== "schema_version"
+  );
+
+  metadataKeys.forEach((key) => {
+    // populate prepopSchema fields
+    properties[key] = {
+      ...properties[key],
+      fieldName: key,
+      id: uuidv4(),
+      exampleValue: properties[key].examples[0],
+    };
+
+    // delete redundant fields
+    properties[key] = omit(properties[key], ["minLength", "examples"]);
+
+    prepopSchema.push(properties[key]);
+  });
+
+  return prepopSchema;
+};
+
 const Resolvers = {
   Query: {
     questionnaires: async (root, { input = {} }, ctx) => {
@@ -1546,8 +1571,8 @@ const Resolvers = {
       return ctx.questionnaire;
     }),
     updatePrepopSchema: createMutation(async (root, { input }, ctx) => {
-      const { id } = input;
-      const url = `${process.env.PREPOP_SCHEMA_GATEWAY}schemaVersionGet?id=${id}`;
+      const { id, surveyId } = input;
+      const url = `${process.env.PREPOP_SCHEMA_GATEWAY}schemaVersionGet?id=${surveyId}`;
 
       try {
         const response = await fetch(url);
@@ -1555,14 +1580,29 @@ const Resolvers = {
 
         if (prepopSchemaVersion) {
           logger.info(`Schema version data returned - ${prepopSchemaVersion}`);
-          ctx.questionnaire.prepopSchema = prepopSchemaVersion;
-          return prepopSchemaVersion;
+
+          if (prepopSchemaVersion?.schema?.properties) {
+            ctx.questionnaire.prepopSchema = { ...input };
+            ctx.questionnaire.prepopSchema.data = getPrepopMetadata(
+              prepopSchemaVersion.schema.properties
+            );
+          }
+
+          return ctx.questionnaire.prepopSchema;
         } else {
           logger.info(`Schema version data not found - ${id}`);
         }
       } catch (err) {
         throw Error(err);
       }
+    }),
+    unlinkPrepopSchema: createMutation(async (root, args, ctx) => {
+      logger.info(
+        { qid: ctx.questionnaire.id },
+        `Unlinked PrepopSchema with ID: ${ctx.questionnaire.prepopSchema.id} from questionnaire: ${ctx.questionnaire.id}`
+      );
+      ctx.questionnaire.prepopSchema = undefined;
+      return ctx.questionnaire;
     }),
   },
 
