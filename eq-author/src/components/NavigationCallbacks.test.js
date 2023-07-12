@@ -22,6 +22,7 @@ jest.mock("hooks/useCreateQuestionPage", () => ({
 jest.mock("hooks/useCreateFolder", () => ({
   useCreatePageWithFolder: jest.fn(),
   useCreateFolder: jest.fn(),
+  useCreateListCollectorFolder: jest.fn(),
 }));
 
 jest.mock("react", () => ({
