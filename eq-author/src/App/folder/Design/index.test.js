@@ -32,6 +32,7 @@ jest.mock("hooks/useCreateQuestionPage", () => ({
 jest.mock("hooks/useCreateFolder", () => ({
   useCreateFolder: jest.fn(),
   useCreatePageWithFolder: jest.fn(),
+  useCreateListCollectorFolder: jest.fn(),
 }));
 
 jest.mock("components/NavigationCallbacks", () => ({
@@ -199,7 +200,7 @@ describe("Folder design page", () => {
         {
           onAddQuestionPage: expect.any(Function),
           onAddCalculatedSummaryPage: expect.any(Function),
-          onAddListCollectorPage: expect.any(Function),
+          onAddListCollectorFolder: expect.any(Function),
           onAddFolder: expect.any(Function),
         },
         [
