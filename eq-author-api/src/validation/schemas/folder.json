@@ -12,9 +12,6 @@
         "allOf": [
           {
             "$ref": "page.json"
-          },
-          {
-            "$ref": "listCollectorPage.json"
           }
         ]
       }
