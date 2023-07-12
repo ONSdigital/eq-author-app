@@ -32,6 +32,9 @@ query GetQuestionnaire($input: QueryInput!) {
         alias
         displayName
         position
+        ... on ListCollectorFolder {
+          listId
+        }
         pages {
           id
           title
