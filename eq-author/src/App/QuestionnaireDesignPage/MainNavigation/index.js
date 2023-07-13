@@ -61,6 +61,10 @@ const StyledMainNavigation = styled.div`
   position: relative;
 `;
 
+const StyledIconText = styled(IconText)`
+  line-height: 1.2;
+`;
+
 export const UtilityBtns = styled.div`
   /* display: flex; */
 
@@ -209,9 +213,9 @@ export const UnwrappedMainNavigation = ({
                   title === "QCodes" || totalErrorCount > 0 || !qcodesEnabled
                 }
               >
-                <IconText nav icon={qcodeIcon}>
+                <StyledIconText nav icon={qcodeIcon}>
                   QCodes and values
-                </IconText>
+                </StyledIconText>
                 {qcodesEnabled && hasQCodeError && (
                   <Badge data-test="small-badge" variant="main-nav" />
                 )}
