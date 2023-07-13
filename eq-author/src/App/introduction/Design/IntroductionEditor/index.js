@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
-import { useMutation } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 import { useParams, Link } from "react-router-dom";
 
 import { colors } from "constants/theme";
@@ -21,6 +21,9 @@ import IntroductionHeader from "../../IntroductionHeader";
 import CollapsiblesEditor from "./CollapsiblesEditor";
 
 import UPDATE_INTRODUCTION_MUTATION from "graphql/updateQuestionnaireIntroduction.graphql";
+import COLLECTION_LISTS from "graphql/lists/collectionLists.graphql";
+
+const { logger } = require("../../../../utils/logger");
 
 const Section = styled.section`
   &:not(:last-of-type) {
@@ -64,6 +67,7 @@ const InlineField = styled(Field)`
   > * {
     margin-bottom: 0;
   }
+  pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
 `;
 
 const HorizontalSeparator = styled.hr`
@@ -103,7 +107,7 @@ const IntroductionEditor = ({ introduction, history }) => {
     additionalGuidancePanel,
     additionalGuidancePanelSwitch,
     // TODO: previewQuestions
-    // previewQuestions,
+    previewQuestions,
     secondaryTitle,
     secondaryDescription,
     tertiaryTitle,
@@ -118,6 +122,8 @@ const IntroductionEditor = ({ introduction, history }) => {
   const [phoneNumber, setPhoneNumber] = useState(contactDetailsPhoneNumber);
   const [email, setEmail] = useState(contactDetailsEmailAddress);
   const [emailSubject, setEmailSubject] = useState(contactDetailsEmailSubject);
+  const [disablePreviewQuestions, setDisablePreviewQuestions] = useState(false);
+  const [lists, setLists] = useState([]);
 
   const { errors } = validationErrorInfo;
 
@@ -132,6 +138,30 @@ const IntroductionEditor = ({ introduction, history }) => {
   const params = useParams();
 
   // TODO: previewQuestions
+  const { data } = useQuery(COLLECTION_LISTS, {
+    fetchPolicy: "cache-and-network",
+  });
+
+  useEffect(() => {
+    if (data) {
+      setLists(data.collectionLists?.lists || []);
+    }
+  
+    if (lists.length > 0) {
+      setDisablePreviewQuestions(true);
+      updateQuestionnaireIntroduction({
+        variables: {
+          input: {
+            previewQuestions: false,
+          },
+        },
+      })
+    }else{
+      setDisablePreviewQuestions(false);
+    }
+    
+  },[data, lists, disablePreviewQuestions,updateQuestionnaireIntroduction] )
+
   return (
     <>
       <IntroductionHeader history={history} />
@@ -350,9 +380,11 @@ const IntroductionEditor = ({ introduction, history }) => {
           </InformationPanel>
         </Padding>
       </Section>
-      {/* <Section>
+      {/* //TODO: previewQuestions */ }
+      
+      <Section>
         <Padding>
-          <InlineField open={previewQuestions} style={{ marginBottom: "0" }}>
+          <InlineField open={previewQuestions} style={{ marginBottom: "0" }} disabled={disablePreviewQuestions}>
             <Label htmlFor="toggle-preview-questions">Preview questions</Label>
             <ToggleSwitch
               id="toggle-preview-questions"
@@ -376,7 +408,7 @@ const IntroductionEditor = ({ introduction, history }) => {
             format.
           </SectionDescription>
         </Padding>
-      </Section> */}
+      </Section>
       <Section>
         <Padding>
           <SectionTitle style={{ marginBottom: "0" }}>
