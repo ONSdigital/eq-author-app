@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
-import { useQuery, useMutation } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 import { useParams, Link } from "react-router-dom";
 
 import { colors } from "constants/theme";
@@ -21,9 +21,6 @@ import IntroductionHeader from "../../IntroductionHeader";
 import CollapsiblesEditor from "./CollapsiblesEditor";
 
 import UPDATE_INTRODUCTION_MUTATION from "graphql/updateQuestionnaireIntroduction.graphql";
-import COLLECTION_LISTS from "graphql/lists/collectionLists.graphql";
-
-const { logger } = require("../../../../utils/logger");
 
 const Section = styled.section`
   &:not(:last-of-type) {
@@ -106,8 +103,8 @@ const IntroductionEditor = ({ introduction, history }) => {
     contactDetailsIncludeRuRef,
     additionalGuidancePanel,
     additionalGuidancePanelSwitch,
-    // TODO: previewQuestions
     previewQuestions,
+    disallowPreviewQuestions,
     secondaryTitle,
     secondaryDescription,
     tertiaryTitle,
@@ -122,8 +119,6 @@ const IntroductionEditor = ({ introduction, history }) => {
   const [phoneNumber, setPhoneNumber] = useState(contactDetailsPhoneNumber);
   const [email, setEmail] = useState(contactDetailsEmailAddress);
   const [emailSubject, setEmailSubject] = useState(contactDetailsEmailSubject);
-  const [disablePreviewQuestions, setDisablePreviewQuestions] = useState(false);
-  const [lists, setLists] = useState([]);
 
   const { errors } = validationErrorInfo;
 
@@ -136,32 +131,6 @@ const IntroductionEditor = ({ introduction, history }) => {
   };
 
   const params = useParams();
-
-  // TODO: previewQuestions
-  const { data } = useQuery(COLLECTION_LISTS, {
-    fetchPolicy: "cache-and-network",
-  });
-
-  useEffect(() => {
-    if (data) {
-      setLists(data.collectionLists?.lists || []);
-    }
-  
-    if (lists.length > 0) {
-      setDisablePreviewQuestions(true);
-      updateQuestionnaireIntroduction({
-        variables: {
-          input: {
-            previewQuestions: false,
-          },
-        },
-      })
-    }else{
-      setDisablePreviewQuestions(false);
-    }
-    
-  },[data, lists, disablePreviewQuestions,updateQuestionnaireIntroduction] )
-
   return (
     <>
       <IntroductionHeader history={history} />
@@ -380,12 +349,29 @@ const IntroductionEditor = ({ introduction, history }) => {
           </InformationPanel>
         </Padding>
       </Section>
-      {/* //TODO: previewQuestions */ }
-      
+      {/* //TODO: previewQuestions */}
       <Section>
         <Padding>
-          <InlineField open={previewQuestions} style={{ marginBottom: "0" }} disabled={disablePreviewQuestions}>
-            <Label htmlFor="toggle-preview-questions">Preview questions</Label>
+          <SectionTitle
+            style={{
+              color: disallowPreviewQuestions ? colors.mediumGrey : colors.text,
+            }}
+          >
+            Include a link to a page for previewing the questions
+          </SectionTitle>
+          <SectionDescription
+            style={{
+              color: disallowPreviewQuestions ? colors.mediumGrey : colors.text,
+            }}
+          >
+            Each section is represented as a collapsible element, allowing users
+            to show and hide its respective questions.
+          </SectionDescription>
+          <InlineField
+            style={{ marginBottom: "0" }}
+            disabled={disallowPreviewQuestions}
+          >
+            <Label>Preview questions</Label>
             <ToggleSwitch
               id="toggle-preview-questions"
               name="toggle-preview-questions"
@@ -402,11 +388,12 @@ const IntroductionEditor = ({ introduction, history }) => {
               checked={previewQuestions}
             />
           </InlineField>
-          <SectionDescription>
-            This displays a link on the introduction page that takes respondents
-            to a preview of all the questions on one page in a collapsible
-            format.
-          </SectionDescription>
+          {disallowPreviewQuestions ? (
+            <InformationPanel>
+              A link for previewing the questions cannot be provided for
+              questionnaires that contain list collector question patterns.
+            </InformationPanel>
+          ) : null}
         </Padding>
       </Section>
       <Section>

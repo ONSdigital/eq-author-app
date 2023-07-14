@@ -27,6 +27,7 @@ module.exports = (metadata) => {
     legalBasis: NOTICE_1,
     // TODO: previewQuestions
     previewQuestions: false,
+    disallowPreviewQuestions: false,
     secondaryTitle: "<p>Information you need</p>",
     secondaryDescription:
       "<p>You can select the dates of the period you are reporting for, if the given dates are not appropriate.</p>",

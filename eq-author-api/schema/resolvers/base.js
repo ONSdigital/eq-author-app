@@ -1030,7 +1030,7 @@ const Resolvers = {
       };
     }),
     createList: createMutation(async (root, _, ctx) => {
-      const list = createList();
+      const list = createList(ctx);
       if (!ctx.questionnaire.collectionLists) {
         ctx.questionnaire.collectionLists = {
           id: uuidv4(),
