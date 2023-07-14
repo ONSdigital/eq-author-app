@@ -296,7 +296,7 @@ export const QCodeTable = () => {
           <TableHeadColumn width="20%">Question</TableHeadColumn>
           <TableHeadColumn width="20%">Answer type</TableHeadColumn>
           <TableHeadColumn width="20%">Answer label</TableHeadColumn>
-          <TableHeadColumn width="20%">Qcode for answer type</TableHeadColumn>
+          <TableHeadColumn width="20%">Q code for answer type</TableHeadColumn>
           <TableHeadColumn width="20%">
             Value for checkbox, radio and select answer labels
           </TableHeadColumn>

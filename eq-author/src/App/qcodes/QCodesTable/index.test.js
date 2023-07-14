@@ -191,7 +191,7 @@ describe("Qcode Table", () => {
       "Question",
       "Answer type",
       "Answer label",
-      "Qcode for answer type",
+      "Q code for answer type",
       "Value for checkbox, radio and select answer labels",
     ];
     fieldHeadings.forEach((heading) => expect(getByText(heading)).toBeTruthy());
@@ -206,7 +206,7 @@ describe("Qcode Table", () => {
     const questionnaire = buildQuestionnaire({ answerCount: 1 });
     questionnaire.sections[0].folders[0].pages[0].answers[0].qCode = "";
     const { getAllByText } = renderWithContext({ questionnaire });
-    expect(getAllByText("Qcode required")).toBeTruthy();
+    expect(getAllByText("Q code required")).toBeTruthy();
   });
 
   it("should not save qCode if it is the same as the initial qCode", () => {
@@ -712,7 +712,7 @@ describe("Qcode Table", () => {
         questionnaire.sections[0].folders[0].pages[0].answers[0].qCode = "";
         questionnaire.dataVersion = "3";
         const { getAllByText } = renderWithContext({ questionnaire });
-        expect(getAllByText("Qcode required")).toBeTruthy();
+        expect(getAllByText("Q code required")).toBeTruthy();
       });
 
       it("should render a validation error when duplicate qCodes are present in data version 3", () => {
@@ -745,7 +745,7 @@ describe("Qcode Table", () => {
         questionnaire.sections[0].folders[0].pages[0].answers[0].options[0] =
           option;
         const { getAllByText } = renderWithContext({ questionnaire });
-        expect(getAllByText("Qcode required")).toBeTruthy();
+        expect(getAllByText("Q code required")).toBeTruthy();
       });
 
       it("should map qCode rows when additional answer is set to true and answer type is not checkbox option", () => {
@@ -771,7 +771,7 @@ describe("Qcode Table", () => {
         questionnaire.sections[0].folders[0].pages[0].answers[0].options[0] =
           option;
         const { getAllByText } = renderWithContext({ questionnaire });
-        expect(getAllByText("Qcode required")).toBeTruthy();
+        expect(getAllByText("Q code required")).toBeTruthy();
       });
 
       describe("List collector questions", () => {
