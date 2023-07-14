@@ -352,26 +352,21 @@ const IntroductionEditor = ({ introduction, history }) => {
       {/* //TODO: previewQuestions */}
       <Section>
         <Padding>
-          <SectionTitle
-            style={{
-              color: disallowPreviewQuestions ? colors.mediumGrey : colors.text,
-            }}
-          >
-            Include a link to a page for previewing the questions
-          </SectionTitle>
-          <SectionDescription
-            style={{
-              color: disallowPreviewQuestions ? colors.mediumGrey : colors.text,
-            }}
-          >
-            Each section is represented as a collapsible element, allowing users
-            to show and hide its respective questions.
-          </SectionDescription>
           <InlineField
             style={{ marginBottom: "0" }}
             disabled={disallowPreviewQuestions}
           >
-            <Label>Preview questions</Label>
+            <Label
+              labelFor="toggle-preview-questions"
+              style={{
+                color: disallowPreviewQuestions
+                  ? colors.mediumGrey
+                  : colors.text,
+                marginBottom: "0",
+              }}
+            >
+              Include a link to a page for previewing the questions
+            </Label>
             <ToggleSwitch
               id="toggle-preview-questions"
               name="toggle-preview-questions"
@@ -388,6 +383,15 @@ const IntroductionEditor = ({ introduction, history }) => {
               checked={previewQuestions}
             />
           </InlineField>
+          <SectionDescription
+            style={{
+              color: disallowPreviewQuestions ? colors.mediumGrey : colors.text,
+              marginBottom: "0",
+            }}
+          >
+            Each section is represented as a collapsible element, allowing users
+            to show and hide its respective questions.
+          </SectionDescription>
           {disallowPreviewQuestions ? (
             <InformationPanel>
               A link for previewing the questions cannot be provided for
