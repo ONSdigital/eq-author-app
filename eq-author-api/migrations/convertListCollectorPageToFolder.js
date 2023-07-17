@@ -7,10 +7,13 @@ const {
 
 module.exports = (questionnaire) => {
   let convertedListCollectorFolder;
+  let folderPositionIterator = 1;
 
   questionnaire.sections.forEach((section) => {
     section.folders.forEach((folder) => {
-      folder.pages.forEach((page) => {
+      // Uses for instead of forEach to prevent list collector pages being skipped when there are multiple list collector pages in folder
+      for (let i = 0; i < folder.pages.length; i++) {
+        const page = folder.pages[i];
         if (page.pageType === "ListCollectorPage") {
           // Creates list collector folder from list collector page data
           convertedListCollectorFolder = {
@@ -78,19 +81,20 @@ module.exports = (questionnaire) => {
           // Gets the index of the folder containing the list collector page
           const folderIndex = section.folders.indexOf(folder);
 
-          // Adds list collector folder after the folder the list collector page was contained in
-          const newFolderPosition = folderIndex + 1;
+          // Incremements iterator to handle folders containing multiple list collector pages
+          folderPositionIterator++;
+          // Adds list collector folder after the folder the list collector page was contained in, or after the last list collector folder created in the migration
+          const newFolderPosition = folderIndex + folderPositionIterator;
           section.folders.splice(
             newFolderPosition,
             0,
             convertedListCollectorFolder
           );
 
-          // Finds list collector page in its folder and deletes it from its folder
-          const pageIndex = folder.pages.indexOf(page);
-          folder.pages.splice(pageIndex, 1);
+          // Deletes page at position i then decreases the iterator - prevents pages being skipped in the loop
+          folder.pages.splice(i--, 1);
         }
-      });
+      }
     });
   });
 
