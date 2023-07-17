@@ -7,8 +7,8 @@ import { Grid } from "components/Grid";
 import { colors } from "constants/theme";
 import MainCanvas from "components/MainCanvas";
 import QcodesTable from "./QCodesTable";
-import Panel from "components-themed/panels";
 import { InformationPanel } from "components/Panel";
+import Panel from "components-themed/panels";
 
 const Container = styled.div`
   display: flex;
