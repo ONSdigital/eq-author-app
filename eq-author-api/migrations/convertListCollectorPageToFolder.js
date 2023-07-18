@@ -1,4 +1,5 @@
 const { v4: uuidv4 } = require("uuid");
+const createFolder = require("../src/businessLogic/createFolder");
 const {
   createListCollectorQualifierPage,
   createListCollectorAddItemPage,
@@ -12,8 +13,8 @@ module.exports = (questionnaire) => {
   questionnaire.sections.forEach((section) => {
     section.folders.forEach((folder) => {
       // Uses for instead of forEach to prevent list collector pages being skipped when there are multiple list collector pages in folder
-      for (let i = 0; i < folder.pages.length; i++) {
-        const page = folder.pages[i];
+      for (let pageIndex = 0; pageIndex < folder.pages.length; pageIndex++) {
+        const page = folder.pages[pageIndex];
         if (page.pageType === "ListCollectorPage") {
           // Creates list collector folder from list collector page data
           convertedListCollectorFolder = {
@@ -92,7 +93,21 @@ module.exports = (questionnaire) => {
           );
 
           // Deletes page at position i then decreases the iterator - prevents pages being skipped in the loop
-          folder.pages.splice(i--, 1);
+          folder.pages.splice(pageIndex--, 1);
+        } else {
+          let folderIndex = section.folders.indexOf(folder);
+
+          folderPositionIterator++;
+
+          const newFolderPosition = folderIndex + folderPositionIterator;
+          const newFolder = createFolder({ pages: [page] });
+          section.folders.splice(newFolderPosition, 0, newFolder);
+
+          folder.pages.splice(pageIndex--, 1);
+
+          if (folder.pages.length === 0) {
+            section.folders.splice(folderIndex, 1);
+          }
         }
       }
     });
