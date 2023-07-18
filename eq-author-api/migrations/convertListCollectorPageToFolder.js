@@ -78,10 +78,10 @@ const generateListCollectorFolder = (page) => {
 
 module.exports = (questionnaire) => {
   questionnaire.sections.forEach((section) => {
-    section.folders.forEach((folder) => {
+    for (let i = 0; i < section.folders.length; i++) {
+      const folder = section.folders[i];
       // Check folder has list collector page
       const folderContainsListCollectorPage = hasListCollectorPage(folder);
-      const folderIndex = section.folders.indexOf(folder);
 
       // If folder has list collector question, duplicate folder with a slice of questions
       if (folderContainsListCollectorPage) {
@@ -113,22 +113,15 @@ module.exports = (questionnaire) => {
         const newListCollectorFolder =
           generateListCollectorFolder(listCollectorPage);
 
-        // Adds each of the created folders to their expected positions in the section
-        section.folders.splice(
-          folderIndex + 1,
-          0,
-          folderWithPagesBeforeListCollector
-        );
-        section.folders.splice(folderIndex + 2, 0, newListCollectorFolder);
-        section.folders.splice(
-          folderIndex + 3,
-          0,
-          folderWithPagesAfterListCollector
-        );
+        // Add each of the created folders to their expected positions in the section
+        section.folders.splice(i + 1, 0, folderWithPagesBeforeListCollector);
+        section.folders.splice(i + 2, 0, newListCollectorFolder);
+        section.folders.splice(i + 3, 0, folderWithPagesAfterListCollector);
 
-        section.folders.splice(folderIndex, 1);
+        // Delete original folder from section
+        section.folders.splice(i, 1);
       }
-    });
+    }
   });
 
   return questionnaire;
