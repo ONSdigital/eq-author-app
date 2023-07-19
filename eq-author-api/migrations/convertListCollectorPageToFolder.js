@@ -103,12 +103,14 @@ module.exports = (questionnaire) => {
         const folderWithPagesBeforeListCollector = createFolder({
           alias: folder.alias,
           pages: pagesBeforeListCollectorPage,
+          skipConditions: folder.skipConditions,
         });
 
         // Create a new folder of pages after list collector page
         const folderWithPagesAfterListCollector = createFolder({
           alias: folder.alias,
           pages: pagesAfterListCollectorPage,
+          skipConditions: folder.skipConditions,
         });
 
         // Create list collector folder containing list collector page's data
