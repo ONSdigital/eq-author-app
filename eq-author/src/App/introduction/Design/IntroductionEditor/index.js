@@ -13,6 +13,7 @@ import { buildSettingsPath } from "utils/UrlUtils";
 import RichTextEditor from "components/RichTextEditor";
 import ValidationError from "components/ValidationError";
 import { InformationPanel } from "components/Panel";
+
 import { Field, Input, Label } from "components/Forms";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import Panel from "components-themed/panels";
@@ -386,13 +387,18 @@ const IntroductionEditor = ({ introduction, history }) => {
           <SectionDescription
             style={{
               color: disallowPreviewQuestions ? colors.mediumGrey : colors.text,
-              marginBottom: "0",
+              marginBottom: "1em",
             }}
           >
             Each section is represented as a collapsible element, allowing users
             to show and hide its respective questions.
           </SectionDescription>
-          {disallowPreviewQuestions ? (
+          {previewQuestions ? (
+            <Panel variant="warning">
+              Adding a collection list will automatically turn off and disable
+              this previewing questions setting.
+            </Panel>
+          ) : disallowPreviewQuestions ? (
             <InformationPanel>
               A link for previewing the questions cannot be provided for
               questionnaires that contain list collector question patterns.

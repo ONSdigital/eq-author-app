@@ -31,6 +31,7 @@ describe("IntroductionEditor", () => {
         contactDetailsIncludeRuRef: false,
         additionalGuidancePanelSwitch: false,
         previewQuestions: true,
+        disallowPreviewQuestions: true,
         additionalGuidancePanel: "additionalGuidancePanel",
         description: "description",
         secondaryTitle: "secondary title",
@@ -159,18 +160,18 @@ describe("IntroductionEditor", () => {
     expect(mockUseMutation).toHaveBeenCalledTimes(3);
   });
 
-  // TODO: previewQuestions
-  // it("should toggle preview questions", () => {
-  //   const mockUseMutation = jest.fn();
-  //   useMutation.mockImplementationOnce(jest.fn(() => [mockUseMutation]));
+  //TODO: previewQuestions;
+  it("should toggle preview questions", () => {
+    const mockUseMutation = jest.fn();
+    useMutation.mockImplementationOnce(jest.fn(() => [mockUseMutation]));
 
-  //   const wrapper = shallow(<IntroductionEditor {...props} />);
-  //   expect(
-  //     wrapper.find('[name="toggle-preview-questions"]').exists()
-  //   ).toBeTruthy();
-  //   wrapper
-  //     .find("#toggle-preview-questions")
-  //     .simulate("change", { target: { checked: false } });
-  //   expect(mockUseMutation).toHaveBeenCalledTimes(1);
-  // });
+    const wrapper = shallow(<IntroductionEditor {...props} />);
+    expect(
+      wrapper.find('[name="toggle-preview-questions"]').exists()
+    ).toBeTruthy();
+    wrapper
+      .find("#toggle-preview-questions")
+      .simulate("change", { target: { checked: false } });
+    expect(mockUseMutation).toHaveBeenCalledTimes(1);
+  });
 });

@@ -203,6 +203,56 @@ exports[`IntroductionEditor should render 1`] = `
   </IntroductionEditor__Section>
   <IntroductionEditor__Section>
     <IntroductionEditor__Padding>
+      <IntroductionEditor__InlineField
+        disabled={true}
+        style={
+          Object {
+            "marginBottom": "0",
+          }
+        }
+      >
+        <Label
+          bold={true}
+          labelFor="toggle-preview-questions"
+          style={
+            Object {
+              "color": "#7a7a7a",
+              "marginBottom": "0",
+            }
+          }
+        >
+          Include a link to a page for previewing the questions
+        </Label>
+        <ToggleSwitch
+          blockDisplay={false}
+          checked={true}
+          hideLabels={false}
+          id="toggle-preview-questions"
+          name="toggle-preview-questions"
+          onChange={[Function]}
+        />
+      </IntroductionEditor__InlineField>
+      <IntroductionEditor__SectionDescription
+        style={
+          Object {
+            "color": "#7a7a7a",
+            "marginBottom": "1em",
+          }
+        }
+      >
+        Each section is represented as a collapsible element, allowing users to show and hide its respective questions.
+      </IntroductionEditor__SectionDescription>
+      <Panel
+        variant="warning"
+        withList={false}
+        withPanelMargin={true}
+      >
+        Adding a collection list will automatically turn off and disable this previewing questions setting.
+      </Panel>
+    </IntroductionEditor__Padding>
+  </IntroductionEditor__Section>
+  <IntroductionEditor__Section>
+    <IntroductionEditor__Padding>
       <IntroductionEditor__SectionTitle
         style={
           Object {
