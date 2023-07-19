@@ -11,6 +11,8 @@ const THEME_SHORT_NAMES = [
   "dbt-dsit-ni",
   "social",
   "health",
+  "desnz",
+  "desnz-ni",
 ];
 
 module.exports = { THEME_SHORT_NAMES };
