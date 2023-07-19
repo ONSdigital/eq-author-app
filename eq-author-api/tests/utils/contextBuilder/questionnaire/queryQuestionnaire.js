@@ -44,7 +44,9 @@ const getQuestionnaireQuery = `
       prepopSchema {
         id
         surveyId
-        schema
+        data
+        dateCreated
+        version
       }
       locked
       validationErrorInfo {
