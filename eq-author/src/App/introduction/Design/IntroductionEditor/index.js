@@ -12,7 +12,6 @@ import { buildSettingsPath } from "utils/UrlUtils";
 
 import RichTextEditor from "components/RichTextEditor";
 import ValidationError from "components/ValidationError";
-import { InformationPanel } from "components/Panel";
 
 import { Field, Input, Label } from "components/Forms";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
@@ -173,7 +172,10 @@ const IntroductionEditor = ({ introduction, history }) => {
             testSelector="txt-intro-title"
             withoutMargin
           />
-          <Panel variant="warning">
+          <Panel
+            data-testid="introduction-content-info-panel"
+            variant="warning"
+          >
             You can have this page display on the Hub via the&nbsp;
             <Link to={`${buildSettingsPath(params)}`}>Settings page</Link>
           </Panel>
@@ -345,9 +347,9 @@ const IntroductionEditor = ({ introduction, history }) => {
           />
 
           <SectionTitle>Legal basis</SectionTitle>
-          <InformationPanel>
+          <Panel withLeftBorder data-testid="legal-basis-info-panel">
             The legal basis can be changed on the Settings page
-          </InformationPanel>
+          </Panel>
         </Padding>
       </Section>
       {/* //TODO: previewQuestions */}
@@ -385,6 +387,7 @@ const IntroductionEditor = ({ introduction, history }) => {
             />
           </InlineField>
           <SectionDescription
+            data-testid=""
             style={{
               color: disallowPreviewQuestions ? colors.mediumGrey : colors.text,
               marginBottom: "1em",
@@ -394,15 +397,15 @@ const IntroductionEditor = ({ introduction, history }) => {
             to show and hide its respective questions.
           </SectionDescription>
           {previewQuestions ? (
-            <Panel variant="warning">
+            <Panel data-testid="preview-questions-warn-panel" variant="warning">
               Adding a collection list will automatically turn off and disable
-              this previewing questions setting.
+              this setting.
             </Panel>
           ) : disallowPreviewQuestions ? (
-            <InformationPanel>
+            <Panel data-testid="preview-questions-info-panel" withLeftBorder>
               A link for previewing the questions cannot be provided for
               questionnaires that contain list collector question patterns.
-            </InformationPanel>
+            </Panel>
           ) : null}
         </Padding>
       </Section>
