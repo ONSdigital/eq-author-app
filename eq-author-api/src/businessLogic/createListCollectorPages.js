@@ -10,8 +10,8 @@ const createListCollectorQualifierPage = (input = { position: 0 }) => ({
   alias: null,
   additionalGuidanceEnabled: false,
   additionalGuidanceContent: "",
-  ...omit(input, "folderId"),
   answers: [createAnswer({ type: "Radio", isListCollectorPageType: true })],
+  ...omit(input, "folderId"),
 });
 
 const createListCollectorAddItemPage = (input = { position: 1 }) => ({
@@ -37,8 +37,8 @@ const createListCollectorConfirmationPage = (input = { position: 2 }) => ({
   definitionEnabled: false,
   additionalInfoEnabled: false,
   alias: null,
-  ...omit(input, "folderId"),
   answers: [createAnswer({ type: "Radio", isListCollectorPageType: true })],
+  ...omit(input, "folderId"),
 });
 
 module.exports = {

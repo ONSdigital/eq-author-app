@@ -25,6 +25,7 @@ const generateListCollectorFolder = (page) => {
         position: 0,
         answers: [
           {
+            id: uuidv4(),
             type: "Radio",
             qCode: page.drivingQCode,
             options: [
@@ -53,6 +54,7 @@ const generateListCollectorFolder = (page) => {
         position: 2,
         answers: [
           {
+            id: uuidv4(),
             type: "Radio",
             qCode: page.anotherQCode,
             options: [
