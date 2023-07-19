@@ -113,10 +113,34 @@ module.exports = (questionnaire) => {
         const newListCollectorFolder =
           generateListCollectorFolder(listCollectorPage);
 
-        // Add each of the created folders to their expected positions in the section
-        section.folders.splice(i + 1, 0, folderWithPagesBeforeListCollector);
-        section.folders.splice(i + 2, 0, newListCollectorFolder);
-        section.folders.splice(i + 3, 0, folderWithPagesAfterListCollector);
+        let folderPositionIterator = 1;
+
+        // Add folder containing pages before list collector to expected position in the section
+        if (folderWithPagesBeforeListCollector.pages.length > 0) {
+          section.folders.splice(
+            i + folderPositionIterator,
+            0,
+            folderWithPagesBeforeListCollector
+          );
+          folderPositionIterator++;
+        }
+
+        // Add new list collector folder to expected position in the section
+        section.folders.splice(
+          i + folderPositionIterator,
+          0,
+          newListCollectorFolder
+        );
+        folderPositionIterator++;
+
+        // Add folder containing pages after list collector to expected position in the section
+        if (folderWithPagesAfterListCollector.pages.length > 0) {
+          section.folders.splice(
+            i + folderPositionIterator,
+            0,
+            folderWithPagesAfterListCollector
+          );
+        }
 
         // Delete original folder from section
         section.folders.splice(i, 1);
