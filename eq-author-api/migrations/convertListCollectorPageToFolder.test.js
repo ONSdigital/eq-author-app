@@ -121,4 +121,59 @@ describe("convertListCollectorPageToFolder", () => {
       ],
     });
   });
+
+  it("should not convert folders which do not include list collector pages", () => {
+    const folders = [
+      {
+        id: "folder-1",
+        pages: [
+          {
+            id: "question-page-1",
+            pageType: "QuestionPage",
+            title: "Question page 1",
+            pageDescription: "Question description 1",
+            description: "",
+            descriptionEnabled: false,
+            guidanceEnabled: false,
+            definitionsEnabled: false,
+            additionalInfoEnabled: false,
+            answers: [
+              {
+                id: "answer-1",
+                label: "Answer 1",
+                type: "Number",
+              },
+            ],
+          },
+          {
+            id: "question-page-2",
+            pageType: "QuestionPage",
+            title: "Question page 2",
+            pageDescription: "Question description 2",
+            description: "",
+            descriptionEnabled: false,
+            guidanceEnabled: false,
+            definitionsEnabled: false,
+            additionalInfoEnabled: false,
+            answers: [
+              {
+                id: "answer-2",
+                label: "Answer 2",
+                type: "Number",
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+    const questionnaire = createQuestionnaire(folders);
+
+    const updatedQuestionnaire =
+      convertListCollectorPageToFolder(questionnaire);
+
+    expect(updatedQuestionnaire.sections[0].folders[0]).toMatchObject(
+      folders[0]
+    );
+  });
 });
