@@ -174,40 +174,42 @@ const ListCollectorFolderEditor = ({ questionnaireId, folder, history }) => {
         </OrderedList>
       </Collapsible>
       <Collapsible
-        title="Design approaches to gather additional information on each list item"
+        title="How to gather additional information on each list item"
         dataTestIdPrefix="list-collector-design-approach-details"
       >
-        3 recommended design approaches are available for gathering information
-        on each list item.
+        How you approach gathering additional information for each list item
+        will depend on how much detail you need.
         <Title marginBottom="0.5">
-          For up to 3 questions on each list item:
+          If up to 3 follow-up questions are needed:
         </Title>
         <Content>
-          Extend the list collector question pattern by adding follow-up
-          questions after the question for adding a list item. This allows the
-          same information to be gathered for each item added. After answering
-          the follow-up questions, respondents proceed to the summary page,
-          which displays only the list items and includes the question to
-          confirm list completion. This process repeats until the list is
-          complete. Follow-up questions are summarised in the section summary.
+          Adding follow-up questions after the question for adding a list item
+          will allow the same information to be gathered for each item added.
+          After answering the follow-up questions, the respondent is shown the
+          summary page, which only displays the list items and allows them to
+          confirm whether the list is complete.
+        </Content>
+        <Content>
+          This process repeats until the list is complete. Follow-up questions
+          are summarised in the section summary.
         </Content>
         <Title marginBottom="0.5">
           For more than 3 questions on each list item:
         </Title>
         <Content>
           Use the list collector question pattern (with no follow-up questions)
-          to collect the list items, and then create a new repeating section
-          linked to the same collection list as the list collector. Distinct
-          sections, featuring the same questions, will be generated for each
-          list item and displayed on the hub.
+          to collect the list items. Then create a new repeating section linked
+          to the same collection list as the list collector. Distinct sections
+          featuring the same questions will be generated for each list item and
+          displayed on the hub.
         </Content>
         <Title marginBottom="0.5">
           If percentage values for each list item are needed:
         </Title>
         <Content>
-          Use a repeating label and input with a percentage answer type to
-          generate a label and input field for each item added to the linked
-          collection list.
+          Use a repeating label and an input with a percentage answer type to
+          allow users to enter a percentage answer for each list item added to
+          the collection list.
         </Content>
       </Collapsible>
       <Title marginBottom="-0.5">Collection lists</Title>
