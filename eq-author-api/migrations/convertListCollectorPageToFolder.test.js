@@ -1,52 +1,54 @@
 const convertListCollectorPageToFolder = require("./convertListCollectorPageToFolder");
 
 describe("convertListCollectorPageToFolder", () => {
-  const createQuestionnaire = (folders) => {
+  const createQuestionnaire = (sections) => {
     return {
-      sections: [
-        {
-          id: "section-1",
-          folders: [...folders],
-        },
-      ],
+      sections: [...sections],
     };
   };
 
   it("should convert all list collector page data to folder format", () => {
-    const folders = [
+    const pages = [
       {
-        id: "folder-1",
-        pages: [
+        id: "list-page-1",
+        alias: "p1",
+        pageType: "ListCollectorPage",
+        title: "List 1",
+        listId: "list-1",
+        drivingQuestion: "Driving question 1",
+        pageDescription: "Driving description 1",
+        additionalGuidancePanel: "Additional guidance",
+        additionalGuidancePanelSwitch: true,
+        drivingPositive: "Driving positive",
+        drivingNegative: "Driving negative",
+        drivingPositiveDescription: "Driving positive description",
+        drivingNegativeDescription: "Driving negative description",
+        anotherTitle: "Another question 1",
+        anotherPageDescription: "Another description 1",
+        anotherPositive: "Another positive",
+        anotherNegative: "Another negative",
+        anotherPositiveDescription: "Another positive description",
+        anotherNegativeDescription: "Another negative description",
+        addItemTitle: "Add item question 1",
+        addItemPageDescription: "Add item description 1",
+        drivingQCode: "driving-qcode-1",
+        anotherQCode: "another-qcode-1",
+      },
+    ];
+
+    const sections = [
+      {
+        id: "section-1",
+        folders: [
           {
-            id: "list-page-1",
-            alias: "p1",
-            pageType: "ListCollectorPage",
-            title: "List 1",
-            listId: "list-1",
-            drivingQuestion: "Driving question 1",
-            pageDescription: "Driving description 1",
-            additionalGuidancePanel: "Additional guidance",
-            additionalGuidancePanelSwitch: true,
-            drivingPositive: "Driving positive",
-            drivingNegative: "Driving negative",
-            drivingPositiveDescription: "Driving positive description",
-            drivingNegativeDescription: "Driving negative description",
-            anotherTitle: "Another question 1",
-            anotherPageDescription: "Another description 1",
-            anotherPositive: "Another positive",
-            anotherNegative: "Another negative",
-            anotherPositiveDescription: "Another positive description",
-            anotherNegativeDescription: "Another negative description",
-            addItemTitle: "Add item question 1",
-            addItemPageDescription: "Add item description 1",
-            drivingQCode: "driving-qcode-1",
-            anotherQCode: "another-qcode-1",
+            id: "folder-1",
+            pages: [...pages],
           },
         ],
       },
     ];
 
-    const questionnaire = createQuestionnaire(folders);
+    const questionnaire = createQuestionnaire(sections);
 
     const updatedQuestionnaire =
       convertListCollectorPageToFolder(questionnaire);
@@ -123,182 +125,196 @@ describe("convertListCollectorPageToFolder", () => {
   });
 
   it("should not convert folders which do not include list collector pages", () => {
-    const folders = [
+    const pages = [
       {
-        id: "folder-1",
-        pages: [
+        id: "question-page-1",
+        pageType: "QuestionPage",
+        title: "Question page 1",
+        pageDescription: "Question description 1",
+        description: "",
+        descriptionEnabled: false,
+        guidanceEnabled: false,
+        definitionsEnabled: false,
+        additionalInfoEnabled: false,
+        answers: [
           {
-            id: "question-page-1",
-            pageType: "QuestionPage",
-            title: "Question page 1",
-            pageDescription: "Question description 1",
-            description: "",
-            descriptionEnabled: false,
-            guidanceEnabled: false,
-            definitionsEnabled: false,
-            additionalInfoEnabled: false,
-            answers: [
-              {
-                id: "answer-1",
-                label: "Answer 1",
-                type: "Number",
-              },
-            ],
+            id: "answer-1",
+            label: "Answer 1",
+            type: "Number",
           },
+        ],
+      },
+      {
+        id: "question-page-2",
+        pageType: "QuestionPage",
+        title: "Question page 2",
+        pageDescription: "Question description 2",
+        description: "",
+        descriptionEnabled: false,
+        guidanceEnabled: false,
+        definitionsEnabled: false,
+        additionalInfoEnabled: false,
+        answers: [
           {
-            id: "question-page-2",
-            pageType: "QuestionPage",
-            title: "Question page 2",
-            pageDescription: "Question description 2",
-            description: "",
-            descriptionEnabled: false,
-            guidanceEnabled: false,
-            definitionsEnabled: false,
-            additionalInfoEnabled: false,
-            answers: [
-              {
-                id: "answer-2",
-                label: "Answer 2",
-                type: "Number",
-              },
-            ],
+            id: "answer-2",
+            label: "Answer 2",
+            type: "Number",
           },
         ],
       },
     ];
 
-    const questionnaire = createQuestionnaire(folders);
+    const sections = [
+      {
+        id: "section-1",
+        folders: [
+          {
+            id: "folder-1",
+            pages: [...pages],
+          },
+        ],
+      },
+    ];
+
+    const questionnaire = createQuestionnaire(sections);
 
     const updatedQuestionnaire =
       convertListCollectorPageToFolder(questionnaire);
 
     expect(updatedQuestionnaire.sections[0].folders[0]).toMatchObject(
-      folders[0]
+      sections[0].folders[0]
     );
   });
 
-  it("should convert folders containing both standard pages and list collector pages", () => {
-    const folders = [
+  it("should convert folders containing both standard pages and list collector pages in one section", () => {
+    const pages = [
       {
-        id: "folder-1",
-        alias: "Fold1",
-        pages: [
+        id: "question-page-1",
+        pageType: "QuestionPage",
+        title: "Question page 1",
+        pageDescription: "Question description 1",
+        description: "",
+        descriptionEnabled: false,
+        guidanceEnabled: false,
+        definitionsEnabled: false,
+        additionalInfoEnabled: false,
+        answers: [
           {
-            id: "question-page-1",
-            pageType: "QuestionPage",
-            title: "Question page 1",
-            pageDescription: "Question description 1",
-            description: "",
-            descriptionEnabled: false,
-            guidanceEnabled: false,
-            definitionsEnabled: false,
-            additionalInfoEnabled: false,
-            answers: [
-              {
-                id: "answer-1",
-                label: "Answer 1",
-                type: "Number",
-              },
-            ],
-          },
-          {
-            id: "question-page-2",
-            pageType: "QuestionPage",
-            title: "Question page 2",
-            pageDescription: "Question description 2",
-            description: "",
-            descriptionEnabled: false,
-            guidanceEnabled: false,
-            definitionsEnabled: false,
-            additionalInfoEnabled: false,
-            answers: [
-              {
-                id: "answer-2",
-                label: "Answer 2",
-                type: "Number",
-              },
-            ],
-          },
-          {
-            id: "list-page-1",
-            alias: "p1",
-            pageType: "ListCollectorPage",
-            title: "List 1",
-            listId: "list-1",
-            drivingQuestion: "Driving question 1",
-            pageDescription: "Driving description 1",
-            additionalGuidancePanel: "Additional guidance",
-            additionalGuidancePanelSwitch: true,
-            drivingPositive: "Driving positive",
-            drivingNegative: "Driving negative",
-            drivingPositiveDescription: "Driving positive description",
-            drivingNegativeDescription: "Driving negative description",
-            anotherTitle: "Another question 1",
-            anotherPageDescription: "Another description 1",
-            anotherPositive: "Another positive",
-            anotherNegative: "Another negative",
-            anotherPositiveDescription: "Another positive description",
-            anotherNegativeDescription: "Another negative description",
-            addItemTitle: "Add item question 1",
-            addItemPageDescription: "Add item description 1",
-            drivingQCode: "driving-qcode-1",
-            anotherQCode: "another-qcode-1",
-          },
-          {
-            id: "question-page-3",
-            pageType: "QuestionPage",
-            title: "Question page 3",
-            pageDescription: "Question description 3",
-            description: "",
-            descriptionEnabled: false,
-            guidanceEnabled: false,
-            definitionsEnabled: false,
-            additionalInfoEnabled: false,
-            answers: [
-              {
-                id: "answer-3",
-                label: "Answer 3",
-                type: "Number",
-              },
-            ],
-          },
-          {
-            id: "question-page-4",
-            pageType: "QuestionPage",
-            title: "Question page 4",
-            pageDescription: "Question description 4",
-            description: "",
-            descriptionEnabled: false,
-            guidanceEnabled: false,
-            definitionsEnabled: false,
-            additionalInfoEnabled: false,
-            answers: [
-              {
-                id: "answer-4",
-                label: "Answer 4",
-                type: "Number",
-              },
-            ],
+            id: "answer-1",
+            label: "Answer 1",
+            type: "Number",
           },
         ],
-        skipConditions: [
+      },
+      {
+        id: "question-page-2",
+        pageType: "QuestionPage",
+        title: "Question page 2",
+        pageDescription: "Question description 2",
+        description: "",
+        descriptionEnabled: false,
+        guidanceEnabled: false,
+        definitionsEnabled: false,
+        additionalInfoEnabled: false,
+        answers: [
           {
-            id: "skip-condition-1",
-            operator: "AND",
-            expressions: [
+            id: "answer-2",
+            label: "Answer 2",
+            type: "Number",
+          },
+        ],
+      },
+      {
+        id: "list-page-1",
+        alias: "p1",
+        pageType: "ListCollectorPage",
+        title: "List 1",
+        listId: "list-1",
+        drivingQuestion: "Driving question 1",
+        pageDescription: "Driving description 1",
+        additionalGuidancePanel: "Additional guidance",
+        additionalGuidancePanelSwitch: true,
+        drivingPositive: "Driving positive",
+        drivingNegative: "Driving negative",
+        drivingPositiveDescription: "Driving positive description",
+        drivingNegativeDescription: "Driving negative description",
+        anotherTitle: "Another question 1",
+        anotherPageDescription: "Another description 1",
+        anotherPositive: "Another positive",
+        anotherNegative: "Another negative",
+        anotherPositiveDescription: "Another positive description",
+        anotherNegativeDescription: "Another negative description",
+        addItemTitle: "Add item question 1",
+        addItemPageDescription: "Add item description 1",
+        drivingQCode: "driving-qcode-1",
+        anotherQCode: "another-qcode-1",
+      },
+      {
+        id: "question-page-3",
+        pageType: "QuestionPage",
+        title: "Question page 3",
+        pageDescription: "Question description 3",
+        description: "",
+        descriptionEnabled: false,
+        guidanceEnabled: false,
+        definitionsEnabled: false,
+        additionalInfoEnabled: false,
+        answers: [
+          {
+            id: "answer-3",
+            label: "Answer 3",
+            type: "Number",
+          },
+        ],
+      },
+      {
+        id: "question-page-4",
+        pageType: "QuestionPage",
+        title: "Question page 4",
+        pageDescription: "Question description 4",
+        description: "",
+        descriptionEnabled: false,
+        guidanceEnabled: false,
+        definitionsEnabled: false,
+        additionalInfoEnabled: false,
+        answers: [
+          {
+            id: "answer-4",
+            label: "Answer 4",
+            type: "Number",
+          },
+        ],
+      },
+    ];
+
+    const sections = [
+      {
+        id: "section-1",
+        folders: [
+          {
+            id: "folder-1",
+            alias: "Fold1",
+            pages: [...pages],
+            skipConditions: [
               {
-                id: "expression-1",
-                condition: "Equal",
-                left: {
-                  type: "Answer",
-                  answerId: "answer-1",
-                },
-                right: {
-                  type: "Custom",
-                  customValue: {
-                    number: 1,
+                id: "skip-condition-1",
+                operator: "AND",
+                expressions: [
+                  {
+                    id: "expression-1",
+                    condition: "Equal",
+                    left: {
+                      type: "Answer",
+                      answerId: "answer-1",
+                    },
+                    right: {
+                      type: "Custom",
+                      customValue: {
+                        number: 1,
+                      },
+                    },
                   },
-                },
+                ],
               },
             ],
           },
@@ -306,16 +322,18 @@ describe("convertListCollectorPageToFolder", () => {
       },
     ];
 
-    const questionnaire = createQuestionnaire(folders);
+    const questionnaire = createQuestionnaire(sections);
 
     const updatedQuestionnaire =
       convertListCollectorPageToFolder(questionnaire);
 
+    expect(updatedQuestionnaire.sections[0].folders.length).toEqual(3);
+
     expect(updatedQuestionnaire.sections[0].folders[0]).toMatchObject({
       id: expect.any(String),
       alias: "Fold1",
-      pages: [folders[0].pages[0], folders[0].pages[1]],
-      skipConditions: folders[0].skipConditions,
+      pages: [pages[0], pages[1]],
+      skipConditions: sections[0].folders[0].skipConditions,
     });
 
     expect(updatedQuestionnaire.sections[0].folders[1]).toMatchObject({
@@ -391,8 +409,8 @@ describe("convertListCollectorPageToFolder", () => {
     expect(updatedQuestionnaire.sections[0].folders[2]).toMatchObject({
       id: expect.any(String),
       alias: "Fold1",
-      pages: [folders[0].pages[3], folders[0].pages[4]],
-      skipConditions: folders[0].skipConditions,
+      pages: [pages[3], pages[4]],
+      skipConditions: sections[0].folders[0].skipConditions,
     });
   });
 });
