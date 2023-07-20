@@ -54,7 +54,10 @@ const createQuestionnaireMutation = `
       }
       prepopSchema {
         id
-        schema
+        surveyId
+        data
+        dateCreated
+        version
       }
     }
   }

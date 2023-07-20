@@ -39,6 +39,18 @@ const THEMES = [
       "Header includes the Department for Science, Innovation and Technology NI logo",
   },
   {
+    id: "desnz",
+    title: "Department for Energy Security and Net Zero",
+    description:
+      "Header includes the logo for Department for Energy Security and Net Zero",
+  },
+  {
+    id: "desnz-ni",
+    title: "Department for Energy Security and Net Zero NI",
+    description:
+      "Header includes the logo for Department for Energy Security and Net Zero and Department of Finance",
+  },
+  {
     id: "northernireland",
     title: "Northern Ireland Department of Finance",
     description: "Header includes the Department of Finance logo",

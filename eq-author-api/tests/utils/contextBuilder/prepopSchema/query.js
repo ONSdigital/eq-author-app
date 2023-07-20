@@ -5,7 +5,9 @@ const getPrepopSchemaQuery = `
     prepopSchema {
       id
       surveyId
-      schema
+      dateCreated
+      version
+      data  
     }
 }`;
 

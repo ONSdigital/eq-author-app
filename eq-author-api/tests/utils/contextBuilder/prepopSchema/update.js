@@ -5,7 +5,9 @@ const updatePrepopSchemaMutation = `
     updatePrepopSchema(input: $input) {
       id
       surveyId
-      schema
+      data
+      dateCreated
+      version
     }
   }
 `;
