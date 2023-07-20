@@ -12,7 +12,7 @@ describe("convertListCollectorPageToFolder", () => {
       return {
         id: `list-page-${pageNumber}`,
         alias: `L${pageNumber}`,
-        pageType: "ListCollectorPage",
+        pageType,
         title: `List ${pageNumber}`,
         listId: `list-${pageNumber}`,
         drivingQuestion: `Driving question ${pageNumber}`,
@@ -37,7 +37,7 @@ describe("convertListCollectorPageToFolder", () => {
     } else {
       return {
         id: `question-page-${pageNumber}`,
-        pageType: "QuestionPage",
+        pageType,
         title: `Question page ${pageNumber}`,
         pageDescription: `Question description ${pageNumber}`,
         description: "",
@@ -54,6 +54,78 @@ describe("convertListCollectorPageToFolder", () => {
         ],
       };
     }
+  };
+
+  const getExpectedListCollectorFolderResult = (listCollectorPageNumber) => {
+    return {
+      id: `list-page-${listCollectorPageNumber}`,
+      alias: `L${listCollectorPageNumber}`,
+      title: `List ${listCollectorPageNumber}`,
+      listId: `list-${listCollectorPageNumber}`,
+      pages: [
+        {
+          id: expect.any(String),
+          pageType: "ListCollectorQualifierPage",
+          title: `Driving question ${listCollectorPageNumber}`,
+          pageDescription: `Driving description ${listCollectorPageNumber}`,
+          additionalGuidanceEnabled: true,
+          additionalGuidanceContent: "Additional guidance",
+          position: 0,
+          answers: [
+            {
+              id: expect.any(String),
+              type: "Radio",
+              qCode: `driving-qcode-${listCollectorPageNumber}`,
+              options: [
+                {
+                  id: expect.any(String),
+                  label: "Driving positive",
+                  description: "Driving positive description",
+                },
+                {
+                  id: expect.any(String),
+                  label: "Driving negative",
+                  description: "Driving negative description",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: expect.any(String),
+          pageType: "ListCollectorAddItemPage",
+          title: `Add item question ${listCollectorPageNumber}`,
+          pageDescription: `Add item description ${listCollectorPageNumber}`,
+          position: 1,
+        },
+        {
+          id: expect.any(String),
+          pageType: "ListCollectorConfirmationPage",
+          title: `Another question ${listCollectorPageNumber}`,
+          pageDescription: `Another description ${listCollectorPageNumber}`,
+          position: 2,
+          answers: [
+            {
+              id: expect.any(String),
+              type: "Radio",
+              qCode: `another-qcode-${listCollectorPageNumber}`,
+              options: [
+                {
+                  id: expect.any(String),
+                  label: "Another positive",
+                  description: "Another positive description",
+                },
+                {
+                  id: expect.any(String),
+                  label: "Another negative",
+                  description: "Another negative description",
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    };
   };
 
   it("should convert all list collector page data to folder format", () => {
@@ -76,75 +148,9 @@ describe("convertListCollectorPageToFolder", () => {
     const updatedQuestionnaire =
       convertListCollectorPageToFolder(questionnaire);
 
-    expect(updatedQuestionnaire.sections[0].folders[0]).toMatchObject({
-      id: "list-page-1",
-      alias: "L1",
-      title: "List 1",
-      listId: "list-1",
-      pages: [
-        {
-          id: expect.any(String),
-          pageType: "ListCollectorQualifierPage",
-          title: "Driving question 1",
-          pageDescription: "Driving description 1",
-          additionalGuidanceEnabled: true,
-          additionalGuidanceContent: "Additional guidance",
-          position: 0,
-          answers: [
-            {
-              id: expect.any(String),
-              type: "Radio",
-              qCode: "driving-qcode-1",
-              options: [
-                {
-                  id: expect.any(String),
-                  label: "Driving positive",
-                  description: "Driving positive description",
-                },
-                {
-                  id: expect.any(String),
-                  label: "Driving negative",
-                  description: "Driving negative description",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          id: expect.any(String),
-          pageType: "ListCollectorAddItemPage",
-          title: "Add item question 1",
-          pageDescription: "Add item description 1",
-          position: 1,
-        },
-        {
-          id: expect.any(String),
-          pageType: "ListCollectorConfirmationPage",
-          title: "Another question 1",
-          pageDescription: "Another description 1",
-          position: 2,
-          answers: [
-            {
-              id: expect.any(String),
-              type: "Radio",
-              qCode: "another-qcode-1",
-              options: [
-                {
-                  id: expect.any(String),
-                  label: "Another positive",
-                  description: "Another positive description",
-                },
-                {
-                  id: expect.any(String),
-                  label: "Another negative",
-                  description: "Another negative description",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    });
+    expect(updatedQuestionnaire.sections[0].folders[0]).toMatchObject(
+      getExpectedListCollectorFolderResult("1")
+    );
   });
 
   it("should not convert folders which do not include list collector pages", () => {
@@ -248,75 +254,9 @@ describe("convertListCollectorPageToFolder", () => {
       skipConditions: undefined,
     });
 
-    expect(updatedQuestionnaire.sections[0].folders[1]).toMatchObject({
-      id: "list-page-1",
-      alias: "L1",
-      title: "List 1",
-      listId: "list-1",
-      pages: [
-        {
-          id: expect.any(String),
-          pageType: "ListCollectorQualifierPage",
-          title: "Driving question 1",
-          pageDescription: "Driving description 1",
-          additionalGuidanceEnabled: true,
-          additionalGuidanceContent: "Additional guidance",
-          position: 0,
-          answers: [
-            {
-              id: expect.any(String),
-              type: "Radio",
-              qCode: "driving-qcode-1",
-              options: [
-                {
-                  id: expect.any(String),
-                  label: "Driving positive",
-                  description: "Driving positive description",
-                },
-                {
-                  id: expect.any(String),
-                  label: "Driving negative",
-                  description: "Driving negative description",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          id: expect.any(String),
-          pageType: "ListCollectorAddItemPage",
-          title: "Add item question 1",
-          pageDescription: "Add item description 1",
-          position: 1,
-        },
-        {
-          id: expect.any(String),
-          pageType: "ListCollectorConfirmationPage",
-          title: "Another question 1",
-          pageDescription: "Another description 1",
-          position: 2,
-          answers: [
-            {
-              id: expect.any(String),
-              type: "Radio",
-              qCode: "another-qcode-1",
-              options: [
-                {
-                  id: expect.any(String),
-                  label: "Another positive",
-                  description: "Another positive description",
-                },
-                {
-                  id: expect.any(String),
-                  label: "Another negative",
-                  description: "Another negative description",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    });
+    expect(updatedQuestionnaire.sections[0].folders[1]).toMatchObject(
+      getExpectedListCollectorFolderResult("1")
+    );
 
     expect(updatedQuestionnaire.sections[0].folders[2]).toMatchObject({
       id: expect.any(String),
@@ -332,75 +272,9 @@ describe("convertListCollectorPageToFolder", () => {
       skipConditions,
     });
 
-    expect(updatedQuestionnaire.sections[0].folders[4]).toMatchObject({
-      id: "list-page-2",
-      alias: "L2",
-      title: "List 2",
-      listId: "list-2",
-      pages: [
-        {
-          id: expect.any(String),
-          pageType: "ListCollectorQualifierPage",
-          title: "Driving question 2",
-          pageDescription: "Driving description 2",
-          additionalGuidanceEnabled: true,
-          additionalGuidanceContent: "Additional guidance",
-          position: 0,
-          answers: [
-            {
-              id: expect.any(String),
-              type: "Radio",
-              qCode: "driving-qcode-2",
-              options: [
-                {
-                  id: expect.any(String),
-                  label: "Driving positive",
-                  description: "Driving positive description",
-                },
-                {
-                  id: expect.any(String),
-                  label: "Driving negative",
-                  description: "Driving negative description",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          id: expect.any(String),
-          pageType: "ListCollectorAddItemPage",
-          title: "Add item question 2",
-          pageDescription: "Add item description 2",
-          position: 1,
-        },
-        {
-          id: expect.any(String),
-          pageType: "ListCollectorConfirmationPage",
-          title: "Another question 2",
-          pageDescription: "Another description 2",
-          position: 2,
-          answers: [
-            {
-              id: expect.any(String),
-              type: "Radio",
-              qCode: "another-qcode-2",
-              options: [
-                {
-                  id: expect.any(String),
-                  label: "Another positive",
-                  description: "Another positive description",
-                },
-                {
-                  id: expect.any(String),
-                  label: "Another negative",
-                  description: "Another negative description",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    });
+    expect(updatedQuestionnaire.sections[0].folders[4]).toMatchObject(
+      getExpectedListCollectorFolderResult("2")
+    );
 
     expect(updatedQuestionnaire.sections[0].folders[5]).toMatchObject({
       id: expect.any(String),
@@ -464,75 +338,9 @@ describe("convertListCollectorPageToFolder", () => {
       pages: [firstSectionPages[0], firstSectionPages[1]],
     });
 
-    expect(updatedQuestionnaire.sections[0].folders[1]).toMatchObject({
-      id: "list-page-1",
-      alias: "L1",
-      title: "List 1",
-      listId: "list-1",
-      pages: [
-        {
-          id: expect.any(String),
-          pageType: "ListCollectorQualifierPage",
-          title: "Driving question 1",
-          pageDescription: "Driving description 1",
-          additionalGuidanceEnabled: true,
-          additionalGuidanceContent: "Additional guidance",
-          position: 0,
-          answers: [
-            {
-              id: expect.any(String),
-              type: "Radio",
-              qCode: "driving-qcode-1",
-              options: [
-                {
-                  id: expect.any(String),
-                  label: "Driving positive",
-                  description: "Driving positive description",
-                },
-                {
-                  id: expect.any(String),
-                  label: "Driving negative",
-                  description: "Driving negative description",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          id: expect.any(String),
-          pageType: "ListCollectorAddItemPage",
-          title: "Add item question 1",
-          pageDescription: "Add item description 1",
-          position: 1,
-        },
-        {
-          id: expect.any(String),
-          pageType: "ListCollectorConfirmationPage",
-          title: "Another question 1",
-          pageDescription: "Another description 1",
-          position: 2,
-          answers: [
-            {
-              id: expect.any(String),
-              type: "Radio",
-              qCode: "another-qcode-1",
-              options: [
-                {
-                  id: expect.any(String),
-                  label: "Another positive",
-                  description: "Another positive description",
-                },
-                {
-                  id: expect.any(String),
-                  label: "Another negative",
-                  description: "Another negative description",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    });
+    expect(updatedQuestionnaire.sections[0].folders[1]).toMatchObject(
+      getExpectedListCollectorFolderResult("1")
+    );
 
     expect(updatedQuestionnaire.sections[0].folders[2]).toMatchObject({
       id: expect.any(String),
@@ -546,75 +354,9 @@ describe("convertListCollectorPageToFolder", () => {
       pages: [secondSectionPages[0], secondSectionPages[1]],
     });
 
-    expect(updatedQuestionnaire.sections[1].folders[1]).toMatchObject({
-      id: "list-page-2",
-      alias: "L2",
-      title: "List 2",
-      listId: "list-2",
-      pages: [
-        {
-          id: expect.any(String),
-          pageType: "ListCollectorQualifierPage",
-          title: "Driving question 2",
-          pageDescription: "Driving description 2",
-          additionalGuidanceEnabled: true,
-          additionalGuidanceContent: "Additional guidance",
-          position: 0,
-          answers: [
-            {
-              id: expect.any(String),
-              type: "Radio",
-              qCode: "driving-qcode-2",
-              options: [
-                {
-                  id: expect.any(String),
-                  label: "Driving positive",
-                  description: "Driving positive description",
-                },
-                {
-                  id: expect.any(String),
-                  label: "Driving negative",
-                  description: "Driving negative description",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          id: expect.any(String),
-          pageType: "ListCollectorAddItemPage",
-          title: "Add item question 2",
-          pageDescription: "Add item description 2",
-          position: 1,
-        },
-        {
-          id: expect.any(String),
-          pageType: "ListCollectorConfirmationPage",
-          title: "Another question 2",
-          pageDescription: "Another description 2",
-          position: 2,
-          answers: [
-            {
-              id: expect.any(String),
-              type: "Radio",
-              qCode: "another-qcode-2",
-              options: [
-                {
-                  id: expect.any(String),
-                  label: "Another positive",
-                  description: "Another positive description",
-                },
-                {
-                  id: expect.any(String),
-                  label: "Another negative",
-                  description: "Another negative description",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    });
+    expect(updatedQuestionnaire.sections[1].folders[1]).toMatchObject(
+      getExpectedListCollectorFolderResult("2")
+    );
 
     expect(updatedQuestionnaire.sections[1].folders[2]).toMatchObject({
       id: expect.any(String),
@@ -661,75 +403,9 @@ describe("convertListCollectorPageToFolder", () => {
 
     expect(updatedQuestionnaire.sections[0].folders.length).toEqual(4);
 
-    expect(updatedQuestionnaire.sections[0].folders[0]).toMatchObject({
-      id: "list-page-1",
-      alias: "L1",
-      title: "List 1",
-      listId: "list-1",
-      pages: [
-        {
-          id: expect.any(String),
-          pageType: "ListCollectorQualifierPage",
-          title: "Driving question 1",
-          pageDescription: "Driving description 1",
-          additionalGuidanceEnabled: true,
-          additionalGuidanceContent: "Additional guidance",
-          position: 0,
-          answers: [
-            {
-              id: expect.any(String),
-              type: "Radio",
-              qCode: "driving-qcode-1",
-              options: [
-                {
-                  id: expect.any(String),
-                  label: "Driving positive",
-                  description: "Driving positive description",
-                },
-                {
-                  id: expect.any(String),
-                  label: "Driving negative",
-                  description: "Driving negative description",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          id: expect.any(String),
-          pageType: "ListCollectorAddItemPage",
-          title: "Add item question 1",
-          pageDescription: "Add item description 1",
-          position: 1,
-        },
-        {
-          id: expect.any(String),
-          pageType: "ListCollectorConfirmationPage",
-          title: "Another question 1",
-          pageDescription: "Another description 1",
-          position: 2,
-          answers: [
-            {
-              id: expect.any(String),
-              type: "Radio",
-              qCode: "another-qcode-1",
-              options: [
-                {
-                  id: expect.any(String),
-                  label: "Another positive",
-                  description: "Another positive description",
-                },
-                {
-                  id: expect.any(String),
-                  label: "Another negative",
-                  description: "Another negative description",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    });
+    expect(updatedQuestionnaire.sections[0].folders[0]).toMatchObject(
+      getExpectedListCollectorFolderResult("1")
+    );
 
     expect(updatedQuestionnaire.sections[0].folders[1]).toMatchObject({
       id: expect.any(String),
@@ -743,74 +419,8 @@ describe("convertListCollectorPageToFolder", () => {
       pages: [secondFolderPages[0], secondFolderPages[1]],
     });
 
-    expect(updatedQuestionnaire.sections[0].folders[3]).toMatchObject({
-      id: "list-page-2",
-      alias: "L2",
-      title: "List 2",
-      listId: "list-2",
-      pages: [
-        {
-          id: expect.any(String),
-          pageType: "ListCollectorQualifierPage",
-          title: "Driving question 2",
-          pageDescription: "Driving description 2",
-          additionalGuidanceEnabled: true,
-          additionalGuidanceContent: "Additional guidance",
-          position: 0,
-          answers: [
-            {
-              id: expect.any(String),
-              type: "Radio",
-              qCode: "driving-qcode-2",
-              options: [
-                {
-                  id: expect.any(String),
-                  label: "Driving positive",
-                  description: "Driving positive description",
-                },
-                {
-                  id: expect.any(String),
-                  label: "Driving negative",
-                  description: "Driving negative description",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          id: expect.any(String),
-          pageType: "ListCollectorAddItemPage",
-          title: "Add item question 2",
-          pageDescription: "Add item description 2",
-          position: 1,
-        },
-        {
-          id: expect.any(String),
-          pageType: "ListCollectorConfirmationPage",
-          title: "Another question 2",
-          pageDescription: "Another description 2",
-          position: 2,
-          answers: [
-            {
-              id: expect.any(String),
-              type: "Radio",
-              qCode: "another-qcode-2",
-              options: [
-                {
-                  id: expect.any(String),
-                  label: "Another positive",
-                  description: "Another positive description",
-                },
-                {
-                  id: expect.any(String),
-                  label: "Another negative",
-                  description: "Another negative description",
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    });
+    expect(updatedQuestionnaire.sections[0].folders[3]).toMatchObject(
+      getExpectedListCollectorFolderResult("2")
+    );
   });
 });
