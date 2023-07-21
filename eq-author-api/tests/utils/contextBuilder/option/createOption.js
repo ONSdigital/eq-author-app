@@ -11,7 +11,6 @@ const createOptionMutation = `
       description
       value
       qCode
-      optionValue
       additionalAnswer {
         id
       }
@@ -30,7 +29,6 @@ const createOption = async (ctx, input) => {
             description
             value
             qCode
-            optionValue
             answerId
             hasAdditionalAnswer
           }
@@ -53,7 +51,6 @@ const createMutuallyExclusiveOptionMutation = `
       description
       value
       qCode
-      optionValue
     }
   }
 `;
@@ -69,7 +66,6 @@ const createMutuallyExclusiveOption = async (ctx, input) => {
             description
             value
             qCode
-            optionValue
             answerId
           }
         `,

@@ -9,7 +9,6 @@ const updateOptionMutation = `
       description
       value
       qCode
-      optionValue
       additionalAnswer {
         id
         label
