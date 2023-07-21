@@ -126,15 +126,6 @@ const ConfirmationPageEditor = ({ page, onUpdateOption }) => {
           allowableTypes={[ANSWER, METADATA, VARIABLES]}
           testSelector="confirmation-question"
         />
-        <AnswersEditor
-          answers={page.answers}
-          onUpdateOption={onUpdateOption}
-          data-test="list-collector-confirmation-page-answers-editor"
-          page={page}
-          metadata={page.section.questionnaire.metadata}
-          withoutMargin
-        />
-        <HorizontalSeparator />
         <PageTitle
           heading="Page title and description"
           pageDescription={confirmationPageDescription}
@@ -146,6 +137,15 @@ const ConfirmationPageEditor = ({ page, onUpdateOption }) => {
             })
           }
           errors={validationErrorInfo.errors}
+        />
+        <HorizontalSeparator />
+        <AnswersEditor
+          answers={page.answers}
+          onUpdateOption={onUpdateOption}
+          data-test="list-collector-confirmation-page-answers-editor"
+          page={page}
+          metadata={page.section.questionnaire.metadata}
+          withoutMargin
         />
       </StyledField>
     </>

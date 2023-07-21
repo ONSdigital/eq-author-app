@@ -116,6 +116,18 @@ const AddItemPageEditor = ({ page }) => {
           allowableTypes={[ANSWER, METADATA, VARIABLES]}
           testSelector="add-item-question"
         />
+        <PageTitle
+          heading="Page title and description"
+          pageDescription={addItemPageDescription}
+          onChange={({ value }) => setAddItemPageDescription(value)}
+          onUpdate={({ value }) =>
+            updatePage({
+              variables: { input: { id, pageDescription: value } },
+            })
+          }
+          errors={validationErrorInfo.errors}
+        />
+        <HorizontalSeparator />
         <Collapsible title="Why can’t I add an answer type?">
           <Content>
             The answer type for the question for adding a list item is
@@ -178,18 +190,6 @@ const AddItemPageEditor = ({ page }) => {
             the order of other list collector questions remains fixed.
           </Content>
         </Collapsible>
-        <HorizontalSeparator />
-        <PageTitle
-          heading="Page title and description"
-          pageDescription={addItemPageDescription}
-          onChange={({ value }) => setAddItemPageDescription(value)}
-          onUpdate={({ value }) =>
-            updatePage({
-              variables: { input: { id, pageDescription: value } },
-            })
-          }
-          errors={validationErrorInfo.errors}
-        />
       </StyledField>
     </>
   );

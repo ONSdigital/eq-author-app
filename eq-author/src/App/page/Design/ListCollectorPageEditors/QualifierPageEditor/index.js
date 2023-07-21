@@ -129,6 +129,20 @@ const QualifierPageEditor = ({ page, onUpdateOption }) => {
           allowableTypes={[ANSWER, METADATA, VARIABLES]}
           testSelector="qualifier-question"
         />
+        <PageTitle
+          heading="Page title and description"
+          pageDescription={qualifierPageDescription}
+          onChange={({ value }) => setQualifierPageDescription(value)}
+          onUpdate={({ value }) =>
+            updatePage({
+              variables: {
+                input: { id, pageDescription: value },
+              },
+            })
+          }
+          errors={validationErrorInfo.errors}
+        />
+        <HorizontalSeparator />
         <CollapsibleToggled
           id="qualifier-page-additional-guidance-toggle"
           title="Additional guidance panel"
@@ -163,20 +177,6 @@ const QualifierPageEditor = ({ page, onUpdateOption }) => {
           page={page}
           metadata={page.section.questionnaire.metadata}
           withoutMargin
-        />
-        <HorizontalSeparator />
-        <PageTitle
-          heading="Page title and description"
-          pageDescription={qualifierPageDescription}
-          onChange={({ value }) => setQualifierPageDescription(value)}
-          onUpdate={({ value }) =>
-            updatePage({
-              variables: {
-                input: { id, pageDescription: value },
-              },
-            })
-          }
-          errors={validationErrorInfo.errors}
         />
       </StyledField>
     </>
