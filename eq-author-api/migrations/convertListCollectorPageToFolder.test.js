@@ -7,7 +7,7 @@ describe("convertListCollectorPageToFolder", () => {
     };
   };
 
-  const generatePage = (pageNumber, pageType) => {
+  const generatePage = (pageNumber, pageType, withConfirmation) => {
     if (pageType === "ListCollectorPage") {
       return {
         id: `list-page-${pageNumber}`,
@@ -34,6 +34,27 @@ describe("convertListCollectorPageToFolder", () => {
         drivingQCode: `driving-qcode-${pageNumber}`,
         anotherQCode: `another-qcode-${pageNumber}`,
       };
+    } else if (pageType === "CalculatedSummaryPage") {
+      return {
+        id: `calculated-summary-page-${pageNumber}`,
+        pageType,
+        title: `Calculated summary page ${pageNumber}`,
+        pageDescription: `Calculated summary description ${pageNumber}`,
+        totalTitle: `Calculated summary total ${pageNumber}`,
+        type: "Number",
+        alias: `Summary ${pageNumber}`,
+        summaryAnswers: [
+          `test-summary-answer-page-${pageNumber}-1`,
+          `test-summary-answer-page-${pageNumber}-2`,
+        ],
+        answers: [
+          {
+            id: `calculated-summary-page-total-${pageNumber}`,
+            label: `Total ${pageNumber}`,
+            type: "Number",
+          },
+        ],
+      };
     } else {
       return {
         id: `question-page-${pageNumber}`,
@@ -52,6 +73,21 @@ describe("convertListCollectorPageToFolder", () => {
             type: "Number",
           },
         ],
+        confirmation: withConfirmation && {
+          id: `confirmation-page-${pageNumber}`,
+          title: `Confirmation page ${pageNumber}`,
+          pageDescription: `Confirmation description ${pageNumber}`,
+          positive: {
+            id: `confirmation-page-positive-${pageNumber}`,
+            label: "Yes",
+            description: `Confirmation positive description ${pageNumber}`,
+          },
+          negative: {
+            id: `confirmation-page-negative-${pageNumber}`,
+            label: "No",
+            description: `Confirmation negative description ${pageNumber}`,
+          },
+        },
       };
     }
   };
@@ -181,7 +217,7 @@ describe("convertListCollectorPageToFolder", () => {
     );
   });
 
-  it("should convert folders containing both standard pages and list collector pages in one section", () => {
+  it("should convert folders containing both question pages and list collector pages in one section", () => {
     const firstFolderPages = [
       generatePage("1", "QuestionPage"),
       generatePage("2", "QuestionPage"),
@@ -422,5 +458,99 @@ describe("convertListCollectorPageToFolder", () => {
     expect(updatedQuestionnaire.sections[0].folders[3]).toMatchObject(
       getExpectedListCollectorFolderResult("2")
     );
+  });
+
+  it("should convert folders containing question, calculated summary, confirmation and list collector pages in one section", () => {
+    const firstFolderPages = [
+      generatePage("1", "QuestionPage", true),
+      generatePage("1", "CalculatedSummaryPage"),
+      generatePage("2", "QuestionPage"),
+      generatePage("1", "ListCollectorPage"),
+      generatePage("3", "QuestionPage"),
+      generatePage("4", "QuestionPage"),
+    ];
+
+    const secondFolderPages = [
+      generatePage("5", "QuestionPage"),
+      generatePage("6", "QuestionPage"),
+      generatePage("2", "ListCollectorPage"),
+      generatePage("7", "QuestionPage", true),
+      generatePage("2", "CalculatedSummaryPage"),
+    ];
+
+    const sections = [
+      {
+        id: "section-1",
+        folders: [
+          {
+            id: "folder-1",
+            alias: "Fold1",
+            pages: [...firstFolderPages],
+          },
+          {
+            id: "folder-2",
+            alias: "Fold2",
+            pages: [...secondFolderPages],
+          },
+        ],
+      },
+    ];
+
+    const questionnaire = createQuestionnaire(sections);
+
+    const updatedQuestionnaire =
+      convertListCollectorPageToFolder(questionnaire);
+
+    expect(updatedQuestionnaire.sections[0].folders.length).toEqual(6);
+
+    expect(
+      updatedQuestionnaire.sections[0].folders[0].pages[0].confirmation
+    ).toHaveProperty("positive");
+    expect(
+      updatedQuestionnaire.sections[0].folders[0].pages[0].confirmation
+    ).toHaveProperty("negative");
+    expect(
+      updatedQuestionnaire.sections[0].folders[0].pages[1].summaryAnswers
+    ).toEqual(["test-summary-answer-page-1-1", "test-summary-answer-page-1-2"]);
+    expect(updatedQuestionnaire.sections[0].folders[0]).toMatchObject({
+      id: expect.any(String),
+      alias: "Fold1",
+      pages: [firstFolderPages[0], firstFolderPages[1], firstFolderPages[2]],
+    });
+
+    expect(updatedQuestionnaire.sections[0].folders[1]).toMatchObject(
+      getExpectedListCollectorFolderResult("1")
+    );
+
+    expect(updatedQuestionnaire.sections[0].folders[2]).toMatchObject({
+      id: expect.any(String),
+      alias: "Fold1",
+      pages: [firstFolderPages[4], firstFolderPages[5]],
+    });
+
+    expect(updatedQuestionnaire.sections[0].folders[3]).toMatchObject({
+      id: expect.any(String),
+      alias: "Fold2",
+      pages: [secondFolderPages[0], secondFolderPages[1]],
+    });
+
+    expect(updatedQuestionnaire.sections[0].folders[4]).toMatchObject(
+      getExpectedListCollectorFolderResult("2")
+    );
+
+    expect(
+      updatedQuestionnaire.sections[0].folders[5].pages[0].confirmation
+    ).toHaveProperty("positive");
+    expect(
+      updatedQuestionnaire.sections[0].folders[5].pages[0].confirmation
+    ).toHaveProperty("negative");
+    expect(
+      updatedQuestionnaire.sections[0].folders[5].pages[1].summaryAnswers
+    ).toEqual(["test-summary-answer-page-2-1", "test-summary-answer-page-2-2"]);
+    expect(updatedQuestionnaire.sections[0].folders[5]).toMatchObject({
+      id: expect.any(String),
+      alias: "Fold2",
+      pages: [secondFolderPages[3], secondFolderPages[4]],
+    });
   });
 });
