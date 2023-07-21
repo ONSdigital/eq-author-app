@@ -553,4 +553,193 @@ describe("convertListCollectorPageToFolder", () => {
       pages: [secondFolderPages[3], secondFolderPages[4]],
     });
   });
+
+  it("should convert folders containing multiple list collector pages in one section", () => {
+    const firstFolderPages = [
+      generatePage("1", "QuestionPage"),
+      generatePage("2", "QuestionPage"),
+      generatePage("1", "ListCollectorPage"),
+      generatePage("3", "QuestionPage"),
+      generatePage("2", "ListCollectorPage"),
+    ];
+
+    const secondFolderPages = [
+      generatePage("3", "ListCollectorPage"),
+      generatePage("4", "QuestionPage"),
+      generatePage("5", "QuestionPage"),
+      generatePage("4", "ListCollectorPage"),
+      generatePage("1", "CalculatedSummaryPage"),
+      generatePage("5", "ListCollectorPage"),
+      generatePage("6", "QuestionPage", true),
+    ];
+
+    const thirdFolderPages = [
+      generatePage("6", "ListCollectorPage"),
+      generatePage("7", "ListCollectorPage"),
+      generatePage("7", "QuestionPage"),
+      generatePage("8", "QuestionPage"),
+      generatePage("8", "ListCollectorPage"),
+      generatePage("9", "ListCollectorPage"),
+      generatePage("9", "QuestionPage"),
+      generatePage("10", "QuestionPage"),
+      generatePage("10", "ListCollectorPage"),
+      generatePage("11", "ListCollectorPage"),
+    ];
+
+    const skipConditions = [
+      {
+        id: "skip-condition-1",
+        operator: "AND",
+        expressions: [
+          {
+            id: "expression-1",
+            condition: "Equal",
+            left: {
+              type: "Answer",
+              answerId: "answer-1",
+            },
+            right: {
+              type: "Custom",
+              customValue: {
+                number: 1,
+              },
+            },
+          },
+        ],
+      },
+    ];
+
+    const sections = [
+      {
+        id: "section-1",
+        folders: [
+          {
+            id: "folder-1",
+            alias: "Fold1",
+            pages: [...firstFolderPages],
+          },
+          {
+            id: "folder-2",
+            alias: "Fold2",
+            pages: [...secondFolderPages],
+            skipConditions: [...skipConditions],
+          },
+          {
+            id: "folder-3",
+            alias: "Fold3",
+            pages: [...thirdFolderPages],
+          },
+        ],
+      },
+    ];
+
+    const questionnaire = createQuestionnaire(sections);
+
+    const updatedQuestionnaire =
+      convertListCollectorPageToFolder(questionnaire);
+
+    expect(updatedQuestionnaire.sections[0].folders.length).toEqual(18);
+
+    expect(updatedQuestionnaire.sections[0].folders[0]).toMatchObject({
+      id: expect.any(String),
+      alias: "Fold1",
+      pages: [firstFolderPages[0], firstFolderPages[1]],
+      skipConditions: undefined,
+    });
+
+    expect(updatedQuestionnaire.sections[0].folders[1]).toMatchObject(
+      getExpectedListCollectorFolderResult("1")
+    );
+
+    expect(updatedQuestionnaire.sections[0].folders[2]).toMatchObject({
+      id: expect.any(String),
+      alias: "Fold1",
+      pages: [firstFolderPages[3]],
+      skipConditions: undefined,
+    });
+
+    expect(updatedQuestionnaire.sections[0].folders[3]).toMatchObject(
+      getExpectedListCollectorFolderResult("2")
+    );
+
+    expect(updatedQuestionnaire.sections[0].folders[4]).toMatchObject(
+      getExpectedListCollectorFolderResult("3")
+    );
+
+    expect(updatedQuestionnaire.sections[0].folders[5]).toMatchObject({
+      id: expect.any(String),
+      alias: "Fold2",
+      pages: [secondFolderPages[1], secondFolderPages[2]],
+      skipConditions,
+    });
+
+    expect(updatedQuestionnaire.sections[0].folders[6]).toMatchObject(
+      getExpectedListCollectorFolderResult("4")
+    );
+
+    expect(
+      updatedQuestionnaire.sections[0].folders[7].pages[0].summaryAnswers
+    ).toEqual(["test-summary-answer-page-1-1", "test-summary-answer-page-1-2"]);
+    expect(updatedQuestionnaire.sections[0].folders[7]).toMatchObject({
+      id: expect.any(String),
+      alias: "Fold2",
+      pages: [secondFolderPages[4]],
+      skipConditions,
+    });
+
+    expect(updatedQuestionnaire.sections[0].folders[8]).toMatchObject(
+      getExpectedListCollectorFolderResult("5")
+    );
+
+    expect(
+      updatedQuestionnaire.sections[0].folders[9].pages[0].confirmation
+    ).toHaveProperty("positive");
+    expect(
+      updatedQuestionnaire.sections[0].folders[9].pages[0].confirmation
+    ).toHaveProperty("negative");
+    expect(updatedQuestionnaire.sections[0].folders[9]).toMatchObject({
+      id: expect.any(String),
+      alias: "Fold2",
+      pages: [secondFolderPages[6]],
+      skipConditions,
+    });
+
+    expect(updatedQuestionnaire.sections[0].folders[10]).toMatchObject(
+      getExpectedListCollectorFolderResult("6")
+    );
+
+    expect(updatedQuestionnaire.sections[0].folders[11]).toMatchObject(
+      getExpectedListCollectorFolderResult("7")
+    );
+
+    expect(updatedQuestionnaire.sections[0].folders[12]).toMatchObject({
+      id: expect.any(String),
+      alias: "Fold3",
+      pages: [thirdFolderPages[2], thirdFolderPages[3]],
+      skipConditions: undefined,
+    });
+
+    expect(updatedQuestionnaire.sections[0].folders[13]).toMatchObject(
+      getExpectedListCollectorFolderResult("8")
+    );
+
+    expect(updatedQuestionnaire.sections[0].folders[14]).toMatchObject(
+      getExpectedListCollectorFolderResult("9")
+    );
+
+    expect(updatedQuestionnaire.sections[0].folders[15]).toMatchObject({
+      id: expect.any(String),
+      alias: "Fold3",
+      pages: [thirdFolderPages[6], thirdFolderPages[7]],
+      skipConditions: undefined,
+    });
+
+    expect(updatedQuestionnaire.sections[0].folders[16]).toMatchObject(
+      getExpectedListCollectorFolderResult("10")
+    );
+
+    expect(updatedQuestionnaire.sections[0].folders[17]).toMatchObject(
+      getExpectedListCollectorFolderResult("11")
+    );
+  });
 });
