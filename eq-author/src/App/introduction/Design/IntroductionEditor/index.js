@@ -347,13 +347,13 @@ const IntroductionEditor = ({ introduction, history }) => {
           />
 
           <SectionTitle>Legal basis</SectionTitle>
-          <Panel withLeftBorder data-testid="legal-basis-info-panel">
+          <Panel withLeftBorder>
             The legal basis can be changed on the Settings page
           </Panel>
         </Padding>
       </Section>
       {/* //TODO: previewQuestions */}
-      <Section>
+      <Section name="previewQuestions-section">
         <Padding>
           <InlineField
             style={{ marginBottom: "0" }}
@@ -387,7 +387,6 @@ const IntroductionEditor = ({ introduction, history }) => {
             />
           </InlineField>
           <SectionDescription
-            data-testid=""
             style={{
               color: disallowPreviewQuestions ? colors.mediumGrey : colors.text,
               marginBottom: "1em",
@@ -397,7 +396,11 @@ const IntroductionEditor = ({ introduction, history }) => {
             to show and hide its respective questions.
           </SectionDescription>
           {previewQuestions ? (
-            <Panel data-testid="preview-questions-warn-panel" variant="warning">
+            <Panel
+              data-testid="preview-questions-warn-panel"
+              name="preview-questions-warn-panel"
+              variant="warning"
+            >
               Adding a collection list will automatically turn off and disable
               this setting.
             </Panel>
