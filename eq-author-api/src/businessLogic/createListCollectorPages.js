@@ -1,6 +1,11 @@
 const { v4: uuidv4 } = require("uuid");
 const { omit } = require("lodash");
 const createAnswer = require("./createAnswer");
+const createOption = require("./createOption");
+
+const positiveOption = createOption({ label: "Yes" });
+const negativeOption = createOption({ label: "No" });
+const defaultOptions = [positiveOption, negativeOption];
 
 const createListCollectorQualifierPage = (input = { position: 0 }) => ({
   id: uuidv4(),
@@ -10,7 +15,13 @@ const createListCollectorQualifierPage = (input = { position: 0 }) => ({
   alias: null,
   additionalGuidanceEnabled: false,
   additionalGuidanceContent: "",
-  answers: [createAnswer({ type: "Radio", isListCollectorPageType: true })],
+  answers: [
+    createAnswer({
+      label: "",
+      type: "Radio",
+      options: defaultOptions,
+    }),
+  ],
   ...omit(input, "folderId"),
 });
 
@@ -37,7 +48,13 @@ const createListCollectorConfirmationPage = (input = { position: 2 }) => ({
   definitionEnabled: false,
   additionalInfoEnabled: false,
   alias: null,
-  answers: [createAnswer({ type: "Radio", isListCollectorPageType: true })],
+  answers: [
+    createAnswer({
+      label: "",
+      type: "Radio",
+      options: defaultOptions,
+    }),
+  ],
   ...omit(input, "folderId"),
 });
 
