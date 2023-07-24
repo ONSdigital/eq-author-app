@@ -120,7 +120,7 @@ const ListCollectorFolderEditor = ({ questionnaireId, folder, history }) => {
   };
 
   return (
-    <StyledField>
+    <StyledField data-test="list-collector-folder-editor">
       <Label htmlFor="list-collector-folder-title">List collector title</Label>
       <StyledInput
         id="list-collector-folder-title"

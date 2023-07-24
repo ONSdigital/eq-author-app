@@ -224,5 +224,12 @@ describe("Folder design page", () => {
         variables: { input: { id: "1.1", position: 1 } },
       });
     });
+
+    it("should render list collector folder editor when folder has listId", () => {
+      mockData.folder.listId = "list-folder-1";
+      const { getByTestId } = renderFolderDesignPage();
+
+      expect(getByTestId("list-collector-folder-editor")).toBeInTheDocument();
+    });
   });
 });
