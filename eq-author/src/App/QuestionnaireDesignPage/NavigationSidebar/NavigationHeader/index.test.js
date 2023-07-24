@@ -12,6 +12,7 @@ jest.mock("components/NavigationCallbacks", () => ({
     onAddQuestionPage: () => jest.fn(),
     onAddFolder: jest.fn(),
     onAddCalculatedSummaryPage: jest.fn(),
+    onAddListCollectorFolder: jest.fn(),
   }),
 }));
 
@@ -60,6 +61,9 @@ function openSetup() {
   const folder = utils.getByTestId("btn-add-folder");
   const calculated = utils.getByTestId("btn-add-calculated-summary");
   const confirmation = utils.getByTestId("btn-add-question-confirmation");
+  const listCollectorFolder = utils.getByTestId(
+    "btn-add-list-collector-folder"
+  );
 
   return {
     ...utils,
@@ -70,6 +74,7 @@ function openSetup() {
     folder,
     calculated,
     confirmation,
+    listCollectorFolder,
   };
 }
 
@@ -97,6 +102,12 @@ describe("NavigationHeader", () => {
     it("should close after adding a folder", () => {
       const { menuButton, folder } = openSetup();
       fireEvent.click(folder);
+      expect(menuButton.getAttribute("aria-expanded")).toEqual("false");
+    });
+
+    it("should close after adding a list collector folder", () => {
+      const { menuButton, listCollectorFolder } = openSetup();
+      fireEvent.click(listCollectorFolder);
       expect(menuButton.getAttribute("aria-expanded")).toEqual("false");
     });
 
