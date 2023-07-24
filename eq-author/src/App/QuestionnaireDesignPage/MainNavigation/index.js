@@ -101,10 +101,6 @@ export const UnwrappedMainNavigation = ({
     <>
       <StyledMainNavigation data-test="main-navigation">
         <UtilityBtns tabIndex="-1" data-test="keyNav" className="keyNav">
-          <Platform title="Platform GCP" data-test="platform-badge">
-            GCP
-          </Platform>
-
           {hasQuestionnaire && (
             <ButtonGroup vertical align="centre" margin="0.em" gutter="0.em">
               <RouteButton variant="navigation" small to="/">
