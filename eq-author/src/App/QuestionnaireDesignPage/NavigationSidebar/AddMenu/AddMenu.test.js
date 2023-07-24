@@ -9,7 +9,7 @@ const defaultProps = () => ({
   canAddQuestionPage: true,
   canAddSection: true,
   canAddIntroductionPage: true,
-  canAddListCollectorPage: true,
+  canAddListCollectorFolder: true,
   onAddMenuToggle: jest.fn(),
   onAddQuestionPage: jest.fn(),
   onAddSection: jest.fn(),
@@ -18,7 +18,7 @@ const defaultProps = () => ({
   onAddCalculatedSummaryPage: jest.fn(),
   onAddFolder: jest.fn(),
   onStartImportingContent: jest.fn(),
-  onAddListCollectorPage: jest.fn(),
+  onAddListCollectorFolder: jest.fn(),
   canAddFolder: true,
   isFolder: false,
   folderTitle: "",
@@ -30,6 +30,7 @@ const defaultSetup = (newProps = {}) => {
   const addSection = "btn-add-section";
   const addIntroduction = "btn-add-introduction";
   const addConfirmation = "btn-add-question-confirmation";
+  const addListCollectorFolder = "btn-add-list-collector-folder";
   const addCalcSum = "btn-add-calculated-summary";
   const addCalcSumInside = "btn-add-calculated-summary-inside";
 
@@ -45,6 +46,7 @@ const defaultSetup = (newProps = {}) => {
     addSection,
     addIntroduction,
     addConfirmation,
+    addListCollectorFolder,
     addCalcSum,
     addCalcSumInside,
   };
@@ -135,5 +137,12 @@ describe("AddMenu", () => {
       });
     fireEvent.click(getByTestId(addCalcSumInside));
     expect(onAddCalculatedSummaryPage).toHaveBeenCalledWith(true);
+  });
+
+  it("should allow a list collector folder to be added", () => {
+    const { getByTestId, onAddListCollectorFolder, addListCollectorFolder } =
+      defaultSetup();
+    fireEvent.click(getByTestId(addListCollectorFolder));
+    expect(onAddListCollectorFolder).toHaveBeenCalled();
   });
 });
