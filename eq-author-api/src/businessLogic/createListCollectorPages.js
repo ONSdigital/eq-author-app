@@ -30,10 +30,6 @@ const createListCollectorAddItemPage = (input = { position: 1 }) => ({
   pageType: "ListCollectorAddItemPage",
   title: "",
   pageDescription: "",
-  descriptionEnabled: false,
-  guidanceEnabled: false,
-  definitionEnabled: false,
-  additionalInfoEnabled: false,
   alias: null,
   ...omit(input, "folderId"),
 });
@@ -43,10 +39,6 @@ const createListCollectorConfirmationPage = (input = { position: 2 }) => ({
   pageType: "ListCollectorConfirmationPage",
   title: "",
   pageDescription: "",
-  descriptionEnabled: false,
-  guidanceEnabled: false,
-  definitionEnabled: false,
-  additionalInfoEnabled: false,
   alias: null,
   answers: [
     createAnswer({
