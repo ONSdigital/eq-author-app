@@ -10,6 +10,7 @@ const defaultProps = () => ({
   canAddSection: true,
   canAddIntroductionPage: true,
   canAddListCollectorFolder: true,
+  canImportContent: true,
   onAddMenuToggle: jest.fn(),
   onAddQuestionPage: jest.fn(),
   onAddSection: jest.fn(),
@@ -33,6 +34,8 @@ const defaultSetup = (newProps = {}) => {
   const addListCollectorFolder = "btn-add-list-collector-folder";
   const addCalcSum = "btn-add-calculated-summary";
   const addCalcSumInside = "btn-add-calculated-summary-inside";
+  const importContent = "btn-import-content";
+  const importContentInside = "btn-import-content-inside";
 
   const props = { ...defaultProps(), ...newProps };
 
@@ -49,6 +52,8 @@ const defaultSetup = (newProps = {}) => {
     addListCollectorFolder,
     addCalcSum,
     addCalcSumInside,
+    importContent,
+    importContentInside,
   };
 };
 
@@ -125,6 +130,7 @@ describe("AddMenu", () => {
   it("should allow a question page to be added inside a folder", () => {
     const { getByTestId, onAddQuestionPage, addQuestionInside } = defaultSetup({
       isFolder: true,
+      isListCollectorFolder: false,
     });
     fireEvent.click(getByTestId(addQuestionInside));
     expect(onAddQuestionPage).toHaveBeenCalledWith(true);
@@ -134,6 +140,7 @@ describe("AddMenu", () => {
     const { getByTestId, onAddCalculatedSummaryPage, addCalcSumInside } =
       defaultSetup({
         isFolder: true,
+        isListCollectorFolder: false,
       });
     fireEvent.click(getByTestId(addCalcSumInside));
     expect(onAddCalculatedSummaryPage).toHaveBeenCalledWith(true);
@@ -144,5 +151,29 @@ describe("AddMenu", () => {
       defaultSetup();
     fireEvent.click(getByTestId(addListCollectorFolder));
     expect(onAddListCollectorFolder).toHaveBeenCalled();
+  });
+
+  it("should not display Add Calculated Summary inside folder button on list collector folders", () => {
+    const { queryByTestId, addCalcSumInside } = defaultSetup({
+      isListCollectorFolder: true,
+    });
+    expect(queryByTestId(addCalcSumInside)).not.toBeInTheDocument();
+  });
+
+  it("should allow importing content", () => {
+    const { getByTestId, onStartImportingContent, importContent } =
+      defaultSetup();
+    fireEvent.click(getByTestId(importContent));
+    expect(onStartImportingContent).toHaveBeenCalled();
+  });
+
+  it("should allow importing content inside a folder", () => {
+    const { getByTestId, onStartImportingContent, importContentInside } =
+      defaultSetup({
+        isFolder: true,
+        isListCollectorFolder: false,
+      });
+    fireEvent.click(getByTestId(importContentInside));
+    expect(onStartImportingContent).toHaveBeenCalled();
   });
 });

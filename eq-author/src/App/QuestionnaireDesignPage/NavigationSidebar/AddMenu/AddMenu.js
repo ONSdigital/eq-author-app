@@ -132,7 +132,7 @@ const AddMenu = ({
     {
       handleClick: () => onStartImportingContent(true),
       disabled: !canImportContent || isListCollectorFolder, // TODO: List collector folder - remove `isListCollectorFolder` to allow importing question pages when completing the follow up question task
-      dataTest: "btn-import-content",
+      dataTest: "btn-import-content-inside",
       icon: IconImport,
       text: "Import content",
     },
