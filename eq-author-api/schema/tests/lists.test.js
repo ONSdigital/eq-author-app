@@ -38,6 +38,9 @@ describe("Lists", () => {
     const { lists } = await createList(ctx);
     expect(lists[0].listName).toBeNull();
     expect(ctx.questionnaire.collectionLists.lists.length).toEqual(1);
+    //TODO: previewQuestions
+    expect(ctx.questionnaire.introduction.previewQuestions).toBe(false);
+    expect(ctx.questionnaire.introduction.disallowPreviewQuestions).toBe(true);
   });
 
   it("Can update a list", async () => {
@@ -55,6 +58,9 @@ describe("Lists", () => {
     expect(ctx.questionnaire.collectionLists.lists.length).toEqual(1);
     await deleteList(ctx, input);
     expect(ctx.questionnaire.collectionLists.lists.length).toEqual(0);
+    //TODO: previewQuestions
+    expect(ctx.questionnaire.introduction.previewQuestions).toBe(false);
+    expect(ctx.questionnaire.introduction.disallowPreviewQuestions).toBe(false);
   });
 
   it("Can add an answer to a list", async () => {
