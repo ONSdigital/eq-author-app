@@ -46,6 +46,7 @@ export const buildPages = ({
       additionalInfoContent: "",
       additionalInfoEnabled: false,
       alias: id,
+      pageDescription: `Page description ${id}`,
       position: i,
       pageType: "QuestionPage", // this is needed to build collapsible nav items
       validationErrorInfo: {

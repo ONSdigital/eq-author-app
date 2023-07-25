@@ -37,6 +37,8 @@ const Title = styled.h2`
   font-weight: bold;
 `;
 
+const Container = styled.div``;
+
 const StyledField = styled(Field)`
   padding: 0 2em;
 `;
@@ -87,7 +89,7 @@ const ConfirmationPageEditor = ({ page, onUpdateOption }) => {
   });
 
   return (
-    <>
+    <Container data-test="list-collector-confirmation-page-editor">
       <PageHeader
         page={page}
         onUpdate={({ value }) =>
@@ -148,7 +150,7 @@ const ConfirmationPageEditor = ({ page, onUpdateOption }) => {
           withoutMargin
         />
       </StyledField>
-    </>
+    </Container>
   );
 };
 

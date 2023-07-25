@@ -76,6 +76,7 @@ exports[`PipingMenu should render 1`] = `
                   "guidance": "",
                   "guidanceEnabled": false,
                   "id": "1.1.1",
+                  "pageDescription": "Page description 1.1.1",
                   "pageType": "QuestionPage",
                   "position": 0,
                   "section": Object {

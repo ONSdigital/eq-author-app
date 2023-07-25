@@ -99,6 +99,93 @@ describe("PageRoute", () => {
       expect(getByTestId("calculated-summary-page-editor")).toBeVisible();
     });
 
+    it("should render list collector qualifier page editor once loaded", () => {
+      const page = {
+        ...buildPages()[0],
+        pageType: "ListCollectorQualifierPage",
+        answers: [
+          {
+            type: "Radio",
+            label: "Qualifier answer",
+            options: [
+              {
+                id: "option-1",
+                label: "Yes",
+                description: "Description 1",
+              },
+              {
+                id: "option-2",
+                label: "No",
+                description: "Description 2",
+              },
+            ],
+          },
+        ],
+      };
+
+      useQuery.mockImplementationOnce(() => ({
+        loading: false,
+        data: { page },
+      }));
+
+      const { getByTestId } = defaultSetup();
+
+      expect(getByTestId("list-collector-qualifier-page-editor")).toBeVisible();
+    });
+
+    it("should render list collector add item page editor once loaded", () => {
+      const page = {
+        ...buildPages()[0],
+        pageType: "ListCollectorAddItemPage",
+        answers: undefined,
+      };
+
+      useQuery.mockImplementationOnce(() => ({
+        loading: false,
+        data: { page },
+      }));
+
+      const { getByTestId } = defaultSetup();
+
+      expect(getByTestId("list-collector-add-item-page-editor")).toBeVisible();
+    });
+
+    it("should render list collector confirmation page editor once loaded", () => {
+      const page = {
+        ...buildPages()[0],
+        pageType: "ListCollectorConfirmationPage",
+        answers: [
+          {
+            type: "Radio",
+            label: "Confirmation answer",
+            options: [
+              {
+                id: "option-1",
+                label: "Yes",
+                description: "Description 1",
+              },
+              {
+                id: "option-2",
+                label: "No",
+                description: "Description 2",
+              },
+            ],
+          },
+        ],
+      };
+
+      useQuery.mockImplementationOnce(() => ({
+        loading: false,
+        data: { page },
+      }));
+
+      const { getByTestId } = defaultSetup();
+
+      expect(
+        getByTestId("list-collector-confirmation-page-editor")
+      ).toBeVisible();
+    });
+
     it("should render error if problem with request", () => {
       useQuery.mockImplementationOnce(() => ({
         loading: false,

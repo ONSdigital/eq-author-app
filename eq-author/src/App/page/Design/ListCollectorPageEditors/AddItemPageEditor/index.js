@@ -34,6 +34,8 @@ const Title = styled.h2`
   margin-bottom: ${(props) => props.marginBottom}em;
 `;
 
+const Container = styled.div``;
+
 const StyledField = styled(Field)`
   padding: 0 2em;
 `;
@@ -82,7 +84,7 @@ const AddItemPageEditor = ({ page }) => {
   });
 
   return (
-    <>
+    <Container data-test="list-collector-add-item-page-editor">
       <PageHeader
         page={page}
         onUpdate={({ value }) =>
@@ -191,7 +193,7 @@ const AddItemPageEditor = ({ page }) => {
           </Content>
         </Collapsible>
       </StyledField>
-    </>
+    </Container>
   );
 };
 
