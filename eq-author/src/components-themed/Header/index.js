@@ -120,7 +120,6 @@ const Header = ({
               <Column cols={9}>
                 <HeaderTitle headerDescription={headerDescription}>
                   {children}
-                  &nbsp;(GCP)
                 </HeaderTitle>
                 {headerDescription && (
                   <HeaderDescription>{headerDescription}</HeaderDescription>
