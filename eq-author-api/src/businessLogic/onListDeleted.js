@@ -22,4 +22,11 @@ module.exports = (ctx, list) => {
       onAnswerDeleted(ctx, list, answer, pages);
     });
   }
+
+  if (
+    ctx.questionnaire.lists === undefined ||
+    ctx.questionnaire.lists.length === 0
+  ) {
+    ctx.questionnaire.introduction.disallowPreviewQuestions = false;
+  }
 };
