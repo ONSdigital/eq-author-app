@@ -20,23 +20,13 @@ const me = {
 
 const questionnaire = { id: "questionnaire-1" };
 
-const page = {
-  id: "page-1",
-  title: "Page 1",
-  displayName: "Page 1",
-  folder: { id: "folder-1", listId: "list-1" },
-  section: { id: "section-1" },
-  comments: [],
-  validationErrorInfo: { id: "validation-error-info", errors: [] },
-};
-
 const renderAddItemPagePreview = (props) => {
   return render(
     <MeContext.Provider value={{ me }}>
       <AddItemPagePreview {...props} />
     </MeContext.Provider>,
     {
-      route: `/q/${questionnaire.id}/page/${page.id}/preview`,
+      route: `/q/${questionnaire.id}/page/${props.page.id}/preview`,
       urlParamMatcher: "/q/:questionnaireId/page/:pageId/preview",
     }
   );
@@ -84,9 +74,7 @@ describe("AddItemPagePreview", () => {
       },
     }));
 
-    props = {
-      page,
-    };
+    props = { page };
   });
 
   it("should render loading page", () => {
