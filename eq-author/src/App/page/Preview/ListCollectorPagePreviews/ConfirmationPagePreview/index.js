@@ -113,12 +113,15 @@ const ConfirmationPagePreview = ({ page }) => {
       renderPanel={() => <CommentsPanel comments={comments} componentId={id} />}
     >
       <Panel>
-        <Container>
+        <Container data-test="list-collector-confirmation-page-preview">
           <Title title={title} />
           {answers.map((answer) => {
             return answer.options.map((option) =>
               option.label ? (
-                <OptionItem key={option.id}>
+                <OptionItem
+                  key={option.id}
+                  data-test={`preview-option-item-${option.id}`}
+                >
                   <Input type="radio" />
                   <OptionContentWrapper>
                     <OptionLabel>{option.label}</OptionLabel>
@@ -130,7 +133,12 @@ const ConfirmationPagePreview = ({ page }) => {
                   </OptionContentWrapper>
                 </OptionItem>
               ) : (
-                <Error>Missing label</Error>
+                <Error
+                  key={option.id}
+                  data-test={`preview-option-error-${option.id}`}
+                >
+                  Missing label
+                </Error>
               )
             );
           })}

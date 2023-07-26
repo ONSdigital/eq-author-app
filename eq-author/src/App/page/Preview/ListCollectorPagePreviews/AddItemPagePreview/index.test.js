@@ -39,6 +39,7 @@ describe("AddItemPagePreview", () => {
       id: "page-1",
       title: "Page 1",
       displayName: "Page 1",
+      pageType: "ListCollectorAddItemPage",
       folder: { id: "folder-1", listId: "list-1" },
       section: { id: "section-1" },
       comments: [],
