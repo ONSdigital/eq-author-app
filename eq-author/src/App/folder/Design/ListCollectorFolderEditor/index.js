@@ -132,6 +132,7 @@ const ListCollectorFolderEditor = ({ questionnaireId, folder, history }) => {
           })
         }
         value={folderTitle}
+        data-test="list-collector-folder-title-input"
         hasError={getErrorMessage("title")}
       />
       {getErrorMessage("title") && (
