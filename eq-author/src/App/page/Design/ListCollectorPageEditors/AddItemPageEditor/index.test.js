@@ -1,7 +1,7 @@
 import React from "react";
 import { render, fireEvent } from "tests/utils/rtl";
 
-import { useMutation } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 
 import AddItemPageEditor from ".";
 
@@ -13,10 +13,12 @@ import suppressConsoleMessage from "tests/utils/supressConsol";
 suppressConsoleMessage("componentWillMount has been renamed", "warn");
 suppressConsoleMessage("componentWillReceiveProps has been renamed", "warn");
 
+const mockUseMutation = jest.fn();
+
 jest.mock("@apollo/react-hooks", () => ({
-  //   ...jest.requireActual("@apollo/react-hooks"),
-  useMutation: jest.fn(() => [() => null]),
-  //   useQuery: jest.fn(),
+  ...jest.requireActual("@apollo/react-hooks"),
+  useMutation: () => [mockUseMutation],
+  useQuery: jest.fn(),
 }));
 
 const renderAddItemPageEditor = (props) => {
@@ -27,8 +29,26 @@ describe("ListCollectorPageEditors/AddItemPageEditor", () => {
   let props, mockUseMutation;
 
   beforeEach(() => {
-    mockUseMutation = jest.fn();
-    useMutation.mockImplementation(jest.fn(() => [mockUseMutation]));
+    // mockUseMutation = jest.fn();
+    // useMutation.mockImplementation(jest.fn(() => [mockUseMutation]));
+
+    useQuery.mockImplementation(() => ({
+      loading: false,
+      error: false,
+      data: {
+        page: {
+          id: "page-1",
+          alias: "P1",
+          title: "Page 1",
+          pageDescription: "Page 1 description",
+          displayName: "P1",
+          position: 0,
+          folder: { id: "folder-1" },
+          section: { id: "section-1" },
+          validationErrorInfo: { errors: [] },
+        },
+      },
+    }));
 
     props = {
       page: {
