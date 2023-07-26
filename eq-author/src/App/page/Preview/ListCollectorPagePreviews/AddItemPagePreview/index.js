@@ -101,7 +101,7 @@ const AddItemPagePreview = ({ page }) => {
       renderPanel={() => <CommentsPanel comments={comments} componentId={id} />}
     >
       <Panel>
-        <Container>
+        <Container data-test="list-collector-add-item-page-preview">
           <Title title={title} />
           {answers.length ? (
             <Answers>
