@@ -11,6 +11,7 @@ const {
 const {
   createFolder,
   moveFolder,
+  createListCollectorFolder,
 } = require("../../tests/utils/contextBuilder/folder");
 
 const { createSection } = require("../../tests/utils/contextBuilder/section");
@@ -64,6 +65,76 @@ describe("Folders", () => {
         });
 
         expect(folder.validationErrorInfo.totalCount).toEqual(0);
+      });
+    });
+
+    describe("CreateListCollectorFolder", () => {
+      it("should create a list collector folder", async () => {
+        const [section] = questionnaire.sections;
+        const listCollectorFolder = await createListCollectorFolder(ctx, {
+          sectionId: section.id,
+          position: 0,
+        });
+
+        expect(listCollectorFolder).toEqual(
+          expect.objectContaining({
+            id: expect.any(String),
+            alias: "",
+            title: "",
+            listId: "",
+            displayName: "Untitled list collector",
+            position: 0,
+            pages: [
+              {
+                id: expect.any(String),
+                pageType: "ListCollectorQualifierPage",
+                answers: [
+                  {
+                    id: expect.any(String),
+                    type: "Radio",
+                    options: [
+                      {
+                        id: expect.any(String),
+                      },
+                      {
+                        id: expect.any(String),
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                id: expect.any(String),
+                pageType: "ListCollectorAddItemPage",
+              },
+              {
+                id: expect.any(String),
+                pageType: "ListCollectorConfirmationPage",
+                answers: [
+                  {
+                    id: expect.any(String),
+                    type: "Radio",
+                    options: [
+                      {
+                        id: expect.any(String),
+                      },
+                      {
+                        id: expect.any(String),
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+            section: {
+              id: expect.any(String),
+            },
+            validationErrorInfo: {
+              id: expect.any(String),
+              totalCount: 2,
+            },
+          })
+        );
       });
     });
 
