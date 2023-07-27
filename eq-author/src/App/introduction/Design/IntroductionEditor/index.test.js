@@ -30,7 +30,8 @@ describe("IntroductionEditor", () => {
         contactDetailsEmailSubject: "Change of details",
         contactDetailsIncludeRuRef: false,
         additionalGuidancePanelSwitch: false,
-        previewQuestions: true,
+        previewQuestions: false,
+        disallowPreviewQuestions: true,
         additionalGuidancePanel: "additionalGuidancePanel",
         description: "description",
         secondaryTitle: "secondary title",
@@ -57,7 +58,16 @@ describe("IntroductionEditor", () => {
   const { PHONE_NOT_ENTERED, EMAIL_NOT_ENTERED } = introductionErrors;
 
   it("should render", () => {
-    expect(shallow(<IntroductionEditor {...props} />)).toMatchSnapshot();
+    const propsWithPreviewQuestions = {
+      ...props,
+      introduction: {
+        ...props.introduction,
+        previewQuestions: true,
+      },
+    };
+    expect(
+      shallow(<IntroductionEditor {...propsWithPreviewQuestions} />)
+    ).toMatchSnapshot();
   });
 
   it("should toggle the additional guidance panel", () => {
@@ -159,18 +169,80 @@ describe("IntroductionEditor", () => {
     expect(mockUseMutation).toHaveBeenCalledTimes(3);
   });
 
-  // TODO: previewQuestions
-  // it("should toggle preview questions", () => {
-  //   const mockUseMutation = jest.fn();
-  //   useMutation.mockImplementationOnce(jest.fn(() => [mockUseMutation]));
+  //TODO: previewQuestions;
+  describe("previewingQuestions", () => {
+    it("Should render previewQuestions section", () => {
+      const wrapper = shallow(<IntroductionEditor {...props} />);
+      expect(wrapper.find('[name="previewQuestions-section"]')).toBeTruthy();
+    });
 
-  //   const wrapper = shallow(<IntroductionEditor {...props} />);
-  //   expect(
-  //     wrapper.find('[name="toggle-preview-questions"]').exists()
-  //   ).toBeTruthy();
-  //   wrapper
-  //     .find("#toggle-preview-questions")
-  //     .simulate("change", { target: { checked: false } });
-  //   expect(mockUseMutation).toHaveBeenCalledTimes(1);
-  // });
+    it("Should render previewQuestions toggle in off state", () => {
+      const wrapper = shallow(<IntroductionEditor {...props} />);
+      expect(
+        wrapper.find('[name="toggle-preview-questions"]').prop("checked")
+      ).toBe(false);
+    });
+
+    it("Should toggle preview questions", () => {
+      const mockUseMutation = jest.fn();
+      useMutation.mockImplementationOnce(jest.fn(() => [mockUseMutation]));
+
+      const wrapper = shallow(<IntroductionEditor {...props} />);
+      expect(
+        wrapper.find('[name="toggle-preview-questions"]').exists()
+      ).toBeTruthy();
+      wrapper
+        .find("#toggle-preview-questions")
+        .simulate("change", { target: { checked: false } });
+      expect(mockUseMutation).toHaveBeenCalledTimes(1);
+    });
+
+    it("Should render the warning panel when previewQuestions is true", () => {
+      const propsWithPreviewQuestions = {
+        ...props,
+        introduction: {
+          ...props.introduction,
+          previewQuestions: true,
+        },
+      };
+      const wrapper = shallow(
+        <IntroductionEditor {...propsWithPreviewQuestions} />
+      );
+      expect(
+        wrapper.find('[data-testid="preview-questions-warn-panel"]').exists()
+      ).toBeTruthy();
+    });
+
+    it("Should render the disallow info panel when disallowPreviewQuestions is true", () => {
+      const propsWithDisallowPreviewQuestions = {
+        ...props,
+        introduction: {
+          ...props.introduction,
+          disallowPreviewQuestions: true,
+        },
+      };
+      const wrapper = shallow(
+        <IntroductionEditor {...propsWithDisallowPreviewQuestions} />
+      );
+      expect(
+        wrapper.find('[data-testid="preview-questions-info-panel"]').exists()
+      ).toBeTruthy();
+    });
+
+    it("should not render the warning panel when previewQuestions is false", () => {
+      const propsWithPreviewQuestions = {
+        ...props,
+        introduction: {
+          ...props.introduction,
+          previewQuestions: false,
+        },
+      };
+      const wrapper = shallow(
+        <IntroductionEditor {...propsWithPreviewQuestions} />
+      );
+      expect(
+        wrapper.find('[data-testid="preview-questions-warn-panel"]').exists()
+      ).toBeFalsy();
+    });
+  });
 });
