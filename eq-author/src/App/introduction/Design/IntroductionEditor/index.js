@@ -12,7 +12,7 @@ import { buildSettingsPath } from "utils/UrlUtils";
 
 import RichTextEditor from "components/RichTextEditor";
 import ValidationError from "components/ValidationError";
-import { InformationPanel } from "components/Panel";
+
 import { Field, Input, Label } from "components/Forms";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import Panel from "components-themed/panels";
@@ -64,6 +64,7 @@ const InlineField = styled(Field)`
   > * {
     margin-bottom: 0;
   }
+  pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
 `;
 
 const HorizontalSeparator = styled.hr`
@@ -102,8 +103,8 @@ const IntroductionEditor = ({ introduction, history }) => {
     contactDetailsIncludeRuRef,
     additionalGuidancePanel,
     additionalGuidancePanelSwitch,
-    // TODO: previewQuestions
-    // previewQuestions,
+    previewQuestions,
+    disallowPreviewQuestions,
     secondaryTitle,
     secondaryDescription,
     tertiaryTitle,
@@ -130,8 +131,6 @@ const IntroductionEditor = ({ introduction, history }) => {
   };
 
   const params = useParams();
-
-  // TODO: previewQuestions
   return (
     <>
       <IntroductionHeader history={history} />
@@ -173,7 +172,10 @@ const IntroductionEditor = ({ introduction, history }) => {
             testSelector="txt-intro-title"
             withoutMargin
           />
-          <Panel variant="warning">
+          <Panel
+            data-testid="introduction-content-info-panel"
+            variant="warning"
+          >
             You can have this page display on the Hub via the&nbsp;
             <Link to={`${buildSettingsPath(params)}`}>Settings page</Link>
           </Panel>
@@ -345,15 +347,29 @@ const IntroductionEditor = ({ introduction, history }) => {
           />
 
           <SectionTitle>Legal basis</SectionTitle>
-          <InformationPanel>
+          <Panel withLeftBorder>
             The legal basis can be changed on the Settings page
-          </InformationPanel>
+          </Panel>
         </Padding>
       </Section>
-      {/* <Section>
+      {/* //TODO: previewQuestions */}
+      <Section name="previewQuestions-section">
         <Padding>
-          <InlineField open={previewQuestions} style={{ marginBottom: "0" }}>
-            <Label htmlFor="toggle-preview-questions">Preview questions</Label>
+          <InlineField
+            style={{ marginBottom: "0" }}
+            disabled={disallowPreviewQuestions}
+          >
+            <Label
+              labelFor="toggle-preview-questions"
+              style={{
+                color: disallowPreviewQuestions
+                  ? colors.mediumGrey
+                  : colors.text,
+                marginBottom: "0",
+              }}
+            >
+              Include a link to a page for previewing the questions
+            </Label>
             <ToggleSwitch
               id="toggle-preview-questions"
               name="toggle-preview-questions"
@@ -370,13 +386,32 @@ const IntroductionEditor = ({ introduction, history }) => {
               checked={previewQuestions}
             />
           </InlineField>
-          <SectionDescription>
-            This displays a link on the introduction page that takes respondents
-            to a preview of all the questions on one page in a collapsible
-            format.
+          <SectionDescription
+            style={{
+              color: disallowPreviewQuestions ? colors.mediumGrey : colors.text,
+              marginBottom: "1em",
+            }}
+          >
+            Each section is represented as a collapsible element, allowing users
+            to show and hide its respective questions.
           </SectionDescription>
+          {previewQuestions ? (
+            <Panel
+              data-testid="preview-questions-warn-panel"
+              name="preview-questions-warn-panel"
+              variant="warning"
+            >
+              Adding a collection list will automatically turn off and disable
+              this setting.
+            </Panel>
+          ) : disallowPreviewQuestions ? (
+            <Panel data-testid="preview-questions-info-panel" withLeftBorder>
+              A link for previewing the questions cannot be provided for
+              questionnaires that contain list collector question patterns.
+            </Panel>
+          ) : null}
         </Padding>
-      </Section> */}
+      </Section>
       <Section>
         <Padding>
           <SectionTitle style={{ marginBottom: "0" }}>
