@@ -47,6 +47,7 @@ const migrations = [
   require("./updateIntroductionEnabledWithValidation"),
   require("./addRepeatingLabelAndInputFields"),
   require("./addCollectionListAnswerRepeatingProperties"),
+  require("./updateIntroductionPreviewQuestionsSettings"),
   require("./convertListCollectorPageToFolder"),
 ];
 
