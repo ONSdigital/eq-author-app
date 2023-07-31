@@ -225,6 +225,12 @@ const getPageQuery = `
           condition
         }
       }
+      ... on ListCollectorQualifierPage {
+        comments {
+          id
+          commentText
+        }
+      }
     }
   }  
 `;
