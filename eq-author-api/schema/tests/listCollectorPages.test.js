@@ -11,9 +11,18 @@ const {
 const { queryPage } = require("../../tests/utils/contextBuilder/page");
 
 describe("List collector pages", () => {
-  let ctx = {};
-  let config = {};
-  let questionnaire = {};
+  let ctx, config, questionnaire, section, listCollectorFolder;
+
+  const comments = [
+    {
+      id: "comment-1",
+      commentText: "Test comment 1",
+    },
+    {
+      id: "comment-2",
+      commentText: "Test comment 2",
+    },
+  ];
 
   beforeEach(async () => {
     ctx = await buildContext({ comments: [] });
@@ -29,32 +38,24 @@ describe("List collector pages", () => {
     };
 
     questionnaire = await createQuestionnaire(ctx, config);
+
+    // Destructures section at position 0 of questionnaire.sections
+    [section] = questionnaire.sections;
+
+    listCollectorFolder = await createListCollectorFolder(ctx, {
+      sectionId: section.id,
+      position: 0,
+    });
   });
 
   describe("Qualifier page", () => {
     it("should resolve qualifier page", async () => {
-      const [section] = questionnaire.sections;
-      const listCollectorFolder = await createListCollectorFolder(ctx, {
-        sectionId: section.id,
-        position: 0,
-      });
-
       expect(listCollectorFolder.pages[0].pageType).toEqual(
         "ListCollectorQualifierPage"
       );
 
       const qualifierPage = listCollectorFolder.pages[0];
 
-      const comments = [
-        {
-          id: "comment-1",
-          commentText: "Test comment 1",
-        },
-        {
-          id: "comment-2",
-          commentText: "Test comment 2",
-        },
-      ];
       ctx.comments[qualifierPage.id] = comments;
 
       const queriedPage = await queryPage(ctx, qualifierPage.id);
@@ -90,28 +91,12 @@ describe("List collector pages", () => {
 
   describe("Add item page", () => {
     it("should resolve add item page", async () => {
-      const [section] = questionnaire.sections;
-      const listCollectorFolder = await createListCollectorFolder(ctx, {
-        sectionId: section.id,
-        position: 0,
-      });
-
       expect(listCollectorFolder.pages[1].pageType).toEqual(
         "ListCollectorAddItemPage"
       );
 
       const addItemPage = listCollectorFolder.pages[1];
 
-      const comments = [
-        {
-          id: "comment-1",
-          commentText: "Test comment 1",
-        },
-        {
-          id: "comment-2",
-          commentText: "Test comment 2",
-        },
-      ];
       ctx.comments[addItemPage.id] = comments;
 
       const queriedPage = await queryPage(ctx, addItemPage.id);
@@ -147,28 +132,12 @@ describe("List collector pages", () => {
 
   describe("Confirmation page", () => {
     it("should resolve confirmation page", async () => {
-      const [section] = questionnaire.sections;
-      const listCollectorFolder = await createListCollectorFolder(ctx, {
-        sectionId: section.id,
-        position: 0,
-      });
-
       expect(listCollectorFolder.pages[2].pageType).toEqual(
         "ListCollectorConfirmationPage"
       );
 
       const confirmationPage = listCollectorFolder.pages[2];
 
-      const comments = [
-        {
-          id: "comment-1",
-          commentText: "Test comment 1",
-        },
-        {
-          id: "comment-2",
-          commentText: "Test comment 2",
-        },
-      ];
       ctx.comments[confirmationPage.id] = comments;
 
       const queriedPage = await queryPage(ctx, confirmationPage.id);
