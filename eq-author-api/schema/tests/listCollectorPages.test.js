@@ -87,4 +87,61 @@ describe("List collector pages", () => {
       });
     });
   });
+
+  describe("Add item page", () => {
+    it("should resolve add item page", async () => {
+      const [section] = questionnaire.sections;
+      const listCollectorFolder = await createListCollectorFolder(ctx, {
+        sectionId: section.id,
+        position: 0,
+      });
+
+      expect(listCollectorFolder.pages[1].pageType).toEqual(
+        "ListCollectorAddItemPage"
+      );
+
+      const addItemPage = listCollectorFolder.pages[1];
+
+      const comments = [
+        {
+          id: "comment-1",
+          commentText: "Test comment 1",
+        },
+        {
+          id: "comment-2",
+          commentText: "Test comment 2",
+        },
+      ];
+      ctx.comments[addItemPage.id] = comments;
+
+      const queriedPage = await queryPage(ctx, addItemPage.id);
+
+      expect(queriedPage).toMatchObject({
+        section: {
+          id: questionnaire.sections[0].id,
+          allowRepeatingSection: true,
+        },
+        folder: { id: listCollectorFolder.id },
+        position: 1,
+        displayName: "Untitled question for adding a list item",
+        comments,
+        validationErrorInfo: {
+          errors: [
+            {
+              id: expect.any(String),
+              type: "page",
+              field: "title",
+              errorCode: "ERR_VALID_REQUIRED",
+            },
+            {
+              id: expect.any(String),
+              type: "page",
+              field: "pageDescription",
+              errorCode: "PAGE_DESCRIPTION_MISSING",
+            },
+          ],
+        },
+      });
+    });
+  });
 });
