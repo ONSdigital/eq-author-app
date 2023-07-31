@@ -144,4 +144,61 @@ describe("List collector pages", () => {
       });
     });
   });
+
+  describe("Confirmation page", () => {
+    it("should resolve confirmation page", async () => {
+      const [section] = questionnaire.sections;
+      const listCollectorFolder = await createListCollectorFolder(ctx, {
+        sectionId: section.id,
+        position: 0,
+      });
+
+      expect(listCollectorFolder.pages[2].pageType).toEqual(
+        "ListCollectorConfirmationPage"
+      );
+
+      const confirmationPage = listCollectorFolder.pages[2];
+
+      const comments = [
+        {
+          id: "comment-1",
+          commentText: "Test comment 1",
+        },
+        {
+          id: "comment-2",
+          commentText: "Test comment 2",
+        },
+      ];
+      ctx.comments[confirmationPage.id] = comments;
+
+      const queriedPage = await queryPage(ctx, confirmationPage.id);
+
+      expect(queriedPage).toMatchObject({
+        section: {
+          id: questionnaire.sections[0].id,
+          allowRepeatingSection: true,
+        },
+        folder: { id: listCollectorFolder.id },
+        position: 2,
+        displayName: "Untitled question to confirm list completion",
+        comments,
+        validationErrorInfo: {
+          errors: [
+            {
+              id: expect.any(String),
+              type: "page",
+              field: "title",
+              errorCode: "ERR_VALID_REQUIRED",
+            },
+            {
+              id: expect.any(String),
+              type: "page",
+              field: "pageDescription",
+              errorCode: "PAGE_DESCRIPTION_MISSING",
+            },
+          ],
+        },
+      });
+    });
+  });
 });

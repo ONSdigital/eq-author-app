@@ -237,6 +237,12 @@ const getPageQuery = `
           commentText
         }
       }
+      ... on ListCollectorConfirmationPage {
+        comments {
+          id
+          commentText
+        }
+      }
     }
   }  
 `;
