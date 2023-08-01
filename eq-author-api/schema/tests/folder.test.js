@@ -1,4 +1,5 @@
 const { buildContext } = require("../../tests/utils/contextBuilder");
+
 const {
   createQuestionnaire,
 } = require("../../tests/utils/contextBuilder/questionnaire");
@@ -11,8 +12,14 @@ const {
 const {
   createFolder,
   moveFolder,
+  updateFolder,
   createListCollectorFolder,
 } = require("../../tests/utils/contextBuilder/folder");
+
+const {
+  createList,
+  deleteList,
+} = require("../../tests/utils/contextBuilder/list");
 
 const { createSection } = require("../../tests/utils/contextBuilder/section");
 
@@ -135,6 +142,34 @@ describe("Folders", () => {
             },
           })
         );
+      });
+
+      it("should change folder list ID to empty when associated collection list is deleted", async () => {
+        const [section] = questionnaire.sections;
+        await createListCollectorFolder(ctx, {
+          sectionId: section.id,
+          position: 0,
+        });
+
+        expect(ctx.questionnaire.collectionLists.lists.length).toEqual(0);
+
+        const { lists } = await createList(ctx);
+
+        expect(ctx.questionnaire.collectionLists.lists.length).toEqual(1);
+
+        await updateFolder(ctx, {
+          folderId: ctx.questionnaire.sections[0].folders[0].id,
+          listId: lists[0].id,
+        });
+
+        expect(ctx.questionnaire.sections[0].folders[0].listId).toEqual(
+          lists[0].id
+        );
+
+        deleteList(ctx, { id: lists[0].id });
+
+        expect(ctx.questionnaire.collectionLists.lists.length).toEqual(0);
+        expect(ctx.questionnaire.sections[0].folders[0].listId).toEqual("");
       });
     });
 
