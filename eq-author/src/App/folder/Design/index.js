@@ -172,17 +172,13 @@ const FolderDesignPage = ({ history, match }) => {
   } = data;
 
   // Checks if folder is a list collector folder by checking if folder has listId attribute
-  const isListCollectorFolder = () => {
-    if (Object.prototype.hasOwnProperty.call(folder, "listId")) {
-      return true;
-    }
-  };
+  const isListCollectorFolder = folder.listId !== undefined;
 
   return (
     <EditorPage
       title={displayName}
       design
-      logic={!isListCollectorFolder()}
+      logic={!isListCollectorFolder}
       validationErrorInfo={validationErrorInfo}
     >
       <StyledPanel data-test="folders-page">
@@ -219,7 +215,7 @@ const FolderDesignPage = ({ history, match }) => {
             })
           }
         />
-        {isListCollectorFolder() ? (
+        {isListCollectorFolder ? (
           <ListCollectorFolderEditor
             questionnaireId={questionnaireId}
             folder={folder}
@@ -230,7 +226,7 @@ const FolderDesignPage = ({ history, match }) => {
         )}
       </StyledPanel>
 
-      {!isListCollectorFolder() && (
+      {!isListCollectorFolder && (
         <ButtonGroup>
           <BorderedButton
             variant="tertiary"
