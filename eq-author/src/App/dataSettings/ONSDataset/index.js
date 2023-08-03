@@ -178,7 +178,7 @@ const ONSDatasetPage = () => {
     return schemaData;
   };
 
-  const tableData = prepopSchema ? buildData() : null;
+  const tableData = buildData();
 
   const dataFields = tableData?.data;
 
