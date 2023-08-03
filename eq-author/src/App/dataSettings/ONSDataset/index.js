@@ -124,7 +124,7 @@ const ONSDatasetPage = () => {
   const params = useParams();
   const questionnaireID = params.questionnaireID;
 
-  const [surveyID, setSurveyID] = useState(undefined);
+  const [surveyID, setSurveyID] = useState("surveyID");
   const [showDataset, setShowDataset] = useState(false);
   const [showUnlinkModal, setShowUnlinkModal] = useState(false);
 
