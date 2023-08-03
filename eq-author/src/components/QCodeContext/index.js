@@ -184,9 +184,17 @@ const getEmptyQCodes = (answerRows, dataVersion) => {
   else {
     return answerRows?.find(
       ({ qCode, type }) =>
-        !qCode && ![CHECKBOX, RADIO_OPTION, SELECT_OPTION].includes(type)
+        !qCode &&
+        ![CHECKBOX, CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type)
     );
   }
+};
+
+const getEmptyOptionValues = (answerRows) => {
+  return answerRows?.find(
+    ({ value, type }) =>
+      !value && [CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type)
+  );
 };
 
 export const QCodeContextProvider = ({ questionnaire = {}, children }) => {
@@ -202,7 +210,8 @@ export const QCodeContextProvider = ({ questionnaire = {}, children }) => {
 
   const hasQCodeError =
     duplicatedQCodes?.length ||
-    getEmptyQCodes(answerRows, questionnaire.dataVersion);
+    getEmptyQCodes(answerRows, questionnaire.dataVersion) ||
+    getEmptyOptionValues(answerRows);
 
   const dataVersion = questionnaire?.dataVersion;
 
