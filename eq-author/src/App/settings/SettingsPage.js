@@ -238,7 +238,7 @@ const SettingsPage = ({ questionnaire }) => {
                         value={questionnaireTitle}
                         onPaste={(e) => handlePaste(e, "questionnaireTitle")}
                         onChange={({ value }) =>
-                          setQuestionnaireTitle(value.replace(/\s+/g, " "))
+                          setQuestionnaireTitle(formatText(value))
                         }
                         onBlur={(e) => handleTitleChange({ ...e.target })}
                         data-test="change-questionnaire-title"
