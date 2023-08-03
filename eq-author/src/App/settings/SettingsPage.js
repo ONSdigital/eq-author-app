@@ -25,6 +25,8 @@ import {
 } from "constants/validationMessages";
 import LegalBasisSelect from "./LegalBasisSelect";
 
+import Modal from "components-themed/Modal";
+
 const StyledPanel = styled.div`
   max-width: 97.5%;
   padding: 1.3em;
@@ -114,6 +116,45 @@ const SettingsPage = ({ questionnaire }) => {
 
   const showOnHub = introduction?.showOnHub;
 
+  const formatText = (value) => {
+    value = value.replace(/\s+/g, " ");
+    return value;
+  };
+
+  const handlePaste = (event, field) => {
+    const text = event.clipboardData.getData("text");
+    if (/\s{2,}/g.test(text)) {
+      setShowPasteModal({
+        show: true,
+        text: text,
+        field: field,
+      });
+      event.preventDefault();
+    }
+  };
+
+  const updateOnPaste = () => {
+    if (showPasteModal.show && showPasteModal.text && showPasteModal.field) {
+      if (showPasteModal.field === "questionnaireTitle") {
+        setQuestionnaireTitle(formatText(showPasteModal.text));
+      } else if (showPasteModal.field === "shortTitle") {
+        setQuestionnaireShortTitle(formatText(showPasteModal.text));
+      }
+      setShowPasteModal({ show: false, text: "", field: "" });
+    }
+  };
+
+  const cancelPaste = (event) => {
+    event.preventDefault();
+    setShowPasteModal({ show: false, text: "", field: "" });
+  };
+
+  const [showPasteModal, setShowPasteModal] = useState({
+    show: false,
+    text: "",
+    field: "",
+  });
+
   const handleTitleChange = ({ value }) => {
     value = value.trim();
     if (value !== "") {
@@ -170,6 +211,15 @@ const SettingsPage = ({ questionnaire }) => {
 
   return (
     <Container>
+      <Modal
+        title="Confirm the removal of extra spaces from copied content"
+        positiveButtonText="Confirm"
+        message="<p>The copied content contains extra spaces at the start of lines of text, between words, or at the end of lines of text.</p>        
+        <p>Extra spaces need to be removed before this content can be pasted. Confirming will remove them automatically, while cancelling will prevent pasting.</p>"
+        isOpen={showPasteModal.show}
+        onConfirm={(text) => updateOnPaste(text)}
+        onClose={(event) => cancelPaste(event)}
+      />
       <ScrollPane>
         <Header title="Settings" />
         <PageContainer tabIndex="-1" className="keyNav">
@@ -186,7 +236,10 @@ const SettingsPage = ({ questionnaire }) => {
                       <StyledInput
                         id="questionnaireTitle"
                         value={questionnaireTitle}
-                        onChange={({ value }) => setQuestionnaireTitle(value)}
+                        onPaste={(e) => handlePaste(e, "questionnaireTitle")}
+                        onChange={({ value }) =>
+                          setQuestionnaireTitle(value.replace(/\s+/g, " "))
+                        }
                         onBlur={(e) => handleTitleChange({ ...e.target })}
                         data-test="change-questionnaire-title"
                       />
@@ -202,8 +255,9 @@ const SettingsPage = ({ questionnaire }) => {
                       <StyledInput
                         id="shortTitle"
                         value={questionnaireShortTitle}
+                        onPaste={(e) => handlePaste(e, "shortTitle")}
                         onChange={({ value }) =>
-                          setQuestionnaireShortTitle(value)
+                          setQuestionnaireShortTitle(formatText(value))
                         }
                         onBlur={(e) => handleShortTitleChange({ ...e.target })}
                         data-test="change-questionnaire-short-title"

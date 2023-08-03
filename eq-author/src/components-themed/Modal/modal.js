@@ -78,6 +78,7 @@ const Modal = ({
   title,
   subtitle,
   warningMessage,
+  message,
   positiveButtonText,
   negativeButtonText,
   isOpen,
@@ -118,6 +119,7 @@ const Modal = ({
                   </Panel>
                 </WarningWrapper>
               )}
+              {message && <div>{message}</div>}
               <ButtonContainer>
                 <StyledButton
                   variant="secondary"
@@ -152,6 +154,10 @@ Modal.propTypes = {
    * The warning message displayed on the icon - if no message is provided, warning icon is not rendered.
    */
   warningMessage: PropTypes.string,
+  /**
+   * Optional. If provided, the message displayed in the modal.
+   */
+  message: PropTypes.string,
   /**
    * The text displayed in the green positive action button.
    */

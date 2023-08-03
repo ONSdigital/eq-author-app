@@ -348,6 +348,20 @@ class RichTextEditor extends React.Component {
       : this.hasInlineStyle(editorState, style);
   };
 
+  handleFormatText = (text) => {
+    this.handleChange(
+      EditorState.push(
+        this.state.editorState,
+        Modifier.replaceText(
+          this.state.editorState.getCurrentContent(),
+          this.state.editorState.getSelection(),
+          text.replace(/\n/g, " ").trim().replace(/\s\s+/g, " ")
+        )
+      )
+    );
+    return "handled";
+  };
+
   handlePaste = (text) => {
     this.handleChange(
       EditorState.push(
@@ -355,7 +369,7 @@ class RichTextEditor extends React.Component {
         Modifier.replaceText(
           this.state.editorState.getCurrentContent(),
           this.state.editorState.getSelection(),
-          text.replace(/\n/g, " ")
+          text.replace(/\n/g, " ").trim().replace(/\s\s+/g, " ")
         )
       )
     );
