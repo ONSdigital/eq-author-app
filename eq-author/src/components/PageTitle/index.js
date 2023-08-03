@@ -42,13 +42,13 @@ const PageTitleContainer = ({
   return (
     <div
       title="Page description"
-      className="pageDescriptionCollapsible"
+      className="pageDescription"
       dataTestIdPrefix="page-title-"
       defaultOpen
       withoutHideThis
       variant={marginless ? "marginlessContent" : "content"}
     >
-      <PageTitleSegment>
+      <PageTitleSegment data-test="page-title-container">
         <PageTitleInput
           heading={heading}
           pageDescription={pageDescription}
