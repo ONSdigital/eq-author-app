@@ -162,7 +162,6 @@ const ONSDatasetPage = () => {
     loading: surveyLoading,
     error: surveyError,
   } = useQuery(GET_PREPOP_SCHEMA, {
-    //over here
     variables: { input: questionnaireID },
     fetchPolicy: "cache-and-network",
   });
