@@ -221,7 +221,7 @@ const Row = memo((props) => {
             )}
           </SpacedTableColumn>
         )
-      ) : [CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type) ? (
+      ) : [CHECKBOX, RADIO_OPTION, SELECT_OPTION].includes(type) ? (
         <EmptyTableColumn />
       ) : (
         <SpacedTableColumn>
