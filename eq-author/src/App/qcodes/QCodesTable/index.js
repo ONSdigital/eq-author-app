@@ -119,6 +119,7 @@ const Row = memo((props) => {
     value: initialValue,
     type,
     errorMessage,
+    valueErrorMessage,
     option,
     secondary,
     listAnswerType,
@@ -243,15 +244,15 @@ const Row = memo((props) => {
         <SpacedTableColumn>
           <ErrorWrappedInput
             name={`${id}-optionValue-entry`}
-            data-test={`${id}-test-input`}
+            data-test={`${id}-value-test-input`}
             value={value}
             onChange={(e) => setValue(e.value)}
             onBlur={() => handleBlurOptionValue(value)}
-            hasError={Boolean(errorMessage)}
-            aria-label="optionValue input field"
+            hasError={Boolean(valueErrorMessage)}
+            aria-label="Option Value input field"
           />
-          {errorMessage && (
-            <StyledValidationError>{errorMessage}</StyledValidationError>
+          {valueErrorMessage && (
+            <StyledValidationError>{valueErrorMessage}</StyledValidationError>
           )}
         </SpacedTableColumn>
       ) : (
@@ -272,6 +273,7 @@ Row.propTypes = {
   type: PropTypes.string,
   qCodeCheck: PropTypes.func,
   errorMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+  valueErrorMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   secondary: PropTypes.bool,
   option: PropTypes.bool,
   listAnswerType: PropTypes.string,
@@ -281,12 +283,11 @@ Row.propTypes = {
 
 export const QCodeTable = () => {
   const { answerRows, duplicatedQCodes, dataVersion } = useQCodeContext();
-  const getErrorMessage = (qCode, value, type) =>
-    ([CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type) &&
-      !value &&
-      VALUE_REQUIRED) ||
-    (!value && !qCode && QCODE_REQUIRED) ||
+  const getErrorMessage = (qCode) =>
+    (!qCode && QCODE_REQUIRED) ||
     (duplicatedQCodes.includes(qCode) && QCODE_IS_NOT_UNIQUE);
+
+  const getValueErrorMessage = (value) => !value && VALUE_REQUIRED;
 
   return (
     <Table data-test="qcodes-table">
@@ -314,21 +315,15 @@ export const QCodeTable = () => {
                   key={`${item.id}-${index}`}
                   dataVersion={dataVersion}
                   {...item}
-                  errorMessage={getErrorMessage(
-                    item.qCode,
-                    item.value,
-                    item.type
-                  )}
+                  errorMessage={getErrorMessage(item.qCode)}
+                  valueErrorMessage={getValueErrorMessage(item.value)}
                 />
                 <Row
                   key={`${item.additionalAnswer.id}-${index}`}
                   dataVersion={dataVersion}
                   {...item.additionalAnswer}
-                  errorMessage={getErrorMessage(
-                    item.additionalAnswer.qCode,
-                    item.value,
-                    item.type
-                  )}
+                  errorMessage={getErrorMessage(item.additionalAnswer.qCode)}
+                  valueErrorMessage={getValueErrorMessage(item.value)}
                 />
               </>
             );
@@ -339,10 +334,9 @@ export const QCodeTable = () => {
                 dataVersion={dataVersion}
                 {...item}
                 errorMessage={getErrorMessage(
-                  item.qCode ?? item.drivingQCode ?? item.anotherQCode,
-                  item.value,
-                  item.type
+                  item.qCode ?? item.drivingQCode ?? item.anotherQCode
                 )}
+                valueErrorMessage={getValueErrorMessage(item.value)}
               />
             );
           }

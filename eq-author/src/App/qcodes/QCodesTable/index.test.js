@@ -640,7 +640,7 @@ describe("Qcode Table", () => {
             );
             expect(mock).toHaveBeenCalledWith({
               variables: {
-                input: { id: "checkbox-option-1-id", value: "187" },
+                input: { id: "checkbox-option-1-id", qCode: "187" },
               },
             });
           });
@@ -676,11 +676,11 @@ describe("Qcode Table", () => {
 
       it("should display answer qCodes and option values for checkbox answers in data version 3", () => {
         expect(
-          utils.queryByTestId("checkbox-option-1-id-test-input")
+          utils.queryByTestId("checkbox-option-1-id-value-test-input")
         ).toBeInTheDocument();
 
         expect(
-          utils.queryByTestId("checkbox-option-2-id-test-input")
+          utils.queryByTestId("checkbox-option-2-id-value-test-input")
         ).toBeInTheDocument();
 
         expect(
