@@ -415,39 +415,39 @@ describe("ONS dataset page", () => {
     });
   });
 
-  describe.only("Loading page", () => {
-    it.only("should render the loading page", async () => {
-      useQuery.mockImplementationOnce(() => ({
+  describe("Loading page", () => {
+    it("should render the loading page", async () => {
+      useQuery.mockImplementation(() => ({
         loading: true,
         error: false,
         data: null,
       }));
-      const { getByTestId, getByText } = renderONSDatasetPage(
+      const { getByTestId, queryByText } = renderONSDatasetPage(
         questionnaire,
         props,
         user,
         mocks
       );
-      expect(getByTestId("loading")).toBeVisible();
-      expect(getByText("Select a survey ID")).not.toBeInTheDocument();
+      expect(getByTestId("loading")).toBeInTheDocument();
+      expect(queryByText("Select a survey ID")).toBeNull();
     });
   });
 
   describe("Error page", () => {
     it("should render the error page", async () => {
-      useQuery.mockImplementationOnce(() => ({
+      useQuery.mockImplementation(() => ({
         loading: false,
         error: true,
         data: null,
       }));
-      const { getByTestId, getByText } = renderONSDatasetPage(
+      const { getByTestId, queryByText } = renderONSDatasetPage(
         questionnaire,
         props,
         user,
         mocks
       );
       expect(getByTestId("error")).toBeInTheDocument();
-      expect(getByText("Select a survey ID")).not.toBeInTheDocument();
+      expect(queryByText("Select a survey ID")).toBeNull();
     });
   });
 });
