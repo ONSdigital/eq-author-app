@@ -293,10 +293,10 @@ export const QCodeTable = () => {
     <Table data-test="qcodes-table">
       <TableHead>
         <TableRow>
-          <TableHeadColumn width="20%">Short code</TableHeadColumn>
-          <TableHeadColumn width="20%">Question</TableHeadColumn>
+          <TableHeadColumn width="10%">Short code</TableHeadColumn>
+          <TableHeadColumn width="15%">Question</TableHeadColumn>
           <TableHeadColumn width="20%">Answer Type</TableHeadColumn>
-          <TableHeadColumn width="20%">Answer label</TableHeadColumn>
+          <TableHeadColumn width="15%">Answer label</TableHeadColumn>
           <TableHeadColumn width="20%">Q code for answer type</TableHeadColumn>
           <TableHeadColumn width="20%">
             Value for checkbox, radio and select answer labels
