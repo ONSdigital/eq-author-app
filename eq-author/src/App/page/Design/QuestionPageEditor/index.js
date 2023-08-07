@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import gql from "graphql-tag";
 import { flowRight } from "lodash";
+import { colors } from "constants/theme";
 
 import getIdForObject from "utils/getIdForObject";
 import withChangeUpdate from "enhancers/withChangeUpdate";
@@ -47,9 +48,18 @@ import ValidationError from "components/ValidationError";
 const QuestionSegment = styled.div`
   padding: 0 2em;
 `;
+const PageTitleSegment = styled.div`
+  padding: 0 2em;
+`;
 
 const AddAnswerSegment = styled.div`
   padding: 0 2em 2em;
+`;
+
+const HorizontalRule = styled.hr`
+  border: 0;
+  border-top: 0.0625em solid ${colors.grey};
+  margin: 1.5em 0;
 `;
 
 const propTypes = {
@@ -123,13 +133,15 @@ export const UnwrappedQuestionPageEditor = (props) => {
             allCalculatedSummaryPages={allCalculatedSummaryPages}
           />
         </QuestionSegment>
-        <PageTitleContainer
-          inCollapsible
-          pageDescription={page.pageDescription}
-          errors={page.validationErrorInfo.errors}
-          onChange={onChange}
-          onUpdate={onUpdate}
-        />
+        <PageTitleSegment>
+          <PageTitleContainer
+            pageDescription={page.pageDescription}
+            errors={page.validationErrorInfo.errors}
+            onChange={onChange}
+            onUpdate={onUpdate}
+          />
+          <HorizontalRule />
+        </PageTitleSegment>
         <QuestionProperties
           page={page}
           onChange={onChange}
