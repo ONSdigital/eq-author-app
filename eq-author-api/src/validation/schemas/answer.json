@@ -150,7 +150,21 @@
       "required": ["label"],
       "errorMessage": { "required": { "label": "ERR_VALID_REQUIRED" } }
     },
+
     "numericAnswer": {
+      "type": "object",
+      "properties": {
+        "properties": {
+          "type": "object",
+          "properties": {
+            "decimals": {
+              "not": { "type": "null" },
+              "maximum": 6,
+              "errorMessage": "ERR_INVALID_DECIMAL"
+            }
+          }
+        }
+      },
       "if": {
         "type": "object",
         "properties": {

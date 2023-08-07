@@ -26,6 +26,7 @@ const Decimal = ({ answer, value, updateAnswerOfType, id, page }) => {
   const errors = filter(answer.validationErrorInfo.errors, {
     field: "decimals",
   });
+
   const onUpdateDecimal = (value) => {
     updateAnswerOfType({
       variables: {
@@ -46,7 +47,7 @@ const Decimal = ({ answer, value, updateAnswerOfType, id, page }) => {
         onBlur={() => onUpdateDecimal(decimal)}
         value={decimal}
         invalid={errors.length !== 0}
-        max={6} //System limit enforced by eq-runner
+        max={999999999}
       />
       {errors.length !== 0 && (
         <ValidationError>

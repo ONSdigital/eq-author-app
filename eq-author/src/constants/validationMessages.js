@@ -357,6 +357,10 @@ export const decimalErrors = {
     errorCode: "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY",
     message: "Enter a decimal that is the same as the associated question page",
   },
+  ERR_INVALID_DECIMAL: {
+    errorCode: "ERR_INVALID_DECIMAL",
+    message: "Maximum number of decimal places must be between 0 and 6",
+  },
 };
 
 export const unitPropertyErrors = {
