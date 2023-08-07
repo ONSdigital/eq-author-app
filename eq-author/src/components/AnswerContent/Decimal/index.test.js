@@ -24,9 +24,20 @@ describe("Decimal Property", () => {
     expect(getByTestId("number-input")).toBeTruthy();
   });
 
-  it("should render with Error", () => {
+  it("should render with a decimal inconsistency error", () => {
     props.answer.validationErrorInfo.errors[0] = {
       errorCode: "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY",
+      field: "decimals",
+    };
+    const { getByTestId } = render(<Decimal {...props} />);
+    expect(getByTestId("number-input")).toHaveStyle(`
+      border-color: ${colors.errorPrimary};
+    `);
+  });
+
+  it("should render with an invalid decimal error", () => {
+    props.answer.validationErrorInfo.errors[0] = {
+      errorCode: "ERR_INVALID_DECIMAL",
       field: "decimals",
     };
     const { getByTestId } = render(<Decimal {...props} />);
