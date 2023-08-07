@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { propType } from "graphql-anywhere";
 import { flowRight } from "lodash/fp";
+import { colors } from "constants/theme";
 
 import confirmationFragment from "graphql/fragments/question-confirmation.graphql";
 import withValidationError from "enhancers/withValidationError";
@@ -26,6 +27,12 @@ const OptionsWrapper = styled.div`
 
 const MarginLessConfirmationOption = styled(ConfirmationOption)`
   margin-bottom: 0;
+`;
+
+const HorizontalRule = styled.hr`
+  border: 0;
+  border-top: 0.0625em solid ${colors.grey};
+  margin: 1.5em 0;
 `;
 
 export class UnwrappedEditor extends React.Component {
@@ -70,13 +77,13 @@ export class UnwrappedEditor extends React.Component {
           })}
         />
         <PageTitleContainer
-          inCollapsible
           marginless
           pageDescription={pageDescription}
           errors={this.props.confirmation.validationErrorInfo?.errors}
           onChange={onChange}
           onUpdate={onUpdate}
         />
+        <HorizontalRule />
         <OptionsWrapper>
           <ConfirmationOption
             label="Positive confirmation text"

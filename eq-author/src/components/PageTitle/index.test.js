@@ -6,7 +6,7 @@ import PageTitleContainer from ".";
 import PageTitleInput from "./PageTitleInput";
 
 describe("Page Title container block", () => {
-  it("should render without a collapsible", () => {
+  it("should render as expected", () => {
     render(
       <PageTitleContainer
         pageDescription="Test page title"
@@ -15,22 +15,7 @@ describe("Page Title container block", () => {
       />
     );
 
-    expect(
-      screen.queryByTestId("page-title-collapsible")
-    ).not.toBeInTheDocument();
-  });
-
-  it("should render with a collapsible", () => {
-    render(
-      <PageTitleContainer
-        inCollapsible
-        pageDescription="Test page title"
-        onChange={jest.fn()}
-        onUpdate={jest.fn()}
-      />
-    );
-
-    expect(screen.queryByTestId("page-title-collapsible")).toBeInTheDocument();
+    expect(screen.queryByTestId("page-title-container")).toBeInTheDocument();
   });
 });
 
@@ -45,7 +30,7 @@ describe("Page title input block", () => {
     );
 
     expect(screen.getByTestId("page-title-input-heading")).toHaveTextContent(
-      "Descriptions and definitions"
+      "Page title and description"
     );
     expect(
       screen.getByTestId("page-title-input-field-label")
@@ -102,7 +87,7 @@ describe("Page title input block", () => {
     );
 
     expect(screen.getByTestId("page-title-input-heading")).toHaveTextContent(
-      "Descriptions and definitions"
+      "Page title and description"
     );
     expect(
       screen.getByTestId("page-title-input-field-label")
