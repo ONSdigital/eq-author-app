@@ -66,7 +66,12 @@ describe("ONS dataset page", () => {
       isPublic: true,
     };
     props = {
-      match: { params: { modifier: "", questionnaireId: questionnaire.id } },
+      match: {
+        params: {
+          modifier: "",
+          questionnaireId: questionnaire.id,
+        },
+      },
     };
     user = {
       id: "2",
@@ -407,6 +412,42 @@ describe("ONS dataset page", () => {
         await fireEvent.click(getByTestId("btn-modal-negative"));
       });
       expect(queryByTestId("modal")).not.toBeInTheDocument();
+    });
+  });
+
+  describe.only("Loading page", () => {
+    it.only("should render the loading page", async () => {
+      useQuery.mockImplementationOnce(() => ({
+        loading: true,
+        error: false,
+        data: null,
+      }));
+      const { getByTestId, getByText } = renderONSDatasetPage(
+        questionnaire,
+        props,
+        user,
+        mocks
+      );
+      expect(getByTestId("loading")).toBeVisible();
+      expect(getByText("Select a survey ID")).not.toBeInTheDocument();
+    });
+  });
+
+  describe("Error page", () => {
+    it("should render the error page", async () => {
+      useQuery.mockImplementationOnce(() => ({
+        loading: false,
+        error: true,
+        data: null,
+      }));
+      const { getByTestId, getByText } = renderONSDatasetPage(
+        questionnaire,
+        props,
+        user,
+        mocks
+      );
+      expect(getByTestId("error")).toBeInTheDocument();
+      expect(getByText("Select a survey ID")).not.toBeInTheDocument();
     });
   });
 });

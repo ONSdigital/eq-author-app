@@ -193,11 +193,7 @@ const ONSDatasetPage = () => {
   };
 
   if (surveyLoading) {
-    return (
-      <div>
-        <Loading height="38rem"> Dataset page is loading</Loading>
-      </div>
-    );
+    return <Loading height="100%">Dataset page is loading...</Loading>;
   }
 
   if (surveyError) {
