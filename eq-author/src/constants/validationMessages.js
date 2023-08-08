@@ -361,6 +361,10 @@ export const decimalErrors = {
     errorCode: "ERR_INVALID_DECIMAL",
     message: "Maximum number of decimal places must be between 0 and 6",
   },
+  ERR_VALID_REQUIRED: {
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Enter the maximum number of decimal points allowed",
+  },
 };
 
 export const unitPropertyErrors = {

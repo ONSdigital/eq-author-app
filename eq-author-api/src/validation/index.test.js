@@ -1230,7 +1230,7 @@ describe("schema validation", () => {
           expect(errors[0]).toMatchObject({
             id: uuidRejex,
             field: "decimals",
-            errorCode: "ERR_INVALID_DECIMAL",
+            errorCode: "ERR_VALID_REQUIRED",
             sectionId: "s1",
             type: "answer",
             pageId: "p1",

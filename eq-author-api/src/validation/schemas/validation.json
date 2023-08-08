@@ -161,6 +161,18 @@
         "maxDuration": { "$ref": "#/definitions/validationEntry" }
       }
     },
+    "decimalValidations": {
+      "allOf": [
+        {
+          "not": { "type": "null" },
+          "errorMessage": "ERR_VALID_REQUIRED"
+        },
+        {
+          "maximum": 6,
+          "errorMessage": "ERR_INVALID_DECIMAL"
+        }
+      ]
+    },
     "validationEntry": {
       "type": "object",
       "allOf": [
