@@ -17,6 +17,10 @@ const Heading = styled.h2`
   margin-bottom: 0.4em;
 `;
 
+const PageDescriptionContent = styled.div`
+  margin-bottom: 1.3em;
+`;
+
 const StyledInput = styled.input`
   width: 100%;
   font-size: 1em;
@@ -53,12 +57,12 @@ const PageTitleInput = ({
 }) => (
   <PageTitleContent>
     <Heading data-test="page-title-input-heading">{heading}</Heading>
-    <p>
+    <PageDescriptionContent>
       The page title is the first thing read by screen readers and helps users
       of assistive technology understand what the page is about. It is shown in
       the browser&apos;s title bar or in the page&apos;s tab. Page titles follow
       the structure: &apos;page description - questionnaire title&apos;.
-    </p>
+    </PageDescriptionContent>
     {/* From interaction designer - this will be brought back when the page titles link is fixed */}
     {/* <p>
       For help writing a page description, see our{" "}
@@ -104,7 +108,7 @@ PageTitleInput.propTypes = {
 };
 
 PageTitleInput.defaultProps = {
-  heading: "Descriptions and definitions",
+  heading: "Page title and description",
 };
 
 export default PageTitleInput;
