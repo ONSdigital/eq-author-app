@@ -63,7 +63,7 @@ describe("List collector pages", () => {
       expect(queriedPage).toMatchObject({
         section: {
           id: questionnaire.sections[0].id,
-          allowRepeatingSection: true,
+          allowRepeatingSection: false,
         },
         folder: { id: listCollectorFolder.id },
         position: 0,
@@ -104,7 +104,7 @@ describe("List collector pages", () => {
       expect(queriedPage).toMatchObject({
         section: {
           id: questionnaire.sections[0].id,
-          allowRepeatingSection: true,
+          allowRepeatingSection: false,
         },
         folder: { id: listCollectorFolder.id },
         position: 1,
@@ -145,7 +145,7 @@ describe("List collector pages", () => {
       expect(queriedPage).toMatchObject({
         section: {
           id: questionnaire.sections[0].id,
-          allowRepeatingSection: true,
+          allowRepeatingSection: false,
         },
         folder: { id: listCollectorFolder.id },
         position: 2,
