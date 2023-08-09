@@ -1072,7 +1072,7 @@ describe("schema validation", () => {
         });
       });
 
-      it("should not validate if one of the two is disabled", () => {
+      it("should validate if one of the two is disabled", () => {
         ["minValue", "maxValue", "none"].forEach((entity) => {
           const answer = {
             id: "a1",
@@ -1125,7 +1125,7 @@ describe("schema validation", () => {
         });
       });
 
-      it("should not validate if one of the two is a previous answer", () => {
+      it("should validate if one of the two is a previous answer", () => {
         ["minValue", "maxValue", "none"].forEach((entity) => {
           const answer = {
             id: "a1",
@@ -1178,7 +1178,7 @@ describe("schema validation", () => {
           expect(pageErrors).toHaveLength(0);
         });
       });
-      it("should not validate if a number is not entered for decimals", () => {
+      it("should validate if a number is not entered for decimals", () => {
         [CURRENCY, NUMBER, UNIT, PERCENTAGE].forEach((type) => {
           const answer = {
             id: "a1",
