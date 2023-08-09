@@ -142,9 +142,6 @@ const ONSDatasetPage = () => {
     }
   };
 
-  // test commit
-  //another test commit
-
   const { data: surveyData } = useQuery(GET_PREPOP_SCHEMA_VERSIONS_QUERY, {
     variables: {
       id: surveyID || "surveyID",
