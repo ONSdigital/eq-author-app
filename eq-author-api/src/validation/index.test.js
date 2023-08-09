@@ -1308,6 +1308,72 @@ describe("schema validation", () => {
           expect(errors2).toHaveLength(0);
         });
       });
+
+      it("should not validate if a number less than 0 is entered for decimals", () => {
+        [CURRENCY, NUMBER, UNIT, PERCENTAGE].forEach((type) => {
+          const answer = {
+            id: "a1",
+            type,
+            label: "some answer",
+            qCode: "qCode1",
+            secondaryQCode: "secQCode1",
+            repeatingLabelAndInput: false,
+            repeatingLabelAndInputListId: "",
+            properties: {
+              required: false,
+              decimals: -8,
+            },
+            validation: {
+              minValue: {
+                id: "123",
+                enabled: false,
+                validationType: "minValue",
+              },
+              maxValue: {
+                id: "321",
+                enabled: false,
+                validationType: "maxValue",
+              },
+            },
+          };
+
+          const questionnaire = {
+            id: "q1",
+            sections: [
+              {
+                id: "s1",
+                folders: [
+                  {
+                    pages: [
+                      {
+                        id: "p1",
+                        answers: [answer],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          };
+          const errors = validation(questionnaire);
+
+          expect(errors).toHaveLength(1);
+          expect(errors[0]).toMatchObject({
+            id: uuidRejex,
+            field: "decimals",
+            errorCode: "ERR_INVALID_DECIMAL",
+            sectionId: "s1",
+            type: "answer",
+            pageId: "p1",
+            answerId: "a1",
+          });
+
+          answer.properties.decimals = 2;
+
+          const errors2 = validation(questionnaire);
+          expect(errors2).toHaveLength(0);
+        });
+      });
     });
   });
 

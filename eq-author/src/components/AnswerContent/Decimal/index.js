@@ -47,7 +47,6 @@ const Decimal = ({ answer, value, updateAnswerOfType, id, page }) => {
         onBlur={() => onUpdateDecimal(decimal)}
         value={decimal}
         invalid={errors.length !== 0}
-        max={999999999}
       />
       {errors.length !== 0 && (
         <ValidationError>

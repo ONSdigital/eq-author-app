@@ -168,6 +168,7 @@
           "errorMessage": "ERR_VALID_REQUIRED"
         },
         {
+          "minimum": 0,
           "maximum": 6,
           "errorMessage": "ERR_INVALID_DECIMAL"
         }
