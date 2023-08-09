@@ -28,6 +28,7 @@ const Detail = styled.div`
   position: relative;
 `;
 
+
 const DetailHeader = styled.div`
   position: absolute;
   top: 0.5em;

@@ -761,7 +761,7 @@ const Resolvers = {
         page.totalValidation = createTotalValidation();
       }
 
-      if (!answer.repeatingLabelAndInput && page) {
+      if (!answer.repeatingLabelAndInput && page && page.answers.length < 2) {
         delete page.totalValidation;
       }
 
@@ -1030,7 +1030,7 @@ const Resolvers = {
       };
     }),
     createList: createMutation(async (root, _, ctx) => {
-      const list = createList();
+      const list = createList(ctx);
       if (!ctx.questionnaire.collectionLists) {
         ctx.questionnaire.collectionLists = {
           id: uuidv4(),

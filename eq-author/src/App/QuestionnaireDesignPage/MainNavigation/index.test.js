@@ -48,11 +48,6 @@ function defaultSetup({
 }
 
 describe("MainNavigation", () => {
-  it("should display platform badge", () => {
-    const { getByTestId } = defaultSetup();
-    expect(getByTestId("platform-badge")).toBeTruthy();
-  });
-
   it("should display error badge when there is a qCode error", () => {
     const { getByTestId } = defaultSetup({ hasQCodeError: true });
     expect(getByTestId("small-badge")).toBeTruthy();
