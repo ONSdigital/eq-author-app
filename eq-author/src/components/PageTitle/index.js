@@ -11,9 +11,10 @@ const PageTitleSegment = styled.div`
   margin-top: 2em;
 `;
 
+const Container = styled.div``;
+
 const PageTitleContainer = ({
   heading,
-  marginless,
   pageDescription,
   inputTitlePrefix,
   altFieldName,
@@ -40,14 +41,7 @@ const PageTitleContainer = ({
 
   const errorMessage = pageDescriptionErrors[errorCode];
   return (
-    <div
-      title="Page description"
-      className="pageDescription"
-      dataTestIdPrefix="page-title-"
-      defaultOpen
-      withoutHideThis
-      variant={marginless ? "marginlessContent" : "content"}
-    >
+    <Container>
       <PageTitleSegment data-test="page-title-container">
         <PageTitleInput
           heading={heading}
@@ -59,7 +53,7 @@ const PageTitleContainer = ({
           errorMessage={errorMessage}
         />
       </PageTitleSegment>
-    </div>
+    </Container>
   );
 };
 
