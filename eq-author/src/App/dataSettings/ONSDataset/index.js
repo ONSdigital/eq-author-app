@@ -15,6 +15,8 @@ import { Grid, Column } from "components/Grid";
 import Header from "components/EditorLayout/Header";
 import ScrollPane from "components/ScrollPane";
 import Button from "components-themed/buttons";
+import Loading from "components/Loading";
+import Error from "components/Error";
 
 import Theme from "contexts/themeContext";
 import { SURVEY_IDS } from "constants/surveyIDs";
@@ -155,7 +157,11 @@ const ONSDatasetPage = () => {
     refetchQueries: ["GetPrepopSchema"],
   });
 
-  const { data: prepopSchema } = useQuery(GET_PREPOP_SCHEMA, {
+  const {
+    data: prepopSchema,
+    loading: surveyLoading,
+    error: surveyError,
+  } = useQuery(GET_PREPOP_SCHEMA, {
     variables: { input: questionnaireID },
     fetchPolicy: "cache-and-network",
   });
@@ -185,6 +191,14 @@ const ONSDatasetPage = () => {
     setShowDataset(false);
     setShowUnlinkModal(false);
   };
+
+  if (surveyLoading) {
+    return <Loading height="100%">Dataset page is loading...</Loading>;
+  }
+
+  if (surveyError) {
+    return <Error>Dataset page error</Error>;
+  }
 
   return (
     <>
