@@ -10,6 +10,7 @@ import Panel from "components-themed/panels";
 import Feedback from "components-themed/Feedback";
 import Input from "components-themed/Input";
 import Button from "components-themed/buttons";
+import Error from "components/preview/Error";
 
 import { ReactComponent as WarningIcon } from "assets/icon-warning-round.svg";
 
@@ -49,6 +50,10 @@ const WarningPanelText = styled.div`
 const PanelSection = styled.div`
   font-size: 18px;
   margin-bottom: 1em;
+`;
+
+const Errorblock = styled(Error)`
+  margin-top: 1em;
 `;
 
 const InlineField = styled(Field)`
@@ -148,7 +153,12 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
           </InlineField>
         </PanelSection>
       </Panel>
-      <Section dangerouslySetInnerHTML={{ __html: furtherContent }} />
+      <SectionSeparator />
+      {furtherContent !== "" ? (
+        <Section dangerouslySetInnerHTML={{ __html: furtherContent }} />
+      ) : (
+        <Errorblock large>Missing additional content</Errorblock>
+      )}
       {viewPrintAnswers && (
         <>
           <Section>

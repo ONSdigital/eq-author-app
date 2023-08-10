@@ -6,6 +6,16 @@ query GetSubmissionQuery {
     viewPrintAnswers
     emailConfirmation
     feedback
+    validationErrorInfo {
+      id
+      errors {
+        id
+        type
+        field
+        errorCode
+      }
+      totalCount
+    }
     comments {
       ...Comment
     }

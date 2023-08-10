@@ -3,11 +3,12 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useMutation } from "@apollo/react-hooks";
 import { colors } from "constants/theme.js";
+import { find } from "lodash";
 
 import RichTextEditor from "components/RichTextEditor";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import { Label, Field } from "components/Forms";
-
+import { submissionErrors } from "constants/validationMessages";
 import updateSubmissionMutation from "../../graphql/updateSubmission.graphql";
 
 const Wrapper = styled.div`
@@ -62,6 +63,10 @@ const SubmissionEditor = ({ submission }) => {
   const { furtherContent, viewPrintAnswers, emailConfirmation, feedback } =
     submission;
 
+  const furtherContentError = find(submission.validationErrorInfo.errors, {
+    errorCode: "ERR_VALID_REQUIRED",
+  });
+
   const [updateSubmission] = useMutation(updateSubmissionMutation);
 
   return (
@@ -84,6 +89,11 @@ const SubmissionEditor = ({ submission }) => {
                 input: { furtherContent: value },
               },
             })
+          }
+          errorValidationMsg={
+            furtherContentError?.errorCode
+              ? submissionErrors[furtherContentError.errorCode].message
+              : null
           }
           testSelector="txt-submission-further-content"
           multiline

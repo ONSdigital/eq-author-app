@@ -5,5 +5,15 @@ mutation UpdateSubmission($input: UpdateSubmissionInput!) {
     viewPrintAnswers
     emailConfirmation
     feedback
+    validationErrorInfo {
+      id
+      errors {
+        id
+        type
+        field
+        errorCode
+      }
+      totalCount
+    }
   }
 }

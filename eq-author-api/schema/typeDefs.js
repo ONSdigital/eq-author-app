@@ -747,6 +747,7 @@ type Submission {
   viewPrintAnswers: Boolean
   emailConfirmation: Boolean
   feedback: Boolean
+  validationErrorInfo: ValidationErrorInfo
   comments: [Comment]
 }
 

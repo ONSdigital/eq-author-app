@@ -41,6 +41,9 @@ query GetQuestionnaire($input: QueryInput!) {
       comments {
         ...Comment
       }
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
     }
     validationErrorInfo {
       ...ValidationErrorInfo

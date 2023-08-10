@@ -1682,6 +1682,8 @@ const Resolvers = {
     comments: ({ id }, args, ctx) => ctx.comments[id],
   },
   Submission: {
+    validationErrorInfo: ({ id }, _, ctx) =>
+      returnValidationErrors(ctx, id, ({ type }) => type === "submission"),
     comments: ({ id }, args, ctx) => ctx.comments[id],
   },
 
