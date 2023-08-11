@@ -30,8 +30,8 @@ const SectionTitle = styled.h2`
 `;
 
 const SectionDescription = styled.p`
-  margin: 0.1em 0 1em;
-  color: ${({ theme }) => theme.colors.textLight};
+  margin: 0.3em 0 2em;
+  //color: ${({ theme }) => theme.colors.textLight};
 `;
 
 const InlineField = styled(Field)`
@@ -72,15 +72,17 @@ const SubmissionEditor = ({ submission }) => {
   return (
     <Wrapper data-test="submission-editor">
       <Section>
-        <SectionTitle style={{ marginBottom: "0" }}>Page content</SectionTitle>
+        <SectionTitle style={{ marginBottom: "0" }}>
+          Submission confirmation details
+        </SectionTitle>
         <SectionDescription>
-          Uneditable content is not listed in the design view of this page. To
-          view all content, including uneditable content, use preview.
+          A success panel is displayed at the top of the page and includes the
+          submission date and reference number.
         </SectionDescription>
         <RichTextEditor
           id="submission-further-content"
           name="submissionFurtherContent"
-          label="Further content"
+          label="Additional content"
           value={furtherContent}
           controls={contentControls}
           onUpdate={({ value }) =>
@@ -102,17 +104,8 @@ const SubmissionEditor = ({ submission }) => {
         />
       </Section>
       <Section>
-        <SectionTitle style={{ marginBottom: "0" }}>
-          Submission content
-        </SectionTitle>
-        <SectionDescription>
-          The content that informs users how to view or print their answers, get
-          a confirmation email or how they can give feedback are displayed on
-          the submission page by default. You can choose not to display these
-          elements
-        </SectionDescription>
         <InlineField>
-          <Label htmlFor="viewPrintAnswers">View/print answers</Label>
+          <Label htmlFor="viewPrintAnswers">Get a copy of their answers</Label>
           <ToggleSwitch
             name="view-print-answers"
             id="viewPrintAnswers"
@@ -128,6 +121,9 @@ const SubmissionEditor = ({ submission }) => {
             value="viewPrintAnswers"
           />
         </InlineField>
+        <SectionDescription>
+          Provide a link for respondents to save and print their answers.
+        </SectionDescription>
         <InlineField>
           <Label htmlFor="emailConfirmation">Email confirmation</Label>
           <ToggleSwitch
@@ -146,7 +142,7 @@ const SubmissionEditor = ({ submission }) => {
           />
         </InlineField>
         <InlineField>
-          <Label htmlFor="feedback">Feedback</Label>
+          <Label htmlFor="feedback">Give feedback</Label>
           <ToggleSwitch
             name="feedback"
             id="feedback"
@@ -162,6 +158,9 @@ const SubmissionEditor = ({ submission }) => {
             value="feedback"
           />
         </InlineField>
+        <SectionDescription>
+          Provide a link for respondents to provide feedback about the service.
+        </SectionDescription>
       </Section>
     </Wrapper>
   );
