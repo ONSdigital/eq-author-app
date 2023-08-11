@@ -10,6 +10,7 @@ import {
   RADIO,
   MUTUALLY_EXCLUSIVE,
   ANSWER_OPTION_TYPES,
+  SELECT,
   SELECT_OPTION,
 } from "constants/answer-types";
 
@@ -190,6 +191,36 @@ const getEmptyQCodes = (answerRows, dataVersion) => {
   }
 };
 
+// getDuplicatedOptionValues :: [AnswerRow] -> [Value]
+// Return an array of Values which are duplicated within an answer in the given list of answer rows
+export const getDuplicatedOptionValues = (flattenedAnswers) => {
+  // acc - accumulator
+  let currentQuestionId = "";
+  let idValue = "";
+  const optionValueUsageMap = flattenedAnswers?.reduce(
+    (acc, { value, type, id }) => {
+      if ([RADIO, CHECKBOX, SELECT].includes(type)) {
+        currentQuestionId = id;
+      }
+      if (
+        value &&
+        [CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type)
+      ) {
+        idValue = currentQuestionId.concat(value);
+        const currentValue = acc.get(idValue);
+        acc.set(idValue, currentValue ? currentValue + 1 : 1);
+      }
+      return acc;
+    },
+    new Map()
+  );
+
+  return Array.from(optionValueUsageMap).reduce(
+    (acc, [value, count]) => (count > 1 ? [...acc, value.slice(36)] : acc),
+    []
+  );
+};
+
 const getEmptyOptionValues = (answerRows) => {
   return answerRows?.find(
     ({ value, type }) =>
@@ -213,6 +244,14 @@ export const QCodeContextProvider = ({ questionnaire = {}, children }) => {
     getEmptyQCodes(answerRows, questionnaire.dataVersion) ||
     getEmptyOptionValues(answerRows);
 
+  const duplicatedOptionValues = useMemo(
+    () => getDuplicatedOptionValues(answerRows) ?? [],
+    [answerRows]
+  );
+
+  const hasOptionValueError =
+    duplicatedOptionValues?.length || getEmptyOptionValues(answerRows);
+
   const dataVersion = questionnaire?.dataVersion;
 
   const value = useMemo(
@@ -221,8 +260,17 @@ export const QCodeContextProvider = ({ questionnaire = {}, children }) => {
       duplicatedQCodes,
       dataVersion,
       hasQCodeError,
+      duplicatedOptionValues,
+      hasOptionValueError,
     }),
-    [answerRows, duplicatedQCodes, dataVersion, hasQCodeError]
+    [
+      answerRows,
+      duplicatedQCodes,
+      dataVersion,
+      hasQCodeError,
+      duplicatedOptionValues,
+      hasOptionValueError,
+    ]
   );
 
   return (

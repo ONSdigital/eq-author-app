@@ -47,6 +47,7 @@ import { DRIVING, ANOTHER } from "constants/list-answer-types";
 import {
   QCODE_IS_NOT_UNIQUE,
   QCODE_REQUIRED,
+  VALUE_IS_NOT_UNIQUE,
   VALUE_REQUIRED,
 } from "constants/validationMessages";
 
@@ -282,12 +283,15 @@ Row.propTypes = {
 };
 
 export const QCodeTable = () => {
-  const { answerRows, duplicatedQCodes, dataVersion } = useQCodeContext();
+  const { answerRows, duplicatedQCodes, dataVersion, duplicatedOptionValues } =
+    useQCodeContext();
   const getErrorMessage = (qCode) =>
     (!qCode && QCODE_REQUIRED) ||
     (duplicatedQCodes.includes(qCode) && QCODE_IS_NOT_UNIQUE);
 
-  const getValueErrorMessage = (value) => !value && VALUE_REQUIRED;
+  const getValueErrorMessage = (value) =>
+    (!value && VALUE_REQUIRED) ||
+    (duplicatedOptionValues.includes(value) && VALUE_IS_NOT_UNIQUE);
 
   return (
     <Table data-test="qcodes-table">

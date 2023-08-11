@@ -202,8 +202,11 @@ export const dynamicAnswer = {
   ERR_REFERENCE_MOVED: "Answer must be from a previous question",
 };
 
-export const QCODE_IS_NOT_UNIQUE = "Qcode must be unique";
+export const QCODE_IS_NOT_UNIQUE =
+  "This Q code has been assigned to another answer type. Enter a unique Q code.";
 export const QCODE_REQUIRED = "Q code required";
+export const VALUE_IS_NOT_UNIQUE =
+  "This value has been assigned to another option for this answer type. Enter a unique value.";
 export const VALUE_REQUIRED = "Value required";
 export const QUESTION_ANSWER_NOT_SELECTED = "Answer required";
 export const CALCSUM_ANSWER_NOT_SELECTED =
