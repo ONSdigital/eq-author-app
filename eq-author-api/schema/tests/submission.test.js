@@ -34,6 +34,7 @@ describe("questionnaire", () => {
         viewPrintAnswers: expect.any(Boolean),
         emailConfirmation: expect.any(Boolean),
         feedback: expect.any(Boolean),
+        validationErrorInfo: expect.any(Object),
       });
     });
   });
@@ -55,6 +56,7 @@ describe("questionnaire", () => {
         id: questionnaire.submission.id,
         comments: null,
         ...changes,
+        validationErrorInfo: expect.any(Object),
       });
     });
   });
@@ -79,6 +81,41 @@ describe("questionnaire", () => {
       expect(updatedSubmission.comments).toEqual(
         expect.arrayContaining(ctx.comments[questionnaire.submission.id])
       );
+    });
+  });
+
+  describe("validation", () => {
+    it("should validate the submission page when further content is empty", async () => {
+      const changes = {
+        furtherContent: "",
+        viewPrintAnswers: false,
+        emailConfirmation: false,
+        feedback: false,
+      };
+
+      const updatedSubmission = await updateSubmission(ctx, {
+        ...changes,
+      });
+
+      expect(updatedSubmission.validationErrorInfo).toMatchObject({
+        totalCount: 1,
+        errors: expect.arrayContaining([
+          expect.objectContaining({ errorCode: "ERR_VALID_REQUIRED" }),
+        ]),
+      });
+      expect(updatedSubmission.validationErrorInfo.errors).toHaveLength(1);
+
+      const changes2 = {
+        furtherContent: "Text",
+        viewPrintAnswers: false,
+        emailConfirmation: false,
+        feedback: false,
+      };
+
+      const updatedSubmission2 = await updateSubmission(ctx, {
+        ...changes2,
+      });
+      expect(updatedSubmission2.validationErrorInfo.errors).toHaveLength(0);
     });
   });
 });

@@ -8,6 +8,13 @@ const getSubmissionQuery = `
         viewPrintAnswers
         emailConfirmation
         feedback
+        validationErrorInfo {
+          totalCount
+          errors {
+            id
+            errorCode
+          }
+        }
     }
   }
 `;
