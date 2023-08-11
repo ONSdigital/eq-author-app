@@ -112,8 +112,7 @@ const PreviewButton = styled(Button)`
 `;
 
 const SubmissionEditor = ({ submission, questionnaireTitle }) => {
-  const { furtherContent, viewPrintAnswers, emailConfirmation, feedback } =
-    submission;
+  const { furtherContent, viewPrintAnswers, feedback } = submission;
 
   const panelTitle = `Thank you for completing the ${questionnaireTitle}`;
   const feedbackTitle = `What do you think about this service?`;
@@ -180,38 +179,6 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
           </Section>
         </>
       )}
-      {emailConfirmation && (
-        <>
-          <Section>
-            <SectionSeparator />
-            <PageTitle
-              title="Get confirmation email"
-              missingText={missingTitleText}
-            />
-            If you would like to be sent confirmation that you have completed
-            your survey, enter your email address
-          </Section>
-          <Section>
-            <ContentHeading>Email address</ContentHeading>
-            <SectionContent marginTop={0.3}>
-              This will not be stored and will only be used once to send your
-              confirmation
-            </SectionContent>
-            <SectionContent marginTop={0.5}>
-              <PreviewInput
-                id="email-confirmation"
-                aria-label="Inactive preview email input"
-                tabIndex="-1"
-              />
-            </SectionContent>
-          </Section>
-          <Section>
-            <PreviewButton variant="confirm" tabIndex="-1">
-              Send confirmation
-            </PreviewButton>
-          </Section>
-        </>
-      )}
       {feedback && (
         <Section>
           <Feedback>
@@ -232,7 +199,6 @@ SubmissionEditor.propTypes = {
     id: PropTypes.string.isRequired,
     furtherContent: PropTypes.string,
     viewPrintAnswers: PropTypes.bool,
-    emailConfirmation: PropTypes.bool,
     feedback: PropTypes.bool,
   }),
   renderPanel: PropTypes.func,

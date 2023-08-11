@@ -15,7 +15,6 @@ const questionnaire = {
     id: "submission-1",
     furtherContent: "<p>Test</p>",
     viewPrintAnswers: true,
-    emailConfirmation: true,
     feedback: true,
   },
 };
@@ -77,19 +76,6 @@ describe("Submission Editor", () => {
 
     expect(updateSubmission).toHaveBeenCalledWith({
       variables: { input: { viewPrintAnswers: false } },
-    });
-  });
-
-  it("should update emailConfirmation when toggle switch is clicked", () => {
-    const updateSubmission = jest.fn();
-    useMutation.mockImplementation(jest.fn(() => [updateSubmission]));
-
-    const { getByTestId } = renderSubmissionEditor();
-
-    fireEvent.click(getByTestId("emailConfirmation-input"));
-
-    expect(updateSubmission).toHaveBeenCalledWith({
-      variables: { input: { emailConfirmation: false } },
     });
   });
 

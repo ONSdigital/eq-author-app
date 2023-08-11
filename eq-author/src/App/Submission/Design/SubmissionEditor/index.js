@@ -60,8 +60,7 @@ const countLinks = (furtherContent) => {
 };
 
 const SubmissionEditor = ({ submission }) => {
-  const { furtherContent, viewPrintAnswers, emailConfirmation, feedback } =
-    submission;
+  const { furtherContent, viewPrintAnswers, feedback } = submission;
 
   const furtherContentError = find(submission.validationErrorInfo.errors, {
     errorCode: "ERR_VALID_REQUIRED",
@@ -125,23 +124,6 @@ const SubmissionEditor = ({ submission }) => {
           Provide a link for respondents to save and print their answers.
         </SectionDescription>
         <InlineField>
-          <Label htmlFor="emailConfirmation">Email confirmation</Label>
-          <ToggleSwitch
-            name="email-confirmation"
-            id="emailConfirmation"
-            onChange={({ value }) =>
-              updateSubmission({
-                variables: {
-                  input: { emailConfirmation: value },
-                },
-              })
-            }
-            checked={emailConfirmation}
-            hideLabels={false}
-            value="emailConfirmation"
-          />
-        </InlineField>
-        <InlineField>
           <Label htmlFor="feedback">Give feedback</Label>
           <ToggleSwitch
             name="feedback"
@@ -171,7 +153,6 @@ SubmissionEditor.propTypes = {
     id: PropTypes.string.isRequired,
     furtherContent: PropTypes.string,
     viewPrintAnswers: PropTypes.bool,
-    emailConfirmation: PropTypes.bool,
     feedback: PropTypes.bool,
   }),
   renderPanel: PropTypes.func,

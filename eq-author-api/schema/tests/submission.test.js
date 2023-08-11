@@ -32,7 +32,6 @@ describe("questionnaire", () => {
         id: expect.any(String),
         furtherContent: expect.any(String),
         viewPrintAnswers: expect.any(Boolean),
-        emailConfirmation: expect.any(Boolean),
         feedback: expect.any(Boolean),
         validationErrorInfo: expect.any(Object),
       });
@@ -44,7 +43,6 @@ describe("questionnaire", () => {
       const changes = {
         furtherContent: "Test",
         viewPrintAnswers: false,
-        emailConfirmation: false,
         feedback: false,
       };
 
@@ -89,7 +87,6 @@ describe("questionnaire", () => {
       const changes = {
         furtherContent: "",
         viewPrintAnswers: false,
-        emailConfirmation: false,
         feedback: false,
       };
 
@@ -108,7 +105,6 @@ describe("questionnaire", () => {
       const changes2 = {
         furtherContent: "Text",
         viewPrintAnswers: false,
-        emailConfirmation: false,
         feedback: false,
       };
 

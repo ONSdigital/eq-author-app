@@ -4,7 +4,6 @@ query GetSubmissionQuery {
     id
     furtherContent
     viewPrintAnswers
-    emailConfirmation
     feedback
     validationErrorInfo {
       id

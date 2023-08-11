@@ -6,7 +6,6 @@ const getSubmissionQuery = `
         id
         furtherContent
         viewPrintAnswers
-        emailConfirmation
         feedback
         validationErrorInfo {
           totalCount

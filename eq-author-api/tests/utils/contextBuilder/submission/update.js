@@ -6,7 +6,6 @@ const updateSubmissionMutation = `
         id
         furtherContent
         viewPrintAnswers
-        emailConfirmation
         feedback
         validationErrorInfo {
           totalCount
