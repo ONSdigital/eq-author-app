@@ -216,7 +216,7 @@ export const getDuplicatedOptionValues = (flattenedAnswers) => {
   );
 
   return Array.from(optionValueUsageMap).reduce(
-    (acc, [value, count]) => (count > 1 ? [...acc, value.slice(36)] : acc),
+    (acc, [value, count]) => (count > 1 ? [...acc, value] : acc),
     []
   );
 };

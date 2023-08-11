@@ -289,10 +289,12 @@ export const QCodeTable = () => {
     (!qCode && QCODE_REQUIRED) ||
     (duplicatedQCodes.includes(qCode) && QCODE_IS_NOT_UNIQUE);
 
-  const getValueErrorMessage = (value) =>
+  const getValueErrorMessage = (value, idValue) =>
     (!value && VALUE_REQUIRED) ||
-    (duplicatedOptionValues.includes(value) && VALUE_IS_NOT_UNIQUE);
+    (duplicatedOptionValues.includes(idValue) && VALUE_IS_NOT_UNIQUE);
 
+  let currentQuestionId = "";
+  let idValue = "";
   return (
     <Table data-test="qcodes-table">
       <TableHead>
@@ -310,6 +312,17 @@ export const QCodeTable = () => {
       <StyledTableBody>
         {answerRows?.map((item, index) => {
           if (
+            ![CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(item.type)
+          ) {
+            currentQuestionId = item.id ? item.id : "";
+          }
+          if (
+            item.value &&
+            [CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(item.type)
+          ) {
+            idValue = currentQuestionId.concat(item.value);
+          }
+          if (
             item.additionalAnswer &&
             (dataVersion === "3" || item.type !== "CheckboxOption")
           ) {
@@ -320,14 +333,14 @@ export const QCodeTable = () => {
                   dataVersion={dataVersion}
                   {...item}
                   errorMessage={getErrorMessage(item.qCode)}
-                  valueErrorMessage={getValueErrorMessage(item.value)}
+                  valueErrorMessage={getValueErrorMessage(item.value, idValue)}
                 />
                 <Row
                   key={`${item.additionalAnswer.id}-${index}`}
                   dataVersion={dataVersion}
                   {...item.additionalAnswer}
                   errorMessage={getErrorMessage(item.additionalAnswer.qCode)}
-                  valueErrorMessage={getValueErrorMessage(item.value)}
+                  valueErrorMessage={getValueErrorMessage(item.value, idValue)}
                 />
               </>
             );
@@ -340,7 +353,7 @@ export const QCodeTable = () => {
                 errorMessage={getErrorMessage(
                   item.qCode ?? item.drivingQCode ?? item.anotherQCode
                 )}
-                valueErrorMessage={getValueErrorMessage(item.value)}
+                valueErrorMessage={getValueErrorMessage(item.value, idValue)}
               />
             );
           }
