@@ -1,24 +1,20 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import Collapsible from "components/Collapsible";
 import { find } from "lodash";
 
 import PageTitleInput from "./PageTitleInput";
 
 import { pageDescriptionErrors } from "constants/validationMessages";
 
-const PageTitleContainerWithoutCollapsible = styled.div``;
-
-const PageTitleContainerWithCollapsible = styled.div`
-  margin-left: 1em;
-  margin-right: 1em;
+const PageTitleSegment = styled.div`
+  margin-top: 2em;
 `;
+
+const Container = styled.div``;
 
 const PageTitleContainer = ({
   heading,
-  inCollapsible,
-  marginless,
   pageDescription,
   inputTitlePrefix,
   altFieldName,
@@ -44,49 +40,25 @@ const PageTitleContainer = ({
   );
 
   const errorMessage = pageDescriptionErrors[errorCode];
-
-  if (inCollapsible) {
-    return (
-      <Collapsible
-        title="Page description"
-        className="pageDescriptionCollapsible"
-        dataTestIdPrefix="page-title-"
-        defaultOpen
-        withoutHideThis
-        variant={marginless ? "marginlessContent" : "content"}
-      >
-        <PageTitleContainerWithCollapsible>
-          <PageTitleInput
-            heading={heading}
-            pageDescription={pageDescription}
-            inputTitlePrefix={inputTitlePrefix}
-            altFieldName={altFieldName}
-            onUpdate={onUpdate}
-            onChange={onChange}
-            errorMessage={errorMessage}
-          />
-        </PageTitleContainerWithCollapsible>
-      </Collapsible>
-    );
-  }
   return (
-    <PageTitleContainerWithoutCollapsible>
-      <PageTitleInput
-        heading={heading}
-        pageDescription={pageDescription}
-        inputTitlePrefix={inputTitlePrefix}
-        altFieldName={altFieldName}
-        onUpdate={onUpdate}
-        onChange={onChange}
-        errorMessage={errorMessage}
-      />
-    </PageTitleContainerWithoutCollapsible>
+    <Container>
+      <PageTitleSegment data-test="page-title-container">
+        <PageTitleInput
+          heading={heading}
+          pageDescription={pageDescription}
+          inputTitlePrefix={inputTitlePrefix}
+          altFieldName={altFieldName}
+          onUpdate={onUpdate}
+          onChange={onChange}
+          errorMessage={errorMessage}
+        />
+      </PageTitleSegment>
+    </Container>
   );
 };
 
 PageTitleContainer.propTypes = {
   heading: PropTypes.string,
-  inCollapsible: PropTypes.bool,
   marginless: PropTypes.bool,
   pageDescription: PropTypes.string,
   inputTitlePrefix: PropTypes.string,

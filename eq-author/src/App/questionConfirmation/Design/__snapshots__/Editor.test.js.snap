@@ -25,11 +25,11 @@ exports[`Editor Editor Component should autoFocus the title when there is not on
     value={null}
   />
   <PageTitleContainer
-    inCollapsible={true}
     marginless={true}
     onChange={[MockFunction]}
     onUpdate={[MockFunction]}
   />
+  <Editor__HorizontalRule />
   <Editor__OptionsWrapper>
     <withValidationError(UnwrappedConfirmationOption)
       confirmationoption={
@@ -107,11 +107,11 @@ exports[`Editor Editor Component should render 1`] = `
     value="My first confirmation"
   />
   <PageTitleContainer
-    inCollapsible={true}
     marginless={true}
     onChange={[MockFunction]}
     onUpdate={[MockFunction]}
   />
+  <Editor__HorizontalRule />
   <Editor__OptionsWrapper>
     <withValidationError(UnwrappedConfirmationOption)
       confirmationoption={
