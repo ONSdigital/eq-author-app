@@ -30,14 +30,13 @@ const SectionTitle = styled.h2`
 `;
 
 const SectionDescription = styled.p`
-  margin: 0.3em 0 2em;
-  //color: ${({ theme }) => theme.colors.textLight};
+  margin: 0.2em 0 2em;
 `;
 
 const InlineField = styled(Field)`
   display: flex;
   align-items: center;
-  margin-bottom: 0.4em;
+  margin-bottom: 0em;
 
   > * {
     margin-bottom: 0;
@@ -71,7 +70,7 @@ const SubmissionEditor = ({ submission }) => {
   return (
     <Wrapper data-test="submission-editor">
       <Section>
-        <SectionTitle style={{ marginBottom: "0" }}>
+        <SectionTitle style={{ marginBottom: "0.4em" }}>
           Submission confirmation details
         </SectionTitle>
         <SectionDescription>

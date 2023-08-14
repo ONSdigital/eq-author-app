@@ -16,6 +16,10 @@ const questionnaire = {
     furtherContent: "<p>Test</p>",
     viewPrintAnswers: true,
     feedback: true,
+    validationErrorInfo: {
+      errors: [],
+      totalCount: 0,
+    },
   },
 };
 
