@@ -8,8 +8,6 @@ import PageTitle from "components/preview/elements/PageTitle";
 import { Field, Label } from "components/Forms";
 import Panel from "components-themed/panels";
 import Feedback from "components-themed/Feedback";
-import Input from "components-themed/Input";
-import Button from "components-themed/buttons";
 import Error from "components/preview/Error";
 
 import { ReactComponent as WarningIcon } from "assets/icon-warning-round.svg";
@@ -66,16 +64,6 @@ const InlineField = styled(Field)`
   }
 `;
 
-const ContentHeading = styled.span`
-  font-weight: bold;
-  margin-bottom: 0.1em;
-`;
-
-const SectionContent = styled.div`
-  font-size: 14px;
-  margin-top: ${(props) => `${props.marginTop}em`};
-`;
-
 const FeedbackLabel = styled(Label)`
   &:first-of-type {
     margin-top: -0.5em;
@@ -99,16 +87,6 @@ const BlueUnderlined = styled.span`
   color: ${colors.blue};
   text-decoration: underline;
   font-weight: ${(props) => props.bold && `bold`};
-`;
-
-const PreviewInput = styled(Input)`
-  pointer-events: none;
-  border-radius: 0;
-`;
-
-const PreviewButton = styled(Button)`
-  border-radius: 0;
-  pointer-events: none;
 `;
 
 const SubmissionEditor = ({ submission, questionnaireTitle }) => {
