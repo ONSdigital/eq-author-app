@@ -751,9 +751,9 @@ type Submission {
 }
 
 type Version {
-  id: ID!
-  version: String!
-  dateCreated: String!
+  guid: ID!
+  sds_schema_version: String!
+  sds_published_at: String!
 }
 
 type PrepopSchemaVersions {

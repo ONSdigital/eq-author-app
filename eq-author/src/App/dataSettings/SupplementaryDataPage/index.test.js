@@ -1,18 +1,18 @@
 import React from "react";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 
 import { render, fireEvent, screen, waitFor, act } from "tests/utils/rtl";
 
-import ONSDatasetPage from ".";
+import SupplementaryDataPage from ".";
 import { MeContext } from "App/MeContext";
 import { publishStatusSubscription } from "components/EditorLayout/Header";
 import QuestionnaireContext from "components/QuestionnaireContext";
 import unlinkPrepopSchemaMutation from "graphql/unlinkPrepopSchema.graphql";
-import updatePrepopSchemaMutation from "graphql/updatePrepopSchema.graphql";
 
 jest.mock("@apollo/react-hooks", () => ({
   ...jest.requireActual("@apollo/react-hooks"),
   useQuery: jest.fn(),
+  useMutation: jest.fn(() => [() => null]),
 }));
 
 useQuery.mockImplementation(() => ({
@@ -23,30 +23,36 @@ useQuery.mockImplementation(() => ({
       surveyId: "123",
       versions: [
         {
-          id: "123-111-789",
-          version: "1",
-          dateCreated: "2023-01-12T13:37:27+00:00",
+          guid: "123-111-789",
+          // eslint-disable-next-line camelcase
+          sds_schema_version: "1",
+          // eslint-disable-next-line camelcase
+          sds_published_at: "2023-01-12T13:37:27+00:00",
         },
         {
-          id: "123-222-789",
-          version: "2",
-          dateCreated: "2023-02-08T12:37:27+00:00",
+          guid: "123-222-789",
+          // eslint-disable-next-line camelcase
+          sds_schema_version: "2",
+          // eslint-disable-next-line camelcase
+          sds_published_at: "2023-02-08T12:37:27+00:00",
         },
         {
-          id: "123-333-789",
-          version: "3",
-          dateCreated: "2023-03-23T08:37:27+00:00",
+          guid: "123-333-789",
+          // eslint-disable-next-line camelcase
+          sds_schema_version: "3",
+          // eslint-disable-next-line camelcase
+          sds_published_at: "2023-03-23T08:37:27+00:00",
         },
       ],
     },
   },
 }));
 
-const renderONSDatasetPage = (questionnaire, props, user, mocks) => {
+const renderSupplementaryDatasetPage = (questionnaire, props, user, mocks) => {
   return render(
     <MeContext.Provider value={{ me: user, signOut: jest.fn(), props }}>
       <QuestionnaireContext.Provider value={{ questionnaire }}>
-        <ONSDatasetPage {...props} />
+        <SupplementaryDataPage {...props} />
       </QuestionnaireContext.Provider>
     </MeContext.Provider>,
     {
@@ -57,7 +63,7 @@ const renderONSDatasetPage = (questionnaire, props, user, mocks) => {
   );
 };
 
-describe("ONS dataset page", () => {
+describe("Supplementary dataset page", () => {
   let questionnaire, props, user, mocks;
 
   beforeEach(() => {
@@ -102,20 +108,22 @@ describe("ONS dataset page", () => {
   });
 
   it("should display heading and basic text", () => {
-    const { getByText } = renderONSDatasetPage(
+    const { getByText } = renderSupplementaryDatasetPage(
       questionnaire,
       props,
       user,
       mocks
     );
-    expect(getByText("Select an ONS dataset to link to")).toBeTruthy();
+    expect(
+      getByText("Select an supplementary dataset to link to")
+    ).toBeTruthy();
     expect(
       getByText("Only one dataset can be linked per questionnaire.")
     ).toBeTruthy();
   });
   describe("survey picker", () => {
     it("should display a select picker with all options", () => {
-      const { getByText, getByTestId } = renderONSDatasetPage(
+      const { getByText, getByTestId } = renderSupplementaryDatasetPage(
         questionnaire,
         props,
         user,
@@ -128,7 +136,7 @@ describe("ONS dataset page", () => {
 
     it("should select a survey id", async () => {
       const { getByText, getByTestId, getAllByTestId, findAllByText } =
-        renderONSDatasetPage(questionnaire, props, user, mocks);
+        renderSupplementaryDatasetPage(questionnaire, props, user, mocks);
 
       const select = getByTestId("list-select");
       fireEvent.change(select, { target: { value: "123" } });
@@ -141,116 +149,9 @@ describe("ONS dataset page", () => {
     });
 
     it("should link a dataset", async () => {
-      mocks = [
-        ...mocks,
-        {
-          request: {
-            query: updatePrepopSchemaMutation,
-            variables: {
-              input: {
-                id: "123-333-789",
-                surveyId: "123",
-                version: "1",
-                dateCreated: "2023-01-12T13:37:27+00:00",
-              },
-            },
-          },
-          result: () => {
-            return {
-              data: {
-                id: "121",
-                schema: {
-                  $schema: "https://json-schema.org/draft/2020-12/schema",
-                  $id: "roofing_tiles_and_slate.json",
-                  title: "SDS schema for the Roofing Tiles + Slate survey",
-                  type: "object",
-                  properties: {
-                    schemaVersion: {
-                      const: "v1",
-                      description: "Version of the schema spec",
-                    },
-                    identifier: {
-                      type: "string",
-                      description:
-                        "The unique top-level identifier. This is the reporting unit reference without the check letter appended",
-                      minLength: 11,
-                      pattern: "^[a-zA-Z0-9]+$",
-                      examples: ["34942807969"],
-                    },
-                    companyName: {
-                      type: "string",
-                      minLength: 1,
-                      examples: ["Joe Bloggs PLC"],
-                    },
-                    companyType: {
-                      type: "string",
-                      minLength: 1,
-                      examples: ["Public Limited Company"],
-                    },
-                    items: {
-                      type: "object",
-                      properties: {
-                        localUnits: {
-                          type: "array",
-                          description: "The data about each item",
-                          minItems: 1,
-                          uniqueItems: true,
-                          items: {
-                            type: "object",
-                            properties: {
-                              identifier: {
-                                type: "string",
-                                minLength: 1,
-                                description:
-                                  "The unique identifier for the items. This is the local unit reference.",
-                                examples: ["3340224"],
-                              },
-                              luName: {
-                                type: "string",
-                                minLength: 1,
-                                description: "Name of the local unit",
-                                examples: ["STUBBS BUILDING PRODUCTS LTD"],
-                              },
-                              luAddress: {
-                                type: "array",
-                                description:
-                                  "The fields of the address for the local unit",
-                                items: {
-                                  type: "string",
-                                  minLength: 1,
-                                },
-                                minItems: 1,
-                                uniqueItems: true,
-                                examples: [
-                                  [
-                                    "WELLINGTON ROAD",
-                                    "LOCHMABEN",
-                                    "SWINDON",
-                                    "BEDS",
-                                    "GLOS",
-                                    "DE41 2WA",
-                                  ],
-                                ],
-                              },
-                            },
-                            additionalProperties: false,
-                            required: ["identifier", "lu_name", "lu_address"],
-                          },
-                        },
-                      },
-                      additionalProperties: false,
-                      required: ["local_units"],
-                    },
-                  },
-                  additionalProperties: false,
-                  required: ["schema_version", "identifier", "items"],
-                },
-              },
-            };
-          },
-        },
-      ];
-      const { getByTestId, getAllByTestId } = renderONSDatasetPage(
+      const callMutation = jest.fn();
+      useMutation.mockImplementation(jest.fn(() => [callMutation]));
+      const { getByTestId, getAllByTestId } = renderSupplementaryDatasetPage(
         questionnaire,
         props,
         user,
@@ -262,6 +163,7 @@ describe("ONS dataset page", () => {
       await act(async () => {
         await fireEvent.click(getAllByTestId("btn-link")[0]);
       });
+      expect(callMutation).toBeCalledTimes(1);
     });
   });
 
@@ -294,7 +196,7 @@ describe("ONS dataset page", () => {
         },
       }));
 
-      const { getByText } = renderONSDatasetPage(
+      const { getByText } = renderSupplementaryDatasetPage(
         questionnaire,
         props,
         user,
@@ -357,7 +259,7 @@ describe("ONS dataset page", () => {
           },
         },
       ];
-      const { getByTestId, queryByTestId } = renderONSDatasetPage(
+      const { getByTestId, queryByTestId } = renderSupplementaryDatasetPage(
         questionnaire,
         props,
         user,
@@ -400,7 +302,7 @@ describe("ONS dataset page", () => {
           },
         },
       }));
-      const { getByTestId, queryByTestId } = renderONSDatasetPage(
+      const { getByTestId, queryByTestId } = renderSupplementaryDatasetPage(
         questionnaire,
         props,
         user,
@@ -422,7 +324,7 @@ describe("ONS dataset page", () => {
         error: false,
         data: null,
       }));
-      const { getByTestId, queryByText } = renderONSDatasetPage(
+      const { getByTestId, queryByText } = renderSupplementaryDatasetPage(
         questionnaire,
         props,
         user,
@@ -440,7 +342,7 @@ describe("ONS dataset page", () => {
         error: true,
         data: null,
       }));
-      const { getByTestId, queryByText } = renderONSDatasetPage(
+      const { getByTestId, queryByText } = renderSupplementaryDatasetPage(
         questionnaire,
         props,
         user,

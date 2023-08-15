@@ -3,10 +3,11 @@ import styled from "styled-components";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { withRouter, useParams } from "react-router-dom";
 
-import GET_PREPOP_SCHEMA_VERSIONS_QUERY from "graphql/getPrepopSchemaVersions.graphql";
 import UPDATE_PREPOP_SCHEMA from "graphql/updatePrepopSchema.graphql";
 import GET_PREPOP_SCHEMA from "graphql/getPrepopSchema.graphql";
 import UNLINK_PREPOP_SCHEMA from "graphql/unlinkPrepopSchema.graphql";
+
+import SchemaVersionTable from "./schemaVersionsTable";
 
 import VerticalTabs from "components/VerticalTabs";
 import * as Common from "../common";
@@ -14,7 +15,6 @@ import * as Common from "../common";
 import { Grid, Column } from "components/Grid";
 import Header from "components/EditorLayout/Header";
 import ScrollPane from "components/ScrollPane";
-import Button from "components-themed/buttons";
 import Loading from "components/Loading";
 import Error from "components/Error";
 
@@ -41,12 +41,6 @@ const StyledTitle = styled.h2`
   color: ${colors.text};
   margin: 0 0 0.5em 0;
 `;
-const Title = styled.h2`
-  font-size: 1.2em;
-  font-weight: bold;
-  color: ${colors.text};
-  margin: 1.5em 0 1em 0;
-`;
 
 const Option = styled.option``;
 
@@ -68,10 +62,6 @@ const CustomSelect = styled.select`
   }
 `;
 
-const StyledTableBody = styled(TableBody)`
-  background-color: ${colors.white};
-`;
-
 const SpacedTableColumn = styled(TableColumn)`
   padding: 0.5em 0.5em 0.2em;
   color: ${colors.text};
@@ -88,12 +78,6 @@ const StyledTableHeadColumn = styled(TableHeadColumn)`
   :not(:last-of-type) {
     border-right: 1px solid ${colors.bordersDark};
   }
-`;
-
-const StyledButton = styled(Button)`
-  flex: 1;
-  margin: 0 0 0.5em 0;
-  left: 30%;
 `;
 
 const StyledUl = styled.ul`
@@ -120,12 +104,12 @@ const DataFieldsWrapper = styled.div`
   margin-top: 1em;
 `;
 
-const ONSDatasetPage = () => {
+const SupplementaryDataPage = () => {
   const params = useParams();
   const questionnaireID = params.questionnaireID;
 
   const [surveyID, setSurveyID] = useState("surveyID");
-  const [showDataset, setShowDataset] = useState(false);
+  const [showVersionsTable, setShowVersionsTable] = useState(false);
   const [showUnlinkModal, setShowUnlinkModal] = useState(false);
 
   useEffect(() => {
@@ -135,19 +119,12 @@ const ONSDatasetPage = () => {
   const handleChange = ({ target }) => {
     if (target.value === "surveyID") {
       setSurveyID(undefined);
-      setShowDataset(false);
+      setShowVersionsTable(false);
     } else {
       setSurveyID(target.value);
-      setShowDataset(true);
+      setShowVersionsTable(true);
     }
   };
-
-  const { data: surveyData } = useQuery(GET_PREPOP_SCHEMA_VERSIONS_QUERY, {
-    variables: {
-      id: surveyID || "surveyID",
-    },
-    fetchPolicy: "network-only",
-  });
 
   const [linkPrepopSchema] = useMutation(UPDATE_PREPOP_SCHEMA, {
     refetchQueries: ["GetPrepopSchema"],
@@ -188,7 +165,7 @@ const ONSDatasetPage = () => {
   const unlinkDataset = () => {
     unlinkPrepopSchema();
     setSurveyID(undefined);
-    setShowDataset(false);
+    setShowVersionsTable(false);
     setShowUnlinkModal(false);
   };
 
@@ -230,13 +207,13 @@ const ONSDatasetPage = () => {
                         {!tableData && (
                           <>
                             <Common.TabTitle>
-                              Select an ONS dataset to link to
+                              Select an supplementary dataset to link to
                             </Common.TabTitle>
                             <Common.TabContent>
-                              Linking to an ONS dataset will allow you to pipe
-                              data that respondents have provided in previous
-                              questionnaires into question titles or percentage
-                              answer type labels.
+                              Linking to an supplementary dataset will allow you
+                              to pipe data that respondents have provided in
+                              previous questionnaires into question titles or
+                              percentage answer type labels.
                             </Common.TabContent>
                             <Common.TabContent>
                               Only one dataset can be linked per questionnaire.
@@ -260,71 +237,11 @@ const ONSDatasetPage = () => {
                                 </Option>
                               ))}
                             </CustomSelect>
-                            {showDataset && (
-                              <>
-                                <Title>Datasets for survey ID {surveyID}</Title>
-                                <Table data-test="datasets-table">
-                                  <TableHead>
-                                    <TableRow>
-                                      <StyledTableHeadColumn width="40%">
-                                        Version
-                                      </StyledTableHeadColumn>
-                                      <StyledTableHeadColumn width="40%">
-                                        Date created
-                                      </StyledTableHeadColumn>
-                                      <StyledTableHeadColumn width="20%">
-                                        Link dataset
-                                      </StyledTableHeadColumn>
-                                    </TableRow>
-                                  </TableHead>
-                                  {surveyData?.prepopSchemaVersions && (
-                                    <StyledTableBody>
-                                      {surveyData?.prepopSchemaVersions?.versions?.map(
-                                        (version) => {
-                                          return (
-                                            <TableRow
-                                              key={version.id}
-                                              data-test={`dataset-row`}
-                                            >
-                                              <SpacedTableColumn bold>
-                                                {version.version}
-                                              </SpacedTableColumn>
-                                              <SpacedTableColumn bold>
-                                                {formatDate(
-                                                  version.dateCreated
-                                                )}
-                                              </SpacedTableColumn>
-                                              <SpacedTableColumn bold>
-                                                <StyledButton
-                                                  onClick={() =>
-                                                    linkPrepopSchema({
-                                                      variables: {
-                                                        input: {
-                                                          id: version.id,
-                                                          surveyId: surveyID,
-                                                          version:
-                                                            version.version,
-                                                          dateCreated:
-                                                            version.dateCreated,
-                                                        },
-                                                      },
-                                                    })
-                                                  }
-                                                  type="button"
-                                                  variant="secondary"
-                                                  data-test="btn-link"
-                                                >
-                                                  Link
-                                                </StyledButton>
-                                              </SpacedTableColumn>
-                                            </TableRow>
-                                          );
-                                        }
-                                      )}
-                                    </StyledTableBody>
-                                  )}
-                                </Table>
-                              </>
+                            {showVersionsTable && (
+                              <SchemaVersionTable
+                                surveyId={surveyID}
+                                linkPrepopSchema={linkPrepopSchema}
+                              />
                             )}
                           </>
                         )}
@@ -351,7 +268,7 @@ const ONSDatasetPage = () => {
                               <Column gutters={false} cols={2}>
                                 ID:
                               </Column>
-                              <CustomColumn gutters={false} cols={2}>
+                              <CustomColumn gutters={false} cols={5}>
                                 {tableData.id}
                               </CustomColumn>
                             </CustomGrid>
@@ -377,24 +294,24 @@ const ONSDatasetPage = () => {
                               </StyledTitle>
                               <Common.TabContent>
                                 A respondent&apos;s answers to previous
-                                questions are stored in ONS datasets as data
-                                fields. Data fields can be piped into question
-                                and section pages using the toolbar.
+                                questions are stored in supplementary datasets
+                                as data fields. Data fields can be piped into
+                                question and section pages using the toolbar.
                               </Common.TabContent>
                               <Common.TabContent>
                                 Data fields are defined as either:
-                                <StyledUl>
-                                  <StyledLi>
-                                    single data fields, which have one entry
-                                    with no restrictions on piping
-                                  </StyledLi>
-                                  <StyledLi>
-                                    multivalued data fields, which have one or
-                                    more entries and are only available for
-                                    piping in repeating sections
-                                  </StyledLi>
-                                </StyledUl>
                               </Common.TabContent>
+                              <StyledUl>
+                                <StyledLi>
+                                  single data fields, which have one entry with
+                                  no restrictions on piping
+                                </StyledLi>
+                                <StyledLi>
+                                  multivalued data fields, which have one or
+                                  more entries and are only available for piping
+                                  in repeating sections
+                                </StyledLi>
+                              </StyledUl>
                               <Common.TabContent>
                                 The data field name will be used as a temporary
                                 placeholder when piping into question and
@@ -421,24 +338,26 @@ const ONSDatasetPage = () => {
                                     </StyledTableHeadColumn>
                                   </TableRow>
                                 </TableHead>
-                                {dataFields.map((field) => {
-                                  return (
-                                    <TableRow
-                                      key={field.id}
-                                      data-test={`data-field-row`}
-                                    >
-                                      <SpacedTableColumn>
-                                        {field.fieldName}
-                                      </SpacedTableColumn>
-                                      <SpacedTableColumn>
-                                        {field.type === "string" && "Text"}
-                                      </SpacedTableColumn>
-                                      <SpacedTableColumn>
-                                        {field.exampleValue}
-                                      </SpacedTableColumn>
-                                    </TableRow>
-                                  );
-                                })}
+                                <TableBody>
+                                  {dataFields.map((field) => {
+                                    return (
+                                      <TableRow
+                                        key={field.id}
+                                        data-test={`data-field-row`}
+                                      >
+                                        <SpacedTableColumn>
+                                          {field.fieldName}
+                                        </SpacedTableColumn>
+                                        <SpacedTableColumn>
+                                          {field.type === "string" && "Text"}
+                                        </SpacedTableColumn>
+                                        <SpacedTableColumn>
+                                          {field.exampleValue}
+                                        </SpacedTableColumn>
+                                      </TableRow>
+                                    );
+                                  })}
+                                </TableBody>
                               </Table>
                             </DataFieldsWrapper>
                           </>
@@ -456,4 +375,4 @@ const ONSDatasetPage = () => {
   );
 };
 
-export default withRouter(ONSDatasetPage);
+export default withRouter(SupplementaryDataPage);

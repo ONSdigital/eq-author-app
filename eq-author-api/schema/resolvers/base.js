@@ -319,12 +319,15 @@ const Resolvers = {
       find(ctx.questionnaire.collectionLists.lists, { id: listId }),
     prepopSchemaVersions: async (_, args) => {
       const { id } = args;
-      const url = `${process.env.PREPOP_SCHEMA_GATEWAY}schemaVersionsGet?survey_id=${id}`;
+      const url = `${process.env.PREPOP_SCHEMA_GATEWAY}schema_metadata?survey_id=${id}`;
 
       try {
         const response = await fetch(url);
         const prepopSchemaVersions = await response.json();
-        return prepopSchemaVersions;
+        return {
+          surveyId: id,
+          versions: prepopSchemaVersions,
+        };
       } catch (err) {
         throw Error(err);
       }
@@ -1571,8 +1574,8 @@ const Resolvers = {
       return ctx.questionnaire;
     }),
     updatePrepopSchema: createMutation(async (root, { input }, ctx) => {
-      const { id, surveyId } = input;
-      const url = `${process.env.PREPOP_SCHEMA_GATEWAY}schemaVersionGet?id=${surveyId}`;
+      const { id, surveyId, version } = input;
+      const url = `${process.env.PREPOP_SCHEMA_GATEWAY}schema?survey_id=${surveyId}&version=${version}`;
 
       try {
         const response = await fetch(url);
@@ -1580,11 +1583,11 @@ const Resolvers = {
 
         if (prepopSchemaVersion) {
           logger.info(`Schema version data returned - ${prepopSchemaVersion}`);
-
-          if (prepopSchemaVersion?.schema?.properties) {
+          logger.info(input);
+          if (prepopSchemaVersion?.properties) {
             ctx.questionnaire.prepopSchema = { ...input };
             ctx.questionnaire.prepopSchema.data = getPrepopMetadata(
-              prepopSchemaVersion.schema.properties
+              prepopSchemaVersion.properties
             );
           }
 
