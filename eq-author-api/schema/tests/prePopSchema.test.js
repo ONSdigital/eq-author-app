@@ -36,90 +36,86 @@ describe("questionnaire", () => {
     Promise.resolve({
       status: 200,
       json: () => ({
-        id: "121-222-789",
-        surveyId: "121",
-        schema: {
-          $schema: "https://json-schema.org/draft/2020-12/schema",
-          $id: "roofing_tiles_and_slate.json",
-          title: "SDS schema for the Roofing Tiles + Slate survey",
-          type: "object",
-          properties: {
-            identifier: {
-              type: "string",
-              description:
-                "The unique top-level identifier. This is the reporting unit reference without the check letter appended",
-              minLength: 11,
-              pattern: "^[a-zA-Z0-9]+$",
-              examples: ["34942807969"],
-            },
-            companyName: {
-              type: "string",
-              minLength: 1,
-              examples: ["Joe Bloggs PLC"],
-            },
-            companyType: {
-              type: "string",
-              minLength: 1,
-              examples: ["Public Limited Company"],
-            },
-            items: {
-              type: "object",
-              properties: {
-                localUnits: {
-                  type: "array",
-                  description: "The data about each item",
-                  minItems: 1,
-                  uniqueItems: true,
-                  items: {
-                    type: "object",
-                    properties: {
-                      identifier: {
-                        type: "string",
-                        minLength: 1,
-                        description:
-                          "The unique identifier for the items. This is the local unit reference.",
-                        examples: ["3340224"],
-                      },
-                      luName: {
-                        type: "string",
-                        minLength: 1,
-                        description: "Name of the local unit",
-                        examples: ["STUBBS BUILDING PRODUCTS LTD"],
-                      },
-                      luAddress: {
-                        type: "array",
-                        description:
-                          "The fields of the address for the local unit",
-                        items: {
-                          type: "string",
-                          minLength: 1,
-                        },
-                        minItems: 1,
-                        uniqueItems: true,
-                        examples: [
-                          [
-                            "WELLINGTON ROAD",
-                            "LOCHMABEN",
-                            "SWINDON",
-                            "BEDS",
-                            "GLOS",
-                            "DE41 2WA",
-                          ],
-                        ],
-                      },
+        $schema: "https://json-schema.org/draft/2020-12/schema",
+        $id: "roofing_tiles_and_slate.json",
+        title: "SDS schema for the Roofing Tiles + Slate survey",
+        type: "object",
+        properties: {
+          identifier: {
+            type: "string",
+            description:
+              "The unique top-level identifier. This is the reporting unit reference without the check letter appended",
+            minLength: 11,
+            pattern: "^[a-zA-Z0-9]+$",
+            examples: ["34942807969"],
+          },
+          companyName: {
+            type: "string",
+            minLength: 1,
+            examples: ["Joe Bloggs PLC"],
+          },
+          companyType: {
+            type: "string",
+            minLength: 1,
+            examples: ["Public Limited Company"],
+          },
+          items: {
+            type: "object",
+            properties: {
+              localUnits: {
+                type: "array",
+                description: "The data about each item",
+                minItems: 1,
+                uniqueItems: true,
+                items: {
+                  type: "object",
+                  properties: {
+                    identifier: {
+                      type: "string",
+                      minLength: 1,
+                      description:
+                        "The unique identifier for the items. This is the local unit reference.",
+                      examples: ["3340224"],
                     },
-                    additionalProperties: false,
-                    required: ["identifier", "lu_name", "lu_address"],
+                    luName: {
+                      type: "string",
+                      minLength: 1,
+                      description: "Name of the local unit",
+                      examples: ["STUBBS BUILDING PRODUCTS LTD"],
+                    },
+                    luAddress: {
+                      type: "array",
+                      description:
+                        "The fields of the address for the local unit",
+                      items: {
+                        type: "string",
+                        minLength: 1,
+                      },
+                      minItems: 1,
+                      uniqueItems: true,
+                      examples: [
+                        [
+                          "WELLINGTON ROAD",
+                          "LOCHMABEN",
+                          "SWINDON",
+                          "BEDS",
+                          "GLOS",
+                          "DE41 2WA",
+                        ],
+                      ],
+                    },
                   },
+                  additionalProperties: false,
+                  required: ["identifier", "lu_name", "lu_address"],
                 },
               },
-              additionalProperties: false,
-              required: ["local_units"],
             },
+            additionalProperties: false,
+            required: ["local_units"],
           },
-          additionalProperties: false,
-          required: ["schema_version", "identifier", "items"],
         },
+        additionalProperties: false,
+        required: ["schema_version", "identifier", "items"],
       }),
     })
   );
