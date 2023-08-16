@@ -158,7 +158,7 @@ const SupplementaryDataPage = () => {
 
   const tableData = buildData();
 
-  const dataFields = tableData?.data;
+  const schemaData = tableData?.data;
 
   const handleUnlinkClick = () => {
     setShowUnlinkModal(true);
@@ -344,30 +344,32 @@ const SupplementaryDataPage = () => {
                                   </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                  {dataFields.map((field) => {
-                                    const identifier = [field.identifier];
-                                    if (field.selector) {
-                                      identifier.push(field.selector);
-                                    }
-                                    return (
-                                      <TableRow
-                                        key={field.id}
-                                        data-test={`data-field-row`}
-                                      >
-                                        <SpacedTableColumn>
-                                          {identifier.join(" - ")}
-                                        </SpacedTableColumn>
-                                        <SpacedTableColumn>
-                                          {field.list}
-                                        </SpacedTableColumn>
-                                        <SpacedTableColumn>
-                                          {field.example}
-                                        </SpacedTableColumn>
-                                        <SpacedTableColumn>
-                                          {field.description}
-                                        </SpacedTableColumn>
-                                      </TableRow>
-                                    );
+                                  {schemaData.map((list) => {
+                                    return list.schemaFields.map((field) => {
+                                      const identifier = [field.identifier];
+                                      if (field.selector) {
+                                        identifier.push(field.selector);
+                                      }
+                                      return (
+                                        <TableRow
+                                          key={field.id}
+                                          data-test={`data-field-row`}
+                                        >
+                                          <SpacedTableColumn>
+                                            {identifier.join(" - ")}
+                                          </SpacedTableColumn>
+                                          <SpacedTableColumn>
+                                            {list.listName}
+                                          </SpacedTableColumn>
+                                          <SpacedTableColumn>
+                                            {field.example}
+                                          </SpacedTableColumn>
+                                          <SpacedTableColumn>
+                                            {field.description}
+                                          </SpacedTableColumn>
+                                        </TableRow>
+                                      );
+                                    });
                                   })}
                                 </TableBody>
                               </Table>

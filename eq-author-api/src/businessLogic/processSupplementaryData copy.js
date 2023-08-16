@@ -9,23 +9,19 @@ and converts them to objects to allow us to do piping.
 const processSupplementaryData = (schema) => {
   const supplementaryData = [];
 
-  const addSupplementaryField = (
-    schemaFields,
-    schemaProperty,
-    identifier,
-    selector
-  ) => {
-    schemaFields.push({
+  const addSupplementaryfield = (schemaField, identifier, list, selector) => {
+    supplementaryData.push({
       id: uuidv4(),
-      type: schemaProperty.type,
+      type: schemaField.type,
       identifier: identifier,
       selector: selector,
-      example: schemaProperty.examples[0],
-      description: schemaProperty.description,
+      list: list,
+      example: schemaField.examples[0],
+      description: schemaField.description,
     });
   };
 
-  const processProperties = (schemaFields, properties, identifier = "") => {
+  const processProperties = (properties, list = "", identifier = "") => {
     const keys = Object.keys(properties).filter(
       (key) =>
         key !== "items" && key !== "identifier" && key !== "schema_version"
@@ -33,12 +29,12 @@ const processSupplementaryData = (schema) => {
 
     keys.forEach((key) => {
       if (properties[key].properties) {
-        processProperties(schemaFields, properties[key].properties, key);
+        processProperties(properties[key].properties, list, key);
       } else {
-        addSupplementaryField(
-          schemaFields,
+        addSupplementaryfield(
           properties[key],
           identifier || key,
+          list,
           identifier ? key : ""
         );
       }
@@ -46,30 +42,13 @@ const processSupplementaryData = (schema) => {
   };
 
   // process root level fields
-  const rootFields = {
-    id: uuidv4(),
-    listName: "",
-    schemaFields: [],
-  };
-  processProperties(rootFields.schemaFields, schema.properties);
-  supplementaryData.push(rootFields);
+  processProperties(schema.properties);
 
   // process lists in the items object
   const lists = schema.properties.items.properties;
   const listKeys = Object.keys(lists);
-
   listKeys.forEach((listKey) => {
-    const listObject = {
-      id: uuidv4(),
-      listName: listKey,
-      schemaFields: [],
-    };
-    processProperties(
-      listObject.schemaFields,
-      lists[listKey].items.properties,
-      listKey
-    );
-    supplementaryData.push(listObject);
+    processProperties(lists[listKey].items.properties, listKey);
   });
 
   return supplementaryData;

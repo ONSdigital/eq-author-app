@@ -180,16 +180,22 @@ describe("Supplementary dataset page", () => {
             dateCreated: "2023-01-12T13:37:27+00:00",
             data: [
               {
-                identifier: "company_name",
-                type: "string",
-                id: "84b92922-308d-40bb-bd6d-6c0f06e37c75",
-                example: "Joe Bloggs PLC",
-              },
-              {
-                type: "string",
-                identifier: "company_type",
-                id: "5a92b57f-5e16-4bc2-a159-01bf63a5af13",
-                example: "Public Limited Company",
+                id: "123-456-789",
+                listName: "",
+                schemaFields: [
+                  {
+                    identifier: "company_name",
+                    type: "string",
+                    id: "84b92922-308d-40bb-bd6d-6c0f06e37c75",
+                    example: "Joe Bloggs PLC",
+                  },
+                  {
+                    type: "string",
+                    identifier: "company_type",
+                    id: "5a92b57f-5e16-4bc2-a159-01bf63a5af13",
+                    example: "Public Limited Company",
+                  },
+                ],
               },
             ],
           },
@@ -224,16 +230,22 @@ describe("Supplementary dataset page", () => {
             dateCreated: "2023-01-12T13:37:27+00:00",
             data: [
               {
-                fieldName: "company_name",
-                type: "string",
-                id: "84b92922-308d-40bb-bd6d-6c0f06e37c75",
-                exampleValue: "Joe Bloggs PLC",
-              },
-              {
-                type: "string",
-                fieldName: "company_type",
-                id: "5a92b57f-5e16-4bc2-a159-01bf63a5af13",
-                exampleValue: "Public Limited Company",
+                id: "123-456-789",
+                listName: "",
+                schemaFields: [
+                  {
+                    identifier: "company_name",
+                    type: "string",
+                    id: "84b92922-308d-40bb-bd6d-6c0f06e37c75",
+                    example: "Joe Bloggs PLC",
+                  },
+                  {
+                    type: "string",
+                    identifier: "company_type",
+                    id: "5a92b57f-5e16-4bc2-a159-01bf63a5af13",
+                    example: "Public Limited Company",
+                  },
+                ],
               },
             ],
           },
@@ -287,16 +299,22 @@ describe("Supplementary dataset page", () => {
             dateCreated: "2023-01-12T13:37:27+00:00",
             data: [
               {
-                fieldName: "company_name",
-                type: "string",
-                id: "84b92922-308d-40bb-bd6d-6c0f06e37c75",
-                exampleValue: "Joe Bloggs PLC",
-              },
-              {
-                type: "string",
-                fieldName: "company_type",
-                id: "5a92b57f-5e16-4bc2-a159-01bf63a5af13",
-                exampleValue: "Public Limited Company",
+                id: "123-456-789",
+                listName: "",
+                schemaFields: [
+                  {
+                    identifier: "company_name",
+                    type: "string",
+                    id: "84b92922-308d-40bb-bd6d-6c0f06e37c75",
+                    example: "Joe Bloggs PLC",
+                  },
+                  {
+                    type: "string",
+                    identifier: "company_type",
+                    id: "5a92b57f-5e16-4bc2-a159-01bf63a5af13",
+                    example: "Public Limited Company",
+                  },
+                ],
               },
             ],
           },
