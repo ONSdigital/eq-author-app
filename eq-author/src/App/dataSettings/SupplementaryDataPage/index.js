@@ -250,7 +250,7 @@ const SupplementaryDataPage = () => {
                             <Grid>
                               <Column gutters={false} cols={8}>
                                 <Common.TabTitle>
-                                  Dataset for survey ID {tableData.sdsGuid}
+                                  Dataset for survey ID {tableData.surveyId}
                                 </Common.TabTitle>
                               </Column>
                               <Column gutters={false} cols={4}>
@@ -269,7 +269,7 @@ const SupplementaryDataPage = () => {
                                 ID:
                               </Column>
                               <CustomColumn gutters={false} cols={5}>
-                                {tableData.id}
+                                {tableData.sdsGuid}
                               </CustomColumn>
                             </CustomGrid>
                             <CustomGrid>
