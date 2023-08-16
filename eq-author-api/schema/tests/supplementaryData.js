@@ -3,10 +3,10 @@ const {
   deleteQuestionnaire,
 } = require("../../tests/utils/contextBuilder/questionnaire");
 const {
-  queryPrepopSchema,
-  updatePrepopSchema,
-  unlinkPrepopSchema,
-} = require("../../tests/utils/contextBuilder/prepopSchema");
+  querySupplementaryData,
+  updateSupplementaryData,
+  unlinkSupplementaryData,
+} = require("../../tests/utils/contextBuilder/supplementaryData");
 
 const { BUSINESS } = require("../../constants/questionnaireTypes");
 
@@ -120,7 +120,7 @@ describe("questionnaire", () => {
     })
   );
 
-  const prepopSchemaData = {
+  const supplementaryDataData = {
     id: "121-222-789",
     surveyId: "121",
     version: "1",
@@ -171,24 +171,27 @@ describe("questionnaire", () => {
   };
 
   describe("should query the prepop schema", () => {
-    it("should return the questionnaire prepopSchema", async () => {
-      ctx.questionnaire.prepopSchema = prepopSchemaData;
-      const prepopSchema = await queryPrepopSchema(ctx);
-      expect(prepopSchema).toEqual(prepopSchemaData);
+    it("should return the questionnaire supplementaryData", async () => {
+      ctx.questionnaire.supplementaryData = supplementaryDataData;
+      const supplementaryData = await querySupplementaryData(ctx);
+      expect(supplementaryData).toEqual(supplementaryDataData);
     });
   });
 
   describe("should update the prepop schema", () => {
-    it("should update the prepopSchema", async () => {
-      const updatedPrepopSchema = await updatePrepopSchema(ctx, input);
-      expect(updatedPrepopSchema).toEqual(prepopSchemaData);
+    it("should update the supplementaryData", async () => {
+      const updatedSupplementaryData = await updateSupplementaryData(
+        ctx,
+        input
+      );
+      expect(updatedSupplementaryData).toEqual(supplementaryDataData);
     });
   });
 
   describe("should unlink the prepop schema", () => {
     it("should unlink the prepop schema", async () => {
-      const unlinkedPrepopSchema = await unlinkPrepopSchema(ctx);
-      expect(unlinkedPrepopSchema.prepopSchema).toEqual(null);
+      const unlinkedSupplementaryData = await unlinkSupplementaryData(ctx);
+      expect(unlinkedSupplementaryData.supplementaryData).toEqual(null);
     });
   });
 });

@@ -1,5 +1,5 @@
-query GetPrepopSchemaVersions($id: ID!) {
-  prepopSchemaVersions(id: $id) {
+query GetSupplementaryDataVersions($id: ID!) {
+  supplementaryDataVersions(id: $id) {
     surveyId
     versions {
       guid

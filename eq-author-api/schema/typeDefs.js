@@ -85,7 +85,7 @@ type Questionnaire {
   publishHistory: [PublishHistoryEvent]
   validationErrorInfo: ValidationErrorInfo
   submission: Submission
-  prepopSchema: PrepopSchema
+  supplementaryData: SupplementaryData
 }
 
 enum HistoryEventTypes {
@@ -756,12 +756,12 @@ type Version {
   sds_published_at: String!
 }
 
-type PrepopSchemaVersions {
+type SupplementaryDataVersions {
   surveyId: ID!
   versions: [Version!]!
 }
 
-type PrepopSchema {
+type SupplementaryData {
   id: ID
   surveyId: ID
   data: [JSON]
@@ -802,8 +802,8 @@ type Query {
   introduction: QuestionnaireIntroduction
   collectionLists: CollectionLists
   list(input: QueryInput!): List
-  prepopSchemaVersions(id: ID!): PrepopSchemaVersions
-  prepopSchema: PrepopSchema
+  supplementaryDataVersions(id: ID!): SupplementaryDataVersions
+  supplementaryData: SupplementaryData
   publishHistory: [PublishHistoryEvent]
 }
 
@@ -978,8 +978,8 @@ type Mutation {
   updateListCollectorPage(input: UpdateListCollectorPageInput!): ListCollectorPage
   updateCommentsAsRead(input: UpdateCommentsAsReadInput!): [Comment]
   publishSchema: Questionnaire!
-  updatePrepopSchema(input: UpdatePrepopSchemaInput!): PrepopSchema
-  unlinkPrepopSchema: Questionnaire
+  updateSupplementaryData(input: UpdateSupplementaryDataInput!): SupplementaryData
+  unlinkSupplementaryData: Questionnaire
 }
 
 input CreateListCollectorPageInput {
@@ -1676,7 +1676,7 @@ input deleteHistoryNoteInput {
   id: ID!
 }
 
-input UpdatePrepopSchemaInput {
+input UpdateSupplementaryDataInput {
   id: ID!
   surveyId: ID!
   version: String

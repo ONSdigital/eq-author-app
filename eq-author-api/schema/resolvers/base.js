@@ -293,22 +293,22 @@ const Resolvers = {
     publishHistory: (_, args, ctx) => ctx.questionnaire.publishHistory,
     list: (root, { input: { listId } }, ctx) =>
       find(ctx.questionnaire.collectionLists.lists, { id: listId }),
-    prepopSchemaVersions: async (_, args) => {
+    supplementaryDataVersions: async (_, args) => {
       const { id } = args;
       const url = `${process.env.PREPOP_SCHEMA_GATEWAY}schema_metadata?survey_id=${id}`;
 
       try {
         const response = await fetch(url);
-        const prepopSchemaVersions = await response.json();
+        const supplementaryDataVersions = await response.json();
         return {
           surveyId: id,
-          versions: prepopSchemaVersions,
+          versions: supplementaryDataVersions,
         };
       } catch (err) {
         throw Error(err);
       }
     },
-    prepopSchema: (_, args, ctx) => ctx.questionnaire.prepopSchema,
+    supplementaryData: (_, args, ctx) => ctx.questionnaire.supplementaryData,
   },
 
   Subscription: {
@@ -1549,29 +1549,30 @@ const Resolvers = {
 
       return ctx.questionnaire;
     }),
-    updatePrepopSchema: createMutation(async (root, { input }, ctx) => {
+    updateSupplementaryData: createMutation(async (root, { input }, ctx) => {
       const { id, surveyId, version } = input;
       const url = `${process.env.PREPOP_SCHEMA_GATEWAY}schema?survey_id=${surveyId}&version=${version}`;
 
       try {
         const response = await fetch(url);
-        const prepopSchemaVersion = await response.json();
+        const supplementaryDataVersion = await response.json();
 
-        if (prepopSchemaVersion) {
+        if (supplementaryDataVersion) {
           logger.info(`Schema version data returned - ${id}`);
-          if (prepopSchemaVersion?.properties) {
-            ctx.questionnaire.prepopSchema = {
+          if (supplementaryDataVersion?.properties) {
+            ctx.questionnaire.supplementaryData = {
               id: uuidv4(),
               surveyId: surveyId,
               sdsVersion: version,
               sdsDateCreated: input.dateCreated,
               sdsGuid: id,
             };
-            ctx.questionnaire.prepopSchema.data =
-              processSupplementaryData(prepopSchemaVersion);
+            ctx.questionnaire.supplementaryData.data = processSupplementaryData(
+              supplementaryDataVersion
+            );
           }
 
-          return ctx.questionnaire.prepopSchema;
+          return ctx.questionnaire.supplementaryData;
         } else {
           logger.info(`Schema version data not found - ${id}`);
         }
@@ -1579,12 +1580,12 @@ const Resolvers = {
         throw Error(err);
       }
     }),
-    unlinkPrepopSchema: createMutation(async (root, args, ctx) => {
+    unlinkSupplementaryData: createMutation(async (root, args, ctx) => {
       logger.info(
         { qid: ctx.questionnaire.id },
-        `Unlinked PrepopSchema with ID: ${ctx.questionnaire.prepopSchema.id} from questionnaire: ${ctx.questionnaire.id}`
+        `Unlinked SupplementaryData with ID: ${ctx.questionnaire.supplementaryData.id} from questionnaire: ${ctx.questionnaire.id}`
       );
-      ctx.questionnaire.prepopSchema = undefined;
+      ctx.questionnaire.supplementaryData = undefined;
       return ctx.questionnaire;
     }),
   },

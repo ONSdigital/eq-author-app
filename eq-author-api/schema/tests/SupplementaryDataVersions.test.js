@@ -5,8 +5,8 @@ jest.mock("node-fetch");
 
 const fetch = require("node-fetch");
 const query = `
-query GetPrepopSchemaVersions($id: ID!) {
-    prepopSchemaVersions(id: $id) {
+query GetSupplementaryDataVersions($id: ID!) {
+    supplementaryDataVersions(id: $id) {
       surveyId
       versions {
         guid
@@ -40,12 +40,12 @@ fetch.mockImplementation(() =>
   })
 );
 
-describe("PrepopSchemaVersions", () => {
+describe("SupplementaryDataVersions", () => {
   it("should query prepop schema", async () => {
     const surveyId = "123";
     const expectedResponse = {
       data: {
-        prepopSchemaVersions: {
+        supplementaryDataVersions: {
           surveyId: "123",
           versions: [
             {

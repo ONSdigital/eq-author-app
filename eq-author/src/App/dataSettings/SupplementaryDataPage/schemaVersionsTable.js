@@ -15,7 +15,7 @@ import {
 } from "components/datatable/Elements";
 import moment from "moment";
 
-import GET_PREPOP_SCHEMA_VERSIONS_QUERY from "graphql/getPrepopSchemaVersions.graphql";
+import GET_SUPPLEMENTARY_DATA_VERSIONS_QUERY from "graphql/getSupplementaryDataVersions.graphql";
 
 const Title = styled.h2`
   font-size: 1.2em;
@@ -54,8 +54,8 @@ const StyledButton = styled(Button)`
 
 const formatDate = (date) => moment(date).locale("en-gb").format("DD/MM/YYYY");
 
-const SchemaVersionTable = ({ surveyId, linkPrepopSchema }) => {
-  const { loading, data } = useQuery(GET_PREPOP_SCHEMA_VERSIONS_QUERY, {
+const SchemaVersionTable = ({ surveyId, linkSupplementaryData }) => {
+  const { loading, data } = useQuery(GET_SUPPLEMENTARY_DATA_VERSIONS_QUERY, {
     variables: {
       id: surveyId,
     },
@@ -81,9 +81,9 @@ const SchemaVersionTable = ({ surveyId, linkPrepopSchema }) => {
             </StyledTableHeadColumn>
           </TableRow>
         </TableHead>
-        {data?.prepopSchemaVersions && (
+        {data?.supplementaryDataVersions && (
           <StyledTableBody>
-            {data?.prepopSchemaVersions?.versions?.map((version) => {
+            {data?.supplementaryDataVersions?.versions?.map((version) => {
               return (
                 <TableRow key={version.guid} data-test={`dataset-row`}>
                   <SpacedTableColumn bold>
@@ -95,7 +95,7 @@ const SchemaVersionTable = ({ surveyId, linkPrepopSchema }) => {
                   <SpacedTableColumn bold>
                     <StyledButton
                       onClick={() =>
-                        linkPrepopSchema({
+                        linkSupplementaryData({
                           variables: {
                             input: {
                               id: version.guid,
@@ -125,7 +125,7 @@ const SchemaVersionTable = ({ surveyId, linkPrepopSchema }) => {
 
 SchemaVersionTable.propTypes = {
   surveyId: PropTypes.string.isRequired,
-  linkPrepopSchema: PropTypes.func.isRequired,
+  linkSupplementaryData: PropTypes.func.isRequired,
 };
 
 export default SchemaVersionTable;

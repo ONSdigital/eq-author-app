@@ -3,9 +3,9 @@ import styled from "styled-components";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { withRouter, useParams } from "react-router-dom";
 
-import UPDATE_PREPOP_SCHEMA from "graphql/updatePrepopSchema.graphql";
-import GET_PREPOP_SCHEMA from "graphql/getPrepopSchema.graphql";
-import UNLINK_PREPOP_SCHEMA from "graphql/unlinkPrepopSchema.graphql";
+import UPDATE_SUPPLEMENTARY_DATA from "graphql/updateSupplementaryData.graphql";
+import GET_SUPPLEMENTARY_DATA from "graphql/getSupplementaryData.graphql";
+import UNLINK_SUPPLEMENTARY_DATA from "graphql/unlinkSupplementaryData.graphql";
 
 import SchemaVersionTable from "./schemaVersionsTable";
 
@@ -126,30 +126,32 @@ const SupplementaryDataPage = () => {
     }
   };
 
-  const [linkPrepopSchema] = useMutation(UPDATE_PREPOP_SCHEMA, {
-    refetchQueries: ["GetPrepopSchema"],
+  const [linkSupplementaryData] = useMutation(UPDATE_SUPPLEMENTARY_DATA, {
+    refetchQueries: ["GetSupplementaryData"],
   });
 
-  const [unlinkPrepopSchema] = useMutation(UNLINK_PREPOP_SCHEMA, {
-    refetchQueries: ["GetPrepopSchema"],
+  const [unlinkSupplementaryData] = useMutation(UNLINK_SUPPLEMENTARY_DATA, {
+    refetchQueries: ["GetSupplementaryData"],
   });
 
   const {
-    data: prepopSchema,
+    data: supplementaryData,
     loading: surveyLoading,
     error: surveyError,
-  } = useQuery(GET_PREPOP_SCHEMA, {
+  } = useQuery(GET_SUPPLEMENTARY_DATA, {
     variables: { input: questionnaireID },
     fetchPolicy: "cache-and-network",
   });
 
   const buildData = () => {
     let schemaData;
-    if (prepopSchema?.prepopSchema?.data) {
-      schemaData = prepopSchema ? prepopSchema.prepopSchema : null;
+    if (supplementaryData?.supplementaryData?.data) {
+      schemaData = supplementaryData
+        ? supplementaryData.supplementaryData
+        : null;
     }
     if (schemaData) {
-      schemaData.surveyId = prepopSchema.prepopSchema?.surveyId;
+      schemaData.surveyId = supplementaryData.supplementaryData?.surveyId;
     }
     return schemaData;
   };
@@ -163,7 +165,7 @@ const SupplementaryDataPage = () => {
   };
 
   const unlinkDataset = () => {
-    unlinkPrepopSchema();
+    unlinkSupplementaryData();
     setSurveyID(undefined);
     setShowVersionsTable(false);
     setShowUnlinkModal(false);
@@ -240,7 +242,7 @@ const SupplementaryDataPage = () => {
                             {showVersionsTable && (
                               <SchemaVersionTable
                                 surveyId={surveyID}
-                                linkPrepopSchema={linkPrepopSchema}
+                                linkSupplementaryData={linkSupplementaryData}
                               />
                             )}
                           </>

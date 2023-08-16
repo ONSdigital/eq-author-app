@@ -41,12 +41,13 @@ const getQuestionnaireQuery = `
         emailConfirmation
         feedback
       }
-      prepopSchema {
+      supplementaryData {
         id
         surveyId
         data
-        dateCreated
-        version
+        sdsDateCreated
+        sdsVersion
+        sdsGuid
       }
       locked
       validationErrorInfo {

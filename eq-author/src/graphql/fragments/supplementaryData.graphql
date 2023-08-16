@@ -1,4 +1,4 @@
-fragment PrepopSchema on PrepopSchema {
+fragment SupplementaryData on SupplementaryData {
   id
   surveyId
   data

@@ -7,7 +7,7 @@ import SupplementaryDataPage from ".";
 import { MeContext } from "App/MeContext";
 import { publishStatusSubscription } from "components/EditorLayout/Header";
 import QuestionnaireContext from "components/QuestionnaireContext";
-import unlinkPrepopSchemaMutation from "graphql/unlinkPrepopSchema.graphql";
+import unlinkSupplementaryDataMutation from "graphql/unlinkSupplementaryData.graphql";
 
 jest.mock("@apollo/react-hooks", () => ({
   ...jest.requireActual("@apollo/react-hooks"),
@@ -19,7 +19,7 @@ useQuery.mockImplementation(() => ({
   loading: false,
   error: false,
   data: {
-    prepopSchemaVersions: {
+    supplementaryDataVersions: {
       surveyId: "123",
       versions: [
         {
@@ -173,7 +173,7 @@ describe("Supplementary dataset page", () => {
         loading: false,
         error: false,
         data: {
-          prepopSchema: {
+          supplementaryData: {
             id: "121-222-789",
             surveyId: "121",
             version: "2",
@@ -217,7 +217,7 @@ describe("Supplementary dataset page", () => {
         loading: false,
         error: false,
         data: {
-          prepopSchema: {
+          supplementaryData: {
             id: "121-222-789",
             surveyId: "121",
             version: "2",
@@ -243,15 +243,15 @@ describe("Supplementary dataset page", () => {
         ...mocks,
         {
           request: {
-            query: unlinkPrepopSchemaMutation,
+            query: unlinkSupplementaryDataMutation,
             variables: {},
           },
           result: () => {
             return {
               data: {
-                unlinkPrepopSchema: {
+                unlinkSupplementaryData: {
                   id: "1",
-                  prepopSchema: null,
+                  supplementaryData: null,
                   __typename: "Questionnaire",
                 },
               },
@@ -280,7 +280,7 @@ describe("Supplementary dataset page", () => {
         loading: false,
         error: false,
         data: {
-          prepopSchema: {
+          supplementaryData: {
             id: "121-222-789",
             surveyId: "121",
             version: "2",
