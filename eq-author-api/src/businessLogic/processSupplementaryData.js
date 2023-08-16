@@ -41,14 +41,16 @@ const processSupplementaryData = (schema) => {
     });
   };
 
+  // process root level fields
   processProperties(schema.properties);
 
-  const lists = schema.properties.items;
-  const listKeys = Object.keys(lists.properties).filter(
+  // process lists in the items object
+  const lists = schema.properties.items.properties;
+  const listKeys = Object.keys(lists).filter(
     (key) => key !== "items" && key !== "identifier" && key !== "schema_version"
   );
   listKeys.forEach((itemKey) => {
-    processProperties(lists.properties[itemKey].items.properties, itemKey);
+    processProperties(lists[itemKey].items.properties, itemKey);
   });
 
   return supplementaryData;
