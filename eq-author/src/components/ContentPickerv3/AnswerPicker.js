@@ -16,7 +16,6 @@ import SearchBar from "components/SearchBar";
 
 import searchByAnswerTitleQuestionTitleShortCode from "utils/searchFunctions/searchByAnswerTitleQuestionTitleShortCode";
 import { getPages } from "utils/questionnaireUtils";
-import isListCollectorPageType from "utils/isListCollectorPageType";
 
 const ModalTitle = styled.div`
   font-weight: bold;
@@ -48,15 +47,6 @@ const AnswerPicker = ({
   contentPickerTitle,
   ...otherProps
 }) => {
-  // Removes list collector pages from data
-  data.forEach((section) => {
-    section.folders.forEach((folder) => {
-      folder.pages = folder.pages.filter(
-        (page) => !isListCollectorPageType(page.pageType)
-      );
-    });
-  });
-
   const [option, setOption] = useState(
     data.length > 1 ? OPTION_SECTIONS : OPTION_ANSWERS
   );
