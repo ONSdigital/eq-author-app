@@ -1,5 +1,11 @@
 const { v4: uuidv4 } = require("uuid");
 
+/* 
+Function to process the SDS schema v1 
+This function takes the schema and iterates through the various properties 
+and converts them to objects to allow us to do piping.
+*/
+
 const processSupplementaryData = (schema) => {
   const supplementaryData = [];
 
