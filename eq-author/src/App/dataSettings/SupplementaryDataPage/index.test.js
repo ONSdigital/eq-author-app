@@ -180,16 +180,16 @@ describe("Supplementary dataset page", () => {
             dateCreated: "2023-01-12T13:37:27+00:00",
             data: [
               {
-                fieldName: "company_name",
+                identifier: "company_name",
                 type: "string",
                 id: "84b92922-308d-40bb-bd6d-6c0f06e37c75",
-                exampleValue: "Joe Bloggs PLC",
+                example: "Joe Bloggs PLC",
               },
               {
                 type: "string",
-                fieldName: "company_type",
+                identifier: "company_type",
                 id: "5a92b57f-5e16-4bc2-a159-01bf63a5af13",
-                exampleValue: "Public Limited Company",
+                example: "Public Limited Company",
               },
             ],
           },
