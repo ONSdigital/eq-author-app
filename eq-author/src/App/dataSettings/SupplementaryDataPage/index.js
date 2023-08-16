@@ -250,7 +250,7 @@ const SupplementaryDataPage = () => {
                             <Grid>
                               <Column gutters={false} cols={8}>
                                 <Common.TabTitle>
-                                  Dataset for survey ID {tableData.surveyId}
+                                  Dataset for survey ID {tableData.sdsGuid}
                                 </Common.TabTitle>
                               </Column>
                               <Column gutters={false} cols={4}>
@@ -277,7 +277,7 @@ const SupplementaryDataPage = () => {
                                 Version:
                               </Column>
                               <CustomColumn gutters={false} cols={2}>
-                                {tableData.version}
+                                {tableData.sdsVersion}
                               </CustomColumn>
                             </CustomGrid>
                             <CustomGrid>
@@ -285,7 +285,7 @@ const SupplementaryDataPage = () => {
                                 Date created:
                               </Column>
                               <CustomColumn gutters={false} cols={2}>
-                                {formatDate(tableData.dateCreated)}
+                                {formatDate(tableData.sdsDateCreated)}
                               </CustomColumn>
                             </CustomGrid>
                             <DataFieldsWrapper>
@@ -327,32 +327,42 @@ const SupplementaryDataPage = () => {
                               <Table data-test="data-fields-table">
                                 <TableHead>
                                   <TableRow>
-                                    <StyledTableHeadColumn width="30%">
+                                    <StyledTableHeadColumn width="20%">
                                       Data field name
                                     </StyledTableHeadColumn>
-                                    <StyledTableHeadColumn width="30%">
-                                      Answer type
+                                    <StyledTableHeadColumn width="20%">
+                                      List source
                                     </StyledTableHeadColumn>
-                                    <StyledTableHeadColumn width="40%">
+                                    <StyledTableHeadColumn width="30%">
                                       Example value
+                                    </StyledTableHeadColumn>
+                                    <StyledTableHeadColumn width="30%">
+                                      Description
                                     </StyledTableHeadColumn>
                                   </TableRow>
                                 </TableHead>
                                 <TableBody>
                                   {dataFields.map((field) => {
+                                    const identifier = [field.identifier];
+                                    if (field.selector) {
+                                      identifier.push(field.selector);
+                                    }
                                     return (
                                       <TableRow
                                         key={field.id}
                                         data-test={`data-field-row`}
                                       >
                                         <SpacedTableColumn>
-                                          {field.fieldName}
+                                          {identifier.join(" - ")}
                                         </SpacedTableColumn>
                                         <SpacedTableColumn>
-                                          {field.type === "string" && "Text"}
+                                          {field.list}
                                         </SpacedTableColumn>
                                         <SpacedTableColumn>
-                                          {field.exampleValue}
+                                          {field.example}
+                                        </SpacedTableColumn>
+                                        <SpacedTableColumn>
+                                          {field.description}
                                         </SpacedTableColumn>
                                       </TableRow>
                                     );

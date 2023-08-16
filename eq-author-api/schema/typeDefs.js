@@ -765,8 +765,9 @@ type PrepopSchema {
   id: ID
   surveyId: ID
   data: [JSON]
-  dateCreated: String
-  version: String
+  sdsGuid: ID
+  sdsDateCreated: String
+  sdsVersion: String
 }
 
 type PublishHistoryEvent {

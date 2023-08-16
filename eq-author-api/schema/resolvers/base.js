@@ -91,6 +91,7 @@ const addPrefix = require("../../utils/addPrefix");
 const onQuestionnaireUpdated = require("../../src/businessLogic/onQuestionnaireUpdated");
 const onListDeleted = require("../../src/businessLogic/onListDeleted");
 const onSectionUpdated = require("../../src/businessLogic/onSectionUpdated");
+const processSupplementaryData = require("../../src/businessLogic/processSupplementaryData");
 
 const {
   createQuestionnaire,
@@ -181,31 +182,6 @@ const publishCommentUpdates = (questionnaireId) => {
   pubsub.publish("commentsUpdated", {
     questionnaireId,
   });
-};
-
-const getPrepopMetadata = (properties) => {
-  const prepopSchema = [];
-
-  const metadataKeys = Object.keys(properties).filter(
-    (key) => key !== "items" && key !== "identifier" && key !== "schema_version"
-  );
-
-  metadataKeys.forEach((key) => {
-    // populate prepopSchema fields
-    properties[key] = {
-      ...properties[key],
-      fieldName: key,
-      id: uuidv4(),
-      exampleValue: properties[key].examples[0],
-    };
-
-    // delete redundant fields
-    properties[key] = omit(properties[key], ["minLength", "examples"]);
-
-    prepopSchema.push(properties[key]);
-  });
-
-  return prepopSchema;
 };
 
 const Resolvers = {
@@ -1582,13 +1558,17 @@ const Resolvers = {
         const prepopSchemaVersion = await response.json();
 
         if (prepopSchemaVersion) {
-          logger.info(`Schema version data returned - ${prepopSchemaVersion}`);
-          logger.info(input);
+          logger.info(`Schema version data returned - ${id}`);
           if (prepopSchemaVersion?.properties) {
-            ctx.questionnaire.prepopSchema = { ...input };
-            ctx.questionnaire.prepopSchema.data = getPrepopMetadata(
-              prepopSchemaVersion.properties
-            );
+            ctx.questionnaire.prepopSchema = {
+              id: uuidv4(),
+              surveyId: surveyId,
+              sdsVersion: version,
+              sdsDateCreated: input.dateCreated,
+              sdsGuid: id,
+            };
+            ctx.questionnaire.prepopSchema.data =
+              processSupplementaryData(prepopSchemaVersion);
           }
 
           return ctx.questionnaire.prepopSchema;

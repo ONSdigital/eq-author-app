@@ -1,0 +1,51 @@
+const { v4: uuidv4 } = require("uuid");
+
+const processSupplementaryData = (schema) => {
+  const supplementaryData = [];
+
+  const addSupplementaryfield = (schemaField, identifier, list, selector) => {
+    supplementaryData.push({
+      id: uuidv4(),
+      type: schemaField.type,
+      identifier: identifier,
+      selector: selector,
+      list: list,
+      example: schemaField.examples[0],
+      description: schemaField.description,
+    });
+  };
+
+  const processProperties = (properties, list = "", identifier = "") => {
+    const keys = Object.keys(properties).filter(
+      (key) =>
+        key !== "items" && key !== "identifier" && key !== "schema_version"
+    );
+
+    keys.forEach((key) => {
+      if (properties[key].properties) {
+        processProperties(properties[key].properties, list, key);
+      } else {
+        addSupplementaryfield(
+          properties[key],
+          identifier || key,
+          list,
+          identifier ? key : ""
+        );
+      }
+    });
+  };
+
+  processProperties(schema.properties);
+
+  const lists = schema.properties.items;
+  const listKeys = Object.keys(lists.properties).filter(
+    (key) => key !== "items" && key !== "identifier" && key !== "schema_version"
+  );
+  listKeys.forEach((itemKey) => {
+    processProperties(lists.properties[itemKey].items.properties, itemKey);
+  });
+
+  return supplementaryData;
+};
+
+module.exports = processSupplementaryData;
