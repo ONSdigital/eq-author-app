@@ -114,9 +114,7 @@ describe("Supplementary dataset page", () => {
       user,
       mocks
     );
-    expect(
-      getByText("Select an supplementary dataset to link to")
-    ).toBeTruthy();
+    expect(getByText("Select a supplementary dataset to link to")).toBeTruthy();
     expect(
       getByText("Only one dataset can be linked per questionnaire.")
     ).toBeTruthy();
