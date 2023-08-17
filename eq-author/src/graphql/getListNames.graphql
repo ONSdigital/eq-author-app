@@ -1,0 +1,7 @@
+query GetListNames {
+  listNames {
+    id,
+    listName,
+    displayName,
+  }
+}

@@ -309,6 +309,14 @@ const Resolvers = {
       }
     },
     supplementaryData: (_, args, ctx) => ctx.questionnaire.supplementaryData,
+    listNames: (_, args, ctx) => {
+      return [
+        ...ctx.questionnaire.collectionLists.lists,
+        ...ctx.questionnaire.supplementaryData.data.filter(
+          (list) => list.listName
+        ),
+      ];
+    },
   },
 
   Subscription: {
@@ -1657,6 +1665,10 @@ const Resolvers = {
     },
     validationErrorInfo: ({ id }, args, ctx) =>
       returnValidationErrors(ctx, id, ({ listId }) => id === listId),
+  },
+
+  ListName: {
+    displayName: ({ listName }) => listName || "Untitled list",
   },
 
   QuestionnaireIntroduction: {
