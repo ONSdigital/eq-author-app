@@ -154,6 +154,7 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
                 <WarningPanelText>{answersAvailableToView}</WarningPanelText>
               </WarningPanel>
             </InlineField>
+            {feedback && <SectionSeparator />}
           </Section>
         </>
       )}

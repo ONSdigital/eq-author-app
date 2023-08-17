@@ -30,7 +30,7 @@ const SectionTitle = styled.h2`
 `;
 
 const SectionDescription = styled.p`
-  margin: 0.2em 0 2em;
+  margin: 0.1em 0 1em;
 `;
 
 const InlineField = styled(Field)`
@@ -100,8 +100,6 @@ const SubmissionEditor = ({ submission }) => {
           linkCount={countLinks(furtherContent)}
           linkLimit={2}
         />
-      </Section>
-      <Section>
         <InlineField>
           <Label htmlFor="viewPrintAnswers">Get a copy of their answers</Label>
           <ToggleSwitch
