@@ -41,7 +41,7 @@ fetch.mockImplementation(() =>
 );
 
 describe("SupplementaryDataVersions", () => {
-  it("should query prepop schema", async () => {
+  it("should query supplementary data schema", async () => {
     const surveyId = "123";
     const expectedResponse = {
       data: {

@@ -170,7 +170,7 @@ describe("questionnaire", () => {
     ],
   };
 
-  describe("should query the prepop schema", () => {
+  describe("should query the supplementary data schema", () => {
     it("should return the questionnaire supplementaryData", async () => {
       ctx.questionnaire.supplementaryData = supplementaryDataData;
       const supplementaryData = await querySupplementaryData(ctx);
@@ -178,7 +178,7 @@ describe("questionnaire", () => {
     });
   });
 
-  describe("should update the prepop schema", () => {
+  describe("should update the supplementary data schema", () => {
     it("should update the supplementaryData", async () => {
       const updatedSupplementaryData = await updateSupplementaryData(
         ctx,
@@ -188,8 +188,8 @@ describe("questionnaire", () => {
     });
   });
 
-  describe("should unlink the prepop schema", () => {
-    it("should unlink the prepop schema", async () => {
+  describe("should unlink the supplementary data schema", () => {
+    it("should unlink the supplementary data schema", async () => {
       const unlinkedSupplementaryData = await unlinkSupplementaryData(ctx);
       expect(unlinkedSupplementaryData.supplementaryData).toEqual(null);
     });

@@ -295,7 +295,7 @@ const Resolvers = {
       find(ctx.questionnaire.collectionLists.lists, { id: listId }),
     supplementaryDataVersions: async (_, args) => {
       const { id } = args;
-      const url = `${process.env.PREPOP_SCHEMA_GATEWAY}schema_metadata?survey_id=${id}`;
+      const url = `${process.env.SUPPLEMENTARY_DATA_GATEWAY}schema_metadata?survey_id=${id}`;
 
       try {
         const response = await fetch(url);
@@ -1551,7 +1551,7 @@ const Resolvers = {
     }),
     updateSupplementaryData: createMutation(async (root, { input }, ctx) => {
       const { id, surveyId, version } = input;
-      const url = `${process.env.PREPOP_SCHEMA_GATEWAY}schema?survey_id=${surveyId}&version=${version}`;
+      const url = `${process.env.SUPPLEMENTARY_DATA_GATEWAY}schema?survey_id=${surveyId}&version=${version}`;
 
       try {
         const response = await fetch(url);
