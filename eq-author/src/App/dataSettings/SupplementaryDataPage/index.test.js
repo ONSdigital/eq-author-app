@@ -56,7 +56,7 @@ const renderSupplementaryDatasetPage = (questionnaire, props, user, mocks) => {
       </QuestionnaireContext.Provider>
     </MeContext.Provider>,
     {
-      route: `/q/${questionnaire.id}/data/supplementary-datas`,
+      route: `/q/${questionnaire.id}/data/supplementary-data`,
       urlParamMatcher: "/q/:questionnaireId/data/supplementary-data",
       mocks,
     }
