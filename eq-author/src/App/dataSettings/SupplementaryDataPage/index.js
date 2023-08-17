@@ -209,10 +209,10 @@ const SupplementaryDataPage = () => {
                         {!tableData && (
                           <>
                             <Common.TabTitle>
-                              Select an supplementary dataset to link to
+                              Select a supplementary dataset to link to
                             </Common.TabTitle>
                             <Common.TabContent>
-                              Linking to an supplementary dataset will allow you
+                              Linking to a supplementary dataset will allow you
                               to pipe data that respondents have provided in
                               previous questionnaires into question titles or
                               percentage answer type labels.
@@ -362,7 +362,9 @@ const SupplementaryDataPage = () => {
                                             {list.listName}
                                           </SpacedTableColumn>
                                           <SpacedTableColumn>
-                                            {field.example}
+                                            {field.type === "array"
+                                              ? field.example.join(", ")
+                                              : field.example}
                                           </SpacedTableColumn>
                                           <SpacedTableColumn>
                                             {field.description}
