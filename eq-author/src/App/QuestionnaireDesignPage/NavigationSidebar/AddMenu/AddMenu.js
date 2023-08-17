@@ -98,6 +98,13 @@ const AddMenu = ({
       text: "Confirmation question",
     },
     {
+      handleClick: () => onAddListCollectorFolder(),
+      disabled: !canAddListCollectorFolder,
+      dataTest: "btn-add-list-collector-folder",
+      icon: IconListCollectorFolder,
+      text: "List collector",
+    },
+    {
       handleClick: () => onAddCalculatedSummaryPage(),
       disabled: !canAddCalculatedSummaryPage,
       dataTest: "btn-add-calculated-summary",
@@ -144,14 +151,6 @@ const AddMenu = ({
         (button) => button.dataTest !== "btn-add-calculated-summary-inside"
       )
     : extraButtons;
-
-  defaultButtons.splice(5, 0, {
-    handleClick: () => onAddListCollectorFolder(),
-    disabled: !canAddListCollectorFolder,
-    dataTest: "btn-add-list-collector-folder",
-    icon: IconListCollectorFolder,
-    text: "List collector",
-  });
 
   return (
     <Popout
