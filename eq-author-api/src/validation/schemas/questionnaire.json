@@ -22,6 +22,9 @@
         }
       }
     },
+    "submission": {
+      "$ref": "submission.json"
+    },
     "surveyId": {
       "if": {
         "type": "string",

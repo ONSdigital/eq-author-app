@@ -751,8 +751,8 @@ type Submission {
   id: ID!
   furtherContent: String
   viewPrintAnswers: Boolean
-  emailConfirmation: Boolean
   feedback: Boolean
+  validationErrorInfo: ValidationErrorInfo
   comments: [Comment]
 }
 
@@ -767,10 +767,27 @@ type SupplementaryDataVersions {
   versions: [Version!]!
 }
 
+type SupplementaryDataField {
+  id: ID,
+  type: String,
+  identifier: String,
+  selector: String,
+  example: String,
+  exampleArray: [String],
+  description: String,
+  displayName: String!,
+}
+
+type SupplementaryDataList {
+  id:ID!
+  listName: String,
+  schemaFields: [SupplementaryDataField]
+}
+
 type SupplementaryData {
   id: ID
   surveyId: ID
-  data: [JSON]
+  data: [SupplementaryDataList]
   sdsGuid: ID
   sdsDateCreated: String
   sdsVersion: String
@@ -1635,7 +1652,6 @@ input DeleteCollapsibleInput {
 input UpdateSubmissionInput {
   furtherContent: String
   viewPrintAnswers: Boolean
-  emailConfirmation: Boolean
   feedback: Boolean
 }
 

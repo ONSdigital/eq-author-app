@@ -346,24 +346,20 @@ const SupplementaryDataPage = () => {
                                 <TableBody>
                                   {schemaData.map((list) => {
                                     return list.schemaFields.map((field) => {
-                                      const identifier = [field.identifier];
-                                      if (field.selector) {
-                                        identifier.push(field.selector);
-                                      }
                                       return (
                                         <TableRow
                                           key={field.id}
                                           data-test={`data-field-row`}
                                         >
                                           <SpacedTableColumn>
-                                            {identifier.join(" - ")}
+                                            {field.displayName}
                                           </SpacedTableColumn>
                                           <SpacedTableColumn>
                                             {list.listName}
                                           </SpacedTableColumn>
                                           <SpacedTableColumn>
                                             {field.type === "array"
-                                              ? field.example.join(", ")
+                                              ? field.exampleArray.join(", ")
                                               : field.example}
                                           </SpacedTableColumn>
                                           <SpacedTableColumn>

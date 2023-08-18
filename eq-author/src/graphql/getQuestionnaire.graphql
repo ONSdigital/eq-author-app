@@ -10,7 +10,6 @@ query GetQuestionnaire($input: QueryInput!) {
       id
       furtherContent
       viewPrintAnswers
-      emailConfirmation
       feedback
       comments {
         ...Comment

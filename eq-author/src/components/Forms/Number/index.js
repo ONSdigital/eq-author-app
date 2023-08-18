@@ -66,7 +66,8 @@ const Number = (props) => {
       return;
     }
 
-    const enteredValue = clamp(parseInt(value, 10), min, max);
+    const enteredValue =
+      min || max ? clamp(parseInt(value, 10), min, max) : parseInt(value, 10);
     const newValue =
       isNaN(enteredValue) || Object.is(enteredValue, -0)
         ? props.default

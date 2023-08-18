@@ -15,19 +15,19 @@ const processSupplementaryData = (schema) => {
     identifier,
     selector
   ) => {
-    let displayName = identifier;
-    if (selector) {
-      displayName = displayName + " - " + selector;
-    }
-    schemaFields.push({
+    const schemaField = {
       id: uuidv4(),
       type: schemaProperty.type,
       identifier: identifier,
       selector: selector,
-      example: schemaProperty.examples[0],
       description: schemaProperty.description,
-      displayName: displayName,
-    });
+    };
+    if (schemaProperty.type === "array") {
+      schemaField.exampleArray = schemaProperty.examples[0];
+    } else {
+      schemaField.example = schemaProperty.examples[0];
+    }
+    schemaFields.push(schemaField);
   };
 
   const processProperties = (schemaFields, properties, identifier = "") => {

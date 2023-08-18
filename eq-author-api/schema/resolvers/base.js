@@ -1671,6 +1671,11 @@ const Resolvers = {
     displayName: ({ listName }) => listName || "Untitled list",
   },
 
+  SupplementaryDataField: {
+    displayName: ({ identifier, selector }) =>
+      selector ? identifier + " - " + selector : identifier,
+  },
+
   QuestionnaireIntroduction: {
     questionnaire: (root, args, ctx) => ctx.questionnaire,
     validationErrorInfo: ({ id }, _, ctx) =>
@@ -1678,6 +1683,8 @@ const Resolvers = {
     comments: ({ id }, args, ctx) => ctx.comments[id],
   },
   Submission: {
+    validationErrorInfo: ({ id }, _, ctx) =>
+      returnValidationErrors(ctx, id, ({ type }) => type === "submission"),
     comments: ({ id }, args, ctx) => ctx.comments[id],
   },
 
