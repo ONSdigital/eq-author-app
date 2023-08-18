@@ -768,7 +768,8 @@ type SupplementaryDataField {
   selector: String,
   example: String,
   exampleArray: [String],
-  description: String
+  description: String,
+  displayName: String!,
 }
 
 type SupplementaryDataList {

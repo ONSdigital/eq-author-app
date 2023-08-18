@@ -6,6 +6,7 @@ fragment SupplementaryData on SupplementaryData {
     listName
     schemaFields {
       id
+      displayName
       type
       identifier
       selector

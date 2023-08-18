@@ -1659,6 +1659,11 @@ const Resolvers = {
       returnValidationErrors(ctx, id, ({ listId }) => id === listId),
   },
 
+  SupplementaryDataField: {
+    displayName: ({ identifier, selector }) =>
+      selector ? identifier + " - " + selector : identifier,
+  },
+
   QuestionnaireIntroduction: {
     questionnaire: (root, args, ctx) => ctx.questionnaire,
     validationErrorInfo: ({ id }, _, ctx) =>
