@@ -222,6 +222,7 @@ describe("Folder design page", () => {
       fireEvent.click(getByTestId("btn-duplicate-folder"));
       expect(duplicateFolder).toHaveBeenCalledWith({
         variables: { input: { id: "1.1", position: 1 } },
+        refetchQueries: ["GetQuestionnaire"],
       });
     });
 
