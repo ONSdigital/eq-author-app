@@ -51,12 +51,25 @@ const createQuestionnaireMutation = `
         viewPrintAnswers
         feedback
       }
-      prepopSchema {
+      supplementaryData {
         id
         surveyId
-        data
-        dateCreated
-        version
+        data {
+          id
+          listName
+          schemaFields {
+            id
+            type
+            identifier
+            selector
+            example
+            exampleArray
+            description
+          }
+        } 
+        sdsDateCreated
+        sdsVersion
+        sdsGuid
       }
     }
   }

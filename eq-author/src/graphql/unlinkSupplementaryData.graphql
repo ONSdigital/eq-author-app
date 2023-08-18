@@ -1,0 +1,9 @@
+#import "graphql/fragments/supplementaryData.graphql"
+mutation unlinkSupplementaryData {
+  unlinkSupplementaryData {
+    id
+    supplementaryData {
+      ...SupplementaryData
+    }
+  }
+}
