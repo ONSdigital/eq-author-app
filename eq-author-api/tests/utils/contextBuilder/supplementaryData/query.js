@@ -8,7 +8,19 @@ const getSupplementaryDataQuery = `
       sdsDateCreated
       sdsVersion
       sdsGuid
-      data  
+      data {
+        id
+        listName
+        schemaFields {
+          id
+          type
+          identifier
+          selector
+          example
+          exampleArray
+          description
+        }
+      } 
     }
 }`;
 

@@ -44,7 +44,19 @@ const getQuestionnaireQuery = `
       supplementaryData {
         id
         surveyId
-        data
+        data {
+          id
+          listName
+          schemaFields {
+            id
+            type
+            identifier
+            selector
+            example
+            exampleArray
+            description
+          }
+        }  
         sdsDateCreated
         sdsVersion
         sdsGuid

@@ -363,7 +363,7 @@ const SupplementaryDataPage = () => {
                                           </SpacedTableColumn>
                                           <SpacedTableColumn>
                                             {field.type === "array"
-                                              ? field.example.join(", ")
+                                              ? field.exampleArray.join(", ")
                                               : field.example}
                                           </SpacedTableColumn>
                                           <SpacedTableColumn>

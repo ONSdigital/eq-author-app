@@ -761,10 +761,26 @@ type SupplementaryDataVersions {
   versions: [Version!]!
 }
 
+type SupplementaryDataField {
+  id: ID,
+  type: String,
+  identifier: String,
+  selector: String,
+  example: String,
+  exampleArray: [String],
+  description: String
+}
+
+type SupplementaryDataList {
+  id:ID!
+  listName: String,
+  schemaFields: [SupplementaryDataField]
+}
+
 type SupplementaryData {
   id: ID
   surveyId: ID
-  data: [JSON]
+  data: [SupplementaryDataList]
   sdsGuid: ID
   sdsDateCreated: String
   sdsVersion: String
