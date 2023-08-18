@@ -207,6 +207,7 @@ const FolderDesignPage = ({ history, match }) => {
           onDuplicate={() =>
             duplicateFolder({
               variables: { input: { id, position: position + 1 } },
+              refetchQueries: ["GetQuestionnaire"],
             })
           }
           onDelete={() =>
