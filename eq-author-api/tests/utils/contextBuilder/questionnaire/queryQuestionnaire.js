@@ -38,15 +38,27 @@ const getQuestionnaireQuery = `
         id
         furtherContent
         viewPrintAnswers
-        emailConfirmation
         feedback
       }
-      prepopSchema {
+      supplementaryData {
         id
         surveyId
-        data
-        dateCreated
-        version
+        data {
+          id
+          listName
+          schemaFields {
+            id
+            type
+            identifier
+            selector
+            example
+            exampleArray
+            description
+          }
+        }  
+        sdsDateCreated
+        sdsVersion
+        sdsGuid
       }
       locked
       validationErrorInfo {

@@ -1,0 +1,6 @@
+#import "graphql/fragments/supplementaryData.graphql"
+mutation UpdateSupplementaryData($input: UpdateSupplementaryDataInput!) {
+  updateSupplementaryData(input: $input) {
+    ...SupplementaryData
+  }
+}

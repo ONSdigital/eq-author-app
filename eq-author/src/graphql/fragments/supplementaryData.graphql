@@ -1,0 +1,21 @@
+fragment SupplementaryData on SupplementaryData {
+  id
+  surveyId
+  data {
+    id
+    listName
+    schemaFields {
+      id
+      displayName
+      type
+      identifier
+      selector
+      example
+      exampleArray
+      description
+    }
+  }
+  sdsGuid
+  sdsDateCreated
+  sdsVersion
+}

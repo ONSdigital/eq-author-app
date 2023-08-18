@@ -1,0 +1,6 @@
+#import "graphql/fragments/supplementaryData.graphql"
+query GetSupplementaryData {
+  supplementaryData {
+    ...SupplementaryData
+  }
+}

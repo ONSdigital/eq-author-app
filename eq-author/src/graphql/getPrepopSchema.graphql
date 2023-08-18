@@ -1,6 +1,0 @@
-#import "graphql/fragments/prepopSchema.graphql"
-query GetPrepopSchema {
-  prepopSchema {
-    ...PrepopSchema
-  }
-}
