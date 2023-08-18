@@ -126,10 +126,9 @@ const SupplementaryDataPicker = ({
         <ScrollPane>
           <Table>
             <TableHeader>
-              <TableHeadCol>Key</TableHeadCol>
-              <TableHeadCol>Alias</TableHeadCol>
+              <TableHeadCol>Field</TableHeadCol>
+              <TableHeadCol>List</TableHeadCol>
               <TableHeadCol>Type</TableHeadCol>
-              <TableHeadCol>Value</TableHeadCol>
             </TableHeader>
 
             <MetaDataItemList>
@@ -144,9 +143,8 @@ const SupplementaryDataPicker = ({
                       tabIndex="0"
                       onKeyUp={(event) => onEnterUp(event, field)}
                     >
-                      <Col>{field.identifier}</Col>
+                      <Col>{field.displayName}</Col>
                       <Col>{list.listName}</Col>
-                      <Col>{field.selector}</Col>
                       <Col>
                         <MenuItemType>{field.type}</MenuItemType>
                       </Col>

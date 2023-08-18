@@ -127,11 +127,11 @@ const SupplementaryDataPage = () => {
   };
 
   const [linkSupplementaryData] = useMutation(UPDATE_SUPPLEMENTARY_DATA, {
-    refetchQueries: ["GetSupplementaryData"],
+    refetchQueries: ["GetSupplementaryData", "GetQuestionnaire"],
   });
 
   const [unlinkSupplementaryData] = useMutation(UNLINK_SUPPLEMENTARY_DATA, {
-    refetchQueries: ["GetSupplementaryData"],
+    refetchQueries: ["GetSupplementaryData", "GetQuestionnaire"],
   });
 
   const {
