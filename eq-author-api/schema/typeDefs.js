@@ -85,7 +85,7 @@ type Questionnaire {
   publishHistory: [PublishHistoryEvent]
   validationErrorInfo: ValidationErrorInfo
   submission: Submission
-  prepopSchema: PrepopSchema
+  supplementaryData: SupplementaryData
 }
 
 enum HistoryEventTypes {
@@ -745,28 +745,46 @@ type Submission {
   id: ID!
   furtherContent: String
   viewPrintAnswers: Boolean
-  emailConfirmation: Boolean
   feedback: Boolean
+  validationErrorInfo: ValidationErrorInfo
   comments: [Comment]
 }
 
 type Version {
-  id: ID!
-  version: String!
-  dateCreated: String!
+  guid: ID!
+  sds_schema_version: String!
+  sds_published_at: String!
 }
 
-type PrepopSchemaVersions {
+type SupplementaryDataVersions {
   surveyId: ID!
   versions: [Version!]!
 }
 
-type PrepopSchema {
+type SupplementaryDataField {
+  id: ID,
+  type: String,
+  identifier: String,
+  selector: String,
+  example: String,
+  exampleArray: [String],
+  description: String,
+  displayName: String!,
+}
+
+type SupplementaryDataList {
+  id:ID!
+  listName: String,
+  schemaFields: [SupplementaryDataField]
+}
+
+type SupplementaryData {
   id: ID
   surveyId: ID
-  data: [JSON]
-  dateCreated: String
-  version: String
+  data: [SupplementaryDataList]
+  sdsGuid: ID
+  sdsDateCreated: String
+  sdsVersion: String
 }
 
 type PublishHistoryEvent {
@@ -801,8 +819,8 @@ type Query {
   introduction: QuestionnaireIntroduction
   collectionLists: CollectionLists
   list(input: QueryInput!): List
-  prepopSchemaVersions(id: ID!): PrepopSchemaVersions
-  prepopSchema: PrepopSchema
+  supplementaryDataVersions(id: ID!): SupplementaryDataVersions
+  supplementaryData: SupplementaryData
   publishHistory: [PublishHistoryEvent]
 }
 
@@ -977,8 +995,8 @@ type Mutation {
   updateListCollectorPage(input: UpdateListCollectorPageInput!): ListCollectorPage
   updateCommentsAsRead(input: UpdateCommentsAsReadInput!): [Comment]
   publishSchema: Questionnaire!
-  updatePrepopSchema(input: UpdatePrepopSchemaInput!): PrepopSchema
-  unlinkPrepopSchema: Questionnaire
+  updateSupplementaryData(input: UpdateSupplementaryDataInput!): SupplementaryData
+  unlinkSupplementaryData: Questionnaire
 }
 
 input CreateListCollectorPageInput {
@@ -1627,7 +1645,6 @@ input DeleteCollapsibleInput {
 input UpdateSubmissionInput {
   furtherContent: String
   viewPrintAnswers: Boolean
-  emailConfirmation: Boolean
   feedback: Boolean
 }
 
@@ -1675,7 +1692,7 @@ input deleteHistoryNoteInput {
   id: ID!
 }
 
-input UpdatePrepopSchemaInput {
+input UpdateSupplementaryDataInput {
   id: ID!
   surveyId: ID!
   version: String

@@ -1,7 +1,0 @@
-fragment PrepopSchema on PrepopSchema {
-  id
-  surveyId
-  data
-  dateCreated
-  version
-}

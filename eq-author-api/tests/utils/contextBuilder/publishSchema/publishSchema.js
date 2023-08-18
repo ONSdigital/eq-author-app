@@ -46,7 +46,6 @@ const publishSchemaMutation = `
           id
           furtherContent
           viewPrintAnswers
-          emailConfirmation
           feedback
         }
         publishHistory {

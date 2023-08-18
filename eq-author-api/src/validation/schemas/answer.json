@@ -150,7 +150,19 @@
       "required": ["label"],
       "errorMessage": { "required": { "label": "ERR_VALID_REQUIRED" } }
     },
+
     "numericAnswer": {
+      "type": "object",
+      "properties": {
+        "properties": {
+          "type": "object",
+          "properties": {
+            "decimals": {
+              "$ref": "validation.json#/definitions/decimalValidations"
+            }
+          }
+        }
+      },
       "if": {
         "type": "object",
         "properties": {
