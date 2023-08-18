@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import SampleFileDataPage from "./SampleFileData";
-import ONSDatasetPage from "./ONSDataset";
+import SupplementaryDataPage from "./SupplementaryDataPage";
 import { buildDataPath } from "utils/UrlUtils";
 
 export default [
@@ -14,8 +14,8 @@ export default [
   <Route
     key="dataset"
     exact
-    path="/q/:questionnaireId/data/ons-dataset"
-    component={ONSDatasetPage}
+    path="/q/:questionnaireId/data/supplementary-data"
+    component={SupplementaryDataPage}
   />,
   <Route
     key="data"

@@ -13,7 +13,6 @@ const questionnaire = {
     id: "submission-1",
     furtherContent: "<p>Test</p>",
     viewPrintAnswers: true,
-    emailConfirmation: true,
     feedback: true,
   },
 };

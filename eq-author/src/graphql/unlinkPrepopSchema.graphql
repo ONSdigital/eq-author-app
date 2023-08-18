@@ -1,9 +1,0 @@
-#import "graphql/fragments/prepopSchema.graphql"
-mutation unlinkPrepopSchema {
-  unlinkPrepopSchema {
-    id
-    prepopSchema {
-      ...PrepopSchema
-    }
-  }
-}

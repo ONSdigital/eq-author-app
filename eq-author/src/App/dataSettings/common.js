@@ -12,8 +12,8 @@ export const tabItems = ({ params }) => [
     enabled: true,
   },
   {
-    title: `ONS dataset`,
-    url: `${buildDataPath(params)}/ons-dataset`,
+    title: `Supplementary data`,
+    url: `${buildDataPath(params)}/supplementary-data`,
     enabled: Boolean(enableOn(["dataset"])),
   },
 ];
