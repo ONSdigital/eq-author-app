@@ -15,6 +15,10 @@ const processSupplementaryData = (schema) => {
     identifier,
     selector
   ) => {
+    let displayName = identifier;
+    if (selector) {
+      displayName = displayName + " - " + selector;
+    }
     schemaFields.push({
       id: uuidv4(),
       type: schemaProperty.type,
@@ -22,6 +26,7 @@ const processSupplementaryData = (schema) => {
       selector: selector,
       example: schemaProperty.examples[0],
       description: schemaProperty.description,
+      displayName: displayName,
     });
   };
 

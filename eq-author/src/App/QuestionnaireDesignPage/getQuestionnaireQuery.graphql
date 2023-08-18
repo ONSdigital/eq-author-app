@@ -1,6 +1,7 @@
 #import "graphql/fragments/validationErrorInfo.graphql"
 #import "graphql/lists/list.graphql"
 #import "graphql/fragments/comment.graphql"
+#import "graphql/fragments/supplementaryData.graphql"
 
 query GetQuestionnaire($input: QueryInput!) {
   questionnaire(input: $input) {
@@ -41,6 +42,9 @@ query GetQuestionnaire($input: QueryInput!) {
       comments {
         ...Comment
       }
+    }
+    supplementaryData {
+      ...SupplementaryData
     }
     validationErrorInfo {
       ...ValidationErrorInfo

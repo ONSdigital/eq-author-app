@@ -1,7 +1,8 @@
 #import "./fragments/questionnaire.graphql"
 #import "./lists/list.graphql"
-
+#import "./fragments/supplementaryData.graphql"
 #import "graphql/fragments/comment.graphql"
+
 query GetQuestionnaire($input: QueryInput!) {
   questionnaire(input: $input) {
     ...Questionnaire
@@ -46,6 +47,9 @@ query GetQuestionnaire($input: QueryInput!) {
           totalSectionCount
         }
       }
+    }
+    supplementaryData {
+      ...SupplementaryData
     }
   }
 }
