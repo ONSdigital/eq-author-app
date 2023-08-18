@@ -43,7 +43,7 @@ export const UnwrappedNavigationHeader = ({
   const page = getPageById(questionnaire, entityId);
   const folder = getFolderById(questionnaire, entityId);
   const isFolder = entityName === FOLDER;
-  const isListCollectorFolder = folder && folder?.listId !== undefined;
+  const isListCollectorFolder = folder ? folder.listId !== undefined : false;
 
   const canAddQuestionAndCalculatedSummmaryPages =
     [PAGE, FOLDER, SECTION].includes(entityName) &&
