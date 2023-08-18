@@ -63,12 +63,12 @@ const TableHeadCol = styled.div`
   padding: 0.5rem 1rem;
 `;
 
-const MetaDataItem = styled(SubMenuItem)`
+const SupplementaryDataItem = styled(SubMenuItem)`
   display: table-row;
   height: 2em;
 `;
 
-const MetaDataItemList = styled.ul`
+const SupplementaryDataItemList = styled.ul`
   display: table-row-group;
   list-style: none;
   margin: 0;
@@ -84,8 +84,8 @@ const SupplementaryDataPicker = ({
   setContentType,
   contentPickerTitle,
 }) => {
-  // const [searchResults, setSearchResults] = useState([]);
-  // const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const onEnterUp = (event, item) => {
     if (event.keyCode === 13) {
@@ -94,21 +94,21 @@ const SupplementaryDataPicker = ({
     }
   };
 
-  // useEffect(() => {
-  //   if (data) {
-  //     setSearchResults(data);
-  //   }
-  // }, [data]);
+  useEffect(() => {
+    if (data) {
+      setSearchResults(data);
+    }
+  }, [data]);
 
-  // useEffect(() => {
-  //   if (searchTerm && searchTerm !== "" && searchTerm !== " ") {
-  //     const results = searchMetadata(data, searchTerm);
+  useEffect(() => {
+    if (searchTerm && searchTerm !== "" && searchTerm !== " ") {
+      const results = searchMetadata(data, searchTerm);
 
-  //     setSearchResults(results);
-  //   } else {
-  //     setSearchResults(data);
-  //   }
-  // }, [searchTerm, data]);
+      setSearchResults(results);
+    } else {
+      setSearchResults(data);
+    }
+  }, [searchTerm, data]);
 
   return (
     <>
@@ -121,21 +121,27 @@ const SupplementaryDataPicker = ({
             setContentType={(contentType) => setContentType(contentType)}
           />
         )}
+        <ModalToolbar>
+          <SearchBar
+            onChange={({ value }) => setSearchTerm(value)}
+            placeholder="Search supplementary data"
+          />
+        </ModalToolbar>
       </ModalHeader>
       <MenuContainer>
         <ScrollPane>
-          <Table>
-            <TableHeader>
-              <TableHeadCol>Field</TableHeadCol>
-              <TableHeadCol>List</TableHeadCol>
-              <TableHeadCol>Type</TableHeadCol>
-            </TableHeader>
+          {searchResults.length ? (
+            <Table>
+              <TableHeader>
+                <TableHeadCol>Field</TableHeadCol>
+                <TableHeadCol>List</TableHeadCol>
+                <TableHeadCol>Type</TableHeadCol>
+              </TableHeader>
 
-            <MetaDataItemList>
-              {data.map((list) => {
-                return list.schemaFields.map((field) => {
+              <SupplementaryDataItemList>
+                {searchResults.map((field) => {
                   return (
-                    <MetaDataItem
+                    <SupplementaryDataItem
                       key={field.id}
                       onClick={() => onSelected(field)}
                       aria-selected={isSelected(field)}
@@ -144,16 +150,18 @@ const SupplementaryDataPicker = ({
                       onKeyUp={(event) => onEnterUp(event, field)}
                     >
                       <Col>{field.displayName}</Col>
-                      <Col>{list.listName}</Col>
+                      <Col>{field.listName}</Col>
                       <Col>
                         <MenuItemType>{field.type}</MenuItemType>
                       </Col>
-                    </MetaDataItem>
+                    </SupplementaryDataItem>
                   );
-                });
-              })}
-            </MetaDataItemList>
-          </Table>
+                })}
+              </SupplementaryDataItemList>
+            </Table>
+          ) : (
+            ErrorMessage("metadata")
+          )}
         </ScrollPane>
       </MenuContainer>
     </>

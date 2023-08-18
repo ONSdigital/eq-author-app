@@ -93,10 +93,21 @@ const PipingMenu = ({
   const listAnswers =
     find(questionnaire?.collectionLists?.lists, { id: listId })?.answers || [];
 
-  const supplentaryData =
-    questionnaire?.supplementaryData?.data.filter(
-      (list) => list.listName === "" || list.id === listId
-    ) || [];
+  const supplentaryData = () => {
+    const data =
+      questionnaire?.supplementaryData?.data.filter(
+        (list) => list.listName === "" || list.id === listId
+      ) || [];
+
+    return data.flatMap((list) => {
+      return list.schemaFields.map((schemaField) => {
+        return {
+          listName: list.listname,
+          ...schemaField,
+        };
+      });
+    });
+  };
 
   const handlePickerContent = (contentType) => {
     switch (contentType) {
@@ -109,7 +120,7 @@ const PipingMenu = ({
       case LIST_ANSWER:
         return listAnswers;
       case SUPPLEMENTARY_DATA:
-        return supplentaryData;
+        return supplentaryData();
       default:
         return answerData;
     }
