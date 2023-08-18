@@ -373,3 +373,10 @@ export const unitPropertyErrors = {
     message: "Selection required",
   },
 };
+
+export const submissionErrors = {
+  ERR_VALID_REQUIRED: {
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Enter additional content",
+  },
+};

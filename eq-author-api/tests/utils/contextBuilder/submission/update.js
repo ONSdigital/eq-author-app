@@ -6,8 +6,14 @@ const updateSubmissionMutation = `
         id
         furtherContent
         viewPrintAnswers
-        emailConfirmation
         feedback
+        validationErrorInfo {
+          totalCount
+          errors {
+            id
+            errorCode
+          }
+        }
         comments {
             id
             commentText

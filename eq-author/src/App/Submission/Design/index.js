@@ -48,7 +48,6 @@ SubmissionDesign.propTypes = {
       id: PropTypes.string.isRequired,
       furtherContent: PropTypes.string,
       viewPrintAnswers: PropTypes.bool,
-      emailConfirmation: PropTypes.bool,
       feedback: PropTypes.bool,
     }),
   }),

@@ -200,6 +200,10 @@ module.exports = (dataPath, field, errorCode, questionnaire, errMessage) => {
         expression = expressionGroup.expressions[nextVal];
         validationErr.expressionId = expression?.id;
         break;
+
+      case "submission":
+        validationErr.type = "submission";
+        break;
     }
   }
 

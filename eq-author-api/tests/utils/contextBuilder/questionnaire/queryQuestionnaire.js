@@ -38,7 +38,6 @@ const getQuestionnaireQuery = `
         id
         furtherContent
         viewPrintAnswers
-        emailConfirmation
         feedback
       }
       prepopSchema {

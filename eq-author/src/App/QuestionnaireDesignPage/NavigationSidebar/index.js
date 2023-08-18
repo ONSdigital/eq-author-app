@@ -198,6 +198,9 @@ const NavigationSidebar = ({ questionnaire }) => {
                       entityId
                     )}
                     icon={SubmissionIcon}
+                    errorCount={
+                      questionnaire.submission.validationErrorInfo.totalCount
+                    }
                     unreadComment={hasUnreadComments(
                       questionnaire?.submission?.comments,
                       me.id

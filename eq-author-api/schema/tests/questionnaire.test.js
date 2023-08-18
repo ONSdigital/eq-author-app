@@ -478,7 +478,6 @@ describe("questionnaire", () => {
         id: expect.any(String),
         furtherContent: expect.any(String),
         viewPrintAnswers: expect.any(Boolean),
-        emailConfirmation: expect.any(Boolean),
         feedback: expect.any(Boolean),
       });
     });
@@ -492,7 +491,6 @@ describe("questionnaire", () => {
         id: expect.any(String),
         furtherContent: expect.any(String),
         viewPrintAnswers: expect.any(Boolean),
-        emailConfirmation: expect.any(Boolean),
         feedback: expect.any(Boolean),
       });
     });
@@ -504,7 +502,6 @@ describe("questionnaire", () => {
         {
           furtherContent: "<p>Test</p>",
           viewPrintAnswers: false,
-          emailConfirmation: false,
           feedback: false,
         },
         ctx
@@ -515,7 +512,6 @@ describe("questionnaire", () => {
         "<p>Test</p>"
       );
       expect(updatedQuestionnaire.submission.viewPrintAnswers).toBeFalsy();
-      expect(updatedQuestionnaire.submission.emailConfirmation).toBeFalsy();
       expect(updatedQuestionnaire.submission.feedback).toBeFalsy();
     });
   });
