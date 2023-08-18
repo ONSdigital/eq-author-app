@@ -128,7 +128,7 @@ const FolderDesignPage = ({ history, match }) => {
       onAddListCollectorFolder: () =>
         addListCollectorFolder({
           sectionId: folder.section.id,
-          position: folder.pages.length + 1,
+          position: folder.position + 1,
         }),
     },
     [folder]
