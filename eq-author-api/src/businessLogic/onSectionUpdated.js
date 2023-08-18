@@ -1,4 +1,7 @@
-const { getListById } = require("../../schema/resolvers/utils");
+const {
+  getListById,
+  getSupplementaryDataAsCollectionListById,
+} = require("../../schema/resolvers/utils");
 const { flatMap } = require("lodash");
 const cheerio = require("cheerio");
 
@@ -44,19 +47,29 @@ const updatePiping = (answers, section, pages) => {
     section.introductionTitle = updatePipingValue(
       section.introductionTitle,
       answer.id,
-      answer.label || "Untitled answer"
+      answer.label.replace(/(<([^>]+)>)/gi, "") || "Untitled answer"
     );
     section.introductionContent = updatePipingValue(
       section.introductionContent,
       answer.id,
-      answer.label || "Untitled answer"
+      answer.label.replace(/(<([^>]+)>)/gi, "") || "Untitled answer"
     );
   });
 };
 
 module.exports = (ctx, section, oldSection) => {
-  const oldList = getListById(ctx, oldSection?.repeatingSectionListId);
-  const newList = getListById(ctx, section?.repeatingSectionListId);
+  const oldList =
+    getListById(ctx, oldSection?.repeatingSectionListId) ||
+    getSupplementaryDataAsCollectionListById(
+      ctx,
+      oldSection?.repeatingSectionListId
+    );
+  const newList =
+    getListById(ctx, section?.repeatingSectionListId) ||
+    getSupplementaryDataAsCollectionListById(
+      ctx,
+      section?.repeatingSectionListId
+    );
   const pages = flatMap(section?.folders, "pages");
 
   if (
