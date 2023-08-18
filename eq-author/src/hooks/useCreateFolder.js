@@ -14,7 +14,8 @@ export const useCreateFolderMutation = () => {
 
 export const useCreateListCollectorFolderMutation = () => {
   const [onAddListCollectorFolder] = useMutation(
-    CREATE_LIST_COLLECTOR_FOLDER_MUTATION
+    CREATE_LIST_COLLECTOR_FOLDER_MUTATION,
+    { refetchQueries: ["GetQuestionnaire"] }
   );
 
   return (input, callback) =>
