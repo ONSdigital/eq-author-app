@@ -126,6 +126,7 @@ const Row = memo((props) => {
     listAnswerType,
     drivingQCode,
     anotherQCode,
+    hideOptionValue,
   } = props;
 
   // Uses different initial QCode depending on the QCode defined in the props
@@ -241,7 +242,8 @@ const Row = memo((props) => {
           )}
         </SpacedTableColumn>
       )}
-      {[CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type) ? (
+      {[CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type) &&
+      !hideOptionValue ? (
         <SpacedTableColumn>
           <ErrorWrappedInput
             name={`${id}-optionValue-entry`}
@@ -280,6 +282,7 @@ Row.propTypes = {
   listAnswerType: PropTypes.string,
   drivingQCode: PropTypes.string,
   anotherQCode: PropTypes.string,
+  hideOptionValue: PropTypes.bool,
 };
 
 export const QCodeTable = () => {

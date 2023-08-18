@@ -62,11 +62,13 @@ const formatListCollector = (listCollectorPage) => [
     label: listCollectorPage.drivingPositive,
     type: RADIO_OPTION,
     option: true,
+    hideOptionValue: true,
   },
   {
     label: listCollectorPage.drivingNegative,
     type: RADIO_OPTION,
     option: true,
+    hideOptionValue: true,
   },
   {
     id: listCollectorPage.id,
@@ -80,11 +82,13 @@ const formatListCollector = (listCollectorPage) => [
     label: listCollectorPage.anotherPositive,
     type: RADIO_OPTION,
     option: true,
+    hideOptionValue: true,
   },
   {
     label: listCollectorPage.anotherNegative,
     type: RADIO_OPTION,
     option: true,
+    hideOptionValue: true,
   },
 ];
 
@@ -223,8 +227,10 @@ export const getDuplicatedOptionValues = (flattenedAnswers) => {
 
 const getEmptyOptionValues = (answerRows) => {
   return answerRows?.find(
-    ({ value, type }) =>
-      !value && [CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type)
+    ({ value, type, hideOptionValue }) =>
+      !value &&
+      [CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type) &&
+      !hideOptionValue
   );
 };
 
