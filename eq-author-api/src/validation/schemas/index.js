@@ -12,4 +12,5 @@ module.exports = [
   require("./list.json"),
   require("./introduction.json"),
   require("./listCollectorPage.json"),
+  require("./submission.json"),
 ];

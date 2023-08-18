@@ -6,7 +6,6 @@ mutation UpdateSubmission($input: UpdateSubmissionInput!) {
       id
       furtherContent
       viewPrintAnswers
-      emailConfirmation
       feedback
     }
   }  

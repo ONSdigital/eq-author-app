@@ -745,8 +745,8 @@ type Submission {
   id: ID!
   furtherContent: String
   viewPrintAnswers: Boolean
-  emailConfirmation: Boolean
   feedback: Boolean
+  validationErrorInfo: ValidationErrorInfo
   comments: [Comment]
 }
 
@@ -1645,7 +1645,6 @@ input DeleteCollapsibleInput {
 input UpdateSubmissionInput {
   furtherContent: String
   viewPrintAnswers: Boolean
-  emailConfirmation: Boolean
   feedback: Boolean
 }
 

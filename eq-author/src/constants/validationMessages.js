@@ -357,11 +357,26 @@ export const decimalErrors = {
     errorCode: "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY",
     message: "Enter a decimal that is the same as the associated question page",
   },
+  ERR_INVALID_DECIMAL: {
+    errorCode: "ERR_INVALID_DECIMAL",
+    message: "Maximum number of decimal places must be between 0 and 6",
+  },
+  ERR_VALID_REQUIRED: {
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Enter the maximum number of decimal points allowed",
+  },
 };
 
 export const unitPropertyErrors = {
   ERR_VALID_REQUIRED: {
     errorCode: "ERR_VALID_REQUIRED",
     message: "Selection required",
+  },
+};
+
+export const submissionErrors = {
+  ERR_VALID_REQUIRED: {
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Enter additional content",
   },
 };

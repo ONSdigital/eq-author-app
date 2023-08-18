@@ -8,8 +8,7 @@ import PageTitle from "components/preview/elements/PageTitle";
 import { Field, Label } from "components/Forms";
 import Panel from "components-themed/panels";
 import Feedback from "components-themed/Feedback";
-import Input from "components-themed/Input";
-import Button from "components-themed/buttons";
+import Error from "components/preview/Error";
 
 import { ReactComponent as WarningIcon } from "assets/icon-warning-round.svg";
 
@@ -51,6 +50,10 @@ const PanelSection = styled.div`
   margin-bottom: 1em;
 `;
 
+const Errorblock = styled(Error)`
+  margin-top: 1em;
+`;
+
 const InlineField = styled(Field)`
   display: flex;
   align-items: center;
@@ -59,16 +62,6 @@ const InlineField = styled(Field)`
   > * {
     margin-bottom: 0;
   }
-`;
-
-const ContentHeading = styled.span`
-  font-weight: bold;
-  margin-bottom: 0.1em;
-`;
-
-const SectionContent = styled.div`
-  font-size: 14px;
-  margin-top: ${(props) => `${props.marginTop}em`};
 `;
 
 const FeedbackLabel = styled(Label)`
@@ -96,19 +89,8 @@ const BlueUnderlined = styled.span`
   font-weight: ${(props) => props.bold && `bold`};
 `;
 
-const PreviewInput = styled(Input)`
-  pointer-events: none;
-  border-radius: 0;
-`;
-
-const PreviewButton = styled(Button)`
-  border-radius: 0;
-  pointer-events: none;
-`;
-
 const SubmissionEditor = ({ submission, questionnaireTitle }) => {
-  const { furtherContent, viewPrintAnswers, emailConfirmation, feedback } =
-    submission;
+  const { furtherContent, viewPrintAnswers, feedback } = submission;
 
   const panelTitle = `Thank you for completing the ${questionnaireTitle}`;
   const feedbackTitle = `What do you think about this service?`;
@@ -148,7 +130,12 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
           </InlineField>
         </PanelSection>
       </Panel>
-      <Section dangerouslySetInnerHTML={{ __html: furtherContent }} />
+      <SectionSeparator />
+      {furtherContent !== "" ? (
+        <Section dangerouslySetInnerHTML={{ __html: furtherContent }} />
+      ) : (
+        <Errorblock large>Missing additional content</Errorblock>
+      )}
       {viewPrintAnswers && (
         <>
           <Section>
@@ -167,38 +154,7 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
                 <WarningPanelText>{answersAvailableToView}</WarningPanelText>
               </WarningPanel>
             </InlineField>
-          </Section>
-        </>
-      )}
-      {emailConfirmation && (
-        <>
-          <Section>
-            <SectionSeparator />
-            <PageTitle
-              title="Get confirmation email"
-              missingText={missingTitleText}
-            />
-            If you would like to be sent confirmation that you have completed
-            your survey, enter your email address
-          </Section>
-          <Section>
-            <ContentHeading>Email address</ContentHeading>
-            <SectionContent marginTop={0.3}>
-              This will not be stored and will only be used once to send your
-              confirmation
-            </SectionContent>
-            <SectionContent marginTop={0.5}>
-              <PreviewInput
-                id="email-confirmation"
-                aria-label="Inactive preview email input"
-                tabIndex="-1"
-              />
-            </SectionContent>
-          </Section>
-          <Section>
-            <PreviewButton variant="confirm" tabIndex="-1">
-              Send confirmation
-            </PreviewButton>
+            {feedback && <SectionSeparator />}
           </Section>
         </>
       )}
@@ -222,7 +178,6 @@ SubmissionEditor.propTypes = {
     id: PropTypes.string.isRequired,
     furtherContent: PropTypes.string,
     viewPrintAnswers: PropTypes.bool,
-    emailConfirmation: PropTypes.bool,
     feedback: PropTypes.bool,
   }),
   renderPanel: PropTypes.func,

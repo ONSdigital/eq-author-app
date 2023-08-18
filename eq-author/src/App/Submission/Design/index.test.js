@@ -25,8 +25,11 @@ const questionnaire = {
     id: "submission-1",
     furtherContent: "<p>Test</p>",
     viewPrintAnswers: true,
-    emailConfirmation: true,
     feedback: true,
+    validationErrorInfo: {
+      errors: [],
+      totalCount: 0,
+    },
   },
 };
 
@@ -74,7 +77,7 @@ const renderSubmissionDesignPage = () => {
 describe("Submission design page", () => {
   it("should render", () => {
     const { getByText } = renderSubmissionDesignPage();
-    expect(getByText("Further content")).toBeVisible();
+    expect(getByText("Additional content")).toBeVisible();
   });
 
   it("should display error page if there is an error", () => {

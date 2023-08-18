@@ -49,7 +49,6 @@ const createQuestionnaireMutation = `
         id
         furtherContent
         viewPrintAnswers
-        emailConfirmation
         feedback
       }
       supplementaryData {
