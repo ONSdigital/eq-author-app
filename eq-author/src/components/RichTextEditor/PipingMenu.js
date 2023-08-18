@@ -93,21 +93,17 @@ const PipingMenu = ({
   const listAnswers =
     find(questionnaire?.collectionLists?.lists, { id: listId })?.answers || [];
 
-  const supplentaryData = () => {
-    const data =
-      questionnaire?.supplementaryData?.data.filter(
-        (list) => list.listName === "" || list.id === listId
-      ) || [];
-
-    return data.flatMap((list) => {
-      return list.schemaFields.map((schemaField) => {
-        return {
-          listName: list.listname,
-          ...schemaField,
-        };
-      });
-    });
-  };
+  const supplementaryData =
+    questionnaire?.supplementaryData?.data
+      .filter((list) => list.listName === "" || list.id === listId)
+      .flatMap((list) => {
+        return list.schemaFields.map((schemaField) => {
+          return {
+            listName: list.listName,
+            ...schemaField,
+          };
+        });
+      }) || [];
 
   const handlePickerContent = (contentType) => {
     switch (contentType) {
@@ -120,7 +116,7 @@ const PipingMenu = ({
       case LIST_ANSWER:
         return listAnswers;
       case SUPPLEMENTARY_DATA:
-        return supplentaryData();
+        return supplementaryData;
       default:
         return answerData;
     }
@@ -131,7 +127,10 @@ const PipingMenu = ({
       {allowableTypes.includes(ANSWER) && (
         <MenuButton
           title="Pipe answer"
-          disabled={disabled || (!answerData.length && !listId)}
+          disabled={
+            disabled ||
+            (!answerData.length && !listId && !supplementaryData.length)
+          }
           onClick={() => handleButtonClick(ANSWER)}
           canFocus={canFocus}
           modalVisible={isPickerOpen}

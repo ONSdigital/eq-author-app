@@ -95,12 +95,6 @@ const SupplementaryDataPicker = ({
   };
 
   useEffect(() => {
-    if (data) {
-      setSearchResults(data);
-    }
-  }, [data]);
-
-  useEffect(() => {
     if (searchTerm && searchTerm !== "" && searchTerm !== " ") {
       const results = searchMetadata(data, searchTerm);
 
