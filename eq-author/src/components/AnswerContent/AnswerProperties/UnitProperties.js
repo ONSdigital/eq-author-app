@@ -11,6 +11,11 @@ import { groupBy } from "lodash/fp";
 import { unitPropertyErrors } from "constants/validationMessages";
 import ValidationError from "components/ValidationError";
 
+const Paragraph = styled.p`
+  margin-top: 0em;
+  margin-bottom: 0.5em;
+`;
+
 const Container = styled.div`
   width: 15em;
 `;
@@ -98,7 +103,13 @@ const UnitProperties = ({
           {unitPropertyErrors[errors[0].errorCode].message}
         </ValidationError>
       )}
-      <MultiLineField id="decimals" label="Decimal places">
+      <MultiLineField
+        id={`${answer.id}-decimals`}
+        label="Maximum number of decimal places"
+      >
+        <Paragraph>
+          Must be between 0 and 6. For example, 2 to allow numbers such as 1.11
+        </Paragraph>
         <Decimal
           id="decimals"
           answer={answer}
