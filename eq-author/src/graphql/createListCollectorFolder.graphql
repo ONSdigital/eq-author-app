@@ -1,6 +1,8 @@
 #import "./fragments/validationErrorInfo.graphql"
 #import "./fragments/page.graphql"
 #import "./fragments/comment.graphql"
+#import "./fragments/option.graphql"
+#import "./fragments/answer.graphql"
 
 mutation CreateListCollectorFolder($input: CreateListCollectorFolderInput!) {
   createListCollectorFolder(input: $input) {
@@ -52,6 +54,15 @@ mutation CreateListCollectorFolder($input: CreateListCollectorFolderInput!) {
             pageType
             answers {
               id
+              ... on MultipleChoiceAnswer {
+                ...Answer
+                options {
+                  ...Option
+                }
+                mutuallyExclusiveOption {
+                  id
+                }
+              }
             }
             validationErrorInfo {
               ...ValidationErrorInfo
@@ -77,6 +88,15 @@ mutation CreateListCollectorFolder($input: CreateListCollectorFolderInput!) {
             pageType
             answers {
               id
+              ... on MultipleChoiceAnswer {
+                ...Answer
+                options {
+                  ...Option
+                }
+                mutuallyExclusiveOption {
+                  id
+                }
+              }
             }
             validationErrorInfo {
               ...ValidationErrorInfo
