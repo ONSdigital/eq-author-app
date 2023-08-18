@@ -336,10 +336,10 @@ const SupplementaryDataPage = () => {
                                       List source
                                     </StyledTableHeadColumn>
                                     <StyledTableHeadColumn width="30%">
-                                      Example value
+                                      Description
                                     </StyledTableHeadColumn>
                                     <StyledTableHeadColumn width="30%">
-                                      Description
+                                      Example
                                     </StyledTableHeadColumn>
                                   </TableRow>
                                 </TableHead>
@@ -358,12 +358,12 @@ const SupplementaryDataPage = () => {
                                             {list.listName}
                                           </SpacedTableColumn>
                                           <SpacedTableColumn>
+                                            {field.description}
+                                          </SpacedTableColumn>
+                                          <SpacedTableColumn>
                                             {field.type === "array"
                                               ? field.exampleArray.join(", ")
                                               : field.example}
-                                          </SpacedTableColumn>
-                                          <SpacedTableColumn>
-                                            {field.description}
                                           </SpacedTableColumn>
                                         </TableRow>
                                       );
