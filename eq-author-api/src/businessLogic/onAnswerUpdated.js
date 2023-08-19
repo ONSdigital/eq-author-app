@@ -82,7 +82,7 @@ const updatePipingRepeatingAnswer = (ctx, updatedAnswer, pages, oldAnswer) => {
     ) ||
     [];
 
-  oldList.answers.forEach((answer) => {
+  oldList?.answers?.forEach((answer) => {
     updatedAnswer.label = updatePipingValue(
       updatedAnswer.label,
       answer.id,
@@ -90,7 +90,7 @@ const updatePipingRepeatingAnswer = (ctx, updatedAnswer, pages, oldAnswer) => {
     );
   });
 
-  newList.answers.forEach((answer) => {
+  newList?.answers?.forEach((answer) => {
     updatedAnswer.label = updatePipingValue(
       updatedAnswer.label,
       answer.id,

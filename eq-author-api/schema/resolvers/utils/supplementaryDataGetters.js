@@ -9,6 +9,9 @@ const getSupplementaryDataListById = (ctx, id) =>
 
 const getSupplementaryDataAsCollectionListById = (ctx, id) => {
   const list = getSupplementaryDataListById(ctx, id);
+  if (!list) {
+    return;
+  }
   const fields = list.schemaFields.map((field) => {
     return {
       ...field,
