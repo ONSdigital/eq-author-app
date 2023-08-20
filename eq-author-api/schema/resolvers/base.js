@@ -92,6 +92,7 @@ const onQuestionnaireUpdated = require("../../src/businessLogic/onQuestionnaireU
 const onListDeleted = require("../../src/businessLogic/onListDeleted");
 const onSectionUpdated = require("../../src/businessLogic/onSectionUpdated");
 const processSupplementaryData = require("../../src/businessLogic/processSupplementaryData");
+const onUnlinkSupplementaryData = require("../../src/businessLogic/onUnlinkSupplementaryData");
 
 const {
   createQuestionnaire,
@@ -1596,6 +1597,8 @@ const Resolvers = {
         { qid: ctx.questionnaire.id },
         `Unlinked SupplementaryData with ID: ${ctx.questionnaire.supplementaryData.id} from questionnaire: ${ctx.questionnaire.id}`
       );
+      const oldSupplementaryData = ctx.questionnaire?.supplementaryData?.data;
+      onUnlinkSupplementaryData(ctx.questionnaire, oldSupplementaryData);
       ctx.questionnaire.supplementaryData = undefined;
       return ctx.questionnaire;
     }),
