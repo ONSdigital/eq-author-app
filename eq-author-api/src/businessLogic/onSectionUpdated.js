@@ -12,7 +12,7 @@ const updatePipingValue = (htmlText, answerId, newValue) => {
   const htmlDoc = cheerio.load(htmlText, null, false);
   const dataSpan = htmlDoc(`span[data-id=${answerId}]`);
   dataSpan.each((i, elem) => {
-    elem.children[0].data = `[${newValue}]`;
+    elem.children[0].data = `[${newValue.replace(/(<([^>]+)>)/gi, "")}]`;
   });
   return htmlDoc.html();
 };
@@ -47,12 +47,12 @@ const updatePiping = (answers, section, pages) => {
     section.introductionTitle = updatePipingValue(
       section.introductionTitle,
       answer.id,
-      answer.label.replace(/(<([^>]+)>)/gi, "") || "Untitled answer"
+      answer.label || "Untitled answer"
     );
     section.introductionContent = updatePipingValue(
       section.introductionContent,
       answer.id,
-      answer.label.replace(/(<([^>]+)>)/gi, "") || "Untitled answer"
+      answer.label || "Untitled answer"
     );
   });
 };

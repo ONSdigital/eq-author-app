@@ -1,4 +1,4 @@
-const { find } = require("lodash");
+const { find, some } = require("lodash");
 
 const getSupplementaryDataLists = (ctx) => {
   return ctx.questionnaire?.supplementaryData?.data;
@@ -7,12 +7,8 @@ const getSupplementaryDataLists = (ctx) => {
 const getSupplementaryDataListById = (ctx, id) =>
   find(getSupplementaryDataLists(ctx), { id });
 
-const getSupplementaryDataAsCollectionListById = (ctx, id) => {
-  const list = getSupplementaryDataListById(ctx, id);
-  if (!list) {
-    return;
-  }
-  const fields = list.schemaFields.map((field) => {
+const convertSupplementaryDataToCollectionList = (list) => {
+  const fields = list?.schemaFields?.map((field) => {
     return {
       ...field,
       label: field.selector
@@ -26,8 +22,27 @@ const getSupplementaryDataAsCollectionListById = (ctx, id) => {
   };
 };
 
+const getSupplementaryDataAsCollectionListById = (ctx, id) => {
+  const list = getSupplementaryDataListById(ctx, id);
+  if (list) {
+    return convertSupplementaryDataToCollectionList(list);
+  }
+};
+
+const getSupplementaryDataAsCollectionListbyFieldId = (ctx, id) => {
+  const supplementaryDataList = find(
+    getSupplementaryDataLists(ctx),
+    ({ schemaFields }) => schemaFields && some(schemaFields, { id })
+  );
+  if (!supplementaryDataList) {
+    return;
+  }
+  return convertSupplementaryDataToCollectionList(supplementaryDataList);
+};
+
 module.exports = {
   getSupplementaryDataLists,
   getSupplementaryDataListById,
   getSupplementaryDataAsCollectionListById,
+  getSupplementaryDataAsCollectionListbyFieldId,
 };

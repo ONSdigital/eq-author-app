@@ -9,9 +9,10 @@ const {
   idExists,
   getSectionByPageId,
   getListByAnswerId,
+  getSupplementaryDataAsCollectionListbyFieldId,
 } = require("../../../schema/resolvers/utils");
 
-const pipedAnswerIdRegex = /data-piped="answers" data-id="(.+?)"/gm;
+const pipedAnswerIdRegex = /data-piped="(.+?)" data-id="(.+?)"/gm;
 
 const trimDateRangeId = (id) => id.replace(/(from|to)$/, "");
 
@@ -39,7 +40,7 @@ module.exports = (ajv) =>
         matches = pipedAnswerIdRegex.exec(title);
 
         if (matches && matches.length > 1) {
-          const [, answerId] = matches;
+          const [, , answerId] = matches;
           pipedIdList.push(trimDateRangeId(answerId));
         }
       } while (matches);
@@ -67,7 +68,12 @@ module.exports = (ajv) =>
           return hasError(PIPING_TITLE_DELETED);
         }
 
-        const list = getListByAnswerId({ questionnaire }, pipedId);
+        const list =
+          getListByAnswerId({ questionnaire }, pipedId) ||
+          getSupplementaryDataAsCollectionListbyFieldId(
+            { questionnaire },
+            pipedId
+          );
         if (list) {
           let section = parentData;
           if (parentData.pageType) {

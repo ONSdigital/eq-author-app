@@ -7,9 +7,11 @@ const createValidationError = require("../createValidationError");
 const {
   getAbsolutePositionById,
   idExists,
+  getListByAnswerId,
+  getSupplementaryDataAsCollectionListbyFieldId,
 } = require("../../../schema/resolvers/utils");
 
-const pipedAnswerIdRegex = /data-piped="answers" data-id="(.+?)"/gm;
+const pipedAnswerIdRegex = /data-piped="(.+?)" data-id="(.+?)"/gm;
 
 const trimDateRangeId = (id) => id.replace(/(from|to)$/, "");
 
@@ -37,8 +39,8 @@ module.exports = (ajv) =>
         matches = pipedAnswerIdRegex.exec(label);
 
         if (matches && matches.length > 1) {
-          const [, answerId] = matches;
-          pipedIdList.push(trimDateRangeId(answerId));
+          const [, dataPiped, answerId] = matches;
+          pipedIdList.push([trimDateRangeId(answerId), dataPiped]);
         }
       } while (matches);
 
@@ -60,31 +62,31 @@ module.exports = (ajv) =>
         return false;
       };
 
-      for (const pipedId of pipedIdList) {
+      for (const [pipedId, dataPiped] of pipedIdList) {
         if (!idExists({ questionnaire }, pipedId)) {
           return hasError(PIPING_TITLE_DELETED);
         }
 
         // TODO : to be introduced alongside repeating answer
-        // const list = getListByAnswerId({ questionnaire }, pipedId);
-        // if (list) {
-        //   let section = parentData;
-        //   if (parentData.pageType) {
-        //     section = getSectionByPageId({ questionnaire }, parentData.id);
-        //   }
-        //   if (
-        //     list.id !== section.repeatingSectionListId ||
-        // (!section.repeatingSection)
-        //   ) {
-        //     return hasError(PIPING_TITLE_DELETED);
-        //   }
-        // }
+        const list =
+          getListByAnswerId({ questionnaire }, pipedId) ||
+          getSupplementaryDataAsCollectionListbyFieldId(
+            { questionnaire },
+            pipedId
+          );
+        if (list) {
+          if (list.id !== parentData.repeatingLabelAndInputListId) {
+            return hasError(PIPING_TITLE_DELETED);
+          }
+        }
 
-        if (
-          getAbsolutePositionById({ questionnaire }, pipedId) >
-          getAbsolutePositionById({ questionnaire }, parentData.id)
-        ) {
-          return hasError(PIPING_TITLE_MOVED);
+        if (dataPiped !== "supplementary") {
+          if (
+            getAbsolutePositionById({ questionnaire }, pipedId) >
+            getAbsolutePositionById({ questionnaire }, parentData.id)
+          ) {
+            return hasError(PIPING_TITLE_MOVED);
+          }
         }
       }
 
