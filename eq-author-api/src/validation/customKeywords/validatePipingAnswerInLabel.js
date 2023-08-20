@@ -67,16 +67,21 @@ module.exports = (ajv) =>
           return hasError(PIPING_TITLE_DELETED);
         }
 
-        // TODO : to be introduced alongside repeating answer
         const list =
           getListByAnswerId({ questionnaire }, pipedId) ||
           getSupplementaryDataAsCollectionListbyFieldId(
             { questionnaire },
             pipedId
           );
+
         if (list) {
-          if (list.id !== parentData.repeatingLabelAndInputListId) {
-            return hasError(PIPING_TITLE_DELETED);
+          if (!(dataPiped === "supplementary" && list.listName === "")) {
+            if (
+              list.id !== parentData.repeatingLabelAndInputListId ||
+              !parentData.repeatingLabelAndInput
+            ) {
+              return hasError(PIPING_TITLE_DELETED);
+            }
           }
         }
 

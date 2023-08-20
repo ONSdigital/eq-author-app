@@ -40,8 +40,8 @@ module.exports = (ajv) =>
         matches = pipedAnswerIdRegex.exec(title);
 
         if (matches && matches.length > 1) {
-          const [, , answerId] = matches;
-          pipedIdList.push(trimDateRangeId(answerId));
+          const [, dataPiped, answerId] = matches;
+          pipedIdList.push([trimDateRangeId(answerId), dataPiped]);
         }
       } while (matches);
 
@@ -63,7 +63,7 @@ module.exports = (ajv) =>
         return false;
       };
 
-      for (const pipedId of pipedIdList) {
+      for (const [pipedId, dataPiped] of pipedIdList) {
         if (!idExists({ questionnaire }, pipedId)) {
           return hasError(PIPING_TITLE_DELETED);
         }
@@ -79,19 +79,24 @@ module.exports = (ajv) =>
           if (parentData.pageType) {
             section = getSectionByPageId({ questionnaire }, parentData.id);
           }
-          if (
-            list.id !== section.repeatingSectionListId ||
-            !section.repeatingSection
-          ) {
-            return hasError(PIPING_TITLE_DELETED);
+
+          if (!(dataPiped === "supplementary" && list.listName === "")) {
+            if (
+              list.id !== section.repeatingSectionListId ||
+              !section.repeatingSection
+            ) {
+              return hasError(PIPING_TITLE_DELETED);
+            }
           }
         }
 
-        if (
-          getAbsolutePositionById({ questionnaire }, pipedId) >
-          getAbsolutePositionById({ questionnaire }, parentData.id)
-        ) {
-          return hasError(PIPING_TITLE_MOVED);
+        if (dataPiped !== "supplementary") {
+          if (
+            getAbsolutePositionById({ questionnaire }, pipedId) >
+            getAbsolutePositionById({ questionnaire }, parentData.id)
+          ) {
+            return hasError(PIPING_TITLE_MOVED);
+          }
         }
       }
 
