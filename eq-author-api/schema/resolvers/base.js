@@ -691,6 +691,9 @@ const Resolvers = {
       const folder = getFolderById(ctx, input.id);
       const newFolder = omit(cloneDeep(folder), "id");
       set(newFolder, "alias", addPrefix(newFolder.alias));
+      if (folder.listId !== undefined) {
+        set(newFolder, "title", addPrefix(newFolder.title));
+      }
       const duplicatedFolder = createFolder(newFolder);
       const remappedFolder = remapAllNestedIds(duplicatedFolder);
       section.folders.splice(input.position, 0, remappedFolder);

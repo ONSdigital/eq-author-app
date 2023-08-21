@@ -13,6 +13,7 @@ const {
   createFolder,
   moveFolder,
   updateFolder,
+  duplicateFolder,
   createListCollectorFolder,
 } = require("../../tests/utils/contextBuilder/folder");
 
@@ -222,6 +223,49 @@ describe("Folders", () => {
         expect(returnedQuestionnaire.sections[1].folders[1].id).toEqual(
           folderOne.id
         );
+      });
+    });
+
+    describe("DuplicateFolder", () => {
+      it("should duplicate a folder", async () => {
+        questionnaire = ctx.questionnaire;
+        const folderToDuplicate = questionnaire.sections[0].folders[0];
+
+        folderToDuplicate.alias = "Test alias";
+
+        const newFolder = await duplicateFolder(ctx, {
+          id: folderToDuplicate.id,
+          position: 1,
+        });
+
+        expect(newFolder.alias).toEqual("Copy of Test alias");
+        expect(newFolder.pages[0]).toMatchObject({
+          ...folderToDuplicate.pages[0],
+          id: expect.any(String),
+        });
+      });
+
+      it("should add prefix to duplicated list collector folder title", async () => {
+        questionnaire = ctx.questionnaire;
+
+        const listCollectorFolder = await createListCollectorFolder(ctx, {
+          sectionId: questionnaire.sections[0].id,
+          position: 0,
+        });
+
+        await updateFolder(ctx, {
+          folderId: listCollectorFolder.id,
+          alias: "Test alias",
+          title: "New title",
+        });
+
+        const newFolder = await duplicateFolder(ctx, {
+          id: listCollectorFolder.id,
+          position: 1,
+        });
+
+        expect(newFolder.alias).toEqual("Copy of Test alias");
+        expect(newFolder.title).toEqual("Copy of New title");
       });
     });
   });
