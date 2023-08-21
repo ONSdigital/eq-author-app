@@ -168,7 +168,12 @@ const QualifierPageEditor = ({ page, onUpdateOption }) => {
               })
             }
             errorValidationMsg={getErrorMessage("additionalGuidanceContent")}
-            // controls={}
+            controls={{
+              heading: true,
+              list: true,
+              bold: true,
+              link: true,
+            }}
             testSelector="qualifier-page-additional-guidance"
           />
         </CollapsibleToggled>
