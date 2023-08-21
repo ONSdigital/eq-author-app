@@ -12,7 +12,8 @@ const {
   getSupplementaryDataAsCollectionListbyFieldId,
 } = require("../../../schema/resolvers/utils");
 
-const pipedAnswerIdRegex = /data-piped="(.+?)" data-id="(.+?)"/gm;
+const pipedAnswerIdRegex =
+  /data-piped="(answers|supplementary)" data-id="(.+?)"/gm;
 
 const trimDateRangeId = (id) => id.replace(/(from|to)$/, "");
 

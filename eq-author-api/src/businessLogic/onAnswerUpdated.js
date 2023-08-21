@@ -54,7 +54,7 @@ const updatePipingInAnswers = (updatedAnswer, pages) => {
   return pages;
 };
 
-const updatePipingRepeatingAnswer = (ctx, updatedAnswer, pages, oldAnswer) => {
+const updatePipingRepeatingAnswer = (ctx, updatedAnswer, oldAnswer) => {
   if (
     !updatedAnswer.repeatingLabelAndInput &&
     !oldAnswer.repeatingLabelAndInput
@@ -101,5 +101,5 @@ const updatePipingRepeatingAnswer = (ctx, updatedAnswer, pages, oldAnswer) => {
 
 module.exports = (ctx, updatedAnswer, pages, oldAnswer) => {
   updatePipingInAnswers(updatedAnswer, pages);
-  updatePipingRepeatingAnswer(ctx, updatedAnswer, pages, oldAnswer);
+  updatePipingRepeatingAnswer(ctx, updatedAnswer, oldAnswer);
 };
