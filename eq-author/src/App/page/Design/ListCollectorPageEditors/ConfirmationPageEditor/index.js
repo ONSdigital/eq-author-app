@@ -131,7 +131,6 @@ const ConfirmationPageEditor = ({ page, onUpdateOption }) => {
         <PageTitle
           heading="Page title and description"
           pageDescription={confirmationPageDescription}
-          inputTitlePrefix="Page"
           onChange={({ value }) => setConfirmationPageDescription(value)}
           onUpdate={({ value }) =>
             updatePage({
