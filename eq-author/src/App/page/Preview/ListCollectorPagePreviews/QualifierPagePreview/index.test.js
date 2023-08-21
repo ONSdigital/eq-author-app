@@ -38,6 +38,8 @@ describe("QualifierPagePreview", () => {
       title: "Page 1",
       displayName: "Page 1",
       pageType: "ListCollectorQualifierPage",
+      additionalGuidanceEnabled: true,
+      additionalGuidanceContent: "Additional guidance test",
       answers: [
         {
           id: "answer-1",
@@ -79,6 +81,9 @@ describe("QualifierPagePreview", () => {
     expect(
       getByTestId("preview-option-item-positive-option-1")
     ).toBeInTheDocument();
+
+    expect(getByText(/Additional guidance test/)).toBeInTheDocument();
+
     expect(getByText(/Positive option 1/)).toBeInTheDocument();
     expect(getByText(/Positive description 1/)).toBeInTheDocument();
 
@@ -106,5 +111,30 @@ describe("QualifierPagePreview", () => {
     ).toBeInTheDocument();
     expect(getByText(/Negative option 1/)).toBeInTheDocument();
     expect(getByText(/Negative description 1/)).toBeInTheDocument();
+  });
+
+  it("should render additional guidance", () => {
+    const { getByText } = renderQualifierPagePreview(props);
+
+    expect(getByText(/Additional guidance test/)).toBeInTheDocument();
+  });
+
+  it("should render error when additional guidance content is empty and additional guidance is enabled", () => {
+    props.page.additionalGuidanceContent = "";
+    const { queryByTestId, getByText } = renderQualifierPagePreview(props);
+
+    expect(queryByTestId("additional-guidance-panel")).not.toBeInTheDocument();
+    expect(queryByTestId("additional-guidance-error")).toBeInTheDocument();
+    expect(
+      getByText(/Missing Additional guidance content/)
+    ).toBeInTheDocument();
+  });
+
+  it("should not render additional guidance when additional guidance is not enabled", () => {
+    props.page.additionalGuidanceEnabled = false;
+    const { queryByTestId } = renderQualifierPagePreview(props);
+
+    expect(queryByTestId("additional-guidance-panel")).not.toBeInTheDocument();
+    expect(queryByTestId("additional-guidance-error")).not.toBeInTheDocument();
   });
 });

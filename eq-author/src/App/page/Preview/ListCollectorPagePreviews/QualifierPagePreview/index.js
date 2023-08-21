@@ -86,6 +86,14 @@ const OptionDescription = styled.div`
   width: 100%;
 `;
 
+const AdditionalGuidancePanel = styled.div`
+  border-left: 10px solid #033e58;
+  background: #eff0f9;
+  padding: 1em;
+  margin-top: -0.2em;
+  margin-bottom: 1.6em;
+`;
+
 const QualifierPagePreview = ({ page }) => {
   const {
     id,
@@ -94,6 +102,8 @@ const QualifierPagePreview = ({ page }) => {
     answers,
     folder,
     section,
+    additionalGuidanceEnabled,
+    additionalGuidanceContent,
     comments,
     validationErrorInfo,
   } = page;
@@ -115,6 +125,19 @@ const QualifierPagePreview = ({ page }) => {
       <Panel>
         <Container data-test="list-collector-qualifier-page-preview">
           <Title title={title} />
+          {additionalGuidanceEnabled &&
+            (additionalGuidanceContent ? (
+              <AdditionalGuidancePanel
+                dangerouslySetInnerHTML={{
+                  __html: additionalGuidanceContent,
+                }}
+                data-test="additional-guidance-panel"
+              />
+            ) : (
+              <Error large data-test={"additional-guidance-error"}>
+                Missing Additional guidance content
+              </Error>
+            ))}
           {answers.map((answer) => {
             return answer.options.map((option) =>
               option.label ? (
