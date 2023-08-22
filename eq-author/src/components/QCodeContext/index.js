@@ -10,6 +10,7 @@ import {
   RADIO,
   MUTUALLY_EXCLUSIVE,
   ANSWER_OPTION_TYPES,
+  SELECT,
   SELECT_OPTION,
 } from "constants/answer-types";
 
@@ -61,11 +62,13 @@ const formatListCollector = (listCollectorPage) => [
     label: listCollectorPage.drivingPositive,
     type: RADIO_OPTION,
     option: true,
+    hideOptionValue: true,
   },
   {
     label: listCollectorPage.drivingNegative,
     type: RADIO_OPTION,
     option: true,
+    hideOptionValue: true,
   },
   {
     id: listCollectorPage.id,
@@ -79,11 +82,13 @@ const formatListCollector = (listCollectorPage) => [
     label: listCollectorPage.anotherPositive,
     type: RADIO_OPTION,
     option: true,
+    hideOptionValue: true,
   },
   {
     label: listCollectorPage.anotherNegative,
     type: RADIO_OPTION,
     option: true,
+    hideOptionValue: true,
   },
 ];
 
@@ -184,9 +189,49 @@ const getEmptyQCodes = (answerRows, dataVersion) => {
   else {
     return answerRows?.find(
       ({ qCode, type }) =>
-        !qCode && ![CHECKBOX, RADIO_OPTION, SELECT_OPTION].includes(type)
+        !qCode &&
+        ![CHECKBOX, CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type)
     );
   }
+};
+
+// getDuplicatedOptionValues :: [AnswerRow] -> [Value]
+// Return an array of Values which are duplicated within an answer in the given list of answer rows
+export const getDuplicatedOptionValues = (flattenedAnswers) => {
+  // acc - accumulator
+  let currentQuestionId = "";
+  let idValue = "";
+  const optionValueUsageMap = flattenedAnswers?.reduce(
+    (acc, { value, type, id }) => {
+      if ([RADIO, CHECKBOX, SELECT].includes(type)) {
+        currentQuestionId = id;
+      }
+      if (
+        value &&
+        [CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type)
+      ) {
+        idValue = currentQuestionId.concat(value);
+        const currentValue = acc.get(idValue);
+        acc.set(idValue, currentValue ? currentValue + 1 : 1);
+      }
+      return acc;
+    },
+    new Map()
+  );
+
+  return Array.from(optionValueUsageMap).reduce(
+    (acc, [value, count]) => (count > 1 ? [...acc, value] : acc),
+    []
+  );
+};
+
+const getEmptyOptionValues = (answerRows) => {
+  return answerRows?.find(
+    ({ value, type, hideOptionValue }) =>
+      !value &&
+      [CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type) &&
+      !hideOptionValue
+  );
 };
 
 export const QCodeContextProvider = ({ questionnaire = {}, children }) => {
@@ -202,7 +247,16 @@ export const QCodeContextProvider = ({ questionnaire = {}, children }) => {
 
   const hasQCodeError =
     duplicatedQCodes?.length ||
-    getEmptyQCodes(answerRows, questionnaire.dataVersion);
+    getEmptyQCodes(answerRows, questionnaire.dataVersion) ||
+    getEmptyOptionValues(answerRows);
+
+  const duplicatedOptionValues = useMemo(
+    () => getDuplicatedOptionValues(answerRows) ?? [],
+    [answerRows]
+  );
+
+  const hasOptionValueError =
+    duplicatedOptionValues?.length || getEmptyOptionValues(answerRows);
 
   const dataVersion = questionnaire?.dataVersion;
 
@@ -212,8 +266,17 @@ export const QCodeContextProvider = ({ questionnaire = {}, children }) => {
       duplicatedQCodes,
       dataVersion,
       hasQCodeError,
+      duplicatedOptionValues,
+      hasOptionValueError,
     }),
-    [answerRows, duplicatedQCodes, dataVersion, hasQCodeError]
+    [
+      answerRows,
+      duplicatedQCodes,
+      dataVersion,
+      hasQCodeError,
+      duplicatedOptionValues,
+      hasOptionValueError,
+    ]
   );
 
   return (
