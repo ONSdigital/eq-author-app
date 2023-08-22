@@ -732,7 +732,7 @@ const Resolvers = {
           : null
       );
       const answer = find(concat(answers, additionalAnswers), { id: input.id });
-      const oldAnsswer = {
+      const oldAnswer = {
         ...answer,
       };
       merge(answer, input);
@@ -745,7 +745,7 @@ const Resolvers = {
       }
 
       const pages = getPages(ctx);
-      onAnswerUpdated(ctx, answer, pages, oldAnsswer);
+      onAnswerUpdated(ctx, answer, pages, oldAnswer);
 
       const page = getPageByAnswerId(ctx, answer.id);
       if (answer.repeatingLabelAndInput && !page.totalValidation) {
