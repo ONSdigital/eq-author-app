@@ -1,6 +1,12 @@
 const cheerio = require("cheerio");
 
-const onUnlinkSupplementaryData = (questionnaire, oldSupplementaryData) => {
+const { getAnswers } = require("../../schema/resolvers/utils");
+
+const onUnlinkSupplementaryData = (
+  ctx,
+  questionnaire,
+  oldSupplementaryData
+) => {
   const pipedAnswerIdRegex = /data-piped="supplementary" data-id="(.+?)"/gm;
   const trimDateRangeId = (id) => id.replace(/(from|to)$/, "");
 
@@ -63,6 +69,15 @@ const onUnlinkSupplementaryData = (questionnaire, oldSupplementaryData) => {
   questionnaire.sections.forEach((section) => {
     if (supplementaryDataListIds.includes(section.repeatingSectionListId)) {
       section.repeatingSectionListId = "";
+    }
+  });
+
+  const answers = getAnswers(ctx);
+  answers.forEach((answer) => {
+    if (
+      supplementaryDataListIds.includes(answer.repeatingLabelAndInputListId)
+    ) {
+      answer.repeatingLabelAndInputListId = "";
     }
   });
 };

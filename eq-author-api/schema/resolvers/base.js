@@ -311,12 +311,18 @@ const Resolvers = {
     },
     supplementaryData: (_, args, ctx) => ctx.questionnaire.supplementaryData,
     listNames: (_, args, ctx) => {
-      return [
-        ...ctx.questionnaire.collectionLists.lists,
-        ...ctx.questionnaire.supplementaryData.data.filter(
-          (list) => list.listName
-        ),
-      ];
+      const listNames = [];
+      if (ctx.questionnaire?.collectionLists?.lists?.length) {
+        listNames.push(...ctx.questionnaire.collectionLists.lists);
+      }
+      if (ctx.questionnaire?.supplementaryData?.data) {
+        listNames.push(
+          ...ctx.questionnaire.supplementaryData.data.filter(
+            (list) => list.listName
+          )
+        );
+      }
+      return listNames;
     },
   },
 
@@ -1598,7 +1604,7 @@ const Resolvers = {
         `Unlinked SupplementaryData with ID: ${ctx.questionnaire.supplementaryData.id} from questionnaire: ${ctx.questionnaire.id}`
       );
       const oldSupplementaryData = ctx.questionnaire?.supplementaryData?.data;
-      onUnlinkSupplementaryData(ctx.questionnaire, oldSupplementaryData);
+      onUnlinkSupplementaryData(ctx, ctx.questionnaire, oldSupplementaryData);
       ctx.questionnaire.supplementaryData = undefined;
       return ctx.questionnaire;
     }),
