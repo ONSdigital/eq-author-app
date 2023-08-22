@@ -1,9 +1,10 @@
 const onUnlinkSupplementaryData = require("./onUnlinkSupplementaryData");
 
 describe("onUnlinkSupplementaryData", () => {
-  let questionnaire, supplementaryData;
+  let ctx, questionnaire, supplementaryData;
 
   beforeEach(() => {
+    ctx = { questionnaire: {} };
     supplementaryData = [
       {
         id: "025a58d6",
@@ -31,14 +32,14 @@ describe("onUnlinkSupplementaryData", () => {
   });
 
   it("Deletes any piping from supplementary data", () => {
-    onUnlinkSupplementaryData(questionnaire, supplementaryData);
+    onUnlinkSupplementaryData(ctx, questionnaire, supplementaryData);
     expect(questionnaire.sections[0].introductionTitle).toBe(
       `<p><span data-piped="supplementary" data-id="65ed8557">[Deleted answer]</span></p>`
     );
   });
 
   it("sets repeating section  list id to emply string", () => {
-    onUnlinkSupplementaryData(questionnaire, supplementaryData);
+    onUnlinkSupplementaryData(ctx, questionnaire, supplementaryData);
     expect(questionnaire.sections[0].repeatingSectionListId).toBe("");
   });
 });
