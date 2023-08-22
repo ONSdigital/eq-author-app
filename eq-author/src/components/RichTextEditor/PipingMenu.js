@@ -63,6 +63,8 @@ const PipingMenu = ({
       if (some(questionnaire?.collectionLists?.lists, { id: listId })) {
         tempContentTypes.push(LIST_ANSWER);
       }
+    }
+    if (pickerContent === METADATA) {
       if (questionnaire.supplementaryData) {
         tempContentTypes.push(SUPPLEMENTARY_DATA);
       }
