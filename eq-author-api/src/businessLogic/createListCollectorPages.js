@@ -3,9 +3,9 @@ const { omit } = require("lodash");
 const createAnswer = require("./createAnswer");
 const createOption = require("./createOption");
 
-const positiveOption = createOption({ label: "Yes" });
-const negativeOption = createOption({ label: "No" });
-const defaultOptions = [positiveOption, negativeOption];
+const positiveOption = () => createOption({ label: "Yes" });
+const negativeOption = () => createOption({ label: "No" });
+const defaultOptions = () => [positiveOption(), negativeOption()];
 
 const createListCollectorQualifierPage = (input = { position: 0 }) => ({
   id: uuidv4(),
@@ -19,7 +19,7 @@ const createListCollectorQualifierPage = (input = { position: 0 }) => ({
     createAnswer({
       label: "",
       type: "Radio",
-      options: defaultOptions,
+      options: defaultOptions(),
     }),
   ],
   ...omit(input, "folderId"),
@@ -44,7 +44,7 @@ const createListCollectorConfirmationPage = (input = { position: 2 }) => ({
     createAnswer({
       label: "",
       type: "Radio",
-      options: defaultOptions,
+      options: defaultOptions(),
     }),
   ],
   ...omit(input, "folderId"),
