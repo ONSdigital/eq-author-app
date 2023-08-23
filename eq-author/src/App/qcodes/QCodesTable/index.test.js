@@ -138,13 +138,11 @@ const optionsSetup = (dataVersion) => {
           id: "checkbox-option-1-id",
           label: "checkbox-option-1-label",
           qCode: "option-1",
-          value: "option-1",
         },
         {
           id: "checkbox-option-2-id",
           label: "checkbox-option-2-label",
           qCode: "option-2",
-          value: "option-2",
         },
       ],
       mutuallyExclusiveOption: {
@@ -152,7 +150,6 @@ const optionsSetup = (dataVersion) => {
         label: "Mutually-exclusive-option-label",
         mutuallyExclusive: true,
         qCode: "mutually-exclusive-option",
-        value: "mutually-exclusive-option",
       },
     })
   );
@@ -192,10 +189,9 @@ describe("Qcode Table", () => {
     const fieldHeadings = [
       "Short code",
       "Question",
-      "Answer Type",
+      "Type",
       "Answer label",
-      "Q code for answer type",
-      "Value for checkbox, radio and select answer labels",
+      "Qcode",
     ];
     fieldHeadings.forEach((heading) => expect(getByText(heading)).toBeTruthy());
   });
@@ -209,7 +205,7 @@ describe("Qcode Table", () => {
     const questionnaire = buildQuestionnaire({ answerCount: 1 });
     questionnaire.sections[0].folders[0].pages[0].answers[0].qCode = "";
     const { getAllByText } = renderWithContext({ questionnaire });
-    expect(getAllByText("Q code required")).toBeTruthy();
+    expect(getAllByText("Qcode required")).toBeTruthy();
   });
 
   it("should not save qCode if it is the same as the initial qCode", () => {
@@ -674,14 +670,14 @@ describe("Qcode Table", () => {
         utils = optionsSetup("3");
       });
 
-      it("should display answer qCodes and option values for checkbox answers in data version 3", () => {
+      it("should display answer qCodes without option qCodes for checkbox answers in data version 3", () => {
         expect(
-          utils.queryByTestId("checkbox-option-1-id-value-test-input")
-        ).toBeInTheDocument();
+          utils.queryByTestId("checkbox-option-1-id-test-input")
+        ).not.toBeInTheDocument();
 
         expect(
-          utils.queryByTestId("checkbox-option-2-id-value-test-input")
-        ).toBeInTheDocument();
+          utils.queryByTestId("checkbox-option-2-id-test-input")
+        ).not.toBeInTheDocument();
 
         expect(
           utils.getByTestId("checkbox-answer-id-test-input")
@@ -711,7 +707,7 @@ describe("Qcode Table", () => {
         questionnaire.sections[0].folders[0].pages[0].answers[0].qCode = "";
         questionnaire.dataVersion = "3";
         const { getAllByText } = renderWithContext({ questionnaire });
-        expect(getAllByText("Q code required")).toBeTruthy();
+        expect(getAllByText("Qcode required")).toBeTruthy();
       });
 
       it("should render a validation error when duplicate qCodes are present in data version 3", () => {
@@ -744,7 +740,7 @@ describe("Qcode Table", () => {
         questionnaire.sections[0].folders[0].pages[0].answers[0].options[0] =
           option;
         const { getAllByText } = renderWithContext({ questionnaire });
-        expect(getAllByText("Q code required")).toBeTruthy();
+        expect(getAllByText("Qcode required")).toBeTruthy();
       });
 
       it("should map qCode rows when additional answer is set to true and answer type is not checkbox option", () => {
@@ -770,7 +766,7 @@ describe("Qcode Table", () => {
         questionnaire.sections[0].folders[0].pages[0].answers[0].options[0] =
           option;
         const { getAllByText } = renderWithContext({ questionnaire });
-        expect(getAllByText("Q code required")).toBeTruthy();
+        expect(getAllByText("Qcode required")).toBeTruthy();
       });
 
       describe("List collector questions", () => {

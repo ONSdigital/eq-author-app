@@ -47,8 +47,6 @@ import { DRIVING, ANOTHER } from "constants/list-answer-types";
 import {
   QCODE_IS_NOT_UNIQUE,
   QCODE_REQUIRED,
-  VALUE_IS_NOT_UNIQUE,
-  VALUE_REQUIRED,
 } from "constants/validationMessages";
 
 const SpacedTableColumn = styled(TableColumn)`
@@ -75,7 +73,7 @@ const StyledTableBody = styled(TableBody)`
   background-color: white;
 `;
 
-const StyledValidationError = styled(ValidationError)`
+const QcodeValidationError = styled(ValidationError)`
   justify-content: unset;
   margin: 0;
   padding-top: 0.2em;
@@ -117,16 +115,13 @@ const Row = memo((props) => {
     questionShortCode,
     label,
     qCode: initialQcode,
-    value: initialValue,
     type,
     errorMessage,
-    valueErrorMessage,
     option,
     secondary,
     listAnswerType,
     drivingQCode,
     anotherQCode,
-    hideOptionValue,
   } = props;
 
   // Uses different initial QCode depending on the QCode defined in the props
@@ -140,10 +135,6 @@ const Row = memo((props) => {
     refetchQueries: ["GetQuestionnaire"],
   });
   const [updateListCollector] = useMutation(UPDATE_LIST_COLLECTOR_PAGE, {
-    refetchQueries: ["GetQuestionnaire"],
-  });
-  const [value, setValue] = useState(initialValue);
-  const [updateValue] = useMutation(UPDATE_OPTION_QCODE, {
     refetchQueries: ["GetQuestionnaire"],
   });
 
@@ -177,13 +168,6 @@ const Row = memo((props) => {
       updateOption,
       updateListCollector,
     ]
-  );
-
-  const handleBlurOptionValue = useCallback(
-    (value) => {
-      updateValue(mutationVariables({ id, value }));
-    },
-    [id, updateValue]
   );
 
   return (
@@ -220,7 +204,7 @@ const Row = memo((props) => {
               aria-label="QCode input field"
             />
             {errorMessage && (
-              <StyledValidationError>{errorMessage}</StyledValidationError>
+              <QcodeValidationError>{errorMessage}</QcodeValidationError>
             )}
           </SpacedTableColumn>
         )
@@ -238,28 +222,9 @@ const Row = memo((props) => {
             aria-label="QCode input field"
           />
           {errorMessage && (
-            <StyledValidationError>{errorMessage}</StyledValidationError>
+            <QcodeValidationError>{errorMessage}</QcodeValidationError>
           )}
         </SpacedTableColumn>
-      )}
-      {[CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type) &&
-      !hideOptionValue ? (
-        <SpacedTableColumn>
-          <ErrorWrappedInput
-            name={`${id}-optionValue-entry`}
-            data-test={`${id}-value-test-input`}
-            value={value}
-            onChange={(e) => setValue(e.value)}
-            onBlur={() => handleBlurOptionValue(value)}
-            hasError={Boolean(valueErrorMessage)}
-            aria-label="Option Value input field"
-          />
-          {valueErrorMessage && (
-            <StyledValidationError>{valueErrorMessage}</StyledValidationError>
-          )}
-        </SpacedTableColumn>
-      ) : (
-        <EmptyTableColumn />
       )}
     </TableRow>
   );
@@ -272,59 +237,35 @@ Row.propTypes = {
   questionShortCode: PropTypes.string,
   label: PropTypes.string,
   qCode: PropTypes.string,
-  value: PropTypes.string,
   type: PropTypes.string,
   qCodeCheck: PropTypes.func,
   errorMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  valueErrorMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   secondary: PropTypes.bool,
   option: PropTypes.bool,
   listAnswerType: PropTypes.string,
   drivingQCode: PropTypes.string,
   anotherQCode: PropTypes.string,
-  hideOptionValue: PropTypes.bool,
 };
 
 export const QCodeTable = () => {
-  const { answerRows, duplicatedQCodes, dataVersion, duplicatedOptionValues } =
-    useQCodeContext();
+  const { answerRows, duplicatedQCodes, dataVersion } = useQCodeContext();
   const getErrorMessage = (qCode) =>
     (!qCode && QCODE_REQUIRED) ||
     (duplicatedQCodes.includes(qCode) && QCODE_IS_NOT_UNIQUE);
 
-  const getValueErrorMessage = (value, idValue) =>
-    (!value && VALUE_REQUIRED) ||
-    (duplicatedOptionValues.includes(idValue) && VALUE_IS_NOT_UNIQUE);
-
-  let currentQuestionId = "";
-  let idValue = "";
   return (
     <Table data-test="qcodes-table">
       <TableHead>
         <TableRow>
-          <TableHeadColumn width="10%">Short code</TableHeadColumn>
-          <TableHeadColumn width="15%">Question</TableHeadColumn>
-          <TableHeadColumn width="20%">Answer Type</TableHeadColumn>
-          <TableHeadColumn width="15%">Answer label</TableHeadColumn>
-          <TableHeadColumn width="20%">Q code for answer type</TableHeadColumn>
-          <TableHeadColumn width="20%">
-            Value for checkbox, radio and select answer labels
-          </TableHeadColumn>
+          <TableHeadColumn width="20%">Short code</TableHeadColumn>
+          <TableHeadColumn width="20%">Question</TableHeadColumn>
+          <TableHeadColumn width="20%">Type</TableHeadColumn>
+          <TableHeadColumn width="20%">Answer label</TableHeadColumn>
+          <TableHeadColumn width="20%">Qcode</TableHeadColumn>
         </TableRow>
       </TableHead>
       <StyledTableBody>
         {answerRows?.map((item, index) => {
-          if (
-            ![CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(item.type)
-          ) {
-            currentQuestionId = item.id ? item.id : "";
-          }
-          if (
-            item.value &&
-            [CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(item.type)
-          ) {
-            idValue = currentQuestionId.concat(item.value);
-          }
           if (
             item.additionalAnswer &&
             (dataVersion === "3" || item.type !== "CheckboxOption")
@@ -336,14 +277,12 @@ export const QCodeTable = () => {
                   dataVersion={dataVersion}
                   {...item}
                   errorMessage={getErrorMessage(item.qCode)}
-                  valueErrorMessage={getValueErrorMessage(item.value, idValue)}
                 />
                 <Row
                   key={`${item.additionalAnswer.id}-${index}`}
                   dataVersion={dataVersion}
                   {...item.additionalAnswer}
                   errorMessage={getErrorMessage(item.additionalAnswer.qCode)}
-                  valueErrorMessage={getValueErrorMessage(item.value, idValue)}
                 />
               </>
             );
@@ -354,9 +293,8 @@ export const QCodeTable = () => {
                 dataVersion={dataVersion}
                 {...item}
                 errorMessage={getErrorMessage(
-                  item.qCode ?? item.drivingQCode ?? item.anotherQCode
+                  item.qCode ?? item.drivingQCode ?? item.anotherQCode // Uses a different QCode depending on the QCode defined in item
                 )}
-                valueErrorMessage={getValueErrorMessage(item.value, idValue)}
               />
             );
           }
