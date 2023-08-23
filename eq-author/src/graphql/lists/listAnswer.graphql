@@ -79,6 +79,7 @@ fragment ListAnswer on Answer {
       mutuallyExclusive
       label
       description
+      value
       validationErrorInfo {
         ...ValidationErrorInfo
       }
