@@ -99,6 +99,12 @@ type CollectionLists {
   questionnaire: Questionnaire
 }
 
+type ListName {
+  id: ID!
+  listName: String
+  displayName: String
+}
+
 type List {
   id: ID!
   listName: String
@@ -822,6 +828,7 @@ type Query {
   supplementaryDataVersions(id: ID!): SupplementaryDataVersions
   supplementaryData: SupplementaryData
   publishHistory: [PublishHistoryEvent]
+  listNames: [ListName]
 }
 
 input CommonFilters {

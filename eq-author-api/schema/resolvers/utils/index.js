@@ -8,6 +8,7 @@ const theme = require("./theme");
 const validation = require("./validation");
 const listGetters = require("./listGetters");
 const setDataVersion = require("./setDataVersion");
+const supplemntaryDataGetters = require("./supplementaryDataGetters");
 
 module.exports = {
   ...logicGetters,
@@ -20,4 +21,5 @@ module.exports = {
   ...validation,
   ...listGetters,
   ...setDataVersion,
+  ...supplemntaryDataGetters,
 };
