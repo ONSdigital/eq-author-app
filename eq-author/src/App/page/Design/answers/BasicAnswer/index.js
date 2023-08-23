@@ -40,7 +40,10 @@ import {
   NUMBER,
 } from "constants/answer-types";
 import { colors } from "constants/theme";
-import { ANSWER } from "components/ContentPickerSelectv3/content-types";
+import {
+  ANSWER,
+  METADATA,
+} from "components/ContentPickerSelectv3/content-types";
 
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
 import AnswerProperties from "components/AnswerContent/AnswerProperties";
@@ -119,7 +122,7 @@ export const StatelessBasicAnswer = ({
           data-test="txt-answer-label"
           controls={pipingControls}
           size="large"
-          allowableTypes={[ANSWER]}
+          allowableTypes={[ANSWER, METADATA]}
           listId={answer.repeatingLabelAndInputListId ?? null}
           hasLabelErrors={hasLabelErrors(answer.validationErrorInfo?.errors)}
           autoFocus={!answer.label}

@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { find } from "lodash";
+import { find, some } from "lodash";
 
 import ContentPicker from "components/ContentPickerv3";
 import { useCurrentPageId } from "components/RouterContext";
@@ -18,6 +18,7 @@ import {
   METADATA,
   VARIABLES,
   LIST_ANSWER,
+  SUPPLEMENTARY_DATA,
 } from "components/ContentPickerSelectv3/content-types";
 
 export const MenuButton = styled(ToolbarButton)`
@@ -36,6 +37,7 @@ const PipingMenuPropTypes = {
   allowableTypes: PropTypes.arrayOf(PropTypes.string),
   allCalculatedSummaryPages: PropTypes.array, //eslint-disable-line
   listId: PropTypes.string,
+  supplementaryDataId: PropTypes.string,
 };
 
 const PipingMenu = ({
@@ -53,13 +55,21 @@ const PipingMenu = ({
 
   const { questionnaire } = useQuestionnaire();
   const pageId = useCurrentPageId();
+
   const handleButtonClick = (pickerContent) => {
     setPickerContent(pickerContent);
-    if (pickerContent === ANSWER && listId) {
-      setContentTypes([ANSWER, LIST_ANSWER]);
-    } else {
-      setContentTypes([pickerContent]);
+    const tempContentTypes = [pickerContent];
+    if (pickerContent === ANSWER) {
+      if (some(questionnaire?.collectionLists?.lists, { id: listId })) {
+        tempContentTypes.push(LIST_ANSWER);
+      }
     }
+    if (pickerContent === METADATA) {
+      if (questionnaire.supplementaryData) {
+        tempContentTypes.push(SUPPLEMENTARY_DATA);
+      }
+    }
+    setContentTypes(tempContentTypes);
     setIsPickerOpen(true);
   };
 
@@ -85,6 +95,18 @@ const PipingMenu = ({
   const listAnswers =
     find(questionnaire?.collectionLists?.lists, { id: listId })?.answers || [];
 
+  const supplementaryData =
+    questionnaire?.supplementaryData?.data
+      .filter((list) => list.listName === "" || list.id === listId)
+      .flatMap((list) => {
+        return list.schemaFields.map((schemaField) => {
+          return {
+            listName: list.listName,
+            ...schemaField,
+          };
+        });
+      }) || [];
+
   const handlePickerContent = (contentType) => {
     switch (contentType) {
       case METADATA:
@@ -95,6 +117,8 @@ const PipingMenu = ({
         return allCalculatedSummaryPages;
       case LIST_ANSWER:
         return listAnswers;
+      case SUPPLEMENTARY_DATA:
+        return supplementaryData;
       default:
         return answerData;
     }
@@ -105,7 +129,10 @@ const PipingMenu = ({
       {allowableTypes.includes(ANSWER) && (
         <MenuButton
           title="Pipe answer"
-          disabled={disabled || (!answerData.length && !listId)}
+          disabled={
+            disabled ||
+            (!answerData.length && !listId && !supplementaryData.length)
+          }
           onClick={() => handleButtonClick(ANSWER)}
           canFocus={canFocus}
           modalVisible={isPickerOpen}

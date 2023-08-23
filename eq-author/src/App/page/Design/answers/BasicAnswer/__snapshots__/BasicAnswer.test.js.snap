@@ -10,6 +10,7 @@ exports[`BasicAnswer should render with description 1`] = `
       allowableTypes={
         Array [
           "Custom",
+          "Metadata",
         ]
       }
       autoFocus={true}
@@ -124,6 +125,7 @@ exports[`BasicAnswer should render without description 1`] = `
       allowableTypes={
         Array [
           "Custom",
+          "Metadata",
         ]
       }
       autoFocus={true}

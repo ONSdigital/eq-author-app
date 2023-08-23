@@ -92,6 +92,7 @@ const onQuestionnaireUpdated = require("../../src/businessLogic/onQuestionnaireU
 const onListDeleted = require("../../src/businessLogic/onListDeleted");
 const onSectionUpdated = require("../../src/businessLogic/onSectionUpdated");
 const processSupplementaryData = require("../../src/businessLogic/processSupplementaryData");
+const onUnlinkSupplementaryData = require("../../src/businessLogic/onUnlinkSupplementaryData");
 
 const {
   createQuestionnaire,
@@ -309,6 +310,20 @@ const Resolvers = {
       }
     },
     supplementaryData: (_, args, ctx) => ctx.questionnaire.supplementaryData,
+    listNames: (_, args, ctx) => {
+      const listNames = [];
+      if (ctx.questionnaire?.collectionLists?.lists?.length) {
+        listNames.push(...ctx.questionnaire.collectionLists.lists);
+      }
+      if (ctx.questionnaire?.supplementaryData?.data) {
+        listNames.push(
+          ...ctx.questionnaire.supplementaryData.data.filter(
+            (list) => list.listName
+          )
+        );
+      }
+      return listNames;
+    },
   },
 
   Subscription: {
@@ -723,6 +738,9 @@ const Resolvers = {
           : null
       );
       const answer = find(concat(answers, additionalAnswers), { id: input.id });
+      const oldAnswer = {
+        ...answer,
+      };
       merge(answer, input);
 
       if (answer.type === DATE && !input.label && input?.properties?.format) {
@@ -733,7 +751,7 @@ const Resolvers = {
       }
 
       const pages = getPages(ctx);
-      onAnswerUpdated(input, pages);
+      onAnswerUpdated(ctx, answer, pages, oldAnswer);
 
       const page = getPageByAnswerId(ctx, answer.id);
       if (answer.repeatingLabelAndInput && !page.totalValidation) {
@@ -1585,6 +1603,8 @@ const Resolvers = {
         { qid: ctx.questionnaire.id },
         `Unlinked SupplementaryData with ID: ${ctx.questionnaire.supplementaryData.id} from questionnaire: ${ctx.questionnaire.id}`
       );
+      const oldSupplementaryData = ctx.questionnaire?.supplementaryData?.data;
+      onUnlinkSupplementaryData(ctx, ctx.questionnaire, oldSupplementaryData);
       ctx.questionnaire.supplementaryData = undefined;
       return ctx.questionnaire;
     }),
@@ -1657,6 +1677,10 @@ const Resolvers = {
     },
     validationErrorInfo: ({ id }, args, ctx) =>
       returnValidationErrors(ctx, id, ({ listId }) => id === listId),
+  },
+
+  ListName: {
+    displayName: ({ listName }) => listName || "Untitled list",
   },
 
   SupplementaryDataField: {

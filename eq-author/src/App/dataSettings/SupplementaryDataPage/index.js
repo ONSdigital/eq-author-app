@@ -127,11 +127,11 @@ const SupplementaryDataPage = () => {
   };
 
   const [linkSupplementaryData] = useMutation(UPDATE_SUPPLEMENTARY_DATA, {
-    refetchQueries: ["GetSupplementaryData"],
+    refetchQueries: ["GetSupplementaryData", "GetQuestionnaire"],
   });
 
   const [unlinkSupplementaryData] = useMutation(UNLINK_SUPPLEMENTARY_DATA, {
-    refetchQueries: ["GetSupplementaryData"],
+    refetchQueries: ["GetSupplementaryData", "GetQuestionnaire"],
   });
 
   const {
@@ -336,10 +336,10 @@ const SupplementaryDataPage = () => {
                                       List source
                                     </StyledTableHeadColumn>
                                     <StyledTableHeadColumn width="30%">
-                                      Example value
+                                      Description
                                     </StyledTableHeadColumn>
                                     <StyledTableHeadColumn width="30%">
-                                      Description
+                                      Example
                                     </StyledTableHeadColumn>
                                   </TableRow>
                                 </TableHead>
@@ -358,12 +358,12 @@ const SupplementaryDataPage = () => {
                                             {list.listName}
                                           </SpacedTableColumn>
                                           <SpacedTableColumn>
+                                            {field.description}
+                                          </SpacedTableColumn>
+                                          <SpacedTableColumn>
                                             {field.type === "array"
                                               ? field.exampleArray.join(", ")
                                               : field.example}
-                                          </SpacedTableColumn>
-                                          <SpacedTableColumn>
-                                            {field.description}
                                           </SpacedTableColumn>
                                         </TableRow>
                                       );

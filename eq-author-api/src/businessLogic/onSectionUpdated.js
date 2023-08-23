@@ -1,4 +1,7 @@
-const { getListById } = require("../../schema/resolvers/utils");
+const {
+  getListById,
+  getSupplementaryDataAsCollectionListById,
+} = require("../../schema/resolvers/utils");
 const { flatMap } = require("lodash");
 const cheerio = require("cheerio");
 
@@ -9,7 +12,7 @@ const updatePipingValue = (htmlText, answerId, newValue) => {
   const htmlDoc = cheerio.load(htmlText, null, false);
   const dataSpan = htmlDoc(`span[data-id=${answerId}]`);
   dataSpan.each((i, elem) => {
-    elem.children[0].data = `[${newValue}]`;
+    elem.children[0].data = `[${newValue.replace(/(<([^>]+)>)/gi, "")}]`;
   });
   return htmlDoc.html();
 };
@@ -55,8 +58,18 @@ const updatePiping = (answers, section, pages) => {
 };
 
 module.exports = (ctx, section, oldSection) => {
-  const oldList = getListById(ctx, oldSection?.repeatingSectionListId);
-  const newList = getListById(ctx, section?.repeatingSectionListId);
+  const oldList =
+    getListById(ctx, oldSection?.repeatingSectionListId) ||
+    getSupplementaryDataAsCollectionListById(
+      ctx,
+      oldSection?.repeatingSectionListId
+    );
+  const newList =
+    getListById(ctx, section?.repeatingSectionListId) ||
+    getSupplementaryDataAsCollectionListById(
+      ctx,
+      section?.repeatingSectionListId
+    );
   const pages = flatMap(section?.folders, "pages");
 
   if (
