@@ -119,6 +119,8 @@ fragment PageNav on Section {
   id
   showOnHub
   sectionSummary
+  repeatingSection
+  repeatingSectionListId
   folders {
     id
     alias

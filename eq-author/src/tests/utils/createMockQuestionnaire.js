@@ -120,6 +120,8 @@ export const buildSections = ({
       pageCount,
       answerCount,
     }),
+    repeatingSection: false,
+    repeatingSectionListId: "",
     position: i,
     validationErrorInfo: {
       totalCount: 0,
@@ -204,5 +206,6 @@ export const buildListCollectorFolders = ({
         totalCount: 0,
         __typename: "ValidationErrorInfo",
       },
+      __typename: "ListCollectorFolder",
     };
   });

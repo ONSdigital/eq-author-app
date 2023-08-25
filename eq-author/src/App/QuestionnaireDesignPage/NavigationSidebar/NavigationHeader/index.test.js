@@ -23,7 +23,7 @@ jest.mock("react-router-dom", () => ({
 
 useParams.mockImplementation(() => ({
   entityName: "section",
-  entityId: "1.1.1",
+  entityId: "1",
 }));
 
 function defaultSetup(changes) {

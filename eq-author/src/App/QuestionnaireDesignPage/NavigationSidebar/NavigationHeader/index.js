@@ -4,7 +4,13 @@ import PropTypes from "prop-types";
 import gql from "graphql-tag";
 
 import { flowRight } from "lodash";
-import { getPageById, getFolderById } from "utils/questionnaireUtils";
+import {
+  getPageById,
+  getFolderById,
+  getSectionById,
+  getSectionByFolderId,
+  getSectionByPageId,
+} from "utils/questionnaireUtils";
 import { SECTION, FOLDER, PAGE, INTRODUCTION } from "constants/entities";
 
 import QuestionnaireSettingsModal from "App/QuestionnaireSettingsModal";
@@ -40,16 +46,36 @@ export const UnwrappedNavigationHeader = ({
     onAddListCollectorFolder,
   } = useNavigationCallbacks();
 
+  let section;
+
   const page = getPageById(questionnaire, entityId);
   const folder = getFolderById(questionnaire, entityId);
   const isFolder = entityName === FOLDER;
-  const isListCollectorFolder = folder ? folder.listId !== undefined : false;
+  const isListCollectorFolder =
+    folder && folder.__typename === "ListCollectorFolder";
+
+  switch (entityName) {
+    case PAGE:
+      section = getSectionByPageId(questionnaire, entityId);
+      break;
+    case FOLDER:
+      section = getSectionByFolderId(questionnaire, entityId);
+      break;
+    case SECTION:
+      section = getSectionById(questionnaire, entityId);
+      break;
+    case INTRODUCTION:
+    default:
+      break;
+  }
 
   const canAddQuestionAndCalculatedSummmaryPages =
     [PAGE, FOLDER, SECTION].includes(entityName) &&
     !isListCollectorPageType(page?.pageType); // TODO: List collector folder - update to allow adding follow up questions
 
   const canAddFolder = [PAGE, FOLDER, SECTION].includes(entityName);
+  const canAddListCollectorFolder =
+    (canAddFolder && section && !section.repeatingSection) || false;
 
   const canAddSection = [PAGE, FOLDER, SECTION, INTRODUCTION].includes(
     entityName
@@ -129,7 +155,7 @@ export const UnwrappedNavigationHeader = ({
         canAddQuestionPage={canAddQuestionAndCalculatedSummmaryPages}
         canAddCalculatedSummaryPage={canAddQuestionAndCalculatedSummmaryPages}
         canAddQuestionConfirmation={canAddQuestionConfirmation}
-        canAddListCollectorFolder={canAddFolder}
+        canAddListCollectorFolder={canAddListCollectorFolder}
         canAddIntroductionPage={canAddIntroductionPage}
         canAddFolder={canAddFolder}
         canAddSection={canAddSection}

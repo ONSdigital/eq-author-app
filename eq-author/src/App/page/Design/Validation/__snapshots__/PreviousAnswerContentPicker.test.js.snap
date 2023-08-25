@@ -89,6 +89,8 @@ exports[`PreviousAnswerContentPicker should render 1`] = `
           ],
           "id": "1",
           "position": 0,
+          "repeatingSection": false,
+          "repeatingSectionListId": "",
           "title": "Section 1",
           "validationErrorInfo": Object {
             "totalCount": 0,
