@@ -8,7 +8,7 @@
     },
     "pipedString": {
       "type": "string",
-      "pattern": "data-piped=\"answers\" data-id=\"(.+?)\"",
+      "pattern": "data-piped=\"(.+?)\" data-id=\"(.+?)\"",
       "errorMessage": "ERR_VALID_PIPED_ANSWER_REQUIRED"
     }
   }

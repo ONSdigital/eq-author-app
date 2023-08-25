@@ -173,6 +173,7 @@ const moveSectionMock = {
           totalCount: "0",
           __typename: "ValidationErrorInfo",
         },
+        supplementaryData: null,
       },
     },
   },

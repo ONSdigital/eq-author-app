@@ -12,6 +12,7 @@ import {
   DESTINATION,
   DYNAMIC_ANSWER,
   LIST_ANSWER,
+  SUPPLEMENTARY_DATA,
 } from "components/ContentPickerSelectv3/content-types";
 import AnswerPicker from "./AnswerPicker";
 import MetadataPicker from "./MetadataPicker";
@@ -19,6 +20,7 @@ import VariablePicker from "./VariablePicker";
 import DestinationPicker from "./DestinationPicker";
 import DynamicAnswerPicker from "./DynamicAnswerPicker";
 import ListAnswerPicker from "./ListAnswerPicker";
+import SupplementaryDataPicker from "./SupplementaryDataPicker";
 
 const ModalFooter = styled.div`
   padding: 1.5em;
@@ -183,6 +185,7 @@ const ContentPicker = ({
             data={data}
           />
         );
+
       case LIST_ANSWER:
         return (
           <ListAnswerPicker
@@ -195,6 +198,24 @@ const ContentPicker = ({
             contentType={contentType}
             contentTypes={contentTypes}
             setContentType={handleSetContentType}
+            contentPickerTitle={contentPickerTitle}
+          />
+        );
+
+      case SUPPLEMENTARY_DATA:
+        return (
+          <SupplementaryDataPicker
+            onConfirm={handleConfirm}
+            onSelected={(item) =>
+              handleSelected({ ...item, pipingType: "supplementary" })
+            }
+            isSelected={isSelected}
+            data={data}
+            multiselect={multiselect}
+            contentType={contentType}
+            contentTypes={contentTypes}
+            setContentType={handleSetContentType}
+            firstSelectedItemId={getFirstSelectedItemId()}
             contentPickerTitle={contentPickerTitle}
           />
         );

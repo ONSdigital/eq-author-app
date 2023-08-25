@@ -10,7 +10,7 @@ import { find, some } from "lodash";
 import ValidationError from "components/ValidationError";
 
 import { useQuery } from "@apollo/react-hooks";
-import COLLECTION_LISTS from "graphql/lists/collectionLists.graphql";
+import GET_LISTNAMES from "graphql/getListNames.graphql";
 
 const ToggleWrapper = styled.div`
   margin: 0.7em 0 0 0;
@@ -54,14 +54,14 @@ const RepeatingLabelAndInput = (props) => {
   const { handleUpdate, answer, disabled } = props;
   const { id } = answer;
 
-  const { data } = useQuery(COLLECTION_LISTS, {
+  const { data } = useQuery(GET_LISTNAMES, {
     fetchPolicy: "cache-and-network",
   });
 
-  let lists = [];
+  let listNames = [];
 
   if (data) {
-    lists = data.collectionLists?.lists || [];
+    listNames = data.listNames || [];
   }
 
   return (
@@ -120,7 +120,7 @@ const RepeatingLabelAndInput = (props) => {
             })}
           >
             <option value="">Select a collection list</option>
-            {lists.map((list) => (
+            {listNames.map((list) => (
               <option key={list.id} value={list.id}>
                 {list.displayName}
               </option>
