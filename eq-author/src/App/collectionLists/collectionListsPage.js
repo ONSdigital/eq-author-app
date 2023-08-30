@@ -24,14 +24,14 @@ import withUpdateOption from "App/page/Design/answers/withUpdateOption";
 import withDeleteOption from "App/page/Design/answers/withDeleteOption";
 
 const List = styled.ol`
-  margin: 0 0 1.5em;
+  margin: 0 0 1.5em 1.5em;
   padding: 0;
   counter-reset: item;
 `;
 
 const ListItem = styled.li`
   margin: 0;
-  padding: 0 0 0.25em 2em;
+  padding: 0.2em 0;
   text-indent: -1.5em;
   list-style-type: none;
   counter-increment: item;
@@ -63,11 +63,13 @@ const StyledGrid = styled.div`
   flex-direction: column;
   padding: 1em;
   border: 1px solid ${colors.lightGrey};
-  margin: 0.5em 1em;
+  border-radius: 4px;
+  background: ${colors.white};
+  margin: 1.2em;
 `;
 
 const AddListCollectionButton = styled(Button)`
-  margin-top: 1rem;
+  margin: 1.5rem 0rem;
   width: 18rem;
   padding: 1rem;
 `;
@@ -128,91 +130,54 @@ const CollectionListsPage = ({
     <Container>
       <Header title="Collection Lists" tabIndex="-1" className="keyNav" />
       <StyledGrid>
+        <h2>List collectors and collection lists</h2>
         <Text>
-          Collection Lists are an essential part of the List Collector
-          questionnaire design pattern.
+          To use a list collector question pattern, it must be linked to a
+          collection list.
         </Text>
-        <Text>
-          A Collection List is used to store respondent answers to a specific
-          question for example, the names of all the persons residing in a
-          household.
-        </Text>
-        <Text>
-          The structure of the Collection List is defined with answer type(s)
-          that together make up a single entry on the list for example, first
-          name, middle name, and last name.
-        </Text>
-        <Collapsible title="What is the List Collector questionnaire design pattern?">
-          <Text>
-            The List Collector design pattern provides an efficient EQ solution
-            to the problem of data collection on a variable number of subjects.
-            For example, collecting data on each person residing in a household.
-          </Text>
-          <Text>
-            The first part of the pattern is to collect the list. Step one is
-            when a respondent is asked if they have something to add, e.g
-            another person in the household. If they have then they will then be
-            taken to a looping question where they enter the answers which will
-            be collected for the list. The respondent will again be asked if
-            they have any more to add and a summary of the list will be shown,
-            if they have more to add the question is repeated and answers
-            collected and again added to the list. This loop continues until the
-            respondent has nothing more to add. The list is then ready for use.
-          </Text>
-          <Text>
-            Respondents can then be asked questions for each item on the list.
-          </Text>
-        </Collapsible>
 
-        <Collapsible title="How to create the List Collector questionnaire design pattern in Author?">
-          <Text>
-            To create the list collector pattern in Author we do this in the
-            following steps:
-          </Text>
+        <Collapsible
+          title="List collector question pattern: step-by-step"
+          dataTestIdPrefix="list-collector-step-by-step"
+        >
           <List>
             <ListItem>
-              Go to the Collection Lists page on the left hand menu and create a
-              collection list and give it a relevant name.
+              To start, the qualifier question determines if there is a list to
+              collect. If the answer is no, the respondent moves to the next
+              question after the list collector. If yes, the respondent is taken
+              to the question for adding a list item.
             </ListItem>
             <ListItem>
-              Add the answers you need to collect that will make up each item on
-              the list, for example adding two text field answer types to
-              collect the respondent&apos;s first name and last name.
+              The question for adding a list item enables input or selection of
+              one list item at a time.
             </ListItem>
             <ListItem>
-              In the questionnaire add a List collector page via the add/import
-              menu.
+              The added list item will be displayed on the summary page, as well
+              as the question to confirm list completion. If the list has not
+              been completed, the respondent is taken to the question to add
+              another list item.
             </ListItem>
             <ListItem>
-              The List collector page is made up of two questions which repeat
-              until there is nothing else to add to the list, for example does
-              anyone else live in the household, if there is then what is their
-              name. The first question is on the List collector page which has a
-              radio option. Enter the question and answer labels.
-            </ListItem>
-            <ListItem>
-              In the answers list area you must select a list from the dropdown
-              menu, this menu will show any lists that have been created in the
-              Collection lists page. Select the relevant list.
-            </ListItem>
-            <ListItem>
-              Once the list is selected a list summary area appears along with
-              another question field. The List summary will display answers for
-              each label shown, you can remove these labels but must keep at
-              least one.
-            </ListItem>
-            <ListItem>
-              Enter a question in the Add to list question field, this is the
-              second question that gets repeated, for example who do you need to
-              add?
-            </ListItem>
-            <ListItem>
-              When you view this page using the Preview tab, both of these
-              repeating questions will be shown, the respondent will see one
-              question at a time.
+              This process repeats until the list is complete.
             </ListItem>
           </List>
         </Collapsible>
+
+        <h2>What is a collection list?</h2>
+        <Text>
+          A collection list stores list items added to linked list collector
+          question patterns. These list items can be referenced in subsequent
+          question titles and answer labels by piping the collection list.
+          Multiple list collector questions can be linked to the same collection
+          list.
+        </Text>
+        <Text>
+          Each collection list requires a name and an answer template, which
+          specifies the answer types to be used in the question for adding a
+          list item. This answer template is applied across all linked list
+          collector question patterns.
+        </Text>
+
         <AddListCollectionButton
           variant="secondary"
           data-test="btn-add-list"
