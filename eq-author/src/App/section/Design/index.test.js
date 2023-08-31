@@ -51,6 +51,7 @@ const section = {
   sectionSummaryPageDescription: "",
   collapsibleSummary: false,
   repeatingSection: false,
+  allowRepeatingSection: false,
   repeatingSectionListId: null,
   comments: [],
   folders: [
@@ -69,6 +70,7 @@ const section = {
           alias: "bar alias",
           displayName: "bar",
           position: 0,
+          pageType: "QuestionPage",
         },
         {
           __typename: "QuestionPage",
@@ -77,6 +79,7 @@ const section = {
           alias: "blah alias",
           displayName: "blah",
           position: 1,
+          pageType: "QuestionPage",
         },
       ],
     },

@@ -52,7 +52,7 @@ const AnswerWrapper = styled.div`
 export const Answer = ({ answer }) => {
   const Component = answerComponents[answer.type];
   return (
-    <AnswerWrapper>
+    <AnswerWrapper data-test={`answer-wrapper-${answer.id}`}>
       <Component answer={answer} />
       {answer.options &&
         answer.options.length &&

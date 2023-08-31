@@ -53,6 +53,14 @@ const CustomPropTypes = {
     introductionEnabled: PropTypes.bool,
     pageDescription: PropTypes.string,
   }),
+  folder: PropTypes.shape({
+    id: PropTypes.string,
+    alias: PropTypes.string,
+    title: PropTypes.string,
+    listId: PropTypes.string,
+    displayName: PropTypes.string,
+    folderId: PropTypes.string,
+  }),
   page: PropTypes.shape({
     id: PropTypes.string,
     title: PropTypes.string,

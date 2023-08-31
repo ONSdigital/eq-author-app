@@ -1,0 +1,166 @@
+#import "./fragments/validationErrorInfo.graphql"
+#import "./fragments/page.graphql"
+#import "./fragments/comment.graphql"
+#import "./fragments/option.graphql"
+#import "./fragments/answer.graphql"
+
+mutation CreateListCollectorFolder($input: CreateListCollectorFolderInput!) {
+  createListCollectorFolder(input: $input) {
+    id
+    alias
+    displayName
+    position
+    title
+    ... on ListCollectorFolder {
+      listId
+    }
+    section {
+      id
+      allowRepeatingSection
+      folders {
+        id
+        position
+        pages {
+          ...Page
+          position
+          displayName
+          title
+          alias
+          pageType
+          ... on QuestionPage {
+            guidance
+            answers {
+              id
+            }
+            confirmation {
+              id
+            }
+            comments {
+              ...Comment
+            }
+          }
+          ... on CalculatedSummaryPage {
+            id
+          }
+          ... on ListCollectorPage {
+            id
+          }
+          ... on ListCollectorQualifierPage {
+            id
+            alias
+            title
+            position
+            displayName
+            pageType
+            answers {
+              id
+              ... on MultipleChoiceAnswer {
+                ...Answer
+                options {
+                  ...Option
+                }
+                mutuallyExclusiveOption {
+                  id
+                }
+              }
+            }
+            validationErrorInfo {
+              ...ValidationErrorInfo
+            }
+          }
+          ... on ListCollectorAddItemPage {
+            id
+            alias
+            title
+            position
+            displayName
+            pageType
+            validationErrorInfo {
+              ...ValidationErrorInfo
+            }
+          }
+          ... on ListCollectorConfirmationPage {
+            id
+            alias
+            title
+            position
+            displayName
+            pageType
+            answers {
+              id
+              ... on MultipleChoiceAnswer {
+                ...Answer
+                options {
+                  ...Option
+                }
+                mutuallyExclusiveOption {
+                  id
+                }
+              }
+            }
+            validationErrorInfo {
+              ...ValidationErrorInfo
+            }
+          }
+          validationErrorInfo {
+            ...ValidationErrorInfo
+          }
+        }
+      }
+    }
+    validationErrorInfo {
+      ...ValidationErrorInfo
+    }
+    pages {
+      ... on ListCollectorQualifierPage {
+        id
+        alias
+        title
+        position
+        displayName
+        pageType
+        answers {
+          id
+          ... on MultipleChoiceAnswer {
+            options {
+              id
+            }
+          }
+        }
+        validationErrorInfo {
+          ...ValidationErrorInfo
+        }
+      }
+      ... on ListCollectorAddItemPage {
+        id
+        alias
+        title
+        position
+        displayName
+        pageType
+        validationErrorInfo {
+          ...ValidationErrorInfo
+        }
+      }
+      ... on ListCollectorConfirmationPage {
+        id
+        alias
+        title
+        position
+        displayName
+        pageType
+        answers {
+          id
+          ... on MultipleChoiceAnswer {
+            options {
+              id
+            }
+          }
+        }
+        validationErrorInfo {
+          ...ValidationErrorInfo
+        }
+      }
+    }
+  }
+}

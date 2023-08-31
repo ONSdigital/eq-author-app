@@ -2,6 +2,7 @@ import {
   useCreateFolderMutation,
   useCreateFolder,
   useCreatePageWithFolder,
+  useCreateListCollectorFolder,
 } from "./useCreateFolder";
 
 import { useRedirectToPage, useRedirectToFolder } from "hooks/useRedirects";
@@ -19,6 +20,23 @@ jest.mock("@apollo/react-hooks", () => ({
           resolve({
             data: {
               createFolder: { id: "new-folder", pages: [{ id: "page-1" }] },
+              createListCollectorFolder: {
+                id: "new-list-collector-folder",
+                pages: [
+                  {
+                    id: "qualifier-page",
+                    pageType: "ListCollectorQualifierPage",
+                  },
+                  {
+                    id: "add-item-page",
+                    pageType: "ListCollectorAddItemPage",
+                  },
+                  {
+                    id: "confirmation-page",
+                    pageType: "ListCollectorConfirmationPage",
+                  },
+                ],
+              },
             },
           })
         )
@@ -58,6 +76,19 @@ describe("hooks: useCreateFolder", () => {
       await addFolder({});
       expect(redirect).toHaveBeenCalledWith(
         expect.objectContaining({ pageId: "page-1" })
+      );
+    });
+  });
+
+  describe("useCreateListCollectorFolder", () => {
+    it("should redirect to new list collector folder on completion", async () => {
+      const redirect = jest.fn();
+      useRedirectToFolder.mockImplementation(() => redirect);
+
+      const addFolder = useCreateListCollectorFolder();
+      await addFolder({});
+      expect(redirect).toHaveBeenCalledWith(
+        expect.objectContaining({ folderId: "new-list-collector-folder" })
       );
     });
   });

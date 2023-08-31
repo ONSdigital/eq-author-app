@@ -1,0 +1,11 @@
+#import "graphql/fragments/page.graphql"
+#import "graphql/fragments/validationErrorInfo.graphql"
+
+query GetPageQuery($input: QueryInput!) {
+  page(input: $input) {
+    ...Page
+    validationErrorInfo {
+      ...ValidationErrorInfo
+    }
+  }
+}

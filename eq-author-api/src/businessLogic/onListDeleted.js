@@ -15,6 +15,11 @@ module.exports = (ctx, list) => {
     if (section.repeatingSectionListId === list.id) {
       section.repeatingSectionListId = null;
     }
+    section.folders.forEach((folder) => {
+      if (folder.listId && folder.listId === list.id) {
+        folder.listId = "";
+      }
+    });
   });
 
   if (list.answers) {

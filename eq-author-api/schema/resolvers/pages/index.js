@@ -1,4 +1,4 @@
-const { omit, cloneDeep } = require("lodash");
+const { omit, cloneDeep, merge } = require("lodash");
 
 const {
   getSectionByPageId,
@@ -28,6 +28,14 @@ Resolvers.Page = {
 };
 
 Resolvers.Mutation = {
+  updatePage: createMutation((_, { input }, ctx) => {
+    const { id } = input;
+    const page = getPageById(ctx, id);
+
+    merge(page, input);
+    return page;
+  }),
+
   movePage: createMutation((_, { input }, ctx) => {
     const { id: pageId, sectionId, folderId, position } = input;
 
@@ -111,4 +119,5 @@ module.exports = [
   require("./questionPage").Resolvers,
   require("./calculatedSummaryPage").Resolvers,
   require("./listCollectorPage").Resolvers,
+  require("./listCollectorPages").Resolvers,
 ];
