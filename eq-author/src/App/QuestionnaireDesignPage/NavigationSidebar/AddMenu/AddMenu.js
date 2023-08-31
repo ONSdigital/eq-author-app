@@ -11,7 +11,7 @@ import IconConfirmation from "assets/icon-playback.svg?inline";
 import IconFolder from "assets/icon-folder.svg?inline";
 import IconIntroduction from "assets/icon-introduction-page.svg?inline";
 import IconImport from "assets/icon-import.svg?inline";
-import IconListCollectorPage from "assets/icon-list-collector.svg?inline";
+import IconListCollectorFolder from "assets/icon-list-collector-folder.svg?inline";
 
 import PopupTransition from "../PopupTransition";
 import { MenuButton, MenuAddButton } from "./AddMenuButtons";
@@ -45,7 +45,7 @@ const AddMenu = ({
   canAddQuestionPage,
   onAddSection,
   onStartImportingContent,
-  onAddListCollectorPage,
+  onAddListCollectorFolder,
   onAddIntroductionPage,
   canAddIntroductionPage,
   canAddSection,
@@ -54,10 +54,11 @@ const AddMenu = ({
   onAddQuestionConfirmation,
   canAddQuestionConfirmation,
   canImportContent,
-  canAddListCollectorPage,
+  canAddListCollectorFolder,
   onAddFolder,
   canAddFolder,
   isFolder,
+  isListCollectorFolder,
   folderTitle,
 }) => {
   const defaultButtons = [
@@ -97,6 +98,13 @@ const AddMenu = ({
       text: "Confirmation question",
     },
     {
+      handleClick: () => onAddListCollectorFolder(),
+      disabled: !canAddListCollectorFolder,
+      dataTest: "btn-add-list-collector-folder",
+      icon: IconListCollectorFolder,
+      text: "List collector",
+    },
+    {
       handleClick: () => onAddCalculatedSummaryPage(),
       disabled: !canAddCalculatedSummaryPage,
       dataTest: "btn-add-calculated-summary",
@@ -112,10 +120,11 @@ const AddMenu = ({
     },
   ];
 
+  // Buttons to add content inside a folder when selected entity is a folder
   const extraButtons = [
     {
       handleClick: () => onAddQuestionPage(true),
-      disabled: !canAddQuestionPage,
+      disabled: !canAddQuestionPage || isListCollectorFolder, // TODO: List collector folder - remove `isListCollectorFolder` to allow adding question pages when completing the follow up question task
       dataTest: "btn-add-question-page-inside",
       icon: IconQuestion,
       text: "Question",
@@ -129,27 +138,19 @@ const AddMenu = ({
     },
     {
       handleClick: () => onStartImportingContent(true),
-      disabled: !canImportContent,
-      dataTest: "btn-import-content",
+      disabled: !canImportContent || isListCollectorFolder, // TODO: List collector folder - remove `isListCollectorFolder` to allow importing question pages when completing the follow up question task
+      dataTest: "btn-import-content-inside",
       icon: IconImport,
       text: "Import content",
     },
   ];
 
-  defaultButtons.splice(5, 0, {
-    handleClick: () => onAddListCollectorPage(),
-    disabled: !canAddListCollectorPage,
-    dataTest: "btn-add-list-collector-page",
-    icon: IconListCollectorPage,
-    text: "List collector",
-  });
-  extraButtons.splice(2, 0, {
-    handleClick: () => onAddListCollectorPage(true),
-    disabled: !canAddListCollectorPage,
-    dataTest: "btn-add-list-collector-page-inside",
-    icon: IconQuestion,
-    text: "List collector",
-  });
+  // Removes add calculated summary page from buttons on list collector folders
+  const filteredExtraButtons = isListCollectorFolder
+    ? extraButtons.filter(
+        (button) => button.dataTest !== "btn-add-calculated-summary-inside"
+      )
+    : extraButtons;
 
   return (
     <Popout
@@ -165,7 +166,7 @@ const AddMenu = ({
       <AddMenuWindow data-test="addmenu-window">
         {isFolder && (
           <FolderAddSubMenu folderTitle={folderTitle}>
-            {extraButtons.map((item) => (
+            {filteredExtraButtons.map((item) => (
               <MenuButton key={`${item.dataTest}-folder`} {...item} />
             ))}
           </FolderAddSubMenu>
@@ -192,11 +193,12 @@ AddMenu.propTypes = {
   onAddFolder: PropTypes.func.isRequired,
   canAddFolder: PropTypes.bool.isRequired,
   isFolder: PropTypes.bool.isRequired,
+  isListCollectorFolder: PropTypes.bool,
   folderTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   canImportContent: PropTypes.bool,
   onStartImportingContent: PropTypes.func.isRequired,
-  onAddListCollectorPage: PropTypes.func.isRequired,
-  canAddListCollectorPage: PropTypes.bool.isRequired,
+  onAddListCollectorFolder: PropTypes.func.isRequired,
+  canAddListCollectorFolder: PropTypes.bool.isRequired,
   onAddIntroductionPage: PropTypes.func.isRequired,
   canAddIntroductionPage: PropTypes.bool.isRequired,
 };

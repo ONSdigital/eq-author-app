@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { colors } from "constants/theme";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 
+import { Label } from "components/Forms";
+
 const Wrapper = styled.div``;
 
 const Header = styled.div`
@@ -16,7 +18,6 @@ const Header = styled.div`
   h2 {
     font-size: 1em;
     color: ${colors.black};
-    margin-right: 1em;
     min-width: 7.5em;
   }
 `;
@@ -37,6 +38,7 @@ const CollapsibleToggled = ({
   headerContent,
   ariaLabel,
   children,
+  inline,
   onChange,
   quoted = true,
   withContentSpace,
@@ -49,7 +51,12 @@ const CollapsibleToggled = ({
         isOpen={isOpen}
         data-test="CollapsibleToggled__Header"
       >
-        {title && <h2>{title}</h2>}
+        {title && !inline && <h2>{title}</h2>}
+        {title && inline && (
+          <Label htmlFor={id} inline>
+            {title}
+          </Label>
+        )}
         <ToggleSwitch
           id={id}
           name={`${id}-toggle-switch`}
@@ -84,6 +91,10 @@ CollapsibleToggled.propTypes = {
    * The title of the collapsible.
    */
   title: PropTypes.string,
+  /**
+   * If true, inline styling will be applied.
+   */
+  inline: PropTypes.bool,
   /**
    * If true, the collapsible will be open.
    */

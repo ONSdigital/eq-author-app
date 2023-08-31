@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { getPages } from "utils/questionnaireUtils";
 import { stripHtmlToText } from "utils/stripHTML";
 import searchByQuestionTitleOrShortCode from "utils/searchFunctions/searchByQuestionTitleShortCode";
+import isListCollectorPageType from "utils/isListCollectorPageType";
 
 import { colors } from "constants/theme";
 
@@ -65,7 +66,7 @@ const WarningPanel = styled(IconText)`
 const isSelected = (items, target) => items.find(({ id }) => id === target.id);
 
 const Page = ({ page }) => {
-  const { title, displayName, alias } = page;
+  const { title, displayName, pageType, alias } = page;
   const { selectedPages, updateSelectedPages } =
     useContext(SelectedPageContext);
 
@@ -82,13 +83,15 @@ const Page = ({ page }) => {
     }
   };
   return (
-    <Item
-      title={stripHtmlToText(title) || displayName}
-      subtitle={alias}
-      onClick={handleClick}
-      selected={Boolean(itemSelected)}
-      dataTest="Page"
-    />
+    !isListCollectorPageType(pageType) && (
+      <Item
+        title={stripHtmlToText(title) || displayName}
+        subtitle={alias}
+        onClick={handleClick}
+        selected={Boolean(itemSelected)}
+        dataTest="Page"
+      />
+    )
   );
 };
 Page.propTypes = {

@@ -11,7 +11,10 @@ import {
   useCreateQuestionPage,
   useCreateCalculatedSummaryPage,
 } from "hooks/useCreateQuestionPage";
-import { useCreateFolder } from "hooks/useCreateFolder";
+import {
+  useCreateFolder,
+  useCreateListCollectorFolder,
+} from "hooks/useCreateFolder";
 
 jest.mock("hooks/useCreateQuestionPage", () => ({
   useCreateQuestionPage: jest.fn(),
@@ -22,6 +25,7 @@ jest.mock("hooks/useCreateQuestionPage", () => ({
 jest.mock("hooks/useCreateFolder", () => ({
   useCreatePageWithFolder: jest.fn(),
   useCreateFolder: jest.fn(),
+  useCreateListCollectorFolder: jest.fn(),
 }));
 
 jest.mock("react", () => ({
@@ -37,6 +41,7 @@ describe("Navigation callbacks", () => {
     expect(() => defaultCallbacks.onAddQuestionPage()).toThrow();
     expect(() => defaultCallbacks.onAddCalculatedSummaryPage()).toThrow();
     expect(() => defaultCallbacks.onAddFolder()).toThrow();
+    expect(() => defaultCallbacks.onAddListCollectorFolder()).toThrow();
   });
 
   it("useSetNavigationCallbacks: shouldn't set callbacks unless all dependencies exist", () => {
@@ -59,11 +64,15 @@ describe("Navigation callbacks", () => {
     const addQuestionPage = jest.fn();
     const addCalculatedSummaryPage = jest.fn();
     const addFolder = jest.fn();
+    const addListCollectorFolder = jest.fn();
     useCreateQuestionPage.mockImplementation(() => addQuestionPage);
     useCreateCalculatedSummaryPage.mockImplementation(
       () => addCalculatedSummaryPage
     );
     useCreateFolder.mockImplementation(() => addFolder);
+    useCreateListCollectorFolder.mockImplementation(
+      () => addListCollectorFolder
+    );
 
     useSetNavigationCallbacksForPage({
       page: { position: 0, folder: { enabled: true, position: 5 } },
@@ -76,6 +85,7 @@ describe("Navigation callbacks", () => {
     callbacks.onAddQuestionPage();
     callbacks.onAddCalculatedSummaryPage();
     callbacks.onAddFolder();
+    callbacks.onAddListCollectorFolder();
 
     expect(addQuestionPage).toHaveBeenCalledTimes(1);
     expect(addQuestionPage).toHaveBeenCalledWith(
@@ -92,5 +102,18 @@ describe("Navigation callbacks", () => {
       })
     );
     expect(addFolder).toHaveBeenCalledTimes(1);
+    expect(addFolder).toHaveBeenCalledWith(
+      expect.objectContaining({
+        sectionId: "section-1",
+        position: 1,
+      })
+    );
+    expect(addListCollectorFolder).toHaveBeenCalledTimes(1);
+    expect(addListCollectorFolder).toHaveBeenCalledWith(
+      expect.objectContaining({
+        sectionId: "section-1",
+        position: 1,
+      })
+    );
   });
 });

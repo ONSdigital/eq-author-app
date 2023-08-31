@@ -225,6 +225,24 @@ const getPageQuery = `
           condition
         }
       }
+      ... on ListCollectorQualifierPage {
+        comments {
+          id
+          commentText
+        }
+      }
+      ... on ListCollectorAddItemPage {
+        comments {
+          id
+          commentText
+        }
+      }
+      ... on ListCollectorConfirmationPage {
+        comments {
+          id
+          commentText
+        }
+      }
     }
   }  
 `;

@@ -79,6 +79,6 @@ describe("skippable interface", () => {
       ctx
     );
 
-    expect(response.data.skippable.__typename).toBe("Folder");
+    expect(response.data.skippable.__typename).toBe("BasicFolder");
   });
 });

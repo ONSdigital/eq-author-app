@@ -96,6 +96,63 @@ mutation duplicateFolder($input: DuplicateFolderInput!) {
               ...Comment
             }
           }
+          ... on ListCollectorQualifierPage {
+            id
+            alias
+            title
+            position
+            displayName
+            pageType
+            answers {
+              id
+              ... on MultipleChoiceAnswer {
+                ...Answer
+                options {
+                  ...Option
+                }
+                mutuallyExclusiveOption {
+                  id
+                }
+              }
+            }
+            validationErrorInfo {
+              ...ValidationErrorInfo
+            }
+          }
+          ... on ListCollectorAddItemPage {
+            id
+            alias
+            title
+            position
+            displayName
+            pageType
+            validationErrorInfo {
+              ...ValidationErrorInfo
+            }
+          }
+          ... on ListCollectorConfirmationPage {
+            id
+            alias
+            title
+            position
+            displayName
+            pageType
+            answers {
+              id
+              ... on MultipleChoiceAnswer {
+                ...Answer
+                options {
+                  ...Option
+                }
+                mutuallyExclusiveOption {
+                  id
+                }
+              }
+            }
+            validationErrorInfo {
+              ...ValidationErrorInfo
+            }
+          }
           validationErrorInfo {
             ...ValidationErrorInfo
           }

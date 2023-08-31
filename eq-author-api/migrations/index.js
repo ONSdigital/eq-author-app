@@ -48,6 +48,7 @@ const migrations = [
   require("./addRepeatingLabelAndInputFields"),
   require("./addCollectionListAnswerRepeatingProperties"),
   require("./updateIntroductionPreviewQuestionsSettings"),
+  require("./convertListCollectorPageToFolder"),
 ];
 
 const currentVersion = migrations.length;

@@ -58,7 +58,8 @@ export const ButtonsContainer = styled.div`
 export const Flex = styled.div`
   display: flex;
   align-items: flex-start;
-  margin-top: 1.5em;
+  margin-top: ${({ isListCollectorPageType }) =>
+    !isListCollectorPageType && `1.5em`};
 `;
 
 export const OptionField = styled(Field)`
@@ -113,6 +114,7 @@ export const StatelessOption = ({
   onMoveDown,
   hideMoveButtons,
   hasMultipleOptions,
+  isListCollectorPageType,
 }) => {
   const [otherLabelValue, setOtherLabelValue] = useState(
     option?.additionalAnswer?.label ?? ""
@@ -341,7 +343,7 @@ export const StatelessOption = ({
         {renderToolbar()}
         {!option.dynamicAnswer && (
           <>
-            <Flex>
+            <Flex isListCollectorPageType={isListCollectorPageType}>
               {type !== SELECT && (
                 <DummyMultipleChoice
                   type={type}
@@ -386,67 +388,69 @@ export const StatelessOption = ({
             )}
           </>
         )}
-        {[RADIO, CHECKBOX].includes(type) && !option.additionalAnswer && (
-          <>
-            <Flex>
-              <CustomInlineField
-                id={`dynamic-option-toggle-switch-${option.id}`}
-                name="Dynamic Option"
-                label="Dynamic Option"
-                disabled={
-                  !option.dynamicAnswer &&
-                  (checkDynamicOption() || getCheckboxAnswers().length === 0)
-                }
-              >
-                <ToggleSwitch
+        {[RADIO, CHECKBOX].includes(type) &&
+          !option.additionalAnswer &&
+          !isListCollectorPageType && (
+            <>
+              <Flex>
+                <CustomInlineField
                   id={`dynamic-option-toggle-switch-${option.id}`}
                   name="Dynamic Option"
-                  onChange={() => {
-                    onUpdateFormat(!option.dynamicAnswer);
-                  }}
-                  checked={option.dynamicAnswer || false}
-                  hideLabels={false}
-                  ariaLabel="Dynamic Option"
-                />
-              </CustomInlineField>
-            </Flex>
-            {option.dynamicAnswer && (
-              <>
-                <OptionField>
-                  <Label>Dynamic Answer</Label>
-                  <ContentPickerSelect
-                    name="answerId"
-                    contentTypes={[DYNAMIC_ANSWER]}
-                    data={data}
-                    contentPickerTitle="Select an answer"
-                    selectedContentDisplayName={getSelectedDynamicAnswer()}
-                    onSubmit={handlePickerSubmit}
-                    data-test="dynamic-answer-picker"
-                    hasError={Boolean(labelError)}
+                  label="Dynamic Option"
+                  disabled={
+                    !option.dynamicAnswer &&
+                    (checkDynamicOption() || getCheckboxAnswers().length === 0)
+                  }
+                >
+                  <ToggleSwitch
+                    id={`dynamic-option-toggle-switch-${option.id}`}
+                    name="Dynamic Option"
+                    onChange={() => {
+                      onUpdateFormat(!option.dynamicAnswer);
+                    }}
+                    checked={option.dynamicAnswer || false}
+                    hideLabels={false}
+                    ariaLabel="Dynamic Option"
                   />
-                  {labelError && (
-                    <ValidationError>{labelError}</ValidationError>
-                  )}
-                </OptionField>
-              </>
-            )}
-            <OptionField>
-              <Collapsible
-                title="What is a dynamic option?"
-                key={`dynamic-answer-collapsible${option.id}`}
-              >
-                <CollapsibleContent>
-                  Answer options can be set to be dynamic to use answers from a
-                  previous checkbox question. Note, if only one checkbox answer
-                  exists then the answer question is skipped.
-                </CollapsibleContent>
-                <CollapsibleContent>
-                  Question titles can include piped dynamic option answers.
-                </CollapsibleContent>
-              </Collapsible>
-            </OptionField>
-          </>
-        )}
+                </CustomInlineField>
+              </Flex>
+              {option.dynamicAnswer && (
+                <>
+                  <OptionField>
+                    <Label>Dynamic Answer</Label>
+                    <ContentPickerSelect
+                      name="answerId"
+                      contentTypes={[DYNAMIC_ANSWER]}
+                      data={data}
+                      contentPickerTitle="Select an answer"
+                      selectedContentDisplayName={getSelectedDynamicAnswer()}
+                      onSubmit={handlePickerSubmit}
+                      data-test="dynamic-answer-picker"
+                      hasError={Boolean(labelError)}
+                    />
+                    {labelError && (
+                      <ValidationError>{labelError}</ValidationError>
+                    )}
+                  </OptionField>
+                </>
+              )}
+              <OptionField>
+                <Collapsible
+                  title="What is a dynamic option?"
+                  key={`dynamic-answer-collapsible${option.id}`}
+                >
+                  <CollapsibleContent>
+                    Answer options can be set to be dynamic to use answers from
+                    a previous checkbox question. Note, if only one checkbox
+                    answer exists then the answer question is skipped.
+                  </CollapsibleContent>
+                  <CollapsibleContent>
+                    Question titles can include piped dynamic option answers.
+                  </CollapsibleContent>
+                </Collapsible>
+              </OptionField>
+            </>
+          )}
         {option.additionalAnswer && (
           <LastOptionField>
             <Label htmlFor={`option-otherLabel-${option.additionalAnswer.id}`}>
@@ -489,6 +493,7 @@ StatelessOption.propTypes = {
   hideMoveButtons: PropTypes.bool,
   hasMultipleOptions: PropTypes.bool,
   answer: PropTypes.object, //eslint-disable-line
+  isListCollectorPageType: PropTypes.bool,
 };
 
 StatelessOption.fragments = {

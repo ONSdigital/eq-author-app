@@ -1,0 +1,12 @@
+#import "./fragments/questionPage.graphql"
+#import "./fragments/validationErrorInfo.graphql"
+
+mutation UpdateQuestionPage($input: UpdateQuestionPageInput!) {
+  updateQuestionPage(input: $input) {
+    ...QuestionPage
+    displayName
+    validationErrorInfo {
+      ...ValidationErrorInfo
+    }
+  }
+}

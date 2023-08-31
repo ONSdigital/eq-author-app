@@ -144,7 +144,18 @@ type DeletedQuestionnaire {
   id: ID!
 }
 
-type Folder implements Skippable {
+interface Folder {
+  id: ID!
+  alias: String
+  title: String
+  pages: [Page]
+  position: Int!
+  section: Section!
+  displayName: String!
+  validationErrorInfo: ValidationErrorInfo
+}
+
+type BasicFolder implements Folder & Skippable {
   id: ID!
   alias: String
   title: String
@@ -153,6 +164,64 @@ type Folder implements Skippable {
   position: Int!
   section: Section!
   displayName: String!
+  validationErrorInfo: ValidationErrorInfo
+}
+
+type ListCollectorFolder implements Folder {
+  id: ID!
+  alias: String
+  title: String
+  listId: ID
+  pages: [Page]
+  position: Int!
+  section: Section!
+  displayName: String!
+  validationErrorInfo: ValidationErrorInfo
+}
+
+type ListCollectorQualifierPage implements Page {
+  id: ID!
+  title: String!
+  alias: String
+  displayName: String!
+  pageType: PageType!
+  pageDescription: String
+  folder: Folder!
+  section: Section!
+  position: Int!
+  additionalGuidanceEnabled: Boolean
+  additionalGuidanceContent: String
+  answers: [Answer]
+  comments: [Comment]
+  validationErrorInfo: ValidationErrorInfo
+}
+
+type ListCollectorAddItemPage implements Page {
+  id: ID!
+  title: String!
+  alias: String
+  displayName: String!
+  pageType: PageType!
+  pageDescription: String
+  folder: Folder!
+  section: Section!
+  position: Int!
+  comments: [Comment]
+  validationErrorInfo: ValidationErrorInfo
+}
+
+type ListCollectorConfirmationPage implements Page {
+  id: ID!
+  title: String!
+  alias: String
+  displayName: String!
+  pageType: PageType!
+  pageDescription: String
+  folder: Folder!
+  section: Section!
+  position: Int!
+  answers: [Answer]
+  comments: [Comment]
   validationErrorInfo: ValidationErrorInfo
 }
 
@@ -535,6 +604,9 @@ enum PageType {
   InterstitialPage
   CalculatedSummaryPage
   ListCollectorPage
+  ListCollectorQualifierPage
+  ListCollectorAddItemPage
+  ListCollectorConfirmationPage
 }
 
 enum AnswerType {
@@ -930,6 +1002,8 @@ type Mutation {
   moveFolder(input: MoveFolderInput!): Questionnaire
   duplicateFolder(input: DuplicateFolderInput!): Folder
 
+  createListCollectorFolder(input: CreateListCollectorFolderInput!): Folder
+
   toggleQuestionnaireStarred(input: ToggleQuestionnaireStarredInput!): Questionnaire
 
   updatePage(input: UpdatePageInput!): Page
@@ -1284,6 +1358,7 @@ input UpdateFolderInput {
   folderId: ID!
   alias: String
   title: String
+  listId: ID
 }
 
 input DeleteFolderInput {
@@ -1295,10 +1370,28 @@ input DuplicateFolderInput {
   position: Int!
 }
 
+input CreateListCollectorFolderInput {
+  sectionId: ID!
+  position: Int!
+}
+
 input UpdatePageInput {
   id: ID!
-  title: String!
+  alias: String
+  title: String
   description: String
+  descriptionEnabled: Boolean
+  guidance: String
+  guidanceEnabled: Boolean
+  definitionLabel: String
+  definitionContent: String
+  definitionEnabled: Boolean
+  additionalInfoLabel: String
+  additionalInfoContent: String
+  additionalInfoEnabled: Boolean
+  pageDescription: String
+  additionalGuidanceEnabled: Boolean
+  additionalGuidanceContent: String
 }
 
 input DeletePageInput {

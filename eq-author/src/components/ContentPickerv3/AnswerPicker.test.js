@@ -149,6 +149,7 @@ describe("Content Picker Answer Picker", () => {
       section1Button: section1Button2,
     });
   });
+
   it("Types Percentage into the search bar and returns the answer", () => {
     const { getByText, queryByPlaceholderText, queryByText } =
       renderAnswerPicker({});

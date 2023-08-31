@@ -38,6 +38,7 @@ query GetQuestionnaire($input: QueryInput!) {
           alias
           position
           displayName
+          pageType
         }
       }
       questionnaire {

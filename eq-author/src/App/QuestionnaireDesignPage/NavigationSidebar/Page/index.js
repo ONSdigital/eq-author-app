@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { focusStyle } from "constants/theme";
 
 import { buildPagePath, buildConfirmationPath } from "utils/UrlUtils";
+import isListCollectorPageType from "utils/isListCollectorPageType";
 
 import IconQuestionPage from "assets/icon-questionpage.svg?inline";
 import IconConfirmationPage from "assets/icon-playback.svg?inline";
@@ -51,10 +52,18 @@ const Page = ({
     QuestionPage: IconQuestionPage,
     CalculatedSummaryPage: IconSummaryPage,
     ListCollectorPage: IconListCollectorPage,
+    ListCollectorQualifierPage: IconQuestionPage,
+    ListCollectorAddItemPage: IconQuestionPage,
+    ListCollectorConfirmationPage: IconQuestionPage,
   };
 
   return (
-    <Draggable key={pageId} draggableId={pageId} index={position}>
+    <Draggable
+      key={pageId}
+      draggableId={pageId}
+      index={position}
+      isDragDisabled={isListCollectorPageType(pageType)}
+    >
       {({ innerRef, draggableProps, dragHandleProps }, { isDragging }) => (
         <ListItem ref={innerRef} {...draggableProps} isDragging={isDragging}>
           <QuestionPage

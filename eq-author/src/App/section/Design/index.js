@@ -9,6 +9,7 @@ import { get, flowRight, isEmpty } from "lodash";
 import {
   useCreatePageWithFolder,
   useCreateFolder,
+  useCreateListCollectorFolder,
 } from "hooks/useCreateFolder";
 
 import SectionEditor from "App/section/Design/SectionEditor";
@@ -57,6 +58,7 @@ export const UnwrappedSectionRoute = (props) => {
   const [showMoveSectionDialog, setMoveSectionDialog] = useState(false);
   const addFolderWithPage = useCreatePageWithFolder();
   const addFolder = useCreateFolder();
+  const addListCollectorFolder = useCreateListCollectorFolder();
 
   const {
     match: {
@@ -83,13 +85,12 @@ export const UnwrappedSectionRoute = (props) => {
           position: section.folders.length + 1,
           isCalcSum: true,
         }),
-      onAddListCollectorPage: () =>
-        addFolderWithPage({
-          sectionId: section.id,
-          position: section.folders.length + 1,
-          isListCollector: true,
-        }),
       onAddFolder: () => addFolder({ sectionId: section.id, position: 0 }),
+      onAddListCollectorFolder: () =>
+        addListCollectorFolder({
+          sectionId: section.id,
+          position: 0,
+        }),
     },
     [section]
   );

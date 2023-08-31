@@ -15,6 +15,7 @@ export const colors = {
   lightMediumGrey: "#E4E8EB",
   mediumGrey: "#7a7a7a",
   lighterGrey: "#f5f5f5",
+  pipingGrey: "#e0e0e0",
   disabledGreyOnOrange: "#7A6340",
   red: "#D0021B",
   lightOrange: "#FFDFCD",

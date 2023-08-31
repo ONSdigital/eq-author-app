@@ -4,9 +4,11 @@ import PropTypes from "prop-types";
 import {
   useCreateQuestionPage,
   useCreateCalculatedSummaryPage,
-  useCreateListCollectorPage,
 } from "hooks/useCreateQuestionPage";
-import { useCreateFolder } from "hooks/useCreateFolder";
+import {
+  useCreateFolder,
+  useCreateListCollectorFolder,
+} from "hooks/useCreateFolder";
 
 export const defaultCallbacks = {
   onAddQuestionPage: () => {
@@ -18,8 +20,8 @@ export const defaultCallbacks = {
   onAddFolder: () => {
     throw new Error("onAddFolder callback not defined");
   },
-  onAddListCollectorPage: () => {
-    throw new Error("onAddListCollectorPage callback not defined");
+  onAddListCollectorFolder: () => {
+    throw new Error("onAddListCollectorFolder callback not defined");
   },
 };
 
@@ -58,7 +60,7 @@ export const useSetNavigationCallbacks = (callbacks, dependencies) => {
 
 export const useSetNavigationCallbacksForPage = ({ page, folder, section }) => {
   const addQuestionPage = useCreateQuestionPage();
-  const addListCollectorPage = useCreateListCollectorPage();
+  const addListCollectorFolder = useCreateListCollectorFolder();
   const addCalculatedSummaryPage = useCreateCalculatedSummaryPage();
   const addFolder = useCreateFolder();
 
@@ -79,10 +81,10 @@ export const useSetNavigationCallbacksForPage = ({ page, folder, section }) => {
           sectionId: section.id,
           position: folder.position + 1,
         }),
-      onAddListCollectorPage: () =>
-        addListCollectorPage({
-          folderId: folder.id,
-          position: page.position + 1,
+      onAddListCollectorFolder: () =>
+        addListCollectorFolder({
+          sectionId: section.id,
+          position: folder.position + 1,
         }),
     },
     [page, folder, section]

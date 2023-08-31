@@ -7,6 +7,7 @@ export default {
   PIPING_TITLE_DELETED: ({ message }) => message,
 };
 
+// TODO: List collector folder - remove after legacy list collector pages are removed
 export const LIST_COLLECTOR_ERRORS = [
   {
     field: "repeatingLabelAndInputListId",
@@ -333,6 +334,25 @@ export const FORM_TYPE_ERRORS = {
 
 export const EQ_ID_ERRORS = {
   ERR_VALID_REQUIRED: "Enter an eQ ID",
+};
+
+export const LIST_COLLECTOR_FOLDER_ERRORS = {
+  ERR_VALID_REQUIRED: "Enter a list collector title",
+  ERR_COLLECTION_LIST_REQUIRED: "Collection list required",
+};
+
+export const LIST_COLLECTOR_QUALIFIER_PAGE_ERRORS = {
+  ERR_VALID_REQUIRED: "Enter a qualifier question title",
+  ERR_ADDITONAL_GUIDANCE_CONTENT_REQUIRED: "Enter additional guidance content",
+};
+
+export const LIST_COLLECTOR_ADD_ITEM_PAGE_ERRORS = {
+  ERR_VALID_REQUIRED: "Enter a title for the question for adding a list item",
+};
+
+export const LIST_COLLECTOR_CONFIRMATION_PAGE_ERRORS = {
+  ERR_VALID_REQUIRED:
+    "Enter a title for the question to confirm list completion",
 };
 
 export const MISSING_LABEL = "Enter a label";

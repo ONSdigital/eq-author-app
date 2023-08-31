@@ -57,6 +57,7 @@ exports[`PreviousAnswerContentPicker should render 1`] = `
                   "guidance": "",
                   "guidanceEnabled": false,
                   "id": "1.1.1",
+                  "pageDescription": "Page description 1.1.1",
                   "pageType": "QuestionPage",
                   "position": 0,
                   "section": Object {
@@ -88,6 +89,8 @@ exports[`PreviousAnswerContentPicker should render 1`] = `
           ],
           "id": "1",
           "position": 0,
+          "repeatingSection": false,
+          "repeatingSectionListId": "",
           "title": "Section 1",
           "validationErrorInfo": Object {
             "totalCount": 0,

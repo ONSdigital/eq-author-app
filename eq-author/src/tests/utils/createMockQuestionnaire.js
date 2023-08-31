@@ -46,6 +46,7 @@ export const buildPages = ({
       additionalInfoContent: "",
       additionalInfoEnabled: false,
       alias: id,
+      pageDescription: `Page description ${id}`,
       position: i,
       pageType: "QuestionPage", // this is needed to build collapsible nav items
       validationErrorInfo: {
@@ -119,6 +120,8 @@ export const buildSections = ({
       pageCount,
       answerCount,
     }),
+    repeatingSection: false,
+    repeatingSectionListId: "",
     position: i,
     validationErrorInfo: {
       totalCount: 0,
@@ -131,3 +134,78 @@ export const buildQuestionnaire = (options) => ({
   displayName: "questionnaire",
   sections: buildSections(options),
 });
+
+export const buildListCollectorPages = (idNumber) => {
+  return [
+    {
+      id: `qualifier-${idNumber}`,
+      displayName: "List collector qualifier page",
+      pageType: "ListCollectorQualifierPage",
+      answers: [
+        {
+          id: `qualifier-answer-${idNumber}`,
+          type: "Radio",
+          options: [
+            {
+              id: `qualifier-option-positive-${idNumber}`,
+              label: "Yes",
+            },
+            {
+              id: `qualifier-option-negative-${idNumber}`,
+              label: "No",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: `add-item-${idNumber}`,
+      displayName: "List collector add item page",
+      pageType: "ListCollectorAddItemPage",
+    },
+    {
+      id: `confirmation--${idNumber}`,
+      displayName: "List collector confirmation page",
+      pageType: "ListCollectorConfirmationPage",
+      answers: [
+        {
+          id: `confirmation-answer-${idNumber}`,
+          type: "Radio",
+          options: [
+            {
+              id: `confirmation-option-positive-${idNumber}`,
+              label: "Yes",
+            },
+            {
+              id: `confirmation-option-negative-${idNumber}`,
+              label: "No",
+            },
+          ],
+        },
+      ],
+    },
+  ];
+};
+
+export const buildListCollectorFolders = ({
+  listCollectorFolderCount = DEFAULT_FOLDER_COUNT,
+} = {}) =>
+  times(listCollectorFolderCount, (i) => {
+    const id = `list-collector-folder-${i + 1}`;
+    return {
+      id,
+      alias: `List collector folder ${id}`,
+      displayName: `List collector folder ${id}`,
+      position: i,
+      pages: buildListCollectorPages(id),
+      section: { id: `${i + 1}` },
+      listId: `list-${i + 1}`,
+      validationErrorInfo: {
+        id: `${id}-validationErrorInfo`,
+        errors: [],
+        totalCount: 0,
+        __typename: "ValidationErrorInfo",
+      },
+      __typename: "ListCollectorFolder",
+    };
+  });
