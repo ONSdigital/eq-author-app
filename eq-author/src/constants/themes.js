@@ -30,13 +30,13 @@ const THEMES = [
     id: "dbt-dsit",
     title: "Department for Science, Innovation and Technology",
     description:
-      "Header includes the Department for Science, Innovation and Technology logo",
+      "Header includes the logos for Department for Business and Trade and Department for Science, Innovation and Technology",
   },
   {
     id: "dbt-dsit-ni",
     title: "Department for Science, Innovation and Technology NI",
     description:
-      "Header includes the Department for Science, Innovation and Technology NI logo",
+      "Header includes the logos for Department for Business and Trade, Department for Science, Innovation and Technology, and Department of Finance",
   },
   {
     id: "desnz",
