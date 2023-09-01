@@ -2,11 +2,9 @@ const { GoogleAuth } = require("google-auth-library");
 const { logger } = require("../../../utils/logger");
 const fetch = require("node-fetch");
 
-const targetAudience = process.env.SUPPLEMENTARY_DATA_GATEWAY_AUDIENCE;
-
 const auth = new GoogleAuth();
 
-const authorisedRequest = async (url, method = "GET") => {
+const authorisedRequest = async (url, targetAudience, method = "GET") => {
   try {
     if (!targetAudience) {
       const response = await fetch(url, { method: method });

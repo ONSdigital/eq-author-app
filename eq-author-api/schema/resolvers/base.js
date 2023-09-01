@@ -301,7 +301,10 @@ const Resolvers = {
       const url = `${process.env.SUPPLEMENTARY_DATA_GATEWAY}schema_metadata?survey_id=${id}`;
 
       try {
-        const supplementaryDataVersions = await authorisedRequest(url);
+        const supplementaryDataVersions = await authorisedRequest(
+          url,
+          process.env.SUPPLEMENTARY_DATA_GATEWAY_AUDIENCE
+        );
         return {
           surveyId: id,
           versions: supplementaryDataVersions,
@@ -1589,7 +1592,10 @@ const Resolvers = {
       const url = `${process.env.SUPPLEMENTARY_DATA_GATEWAY}schema?survey_id=${surveyId}&version=${version}`;
 
       try {
-        const supplementaryDataVersion = await authorisedRequest(url);
+        const supplementaryDataVersion = await authorisedRequest(
+          url,
+          process.env.SUPPLEMENTARY_DATA_GATEWAY_AUDIENCE
+        );
 
         if (supplementaryDataVersion) {
           logger.info(`Schema version data returned - ${id}`);
