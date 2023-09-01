@@ -77,6 +77,7 @@ const {
   getListByAnswerId,
   getAnswerByOptionId,
   setDataVersion,
+  authorisedRequest,
 } = require("./utils");
 
 const createAnswer = require("../../src/businessLogic/createAnswer");
@@ -300,14 +301,17 @@ const Resolvers = {
       const url = `${process.env.SUPPLEMENTARY_DATA_GATEWAY}schema_metadata?survey_id=${id}`;
 
       try {
-        const response = await fetch(url);
-        const supplementaryDataVersions = await response.json();
+        const supplementaryDataVersions = await authorisedRequest(url);
         return {
           surveyId: id,
           versions: supplementaryDataVersions,
         };
       } catch (err) {
-        throw Error(err);
+        logger.error(err.message);
+        return {
+          surveyId: id,
+          versions: [],
+        };
       }
     },
     supplementaryData: (_, args, ctx) => ctx.questionnaire.supplementaryData,
@@ -1585,8 +1589,7 @@ const Resolvers = {
       const url = `${process.env.SUPPLEMENTARY_DATA_GATEWAY}schema?survey_id=${surveyId}&version=${version}`;
 
       try {
-        const response = await fetch(url);
-        const supplementaryDataVersion = await response.json();
+        const supplementaryDataVersion = await authorisedRequest(url);
 
         if (supplementaryDataVersion) {
           logger.info(`Schema version data returned - ${id}`);
