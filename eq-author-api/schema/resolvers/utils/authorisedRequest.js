@@ -4,15 +4,19 @@ const fetch = require("node-fetch");
 
 const auth = new GoogleAuth();
 
-const authorisedRequest = async (url, targetAudience, method = "GET") => {
+const authorisedRequest = async (url, targetAudience, options) => {
   try {
     if (!targetAudience) {
-      const response = await fetch(url, { method: method });
-      return await response.json();
+      const response = await fetch(url, options);
+      const data = await response.json();
+      return {
+        data: data,
+        status: response.status,
+      };
     }
     const client = await auth.getIdTokenClient(targetAudience);
-    const res = await client.request({ url, method: method });
-    return res.data;
+    const res = await client.request({ url, options });
+    return res;
   } catch (err) {
     logger.error(err.message);
     throw err;
