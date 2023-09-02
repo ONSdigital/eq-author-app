@@ -15,7 +15,7 @@ const authorisedRequest = async (url, targetAudience, options) => {
       };
     }
     const client = await auth.getIdTokenClient(targetAudience);
-    const res = await client.request({ url, options });
+    const res = await client.request({ url, ...options });
     return res;
   } catch (err) {
     logger.error(err.message);
