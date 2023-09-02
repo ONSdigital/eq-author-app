@@ -25,13 +25,13 @@ logger.info(schema);
 
 const auth = new GoogleAuth();
 
-const authorisedRequest = async (url, method = "GET", schema) => {
+const authorisedRequest = async (url, schema) => {
   try {
     logger.info(`request ${url} with target audience ${targetAudience}`);
     const client = await auth.getIdTokenClient(targetAudience);
     const res = await client.request({
       url,
-      method: method,
+      method: "POST",
       data: schema,
       headers: {
         "Content-Type": "application/json",
@@ -45,4 +45,4 @@ const authorisedRequest = async (url, method = "GET", schema) => {
   }
 };
 
-authorisedRequest(url, "POST", schema);
+authorisedRequest(url, schema);
