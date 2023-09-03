@@ -1559,8 +1559,11 @@ const Resolvers = {
       ).catch((e) => {
         publishResult.success = false;
         publishResult.errorMessage = `Failed to fetch questionnaire - ${e.message}`;
-        return ctx.questionnaire;
       });
+
+      if (publishResult.success === false) {
+        return ctx.questionnaire;
+      }
 
       if (convertedResponse.status !== 200) {
         publishResult.success = false;

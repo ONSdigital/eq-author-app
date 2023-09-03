@@ -12,6 +12,7 @@ const authorisedRequest = async (url, targetAudience, options) => {
       return {
         data: data,
         status: response.status,
+        statusText: response.statusText,
       };
     }
     const client = await auth.getIdTokenClient(targetAudience);
