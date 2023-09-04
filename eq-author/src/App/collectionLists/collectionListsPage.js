@@ -45,7 +45,19 @@ const ListItem = styled.li`
   }
 `;
 
-const Text = styled.p``;
+const Heading2 = styled.h2`
+  font-size: 1.4em;
+  font-weight: bold;
+  color: ${colors.text};
+  margin: 1em 0 0.6em 0;
+  &:first-child {
+    margin-top: 0;
+  }
+`;
+
+const Text = styled.p`
+  margin: 0.4em 0;
+`;
 
 const Container = styled.div`
   display: flex;
@@ -130,7 +142,7 @@ const CollectionListsPage = ({
     <Container>
       <Header title="Collection Lists" tabIndex="-1" className="keyNav" />
       <StyledGrid>
-        <h2>List collectors and collection lists</h2>
+        <Heading2>List collectors and collection lists</Heading2>
         <Text>
           To use a list collector question pattern, it must be linked to a
           collection list.
@@ -163,7 +175,7 @@ const CollectionListsPage = ({
           </List>
         </Collapsible>
 
-        <h2>What is a collection list?</h2>
+        <Heading2>What is a collection list?</Heading2>
         <Text>
           A collection list stores list items added to linked list collector
           question patterns. These list items can be referenced in subsequent
