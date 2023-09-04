@@ -1,4 +1,5 @@
 const { buildContext } = require("../../tests/utils/contextBuilder");
+
 const {
   createQuestionnaire,
 } = require("../../tests/utils/contextBuilder/questionnaire");
@@ -11,7 +12,15 @@ const {
 const {
   createFolder,
   moveFolder,
+  updateFolder,
+  duplicateFolder,
+  createListCollectorFolder,
 } = require("../../tests/utils/contextBuilder/folder");
+
+const {
+  createList,
+  deleteList,
+} = require("../../tests/utils/contextBuilder/list");
 
 const { createSection } = require("../../tests/utils/contextBuilder/section");
 
@@ -67,6 +76,104 @@ describe("Folders", () => {
       });
     });
 
+    describe("CreateListCollectorFolder", () => {
+      it("should create a list collector folder", async () => {
+        const [section] = questionnaire.sections;
+        const listCollectorFolder = await createListCollectorFolder(ctx, {
+          sectionId: section.id,
+          position: 0,
+        });
+
+        expect(listCollectorFolder).toEqual(
+          expect.objectContaining({
+            id: expect.any(String),
+            alias: "",
+            title: "",
+            listId: "",
+            displayName: "Untitled list collector",
+            position: 0,
+            pages: [
+              {
+                id: expect.any(String),
+                pageType: "ListCollectorQualifierPage",
+                answers: [
+                  {
+                    id: expect.any(String),
+                    type: "Radio",
+                    options: [
+                      {
+                        id: expect.any(String),
+                      },
+                      {
+                        id: expect.any(String),
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                id: expect.any(String),
+                pageType: "ListCollectorAddItemPage",
+              },
+              {
+                id: expect.any(String),
+                pageType: "ListCollectorConfirmationPage",
+                answers: [
+                  {
+                    id: expect.any(String),
+                    type: "Radio",
+                    options: [
+                      {
+                        id: expect.any(String),
+                      },
+                      {
+                        id: expect.any(String),
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+            section: {
+              id: expect.any(String),
+            },
+            validationErrorInfo: {
+              id: expect.any(String),
+              totalCount: 2,
+            },
+          })
+        );
+      });
+
+      it("should change folder list ID to empty when associated collection list is deleted", async () => {
+        const [section] = questionnaire.sections;
+        await createListCollectorFolder(ctx, {
+          sectionId: section.id,
+          position: 0,
+        });
+
+        expect(ctx.questionnaire.collectionLists.lists.length).toEqual(0);
+
+        const { lists } = await createList(ctx);
+
+        expect(ctx.questionnaire.collectionLists.lists.length).toEqual(1);
+
+        await updateFolder(ctx, {
+          folderId: ctx.questionnaire.sections[0].folders[0].id,
+          listId: lists[0].id,
+        });
+
+        expect(ctx.questionnaire.sections[0].folders[0].listId).toEqual(
+          lists[0].id
+        );
+
+        deleteList(ctx, { id: lists[0].id });
+
+        expect(ctx.questionnaire.collectionLists.lists.length).toEqual(0);
+        expect(ctx.questionnaire.sections[0].folders[0].listId).toEqual("");
+      });
+    });
+
     describe("MoveFolder", () => {
       let folderOne, sectionTwo;
       beforeEach(async () => {
@@ -116,6 +223,49 @@ describe("Folders", () => {
         expect(returnedQuestionnaire.sections[1].folders[1].id).toEqual(
           folderOne.id
         );
+      });
+    });
+
+    describe("DuplicateFolder", () => {
+      it("should duplicate a folder", async () => {
+        questionnaire = ctx.questionnaire;
+        const folderToDuplicate = questionnaire.sections[0].folders[0];
+
+        folderToDuplicate.alias = "Test alias";
+
+        const newFolder = await duplicateFolder(ctx, {
+          id: folderToDuplicate.id,
+          position: 1,
+        });
+
+        expect(newFolder.alias).toEqual("Copy of Test alias");
+        expect(newFolder.pages[0]).toMatchObject({
+          ...folderToDuplicate.pages[0],
+          id: expect.any(String),
+        });
+      });
+
+      it("should add prefix to duplicated list collector folder title", async () => {
+        questionnaire = ctx.questionnaire;
+
+        const listCollectorFolder = await createListCollectorFolder(ctx, {
+          sectionId: questionnaire.sections[0].id,
+          position: 0,
+        });
+
+        await updateFolder(ctx, {
+          folderId: listCollectorFolder.id,
+          alias: "Test alias",
+          title: "New title",
+        });
+
+        const newFolder = await duplicateFolder(ctx, {
+          id: listCollectorFolder.id,
+          position: 1,
+        });
+
+        expect(newFolder.alias).toEqual("Copy of Test alias");
+        expect(newFolder.title).toEqual("Copy of New title");
       });
     });
   });

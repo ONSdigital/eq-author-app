@@ -37,7 +37,7 @@ import withMoveOption from "../withMoveOption";
 
 const AnswerWrapper = styled.div`
   margin: 1em 0 0;
-  width: 85%;
+  width: ${({ isListCollectorPageType }) => !isListCollectorPageType && `85%`};
 `;
 
 const ExclusiveOr = styled.div`
@@ -91,6 +91,7 @@ export const UnwrappedMultipleChoiceAnswer = ({
   descriptionPlaceholder,
   onDeleteOption,
   onAddOption,
+  isListCollectorPageType,
   ...otherProps
 }) => {
   const [updateAnswer] = useMutation(UPDATE_ANSWER);
@@ -117,11 +118,25 @@ export const UnwrappedMultipleChoiceAnswer = ({
     onAddOption(answer.id, { hasAdditionalAnswer: true }).then(focusOnEntity);
   };
 
+  const getOptionLabel = (index) => {
+    if (answer.type === SELECT) {
+      return `Label ${index + 1}`;
+    }
+    if (isListCollectorPageType) {
+      if (index === 0) {
+        return "Positive answer label";
+      }
+      if (index === 1) {
+        return "Negative answer label";
+      }
+    }
+  };
+
   const numberOfOptions = answer.options.length + (answer.other ? 1 : 0);
   const showDeleteOption = numberOfOptions > minOptions;
   return (
     <>
-      {type !== MUTUALLY_EXCLUSIVE && (
+      {type !== MUTUALLY_EXCLUSIVE && !isListCollectorPageType && (
         <Field>
           <Label htmlFor={`answer-label-${answer.id}`}>
             {answer.type === SELECT ? `Label` : `Label (optional)`}
@@ -167,11 +182,13 @@ export const UnwrappedMultipleChoiceAnswer = ({
           />
         </Field>
       )}
-      <AnswerProperties
-        answer={answer}
-        updateAnswer={updateAnswer}
-        page={otherProps.page}
-      />
+      {!isListCollectorPageType && (
+        <AnswerProperties
+          answer={answer}
+          updateAnswer={updateAnswer}
+          page={otherProps.page}
+        />
+      )}
       {type === SELECT && (
         <Collapsible title="Why is there a minimum requirement of 25 labels?">
           <CollapsibleContent>
@@ -184,7 +201,7 @@ export const UnwrappedMultipleChoiceAnswer = ({
           </CollapsibleContent>
         </Collapsible>
       )}
-      <AnswerWrapper>
+      <AnswerWrapper isListCollectorPageType={isListCollectorPageType}>
         <TransitionGroup
           component={Options}
           data-test="multiple-choice-options"
@@ -199,7 +216,7 @@ export const UnwrappedMultipleChoiceAnswer = ({
                 {...otherProps}
                 {...props}
                 label={
-                  answer.type === SELECT ? `Label ${props.index + 1}` : `Label` //eslint-disable-line react/prop-types
+                  getOptionLabel(props.index) //eslint-disable-line react/prop-types
                 }
                 type={type}
                 option={option}
@@ -207,12 +224,15 @@ export const UnwrappedMultipleChoiceAnswer = ({
                 onUpdate={onUpdateOption}
                 onEnterKey={handleAddOption}
                 hasDeleteButton={showDeleteOption}
-                hideMoveButtons={numberOfOptions === 1}
+                hideMoveButtons={
+                  isListCollectorPageType || numberOfOptions === 1
+                }
                 answer={answer}
                 hasMultipleOptions={
                   answer.type === MUTUALLY_EXCLUSIVE &&
                   answer.options.length > 1
                 }
+                isListCollectorPageType={isListCollectorPageType}
               />
             )}
           </Reorder>
@@ -245,36 +265,40 @@ export const UnwrappedMultipleChoiceAnswer = ({
             </CollapsibleContent>
           </Collapsible>
         )}
-        <div>
-          {answer.type !== MUTUALLY_EXCLUSIVE && answer.type !== SELECT ? (
-            <StyledSplitButton
-              onPrimaryAction={handleAddOption}
-              primaryText={
-                answer.type === CHECKBOX ? "Add checkbox" : "Add another option"
-              }
-              onToggleOpen={(setopen) => setOpen(setopen)}
-              open={open}
-              dataTest="btn-add-option"
-            >
-              <Dropdown>
-                <MenuItem
-                  onClick={handleAddOther}
-                  data-test="btn-add-option-other"
-                >
-                  Add &ldquo;Other&rdquo; option
-                </MenuItem>
-              </Dropdown>
-            </StyledSplitButton>
-          ) : (
-            <AddOptionButton
-              onClick={handleAddOption}
-              variant="secondary"
-              dataTest="btn-add-option"
-            >
-              Add another option
-            </AddOptionButton>
-          )}
-        </div>
+        {!isListCollectorPageType && (
+          <div>
+            {answer.type !== MUTUALLY_EXCLUSIVE && answer.type !== SELECT ? (
+              <StyledSplitButton
+                onPrimaryAction={handleAddOption}
+                primaryText={
+                  answer.type === CHECKBOX
+                    ? "Add checkbox"
+                    : "Add another option"
+                }
+                onToggleOpen={(setopen) => setOpen(setopen)}
+                open={open}
+                dataTest="btn-add-option"
+              >
+                <Dropdown>
+                  <MenuItem
+                    onClick={handleAddOther}
+                    data-test="btn-add-option-other"
+                  >
+                    Add &ldquo;Other&rdquo; option
+                  </MenuItem>
+                </Dropdown>
+              </StyledSplitButton>
+            ) : (
+              <AddOptionButton
+                onClick={handleAddOption}
+                variant="secondary"
+                dataTest="btn-add-option"
+              >
+                Add another option
+              </AddOptionButton>
+            )}
+          </div>
+        )}
       </AnswerWrapper>
     </>
   );
@@ -293,11 +317,11 @@ UnwrappedMultipleChoiceAnswer.defaultProps = {
 UnwrappedMultipleChoiceAnswer.propTypes = {
   answer: CustomPropTypes.answer.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  onAddOption: PropTypes.func.isRequired,
+  onAddOption: PropTypes.func,
   onUpdateOption: PropTypes.func.isRequired,
-  onDeleteOption: PropTypes.func.isRequired,
+  onDeleteOption: PropTypes.func,
   minOptions: PropTypes.number.isRequired,
-  onAddExclusive: PropTypes.func.isRequired,
+  onAddExclusive: PropTypes.func,
   onMoveOption: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   descriptionText: PropTypes.string,
@@ -307,6 +331,7 @@ UnwrappedMultipleChoiceAnswer.propTypes = {
   optionErrorMsg: PropTypes.string,
   errorLabel: PropTypes.string,
   type: PropTypes.string,
+  isListCollectorPageType: PropTypes.bool,
 };
 
 UnwrappedMultipleChoiceAnswer.fragments = {

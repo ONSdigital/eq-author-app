@@ -506,41 +506,53 @@ describe("Content picker", () => {
     });
 
     it("should call onSubmit with selected variable", () => {
+      props.data = [
+        { id: "calcSum1", totalTitle: "<p>total1</p>", displayName: "total1" },
+        { id: "calcSum2", totalTitle: "<p>total2</p>", displayName: "total2" },
+      ];
       const { getByText } = renderContentPicker();
 
-      const variableItem = getByText("Total");
+      const variableItem = getByText("total1");
       const confirmButton = getByText("Confirm");
 
       fireEvent.click(variableItem);
       fireEvent.click(confirmButton);
 
       expect(onSubmit).toHaveBeenCalledWith({
-        id: "total",
-        displayName: "total",
+        id: "calcSum1",
+        displayName: "total1",
         pipingType: "variable",
       });
     });
 
     it("should select item via keyboard enter", () => {
+      props.data = [
+        { id: "calcSum1", totalTitle: "<p>total1</p>", displayName: "total1" },
+        { id: "calcSum2", totalTitle: "<p>total2</p>", displayName: "total2" },
+      ];
       const { getByText } = renderContentPicker();
 
-      const variableItem = getByText("Total");
+      const variableItem = getByText("total1");
       const confirmButton = getByText("Confirm");
 
       fireEvent.keyUp(variableItem, { keyCode: 13 });
       fireEvent.click(confirmButton);
 
       expect(onSubmit).toHaveBeenCalledWith({
-        id: "total",
-        displayName: "total",
+        id: "calcSum1",
+        displayName: "total1",
         pipingType: "variable",
       });
     });
 
     it("should not select item via any key other than enter", () => {
+      props.data = [
+        { id: "calcSum1", totalTitle: "<p>total1</p>", displayName: "total1" },
+        { id: "calcSum2", totalTitle: "<p>total2</p>", displayName: "total2" },
+      ];
       const { getByText } = renderContentPicker();
 
-      const variableItem = getByText("Total");
+      const variableItem = getByText("total1");
       const confirmButton = getByText("Confirm");
 
       fireEvent.keyUp(variableItem, { keyCode: 32 });
@@ -550,9 +562,13 @@ describe("Content picker", () => {
     });
 
     it("should unselect selected item", () => {
+      props.data = [
+        { id: "calcSum1", totalTitle: "<p>total1</p>", displayName: "total1" },
+        { id: "calcSum2", totalTitle: "<p>total2</p>", displayName: "total2" },
+      ];
       const { getByText } = renderContentPicker();
 
-      const variableItem = getByText("Total").closest("li");
+      const variableItem = getByText("total1").closest("li");
 
       fireEvent.click(variableItem);
       expect(variableItem).toHaveAttribute("aria-selected", "true");

@@ -11,6 +11,9 @@ const defaultNames = {
   Metadata: "Untitled metadata",
   QuestionConfirmation: "Untitled confirmation question",
   ListCollectorPage: "Untitled list collector",
+  ListCollectorQualifierPage: "Untitled qualifier question",
+  ListCollectorAddItemPage: "Untitled question for adding a list item",
+  ListCollectorConfirmationPage: "Untitled question to confirm list completion",
 };
 
 const getName = (entity, typeName) => {

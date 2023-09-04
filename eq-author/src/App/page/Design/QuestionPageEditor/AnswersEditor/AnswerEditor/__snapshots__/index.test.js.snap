@@ -28,7 +28,9 @@ exports[`Answer Editor should render Checkbox 1`] = `
         Checkbox
          answer
       </AnswerEditor__AnswerType>
-      <AnswerEditor__Buttons>
+      <AnswerEditor__Buttons
+        isListCollectorPageType={false}
+      >
         <Tooltip
           content="Move answer up"
           offset={
@@ -129,6 +131,12 @@ exports[`Answer Editor should render Checkbox 1`] = `
       onMoveUp={[MockFunction]}
       onUpdate={[MockFunction]}
       onUpdateOption={[MockFunction]}
+      page={
+        Object {
+          "id": "page-1",
+          "pageType": "QuestionPage",
+        }
+      }
       type="Checkbox"
     />
   </AnswerEditor__Padding>
@@ -157,7 +165,9 @@ exports[`Answer Editor should render Currency 1`] = `
         Currency
          answer
       </AnswerEditor__AnswerType>
-      <AnswerEditor__Buttons>
+      <AnswerEditor__Buttons
+        isListCollectorPageType={false}
+      >
         <Tooltip
           content="Move answer up"
           offset={
@@ -251,6 +261,12 @@ exports[`Answer Editor should render Currency 1`] = `
       onMoveUp={[MockFunction]}
       onUpdate={[MockFunction]}
       onUpdateOption={[MockFunction]}
+      page={
+        Object {
+          "id": "page-1",
+          "pageType": "QuestionPage",
+        }
+      }
       showDescription={true}
       type="Currency"
     />
@@ -280,7 +296,9 @@ exports[`Answer Editor should render Date 1`] = `
         Date
          answer
       </AnswerEditor__AnswerType>
-      <AnswerEditor__Buttons>
+      <AnswerEditor__Buttons
+        isListCollectorPageType={false}
+      >
         <Tooltip
           content="Move answer up"
           offset={
@@ -375,6 +393,12 @@ exports[`Answer Editor should render Date 1`] = `
       onMoveUp={[MockFunction]}
       onUpdate={[MockFunction]}
       onUpdateOption={[MockFunction]}
+      page={
+        Object {
+          "id": "page-1",
+          "pageType": "QuestionPage",
+        }
+      }
       showDay={false}
       showMonth={false}
       showYear={false}
@@ -405,7 +429,9 @@ exports[`Answer Editor should render DateRange 1`] = `
         DateRange
          answer
       </AnswerEditor__AnswerType>
-      <AnswerEditor__Buttons>
+      <AnswerEditor__Buttons
+        isListCollectorPageType={false}
+      >
         <Tooltip
           content="Move answer up"
           offset={
@@ -498,6 +524,12 @@ exports[`Answer Editor should render DateRange 1`] = `
       onMoveUp={[MockFunction]}
       onUpdate={[MockFunction]}
       onUpdateOption={[MockFunction]}
+      page={
+        Object {
+          "id": "page-1",
+          "pageType": "QuestionPage",
+        }
+      }
     />
   </AnswerEditor__Padding>
 </AnswerEditor__Answer>
@@ -526,7 +558,9 @@ exports[`Answer Editor should render Duration 1`] = `
          (Years/Months)
          answer
       </AnswerEditor__AnswerType>
-      <AnswerEditor__Buttons>
+      <AnswerEditor__Buttons
+        isListCollectorPageType={false}
+      >
         <Tooltip
           content="Move answer up"
           offset={
@@ -622,6 +656,12 @@ exports[`Answer Editor should render Duration 1`] = `
       onMoveUp={[MockFunction]}
       onUpdate={[MockFunction]}
       onUpdateOption={[MockFunction]}
+      page={
+        Object {
+          "id": "page-1",
+          "pageType": "QuestionPage",
+        }
+      }
       showDescription={true}
       type="Duration"
     />
@@ -651,7 +691,9 @@ exports[`Answer Editor should render Mutually Exclusive 1`] = `
         OR
          answer
       </AnswerEditor__AnswerType>
-      <AnswerEditor__Buttons>
+      <AnswerEditor__Buttons
+        isListCollectorPageType={false}
+      >
         <Tooltip
           content="Move answer up"
           offset={
@@ -754,6 +796,12 @@ exports[`Answer Editor should render Mutually Exclusive 1`] = `
       onMoveUp={[MockFunction]}
       onUpdate={[MockFunction]}
       onUpdateOption={[MockFunction]}
+      page={
+        Object {
+          "id": "page-1",
+          "pageType": "QuestionPage",
+        }
+      }
       type="MutuallyExclusive"
     />
   </AnswerEditor__Padding>
@@ -782,7 +830,9 @@ exports[`Answer Editor should render Number 1`] = `
         Number
          answer
       </AnswerEditor__AnswerType>
-      <AnswerEditor__Buttons>
+      <AnswerEditor__Buttons
+        isListCollectorPageType={false}
+      >
         <Tooltip
           content="Move answer up"
           offset={
@@ -876,6 +926,12 @@ exports[`Answer Editor should render Number 1`] = `
       onMoveUp={[MockFunction]}
       onUpdate={[MockFunction]}
       onUpdateOption={[MockFunction]}
+      page={
+        Object {
+          "id": "page-1",
+          "pageType": "QuestionPage",
+        }
+      }
       showDescription={true}
       type="Number"
     />
@@ -905,7 +961,9 @@ exports[`Answer Editor should render Percentage 1`] = `
         Percentage
          answer
       </AnswerEditor__AnswerType>
-      <AnswerEditor__Buttons>
+      <AnswerEditor__Buttons
+        isListCollectorPageType={false}
+      >
         <Tooltip
           content="Move answer up"
           offset={
@@ -999,6 +1057,12 @@ exports[`Answer Editor should render Percentage 1`] = `
       onMoveUp={[MockFunction]}
       onUpdate={[MockFunction]}
       onUpdateOption={[MockFunction]}
+      page={
+        Object {
+          "id": "page-1",
+          "pageType": "QuestionPage",
+        }
+      }
       showDescription={true}
       type="Percentage"
     />
@@ -1028,7 +1092,9 @@ exports[`Answer Editor should render Radio 1`] = `
         Radio
          answer
       </AnswerEditor__AnswerType>
-      <AnswerEditor__Buttons>
+      <AnswerEditor__Buttons
+        isListCollectorPageType={false}
+      >
         <Tooltip
           content="Move answer up"
           offset={
@@ -1119,6 +1185,7 @@ exports[`Answer Editor should render Radio 1`] = `
       canMoveDown={true}
       canMoveUp={true}
       enableValidationMessage={true}
+      isListCollectorPageType={false}
       minOptions={2}
       multipleAnswers={false}
       onAddExclusive={[MockFunction]}
@@ -1130,6 +1197,12 @@ exports[`Answer Editor should render Radio 1`] = `
       onMoveUp={[MockFunction]}
       onUpdate={[MockFunction]}
       onUpdateOption={[MockFunction]}
+      page={
+        Object {
+          "id": "page-1",
+          "pageType": "QuestionPage",
+        }
+      }
       type="Radio"
     />
   </AnswerEditor__Padding>
@@ -1158,7 +1231,9 @@ exports[`Answer Editor should render Select 1`] = `
         Select
          answer
       </AnswerEditor__AnswerType>
-      <AnswerEditor__Buttons>
+      <AnswerEditor__Buttons
+        isListCollectorPageType={false}
+      >
         <Tooltip
           content="Move answer up"
           offset={
@@ -1260,6 +1335,12 @@ exports[`Answer Editor should render Select 1`] = `
       onMoveUp={[MockFunction]}
       onUpdate={[MockFunction]}
       onUpdateOption={[MockFunction]}
+      page={
+        Object {
+          "id": "page-1",
+          "pageType": "QuestionPage",
+        }
+      }
       type="Select"
     />
   </AnswerEditor__Padding>
@@ -1288,7 +1369,9 @@ exports[`Answer Editor should render TextArea 1`] = `
         TextArea
          answer
       </AnswerEditor__AnswerType>
-      <AnswerEditor__Buttons>
+      <AnswerEditor__Buttons
+        isListCollectorPageType={false}
+      >
         <Tooltip
           content="Move answer up"
           offset={
@@ -1382,6 +1465,12 @@ exports[`Answer Editor should render TextArea 1`] = `
       onMoveUp={[MockFunction]}
       onUpdate={[MockFunction]}
       onUpdateOption={[MockFunction]}
+      page={
+        Object {
+          "id": "page-1",
+          "pageType": "QuestionPage",
+        }
+      }
       type="TextArea"
     />
   </AnswerEditor__Padding>
@@ -1410,7 +1499,9 @@ exports[`Answer Editor should render TextField 1`] = `
         TextField
          answer
       </AnswerEditor__AnswerType>
-      <AnswerEditor__Buttons>
+      <AnswerEditor__Buttons
+        isListCollectorPageType={false}
+      >
         <Tooltip
           content="Move answer up"
           offset={
@@ -1504,6 +1595,12 @@ exports[`Answer Editor should render TextField 1`] = `
       onMoveUp={[MockFunction]}
       onUpdate={[MockFunction]}
       onUpdateOption={[MockFunction]}
+      page={
+        Object {
+          "id": "page-1",
+          "pageType": "QuestionPage",
+        }
+      }
       type="TextField"
     />
   </AnswerEditor__Padding>
@@ -1533,7 +1630,9 @@ exports[`Answer Editor should render Unit 1`] = `
          (cm)
          answer
       </AnswerEditor__AnswerType>
-      <AnswerEditor__Buttons>
+      <AnswerEditor__Buttons
+        isListCollectorPageType={false}
+      >
         <Tooltip
           content="Move answer up"
           offset={
@@ -1629,6 +1728,12 @@ exports[`Answer Editor should render Unit 1`] = `
       onMoveUp={[MockFunction]}
       onUpdate={[MockFunction]}
       onUpdateOption={[MockFunction]}
+      page={
+        Object {
+          "id": "page-1",
+          "pageType": "QuestionPage",
+        }
+      }
       showDescription={true}
       type="Unit"
     />

@@ -137,6 +137,7 @@ const Options = ({ option, onChange, rightLabel }) => {
         option={option}
         icon={IconSections}
         onChange={onChange}
+        data-test={"option-button-sections"}
       >
         Sections
       </Option>
@@ -145,6 +146,7 @@ const Options = ({ option, onChange, rightLabel }) => {
         option={option}
         icon={IconAnswers}
         onChange={onChange}
+        data-test={"option-button-answers"}
       >
         {rightLabel}
       </Option>

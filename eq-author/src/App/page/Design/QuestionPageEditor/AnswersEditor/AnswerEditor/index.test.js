@@ -83,6 +83,10 @@ describe("Answer Editor", () => {
   it("should render TextField", () => {
     const wrapper = createWrapper({
       answer: mockAnswer,
+      page: {
+        id: "page-1",
+        pageType: "QuestionPage",
+      },
       ...mockMutations,
     });
     expect(wrapper).toMatchSnapshot();
@@ -91,6 +95,10 @@ describe("Answer Editor", () => {
   it("should render Number", () => {
     const wrapper = createWrapper({
       answer: { ...mockAnswer, type: NUMBER },
+      page: {
+        id: "page-1",
+        pageType: "QuestionPage",
+      },
       ...mockMutations,
     });
     expect(wrapper).toMatchSnapshot();
@@ -99,6 +107,10 @@ describe("Answer Editor", () => {
   it("should render Currency", () => {
     const wrapper = createWrapper({
       answer: { ...mockAnswer, type: CURRENCY },
+      page: {
+        id: "page-1",
+        pageType: "QuestionPage",
+      },
       ...mockMutations,
     });
     expect(wrapper).toMatchSnapshot();
@@ -107,6 +119,10 @@ describe("Answer Editor", () => {
   it("should render Percentage", () => {
     const wrapper = createWrapper({
       answer: { ...mockAnswer, type: PERCENTAGE },
+      page: {
+        id: "page-1",
+        pageType: "QuestionPage",
+      },
       ...mockMutations,
     });
     expect(wrapper).toMatchSnapshot();
@@ -115,6 +131,10 @@ describe("Answer Editor", () => {
   it("should render TextArea", () => {
     const wrapper = createWrapper({
       answer: { ...mockAnswer, type: TEXTAREA },
+      page: {
+        id: "page-1",
+        pageType: "QuestionPage",
+      },
       ...mockMutations,
     });
     expect(wrapper).toMatchSnapshot();
@@ -123,6 +143,10 @@ describe("Answer Editor", () => {
   it("should render Checkbox", () => {
     const wrapper = createWrapper({
       answer: mockMultipleChoiceAnswer,
+      page: {
+        id: "page-1",
+        pageType: "QuestionPage",
+      },
       ...mockMutations,
     });
     expect(wrapper).toMatchSnapshot();
@@ -134,6 +158,10 @@ describe("Answer Editor", () => {
         ...mockMultipleChoiceAnswer,
         type: RADIO,
       },
+      page: {
+        id: "page-1",
+        pageType: "QuestionPage",
+      },
       ...mockMutations,
     });
     expect(wrapper).toMatchSnapshot();
@@ -142,6 +170,10 @@ describe("Answer Editor", () => {
   it("should render Select", () => {
     const wrapper = createWrapper({
       answer: { ...mockMultipleChoiceAnswer, type: SELECT },
+      page: {
+        id: "page-1",
+        pageType: "QuestionPage",
+      },
       ...mockMutations,
     });
     expect(wrapper).toMatchSnapshot();
@@ -153,6 +185,10 @@ describe("Answer Editor", () => {
         ...mockAnswer,
         type: DATE_RANGE,
       },
+      page: {
+        id: "page-1",
+        pageType: "QuestionPage",
+      },
       ...mockMutations,
     });
     expect(wrapper).toMatchSnapshot();
@@ -163,6 +199,10 @@ describe("Answer Editor", () => {
       answer: {
         ...mockAnswer,
         type: DATE,
+      },
+      page: {
+        id: "page-1",
+        pageType: "QuestionPage",
       },
       ...mockMutations,
     });
@@ -178,6 +218,10 @@ describe("Answer Editor", () => {
           unit: CENTIMETRES,
         },
       },
+      page: {
+        id: "page-1",
+        pageType: "QuestionPage",
+      },
       ...mockMutations,
     });
     expect(wrapper).toMatchSnapshot();
@@ -192,6 +236,10 @@ describe("Answer Editor", () => {
           unit: YEARSMONTHS,
         },
       },
+      page: {
+        id: "page-1",
+        pageType: "QuestionPage",
+      },
       ...mockMutations,
     });
     expect(wrapper).toMatchSnapshot();
@@ -203,6 +251,10 @@ describe("Answer Editor", () => {
         ...mockMultipleChoiceAnswer,
         type: MUTUALLY_EXCLUSIVE,
       },
+      page: {
+        id: "page-1",
+        pageType: "QuestionPage",
+      },
       ...mockMutations,
     });
     expect(wrapper).toMatchSnapshot();
@@ -211,6 +263,10 @@ describe("Answer Editor", () => {
   it("should call handler when answer deleted", async () => {
     const wrapper = createWrapper({
       answer: mockAnswer,
+      page: {
+        id: "page-1",
+        pageType: "QuestionPage",
+      },
       ...mockMutations,
     });
 
@@ -224,6 +280,10 @@ describe("Answer Editor", () => {
   it("should close delete modal", async () => {
     const wrapper = createWrapper({
       answer: mockAnswer,
+      page: {
+        id: "page-1",
+        pageType: "QuestionPage",
+      },
       ...mockMutations,
     });
 
@@ -237,6 +297,10 @@ describe("Answer Editor", () => {
   it("should call handler when answer moved down", () => {
     const wrapper = createWrapper({
       answer: mockAnswer,
+      page: {
+        id: "page-1",
+        pageType: "QuestionPage",
+      },
       ...mockMutations,
     });
 
@@ -247,6 +311,10 @@ describe("Answer Editor", () => {
   it("should call handler when answer moved up", () => {
     const wrapper = createWrapper({
       answer: mockAnswer,
+      page: {
+        id: "page-1",
+        pageType: "QuestionPage",
+      },
       ...mockMutations,
     });
 
@@ -257,6 +325,10 @@ describe("Answer Editor", () => {
   it("should add an option to answer via `id`", () => {
     const wrapper = createWrapper({
       answer: mockMultipleChoiceAnswer,
+      page: {
+        id: "page-1",
+        pageType: "QuestionPage",
+      },
       ...mockMutations,
     });
     wrapper.find(MultipleChoiceAnswer).simulate("addOption");
@@ -272,6 +344,10 @@ describe("Answer Editor", () => {
           ...mockAnswer,
           type: DATE,
           properties: { format: format },
+        },
+        page: {
+          id: "page-1",
+          pageType: "QuestionPage",
         },
         ...mockMutations,
       });

@@ -5,6 +5,9 @@ fragment Folder on Folder {
   alias
   displayName
   position
+  ... on ListCollectorFolder {
+    listId
+  }
   validationErrorInfo {
     ...ValidationErrorInfo
   }

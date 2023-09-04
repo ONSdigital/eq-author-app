@@ -1,7 +1,10 @@
-import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
+import {
+  buildQuestionnaire,
+  buildListCollectorFolders,
+} from "tests/utils/createMockQuestionnaire";
 import getPreviousContent from "./getContentBeforeEntity";
 
-const questionnaire = buildQuestionnaire({
+let questionnaire = buildQuestionnaire({
   sectionCount: 2,
   folderCount: 2,
   pageCount: 2,
@@ -71,5 +74,20 @@ describe("utils/getPreviousAnswers", () => {
 
     expect(previousSections).toHaveLength(2);
     expect(previousSections[1].folders[1].pages).toHaveLength(2);
+  });
+
+  it("should not return answers from list collector page types", () => {
+    questionnaire.sections[0].folders = [
+      buildListCollectorFolders({
+        listCollectorFolderCount: 1,
+      })[0],
+    ];
+
+    const previousSections = getPreviousContent({
+      questionnaire,
+      id: questionnaire.sections[1].folders[0].pages[0].id,
+    });
+
+    expect(previousSections).toHaveLength(0);
   });
 });

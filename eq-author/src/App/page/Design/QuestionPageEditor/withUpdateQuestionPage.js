@@ -1,6 +1,6 @@
 import { graphql } from "react-apollo";
-import updatePageMutation from "graphql/updatePage.graphql";
-import pageFragment from "graphql/fragments/page.graphql";
+import updatePageMutation from "graphql/updateQuestionPage.graphql";
+import pageFragment from "graphql/fragments/questionPage.graphql";
 import { filter } from "graphql-anywhere";
 
 export const mapMutateToProps = ({ mutate }) => ({

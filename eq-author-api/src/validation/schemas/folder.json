@@ -11,10 +11,7 @@
         "type": "object",
         "allOf": [
           {
-           "$ref": "page.json"
-          },
-          {
-            "$ref": "listCollectorPage.json"
+            "$ref": "page.json"
           }
         ]
       }
@@ -25,5 +22,41 @@
         "$ref": "logic.json#/definitions/expressionGroup"
       }
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "listId": {
+            "type": "string"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "title": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "listId": {
+            "type": "string"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "listId": {
+            "type": "string",
+            "pattern": "\\w+",
+            "errorMessage": "ERR_COLLECTION_LIST_REQUIRED"
+          }
+        }
+      }
+    }
+  ]
 }
