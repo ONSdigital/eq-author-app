@@ -16,7 +16,8 @@ fetch.mockImplementation(() =>
     status: 200,
     json: () => ({
       id: "cir-id-1",
-      version: "1",
+      // eslint-disable-next-line camelcase
+      ci_version: "1",
     }),
   })
 );
