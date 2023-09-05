@@ -1575,7 +1575,7 @@ const Resolvers = {
 
       await authorisedRequest(
         `${process.env.CIR_PUBLISH_SCHEMA_GATEWAY}publishSchema`,
-        process.env.CIR__PUBLISH_SCHEMA_GATEWAY_AUDIENCE,
+        process.env.CIR_PUBLISH_SCHEMA_GATEWAY_AUDIENCE,
         {
           method: "POST",
           body: JSON.stringify(convertedQuestionnaire),
