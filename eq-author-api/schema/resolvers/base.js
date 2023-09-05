@@ -1574,7 +1574,7 @@ const Resolvers = {
       const convertedQuestionnaire = convertedResponse.data;
 
       await authorisedRequest(
-        `${process.env.CIR_PUBLISH_SCHEMA_GATEWAY}publishSchema`,
+        `${process.env.CIR_PUBLISH_SCHEMA_GATEWAY}publish_collection_instrument`,
         process.env.CIR_PUBLISH_SCHEMA_GATEWAY_AUDIENCE,
         {
           method: "POST",
@@ -1587,7 +1587,7 @@ const Resolvers = {
             const responseJson = res.data;
 
             publishResult.cirId = responseJson.id;
-            publishResult.cirVersion = responseJson.version;
+            publishResult.cirVersion = responseJson.ci_version;
             publishResult.success = true;
           } else {
             publishResult.success = false;
