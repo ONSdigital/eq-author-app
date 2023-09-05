@@ -77,6 +77,7 @@ const {
   getListByAnswerId,
   getAnswerByOptionId,
   setDataVersion,
+  authorisedRequest,
 } = require("./utils");
 
 const createAnswer = require("../../src/businessLogic/createAnswer");
@@ -300,14 +301,26 @@ const Resolvers = {
       const url = `${process.env.SUPPLEMENTARY_DATA_GATEWAY}schema_metadata?survey_id=${id}`;
 
       try {
-        const response = await fetch(url);
-        const supplementaryDataVersions = await response.json();
+        const response = await authorisedRequest(
+          url,
+          process.env.SUPPLEMENTARY_DATA_GATEWAY_AUDIENCE,
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        if (response.status !== 200) {
+          throw new Error(`enable to get versions. status(${response.status})`);
+        }
         return {
           surveyId: id,
-          versions: supplementaryDataVersions,
+          versions: response.data,
         };
       } catch (err) {
-        throw Error(err);
+        logger.error(err.message);
+        return {
+          surveyId: id,
+          versions: [],
+        };
       }
     },
     supplementaryData: (_, args, ctx) => ctx.questionnaire.supplementaryData,
@@ -1535,11 +1548,15 @@ const Resolvers = {
         ctx.questionnaire.publishHistory = [publishResult];
       }
 
-      const convertedResponse = await fetch(`${process.env.CONVERSION_URL}`, {
-        method: "post",
-        body: JSON.stringify(ctx.questionnaire),
-        headers: { "Content-Type": "application/json" },
-      }).catch((e) => {
+      const convertedResponse = await authorisedRequest(
+        `${process.env.CONVERSION_URL}`,
+        null,
+        {
+          method: "POST",
+          body: JSON.stringify(ctx.questionnaire),
+          headers: { "Content-Type": "application/json" },
+        }
+      ).catch((e) => {
         publishResult.success = false;
         publishResult.errorMessage = `Failed to fetch questionnaire - ${e.message}`;
       });
@@ -1554,19 +1571,23 @@ const Resolvers = {
         return ctx.questionnaire;
       }
 
-      const convertedQuestionnaire = await convertedResponse.json();
+      const convertedQuestionnaire = convertedResponse.data;
 
-      await fetch(`${process.env.CIR_PUBLISH_SCHEMA_GATEWAY}publishSchema`, {
-        method: "post",
-        body: JSON.stringify(convertedQuestionnaire),
-        headers: { "Content-Type": "application/json" },
-      })
+      await authorisedRequest(
+        `${process.env.CIR_PUBLISH_SCHEMA_GATEWAY}publish_collection_instrument`,
+        process.env.CIR_PUBLISH_SCHEMA_GATEWAY_AUDIENCE,
+        {
+          method: "POST",
+          body: JSON.stringify(convertedQuestionnaire),
+          headers: { "Content-Type": "application/json" },
+        }
+      )
         .then(async (res) => {
           if (res.status === 200) {
-            const responseJson = await res.json();
+            const responseJson = res.data;
 
             publishResult.cirId = responseJson.id;
-            publishResult.cirVersion = responseJson.version;
+            publishResult.cirVersion = responseJson.ci_version;
             publishResult.success = true;
           } else {
             publishResult.success = false;
@@ -1585,8 +1606,14 @@ const Resolvers = {
       const url = `${process.env.SUPPLEMENTARY_DATA_GATEWAY}schema?survey_id=${surveyId}&version=${version}`;
 
       try {
-        const response = await fetch(url);
-        const supplementaryDataVersion = await response.json();
+        const response = await authorisedRequest(
+          url,
+          process.env.SUPPLEMENTARY_DATA_GATEWAY_AUDIENCE,
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        const supplementaryDataVersion = response.data;
 
         if (supplementaryDataVersion) {
           logger.info(`Schema version data returned - ${id}`);
