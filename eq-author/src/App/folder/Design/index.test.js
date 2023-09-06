@@ -32,6 +32,7 @@ jest.mock("hooks/useCreateQuestionPage", () => ({
 jest.mock("hooks/useCreateFolder", () => ({
   useCreateFolder: jest.fn(),
   useCreatePageWithFolder: jest.fn(),
+  useCreateListCollectorFolder: jest.fn(),
 }));
 
 jest.mock("components/NavigationCallbacks", () => ({
@@ -199,7 +200,7 @@ describe("Folder design page", () => {
         {
           onAddQuestionPage: expect.any(Function),
           onAddCalculatedSummaryPage: expect.any(Function),
-          onAddListCollectorPage: expect.any(Function),
+          onAddListCollectorFolder: expect.any(Function),
           onAddFolder: expect.any(Function),
         },
         [
@@ -221,7 +222,15 @@ describe("Folder design page", () => {
       fireEvent.click(getByTestId("btn-duplicate-folder"));
       expect(duplicateFolder).toHaveBeenCalledWith({
         variables: { input: { id: "1.1", position: 1 } },
+        refetchQueries: ["GetQuestionnaire"],
       });
+    });
+
+    it("should render list collector folder editor when folder has listId", () => {
+      mockData.folder.listId = "list-folder-1";
+      const { getByTestId } = renderFolderDesignPage();
+
+      expect(getByTestId("list-collector-folder-editor")).toBeInTheDocument();
     });
   });
 });

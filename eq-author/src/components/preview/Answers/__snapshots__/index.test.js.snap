@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Answers should render a component for each answer type: Checkbox 1`] = `
-<Answers__AnswerWrapper>
+<Answers__AnswerWrapper
+  data-test="answer-wrapper-undefined"
+>
   <MultipleChoiceAnswer
     answer={
       Object {
@@ -16,7 +18,9 @@ exports[`Answers should render a component for each answer type: Checkbox 1`] = 
 `;
 
 exports[`Answers should render a component for each answer type: Currency 1`] = `
-<Answers__AnswerWrapper>
+<Answers__AnswerWrapper
+  data-test="answer-wrapper-undefined"
+>
   <CurrencyAnswer
     answer={
       Object {
@@ -31,7 +35,9 @@ exports[`Answers should render a component for each answer type: Currency 1`] = 
 `;
 
 exports[`Answers should render a component for each answer type: Number 1`] = `
-<Answers__AnswerWrapper>
+<Answers__AnswerWrapper
+  data-test="answer-wrapper-undefined"
+>
   <TextAnswer
     answer={
       Object {
@@ -46,7 +52,9 @@ exports[`Answers should render a component for each answer type: Number 1`] = `
 `;
 
 exports[`Answers should render a component for each answer type: Percentage 1`] = `
-<Answers__AnswerWrapper>
+<Answers__AnswerWrapper
+  data-test="answer-wrapper-undefined"
+>
   <AnswerTrailingUnit
     answer={
       Object {
@@ -61,7 +69,9 @@ exports[`Answers should render a component for each answer type: Percentage 1`] 
 `;
 
 exports[`Answers should render a component for each answer type: Radio 1`] = `
-<Answers__AnswerWrapper>
+<Answers__AnswerWrapper
+  data-test="answer-wrapper-undefined"
+>
   <MultipleChoiceAnswer
     answer={
       Object {
@@ -76,7 +86,9 @@ exports[`Answers should render a component for each answer type: Radio 1`] = `
 `;
 
 exports[`Answers should render a component for each answer type: TextArea 1`] = `
-<Answers__AnswerWrapper>
+<Answers__AnswerWrapper
+  data-test="answer-wrapper-undefined"
+>
   <TextAreaAnswer
     answer={
       Object {
@@ -91,7 +103,9 @@ exports[`Answers should render a component for each answer type: TextArea 1`] = 
 `;
 
 exports[`Answers should render a component for each answer type: TextField 1`] = `
-<Answers__AnswerWrapper>
+<Answers__AnswerWrapper
+  data-test="answer-wrapper-undefined"
+>
   <TextAnswer
     answer={
       Object {
@@ -106,7 +120,9 @@ exports[`Answers should render a component for each answer type: TextField 1`] =
 `;
 
 exports[`Answers should render a component for each answer type: Unit 1`] = `
-<Answers__AnswerWrapper>
+<Answers__AnswerWrapper
+  data-test="answer-wrapper-undefined"
+>
   <AnswerTrailingUnit
     answer={
       Object {
@@ -121,7 +137,9 @@ exports[`Answers should render a component for each answer type: Unit 1`] = `
 `;
 
 exports[`Answers should render date answers 1`] = `
-<Answers__AnswerWrapper>
+<Answers__AnswerWrapper
+  data-test="answer-wrapper-undefined"
+>
   <DateAnswer
     answer={
       Object {
@@ -136,7 +154,9 @@ exports[`Answers should render date answers 1`] = `
 `;
 
 exports[`Answers should render date range answers 1`] = `
-<Answers__AnswerWrapper>
+<Answers__AnswerWrapper
+  data-test="answer-wrapper-undefined"
+>
   <DateRangeAnswer
     answer={
       Object {

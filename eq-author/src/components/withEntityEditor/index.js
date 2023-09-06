@@ -11,7 +11,7 @@ const withEntityEditor = (entityPropName) => (WrappedComponent) => {
   class EntityEditor extends React.Component {
     static propTypes = {
       [entityPropName]: PropTypes.object.isRequired, // eslint-disable-line
-      onUpdate: PropTypes.func.isRequired,
+      onUpdate: PropTypes.func,
       onSubmit: PropTypes.func,
       startRequest: PropTypes.func,
       endRequest: PropTypes.func,

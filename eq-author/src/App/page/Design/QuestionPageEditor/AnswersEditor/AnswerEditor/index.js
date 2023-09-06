@@ -36,6 +36,7 @@ import {
   DELETE_ANSWER_TITLE,
   DELETE_BUTTON_TEXT,
 } from "constants/modal-content";
+import isListCollectorPageType from "utils/isListCollectorPageType";
 
 const Answer = styled.div`
   border: 1px solid ${colors.bordersLight};
@@ -45,7 +46,7 @@ const Answer = styled.div`
     border-color: ${colors.blue};
     box-shadow: 0 0 0 1px ${colors.blue};
   }
-  margin: 0 2em 1em;
+  margin: ${(props) => !props.withoutMargin && `0 2em 1em`};
 `;
 
 const AnswerHeader = styled.div`
@@ -80,6 +81,8 @@ const Padding = styled.div`
 
 const Buttons = styled.div`
   display: flex;
+  height: ${(props) => props.isListCollectorPageType && `2em`};
+  width: ${(props) => props.isListCollectorPageType && `6.4em`};
   z-index: 2;
   button {
     margin-right: 0.2em;
@@ -115,7 +118,14 @@ class AnswerEditor extends React.Component {
     }
     if (type === RADIO) {
       return (
-        <MultipleChoiceAnswer minOptions={2} type={type} {...this.props} />
+        <MultipleChoiceAnswer
+          minOptions={2}
+          type={type}
+          isListCollectorPageType={isListCollectorPageType(
+            this.props.page.pageType
+          )}
+          {...this.props}
+        />
       );
     }
     if (type === SELECT) {
@@ -191,6 +201,7 @@ class AnswerEditor extends React.Component {
         aria-label={`${this.props.answer.type} answer`}
         data-test="answer-editor"
         className="answer"
+        withoutMargin={this.props.withoutMargin}
       >
         <Modal
           title={DELETE_ANSWER_TITLE(
@@ -206,68 +217,76 @@ class AnswerEditor extends React.Component {
             <AnswerType data-test="answer-type">
               {this.getAnswerTypeText(this.props.answer)} answer
             </AnswerType>
-            <Buttons>
-              <Tooltip
-                content="Move answer up"
-                place="top"
-                offset={{ top: 0, bottom: 10 }}
-              >
-                <MoveButton
-                  color="white"
-                  disabled={
-                    !this.props.canMoveUp ||
-                    this.props.answer.type === MUTUALLY_EXCLUSIVE
-                  }
-                  tabIndex={
-                    !this.props.canMoveUp ||
-                    this.props.answer.type === MUTUALLY_EXCLUSIVE
-                      ? -1
-                      : undefined
-                  }
-                  aria-label={"Move answer up"}
-                  onClick={this.props.onMoveUp}
-                  data-test="btn-move-answer-up"
-                >
-                  <IconUp />
-                </MoveButton>
-              </Tooltip>
-              <Tooltip
-                content="Move answer down"
-                place="top"
-                offset={{ top: 0, bottom: 10 }}
-              >
-                <MoveButton
-                  color="white"
-                  disabled={
-                    !this.props.canMoveDown ||
-                    this.props.answer.type === MUTUALLY_EXCLUSIVE
-                  }
-                  tabIndex={
-                    !this.props.canMoveDown ||
-                    this.props.answer.type === MUTUALLY_EXCLUSIVE
-                      ? -1
-                      : undefined
-                  }
-                  aria-label={"Move answer down"}
-                  onClick={this.props.onMoveDown}
-                  data-test="btn-move-answer-down"
-                >
-                  <IconDown />
-                </MoveButton>
-              </Tooltip>
-              <Tooltip
-                content="Delete answer"
-                place="top"
-                offset={{ top: 0, bottom: 10 }}
-              >
-                <DeleteButton
-                  color="white"
-                  size="medium"
-                  onClick={this.handleOpenDeleteModal}
-                  aria-label="Delete answer"
-                  data-test="btn-delete-answer"
-                />
-              </Tooltip>
+            <Buttons
+              isListCollectorPageType={isListCollectorPageType(
+                this.props.page.pageType
+              )}
+            >
+              {!isListCollectorPageType(this.props.page.pageType) && (
+                <>
+                  <Tooltip
+                    content="Move answer up"
+                    place="top"
+                    offset={{ top: 0, bottom: 10 }}
+                  >
+                    <MoveButton
+                      color="white"
+                      disabled={
+                        !this.props.canMoveUp ||
+                        this.props.answer.type === MUTUALLY_EXCLUSIVE
+                      }
+                      tabIndex={
+                        !this.props.canMoveUp ||
+                        this.props.answer.type === MUTUALLY_EXCLUSIVE
+                          ? -1
+                          : undefined
+                      }
+                      aria-label={"Move answer up"}
+                      onClick={this.props.onMoveUp}
+                      data-test="btn-move-answer-up"
+                    >
+                      <IconUp />
+                    </MoveButton>
+                  </Tooltip>
+                  <Tooltip
+                    content="Move answer down"
+                    place="top"
+                    offset={{ top: 0, bottom: 10 }}
+                  >
+                    <MoveButton
+                      color="white"
+                      disabled={
+                        !this.props.canMoveDown ||
+                        this.props.answer.type === MUTUALLY_EXCLUSIVE
+                      }
+                      tabIndex={
+                        !this.props.canMoveDown ||
+                        this.props.answer.type === MUTUALLY_EXCLUSIVE
+                          ? -1
+                          : undefined
+                      }
+                      aria-label={"Move answer down"}
+                      onClick={this.props.onMoveDown}
+                      data-test="btn-move-answer-down"
+                    >
+                      <IconDown />
+                    </MoveButton>
+                  </Tooltip>
+                  <Tooltip
+                    content="Delete answer"
+                    place="top"
+                    offset={{ top: 0, bottom: 10 }}
+                  >
+                    <DeleteButton
+                      color="white"
+                      size="medium"
+                      onClick={this.handleOpenDeleteModal}
+                      aria-label="Delete answer"
+                      data-test="btn-delete-answer"
+                    />
+                  </Tooltip>
+                </>
+              )}
             </Buttons>
           </AnswerTypePanel>
         </AnswerHeader>
@@ -280,19 +299,20 @@ class AnswerEditor extends React.Component {
 
 AnswerEditor.propTypes = {
   answer: CustomPropTypes.answer,
-  onUpdate: PropTypes.func.isRequired,
-  onDeleteAnswer: PropTypes.func.isRequired,
-  onAddOption: PropTypes.func.isRequired,
-  onAddExclusive: PropTypes.func.isRequired,
-  onUpdateOption: PropTypes.func.isRequired,
-  onDeleteOption: PropTypes.func.isRequired,
-  canMoveDown: PropTypes.bool.isRequired,
-  canMoveUp: PropTypes.bool.isRequired,
-  onMoveUp: PropTypes.func.isRequired,
-  onMoveDown: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func,
+  onDeleteAnswer: PropTypes.func,
+  onAddOption: PropTypes.func,
+  onAddExclusive: PropTypes.func,
+  onUpdateOption: PropTypes.func,
+  onDeleteOption: PropTypes.func,
+  canMoveDown: PropTypes.bool,
+  canMoveUp: PropTypes.bool,
+  onMoveUp: PropTypes.func,
+  onMoveDown: PropTypes.func,
   renderPanel: PropTypes.func,
   page: PropTypes.object, //eslint-disable-line
   metadata: PropTypes.array, //eslint-disable-line
+  withoutMargin: PropTypes.bool,
 };
 
 AnswerEditor.fragments = {

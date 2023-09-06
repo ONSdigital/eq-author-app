@@ -9,6 +9,7 @@ const validation = require("./validation");
 const listGetters = require("./listGetters");
 const setDataVersion = require("./setDataVersion");
 const supplemntaryDataGetters = require("./supplementaryDataGetters");
+const authorisedRequest = require("./authorisedRequest");
 
 module.exports = {
   ...logicGetters,
@@ -22,4 +23,5 @@ module.exports = {
   ...listGetters,
   ...setDataVersion,
   ...supplemntaryDataGetters,
+  ...authorisedRequest,
 };

@@ -6,6 +6,8 @@ const { duplicatePage, duplicatePageMutation } = require("./duplicatePage");
 
 const { movePage, movePageMutation } = require("./movePage");
 
+const { updatePage, updatePageMutation } = require("./updatePage");
+
 module.exports = {
   queryPage,
   queryPageMutation,
@@ -15,4 +17,6 @@ module.exports = {
   duplicatePageMutation,
   movePage,
   movePageMutation,
+  updatePage,
+  updatePageMutation,
 };

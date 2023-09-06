@@ -151,6 +151,7 @@ export const CalculatedSummaryPageEditor = (props) => {
           defaultTab="variables"
           errorValidationMsg={getErrorMessage("title")}
           autoFocus={!page.title}
+          pageType={page.pageType}
         />
         <HorizontalRule />
         <PageTitleContainer

@@ -15,16 +15,25 @@ import Loading from "components/Loading";
 import Error from "components/Error";
 import EditorLayout from "components/EditorLayout";
 import Panel from "components/Panel";
+
 import QuestionPageEditor from "./QuestionPageEditor";
 import CalculatedSummaryPageEditor from "./CalculatedSummaryPageEditor";
 import ListCollectorPageEditor from "./ListCollectorPageEditor";
+import QualifierPageEditor from "./ListCollectorPageEditors/QualifierPageEditor";
+import AddItemPageEditor from "./ListCollectorPageEditors/AddItemPageEditor";
+import ConfirmationPageEditor from "./ListCollectorPageEditors/ConfirmationPageEditor";
 
 import withFetchAnswers from "./withFetchAnswers";
+
+import isListCollectorPageType from "utils/isListCollectorPageType";
 
 import {
   QuestionPage,
   CalculatedSummaryPage,
   ListCollectorPage,
+  ListCollectorQualifierPage,
+  ListCollectorAddItemPage,
+  ListCollectorConfirmationPage,
 } from "constants/page-types";
 
 import RedirectRoute from "components/RedirectRoute";
@@ -33,6 +42,9 @@ const availableTabMatrix = {
   QuestionPage: { design: true, preview: true, logic: true },
   CalculatedSummaryPage: { design: true, preview: true, logic: true },
   ListCollectorPage: { design: true, preview: true, logic: false },
+  ListCollectorQualifierPage: { design: true, preview: true, logic: false },
+  ListCollectorAddItemPage: { design: true, preview: true, logic: false },
+  ListCollectorConfirmationPage: { design: true, preview: true, logic: false },
 };
 
 export const PAGE_QUERY = gql`
@@ -41,6 +53,9 @@ export const PAGE_QUERY = gql`
       ...QuestionPage
       ...CalculatedSummaryPage
       ...ListCollectorPage
+      ...ListCollectorQualifierPage
+      ...ListCollectorAddItemPage
+      ...ListCollectorConfirmationPage
       folder {
         id
         position
@@ -50,6 +65,9 @@ export const PAGE_QUERY = gql`
   ${CalculatedSummaryPageEditor.fragments.CalculatedSummaryPage}
   ${QuestionPageEditor.fragments.QuestionPage}
   ${ListCollectorPageEditor.fragments.ListCollectorPage}
+  ${QualifierPageEditor.fragments.ListCollectorQualifierPage}
+  ${AddItemPageEditor.fragments.ListCollectorAddItemPage}
+  ${ConfirmationPageEditor.fragments.ListCollectorConfirmationPage}
 `;
 
 export const UnwrappedPageRoute = (props) => {
@@ -121,6 +139,18 @@ export const UnwrappedPageRoute = (props) => {
         />
       );
     }
+
+    if (page.pageType === ListCollectorQualifierPage) {
+      return <QualifierPageEditor page={page} />;
+    }
+
+    if (page.pageType === ListCollectorAddItemPage) {
+      return <AddItemPageEditor page={page} />;
+    }
+
+    if (page.pageType === ListCollectorConfirmationPage) {
+      return <ConfirmationPageEditor page={page} />;
+    }
   };
 
   const renderContent = () => {
@@ -159,7 +189,11 @@ export const UnwrappedPageRoute = (props) => {
     <PageContextProvider value={page}>
       <EditorLayout
         title={page?.displayName || ""}
-        onAddQuestionPage={onAddQuestionPage}
+        onAddQuestionPage={
+          !isListCollectorPageType(page?.pageType)
+            ? onAddQuestionPage
+            : undefined
+        }
         validationErrorInfo={page?.validationErrorInfo}
         comments={comments}
         {...(availableTabMatrix[page?.pageType] || {})}

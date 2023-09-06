@@ -1,5 +1,7 @@
 import { remove } from "lodash";
 
+import isListCollectorPageType from "utils/isListCollectorPageType";
+
 const identity = (x) => x;
 
 const getContentBeforeEntity = (
@@ -35,7 +37,9 @@ const getContentBeforeEntity = (
           return sections;
         }
 
-        const answers = page?.answers?.flatMap(preprocessAnswers) || [];
+        const answers =
+          !isListCollectorPageType(page.pageType) &&
+          (page?.answers?.flatMap(preprocessAnswers) || []);
         if (answers.length) {
           sections[sections.length - 1].folders[
             sections[sections.length - 1].folders.length - 1

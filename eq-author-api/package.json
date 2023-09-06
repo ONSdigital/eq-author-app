@@ -29,6 +29,7 @@
     "express": "latest",
     "express-pino-logger": "latest",
     "firebase-admin": "^9.11.0",
+    "google-auth-library": "^9.0.0",
     "graphql": "latest",
     "graphql-anywhere": "latest",
     "graphql-iso-date": "latest",
@@ -58,7 +59,14 @@
   "jest": {
     "coverageDirectory": "./coverage/",
     "collectCoverage": false,
-    "coverageReporters": ["json", "json-summary", "text", "text-summary", "lcov", "clover"],
+    "coverageReporters": [
+      "json",
+      "json-summary",
+      "text",
+      "text-summary",
+      "lcov",
+      "clover"
+    ],
     "collectCoverageFrom": [
       "**/*.js",
       "!config/**/*",

@@ -1,0 +1,16 @@
+#import "./fragments/validationErrorInfo.graphql"
+
+mutation UpdateFolder($input: UpdateFolderInput!) {
+  updateFolder(input: $input) {
+    id
+    alias
+    displayName
+    title
+    ... on ListCollectorFolder {
+      listId
+    }
+    validationErrorInfo {
+      ...ValidationErrorInfo
+    }
+  }
+}

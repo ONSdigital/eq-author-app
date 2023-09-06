@@ -13,6 +13,9 @@ query GetFolderQuery($input: QueryInput!) {
     section {
       id
     }
+    ... on ListCollectorFolder {
+      listId
+    }
     validationErrorInfo {
       ...ValidationErrorInfo
     }

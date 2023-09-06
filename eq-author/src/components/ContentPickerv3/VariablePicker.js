@@ -125,7 +125,7 @@ const VariablePicker = ({ onSelected, isSelected, pageType, data }) => {
               </TableHeadCol>
             </TableHeader>
             <VariableItemList>
-              {pageType === "QuestionPage" ? (
+              {pageType !== "CalculatedSummaryPage" ? (
                 data.map((calculatedSummaryPage) => {
                   return (
                     <VariableItem

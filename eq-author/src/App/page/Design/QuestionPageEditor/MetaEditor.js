@@ -9,7 +9,7 @@ import RichTextEditor from "components/RichTextEditor";
 import withChangeUpdate from "enhancers/withChangeUpdate";
 import withValidationError from "enhancers/withValidationError";
 
-import pageFragment from "graphql/fragments/page.graphql";
+import pageFragment from "graphql/fragments/questionPage.graphql";
 import { getMultipleErrorsByField } from "./validationUtils.js";
 
 import {
