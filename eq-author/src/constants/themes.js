@@ -23,8 +23,9 @@ const THEMES = [
   },
   {
     id: "dbt-ni",
-    title: "Department for Business & Trade NI",
-    description: "Header includes the Department for Business & Trade NI logo",
+    title: "Department for Business & Trade - Northern Ireland",
+    description:
+      "Header includes the logos for Department for Business & Trade and Northern Ireland Department of Finance",
   },
   {
     id: "dbt-dsit",
@@ -34,9 +35,10 @@ const THEMES = [
   },
   {
     id: "dbt-dsit-ni",
-    title: "Department for Science, Innovation and Technology NI",
+    title:
+      "Department for Science, Innovation and Technology - Northern Ireland",
     description:
-      "Header includes the logos for Department for Business and Trade, Department for Science, Innovation and Technology, and Department of Finance",
+      "Header includes the logos for Department for Business and Trade, Department for Science, Innovation and Technology, and Northern Ireland Department of Finance",
   },
   {
     id: "desnz",
@@ -46,14 +48,15 @@ const THEMES = [
   },
   {
     id: "desnz-ni",
-    title: "Department for Energy Security and Net Zero NI",
+    title: "Department for Energy Security and Net Zero - Northern Ireland",
     description:
-      "Header includes the logo for Department for Energy Security and Net Zero and Department of Finance",
+      "Header includes the logo for Department for Energy Security and Net Zero and Northern Ireland Department of Finance",
   },
   {
     id: "northernireland",
     title: "Northern Ireland Department of Finance",
-    description: "Header includes the Department of Finance logo",
+    description:
+      "Header includes the Northern Ireland Department of Finance logo",
   },
   {
     id: "orr",
