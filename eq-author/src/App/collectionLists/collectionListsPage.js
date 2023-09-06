@@ -45,18 +45,18 @@ const ListItem = styled.li`
   }
 `;
 
-const Heading2 = styled.h2`
-  font-size: 1.4em;
+const Title = styled.h2`
+  display: block;
+  font-size: 1em;
+  margin-top: 1.33em;
+  margin-left: 0;
+  margin-right: 0;
   font-weight: bold;
-  color: ${colors.text};
-  margin: 1em 0 0.6em 0;
-  &:first-child {
-    margin-top: 0;
-  }
+  margin-bottom: 0;
 `;
 
-const Text = styled.p`
-  margin: 0.4em 0;
+const Content = styled.p`
+  margin: 0.5em 0;
 `;
 
 const Container = styled.div`
@@ -73,7 +73,7 @@ const Margin = styled.div`
 const StyledGrid = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 1em;
+  padding: 0.5em 2em;
   border: 1px solid ${colors.lightGrey};
   border-radius: 4px;
   background: ${colors.white};
@@ -142,11 +142,11 @@ const CollectionListsPage = ({
     <Container>
       <Header title="Collection Lists" tabIndex="-1" className="keyNav" />
       <StyledGrid>
-        <Heading2>List collectors and collection lists</Heading2>
-        <Text>
+        <Title>List collectors and collection lists</Title>
+        <Content>
           To use a list collector question pattern, it must be linked to a
           collection list.
-        </Text>
+        </Content>
 
         <Collapsible
           title="List collector question pattern: step-by-step"
@@ -175,20 +175,20 @@ const CollectionListsPage = ({
           </List>
         </Collapsible>
 
-        <Heading2>What is a collection list?</Heading2>
-        <Text>
+        <Title>What is a collection list?</Title>
+        <Content>
           A collection list stores list items added to linked list collector
           question patterns. These list items can be referenced in subsequent
           question titles and answer labels by piping the collection list.
           Multiple list collector questions can be linked to the same collection
           list.
-        </Text>
-        <Text>
+        </Content>
+        <Content>
           Each collection list requires a name and an answer template, which
           specifies the answer types to be used in the question for adding a
           list item. This answer template is applied across all linked list
           collector question patterns.
-        </Text>
+        </Content>
 
         <AddListCollectionButton
           variant="secondary"
