@@ -71,7 +71,6 @@ const Container = styled.div`
 
 const SettingsContainer = styled.div`
   padding: 0.8em;
-  border-left: 1px solid ${colors.lightGrey};
 `;
 
 const PageMainCanvas = styled.div`
@@ -83,7 +82,6 @@ const PageMainCanvas = styled.div`
 
 const PageContainer = styled.div`
   padding: 0.8em;
-  border-left: 1px solid ${colors.lightGrey};
   &:focus {
     border: 3px solid #fdbd56;
     margin: 0;
