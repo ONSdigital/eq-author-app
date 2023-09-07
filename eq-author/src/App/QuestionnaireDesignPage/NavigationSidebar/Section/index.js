@@ -89,16 +89,19 @@ const Section = ({
                   isDraggingOver={isDraggingOver}
                   {...droppableProps}
                 >
-                  {folders.map(({ id: folderId, pages, position, ...rest }) => (
-                    <Folder
-                      key={`folder-${folderId}`}
-                      id={folderId}
-                      questionnaireId={questionnaireId}
-                      pages={pages}
-                      position={position}
-                      {...rest}
-                    />
-                  ))}
+                  {folders.map(
+                    ({ id: folderId, pages, position, listId, ...rest }) => (
+                      <Folder
+                        key={`folder-${folderId}`}
+                        id={folderId}
+                        questionnaireId={questionnaireId}
+                        pages={pages}
+                        position={position}
+                        listId={listId}
+                        {...rest}
+                      />
+                    )
+                  )}
                   {placeholder}
                 </NavList>
               )}

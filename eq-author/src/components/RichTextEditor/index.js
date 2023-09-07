@@ -447,7 +447,7 @@ class RichTextEditor extends React.Component {
 
             <Editor
               ariaLabel={label}
-              ariaLabelledBy={`label-${id}`}
+              ariaLabelledBy={label && `label-${id}`}
               editorState={editorState}
               onChange={this.handleChange}
               ref={this.setEditorInstance}

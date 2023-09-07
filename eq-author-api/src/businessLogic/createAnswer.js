@@ -94,7 +94,7 @@ module.exports = (answer, page) => {
     ...merge(answer, {
       properties,
       validation,
-      options: defaultOptions,
+      options: answer.options || defaultOptions,
     }),
   };
 };

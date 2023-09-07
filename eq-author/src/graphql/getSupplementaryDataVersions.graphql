@@ -1,0 +1,10 @@
+query GetSupplementaryDataVersions($id: ID!) {
+  supplementaryDataVersions(id: $id) {
+    surveyId
+    versions {
+      guid
+      sds_schema_version
+      sds_published_at
+    }
+  }
+}

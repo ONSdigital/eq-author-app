@@ -8,6 +8,7 @@ const {
   queryPage,
   deletePage,
   movePage,
+  updatePage,
 } = require("../../tests/utils/contextBuilder/page");
 
 const {
@@ -153,6 +154,60 @@ describe("page", () => {
       };
       const updatedPage = await updateQuestionPage(ctx, update);
       expect(updatedPage).toEqual(expect.objectContaining(update));
+    });
+
+    it("should update a page", async () => {
+      ctx = await buildContext({
+        sections: [
+          {
+            folders: [
+              {
+                pages: [
+                  {
+                    title: "title-1",
+                    alias: "alias-1",
+                    pageDescription: "page-description-1",
+                    description: "description-1",
+                    descriptionEnabled: true,
+                    guidance: "guidance-1",
+                    guidanceEnabled: true,
+                    definitionLabel: "definitionLabel-1",
+                    definitionContent: "definitionContent-1",
+                    definitionEnabled: true,
+                    additionalInfoLabel: "additionalInfoLabel-1",
+                    additionalInfoContent: "additionalInfoContent-1",
+                    additionalInfoEnabled: true,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+      questionnaire = ctx.questionnaire;
+
+      const pageId = questionnaire.sections[0].folders[0].pages[0].id;
+
+      const update = {
+        title: "Updated page title",
+        alias: "Updated alias",
+        pageDescription: "Updated page description",
+        description: "Updated description",
+        descriptionEnabled: false,
+        guidance: "Updated guidance",
+        guidanceEnabled: false,
+        definitionLabel: "Updated definition label",
+        definitionContent: "Updated definition content",
+        definitionEnabled: false,
+        additionalInfoLabel: "Updated additional info label",
+        additionalInfoContent: "Updated additional info content",
+        additionalInfoEnabled: false,
+      };
+
+      const updatedPage = await updatePage(ctx, { id: pageId, ...update });
+      expect(updatedPage).toEqual(
+        expect.objectContaining({ id: pageId, ...update })
+      );
     });
   });
 

@@ -1,5 +1,9 @@
 const { logger } = require("../../utils/logger");
 const cheerio = require("cheerio");
+const {
+  getListById,
+  getSupplementaryDataAsCollectionListById,
+} = require("../../schema/resolvers/utils");
 
 const updatePipingValue = (htmlText, answerId, newValue) => {
   if (!htmlText) {
@@ -50,6 +54,52 @@ const updatePipingInAnswers = (updatedAnswer, pages) => {
   return pages;
 };
 
-module.exports = (updatedAnswer, pages) => {
+const updatePipingRepeatingAnswer = (ctx, updatedAnswer, oldAnswer) => {
+  if (
+    !updatedAnswer.repeatingLabelAndInput &&
+    !oldAnswer.repeatingLabelAndInput
+  ) {
+    return;
+  }
+  if (
+    updatedAnswer.repeatingLabelAndInputListId ===
+    oldAnswer.repeatingLabelAndInputListId
+  ) {
+    return;
+  }
+  const oldList =
+    getListById(ctx, oldAnswer?.repeatingLabelAndInputListId) ||
+    getSupplementaryDataAsCollectionListById(
+      ctx,
+      oldAnswer?.repeatingLabelAndInputListId
+    ) ||
+    [];
+  const newList =
+    getListById(ctx, updatedAnswer?.repeatingLabelAndInputListId) ||
+    getSupplementaryDataAsCollectionListById(
+      ctx,
+      updatedAnswer?.repeatingLabelAndInputListId
+    ) ||
+    [];
+
+  oldList?.answers?.forEach((answer) => {
+    updatedAnswer.label = updatePipingValue(
+      updatedAnswer.label,
+      answer.id,
+      "Deleted answer"
+    );
+  });
+
+  newList?.answers?.forEach((answer) => {
+    updatedAnswer.label = updatePipingValue(
+      updatedAnswer.label,
+      answer.id,
+      answer.label.replace(/(<([^>]+)>)/gi, "") || "Untitled answer"
+    );
+  });
+};
+
+module.exports = (ctx, updatedAnswer, pages, oldAnswer) => {
   updatePipingInAnswers(updatedAnswer, pages);
+  updatePipingRepeatingAnswer(ctx, updatedAnswer, oldAnswer);
 };

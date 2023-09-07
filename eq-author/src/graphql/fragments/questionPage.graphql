@@ -1,4 +1,7 @@
 fragment QuestionPage on QuestionPage {
+  id
+  title
+  alias
   description
   descriptionEnabled
   pageDescription

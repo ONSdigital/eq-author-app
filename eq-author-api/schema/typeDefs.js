@@ -85,7 +85,7 @@ type Questionnaire {
   publishHistory: [PublishHistoryEvent]
   validationErrorInfo: ValidationErrorInfo
   submission: Submission
-  prepopSchema: PrepopSchema
+  supplementaryData: SupplementaryData
 }
 
 enum HistoryEventTypes {
@@ -97,6 +97,12 @@ type CollectionLists {
   id: ID!
   lists: [List]
   questionnaire: Questionnaire
+}
+
+type ListName {
+  id: ID!
+  listName: String
+  displayName: String
 }
 
 type List {
@@ -138,7 +144,18 @@ type DeletedQuestionnaire {
   id: ID!
 }
 
-type Folder implements Skippable {
+interface Folder {
+  id: ID!
+  alias: String
+  title: String
+  pages: [Page]
+  position: Int!
+  section: Section!
+  displayName: String!
+  validationErrorInfo: ValidationErrorInfo
+}
+
+type BasicFolder implements Folder & Skippable {
   id: ID!
   alias: String
   title: String
@@ -147,6 +164,64 @@ type Folder implements Skippable {
   position: Int!
   section: Section!
   displayName: String!
+  validationErrorInfo: ValidationErrorInfo
+}
+
+type ListCollectorFolder implements Folder {
+  id: ID!
+  alias: String
+  title: String
+  listId: ID
+  pages: [Page]
+  position: Int!
+  section: Section!
+  displayName: String!
+  validationErrorInfo: ValidationErrorInfo
+}
+
+type ListCollectorQualifierPage implements Page {
+  id: ID!
+  title: String!
+  alias: String
+  displayName: String!
+  pageType: PageType!
+  pageDescription: String
+  folder: Folder!
+  section: Section!
+  position: Int!
+  additionalGuidanceEnabled: Boolean
+  additionalGuidanceContent: String
+  answers: [Answer]
+  comments: [Comment]
+  validationErrorInfo: ValidationErrorInfo
+}
+
+type ListCollectorAddItemPage implements Page {
+  id: ID!
+  title: String!
+  alias: String
+  displayName: String!
+  pageType: PageType!
+  pageDescription: String
+  folder: Folder!
+  section: Section!
+  position: Int!
+  comments: [Comment]
+  validationErrorInfo: ValidationErrorInfo
+}
+
+type ListCollectorConfirmationPage implements Page {
+  id: ID!
+  title: String!
+  alias: String
+  displayName: String!
+  pageType: PageType!
+  pageDescription: String
+  folder: Folder!
+  section: Section!
+  position: Int!
+  answers: [Answer]
+  comments: [Comment]
   validationErrorInfo: ValidationErrorInfo
 }
 
@@ -529,6 +604,9 @@ enum PageType {
   InterstitialPage
   CalculatedSummaryPage
   ListCollectorPage
+  ListCollectorQualifierPage
+  ListCollectorAddItemPage
+  ListCollectorConfirmationPage
 }
 
 enum AnswerType {
@@ -745,28 +823,46 @@ type Submission {
   id: ID!
   furtherContent: String
   viewPrintAnswers: Boolean
-  emailConfirmation: Boolean
   feedback: Boolean
+  validationErrorInfo: ValidationErrorInfo
   comments: [Comment]
 }
 
 type Version {
-  id: ID!
-  version: String!
-  dateCreated: String!
+  guid: ID!
+  sds_schema_version: String!
+  sds_published_at: String!
 }
 
-type PrepopSchemaVersions {
+type SupplementaryDataVersions {
   surveyId: ID!
   versions: [Version!]!
 }
 
-type PrepopSchema {
+type SupplementaryDataField {
+  id: ID,
+  type: String,
+  identifier: String,
+  selector: String,
+  example: String,
+  exampleArray: [String],
+  description: String,
+  displayName: String!,
+}
+
+type SupplementaryDataList {
+  id:ID!
+  listName: String,
+  schemaFields: [SupplementaryDataField]
+}
+
+type SupplementaryData {
   id: ID
   surveyId: ID
-  data: [JSON]
-  dateCreated: String
-  version: String
+  data: [SupplementaryDataList]
+  sdsGuid: ID
+  sdsDateCreated: String
+  sdsVersion: String
 }
 
 type PublishHistoryEvent {
@@ -801,9 +897,10 @@ type Query {
   introduction: QuestionnaireIntroduction
   collectionLists: CollectionLists
   list(input: QueryInput!): List
-  prepopSchemaVersions(id: ID!): PrepopSchemaVersions
-  prepopSchema: PrepopSchema
+  supplementaryDataVersions(id: ID!): SupplementaryDataVersions
+  supplementaryData: SupplementaryData
   publishHistory: [PublishHistoryEvent]
+  listNames: [ListName]
 }
 
 input CommonFilters {
@@ -905,6 +1002,8 @@ type Mutation {
   moveFolder(input: MoveFolderInput!): Questionnaire
   duplicateFolder(input: DuplicateFolderInput!): Folder
 
+  createListCollectorFolder(input: CreateListCollectorFolderInput!): Folder
+
   toggleQuestionnaireStarred(input: ToggleQuestionnaireStarredInput!): Questionnaire
 
   updatePage(input: UpdatePageInput!): Page
@@ -977,8 +1076,8 @@ type Mutation {
   updateListCollectorPage(input: UpdateListCollectorPageInput!): ListCollectorPage
   updateCommentsAsRead(input: UpdateCommentsAsReadInput!): [Comment]
   publishSchema: Questionnaire!
-  updatePrepopSchema(input: UpdatePrepopSchemaInput!): PrepopSchema
-  unlinkPrepopSchema: Questionnaire
+  updateSupplementaryData(input: UpdateSupplementaryDataInput!): SupplementaryData
+  unlinkSupplementaryData: Questionnaire
 }
 
 input CreateListCollectorPageInput {
@@ -1259,6 +1358,7 @@ input UpdateFolderInput {
   folderId: ID!
   alias: String
   title: String
+  listId: ID
 }
 
 input DeleteFolderInput {
@@ -1270,10 +1370,28 @@ input DuplicateFolderInput {
   position: Int!
 }
 
+input CreateListCollectorFolderInput {
+  sectionId: ID!
+  position: Int!
+}
+
 input UpdatePageInput {
   id: ID!
-  title: String!
+  alias: String
+  title: String
   description: String
+  descriptionEnabled: Boolean
+  guidance: String
+  guidanceEnabled: Boolean
+  definitionLabel: String
+  definitionContent: String
+  definitionEnabled: Boolean
+  additionalInfoLabel: String
+  additionalInfoContent: String
+  additionalInfoEnabled: Boolean
+  pageDescription: String
+  additionalGuidanceEnabled: Boolean
+  additionalGuidanceContent: String
 }
 
 input DeletePageInput {
@@ -1627,7 +1745,6 @@ input DeleteCollapsibleInput {
 input UpdateSubmissionInput {
   furtherContent: String
   viewPrintAnswers: Boolean
-  emailConfirmation: Boolean
   feedback: Boolean
 }
 
@@ -1675,7 +1792,7 @@ input deleteHistoryNoteInput {
   id: ID!
 }
 
-input UpdatePrepopSchemaInput {
+input UpdateSupplementaryDataInput {
   id: ID!
   surveyId: ID!
   version: String

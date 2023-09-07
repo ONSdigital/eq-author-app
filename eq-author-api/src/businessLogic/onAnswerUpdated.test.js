@@ -2,7 +2,7 @@ const { buildContext } = require("../../tests/utils/contextBuilder");
 const onAnswerUpdated = require("./onAnswerUpdated");
 
 describe("onAnswerUpdated", () => {
-  let ctx, updatedAnswer, pages;
+  let ctx, updatedAnswer, pages, oldAnswer;
   let config = {
     sections: [
       {
@@ -23,7 +23,10 @@ describe("onAnswerUpdated", () => {
       label: "<p>Age</p>",
       type: "Number",
       questionPageId: "page-1",
+      repeatingLabelAndInput: false,
     };
+
+    oldAnswer = updatedAnswer;
 
     ctx.questionnaire.sections[0].folders[0].pages[0] = {
       id: "page-1",
@@ -42,7 +45,7 @@ describe("onAnswerUpdated", () => {
       pageType: "QuestionPage",
     };
 
-    onAnswerUpdated(updatedAnswer, pages);
+    onAnswerUpdated(ctx, updatedAnswer, pages, oldAnswer);
     const title = ctx.questionnaire.sections[0].folders[0].pages[1].title;
 
     expect(title.includes("[Age]")).toBeTruthy();
@@ -59,7 +62,7 @@ describe("onAnswerUpdated", () => {
       ],
     };
 
-    onAnswerUpdated(updatedAnswer, pages);
+    onAnswerUpdated(ctx, updatedAnswer, pages, oldAnswer);
     const { label } =
       ctx.questionnaire.sections[0].folders[0].pages[1].answers[0];
 
@@ -74,7 +77,7 @@ describe("onAnswerUpdated", () => {
         '<p><span data-piped="answers" data-id="answer-1" data-type="Number">[Mock Pipe]</span></p>',
     };
 
-    onAnswerUpdated(updatedAnswer, pages);
+    onAnswerUpdated(ctx, updatedAnswer, pages, oldAnswer);
     const { description } = ctx.questionnaire.sections[0].folders[0].pages[1];
 
     expect(description.includes("[Age]")).toBeTruthy();

@@ -1,6 +1,7 @@
 #import "graphql/fragments/validationErrorInfo.graphql"
 #import "graphql/lists/list.graphql"
 #import "graphql/fragments/comment.graphql"
+#import "graphql/fragments/supplementaryData.graphql"
 
 query GetQuestionnaire($input: QueryInput!) {
   questionnaire(input: $input) {
@@ -36,11 +37,16 @@ query GetQuestionnaire($input: QueryInput!) {
       id
       furtherContent
       viewPrintAnswers
-      emailConfirmation
       feedback
       comments {
         ...Comment
       }
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
+    }
+    supplementaryData {
+      ...SupplementaryData
     }
     validationErrorInfo {
       ...ValidationErrorInfo
@@ -117,6 +123,8 @@ fragment PageNav on Section {
   id
   showOnHub
   sectionSummary
+  repeatingSection
+  repeatingSectionListId
   folders {
     id
     alias
@@ -126,6 +134,12 @@ fragment PageNav on Section {
       ...Pages
       ...ConfirmationPages
       ...ListCollectorPages
+      ...ListCollectorQualifierPages
+      ...ListCollectorAddItemPages
+      ...ListCollectorConfirmationPages
+    }
+    ... on ListCollectorFolder {
+      listId
     }
     validationErrorInfo {
       id
@@ -149,6 +163,27 @@ fragment Pages on Page {
       errorCode
     }
     totalCount
+  }
+  ... on ListCollectorQualifierPage {
+    answers {
+      ...Answers
+    }
+    comments {
+      ...Comment
+    }
+  }
+  ... on ListCollectorAddItemPage {
+    comments {
+      ...Comment
+    }
+  }
+  ... on ListCollectorConfirmationPage {
+    answers {
+      ...Answers
+    }
+    comments {
+      ...Comment
+    }
   }
   ... on CalculatedSummaryPage {
     pageDescription
@@ -207,6 +242,69 @@ fragment ListCollectorPages on ListCollectorPage {
   }
   comments {
     ...Comment
+  }
+}
+
+fragment ListCollectorConfirmationPages on ListCollectorConfirmationPage {
+  id
+  alias
+  title
+  position
+  displayName
+  pageType
+  answers {
+    ...Answers
+  }
+  validationErrorInfo {
+    id
+    errors {
+      id
+      type
+      field
+      errorCode
+    }
+    totalCount
+  }
+}
+
+fragment ListCollectorAddItemPages on ListCollectorAddItemPage {
+  id
+  alias
+  title
+  position
+  displayName
+  pageType
+  validationErrorInfo {
+    id
+    errors {
+      id
+      type
+      field
+      errorCode
+    }
+    totalCount
+  }
+}
+
+fragment ListCollectorQualifierPages on ListCollectorQualifierPage {
+  id
+  alias
+  title
+  position
+  displayName
+  pageType
+  answers {
+    ...Answers
+  }
+  validationErrorInfo {
+    id
+    errors {
+      id
+      type
+      field
+      errorCode
+    }
+    totalCount
   }
 }
 

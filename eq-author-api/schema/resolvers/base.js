@@ -48,6 +48,7 @@ const {
   createExpressionGroup,
   createLeftSide,
   createFolder,
+  createListCollectorFolder,
   createSection,
   createList,
 } = require("../../src/businessLogic");
@@ -55,10 +56,10 @@ const {
 const {
   getExpressions,
   getSections,
-  getPagesFromSection,
   getSectionById,
   getFolderById,
   getSectionByFolderId,
+  getFoldersBySectionId,
   getPages,
   getPageById,
   getPageByAnswerId,
@@ -76,6 +77,7 @@ const {
   getListByAnswerId,
   getAnswerByOptionId,
   setDataVersion,
+  authorisedRequest,
 } = require("./utils");
 
 const createAnswer = require("../../src/businessLogic/createAnswer");
@@ -91,6 +93,8 @@ const addPrefix = require("../../utils/addPrefix");
 const onQuestionnaireUpdated = require("../../src/businessLogic/onQuestionnaireUpdated");
 const onListDeleted = require("../../src/businessLogic/onListDeleted");
 const onSectionUpdated = require("../../src/businessLogic/onSectionUpdated");
+const processSupplementaryData = require("../../src/businessLogic/processSupplementaryData");
+const onUnlinkSupplementaryData = require("../../src/businessLogic/onUnlinkSupplementaryData");
 
 const {
   createQuestionnaire,
@@ -181,31 +185,6 @@ const publishCommentUpdates = (questionnaireId) => {
   pubsub.publish("commentsUpdated", {
     questionnaireId,
   });
-};
-
-const getPrepopMetadata = (properties) => {
-  const prepopSchema = [];
-
-  const metadataKeys = Object.keys(properties).filter(
-    (key) => key !== "items" && key !== "identifier" && key !== "schema_version"
-  );
-
-  metadataKeys.forEach((key) => {
-    // populate prepopSchema fields
-    properties[key] = {
-      ...properties[key],
-      fieldName: key,
-      id: uuidv4(),
-      exampleValue: properties[key].examples[0],
-    };
-
-    // delete redundant fields
-    properties[key] = omit(properties[key], ["minLength", "examples"]);
-
-    prepopSchema.push(properties[key]);
-  });
-
-  return prepopSchema;
 };
 
 const Resolvers = {
@@ -317,19 +296,48 @@ const Resolvers = {
     publishHistory: (_, args, ctx) => ctx.questionnaire.publishHistory,
     list: (root, { input: { listId } }, ctx) =>
       find(ctx.questionnaire.collectionLists.lists, { id: listId }),
-    prepopSchemaVersions: async (_, args) => {
+    supplementaryDataVersions: async (_, args) => {
       const { id } = args;
-      const url = `${process.env.PREPOP_SCHEMA_GATEWAY}schemaVersionsGet?survey_id=${id}`;
+      const url = `${process.env.SUPPLEMENTARY_DATA_GATEWAY}schema_metadata?survey_id=${id}`;
 
       try {
-        const response = await fetch(url);
-        const prepopSchemaVersions = await response.json();
-        return prepopSchemaVersions;
+        const response = await authorisedRequest(
+          url,
+          process.env.SUPPLEMENTARY_DATA_GATEWAY_AUDIENCE,
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        if (response.status !== 200) {
+          throw new Error(`enable to get versions. status(${response.status})`);
+        }
+        return {
+          surveyId: id,
+          versions: response.data,
+        };
       } catch (err) {
-        throw Error(err);
+        logger.error(err.message);
+        return {
+          surveyId: id,
+          versions: [],
+        };
       }
     },
-    prepopSchema: (_, args, ctx) => ctx.questionnaire.prepopSchema,
+    supplementaryData: (_, args, ctx) => ctx.questionnaire.supplementaryData,
+    listNames: (_, args, ctx) => {
+      const listNames = [];
+      if (ctx.questionnaire?.collectionLists?.lists?.length) {
+        listNames.push(...ctx.questionnaire.collectionLists.lists);
+      }
+      if (ctx.questionnaire?.supplementaryData?.data) {
+        listNames.push(
+          ...ctx.questionnaire.supplementaryData.data.filter(
+            (list) => list.listName
+          )
+        );
+      }
+      return listNames;
+    },
   },
 
   Subscription: {
@@ -711,6 +719,9 @@ const Resolvers = {
       const folder = getFolderById(ctx, input.id);
       const newFolder = omit(cloneDeep(folder), "id");
       set(newFolder, "alias", addPrefix(newFolder.alias));
+      if (folder.listId !== undefined) {
+        set(newFolder, "title", addPrefix(newFolder.title));
+      }
       const duplicatedFolder = createFolder(newFolder);
       const remappedFolder = remapAllNestedIds(duplicatedFolder);
       section.folders.splice(input.position, 0, remappedFolder);
@@ -721,6 +732,15 @@ const Resolvers = {
 
       return remappedFolder;
     }),
+    createListCollectorFolder: createMutation(
+      (root, { input: { position, ...params } }, ctx) => {
+        const listCollectorFolder = createListCollectorFolder();
+        const section = getSectionById(ctx, params.sectionId);
+        section.folders.splice(position, 0, listCollectorFolder);
+
+        return listCollectorFolder;
+      }
+    ),
     createAnswer: createMutation((root, { input }, ctx) => {
       const page = getPageById(ctx, input.questionPageId);
       const answer = createAnswer(input, page);
@@ -744,6 +764,9 @@ const Resolvers = {
           : null
       );
       const answer = find(concat(answers, additionalAnswers), { id: input.id });
+      const oldAnswer = {
+        ...answer,
+      };
       merge(answer, input);
 
       if (answer.type === DATE && !input.label && input?.properties?.format) {
@@ -754,7 +777,7 @@ const Resolvers = {
       }
 
       const pages = getPages(ctx);
-      onAnswerUpdated(input, pages);
+      onAnswerUpdated(ctx, answer, pages, oldAnswer);
 
       const page = getPageByAnswerId(ctx, answer.id);
       if (answer.repeatingLabelAndInput && !page.totalValidation) {
@@ -1525,11 +1548,15 @@ const Resolvers = {
         ctx.questionnaire.publishHistory = [publishResult];
       }
 
-      const convertedResponse = await fetch(`${process.env.CONVERSION_URL}`, {
-        method: "post",
-        body: JSON.stringify(ctx.questionnaire),
-        headers: { "Content-Type": "application/json" },
-      }).catch((e) => {
+      const convertedResponse = await authorisedRequest(
+        `${process.env.CONVERSION_URL}`,
+        null,
+        {
+          method: "POST",
+          body: JSON.stringify(ctx.questionnaire),
+          headers: { "Content-Type": "application/json" },
+        }
+      ).catch((e) => {
         publishResult.success = false;
         publishResult.errorMessage = `Failed to fetch questionnaire - ${e.message}`;
       });
@@ -1544,19 +1571,23 @@ const Resolvers = {
         return ctx.questionnaire;
       }
 
-      const convertedQuestionnaire = await convertedResponse.json();
+      const convertedQuestionnaire = convertedResponse.data;
 
-      await fetch(`${process.env.CIR_PUBLISH_SCHEMA_GATEWAY}publishSchema`, {
-        method: "post",
-        body: JSON.stringify(convertedQuestionnaire),
-        headers: { "Content-Type": "application/json" },
-      })
+      await authorisedRequest(
+        `${process.env.CIR_PUBLISH_SCHEMA_GATEWAY}publish_collection_instrument`,
+        process.env.CIR_PUBLISH_SCHEMA_GATEWAY_AUDIENCE,
+        {
+          method: "POST",
+          body: JSON.stringify(convertedQuestionnaire),
+          headers: { "Content-Type": "application/json" },
+        }
+      )
         .then(async (res) => {
           if (res.status === 200) {
-            const responseJson = await res.json();
+            const responseJson = res.data;
 
             publishResult.cirId = responseJson.id;
-            publishResult.cirVersion = responseJson.version;
+            publishResult.cirVersion = responseJson.ci_version;
             publishResult.success = true;
           } else {
             publishResult.success = false;
@@ -1570,25 +1601,36 @@ const Resolvers = {
 
       return ctx.questionnaire;
     }),
-    updatePrepopSchema: createMutation(async (root, { input }, ctx) => {
-      const { id, surveyId } = input;
-      const url = `${process.env.PREPOP_SCHEMA_GATEWAY}schemaVersionGet?id=${surveyId}`;
+    updateSupplementaryData: createMutation(async (root, { input }, ctx) => {
+      const { id, surveyId, version } = input;
+      const url = `${process.env.SUPPLEMENTARY_DATA_GATEWAY}schema?survey_id=${surveyId}&version=${version}`;
 
       try {
-        const response = await fetch(url);
-        const prepopSchemaVersion = await response.json();
+        const response = await authorisedRequest(
+          url,
+          process.env.SUPPLEMENTARY_DATA_GATEWAY_AUDIENCE,
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        const supplementaryDataVersion = response.data;
 
-        if (prepopSchemaVersion) {
-          logger.info(`Schema version data returned - ${prepopSchemaVersion}`);
-
-          if (prepopSchemaVersion?.schema?.properties) {
-            ctx.questionnaire.prepopSchema = { ...input };
-            ctx.questionnaire.prepopSchema.data = getPrepopMetadata(
-              prepopSchemaVersion.schema.properties
+        if (supplementaryDataVersion) {
+          logger.info(`Schema version data returned - ${id}`);
+          if (supplementaryDataVersion?.properties) {
+            ctx.questionnaire.supplementaryData = {
+              id: uuidv4(),
+              surveyId: surveyId,
+              sdsVersion: version,
+              sdsDateCreated: input.dateCreated,
+              sdsGuid: id,
+            };
+            ctx.questionnaire.supplementaryData.data = processSupplementaryData(
+              supplementaryDataVersion
             );
           }
 
-          return ctx.questionnaire.prepopSchema;
+          return ctx.questionnaire.supplementaryData;
         } else {
           logger.info(`Schema version data not found - ${id}`);
         }
@@ -1596,12 +1638,14 @@ const Resolvers = {
         throw Error(err);
       }
     }),
-    unlinkPrepopSchema: createMutation(async (root, args, ctx) => {
+    unlinkSupplementaryData: createMutation(async (root, args, ctx) => {
       logger.info(
         { qid: ctx.questionnaire.id },
-        `Unlinked PrepopSchema with ID: ${ctx.questionnaire.prepopSchema.id} from questionnaire: ${ctx.questionnaire.id}`
+        `Unlinked SupplementaryData with ID: ${ctx.questionnaire.supplementaryData.id} from questionnaire: ${ctx.questionnaire.id}`
       );
-      ctx.questionnaire.prepopSchema = undefined;
+      const oldSupplementaryData = ctx.questionnaire?.supplementaryData?.data;
+      onUnlinkSupplementaryData(ctx, ctx.questionnaire, oldSupplementaryData);
+      ctx.questionnaire.supplementaryData = undefined;
       return ctx.questionnaire;
     }),
   },
@@ -1658,7 +1702,7 @@ const Resolvers = {
 
   Skippable: {
     __resolveType: ({ pageType, pages }) =>
-      pageType ? pageType : pages ? "Folder" : "QuestionConfirmation",
+      pageType ? pageType : pages ? "BasicFolder" : "QuestionConfirmation",
   },
 
   Routable: {
@@ -1675,6 +1719,15 @@ const Resolvers = {
       returnValidationErrors(ctx, id, ({ listId }) => id === listId),
   },
 
+  ListName: {
+    displayName: ({ listName }) => listName || "Untitled list",
+  },
+
+  SupplementaryDataField: {
+    displayName: ({ identifier, selector }) =>
+      selector ? identifier + " - " + selector : identifier,
+  },
+
   QuestionnaireIntroduction: {
     questionnaire: (root, args, ctx) => ctx.questionnaire,
     validationErrorInfo: ({ id }, _, ctx) =>
@@ -1682,6 +1735,8 @@ const Resolvers = {
     comments: ({ id }, args, ctx) => ctx.comments[id],
   },
   Submission: {
+    validationErrorInfo: ({ id }, _, ctx) =>
+      returnValidationErrors(ctx, id, ({ type }) => type === "submission"),
     comments: ({ id }, args, ctx) => ctx.comments[id],
   },
 
@@ -1701,10 +1756,11 @@ const Resolvers = {
           id === sectionId && !pageId && !folderId
       ),
     comments: ({ id }, args, ctx) => ctx.comments[id],
-    allowRepeatingSection: (section) =>
-      findIndex(getPagesFromSection(section), {
-        pageType: "ListCollectorPage",
-      }) < 0,
+    allowRepeatingSection: ({ id }, args, ctx) =>
+      !some(
+        getFoldersBySectionId(ctx, id),
+        (folder) => folder.listId !== undefined
+      ),
   },
 
   CollectionLists: {
@@ -1712,12 +1768,36 @@ const Resolvers = {
   },
 
   Folder: {
+    __resolveType: (folder) => {
+      return Object.prototype.hasOwnProperty.call(folder, "listId")
+        ? "ListCollectorFolder"
+        : "BasicFolder";
+    },
+  },
+
+  BasicFolder: {
     section: ({ id }, args, ctx) => getSectionByFolderId(ctx, id),
     position: ({ id }, args, ctx) => {
       const section = getSectionByFolderId(ctx, id);
       return findIndex(section.folders, { id });
     },
     displayName: ({ alias, title }) => alias || title || "Untitled folder",
+    validationErrorInfo: ({ id }, args, ctx) =>
+      returnValidationErrors(
+        ctx,
+        id,
+        ({ folderId, pageId }) => id === folderId && !pageId
+      ),
+  },
+
+  ListCollectorFolder: {
+    section: ({ id }, args, ctx) => getSectionByFolderId(ctx, id),
+    position: ({ id }, args, ctx) => {
+      const section = getSectionByFolderId(ctx, id);
+      return findIndex(section.folders, { id });
+    },
+    displayName: ({ alias, title }) =>
+      alias || title || "Untitled list collector",
     validationErrorInfo: ({ id }, args, ctx) =>
       returnValidationErrors(
         ctx,

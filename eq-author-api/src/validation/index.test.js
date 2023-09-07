@@ -338,6 +338,7 @@ describe("schema validation", () => {
     });
   });
 
+  // TODO: List collector folder - can be removed once list collector page data is removed
   describe("List Collector page validation", () => {
     it("should validate that the descriptions in the list collector and question confirmation pages are unique", () => {
       const page1 = questionnaire.sections[0].folders[0].pages[0];
@@ -351,7 +352,7 @@ describe("schema validation", () => {
 
       const validationPageErrors = validation(questionnaire);
 
-      expect(validationPageErrors).toHaveLength(4);
+      expect(validationPageErrors).toHaveLength(2);
 
       expect(validationPageErrors[0]).toMatchObject({
         errorCode: "ERR_UNIQUE_PAGE_DESCRIPTION",
@@ -362,18 +363,6 @@ describe("schema validation", () => {
       expect(validationPageErrors[1]).toMatchObject({
         errorCode: "ERR_UNIQUE_PAGE_DESCRIPTION",
         field: "pageDescription",
-        id: uuidRejex,
-        type: "page",
-      });
-      expect(validationPageErrors[2]).toMatchObject({
-        errorCode: "ERR_UNIQUE_PAGE_DESCRIPTION",
-        field: "addItemPageDescription",
-        id: uuidRejex,
-        type: "page",
-      });
-      expect(validationPageErrors[3]).toMatchObject({
-        errorCode: "ERR_UNIQUE_PAGE_DESCRIPTION",
-        field: "anotherPageDescription",
         id: uuidRejex,
         type: "page",
       });

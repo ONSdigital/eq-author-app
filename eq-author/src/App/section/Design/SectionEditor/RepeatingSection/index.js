@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
 import { Field, Label } from "components/Forms";
 import { useQuery } from "@apollo/react-hooks";
-import COLLECTION_LISTS from "graphql/lists/collectionLists.graphql";
+import GET_LISTNAMES from "graphql/getListNames.graphql";
 import Icon from "assets/icon-select.svg";
 import Loading from "components/Loading";
 import { find, some } from "lodash";
@@ -95,17 +95,17 @@ const renderErrors = (errors, field) => {
 };
 
 const RepeatingSection = ({ section, handleUpdate }) => {
-  const { loading, data } = useQuery(COLLECTION_LISTS, {
+  const { loading, data } = useQuery(GET_LISTNAMES, {
     fetchPolicy: "cache-and-network",
   });
 
   if (loading) {
     return <Loading height="100%">Questionnaire lists loading…</Loading>;
   }
-  let lists = [];
+  let listNames = [];
 
   if (data) {
-    lists = data.collectionLists?.lists || [];
+    listNames = data.listNames || [];
   }
 
   return (
@@ -156,7 +156,7 @@ const RepeatingSection = ({ section, handleUpdate }) => {
             })}
           >
             <option value="">Select a collection list</option>
-            {lists.map((list) => (
+            {listNames.map((list) => (
               <option key={list.id} value={list.id}>
                 {list.displayName}
               </option>

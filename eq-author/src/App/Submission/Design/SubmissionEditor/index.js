@@ -3,11 +3,12 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useMutation } from "@apollo/react-hooks";
 import { colors } from "constants/theme.js";
+import { find } from "lodash";
 
 import RichTextEditor from "components/RichTextEditor";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 import { Label, Field } from "components/Forms";
-
+import { submissionErrors } from "constants/validationMessages";
 import updateSubmissionMutation from "../../graphql/updateSubmission.graphql";
 
 const Wrapper = styled.div`
@@ -30,13 +31,12 @@ const SectionTitle = styled.h2`
 
 const SectionDescription = styled.p`
   margin: 0.1em 0 1em;
-  color: ${({ theme }) => theme.colors.textLight};
 `;
 
 const InlineField = styled(Field)`
   display: flex;
   align-items: center;
-  margin-bottom: 0.4em;
+  margin-bottom: 0em;
 
   > * {
     margin-bottom: 0;
@@ -59,23 +59,28 @@ const countLinks = (furtherContent) => {
 };
 
 const SubmissionEditor = ({ submission }) => {
-  const { furtherContent, viewPrintAnswers, emailConfirmation, feedback } =
-    submission;
+  const { furtherContent, viewPrintAnswers, feedback } = submission;
+
+  const furtherContentError = find(submission.validationErrorInfo.errors, {
+    errorCode: "ERR_VALID_REQUIRED",
+  });
 
   const [updateSubmission] = useMutation(updateSubmissionMutation);
 
   return (
     <Wrapper data-test="submission-editor">
       <Section>
-        <SectionTitle style={{ marginBottom: "0" }}>Page content</SectionTitle>
+        <SectionTitle style={{ marginBottom: "0.4em" }}>
+          Submission confirmation details
+        </SectionTitle>
         <SectionDescription>
-          Uneditable content is not listed in the design view of this page. To
-          view all content, including uneditable content, use preview.
+          A success panel is displayed at the top of the page and includes the
+          submission date and reference number.
         </SectionDescription>
         <RichTextEditor
           id="submission-further-content"
           name="submissionFurtherContent"
-          label="Further content"
+          label="Additional content"
           value={furtherContent}
           controls={contentControls}
           onUpdate={({ value }) =>
@@ -85,24 +90,18 @@ const SubmissionEditor = ({ submission }) => {
               },
             })
           }
+          errorValidationMsg={
+            furtherContentError?.errorCode
+              ? submissionErrors[furtherContentError.errorCode].message
+              : null
+          }
           testSelector="txt-submission-further-content"
           multiline
           linkCount={countLinks(furtherContent)}
           linkLimit={2}
         />
-      </Section>
-      <Section>
-        <SectionTitle style={{ marginBottom: "0" }}>
-          Submission content
-        </SectionTitle>
-        <SectionDescription>
-          The content that informs users how to view or print their answers, get
-          a confirmation email or how they can give feedback are displayed on
-          the submission page by default. You can choose not to display these
-          elements
-        </SectionDescription>
         <InlineField>
-          <Label htmlFor="viewPrintAnswers">View/print answers</Label>
+          <Label htmlFor="viewPrintAnswers">Get a copy of their answers</Label>
           <ToggleSwitch
             name="view-print-answers"
             id="viewPrintAnswers"
@@ -118,25 +117,11 @@ const SubmissionEditor = ({ submission }) => {
             value="viewPrintAnswers"
           />
         </InlineField>
+        <SectionDescription>
+          Provide a link for respondents to save and print their answers.
+        </SectionDescription>
         <InlineField>
-          <Label htmlFor="emailConfirmation">Email confirmation</Label>
-          <ToggleSwitch
-            name="email-confirmation"
-            id="emailConfirmation"
-            onChange={({ value }) =>
-              updateSubmission({
-                variables: {
-                  input: { emailConfirmation: value },
-                },
-              })
-            }
-            checked={emailConfirmation}
-            hideLabels={false}
-            value="emailConfirmation"
-          />
-        </InlineField>
-        <InlineField>
-          <Label htmlFor="feedback">Feedback</Label>
+          <Label htmlFor="feedback">Give feedback</Label>
           <ToggleSwitch
             name="feedback"
             id="feedback"
@@ -152,6 +137,9 @@ const SubmissionEditor = ({ submission }) => {
             value="feedback"
           />
         </InlineField>
+        <SectionDescription>
+          Provide a link for respondents to provide feedback about the service.
+        </SectionDescription>
       </Section>
     </Wrapper>
   );
@@ -162,7 +150,6 @@ SubmissionEditor.propTypes = {
     id: PropTypes.string.isRequired,
     furtherContent: PropTypes.string,
     viewPrintAnswers: PropTypes.bool,
-    emailConfirmation: PropTypes.bool,
     feedback: PropTypes.bool,
   }),
   renderPanel: PropTypes.func,
