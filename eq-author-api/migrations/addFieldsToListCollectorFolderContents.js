@@ -12,6 +12,18 @@ module.exports = (questionnaire) => {
               page.title = "";
             }
           }
+          if (
+            page.pageType === "ListCollectorQualifierPage" ||
+            page.pageType === "ListCollectorConfirmationPage"
+          ) {
+            page.answers.forEach((answer) => {
+              answer.options.forEach((option) => {
+                if (option.label === undefined) {
+                  option.label = "";
+                }
+              });
+            });
+          }
         });
       }
     });
