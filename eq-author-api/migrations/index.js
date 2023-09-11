@@ -50,6 +50,7 @@ const migrations = [
   require("./updateIntroductionPreviewQuestionsSettings"),
   require("./convertListCollectorPageToFolder"),
   require("./addValidationToListCollectorAnswers"),
+  require("./addFieldsToListCollectorFolderContents"),
 ];
 
 const currentVersion = migrations.length;
