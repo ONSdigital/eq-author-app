@@ -1,11 +1,11 @@
 const updateIntroductionPreviewQuestionsSettings = require("./updateIntroductionPreviewQuestionsSettings");
 
 describe("updateIntroductionPreviewQuestionsSettings", () => {
-  it("should check for introduction", () => {
+  it("should check return questionnaire if introduction is undefined", () => {
     const questionnaire = {};
     expect(
       updateIntroductionPreviewQuestionsSettings(questionnaire)
-    ).toBeFalsy();
+    ).toBeTruthy();
   });
 
   it("should add preview questions equal to false if it doesnt exist", () => {
