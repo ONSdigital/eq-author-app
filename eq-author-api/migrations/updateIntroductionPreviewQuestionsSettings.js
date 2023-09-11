@@ -16,6 +16,6 @@ module.exports = function updateIntroductionPreviewQuestionsSettings(
       questionnaire.introduction.previewQuestions = false;
       questionnaire.introduction.disallowPreviewQuestions = true;
     }
-    return questionnaire;
   }
+  return questionnaire;
 };
