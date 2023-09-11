@@ -5,7 +5,8 @@ module.exports = (questionnaire) => {
         folder.pages.forEach((page) => {
           if (
             page.pageType === "ListCollectorQualifierPage" ||
-            page.pageType === "ListCollectorConfirmationPage"
+            page.pageType === "ListCollectorConfirmationPage" ||
+            page.pageType === "ListCollectorAddItemPage"
           ) {
             if (page.title === undefined) {
               page.title = "";
