@@ -130,6 +130,7 @@ const AddItemPageEditor = ({ page }) => {
           errors={validationErrorInfo.errors}
         />
         <HorizontalSeparator />
+        <HorizontalSeparator />
         <Collapsible title="Why can’t I add an answer type?">
           <Content>
             The answer type for the question for adding a list item is
