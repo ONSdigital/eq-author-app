@@ -98,7 +98,9 @@ const transformedQuestionnaire = (sections, version) => {
     section.folders?.forEach((folder) => {
       folder.pages?.forEach((page) => {
         page.answers?.forEach((answer) => {
-          for (const [, validation] of Object.entries(answer.validation)) {
+          for (const [, validation] of Object.entries(
+            answer.validation || {}
+          )) {
             if (validation.custom?.seconds) {
               validation.custom = validation.custom.toDate();
             }
