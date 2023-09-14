@@ -49,6 +49,8 @@ const migrations = [
   require("./addCollectionListAnswerRepeatingProperties"),
   require("./updateIntroductionPreviewQuestionsSettings"),
   require("./convertListCollectorPageToFolder"),
+  require("./addValidationToListCollectorAnswers"),
+  require("./addFieldsToListCollectorFolderContents"),
 ];
 
 const currentVersion = migrations.length;
