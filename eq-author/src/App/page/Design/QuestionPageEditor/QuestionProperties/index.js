@@ -76,7 +76,11 @@ export class UnwrappedQuestionProperties extends React.Component {
           id="descriptionEnabled"
           data-test="descriptionEnabled"
           checked={descriptionEnabled}
-          onChange={this.handleChange}
+          onChange={
+            page.pageType === "ListCollectorAddItemPage"
+              ? onChange
+              : this.handleChange
+          }
         >
           <Label>Question description</Label>
         </Property>
@@ -88,7 +92,6 @@ export class UnwrappedQuestionProperties extends React.Component {
           onChange={onChange}
           onUpdate={onUpdate}
           page={page}
-          fetchAnswers={fetchAnswers}
           option={"description"}
         />
 
@@ -98,7 +101,11 @@ export class UnwrappedQuestionProperties extends React.Component {
           id="definitionEnabled"
           data-test="definitionEnabled"
           checked={definitionEnabled}
-          onChange={this.handleChange}
+          onChange={
+            page.pageType === "ListCollectorAddItemPage"
+              ? onChange
+              : this.handleChange
+          }
         >
           <Label>Question definition</Label>
         </Property>
@@ -120,7 +127,11 @@ export class UnwrappedQuestionProperties extends React.Component {
           id="guidanceEnabled"
           data-test="guidanceEnabled"
           checked={guidanceEnabled}
-          onChange={this.handleChange}
+          onChange={
+            page.pageType === "ListCollectorAddItemPage"
+              ? onChange
+              : this.handleChange
+          }
         >
           <Label>Include/exclude</Label>
         </Property>
@@ -143,7 +154,11 @@ export class UnwrappedQuestionProperties extends React.Component {
           id="additionalInfoEnabled"
           data-test="additionalInfoEnabled"
           checked={additionalInfoEnabled}
-          onChange={this.handleChange}
+          onChange={
+            page.pageType === "ListCollectorAddItemPage"
+              ? onChange
+              : this.handleChange
+          }
         >
           <Label>Additional information</Label>
         </Property>

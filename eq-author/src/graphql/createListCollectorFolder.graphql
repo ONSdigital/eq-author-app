@@ -138,6 +138,16 @@ mutation CreateListCollectorFolder($input: CreateListCollectorFolderInput!) {
         position
         displayName
         pageType
+        description
+        descriptionEnabled
+        guidance
+        guidanceEnabled
+        definitionLabel
+        definitionContent
+        definitionEnabled
+        additionalInfoLabel
+        additionalInfoContent
+        additionalInfoEnabled
         validationErrorInfo {
           ...ValidationErrorInfo
         }

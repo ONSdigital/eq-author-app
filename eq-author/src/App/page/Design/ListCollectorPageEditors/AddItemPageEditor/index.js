@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme.js";
 import gql from "graphql-tag";
 
+import QuestionProperties from "App/page/Design/QuestionPageEditor/QuestionProperties";
+
+import withEntityEditor from "components/withEntityEditor";
+
 import { Field } from "components/Forms";
 import RichTextEditor from "components/RichTextEditor";
 import Collapsible from "components/Collapsible";
 import PageTitle from "components/PageTitle";
+
 import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
 import {
   ANSWER,
@@ -53,7 +58,7 @@ const titleControls = {
   piping: true,
 };
 
-const AddItemPageEditor = ({ page }) => {
+const AddItemPageEditor = ({ onChange, page }) => {
   const {
     id,
     alias,
@@ -66,6 +71,8 @@ const AddItemPageEditor = ({ page }) => {
   const [addItemPageAlias, setAddItemPageAlias] = useState(alias);
   const [addItemPageDescription, setAddItemPageDescription] =
     useState(pageDescription);
+
+  const [addItemPage, setAddItemPage] = useState(page);
 
   const [updatePage] = useMutation(UPDATE_PAGE_MUTATION);
 
@@ -82,6 +89,17 @@ const AddItemPageEditor = ({ page }) => {
     folder,
     section,
   });
+
+  const handleChange = ({ name, value }) => {
+    const updatedPage = { ...page };
+
+    updatedPage[name] = value;
+
+    setAddItemPage(updatedPage);
+    updatePage({
+      variables: { input: { id, [name]: value } },
+    });
+  };
 
   return (
     <Container data-test="list-collector-add-item-page-editor">
@@ -130,7 +148,16 @@ const AddItemPageEditor = ({ page }) => {
           errors={validationErrorInfo.errors}
         />
         <HorizontalSeparator />
-        <HorizontalSeparator />
+
+        <QuestionProperties
+          page={addItemPage}
+          onChange={handleChange}
+          onUpdate={({ name, value }) =>
+            updatePage({
+              variables: { input: { id, [name]: value } },
+            })
+          }
+        />
         <Collapsible title="Why can’t I add an answer type?">
           <Content>
             The answer type for the question for adding a list item is
@@ -235,6 +262,16 @@ AddItemPageEditor.fragments = {
           }
         }
       }
+      description
+      descriptionEnabled
+      guidance
+      guidanceEnabled
+      definitionLabel
+      definitionContent
+      definitionEnabled
+      additionalInfoLabel
+      additionalInfoContent
+      additionalInfoEnabled
       comments {
         ...Comment
       }
