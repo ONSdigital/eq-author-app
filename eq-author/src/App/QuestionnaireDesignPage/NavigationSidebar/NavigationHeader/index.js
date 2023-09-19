@@ -69,9 +69,11 @@ export const UnwrappedNavigationHeader = ({
       break;
   }
 
-  const canAddQuestionAndCalculatedSummmaryPages =
+  const canAddQuestionPage = [PAGE, FOLDER, SECTION].includes(entityName);
+
+  const canAddCalculatedSummaryPage =
     [PAGE, FOLDER, SECTION].includes(entityName) &&
-    !isListCollectorPageType(page?.pageType); // TODO: List collector folder - update to allow adding follow up questions
+    page?.folder?.listId === undefined;
 
   const canAddFolder = [PAGE, FOLDER, SECTION].includes(entityName);
   const canAddListCollectorFolder =
@@ -152,8 +154,8 @@ export const UnwrappedNavigationHeader = ({
         onAddListCollectorFolder={handleAddListCollectorFolder}
         onAddIntroductionPage={handleAddIntroductionPage}
         onStartImportingContent={handleStartImportingContent}
-        canAddQuestionPage={canAddQuestionAndCalculatedSummmaryPages}
-        canAddCalculatedSummaryPage={canAddQuestionAndCalculatedSummmaryPages}
+        canAddQuestionPage={canAddQuestionPage}
+        canAddCalculatedSummaryPage={canAddCalculatedSummaryPage}
         canAddQuestionConfirmation={canAddQuestionConfirmation}
         canAddListCollectorFolder={canAddListCollectorFolder}
         canAddIntroductionPage={canAddIntroductionPage}
