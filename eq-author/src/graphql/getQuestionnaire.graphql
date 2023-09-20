@@ -39,6 +39,11 @@ query GetQuestionnaire($input: QueryInput!) {
           position
           displayName
           pageType
+          ... on QuestionPage {
+            confirmation {
+              id
+            }
+          }
         }
       }
       questionnaire {

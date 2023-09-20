@@ -27,7 +27,11 @@ import SelectContentModal from "components/modals/ImportContentModal";
 import QuestionPicker from "components/QuestionPicker";
 import SectionPicker from "components/SectionPicker";
 
-const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
+const ImportingContent = ({
+  stopImporting,
+  targetInsideFolder,
+  targetIsListCollectorFolder,
+}) => {
   /*
    * Modal display states
    */
@@ -395,6 +399,7 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
                 onClose={onGlobalCancel}
                 onCancel={onQuestionPickerCancel}
                 onSubmit={onQuestionPickerSubmit}
+                targetIsListCollectorFolder={targetIsListCollectorFolder}
               />
             );
           }}
@@ -455,6 +460,7 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
 ImportingContent.propTypes = {
   stopImporting: PropTypes.func.isRequired,
   targetInsideFolder: PropTypes.bool,
+  targetIsListCollectorFolder: PropTypes.bool,
 };
 
 export default ImportingContent;

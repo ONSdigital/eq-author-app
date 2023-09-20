@@ -26,8 +26,6 @@ import withCreateIntroductionPage from "../../withCreateIntroductionPage";
 
 import { QuestionPage } from "constants/page-types";
 
-import isListCollectorPageType from "utils/isListCollectorPageType";
-
 export const UnwrappedNavigationHeader = ({
   onCreateQuestionConfirmation,
   onAddSection,
@@ -53,6 +51,22 @@ export const UnwrappedNavigationHeader = ({
   const isFolder = entityName === FOLDER;
   const isListCollectorFolder =
     folder && folder.__typename === "ListCollectorFolder";
+
+  const targetIsListCollectorFolder = () => {
+    if (isFolder) {
+      if (folder?.listId && targetInsideFolder) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      if (page?.folder?.listId) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  };
 
   switch (entityName) {
     case PAGE:
@@ -93,9 +107,7 @@ export const UnwrappedNavigationHeader = ({
     !questionnaire?.introduction &&
     [PAGE, FOLDER, SECTION].includes(entityName);
 
-  const canImportContent =
-    [PAGE, FOLDER, SECTION].includes(entityName) &&
-    !isListCollectorPageType(page?.pageType); // TODO: List collector folder - update to allow importing follow up questions
+  const canImportContent = [PAGE, FOLDER, SECTION].includes(entityName);
 
   const handleAddQuestionPage = (createInsideFolder) => {
     setOpenMenu(!openMenu);
@@ -171,6 +183,7 @@ export const UnwrappedNavigationHeader = ({
           questionnaires={getQuestionnaires()}
           stopImporting={() => setImportingContent(false)}
           targetInsideFolder={targetInsideFolder}
+          targetIsListCollectorFolder={targetIsListCollectorFolder()}
         />
       )}
     </>
