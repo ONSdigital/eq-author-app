@@ -124,7 +124,7 @@ const AddMenu = ({
   const extraButtons = [
     {
       handleClick: () => onAddQuestionPage(true),
-      disabled: !canAddQuestionPage || isListCollectorFolder, // TODO: List collector folder - remove `isListCollectorFolder` to allow adding question pages when completing the follow up question task
+      disabled: !canAddQuestionPage,
       dataTest: "btn-add-question-page-inside",
       icon: IconQuestion,
       text: "Question",
