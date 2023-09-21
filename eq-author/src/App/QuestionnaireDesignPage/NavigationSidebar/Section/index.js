@@ -41,7 +41,8 @@ const Section = ({
   validationErrorInfo,
   open,
   position,
-  pageType,
+  entity,
+  repeatingSection,
   comments,
 }) => {
   const { me } = useMe();
@@ -80,7 +81,11 @@ const Section = ({
               .find(Boolean)}
             unreadComment={hasUnreadComments(comments, me.id)}
           >
-            <Droppable droppableId={sectionId} type={`section-content`}>
+            <Droppable
+              droppableId={sectionId}
+              type={`section-content`}
+              isDropDisabled={entity?.listId != null && repeatingSection}
+            >
               {(
                 { innerRef, placeholder, droppableProps },
                 { isDraggingOver }
@@ -99,7 +104,7 @@ const Section = ({
                         pages={pages}
                         position={position}
                         listId={listId}
-                        pageType={pageType}
+                        entity={entity}
                         {...rest}
                       />
                     )
@@ -123,6 +128,8 @@ Section.propTypes = {
   validationErrorInfo: PropTypes.object.isRequired, // eslint-disable-line
   open: PropTypes.bool,
   position: PropTypes.number,
+  entity: PropTypes.object, //eslint-disable-line
+  repeatingSection: PropTypes.bool,
   comments: PropTypes.array, //eslint-disable-line
 };
 
