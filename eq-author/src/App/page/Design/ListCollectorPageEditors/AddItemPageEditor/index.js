@@ -100,14 +100,15 @@ const AddItemPageEditor = ({ fetchAnswers, page }) => {
     const updatedPage = { ...addItemPage };
     updatedPage[name] = value;
     setAddItemPage(updatedPage);
-    if (
-      name === "description" ||
-      name === "guidance" ||
-      name === "definitionContent" ||
-      name === "additionalInfoContent"
-    ) {
-      updatePage({ variables: { input: { id, [name]: value } } });
-    } //maybe put this in the addition file and update the page from there bish
+    // if (
+    // name === "description" ||
+    //   name === "guidance" ||
+    //   name === "definitionContent" ||
+    //    name === "additionalInfoContent"
+    // ) {
+    //   updatePage({ variables: { input: { id, [name]: value } } });
+    //  }
+
     // updatePage({
     // variables: { input: { id, [name]: value } },
   };
@@ -124,7 +125,7 @@ const AddItemPageEditor = ({ fetchAnswers, page }) => {
       />
       <StyledField>
         <Title marginBottom="-0.5">
-          What is the question for adding a list item?
+          What is the question for adding a list itemm
         </Title>
         <Content>
           The question for adding a list item enables input or selection of one
