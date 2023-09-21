@@ -24,7 +24,10 @@ import withCreateSection from "enhancers/withCreateSection";
 import withCreateQuestionConfirmation from "../../withCreateQuestionConfirmation";
 import withCreateIntroductionPage from "../../withCreateIntroductionPage";
 
-import { QuestionPage } from "constants/page-types";
+import {
+  QuestionPage,
+  ListCollectorConfirmationPage,
+} from "constants/page-types";
 
 export const UnwrappedNavigationHeader = ({
   onCreateQuestionConfirmation,
@@ -83,7 +86,9 @@ export const UnwrappedNavigationHeader = ({
       break;
   }
 
-  const canAddQuestionPage = [PAGE, FOLDER, SECTION].includes(entityName);
+  const canAddQuestionPage =
+    [PAGE, FOLDER, SECTION].includes(entityName) &&
+    page?.pageType !== ListCollectorConfirmationPage;
 
   const canAddCalculatedSummaryPage =
     [PAGE, FOLDER, SECTION].includes(entityName) &&
