@@ -232,6 +232,16 @@ const getPageQuery = `
         }
       }
       ... on ListCollectorAddItemPage {
+        description
+        descriptionEnabled
+        guidance
+        guidanceEnabled
+        definitionLabel
+        definitionContent
+        definitionEnabled
+        additionalInfoLabel
+        additionalInfoContent
+        additionalInfoEnabled
         comments {
           id
           commentText

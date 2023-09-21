@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import CustomPropTypes from "custom-prop-types";
+import PropTypes from "prop-types";
+import { filter } from "graphql-anywhere";
+
 import styled from "styled-components";
 import { colors } from "constants/theme.js";
 import gql from "graphql-tag";
 
 import QuestionProperties from "App/page/Design/QuestionPageEditor/QuestionProperties";
-
-import withEntityEditor from "components/withEntityEditor";
 
 import { Field } from "components/Forms";
 import RichTextEditor from "components/RichTextEditor";
@@ -27,6 +28,7 @@ import PageHeader from "../../PageHeader";
 
 import UPDATE_PAGE_MUTATION from "graphql/updatePage.graphql";
 import CommentFragment from "graphql/fragments/comment.graphql";
+import add from "graphql/fragments/list-collector-add-item-page.graphql";
 
 // Uses h2 with overwritten h4 styling to improve accessibility - https://www.w3schools.com/tags/tag_hn.asp
 const Title = styled.h2`
@@ -58,7 +60,7 @@ const titleControls = {
   piping: true,
 };
 
-const AddItemPageEditor = ({ onChange, page }) => {
+const AddItemPageEditor = ({ fetchAnswers, page }) => {
   const {
     id,
     alias,
@@ -84,6 +86,10 @@ const AddItemPageEditor = ({ onChange, page }) => {
     return LIST_COLLECTOR_ADD_ITEM_PAGE_ERRORS[errorCodeResult];
   };
 
+  useEffect(() => {
+    setAddItemPage(page);
+  }, [page]);
+
   useSetNavigationCallbacksForPage({
     page,
     folder,
@@ -91,14 +97,19 @@ const AddItemPageEditor = ({ onChange, page }) => {
   });
 
   const handleChange = ({ name, value }) => {
-    const updatedPage = { ...page };
-
+    const updatedPage = { ...addItemPage };
     updatedPage[name] = value;
-
     setAddItemPage(updatedPage);
-    updatePage({
-      variables: { input: { id, [name]: value } },
-    });
+    if (
+      name === "description" ||
+      name === "guidance" ||
+      name === "definitionContent" ||
+      name === "additionalInfoContent"
+    ) {
+      updatePage({ variables: { input: { id, [name]: value } } });
+    } //maybe put this in the addition file and update the page from there bish
+    // updatePage({
+    // variables: { input: { id, [name]: value } },
   };
 
   return (
@@ -109,7 +120,7 @@ const AddItemPageEditor = ({ onChange, page }) => {
           updatePage({ variables: { input: { id, alias: value } } })
         }
         onChange={({ value }) => setAddItemPageAlias(value)}
-        alias={addItemPageAlias}
+        alias={addItemPage.addItemPageAlias}
       />
       <StyledField>
         <Title marginBottom="-0.5">
@@ -152,11 +163,13 @@ const AddItemPageEditor = ({ onChange, page }) => {
         <QuestionProperties
           page={addItemPage}
           onChange={handleChange}
-          onUpdate={({ name, value }) =>
+          onUpdate={() => {
             updatePage({
-              variables: { input: { id, [name]: value } },
-            })
-          }
+              variables: { input: filter(add, addItemPage) },
+            });
+          }}
+          fetchAnswers={fetchAnswers}
+          variant="marginlessContent"
         />
         <Collapsible title="Why can’t I add an answer type?">
           <Content>
@@ -227,6 +240,7 @@ const AddItemPageEditor = ({ onChange, page }) => {
 
 AddItemPageEditor.propTypes = {
   page: CustomPropTypes.page,
+  fetchAnswers: PropTypes.func,
 };
 
 AddItemPageEditor.fragments = {

@@ -35,10 +35,12 @@ export class UnwrappedQuestionProperties extends React.Component {
     onChange: PropTypes.func,
     onUpdate: PropTypes.func,
     fetchAnswers: PropTypes.func,
+    variant: PropTypes.string,
   };
 
   handleChange = ({ name, value }) => {
     const { page, onUpdateQuestionPage } = this.props;
+    console.log("page :>> ", page);
 
     onUpdateQuestionPage({
       ...page,
@@ -62,7 +64,7 @@ export class UnwrappedQuestionProperties extends React.Component {
       guidanceEnabled ||
       additionalInfoEnabled;
 
-    const { page, onChange, onUpdate, fetchAnswers } = this.props;
+    const { page, onChange, onUpdate, fetchAnswers, variant } = this.props;
 
     return (
       <Collapsible
@@ -70,17 +72,13 @@ export class UnwrappedQuestionProperties extends React.Component {
         className="additionalContentCollapsible"
         defaultOpen={defaultOpen()}
         withoutHideThis
-        variant="content"
+        variant={variant}
       >
         <Property
           id="descriptionEnabled"
           data-test="descriptionEnabled"
           checked={descriptionEnabled}
-          onChange={
-            page.pageType === "ListCollectorAddItemPage"
-              ? onChange
-              : this.handleChange
-          }
+          onChange={this.handleChange}
         >
           <Label>Question description</Label>
         </Property>
@@ -101,11 +99,7 @@ export class UnwrappedQuestionProperties extends React.Component {
           id="definitionEnabled"
           data-test="definitionEnabled"
           checked={definitionEnabled}
-          onChange={
-            page.pageType === "ListCollectorAddItemPage"
-              ? onChange
-              : this.handleChange
-          }
+          onChange={this.handleChange}
         >
           <Label>Question definition</Label>
         </Property>
@@ -127,11 +121,7 @@ export class UnwrappedQuestionProperties extends React.Component {
           id="guidanceEnabled"
           data-test="guidanceEnabled"
           checked={guidanceEnabled}
-          onChange={
-            page.pageType === "ListCollectorAddItemPage"
-              ? onChange
-              : this.handleChange
-          }
+          onChange={this.handleChange}
         >
           <Label>Include/exclude</Label>
         </Property>
@@ -154,11 +144,7 @@ export class UnwrappedQuestionProperties extends React.Component {
           id="additionalInfoEnabled"
           data-test="additionalInfoEnabled"
           checked={additionalInfoEnabled}
-          onChange={
-            page.pageType === "ListCollectorAddItemPage"
-              ? onChange
-              : this.handleChange
-          }
+          onChange={this.handleChange}
         >
           <Label>Additional information</Label>
         </Property>

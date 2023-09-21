@@ -2,7 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
-import { get, flowRight } from "lodash";
+import { get, flowRight, flip, partial } from "lodash";
+
 import { TransitionGroup } from "react-transition-group";
 
 import WrappingInput from "components/Forms/WrappingInput";
@@ -22,6 +23,7 @@ import {
   getErrorByField,
   getMultipleErrorsByField,
 } from "../validationUtils.js";
+import DisabledMessage from "../../Validation/DisabledMessage";
 
 const contentControls = {
   bold: true,
@@ -55,6 +57,11 @@ const Wrapper = styled.div`
 
 const errorMsg = (field, page) =>
   getErrorByField(field, page.validationErrorInfo.errors);
+
+const combinedFunction = (onChange, onUpdate) => {
+  onChange(); // Call the onChange function
+  onUpdate(); // Call the onUpdate function
+};
 
 export const StatelessAdditionalInfo = ({
   page,
@@ -141,7 +148,7 @@ export const StatelessAdditionalInfo = ({
             name="guidance"
             multiline
             value={page.guidance}
-            onUpdate={onChangeUpdate}
+            onUpdate={onUpdate}
             controls={guidanceControls}
             fetchAnswers={fetchAnswers}
             metadata={get(page, "section.questionnaire.metadata", [])}
