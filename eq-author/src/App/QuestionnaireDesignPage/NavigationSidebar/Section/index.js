@@ -41,6 +41,7 @@ const Section = ({
   validationErrorInfo,
   open,
   position,
+  pageType,
   comments,
 }) => {
   const { me } = useMe();
@@ -98,6 +99,7 @@ const Section = ({
                         pages={pages}
                         position={position}
                         listId={listId}
+                        pageType={pageType}
                         {...rest}
                       />
                     )

@@ -18,6 +18,8 @@ import NavItem from "components/NavItem";
 import ScrollPane from "components/ScrollPane";
 import Button from "components/buttons/Button";
 
+import { getPageById } from "utils/questionnaireUtils";
+
 import Section from "./Section";
 
 import IntroductionIcon from "assets/icon-introduction-page.svg?inline";
@@ -102,6 +104,7 @@ const NavigationSidebar = ({ questionnaire }) => {
   const { me } = useMe();
   const { entityId, tab = "design" } = useParams();
   const [openSections, toggleSections] = useState(true);
+  const [pageType, setPageType] = useState("");
 
   const [movePage] = useMutation(MOVE_PAGE_MUTATION);
   const [moveFolder] = useMutation(MOVE_FOLDER_MUTATION);
@@ -109,6 +112,12 @@ const NavigationSidebar = ({ questionnaire }) => {
 
   const isCurrentPage = (navItemId, currentPageId) =>
     navItemId === currentPageId;
+
+  const handleDragStart = ({ draggableId }) => {
+    const page = getPageById(questionnaire, draggableId);
+    const draggingPageType = page?.pageType;
+    setPageType(draggingPageType);
+  };
 
   const handleDragEnd = ({ destination, source, draggableId }) =>
     onDragEnd(
@@ -157,7 +166,10 @@ const NavigationSidebar = ({ questionnaire }) => {
                 </MenuListItem>
               )}
             </NavList>
-            <DragDropContext onDragEnd={handleDragEnd}>
+            <DragDropContext
+              onDragStart={handleDragStart}
+              onDragEnd={handleDragEnd}
+            >
               <Droppable droppableId={`root`} type={`sections`}>
                 {(
                   { innerRef, placeholder, droppableProps },
@@ -174,6 +186,7 @@ const NavigationSidebar = ({ questionnaire }) => {
                         id={id}
                         questionnaireId={questionnaire.id}
                         open={openSections}
+                        pageType={pageType}
                         {...rest}
                       />
                     ))}

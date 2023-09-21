@@ -5,6 +5,8 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { colors, focusStyle } from "constants/theme";
 
+import { QuestionPage } from "constants/page-types";
+
 import { buildFolderPath } from "utils/UrlUtils";
 
 import IconBasicFolder from "assets/icon-folder.svg?inline";
@@ -44,6 +46,7 @@ const Folder = ({
   questionnaireId,
   displayName,
   pages,
+  pageType,
   validationErrorInfo,
   position,
   listId,
@@ -80,7 +83,7 @@ const Folder = ({
             <Droppable
               droppableId={folderId}
               type={`folder-content`}
-              isDropDisabled={listId != null} // TODO: List collector folder - update this to allow follow up questions when completing the follow up task
+              isDropDisabled={listId != null && pageType !== QuestionPage} // TODO: List collector folder - update this to allow follow up questions when completing the follow up task
             >
               {(
                 { innerRef, placeholder, droppableProps },
