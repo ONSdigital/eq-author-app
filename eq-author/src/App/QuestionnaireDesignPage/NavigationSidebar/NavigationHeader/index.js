@@ -103,7 +103,7 @@ export const UnwrappedNavigationHeader = ({
   );
 
   let canAddQuestionConfirmation = false;
-  if (entityName === PAGE) {
+  if (entityName === PAGE && page?.folder?.listId == null) {
     canAddQuestionConfirmation =
       page?.pageType === QuestionPage && !page?.confirmation;
   }
