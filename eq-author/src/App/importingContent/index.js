@@ -175,7 +175,7 @@ const ImportingContent = ({
           currentEntityId
         );
 
-        const { position } = getFolderById(
+        const { listId, position } = getFolderById(
           sourceQuestionnaire,
           currentEntityId
         );
@@ -185,8 +185,13 @@ const ImportingContent = ({
         };
 
         if (targetInsideFolder) {
-          input.position.folderId = currentEntityId;
-          input.position.index = 0;
+          if (listId != null) {
+            input.position.folderId = currentEntityId;
+            input.position.index = 2;
+          } else {
+            input.position.folderId = currentEntityId;
+            input.position.index = 0;
+          }
         } else {
           input.position.index = position + 1;
         }
