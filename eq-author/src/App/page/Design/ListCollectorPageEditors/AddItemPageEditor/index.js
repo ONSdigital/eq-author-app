@@ -28,7 +28,7 @@ import PageHeader from "../../PageHeader";
 
 import UPDATE_PAGE_MUTATION from "graphql/updatePage.graphql";
 import CommentFragment from "graphql/fragments/comment.graphql";
-import add from "graphql/fragments/list-collector-add-item-page.graphql";
+import addPageFragment from "graphql/fragments/list-collector-add-item-page.graphql";
 
 // Uses h2 with overwritten h4 styling to improve accessibility - https://www.w3schools.com/tags/tag_hn.asp
 const Title = styled.h2`
@@ -100,17 +100,6 @@ const AddItemPageEditor = ({ fetchAnswers, page }) => {
     const updatedPage = { ...addItemPage };
     updatedPage[name] = value;
     setAddItemPage(updatedPage);
-    // if (
-    // name === "description" ||
-    //   name === "guidance" ||
-    //   name === "definitionContent" ||
-    //    name === "additionalInfoContent"
-    // ) {
-    //   updatePage({ variables: { input: { id, [name]: value } } });
-    //  }
-
-    // updatePage({
-    // variables: { input: { id, [name]: value } },
   };
 
   return (
@@ -121,7 +110,7 @@ const AddItemPageEditor = ({ fetchAnswers, page }) => {
           updatePage({ variables: { input: { id, alias: value } } })
         }
         onChange={({ value }) => setAddItemPageAlias(value)}
-        alias={addItemPage.addItemPageAlias}
+        alias={addItemPageAlias}
       />
       <StyledField>
         <Title marginBottom="-0.5">
@@ -166,7 +155,7 @@ const AddItemPageEditor = ({ fetchAnswers, page }) => {
           onChange={handleChange}
           onUpdate={() => {
             updatePage({
-              variables: { input: filter(add, addItemPage) },
+              variables: { input: filter(addPageFragment, addItemPage) },
             });
           }}
           fetchAnswers={fetchAnswers}

@@ -40,7 +40,6 @@ export class UnwrappedQuestionProperties extends React.Component {
 
   handleChange = ({ name, value }) => {
     const { page, onUpdateQuestionPage } = this.props;
-    console.log("page :>> ", page);
 
     onUpdateQuestionPage({
       ...page,
