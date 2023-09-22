@@ -27,7 +27,10 @@ import SelectContentModal from "components/modals/ImportContentModal";
 import QuestionPicker from "components/QuestionPicker";
 import SectionPicker from "components/SectionPicker";
 
-import { ListCollectorConfirmationPage } from "constants/page-types";
+import {
+  ListCollectorQualifierPage,
+  ListCollectorConfirmationPage,
+} from "constants/page-types";
 
 const ImportingContent = ({
   stopImporting,
@@ -212,6 +215,9 @@ const ImportingContent = ({
 
         if (pageType === ListCollectorConfirmationPage) {
           input.position.index = folderPosition + 1;
+        } else if (pageType === ListCollectorQualifierPage) {
+          input.position.folderId = folderId;
+          input.position.index = positionOfPreviousPage + 2;
         } else {
           input.position.folderId = folderId;
           input.position.index = positionOfPreviousPage + 1;
