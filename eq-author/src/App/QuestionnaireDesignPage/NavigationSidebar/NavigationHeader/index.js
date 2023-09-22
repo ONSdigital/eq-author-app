@@ -63,7 +63,10 @@ export const UnwrappedNavigationHeader = ({
         return false;
       }
     } else {
-      if (page?.folder?.listId) {
+      if (
+        page?.folder?.listId &&
+        page?.pageType !== ListCollectorConfirmationPage
+      ) {
         return true;
       } else {
         return false;
