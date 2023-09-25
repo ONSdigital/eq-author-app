@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import { StatelessAdditionalInfo } from "./AdditionalContentOptions";
+import StatelessAdditionalInfo from "./AdditionalContentOptions";
 
 import { TEXTFIELD } from "constants/answer-types";
 
@@ -22,6 +22,7 @@ describe("AdditionalInfo", () => {
         id: "1",
         alias: "foobar",
         title: "<p>Hello world</p>",
+        pageDescription: "description",
         description: "<p>Description</p>",
         descriptionEnabled: true,
         guidance: "<p>Guidance</p>",
@@ -44,10 +45,14 @@ describe("AdditionalInfo", () => {
           },
         },
       },
+      updatePage: jest.fn(),
     };
 
     wrapper = createWrapper(props);
   });
+  jest.mock("@apollo/react-hooks", () => ({
+    useMutation: jest.fnjest.fn(() => [() => null]),
+  }));
 
   it("should render", () => {
     expect(wrapper).toMatchSnapshot();

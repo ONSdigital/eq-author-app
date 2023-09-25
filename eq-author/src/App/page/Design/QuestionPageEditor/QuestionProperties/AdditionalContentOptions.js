@@ -59,7 +59,7 @@ const Wrapper = styled.div`
 const errorMsg = (field, page) =>
   getErrorByField(field, page.validationErrorInfo.errors);
 
-export const StatelessAdditionalInfo = ({
+const StatelessAdditionalInfo = ({
   page,
   onChange,
   onUpdate,

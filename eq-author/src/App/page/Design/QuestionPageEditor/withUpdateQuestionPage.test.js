@@ -22,6 +22,7 @@ describe("enhancers > withUpdatePage", () => {
       props.onUpdateQuestionPage(page);
       expect(mutate).toHaveBeenCalledWith({
         variables: { input: { title: "123" } },
+        refetchQueries: ["GetPage"],
       });
     });
   });
