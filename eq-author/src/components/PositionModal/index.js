@@ -125,12 +125,15 @@ const PositionModal = ({ title, options, onMove, selected, onChange }) => {
           value={String(position)}
           onChange={onChange || handleChange} // onChange supplied for section selector
         >
-          {orderedOptions.map(({ displayName, parentEnabled }, i) => (
+          {orderedOptions.map(({ displayName, pageType, parentEnabled }, i) => (
             <Indent
               data-test="options"
               key={i}
               value={String(i)}
+              index={i}
+              selectedItemPosition={position}
               indent={parentEnabled ? parentEnabled.toString() : undefined}
+              pageType={pageType}
             >
               {displayName}
             </Indent>

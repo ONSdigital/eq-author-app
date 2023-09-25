@@ -8,8 +8,7 @@ import { useQuestionnaire } from "components/QuestionnaireContext";
 
 export const buildPageList = (folders) => {
   const optionList = [];
-  const basicFolders = folders.filter((folder) => folder.listId == null);
-  basicFolders.forEach((folder) => {
+  folders.forEach((folder) => {
     const { id, pages } = folder;
     optionList.push({
       ...folder,
