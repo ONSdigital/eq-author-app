@@ -41,25 +41,37 @@ export const UnwrappedRoutingPage = ({ page, createRouting }) => {
         <Transition
           key={page.routing ? "routing-rule-set" : "routing-rule-set-empty"}
         >
-          {page.routing ? (
-            <RoutingEditor 
-              routing={page.routing} 
-              sectionSummaryEnabled={page.section.sectionSummary} 
-            />
+          {page.folder.listId == null ? (
+            page.routing ? (
+              <RoutingEditor
+                routing={page.routing}
+                sectionSummaryEnabled={page.section.sectionSummary}
+              />
+            ) : (
+              <Panel>
+                <NoRouting
+                  onAddRouting={handleAddRouting}
+                  data-test="routing-rule-set-empty-msg"
+                  disabled={isLastPage}
+                >
+                  <Title>
+                    {isLastPage
+                      ? messages.ROUTING_NOT_AVAILABLE
+                      : messages.NO_RULES_EXIST}
+                  </Title>
+                  <Paragraph>
+                    {isLastPage ? messages.LAST_PAGE : messages.DEFAULT_ROUTING}
+                  </Paragraph>
+                </NoRouting>
+              </Panel>
+            )
           ) : (
             <Panel>
-              <NoRouting
-                onAddRouting={handleAddRouting}
-                data-test="routing-rule-set-empty-msg"
-                disabled={isLastPage}
-              >
-                <Title>
-                  {isLastPage
-                    ? messages.ROUTING_NOT_AVAILABLE
-                    : messages.NO_RULES_EXIST}
-                </Title>
+              <NoRouting disabled>
+                <Title>Routing logic not available inside list collector</Title>
                 <Paragraph>
-                  {isLastPage ? messages.LAST_PAGE : messages.DEFAULT_ROUTING}
+                  The route will be based on the answer to the previous
+                  question.
                 </Paragraph>
               </NoRouting>
             </Panel>
