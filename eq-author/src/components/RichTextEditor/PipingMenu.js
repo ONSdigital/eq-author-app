@@ -6,7 +6,6 @@ import { find, some } from "lodash";
 import ContentPicker from "components/ContentPickerv3";
 import { useCurrentPageId } from "components/RouterContext";
 import { useQuestionnaire } from "components/QuestionnaireContext";
-import { getFolders } from "utils/questionnaireUtils";
 import isListCollectorPageType from "utils/isListCollectorPageType";
 import getContentBeforeEntity from "utils/getContentBeforeEntity";
 
@@ -94,19 +93,24 @@ const PipingMenu = ({
 
   // Removes list collector folders from answer data
   const filteredAnswerData = () => {
-    answerData.forEach((section) => {
+    // Creates a clone of answerData without copying its reference
+    const clonedAnswerData = answerData.map((section) => ({ ...section }));
+
+    clonedAnswerData.forEach((section) => {
       section.folders = section.folders.filter(
         (folder) => folder.listId == null
       );
     });
 
-    return answerData;
+    return clonedAnswerData;
   };
 
   const metadataData = questionnaire?.metadata || [];
 
   const listAnswers = () => {
-    const questionnaireFolders = getFolders(questionnaire);
+    const questionnaireFolders = answerData.flatMap(
+      (section) => section.folders
+    );
 
     const collectionListAnswers =
       find(questionnaire?.collectionLists?.lists, { id: listId })?.answers ||
