@@ -54,7 +54,6 @@ describe("sanitise Metadata", () => {
         },
         1
       );
-      console.log(sanitisedMetadata);
       expect(sanitisedMetadata).toMatchObject(defaultMetadata);
     });
   });
