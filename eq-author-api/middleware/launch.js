@@ -1,6 +1,6 @@
 const { generateToken } = require("../utils/jwtHelper");
 const { assign, isNil, isEmpty } = require("lodash");
-const { sanitiseMetadata } = require("../utils/sanitiseMetadata");
+const { sanitiseMetadata } = require("../utils/sanitiseMetadataV2");
 const { getQuestionnaire } = require("../db/datastore");
 const { defaultTypeValueNames } = require("../utils/defaultMetadata");
 
