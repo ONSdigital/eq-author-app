@@ -6,6 +6,8 @@ import { find, some } from "lodash";
 import ContentPicker from "components/ContentPickerv3";
 import { useCurrentPageId } from "components/RouterContext";
 import { useQuestionnaire } from "components/QuestionnaireContext";
+import { getFolders } from "utils/questionnaireUtils";
+import isListCollectorPageType from "utils/isListCollectorPageType";
 import getContentBeforeEntity from "utils/getContentBeforeEntity";
 
 import IconPiping from "components/RichTextEditor/icon-piping.svg?inline";
@@ -92,8 +94,27 @@ const PipingMenu = ({
 
   const metadataData = questionnaire?.metadata || [];
 
-  const listAnswers =
-    find(questionnaire?.collectionLists?.lists, { id: listId })?.answers || [];
+  const listAnswers = () => {
+    const questionnaireFolders = getFolders(questionnaire);
+
+    const collectionListAnswers =
+      find(questionnaire?.collectionLists?.lists, { id: listId })?.answers ||
+      [];
+
+    const listFolders = questionnaireFolders?.filter(
+      (folder) => folder.listId === listId
+    );
+    const listPages = listFolders?.flatMap((folder) => folder.pages);
+
+    const listFollowUpPages = listPages?.filter(
+      (page) => !isListCollectorPageType(page?.pageType)
+    );
+    const listFollowUpAnswers = listFollowUpPages.flatMap(
+      (page) => page?.answers
+    );
+
+    return [...collectionListAnswers, ...listFollowUpAnswers];
+  };
 
   const supplementaryData =
     questionnaire?.supplementaryData?.data
@@ -116,7 +137,7 @@ const PipingMenu = ({
       case VARIABLES:
         return allCalculatedSummaryPages;
       case LIST_ANSWER:
-        return listAnswers;
+        return listAnswers();
       case SUPPLEMENTARY_DATA:
         return supplementaryData;
       default:
