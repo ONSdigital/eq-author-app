@@ -92,6 +92,17 @@ const PipingMenu = ({
     [questionnaire, pageId]
   );
 
+  // Removes list collector folders from answer data
+  const filteredAnswerData = () => {
+    answerData.forEach((section) => {
+      section.folders = section.folders.filter(
+        (folder) => folder.listId == null
+      );
+    });
+
+    return answerData;
+  };
+
   const metadataData = questionnaire?.metadata || [];
 
   const listAnswers = () => {
@@ -133,7 +144,7 @@ const PipingMenu = ({
       case METADATA:
         return metadataData;
       case ANSWER:
-        return answerData;
+        return filteredAnswerData();
       case VARIABLES:
         return allCalculatedSummaryPages;
       case LIST_ANSWER:
@@ -141,7 +152,7 @@ const PipingMenu = ({
       case SUPPLEMENTARY_DATA:
         return supplementaryData;
       default:
-        return answerData;
+        return filteredAnswerData();
     }
   };
 
@@ -152,7 +163,9 @@ const PipingMenu = ({
           title="Pipe answer"
           disabled={
             disabled ||
-            (!answerData.length && !listId && !supplementaryData.length)
+            (!filteredAnswerData().length &&
+              !listId &&
+              !supplementaryData.length)
           }
           onClick={() => handleButtonClick(ANSWER)}
           canFocus={canFocus}
