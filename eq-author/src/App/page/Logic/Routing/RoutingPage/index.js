@@ -68,10 +68,9 @@ export const UnwrappedRoutingPage = ({ page, createRouting }) => {
           ) : (
             <Panel>
               <NoRouting disabled>
-                <Title>Routing logic not available inside list collector</Title>
+                <Title>Routing is not available for this question</Title>
                 <Paragraph>
-                  The route will be based on the answer to the previous
-                  question.
+                  You can&apos;t route on a question in a list collector folder.
                 </Paragraph>
               </NoRouting>
             </Panel>
