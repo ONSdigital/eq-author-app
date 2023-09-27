@@ -37,16 +37,17 @@ const defaultMetadata = (questionnaireId, tokenIssueTime, schemaUrl) => ({
       trad_as: "ESSENTIAL ENTERPRISE LTD",
       period_id: "201605",
       form_type: "H",
+      survey_id: "123",
     },
   },
 });
 
-module.exports.sanitiseMetadata = (metadata, questionnaireId) => {
+module.exports.sanitiseMetadata = (metadata, questionnaire) => {
   const schemaUrl = process.env.PUBLISHER_URL;
   const refinedMetadata = filterUnacceptableMeta(metadata);
   const tokenIssueTime = Math.round(new Date().getTime() / 1000);
   const sanitisedMetadata = defaultMetadata(
-    questionnaireId,
+    questionnaire.id,
     tokenIssueTime,
     schemaUrl
   );
@@ -54,5 +55,6 @@ module.exports.sanitiseMetadata = (metadata, questionnaireId) => {
     sanitisedMetadata.survey_metadata.data,
     refinedMetadata
   );
+  sanitisedMetadata.survey_metadata.data.survey_id = questionnaire.surveyId;
   return sanitisedMetadata;
 };
