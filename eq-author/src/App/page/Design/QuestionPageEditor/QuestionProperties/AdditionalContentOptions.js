@@ -70,8 +70,9 @@ const StatelessAdditionalInfo = ({
   },
   option,
 }) => {
-  const [updatePage] = useMutation(UPDATE_PAGE_MUTATION);
-
+  const [updatePage] = useMutation(UPDATE_PAGE_MUTATION, {
+    refetchQueries: ["GetPage"],
+  });
   const handlePageUpdate = ({ name, value }) => {
     const { id } = page;
     updatePage({ variables: { input: { id, [name]: value } } });
@@ -160,7 +161,11 @@ const StatelessAdditionalInfo = ({
               name="guidance"
               multiline
               value={page.guidance}
-              onUpdate={onUpdate}
+              onUpdate={
+                page.pageType === "ListCollectorAddItemPage"
+                  ? handlePageUpdate
+                  : onChangeUpdate
+              }
               controls={guidanceControls}
               fetchAnswers={fetchAnswers}
               metadata={get(page, "section.questionnaire.metadata", [])}

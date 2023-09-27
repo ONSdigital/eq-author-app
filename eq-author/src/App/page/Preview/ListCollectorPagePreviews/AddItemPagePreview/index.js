@@ -19,7 +19,7 @@ import EmptyAnswersError from "components/preview/Error";
 import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
 
 import IconInfo from "assets/icon-missing-collection-list-answers.svg?inline";
-import IconChevron from "assets//icon-chevron.svg";
+import IconChevron from "../../icon-chevron.svg";
 
 import GET_COLLECTION_LISTS from "graphql/lists/collectionLists.graphql";
 
