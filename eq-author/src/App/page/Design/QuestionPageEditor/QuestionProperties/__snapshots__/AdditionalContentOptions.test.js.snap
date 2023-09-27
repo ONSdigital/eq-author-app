@@ -54,7 +54,6 @@ exports[`AdditionalInfo should be able to display both deleted metadata and dele
       },
     }
   }
-  updatePage={[MockFunction]}
 />
 `;
 
@@ -106,7 +105,6 @@ exports[`AdditionalInfo should display the correct error message when piping ans
       },
     }
   }
-  updatePage={[MockFunction]}
 />
 `;
 
@@ -158,7 +156,6 @@ exports[`AdditionalInfo should display the correct error message when the additi
       },
     }
   }
-  updatePage={[MockFunction]}
 />
 `;
 
@@ -210,7 +207,6 @@ exports[`AdditionalInfo should display the correct error message when the additi
       },
     }
   }
-  updatePage={[MockFunction]}
 />
 `;
 
@@ -255,6 +251,5 @@ exports[`AdditionalInfo should render 1`] = `
       },
     }
   }
-  updatePage={[MockFunction]}
 />
 `;

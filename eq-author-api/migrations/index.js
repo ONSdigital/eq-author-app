@@ -51,6 +51,7 @@ const migrations = [
   require("./convertListCollectorPageToFolder"),
   require("./addValidationToListCollectorAnswers"),
   require("./addFieldsToListCollectorFolderContents"),
+  require("./addAdditonalContentsToAddItemPage"),
 ];
 
 const currentVersion = migrations.length;

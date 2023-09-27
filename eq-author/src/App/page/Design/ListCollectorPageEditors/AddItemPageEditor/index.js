@@ -55,6 +55,9 @@ const HorizontalSeparator = styled.hr`
   margin: 1.5em 0;
 `;
 
+const StyledCollapsible = styled(Collapsible)`
+  margin-top: 1em;
+`;
 const titleControls = {
   emphasis: true,
   piping: true,
@@ -149,7 +152,6 @@ const AddItemPageEditor = ({ fetchAnswers, page }) => {
           errors={validationErrorInfo.errors}
         />
         <HorizontalSeparator />
-
         <QuestionProperties
           page={addItemPage}
           onChange={handleChange}
@@ -161,7 +163,7 @@ const AddItemPageEditor = ({ fetchAnswers, page }) => {
           fetchAnswers={fetchAnswers}
           variant="marginlessContent"
         />
-        <Collapsible title="Why can’t I add an answer type?">
+        <StyledCollapsible title="Why can’t I add an answer type?">
           <Content>
             The answer type for the question for adding a list item is
             determined by the answer template in the linked collection list. To
@@ -174,7 +176,7 @@ const AddItemPageEditor = ({ fetchAnswers, page }) => {
             collection list, the answer template is applied to all the questions
             for adding a list item.
           </Content>
-        </Collapsible>
+        </StyledCollapsible>
         <Collapsible title="How to gather additional information on each list item">
           <Content>
             How you approach gathering additional information for each list item

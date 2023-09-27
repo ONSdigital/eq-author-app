@@ -45,14 +45,10 @@ describe("AdditionalInfo", () => {
           },
         },
       },
-      updatePage: jest.fn(),
     };
 
     wrapper = createWrapper(props);
   });
-  jest.mock("@apollo/react-hooks", () => ({
-    useMutation: jest.fnjest.fn(() => [() => null]),
-  }));
 
   it("should render", () => {
     expect(wrapper).toMatchSnapshot();
