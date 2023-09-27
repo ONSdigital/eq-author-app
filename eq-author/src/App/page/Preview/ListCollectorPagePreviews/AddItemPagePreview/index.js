@@ -165,7 +165,7 @@ const AddItemPagePreview = ({ page }) => {
                   dangerouslySetInnerHTML={{ __html: description }}
                 />
               ) : (
-                <Error large>Missing description</Error>
+                <EmptyAnswersError large>Missing description</EmptyAnswersError>
               )}
             </div>
           )}
@@ -173,7 +173,9 @@ const AddItemPagePreview = ({ page }) => {
             <Details data-test="definition">
               <DetailsTitle>
                 {definitionLabel || (
-                  <Error small>Missing definition label</Error>
+                  <EmptyAnswersError small>
+                    Missing definition label
+                  </EmptyAnswersError>
                 )}
               </DetailsTitle>
               <DetailsContent>
@@ -182,9 +184,9 @@ const AddItemPagePreview = ({ page }) => {
                     dangerouslySetInnerHTML={{ __html: definitionContent }}
                   />
                 ) : (
-                  <Error large margin={false}>
+                  <EmptyAnswersError large margin={false}>
                     Missing definition content
-                  </Error>
+                  </EmptyAnswersError>
                 )}
               </DetailsContent>
             </Details>
@@ -196,7 +198,7 @@ const AddItemPagePreview = ({ page }) => {
                   <Box dangerouslySetInnerHTML={{ __html: guidance }} />
                 </Guidance>
               ) : (
-                <Error large>Missing guidance</Error>
+                <EmptyAnswersError large>Missing guidance</EmptyAnswersError>
               )}
             </div>
           )}
@@ -223,7 +225,9 @@ const AddItemPagePreview = ({ page }) => {
             <Details data-test="additional-info">
               <DetailsTitle>
                 {additionalInfoLabel || (
-                  <Error small>Missing additional information label</Error>
+                  <EmptyAnswersError small>
+                    Missing additional information label
+                  </EmptyAnswersError>
                 )}
               </DetailsTitle>
               <DetailsContent>
@@ -232,9 +236,9 @@ const AddItemPagePreview = ({ page }) => {
                     dangerouslySetInnerHTML={{ __html: additionalInfoContent }}
                   />
                 ) : (
-                  <Error large margin={false}>
+                  <EmptyAnswersError large margin={false}>
                     Missing additional information content
-                  </Error>
+                  </EmptyAnswersError>
                 )}
               </DetailsContent>
             </Details>

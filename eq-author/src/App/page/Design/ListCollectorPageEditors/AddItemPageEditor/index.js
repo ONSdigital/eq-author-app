@@ -73,14 +73,17 @@ const AddItemPageEditor = ({ fetchAnswers, page }) => {
     section,
     validationErrorInfo,
   } = page;
+
   const [addItemPageAlias, setAddItemPageAlias] = useState(alias);
   const [addItemPageDescription, setAddItemPageDescription] =
     useState(pageDescription);
-
   const [addItemPage, setAddItemPage] = useState(page);
 
-  const [updatePage] = useMutation(UPDATE_PAGE_MUTATION);
+  useEffect(() => {
+    setAddItemPage(page);
+  }, [page]);
 
+  const [updatePage] = useMutation(UPDATE_PAGE_MUTATION);
   const getErrorMessage = (field) => {
     const errorCodeResult = validationErrorInfo.errors.find(
       (error) => error.field === field
@@ -88,10 +91,6 @@ const AddItemPageEditor = ({ fetchAnswers, page }) => {
 
     return LIST_COLLECTOR_ADD_ITEM_PAGE_ERRORS[errorCodeResult];
   };
-
-  useEffect(() => {
-    setAddItemPage(page);
-  }, [page]);
 
   useSetNavigationCallbacksForPage({
     page,
@@ -103,6 +102,17 @@ const AddItemPageEditor = ({ fetchAnswers, page }) => {
     const updatedPage = { ...addItemPage };
     updatedPage[name] = value;
     setAddItemPage(updatedPage);
+  };
+
+  const handleOnUpdate = (event) => {
+    const inputData = event.target || event;
+    const updatedPage = { ...addItemPage };
+    updatedPage[inputData.name] = inputData.value;
+    setAddItemPage(updatedPage);
+    const data = filter(addPageFragment, updatedPage);
+    updatePage({
+      variables: { input: data },
+    });
   };
 
   return (
@@ -117,7 +127,7 @@ const AddItemPageEditor = ({ fetchAnswers, page }) => {
       />
       <StyledField>
         <Title marginBottom="-0.5">
-          What is the question for adding a list itemm
+          What is the question for adding a list item?
         </Title>
         <Content>
           The question for adding a list item enables input or selection of one
@@ -155,11 +165,7 @@ const AddItemPageEditor = ({ fetchAnswers, page }) => {
         <QuestionProperties
           page={addItemPage}
           onChange={handleChange}
-          onUpdate={() => {
-            updatePage({
-              variables: { input: filter(addPageFragment, addItemPage) },
-            });
-          }}
+          onUpdate={handleOnUpdate}
           fetchAnswers={fetchAnswers}
           variant="marginlessContent"
         />

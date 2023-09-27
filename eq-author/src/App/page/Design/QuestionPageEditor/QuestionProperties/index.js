@@ -40,7 +40,6 @@ export class UnwrappedQuestionProperties extends React.Component {
 
   handleChange = ({ name, value }) => {
     const { page, onUpdateQuestionPage } = this.props;
-
     onUpdateQuestionPage({
       ...page,
       [name]: value,
@@ -77,7 +76,11 @@ export class UnwrappedQuestionProperties extends React.Component {
           id="descriptionEnabled"
           data-test="descriptionEnabled"
           checked={descriptionEnabled}
-          onChange={this.handleChange}
+          onChange={
+            page.pageType === "ListCollectorAddItemPage"
+              ? onUpdate
+              : this.handleChange
+          }
         >
           <Label>Question description</Label>
         </Property>
@@ -98,7 +101,11 @@ export class UnwrappedQuestionProperties extends React.Component {
           id="definitionEnabled"
           data-test="definitionEnabled"
           checked={definitionEnabled}
-          onChange={this.handleChange}
+          onChange={
+            page.pageType === "ListCollectorAddItemPage"
+              ? onUpdate
+              : this.handleChange
+          }
         >
           <Label>Question definition</Label>
         </Property>
@@ -115,12 +122,15 @@ export class UnwrappedQuestionProperties extends React.Component {
         />
 
         <HorizontalSeparator />
-
         <Property
           id="guidanceEnabled"
           data-test="guidanceEnabled"
           checked={guidanceEnabled}
-          onChange={this.handleChange}
+          onChange={
+            page.pageType === "ListCollectorAddItemPage"
+              ? onUpdate
+              : this.handleChange
+          }
         >
           <Label>Include/exclude</Label>
         </Property>
@@ -143,7 +153,11 @@ export class UnwrappedQuestionProperties extends React.Component {
           id="additionalInfoEnabled"
           data-test="additionalInfoEnabled"
           checked={additionalInfoEnabled}
-          onChange={this.handleChange}
+          onChange={
+            page.pageType === "ListCollectorAddItemPage"
+              ? onUpdate
+              : this.handleChange
+          }
         >
           <Label>Additional information</Label>
         </Property>

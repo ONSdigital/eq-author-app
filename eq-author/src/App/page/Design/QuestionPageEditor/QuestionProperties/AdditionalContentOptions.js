@@ -3,7 +3,6 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
 import { get, flowRight } from "lodash";
-import { useMutation } from "@apollo/react-hooks";
 
 import { TransitionGroup } from "react-transition-group";
 
@@ -20,7 +19,6 @@ import AnswerTransition from "../AnswersEditor/AnswerTransition";
 import focusOnElement from "utils/focusOnElement";
 import pageFragment from "graphql/fragments/questionPage.graphql";
 
-import UPDATE_PAGE_MUTATION from "graphql/updatePage.graphql";
 import {
   getErrorByField,
   getMultipleErrorsByField,
@@ -70,14 +68,6 @@ const StatelessAdditionalInfo = ({
   },
   option,
 }) => {
-  const [updatePage] = useMutation(UPDATE_PAGE_MUTATION, {
-    refetchQueries: ["GetPage"],
-  });
-  const handlePageUpdate = ({ name, value }) => {
-    const { id } = page;
-    updatePage({ variables: { input: { id, [name]: value } } });
-  };
-
   return (
     <TransitionGroup>
       {page.descriptionEnabled && option === "description" ? (
@@ -93,7 +83,7 @@ const StatelessAdditionalInfo = ({
               value={page.description}
               onUpdate={
                 page.pageType === "ListCollectorAddItemPage"
-                  ? handlePageUpdate
+                  ? onUpdate
                   : onChangeUpdate
               }
               controls={descriptionControls}
@@ -137,7 +127,7 @@ const StatelessAdditionalInfo = ({
               value={page.definitionContent}
               onUpdate={
                 page.pageType === "ListCollectorAddItemPage"
-                  ? handlePageUpdate
+                  ? onUpdate
                   : onChangeUpdate
               }
               controls={definitionControls}
@@ -163,7 +153,7 @@ const StatelessAdditionalInfo = ({
               value={page.guidance}
               onUpdate={
                 page.pageType === "ListCollectorAddItemPage"
-                  ? handlePageUpdate
+                  ? onUpdate
                   : onChangeUpdate
               }
               controls={guidanceControls}
@@ -206,7 +196,7 @@ const StatelessAdditionalInfo = ({
               value={page.additionalInfoContent}
               onUpdate={
                 page.pageType === "ListCollectorAddItemPage"
-                  ? handlePageUpdate
+                  ? onUpdate
                   : onChangeUpdate
               }
               controls={contentControls}

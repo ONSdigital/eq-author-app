@@ -8,7 +8,6 @@ export const mapMutateToProps = ({ mutate }) => ({
     const data = filter(pageFragment, page);
     return mutate({
       variables: { input: data },
-      refetchQueries: ["GetPage"],
     });
   },
 });
