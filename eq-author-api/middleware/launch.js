@@ -44,7 +44,7 @@ module.exports.getLaunchUrl = async (req, res, next) => {
   } else {
     const sanitisedMetadata = await sanitiseMetadata(
       metadataValues,
-      questionnaireId
+      questionnaire
     );
 
     const jwt = await generateToken(sanitisedMetadata);
