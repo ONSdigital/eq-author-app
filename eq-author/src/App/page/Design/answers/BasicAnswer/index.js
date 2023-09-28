@@ -86,6 +86,7 @@ export const StatelessBasicAnswer = ({
   answer,
   onChange,
   onUpdate,
+  onPaste,
   labelText,
   descriptionText,
   descriptionPlaceholder,
@@ -163,6 +164,7 @@ export const StatelessBasicAnswer = ({
             rows="5"
             onChange={onChange}
             onBlur={onUpdate}
+            onPaste={onPaste}
             value={answer.description}
             placeholder={descriptionPlaceholder}
             data-test="txt-answer-description"
@@ -236,6 +238,7 @@ StatelessBasicAnswer.propTypes = {
   answer: CustomPropTypes.answer.isRequired,
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
+  onPaste: PropTypes.func.isRequired,
   children: PropTypes.element,
   labelText: PropTypes.string,
   labelPlaceholder: PropTypes.string,

@@ -8,6 +8,8 @@ import { invoke } from "lodash";
 import { sharedStyles } from "components/Forms/css";
 import ValidationError from "components/ValidationError";
 
+import PasteModal, { FormatText } from "components/modals/PasteModal";
+
 const ENTER_KEY = 13;
 
 const StyleContext = styled.div`
@@ -27,6 +29,7 @@ class WrappingInput extends React.Component {
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     onBlur: PropTypes.func.isRequired,
+    onPaste: PropTypes.func.isRequired,
     onKeyDown: PropTypes.func,
     id: PropTypes.string.isRequired,
     bold: PropTypes.bool,
@@ -38,9 +41,32 @@ class WrappingInput extends React.Component {
     bold: false,
   };
 
+  state = { show: false, text: "", event: {} };
+
   handleChange = (e) => {
     e.target.value = e.target.value.replace(/\n/g, " ");
+    e.target.value = e.target.value.replace(/\s+/g, " ");
     this.props.onChange(e);
+  };
+
+  handlePaste = (e) => {
+    const text = e.clipboardData.getData("text");
+    e.persist();
+    if (/\s{2,}/g.test(text)) {
+      this.setState({
+        show: true,
+        text: text,
+        event: () => e,
+      });
+    }
+  };
+
+  handleOnPasteConfirm = () => {
+    this.setState({ show: false, text: "" });
+  };
+
+  handleOnPasteCancel = () => {
+    this.setState({ show: false, text: "" });
   };
 
   handleKeyDown = (e) => {
@@ -53,22 +79,31 @@ class WrappingInput extends React.Component {
 
   render() {
     const { bold, placeholder, errorValidationMsg, ...otherProps } = this.props;
+    const { state } = this;
     return (
-      <StyleContext
-        bold={bold}
-        onChange={this.handleChange}
-        onKeyDown={this.handleKeyDown}
-      >
-        <TextArea
-          {...otherProps}
-          placeholder={placeholder}
-          invalid={errorValidationMsg}
-          aria-invalid={Boolean(errorValidationMsg).toString()}
+      <>
+        <PasteModal
+          isOpen={state.show}
+          onConfirm={this.handleOnPasteConfirm}
+          onCancel={this.handleOnPasteCancel}
         />
-        {errorValidationMsg && (
-          <ValidationError>{errorValidationMsg}</ValidationError>
-        )}
-      </StyleContext>
+        <StyleContext
+          bold={bold}
+          onChange={this.handleChange}
+          onKeyDown={this.handleKeyDown}
+          onPaste={this.handlePaste}
+        >
+          <TextArea
+            {...otherProps}
+            placeholder={placeholder}
+            invalid={errorValidationMsg}
+            aria-invalid={Boolean(errorValidationMsg).toString()}
+          />
+          {errorValidationMsg && (
+            <ValidationError>{errorValidationMsg}</ValidationError>
+          )}
+        </StyleContext>
+      </>
     );
   }
 }

@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { Field, Label } from "components/Forms";
 import { colors, radius } from "constants/theme";
 import ValidationError from "components/ValidationError";
 // import ExternalLink from "components-themed/ExternalLink";
+
+import PasteModal, { FormatText } from "components/modals/PasteModal";
 
 const PageTitleContent = styled.div`
   color: ${colors.black};
@@ -54,48 +56,85 @@ const PageTitleInput = ({
   inputTitlePrefix,
   altFieldName,
   errorMessage,
-}) => (
-  <PageTitleContent>
-    <Heading data-test="page-title-input-heading">{heading}</Heading>
-    <PageDescriptionContent>
-      The page title is the first thing read by screen readers and helps users
-      of assistive technology understand what the page is about. It is shown in
-      the browser&apos;s title bar or in the page&apos;s tab. Page titles follow
-      the structure: &apos;page description - questionnaire title&apos;.
-    </PageDescriptionContent>
-    {/* From interaction designer - this will be brought back when the page titles link is fixed */}
-    {/* <p>
-      For help writing a page description, see our{" "}
-      <ExternalLink
-        url="https://ons-design-system.netlify.app/guidance/page-titles-and-urls/#page-titles"
-        linkText="design system guidance on page titles"
+}) => {
+  const [showPasteModal, setShowPasteModal] = useState({
+    show: false,
+    text: "",
+    target: "",
+    event: {},
+  });
+
+  const handlePaste = (event) => {
+    const text = event.clipboardData.getData("text");
+    event.persist();
+    if (/\s{2,}/g.test(text)) {
+      setShowPasteModal({
+        show: true,
+        text: event.clipboardData.getData("text"),
+        target: event.target,
+        event: Event,
+      });
+    }
+  };
+
+  const updateOnPaste = () => {
+    // Trigger field value update, passed through formatText
+    setShowPasteModal({ show: false, text: "" });
+  };
+
+  const cancelPaste = () => {
+    setShowPasteModal({ show: false, text: "" });
+  };
+  return (
+    <PageTitleContent>
+      <PasteModal
+        isOpen={showPasteModal.show}
+        onConfirm={updateOnPaste}
+        onCancel={cancelPaste}
       />
-    </p> */}
-    <Field data-test="page-title-missing-error">
-      <Label
-        data-test="page-title-input-field-label"
-        htmlFor={altFieldName ? altFieldName : "pageDescription"}
-      >
-        {inputTitlePrefix
-          ? `${inputTitlePrefix} page description`
-          : "Page description"}
-      </Label>
-      <StyledInput
-        id={altFieldName ? altFieldName : "pageDescription"}
-        type="text"
-        data-test="txt-page-description"
-        autoComplete="off"
-        name={altFieldName ? altFieldName : "pageDescription"}
-        placeholder=""
-        onChange={(e) => onChange(e.target)}
-        onBlur={(e) => onUpdate(e.target)}
-        value={pageDescription || ""}
-        hasError={errorMessage}
-      />
-      {errorMessage && <ValidationError>{errorMessage}</ValidationError>}
-    </Field>
-  </PageTitleContent>
-);
+      <Heading data-test="page-title-input-heading">{heading}</Heading>
+      <PageDescriptionContent>
+        The page title is the first thing read by screen readers and helps users
+        of assistive technology understand what the page is about. It is shown
+        in the browser&apos;s title bar or in the page&apos;s tab. Page titles
+        follow the structure: &apos;page description - questionnaire
+        title&apos;.
+      </PageDescriptionContent>
+      {/* From interaction designer - this will be brought back when the page titles link is fixed */}
+      {/* <p>
+        For help writing a page description, see our{" "}
+        <ExternalLink
+          url="https://ons-design-system.netlify.app/guidance/page-titles-and-urls/#page-titles"
+          linkText="design system guidance on page titles"
+        />
+      </p> */}
+      <Field data-test="page-title-missing-error">
+        <Label
+          data-test="page-title-input-field-label"
+          htmlFor={altFieldName ? altFieldName : "pageDescription"}
+        >
+          {inputTitlePrefix
+            ? `${inputTitlePrefix} page description`
+            : "Page description"}
+        </Label>
+        <StyledInput
+          id={altFieldName ? altFieldName : "pageDescription"}
+          type="text"
+          data-test="txt-page-description"
+          autoComplete="off"
+          name={altFieldName ? altFieldName : "pageDescription"}
+          placeholder=""
+          onPaste={(e) => handlePaste(e)}
+          onChange={(e) => onChange(e.target)}
+          onBlur={(e) => onUpdate(e.target)}
+          value={pageDescription || ""}
+          hasError={errorMessage}
+        />
+        {errorMessage && <ValidationError>{errorMessage}</ValidationError>}
+      </Field>
+    </PageTitleContent>
+  );
+};
 
 PageTitleInput.propTypes = {
   pageDescription: PropTypes.string,

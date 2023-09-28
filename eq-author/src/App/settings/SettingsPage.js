@@ -25,7 +25,7 @@ import {
 } from "constants/validationMessages";
 import LegalBasisSelect from "./LegalBasisSelect";
 
-import Modal from "components-themed/Modal";
+import PasteModal, { FormatText } from "components/modals/PasteModal";
 
 const StyledPanel = styled.div`
   max-width: 97.5%;
@@ -114,45 +114,35 @@ const SettingsPage = ({ questionnaire }) => {
 
   const showOnHub = introduction?.showOnHub;
 
-  const formatText = (value) => {
-    value = value.replace(/\s+/g, " ");
-    return value;
-  };
-
-  const handlePaste = (event, field, currentValue) => {
+  const handlePaste = (event) => {
     const text = event.clipboardData.getData("text");
     if (/\s{2,}/g.test(text)) {
       setShowPasteModal({
         show: true,
-        field: field,
-        currentValue: currentValue,
+        field: event.currentTarget.name,
+        text: event.clipboardData.getData("text"),
       });
     }
   };
 
   const updateOnPaste = () => {
-    setShowPasteModal({ show: false, field: "", currentValue: "" });
+    const value = FormatText(showPasteModal.text.trim());
+    if (showPasteModal.field === "questionnaireTitle") {
+      setQuestionnaireTitle(value);
+    } else if (showPasteModal.field === "shortTitle") {
+      setQuestionnaireShortTitle(value);
+    }
+    setShowPasteModal({ show: false, field: "", text: "" });
   };
 
   const cancelPaste = () => {
-    if (
-      showPasteModal.show &&
-      showPasteModal.field &&
-      showPasteModal.currentValue
-    ) {
-      if (showPasteModal.field === "questionnaireTitle") {
-        setQuestionnaireTitle(showPasteModal.currentValue);
-      } else if (showPasteModal.field === "shortTitle") {
-        setQuestionnaireShortTitle(showPasteModal.currentValue);
-      }
-      setShowPasteModal({ show: false, field: "", currentValue: "" });
-    }
+    setShowPasteModal({ show: false, field: "", text: "" });
   };
 
   const [showPasteModal, setShowPasteModal] = useState({
     show: false,
     field: "",
-    currentValue: "",
+    text: "",
   });
 
   const handleTitleChange = ({ value }) => {
@@ -211,14 +201,14 @@ const SettingsPage = ({ questionnaire }) => {
 
   return (
     <Container>
-      <Modal
-        title="Confirm the removal of extra spaces from copied content"
-        positiveButtonText="Confirm"
-        message="<p>The copied content contains extra spaces at the start of lines of text, between words, or at the end of lines of text.</p>        
-        <p>Extra spaces need to be removed before this content can be pasted. Confirming will remove them automatically, while cancelling will prevent pasting.</p>"
-        isOpen={showPasteModal.show}
+      {/* <PasteModal isOpen={showPasteModal.show}
         onConfirm={updateOnPaste}
         onClose={cancelPaste}
+      /> */}
+      <PasteModal
+        isOpen={showPasteModal.show}
+        onConfirm={updateOnPaste}
+        onCancel={cancelPaste}
       />
       <ScrollPane>
         <Header title="Settings" />
@@ -236,15 +226,9 @@ const SettingsPage = ({ questionnaire }) => {
                       <StyledInput
                         id="questionnaireTitle"
                         value={questionnaireTitle}
-                        onPaste={(e) =>
-                          handlePaste(
-                            e,
-                            "questionnaireTitle",
-                            questionnaireTitle
-                          )
-                        }
+                        onPaste={(e) => handlePaste(e)}
                         onChange={({ value }) =>
-                          setQuestionnaireTitle(formatText(value))
+                          setQuestionnaireTitle(FormatText(value))
                         }
                         onBlur={(e) => handleTitleChange({ ...e.target })}
                         data-test="change-questionnaire-title"
@@ -261,11 +245,9 @@ const SettingsPage = ({ questionnaire }) => {
                       <StyledInput
                         id="shortTitle"
                         value={questionnaireShortTitle}
-                        onPaste={(e) =>
-                          handlePaste(e, "shortTitle", questionnaireShortTitle)
-                        }
+                        onPaste={(e) => handlePaste(e)}
                         onChange={({ value }) =>
-                          setQuestionnaireShortTitle(formatText(value))
+                          setQuestionnaireShortTitle(FormatText(value))
                         }
                         onBlur={(e) => handleShortTitleChange({ ...e.target })}
                         data-test="change-questionnaire-short-title"
