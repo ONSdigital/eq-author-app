@@ -30,8 +30,8 @@ const CustomEditor = ({ total, type, onUpdate, onChange, errors }) => (
       default={null}
       onBlur={onUpdate}
       onChange={onChange}
-      max={999999999}
-      min={-999999999}
+      max={999999999999999}
+      min={-999999999999999}
       id="total-validation-custom"
       data-test="total-validation-number-input"
     />
