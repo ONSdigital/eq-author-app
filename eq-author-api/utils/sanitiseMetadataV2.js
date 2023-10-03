@@ -29,6 +29,7 @@ const defaultMetadata = (questionnaireId, tokenIssueTime, schemaUrl) => ({
   response_expires_at: nextMonth,
   schema_url: `${schemaUrl}${questionnaireId}?r${tokenIssueTime}`,
   language_code: "en",
+  roles: ["dumper"],
   survey_metadata: {
     data: {
       user_id: "UNKNOWN",

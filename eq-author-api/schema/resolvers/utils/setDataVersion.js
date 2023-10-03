@@ -8,6 +8,11 @@ const setDataVersion = ({ questionnaire }) => {
     return;
   }
 
+  if (questionnaire.supplementaryData) {
+    questionnaire.dataVersion = "3";
+    return;
+  }
+
   const allAnswers = getAnswers({ questionnaire });
   allAnswers.some((answer) => {
     return answer.options?.some((option) => {
