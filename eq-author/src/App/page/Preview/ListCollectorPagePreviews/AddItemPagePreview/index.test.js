@@ -42,7 +42,7 @@ describe("AddItemPagePreview", () => {
       pageType: "ListCollectorAddItemPage",
       definitionEnabled: true,
       additionalInfoContent: "additionalInfoContent",
-      description: "description",
+      description: "Description",
       definitionLabel: "",
       additionalInfoLabel: "",
       descriptionEnabled: true,
@@ -160,7 +160,7 @@ describe("AddItemPagePreview", () => {
 
     expect(getByTestId("description")).toBeInTheDocument();
 
-    expect(getByText("description")).toBeInTheDocument();
+    expect(getByText("Description")).toBeInTheDocument();
   });
 
   it("should render no definitions text when it doesn't have content and is enabled", () => {
