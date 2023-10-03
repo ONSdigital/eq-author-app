@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import StatelessAdditionalInfo from "./AdditionalContentOptions";
+import { StatelessAdditionalInfo } from "./AdditionalContentOptions";
 
 import { TEXTFIELD } from "constants/answer-types";
 

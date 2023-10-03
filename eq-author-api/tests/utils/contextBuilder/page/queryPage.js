@@ -246,6 +246,16 @@ const getPageQuery = `
           id
           commentText
         }
+        validationErrorInfo {
+          id
+          errors {
+            id
+            type
+            field
+            errorCode
+          }
+          totalCount
+        }
       }
       ... on ListCollectorConfirmationPage {
         comments {

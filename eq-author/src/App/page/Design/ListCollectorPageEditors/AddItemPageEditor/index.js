@@ -80,10 +80,12 @@ const AddItemPageEditor = ({ fetchAnswers, page }) => {
   const [addItemPage, setAddItemPage] = useState(page);
 
   useEffect(() => {
-    setAddItemPage(page);
-  }, [page]);
+    setAddItemPage(addItemPage);
+  }, [addItemPage]);
 
-  const [updatePage] = useMutation(UPDATE_PAGE_MUTATION);
+  const [updatePage] = useMutation(UPDATE_PAGE_MUTATION, {
+    refetchQueries: ["GetPage"],
+  });
   const getErrorMessage = (field) => {
     const errorCodeResult = validationErrorInfo.errors.find(
       (error) => error.field === field
@@ -154,11 +156,7 @@ const AddItemPageEditor = ({ fetchAnswers, page }) => {
           heading="Page title and description"
           pageDescription={addItemPageDescription}
           onChange={({ value }) => setAddItemPageDescription(value)}
-          onUpdate={({ value }) =>
-            updatePage({
-              variables: { input: { id, pageDescription: value } },
-            })
-          }
+          onUpdate={handleOnUpdate}
           errors={validationErrorInfo.errors}
         />
         <HorizontalSeparator />
@@ -168,6 +166,7 @@ const AddItemPageEditor = ({ fetchAnswers, page }) => {
           onUpdate={handleOnUpdate}
           fetchAnswers={fetchAnswers}
           variant="marginlessContent"
+          errors={validationErrorInfo.errors}
         />
         <StyledCollapsible title="Why can’t I add an answer type?">
           <Content>

@@ -1,255 +1,36 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AdditionalInfo should be able to display both deleted metadata and deleted answer in piping errors in the description 1`] = `
-<StatelessAdditionalInfo
-  fetchAnswers={[MockFunction]}
-  onChange={[MockFunction]}
-  onChangeUpdate={[MockFunction]}
-  onUpdate={[MockFunction]}
-  option=""
-  page={
-    Object {
-      "additionalInfoContent": "<p>Additional Info Content</p>",
-      "additionalInfoEnabled": true,
-      "additionalInfoLabel": "<p>Additional Info Label</p>",
-      "alias": "foobar",
-      "answers": Array [
-        Object {
-          "id": "1",
-          "type": "TextField",
-        },
-      ],
-      "definitionContent": "<p>Definition Content</p>",
-      "definitionEnabled": true,
-      "definitionLabel": "<p>Definition Label</p>",
-      "description": "<p>Description</p>",
-      "descriptionEnabled": true,
-      "guidance": "<p>Guidance</p>",
-      "guidanceEnabled": true,
-      "id": "1",
-      "pageDescription": "description",
-      "section": Object {
-        "id": "1",
-        "questionnaire": Object {
-          "id": "1",
-          "metadata": Array [],
-        },
-      },
-      "title": "<p>Hello world</p>",
-      "validationErrorInfo": Object {
-        "errors": Array [
-          Object {
-            "errorCode": "PIPING_TITLE_DELETED",
-            "field": "description",
-            "id": "1",
-            "type": "page",
-          },
-          Object {
-            "errorCode": "PIPING_METADATA_DELETED",
-            "field": "description",
-            "id": "2",
-            "type": "page",
-          },
-        ],
-      },
-    }
-  }
+<TransitionGroup
+  childFactory={[Function]}
+  component="div"
 />
 `;
 
 exports[`AdditionalInfo should display the correct error message when piping answer in title is moved after This question 1`] = `
-<StatelessAdditionalInfo
-  fetchAnswers={[MockFunction]}
-  onChange={[MockFunction]}
-  onChangeUpdate={[MockFunction]}
-  onUpdate={[MockFunction]}
-  option=""
-  page={
-    Object {
-      "additionalInfoContent": "<p>Additional Info Content</p>",
-      "additionalInfoEnabled": true,
-      "additionalInfoLabel": "<p>Additional Info Label</p>",
-      "alias": "foobar",
-      "answers": Array [
-        Object {
-          "id": "1",
-          "type": "TextField",
-        },
-      ],
-      "definitionContent": "<p>Definition Content</p>",
-      "definitionEnabled": true,
-      "definitionLabel": "<p>Definition Label</p>",
-      "description": "<p>Description</p>",
-      "descriptionEnabled": true,
-      "guidance": "<p>Guidance</p>",
-      "guidanceEnabled": true,
-      "id": "1",
-      "pageDescription": "description",
-      "section": Object {
-        "id": "1",
-        "questionnaire": Object {
-          "id": "1",
-          "metadata": Array [],
-        },
-      },
-      "title": "<p>Hello world</p>",
-      "validationErrorInfo": Object {
-        "errors": Array [
-          Object {
-            "errorCode": "PIPING_TITLE_MOVED",
-            "field": "description",
-            "id": "1",
-            "type": "pages",
-          },
-        ],
-      },
-    }
-  }
+<TransitionGroup
+  childFactory={[Function]}
+  component="div"
 />
 `;
 
 exports[`AdditionalInfo should display the correct error message when the additional info content is missing 1`] = `
-<StatelessAdditionalInfo
-  fetchAnswers={[MockFunction]}
-  onChange={[MockFunction]}
-  onChangeUpdate={[MockFunction]}
-  onUpdate={[MockFunction]}
-  option=""
-  page={
-    Object {
-      "additionalInfoContent": "<p>Additional Info Content</p>",
-      "additionalInfoEnabled": true,
-      "additionalInfoLabel": "<p>Additional Info Label</p>",
-      "alias": "foobar",
-      "answers": Array [
-        Object {
-          "id": "1",
-          "type": "TextField",
-        },
-      ],
-      "definitionContent": "<p>Definition Content</p>",
-      "definitionEnabled": true,
-      "definitionLabel": "<p>Definition Label</p>",
-      "description": "<p>Description</p>",
-      "descriptionEnabled": true,
-      "guidance": "<p>Guidance</p>",
-      "guidanceEnabled": true,
-      "id": "1",
-      "pageDescription": "description",
-      "section": Object {
-        "id": "1",
-        "questionnaire": Object {
-          "id": "1",
-          "metadata": Array [],
-        },
-      },
-      "title": "<p>Hello world</p>",
-      "validationErrorInfo": Object {
-        "errors": Array [
-          Object {
-            "errorCode": "ERR_VALID_REQUIRED",
-            "field": "additionalInfoContent",
-            "id": "1",
-            "type": "pages",
-          },
-        ],
-      },
-    }
-  }
+<TransitionGroup
+  childFactory={[Function]}
+  component="div"
 />
 `;
 
 exports[`AdditionalInfo should display the correct error message when the additional info label is empty 1`] = `
-<StatelessAdditionalInfo
-  fetchAnswers={[MockFunction]}
-  onChange={[MockFunction]}
-  onChangeUpdate={[MockFunction]}
-  onUpdate={[MockFunction]}
-  option=""
-  page={
-    Object {
-      "additionalInfoContent": "<p>Additional Info Content</p>",
-      "additionalInfoEnabled": true,
-      "additionalInfoLabel": "<p>Additional Info Label</p>",
-      "alias": "foobar",
-      "answers": Array [
-        Object {
-          "id": "1",
-          "type": "TextField",
-        },
-      ],
-      "definitionContent": "<p>Definition Content</p>",
-      "definitionEnabled": true,
-      "definitionLabel": "<p>Definition Label</p>",
-      "description": "<p>Description</p>",
-      "descriptionEnabled": true,
-      "guidance": "<p>Guidance</p>",
-      "guidanceEnabled": true,
-      "id": "1",
-      "pageDescription": "description",
-      "section": Object {
-        "id": "1",
-        "questionnaire": Object {
-          "id": "1",
-          "metadata": Array [],
-        },
-      },
-      "title": "<p>Hello world</p>",
-      "validationErrorInfo": Object {
-        "errors": Array [
-          Object {
-            "errorCode": "ERR_VALID_REQUIRED",
-            "field": "additionalInfoLabel",
-            "id": "1",
-            "type": "pages",
-          },
-        ],
-      },
-    }
-  }
+<TransitionGroup
+  childFactory={[Function]}
+  component="div"
 />
 `;
 
 exports[`AdditionalInfo should render 1`] = `
-<StatelessAdditionalInfo
-  fetchAnswers={[MockFunction]}
-  onChange={[MockFunction]}
-  onChangeUpdate={[MockFunction]}
-  onUpdate={[MockFunction]}
-  option=""
-  page={
-    Object {
-      "additionalInfoContent": "<p>Additional Info Content</p>",
-      "additionalInfoEnabled": true,
-      "additionalInfoLabel": "<p>Additional Info Label</p>",
-      "alias": "foobar",
-      "answers": Array [
-        Object {
-          "id": "1",
-          "type": "TextField",
-        },
-      ],
-      "definitionContent": "<p>Definition Content</p>",
-      "definitionEnabled": true,
-      "definitionLabel": "<p>Definition Label</p>",
-      "description": "<p>Description</p>",
-      "descriptionEnabled": true,
-      "guidance": "<p>Guidance</p>",
-      "guidanceEnabled": true,
-      "id": "1",
-      "pageDescription": "description",
-      "section": Object {
-        "id": "1",
-        "questionnaire": Object {
-          "id": "1",
-          "metadata": Array [],
-        },
-      },
-      "title": "<p>Hello world</p>",
-      "validationErrorInfo": Object {
-        "errors": Array [],
-      },
-    }
-  }
+<TransitionGroup
+  childFactory={[Function]}
+  component="div"
 />
 `;

@@ -54,10 +54,9 @@ const Wrapper = styled.div`
   margin: 0 1.7em 1em 0.96em;
 `;
 
-const errorMsg = (field, page) =>
-  getErrorByField(field, page.validationErrorInfo.errors);
+const errorMsg = (field, errors) => getErrorByField(field, errors);
 
-const StatelessAdditionalInfo = ({
+export const StatelessAdditionalInfo = ({
   page,
   onChange,
   onUpdate,
@@ -67,153 +66,158 @@ const StatelessAdditionalInfo = ({
     validationErrorInfo: { errors },
   },
   option,
-}) => {
-  return (
-    <TransitionGroup>
-      {page.descriptionEnabled && option === "description" ? (
-        <AnswerTransition
-          key="question-description"
-          onEntered={() => focusOnNode(page.description)}
-        >
-          <Wrapper>
-            <RichTextEditor
-              id="question-description"
-              name="description"
-              multiline
-              value={page.description}
-              onUpdate={
-                page.pageType === "ListCollectorAddItemPage"
-                  ? onUpdate
-                  : onChangeUpdate
-              }
-              controls={descriptionControls}
-              fetchAnswers={fetchAnswers}
-              metadata={get(page, "section.questionnaire.metadata", [])}
-              testSelector="txt-question-description"
-              listId={page.section?.repeatingSectionListId ?? null}
-              errorValidationMsg={getMultipleErrorsByField(
-                "description",
-                page.validationErrorInfo.errors
+  validationError,
+}) => (
+  <TransitionGroup>
+    {page.descriptionEnabled && option === "description" ? (
+      <AnswerTransition
+        key="question-description"
+        onEntered={() => focusOnNode(page.description)}
+      >
+        <Wrapper>
+          <RichTextEditor
+            id="question-description"
+            name="description"
+            multiline
+            value={page.description}
+            onUpdate={
+              page.pageType === "ListCollectorAddItemPage"
+                ? onUpdate
+                : onChangeUpdate
+            }
+            controls={descriptionControls}
+            fetchAnswers={fetchAnswers}
+            metadata={get(page, "section.questionnaire.metadata", [])}
+            testSelector="txt-question-description"
+            listId={page.section?.repeatingSectionListId ?? null}
+            errorValidationMsg={getMultipleErrorsByField(
+              "description",
+              validationError ?? errors
+            )}
+          />
+        </Wrapper>
+      </AnswerTransition>
+    ) : null}
+
+    {page.definitionEnabled && option === "definition" ? (
+      <AnswerTransition
+        key="definition"
+        onEntered={() => focusOnElement("definition-label")}
+      >
+        <Wrapper>
+          <Field>
+            <Label htmlFor="definition-label">Label</Label>
+            <WrappingInput
+              id="definition-label"
+              name="definitionLabel"
+              data-test="txt-question-definition-label"
+              onChange={onChange}
+              onBlur={onUpdate}
+              value={page.definitionLabel}
+              bold
+              errorValidationMsg={errorMsg(
+                "definitionLabel",
+                validationError ?? errors
               )}
             />
-          </Wrapper>
-        </AnswerTransition>
-      ) : null}
+          </Field>
+          <RichTextEditor
+            id="definition-content"
+            name="definitionContent"
+            label="Content"
+            multiline
+            value={page.definitionContent}
+            onUpdate={
+              page.pageType === "ListCollectorAddItemPage"
+                ? onUpdate
+                : onChangeUpdate
+            }
+            controls={definitionControls}
+            fetchAnswers={fetchAnswers}
+            metadata={page.section.questionnaire.metadata}
+            testSelector="txt-question-definition-content"
+            errorValidationMsg={errorMsg(
+              "definitionContent",
+              validationError ?? errors
+            )}
+          />
+        </Wrapper>
+      </AnswerTransition>
+    ) : null}
 
-      {page.definitionEnabled && option === "definition" ? (
-        <AnswerTransition
-          key="definition"
-          onEntered={() => focusOnElement("definition-label")}
-        >
-          <Wrapper>
-            <Field>
-              <Label htmlFor="definition-label">Label</Label>
-              <WrappingInput
-                id="definition-label"
-                name="definitionLabel"
-                data-test="txt-question-definition-label"
-                onChange={onChange}
-                onBlur={onUpdate}
-                value={page.definitionLabel}
-                bold
-                errorValidationMsg={errorMsg("definitionLabel", page)}
-              />
-            </Field>
-            <RichTextEditor
-              id="definition-content"
-              name="definitionContent"
-              label="Content"
-              multiline
-              value={page.definitionContent}
-              onUpdate={
-                page.pageType === "ListCollectorAddItemPage"
-                  ? onUpdate
-                  : onChangeUpdate
-              }
-              controls={definitionControls}
-              fetchAnswers={fetchAnswers}
-              metadata={page.section.questionnaire.metadata}
-              testSelector="txt-question-definition-content"
-              errorValidationMsg={errorMsg("definitionContent", page)}
-            />
-          </Wrapper>
-        </AnswerTransition>
-      ) : null}
+    {page.guidanceEnabled && option === "guidance" ? (
+      <AnswerTransition
+        key="question-guidance"
+        onEntered={() => focusOnNode(page.guidance)}
+      >
+        <Wrapper>
+          <RichTextEditor
+            id="question-guidance"
+            name="guidance"
+            multiline
+            value={page.guidance}
+            onUpdate={
+              page.pageType === "ListCollectorAddItemPage"
+                ? onUpdate
+                : onChangeUpdate
+            }
+            controls={guidanceControls}
+            fetchAnswers={fetchAnswers}
+            metadata={get(page, "section.questionnaire.metadata", [])}
+            testSelector="txt-question-guidance"
+            errorValidationMsg={errorMsg("guidance", validationError ?? errors)}
+          />
+        </Wrapper>
+      </AnswerTransition>
+    ) : null}
 
-      {page.guidanceEnabled && option === "guidance" ? (
-        <AnswerTransition
-          key="question-guidance"
-          onEntered={() => focusOnNode(page.guidance)}
-        >
-          <Wrapper>
-            <RichTextEditor
-              id="question-guidance"
-              name="guidance"
-              multiline
-              value={page.guidance}
-              onUpdate={
-                page.pageType === "ListCollectorAddItemPage"
-                  ? onUpdate
-                  : onChangeUpdate
-              }
-              controls={guidanceControls}
-              fetchAnswers={fetchAnswers}
-              metadata={get(page, "section.questionnaire.metadata", [])}
-              testSelector="txt-question-guidance"
-              errorValidationMsg={errorMsg("guidance", page)}
-            />
-          </Wrapper>
-        </AnswerTransition>
-      ) : null}
-
-      {page.additionalInfoEnabled && option === "additionalInfo" ? (
-        <AnswerTransition
-          key="additional-info"
-          onEntered={() => focusOnElement("additional-info-label")}
-        >
-          <Wrapper>
-            <Field>
-              <Label htmlFor="additional-info-label">Label</Label>
-              <WrappingInput
-                id="additional-info-label"
-                name="additionalInfoLabel"
-                data-test="txt-question-additional-info-label"
-                onChange={onChange}
-                onBlur={onUpdate}
-                value={page.additionalInfoLabel}
-                bold
-                errorValidationMsg={getErrorByField(
-                  "additionalInfoLabel",
-                  errors
-                )}
-              />
-            </Field>
-            <RichTextEditor
-              id="additional-info-content"
-              name="additionalInfoContent"
-              label="Content"
-              multiline
-              value={page.additionalInfoContent}
-              onUpdate={
-                page.pageType === "ListCollectorAddItemPage"
-                  ? onUpdate
-                  : onChangeUpdate
-              }
-              controls={contentControls}
-              fetchAnswers={fetchAnswers}
-              metadata={page.section.questionnaire.metadata}
-              testSelector="txt-question-additional-info-content"
+    {page.additionalInfoEnabled && option === "additionalInfo" ? (
+      <AnswerTransition
+        key="additional-info"
+        onEntered={() => focusOnElement("additional-info-label")}
+      >
+        <Wrapper>
+          <Field>
+            <Label htmlFor="additional-info-label">Label</Label>
+            <WrappingInput
+              id="additional-info-label"
+              name="additionalInfoLabel"
+              data-test="txt-question-additional-info-label"
+              onChange={onChange}
+              onBlur={onUpdate}
+              value={page.additionalInfoLabel}
+              bold
               errorValidationMsg={getErrorByField(
-                "additionalInfoContent",
-                errors
+                "additionalInfoLabel",
+                validationError ?? errors
               )}
             />
-          </Wrapper>
-        </AnswerTransition>
-      ) : null}
-    </TransitionGroup>
-  );
-};
+          </Field>
+          <RichTextEditor
+            id="additional-info-content"
+            name="additionalInfoContent"
+            label="Content"
+            multiline
+            value={page.additionalInfoContent}
+            onUpdate={
+              page.pageType === "ListCollectorAddItemPage"
+                ? onUpdate
+                : onChangeUpdate
+            }
+            controls={contentControls}
+            fetchAnswers={fetchAnswers}
+            metadata={page.section.questionnaire.metadata}
+            testSelector="txt-question-additional-info-content"
+            errorValidationMsg={getErrorByField(
+              "additionalInfoContent",
+              validationError ?? errors
+            )}
+          />
+        </Wrapper>
+      </AnswerTransition>
+    ) : null}
+  </TransitionGroup>
+);
 
 StatelessAdditionalInfo.propTypes = {
   onChange: PropTypes.func.isRequired,
@@ -222,6 +226,7 @@ StatelessAdditionalInfo.propTypes = {
   page: propType(pageFragment).isRequired,
   onChangeUpdate: PropTypes.func.isRequired,
   option: PropTypes.string.isRequired,
+  validationError: PropTypes.array, //eslint-disable-line
 };
 
 StatelessAdditionalInfo.fragments = {

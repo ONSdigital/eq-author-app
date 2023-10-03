@@ -36,6 +36,7 @@ export class UnwrappedQuestionProperties extends React.Component {
     onUpdate: PropTypes.func,
     fetchAnswers: PropTypes.func,
     variant: PropTypes.string,
+    errors: PropTypes.array, //eslint-disable-line
   };
 
   handleChange = ({ name, value }) => {
@@ -62,7 +63,8 @@ export class UnwrappedQuestionProperties extends React.Component {
       guidanceEnabled ||
       additionalInfoEnabled;
 
-    const { page, onChange, onUpdate, fetchAnswers, variant } = this.props;
+    const { page, onChange, onUpdate, fetchAnswers, variant, errors } =
+      this.props;
 
     return (
       <Collapsible
@@ -93,6 +95,7 @@ export class UnwrappedQuestionProperties extends React.Component {
           onUpdate={onUpdate}
           page={page}
           option={"description"}
+          validationError={errors}
         />
 
         <HorizontalSeparator />
@@ -119,6 +122,7 @@ export class UnwrappedQuestionProperties extends React.Component {
           page={page}
           fetchAnswers={fetchAnswers}
           option={"definition"}
+          validationError={errors}
         />
 
         <HorizontalSeparator />
@@ -145,6 +149,7 @@ export class UnwrappedQuestionProperties extends React.Component {
           page={page}
           fetchAnswers={fetchAnswers}
           option={"guidance"}
+          validationError={errors}
         />
 
         <HorizontalSeparator />
@@ -171,6 +176,7 @@ export class UnwrappedQuestionProperties extends React.Component {
           page={page}
           fetchAnswers={fetchAnswers}
           option={"additionalInfo"}
+          validationError={errors}
         />
       </Collapsible>
     );
