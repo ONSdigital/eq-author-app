@@ -55,9 +55,9 @@ const Guidance = styled.div`
   word-wrap: break-word;
 `;
 
-const Box = styled.div`
-  border-left: 10px solid #033e58;
-  background: #eff0f9;
+const GuidancePanel = styled.div`
+  border-left: 10px solid ${colors.nightBlue};
+  background: ${colors.paleBlue};
   padding: 1em;
 `;
 
@@ -86,7 +86,7 @@ export const DetailsTitle = styled.div`
   }
 `;
 export const DetailsContent = styled.div`
-  border-left: 2px solid #999;
+  border-left: 2px solid ${colors.borders};
   margin-left: 6px;
   padding: 0.2em 0 0.2em 1em;
   word-wrap: break-word;
@@ -195,7 +195,9 @@ const AddItemPagePreview = ({ page }) => {
             <div data-test="guidance">
               {guidance ? (
                 <Guidance>
-                  <Box dangerouslySetInnerHTML={{ __html: guidance }} />
+                  <GuidancePanel
+                    dangerouslySetInnerHTML={{ __html: guidance }}
+                  />
                 </Guidance>
               ) : (
                 <EmptyAnswersError large>Missing guidance</EmptyAnswersError>
