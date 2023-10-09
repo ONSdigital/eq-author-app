@@ -56,12 +56,18 @@ class WrappingInput extends React.Component {
       this.setState({
         show: true,
         text: text,
-        event: () => e,
+        event: e,
       });
     }
   };
 
   handleOnPasteConfirm = () => {
+    const { text, event } = this.state;
+    if (event && event.persist) {
+      event.persist();
+      event.target.value = FormatText(text);
+      this.props.onChange(event);
+    }
     this.setState({ show: false, text: "" });
   };
 
