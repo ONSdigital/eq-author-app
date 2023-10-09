@@ -1,3 +1,14 @@
 fragment ListCollectorAddItemPage on ListCollectorAddItemPage {
+  id
   pageDescription
+  description
+  descriptionEnabled
+  guidance
+  guidanceEnabled
+  definitionLabel
+  definitionContent
+  definitionEnabled
+  additionalInfoLabel
+  additionalInfoContent
+  additionalInfoEnabled
 }

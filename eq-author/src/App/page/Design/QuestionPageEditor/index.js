@@ -147,6 +147,7 @@ export const UnwrappedQuestionPageEditor = (props) => {
           onChange={onChange}
           onUpdate={onUpdate}
           fetchAnswers={fetchAnswers}
+          variant="content"
         />
         <AnswersEditor
           answers={answers}

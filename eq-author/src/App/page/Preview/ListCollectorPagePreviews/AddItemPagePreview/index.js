@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React from "react";
 import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
@@ -18,6 +19,7 @@ import EmptyAnswersError from "components/preview/Error";
 import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
 
 import IconInfo from "assets/icon-missing-collection-list-answers.svg?inline";
+import IconChevron from "../../icon-chevron.svg";
 
 import GET_COLLECTION_LISTS from "graphql/lists/collectionLists.graphql";
 
@@ -43,8 +45,51 @@ const Container = styled.div`
   }
 `;
 
+export const Description = styled.div`
+  margin-bottom: 1em;
+  word-wrap: break-word;
+`;
+
+const Guidance = styled.div`
+  margin-bottom: 2em;
+  word-wrap: break-word;
+`;
+
+const GuidancePanel = styled.div`
+  border-left: 10px solid ${colors.nightBlue};
+  background: ${colors.paleBlue};
+  padding: 1em;
+`;
+
 const Answers = styled.div`
   margin-bottom: 1em;
+`;
+
+const Details = styled.div`
+  margin-bottom: 1em;
+`;
+
+export const DetailsTitle = styled.div`
+  display: flex;
+  align-items: center;
+  color: ${colors.primary};
+  margin-bottom: 0.5em;
+  word-wrap: break-word;
+
+  &::before {
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    margin-left: -10px;
+    content: url(${IconChevron});
+    transform: rotate(90deg);
+  }
+`;
+export const DetailsContent = styled.div`
+  border-left: 2px solid ${colors.borders};
+  margin-left: 6px;
+  padding: 0.2em 0 0.2em 1em;
+  word-wrap: break-word;
 `;
 
 const AddItemPagePreview = ({ page }) => {
@@ -54,6 +99,16 @@ const AddItemPagePreview = ({ page }) => {
     displayName,
     folder,
     section,
+    description,
+    descriptionEnabled,
+    guidance,
+    guidanceEnabled,
+    definitionLabel,
+    definitionContent,
+    definitionEnabled,
+    additionalInfoLabel,
+    additionalInfoContent,
+    additionalInfoEnabled,
     comments,
     validationErrorInfo,
   } = page;
@@ -103,6 +158,53 @@ const AddItemPagePreview = ({ page }) => {
       <Panel>
         <Container data-test="list-collector-add-item-page-preview">
           <Title title={title} />
+          {descriptionEnabled && (
+            <div data-test="description">
+              {description ? (
+                <Description
+                  dangerouslySetInnerHTML={{ __html: description }}
+                />
+              ) : (
+                <EmptyAnswersError large>Missing description</EmptyAnswersError>
+              )}
+            </div>
+          )}
+          {definitionEnabled && (
+            <Details data-test="definition">
+              <DetailsTitle>
+                {definitionLabel || (
+                  <EmptyAnswersError small>
+                    Missing definition label
+                  </EmptyAnswersError>
+                )}
+              </DetailsTitle>
+              <DetailsContent>
+                {definitionContent ? (
+                  <span
+                    dangerouslySetInnerHTML={{ __html: definitionContent }}
+                  />
+                ) : (
+                  <EmptyAnswersError large margin={false}>
+                    Missing definition content
+                  </EmptyAnswersError>
+                )}
+              </DetailsContent>
+            </Details>
+          )}
+          {guidanceEnabled && (
+            <div data-test="guidance">
+              {guidance ? (
+                <Guidance>
+                  <GuidancePanel
+                    dangerouslySetInnerHTML={{ __html: guidance }}
+                  />
+                </Guidance>
+              ) : (
+                <EmptyAnswersError large>Missing guidance</EmptyAnswersError>
+              )}
+            </div>
+          )}
+
           {answers.length ? (
             <Answers>
               {answers.map((answer) => (
@@ -120,6 +222,28 @@ const AddItemPagePreview = ({ page }) => {
                   : "No answers have been added to this collection list"}
               </IconText>
             </EmptyAnswersError>
+          )}
+          {additionalInfoEnabled && (
+            <Details data-test="additional-info">
+              <DetailsTitle>
+                {additionalInfoLabel || (
+                  <EmptyAnswersError small>
+                    Missing additional information label
+                  </EmptyAnswersError>
+                )}
+              </DetailsTitle>
+              <DetailsContent>
+                {additionalInfoContent ? (
+                  <span
+                    dangerouslySetInnerHTML={{ __html: additionalInfoContent }}
+                  />
+                ) : (
+                  <EmptyAnswersError large margin={false}>
+                    Missing additional information content
+                  </EmptyAnswersError>
+                )}
+              </DetailsContent>
+            </Details>
           )}
         </Container>
       </Panel>

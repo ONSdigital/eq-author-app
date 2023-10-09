@@ -3,6 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
 import { get, flowRight } from "lodash";
+
 import { TransitionGroup } from "react-transition-group";
 
 import WrappingInput from "components/Forms/WrappingInput";
@@ -53,8 +54,7 @@ const Wrapper = styled.div`
   margin: 0 1.7em 1em 0.96em;
 `;
 
-const errorMsg = (field, page) =>
-  getErrorByField(field, page.validationErrorInfo.errors);
+const errorMsg = (field, errors) => getErrorByField(field, errors);
 
 export const StatelessAdditionalInfo = ({
   page,
@@ -66,6 +66,7 @@ export const StatelessAdditionalInfo = ({
     validationErrorInfo: { errors },
   },
   option,
+  validationError,
 }) => (
   <TransitionGroup>
     {page.descriptionEnabled && option === "description" ? (
@@ -79,7 +80,11 @@ export const StatelessAdditionalInfo = ({
             name="description"
             multiline
             value={page.description}
-            onUpdate={onChangeUpdate}
+            onUpdate={
+              page.pageType === "ListCollectorAddItemPage"
+                ? onUpdate
+                : onChangeUpdate
+            }
             controls={descriptionControls}
             fetchAnswers={fetchAnswers}
             metadata={get(page, "section.questionnaire.metadata", [])}
@@ -87,7 +92,7 @@ export const StatelessAdditionalInfo = ({
             listId={page.section?.repeatingSectionListId ?? null}
             errorValidationMsg={getMultipleErrorsByField(
               "description",
-              page.validationErrorInfo.errors
+              validationError ?? errors
             )}
           />
         </Wrapper>
@@ -110,7 +115,10 @@ export const StatelessAdditionalInfo = ({
               onBlur={onUpdate}
               value={page.definitionLabel}
               bold
-              errorValidationMsg={errorMsg("definitionLabel", page)}
+              errorValidationMsg={errorMsg(
+                "definitionLabel",
+                validationError ?? errors
+              )}
             />
           </Field>
           <RichTextEditor
@@ -119,12 +127,19 @@ export const StatelessAdditionalInfo = ({
             label="Content"
             multiline
             value={page.definitionContent}
-            onUpdate={onChangeUpdate}
+            onUpdate={
+              page.pageType === "ListCollectorAddItemPage"
+                ? onUpdate
+                : onChangeUpdate
+            }
             controls={definitionControls}
             fetchAnswers={fetchAnswers}
             metadata={page.section.questionnaire.metadata}
             testSelector="txt-question-definition-content"
-            errorValidationMsg={errorMsg("definitionContent", page)}
+            errorValidationMsg={errorMsg(
+              "definitionContent",
+              validationError ?? errors
+            )}
           />
         </Wrapper>
       </AnswerTransition>
@@ -141,12 +156,16 @@ export const StatelessAdditionalInfo = ({
             name="guidance"
             multiline
             value={page.guidance}
-            onUpdate={onChangeUpdate}
+            onUpdate={
+              page.pageType === "ListCollectorAddItemPage"
+                ? onUpdate
+                : onChangeUpdate
+            }
             controls={guidanceControls}
             fetchAnswers={fetchAnswers}
             metadata={get(page, "section.questionnaire.metadata", [])}
             testSelector="txt-question-guidance"
-            errorValidationMsg={errorMsg("guidance", page)}
+            errorValidationMsg={errorMsg("guidance", validationError ?? errors)}
           />
         </Wrapper>
       </AnswerTransition>
@@ -170,7 +189,7 @@ export const StatelessAdditionalInfo = ({
               bold
               errorValidationMsg={getErrorByField(
                 "additionalInfoLabel",
-                errors
+                validationError ?? errors
               )}
             />
           </Field>
@@ -180,14 +199,18 @@ export const StatelessAdditionalInfo = ({
             label="Content"
             multiline
             value={page.additionalInfoContent}
-            onUpdate={onChangeUpdate}
+            onUpdate={
+              page.pageType === "ListCollectorAddItemPage"
+                ? onUpdate
+                : onChangeUpdate
+            }
             controls={contentControls}
             fetchAnswers={fetchAnswers}
             metadata={page.section.questionnaire.metadata}
             testSelector="txt-question-additional-info-content"
             errorValidationMsg={getErrorByField(
               "additionalInfoContent",
-              errors
+              validationError ?? errors
             )}
           />
         </Wrapper>
@@ -203,6 +226,7 @@ StatelessAdditionalInfo.propTypes = {
   page: propType(pageFragment).isRequired,
   onChangeUpdate: PropTypes.func.isRequired,
   option: PropTypes.string.isRequired,
+  validationError: PropTypes.array, //eslint-disable-line
 };
 
 StatelessAdditionalInfo.fragments = {

@@ -22,6 +22,7 @@ describe("AdditionalInfo", () => {
         id: "1",
         alias: "foobar",
         title: "<p>Hello world</p>",
+        pageDescription: "description",
         description: "<p>Description</p>",
         descriptionEnabled: true,
         guidance: "<p>Guidance</p>",
