@@ -64,6 +64,12 @@ const PageTitleInput = ({
     event: {},
   });
 
+  const handleChange = (e) => {
+    e.target.value = e.target.value.replace(/\n/g, " ");
+    e.target.value = e.target.value.replace(/\s+/g, " ");
+    onChange(e.target);
+  };
+
   const handlePaste = (event) => {
     const text = event.clipboardData.getData("text");
     event.persist();
@@ -142,7 +148,7 @@ const PageTitleInput = ({
           name={altFieldName ? altFieldName : "pageDescription"}
           placeholder=""
           onPaste={(e) => handlePaste(e)}
-          onChange={(e) => onChange(e.target)}
+          onChange={(e) => handleChange(e)}
           onBlur={(e) => onUpdate(e.target)}
           value={pageDescription || ""}
           hasError={errorMessage}
