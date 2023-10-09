@@ -70,15 +70,19 @@ const PageTitleInput = ({
     if (/\s{2,}/g.test(text)) {
       setShowPasteModal({
         show: true,
-        text: event.clipboardData.getData("text"),
-        target: event.target,
-        event: Event,
+        text: text,
+        event: event,
       });
     }
   };
 
   const updateOnPaste = () => {
-    // Trigger field value update, passed through formatText
+    const { text, event } = showPasteModal;
+    if (event && event.persist) {
+      event.persist();
+      event.target.value = FormatText(text);
+      onChange(event.target);
+    }
     setShowPasteModal({ show: false, text: "" });
   };
 
