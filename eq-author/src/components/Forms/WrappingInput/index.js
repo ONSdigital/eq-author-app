@@ -64,12 +64,28 @@ class WrappingInput extends React.Component {
   handleOnPasteConfirm = () => {
     const { text, event } = this.state;
     if (event && event.persist) {
+      const target = event.target;
+      const currentValue = target.value;
+      const selectionStart = target.selectionStart;
+      const selectionEnd = target.selectionEnd;
+
+      // Concatenate the text before and after the selection with the pasted text
+      const newValue =
+        currentValue.substring(0, selectionStart) +
+        FormatText(text) +
+        currentValue.substring(selectionEnd);
+
+      // Create a new event with the updated value
       const updatedEvent = {
         ...event,
-        target: { ...event.target, value: FormatText(text) },
+        target: { ...target, value: newValue },
       };
+
+      // Call the onChange prop with the updated event
       this.props.onChange(updatedEvent);
     }
+
+    // Clear the showPasteModal state
     this.setState({ show: false, text: "" });
   };
 

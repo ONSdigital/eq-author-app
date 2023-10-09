@@ -79,10 +79,23 @@ const PageTitleInput = ({
   const updateOnPaste = () => {
     const { text, event } = showPasteModal;
     if (event && event.persist) {
+      const target = event.target;
+      const cursorPosition = target.selectionStart;
+      const currentValue = target.value;
+
+      // Insert the pasted text at the cursor position
+      const newValue =
+        currentValue.substring(0, cursorPosition) +
+        FormatText(text) +
+        currentValue.substring(target.selectionEnd);
+
       const updatedEvent = { ...event, persist: undefined }; // Create a new event without the persist method
-      updatedEvent.target.value = FormatText(text);
+      updatedEvent.target.value = newValue;
+
       onChange(updatedEvent.target);
     }
+
+    // Clear the showPasteModal state
     setShowPasteModal({ show: false, text: "" });
   };
 
