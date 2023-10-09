@@ -2,6 +2,8 @@
 const answersHaveAnswerType = (answers, answerType) => {
   console.log("test");
   console.log("test2");
+  console.log("test3");
+
   if (answers.some((answer) => answer.type === answerType)) {
     return true;
   } else {
