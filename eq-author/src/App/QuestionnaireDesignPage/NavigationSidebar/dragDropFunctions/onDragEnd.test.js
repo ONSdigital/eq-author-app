@@ -1,4 +1,7 @@
-import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
+import {
+  buildQuestionnaire,
+  buildListCollectorFolders,
+} from "tests/utils/createMockQuestionnaire";
 import onDragEnd from "./onDragEnd";
 
 const buildDestination = (entity, index) => ({
@@ -97,6 +100,94 @@ describe("onDragEnd", () => {
       expect(result).toBe(1);
       expect(mockMovePage).toHaveBeenCalledTimes(1);
       expect(mockMoveFolder).toHaveBeenCalledTimes(0);
+    });
+
+    describe("Within list folder", () => {
+      it("should prevent moving page before add item page within same list folder", () => {
+        questionnaire.sections[0].folders[2] = buildListCollectorFolders()[0];
+        questionnaire.sections[0].folders[2].pages.splice(2, 0, {
+          id: "follow-up-page",
+          title: "Follow up page",
+        });
+        const pageToMove = questionnaire.sections[0].folders[2].pages[2];
+        const folder = questionnaire.sections[0].folders[2];
+
+        const result = onDragEnd(
+          questionnaire,
+          buildDestination(folder, 0),
+          buildSource(folder, 2),
+          pageToMove.id,
+          mockMovePage,
+          mockMoveFolder
+        );
+
+        expect(result).toBe(-1);
+        expect(mockMoveFolder).toHaveBeenCalledTimes(0);
+        expect(mockMovePage).toHaveBeenCalledTimes(0);
+      });
+
+      it("should prevent moving page after confirmation page within same list folder", () => {
+        questionnaire.sections[0].folders[2] = buildListCollectorFolders()[0];
+        questionnaire.sections[0].folders[2].pages.splice(2, 0, {
+          id: "follow-up-page",
+          title: "Follow up page",
+        });
+        const pageToMove = questionnaire.sections[0].folders[2].pages[2];
+        const folder = questionnaire.sections[0].folders[2];
+
+        const result = onDragEnd(
+          questionnaire,
+          buildDestination(folder, 3),
+          buildSource(folder, 2),
+          pageToMove.id,
+          mockMovePage,
+          mockMoveFolder
+        );
+
+        expect(result).toBe(-1);
+        expect(mockMoveFolder).toHaveBeenCalledTimes(0);
+        expect(mockMovePage).toHaveBeenCalledTimes(0);
+      });
+
+      it("should prevent moving page before add item page within a different list folder", () => {
+        questionnaire.sections[0].folders[2] = buildListCollectorFolders()[0];
+        const pageToMove = questionnaire.sections[0].folders[0].pages[0];
+        const sourceFolder = questionnaire.sections[0].folders[0];
+        const destinationFolder = questionnaire.sections[0].folders[2];
+
+        const result = onDragEnd(
+          questionnaire,
+          buildDestination(destinationFolder, 0),
+          buildSource(sourceFolder, 0),
+          pageToMove.id,
+          mockMovePage,
+          mockMoveFolder
+        );
+
+        expect(result).toBe(-1);
+        expect(mockMoveFolder).toHaveBeenCalledTimes(0);
+        expect(mockMovePage).toHaveBeenCalledTimes(0);
+      });
+
+      it("should prevent moving page after confirmation page within a different list folder", () => {
+        questionnaire.sections[0].folders[2] = buildListCollectorFolders()[0];
+        const pageToMove = questionnaire.sections[0].folders[0].pages[0];
+        const sourceFolder = questionnaire.sections[0].folders[0];
+        const destinationFolder = questionnaire.sections[0].folders[2];
+
+        const result = onDragEnd(
+          questionnaire,
+          buildDestination(destinationFolder, 3),
+          buildSource(sourceFolder, 0),
+          pageToMove.id,
+          mockMovePage,
+          mockMoveFolder
+        );
+
+        expect(result).toBe(-1);
+        expect(mockMoveFolder).toHaveBeenCalledTimes(0);
+        expect(mockMovePage).toHaveBeenCalledTimes(0);
+      });
     });
   });
 });
