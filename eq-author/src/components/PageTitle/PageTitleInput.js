@@ -60,7 +60,6 @@ const PageTitleInput = ({
   const [showPasteModal, setShowPasteModal] = useState({
     show: false,
     text: "",
-    target: "",
     event: {},
   });
 
