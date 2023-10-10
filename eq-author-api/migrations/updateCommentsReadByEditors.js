@@ -22,7 +22,15 @@ module.exports = async (questionnaire) => {
     });
   });
 
-  await saveComments(commentsData);
+  // await saveComments({
+  //   questionnaireId: commentsData.questionnaireId,
+  //   comments: commentsData.comments,
+  // });
+
+  await saveComments({
+    questionnaireId: questionnaire.id,
+    comments: commentsData.comments,
+  });
 
   return questionnaire;
 };
