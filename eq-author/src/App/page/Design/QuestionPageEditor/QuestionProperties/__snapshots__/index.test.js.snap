@@ -4,7 +4,6 @@ exports[`QuestionProperties should render 1`] = `
 <Collapsible
   className="additionalContentCollapsible"
   title="Additional content"
-  variant="content"
   withoutHideThis={true}
 >
   <Property

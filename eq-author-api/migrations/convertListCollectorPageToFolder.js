@@ -47,6 +47,10 @@ const generateListCollectorFolder = (page) => {
         title: page.addItemTitle,
         pageDescription: page.addItemPageDescription,
         position: 1,
+        descriptionEnabled: page.descriptionEnabled,
+        guidanceEnabled: page.guidanceEnabled,
+        definitionEnabled: page.definitionEnabled,
+        additionalInfoEnabled: page.additionalGuidanceEnabled,
       }),
       createListCollectorConfirmationPage({
         title: page.anotherTitle,

@@ -206,6 +206,16 @@ type ListCollectorAddItemPage implements Page {
   folder: Folder!
   section: Section!
   position: Int!
+  description: String
+  descriptionEnabled: Boolean!
+  guidance: String
+  guidanceEnabled: Boolean!
+  definitionLabel: String
+  definitionContent: String
+  definitionEnabled: Boolean!
+  additionalInfoLabel: String
+  additionalInfoContent: String
+  additionalInfoEnabled: Boolean!
   comments: [Comment]
   validationErrorInfo: ValidationErrorInfo
 }
