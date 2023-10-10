@@ -34,7 +34,6 @@ const sourceQuestionnaires = [
     locked: false,
     permission: WRITE,
     publishStatus: UNPUBLISHED,
-    //__typename: "Questionnaire",
     createdBy: {
       displayName: "mock@gmail.com",
       email: "mock@gmail.com",
@@ -55,6 +54,7 @@ const sourceQuestionnaires = [
               {
                 id: "page-1",
                 title: "Page 1",
+                pageType: "QuestionPage",
                 answers: [
                   {
                     id: "answer-1",
@@ -65,13 +65,36 @@ const sourceQuestionnaires = [
               {
                 id: "page-2",
                 title: "Page 2",
-
+                pageType: "QuestionPage",
                 answers: [
                   {
                     id: "answer-2",
                     type: "Number",
                   },
                 ],
+              },
+              {
+                id: "page-with-confirmation-1",
+                title: "Page with confirmation 1",
+                pageType: "QuestionPage",
+                answers: [
+                  {
+                    id: "answer-with-confirmation",
+                    type: "Number",
+                  },
+                ],
+                confirmation: {
+                  id: "confirmation-page",
+                  title: "Confirm answer",
+                  positive: {
+                    id: "confirmation-positive-option",
+                    label: "Yes",
+                  },
+                  negative: {
+                    id: "confirmation-negative-option",
+                    label: "No",
+                  },
+                },
               },
             ],
           },
@@ -89,6 +112,7 @@ const sourceQuestionnaires = [
               {
                 id: "page-3",
                 title: "Page 3",
+                pageType: "QuestionPage",
                 answers: [
                   {
                     id: "answer-3",
@@ -99,7 +123,7 @@ const sourceQuestionnaires = [
               {
                 id: "page-4",
                 title: "Page 4",
-
+                pageType: "QuestionPage",
                 answers: [
                   {
                     id: "answer-4",
@@ -388,6 +412,26 @@ describe("Importing content", () => {
       expect(getByText("Page 2")).toBeInTheDocument();
       expect(getByText("Page 1")).toBeInTheDocument();
       expect(getByText("Questions to import")).toBeInTheDocument();
+    });
+
+    it("should only display pages without confirmation questions when target is list folder", () => {
+      const { getByTestId, getAllByTestId, getByText, queryByText } =
+        renderImportingContent({ targetIsListCollectorFolder: true });
+      fireEvent.click(getByText(/All/));
+      const allRows = getAllByTestId("table-row");
+      fireEvent.click(allRows[0]);
+      fireEvent.click(getByTestId("confirm-btn"));
+
+      const questionsButton = getByTestId(
+        "content-modal-select-questions-button"
+      );
+
+      fireEvent.click(questionsButton);
+      // fireEvent.click(getByText("Page 1"));
+      // fireEvent.click(getByTestId("button-group").children[1]);
+
+      expect(getByText("Page 1")).toBeInTheDocument();
+      expect(queryByText("page-with-confirmation-1")).not.toBeInTheDocument();
     });
 
     it("should render empty fragment for question list loading", () => {
