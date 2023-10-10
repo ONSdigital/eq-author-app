@@ -19,6 +19,7 @@ describe("MetaEditor", () => {
         id: "1",
         alias: "foobar",
         title: "<p>Hello world</p>",
+        pageDescription: "Test page",
         description: "<p>Description</p>",
         descriptionEnabled: true,
         guidance: "<p>Guidance</p>",
@@ -36,6 +37,9 @@ describe("MetaEditor", () => {
             id: "1",
             metadata: [],
           },
+        },
+        folder: {
+          id: "folder-1",
         },
         validationErrorInfo: {
           totalCount: 1,
