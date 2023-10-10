@@ -6,7 +6,6 @@ import { find, some } from "lodash";
 import ContentPicker from "components/ContentPickerv3";
 import { useCurrentPageId } from "components/RouterContext";
 import { useQuestionnaire } from "components/QuestionnaireContext";
-import isListCollectorPageType from "utils/isListCollectorPageType";
 import getContentBeforeEntity from "utils/getContentBeforeEntity";
 
 import IconPiping from "components/RichTextEditor/icon-piping.svg?inline";
@@ -91,45 +90,10 @@ const PipingMenu = ({
     [questionnaire, pageId]
   );
 
-  // Removes list collector folders from answer data
-  const filteredAnswerData = () => {
-    // Creates a clone of answerData without copying its reference
-    const clonedAnswerData = answerData.map((section) => ({ ...section }));
-
-    clonedAnswerData.forEach((section) => {
-      section.folders = section.folders.filter(
-        (folder) => folder.listId == null
-      );
-    });
-
-    return clonedAnswerData;
-  };
-
   const metadataData = questionnaire?.metadata || [];
 
-  const listAnswers = () => {
-    const questionnaireFolders = answerData.flatMap(
-      (section) => section.folders
-    );
-
-    const collectionListAnswers =
-      find(questionnaire?.collectionLists?.lists, { id: listId })?.answers ||
-      [];
-
-    const listFolders = questionnaireFolders?.filter(
-      (folder) => folder.listId === listId
-    );
-    const listPages = listFolders?.flatMap((folder) => folder.pages);
-
-    const listFollowUpPages = listPages?.filter(
-      (page) => !isListCollectorPageType(page?.pageType)
-    );
-    const listFollowUpAnswers = listFollowUpPages.flatMap(
-      (page) => page?.answers
-    );
-
-    return [...collectionListAnswers, ...listFollowUpAnswers];
-  };
+  const listAnswers =
+    find(questionnaire?.collectionLists?.lists, { id: listId })?.answers || [];
 
   const supplementaryData =
     questionnaire?.supplementaryData?.data
@@ -148,15 +112,15 @@ const PipingMenu = ({
       case METADATA:
         return metadataData;
       case ANSWER:
-        return filteredAnswerData();
+        return answerData;
       case VARIABLES:
         return allCalculatedSummaryPages;
       case LIST_ANSWER:
-        return listAnswers();
+        return listAnswers;
       case SUPPLEMENTARY_DATA:
         return supplementaryData;
       default:
-        return filteredAnswerData();
+        return answerData;
     }
   };
 
@@ -167,9 +131,7 @@ const PipingMenu = ({
           title="Pipe answer"
           disabled={
             disabled ||
-            (!filteredAnswerData().length &&
-              !listId &&
-              !supplementaryData.length)
+            (!answerData.length && !listId && !supplementaryData.length)
           }
           onClick={() => handleButtonClick(ANSWER)}
           canFocus={canFocus}
