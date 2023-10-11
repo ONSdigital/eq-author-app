@@ -27,6 +27,8 @@ import { sharedStyles } from "components/Forms/css";
 import { Field, Label } from "components/Forms";
 import ValidationError from "components/ValidationError";
 
+import PasteModal from "components/modals/PasteModal";
+
 const styleMap = {
   ITALIC: {
     backgroundColor: "#cbe2c8",
@@ -348,33 +350,55 @@ class RichTextEditor extends React.Component {
       : this.hasInlineStyle(editorState, style);
   };
 
-  handleFormatText = (text) => {
-    this.handleChange(
-      EditorState.push(
-        this.state.editorState,
-        Modifier.replaceText(
-          this.state.editorState.getCurrentContent(),
-          this.state.editorState.getSelection(),
-          text.replace(/\n/g, " ").trim().replace(/\s\s+/g, " ")
+  state = { show: false, text: "", event: {} };
+
+  handlePaste = (text) => {
+    if (/\s{2,}/g.test(text)) {
+      this.setState({
+        show: true,
+        text: text,
+      });
+    } else {
+      this.handleChange(
+        EditorState.push(
+          this.state.editorState,
+          Modifier.replaceText(
+            this.state.editorState.getCurrentContent(),
+            this.state.editorState.getSelection(),
+            text.replace(/\n/g, " ")
+          )
         )
-      )
-    );
+      );
+    }
+
     return "handled";
   };
 
-  handlePaste = (text) => {
-    this.handleChange(
-      EditorState.push(
-        this.state.editorState,
-        Modifier.replaceText(
-          this.state.editorState.getCurrentContent(),
-          this.state.editorState.getSelection(),
-          text.replace(/\n/g, " ").trim().replace(/\s\s+/g, " ")
-        )
-      )
+  handleOnPasteConfirm = () => {
+    const { text, editorState } = this.state;
+    const currentContent = editorState.getCurrentContent();
+    const currentSelection = editorState.getSelection();
+
+    // Replace the selected text with the pasted content
+    const newContentState = Modifier.replaceText(
+      currentContent,
+      currentSelection,
+      text.replace(/\n/g, " ").trim().replace(/\s\s+/g, " ")
     );
 
-    return "handled";
+    // Create a new EditorState with the updated content
+    const newEditorState = EditorState.push(
+      editorState,
+      newContentState,
+      "insert-characters"
+    );
+
+    // Set the new editor state and close the paste modal
+    this.setState({ editorState: newEditorState, show: false, text: "" });
+  };
+
+  handleOnPasteCancel = () => {
+    this.setState({ show: false, text: "" });
   };
 
   handleReturn = () => {
@@ -409,70 +433,78 @@ class RichTextEditor extends React.Component {
     } = this.props;
 
     const hasError = errorValidationMsg && true;
+    const { state } = this;
 
     return (
-      <Wrapper hasError={hasError} withoutMargin={withoutMargin}>
-        <Field
-          onClick={this.handleClick}
-          onBlur={this.handleBlur}
-          onFocus={this.handleFocus}
-          data-test="rte-field"
-          disabled={disabled}
-          last={hasError}
-        >
-          {label && <Label id={`label-${id}`}>{label}</Label>}
-          <Input
-            className={className}
-            size={size}
-            maxHeight={maxHeight}
-            multiline={multiline}
-            placeholderStyle={contentState.getBlockMap().first().getType()}
-            invalid={Boolean(errorValidationMsg)}
+      <>
+        <PasteModal
+          isOpen={state.show}
+          onConfirm={this.handleOnPasteConfirm}
+          onCancel={this.handleOnPasteCancel}
+        />
+        <Wrapper hasError={hasError} withoutMargin={withoutMargin}>
+          <Field
+            onClick={this.handleClick}
+            onBlur={this.handleBlur}
+            onFocus={this.handleFocus}
+            data-test="rte-field"
+            disabled={disabled}
+            last={hasError}
           >
-            <Toolbar
-              pageType={pageType}
-              editorState={editorState}
-              onToggle={this.handleToggle}
-              onPiping={this.handlePiping}
-              onLinkChosen={this.handleLinkChosen}
-              isActiveControl={this.isActiveControl}
-              selectionIsCollapsed={selection.isCollapsed()}
-              visible={focused}
-              testId={`${testSelector}-toolbar`}
-              linkCount={linkCount}
-              linkLimit={linkLimit}
-              allCalculatedSummaryPages={allCalculatedSummaryPages}
-              {...otherProps}
-            />
+            {label && <Label id={`label-${id}`}>{label}</Label>}
+            <Input
+              className={className}
+              size={size}
+              maxHeight={maxHeight}
+              multiline={multiline}
+              placeholderStyle={contentState.getBlockMap().first().getType()}
+              invalid={Boolean(errorValidationMsg)}
+            >
+              <Toolbar
+                pageType={pageType}
+                editorState={editorState}
+                onToggle={this.handleToggle}
+                onPiping={this.handlePiping}
+                onLinkChosen={this.handleLinkChosen}
+                isActiveControl={this.isActiveControl}
+                selectionIsCollapsed={selection.isCollapsed()}
+                visible={focused}
+                testId={`${testSelector}-toolbar`}
+                linkCount={linkCount}
+                linkLimit={linkLimit}
+                allCalculatedSummaryPages={allCalculatedSummaryPages}
+                {...otherProps}
+              />
 
-            <Editor
-              ariaLabel={label}
-              ariaLabelledBy={label && `label-${id}`}
-              editorState={editorState}
-              onChange={this.handleChange}
-              ref={this.setEditorInstance}
-              customStyleMap={styleMap}
-              blockStyleFn={getBlockStyle}
-              handleReturn={multiline ? undefined : this.handleReturn}
-              handlePastedText={multiline ? undefined : this.handlePaste}
-              spellCheck
-              webDriverTestID={testSelector}
-              placeholder={placeholder}
-              decorators={[PipedValueDecorator]}
-              plugins={this.plugins}
-              readOnly={disabled}
-            />
-          </Input>
-        </Field>
-        {errorValidationMsg &&
-          (Array.isArray(errorValidationMsg) ? (
-            errorValidationMsg.map((errMsg) => (
-              <ValidationError key={errMsg}>{errMsg}</ValidationError>
-            ))
-          ) : (
-            <ValidationError>{errorValidationMsg}</ValidationError>
-          ))}
-      </Wrapper>
+              <Editor
+                ariaLabel={label}
+                ariaLabelledBy={label && `label-${id}`}
+                editorState={editorState}
+                onChange={this.handleChange}
+                ref={this.setEditorInstance}
+                customStyleMap={styleMap}
+                blockStyleFn={getBlockStyle}
+                handleReturn={multiline ? undefined : this.handleReturn}
+                handlePastedText={multiline ? undefined : this.handlePaste}
+                spellCheck
+                webDriverTestID={testSelector}
+                placeholder={placeholder}
+                decorators={[PipedValueDecorator]}
+                plugins={this.plugins}
+                readOnly={disabled}
+              />
+            </Input>
+          </Field>
+          {errorValidationMsg &&
+            (Array.isArray(errorValidationMsg) ? (
+              errorValidationMsg.map((errMsg) => (
+                <ValidationError key={errMsg}>{errMsg}</ValidationError>
+              ))
+            ) : (
+              <ValidationError>{errorValidationMsg}</ValidationError>
+            ))}
+        </Wrapper>
+      </>
     );
   }
 }
