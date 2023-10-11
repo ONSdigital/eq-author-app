@@ -4,7 +4,10 @@ import ImportingContent from "./";
 import { render, fireEvent, screen } from "tests/utils/rtl";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { useQuestionnaire } from "components/QuestionnaireContext";
-import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
+import {
+  buildQuestionnaire,
+  buildListCollectorFolders,
+} from "tests/utils/createMockQuestionnaire";
 
 import { WRITE } from "constants/questionnaire-permissions";
 import { UNPUBLISHED } from "constants/publishStatus";
@@ -21,6 +24,9 @@ jest.mock("components/QuestionnaireContext", () => ({
 useMutation.mockImplementation(jest.fn(() => [jest.fn()]));
 
 const destinationQuestionnaire = buildQuestionnaire({ answerCount: 1 });
+const listCollectorFolder = buildListCollectorFolders()[0];
+destinationQuestionnaire.sections[0].folders[1] = listCollectorFolder;
+listCollectorFolder.position = 1;
 
 const sourceQuestionnaires = [
   {
@@ -662,6 +668,156 @@ describe("Importing content", () => {
               },
             },
           },
+        });
+      });
+
+      describe("List collector folder", () => {
+        it("should import question to correct position in destination questionnaire inside list folder", () => {
+          const mockImportQuestions = jest.fn();
+          useParams.mockImplementation(() => ({
+            questionnaireId: destinationQuestionnaire.id,
+            entityName: "folder",
+            entityId: destinationQuestionnaire.sections[0].folders[1].id,
+          }));
+
+          useMutation.mockImplementation(jest.fn(() => [mockImportQuestions]));
+          const { getByTestId, getAllByTestId, getByText, queryByText } =
+            renderImportingContent();
+          fireEvent.click(getByText(/All/));
+          const allRows = getAllByTestId("table-row");
+          fireEvent.click(allRows[0]);
+          fireEvent.click(getByTestId("confirm-btn"));
+
+          const questionsButton = getByTestId(
+            "content-modal-select-questions-button"
+          );
+
+          fireEvent.click(questionsButton);
+          fireEvent.click(getByText("Page 1"));
+          fireEvent.click(getByTestId("button-group").children[1]);
+          fireEvent.click(getByTestId("button-group").children[0]);
+
+          const sourceSection = sourceQuestionnaires[0].sections[0];
+          const destinationSection = destinationQuestionnaire.sections[0];
+
+          // Test modal closes
+          expect(
+            queryByText("Import content from Source questionnaire 1")
+          ).not.toBeInTheDocument();
+
+          expect(mockImportQuestions).toHaveBeenCalledTimes(1);
+          expect(mockImportQuestions).toHaveBeenCalledWith({
+            variables: {
+              input: {
+                questionIds: [sourceSection.folders[0].pages[0].id],
+                questionnaireId: sourceQuestionnaires[0].id,
+                position: {
+                  sectionId: destinationSection.id,
+                  folderId: destinationSection.folders[1].id,
+                  index: 2,
+                },
+              },
+            },
+          });
+        });
+
+        it("should import question to destination list collector qualifier page", () => {
+          useParams.mockImplementation(() => ({
+            questionnaireId: destinationQuestionnaire.id,
+            entityName: "page",
+            entityId:
+              destinationQuestionnaire.sections[0].folders[1].pages[0].id,
+          }));
+
+          const mockImportQuestions = jest.fn();
+          useMutation.mockImplementation(jest.fn(() => [mockImportQuestions]));
+          const { getByTestId, getAllByTestId, getByText, queryByText } =
+            renderImportingContent();
+          fireEvent.click(getByText(/All/));
+          const allRows = getAllByTestId("table-row");
+          fireEvent.click(allRows[0]);
+          fireEvent.click(getByTestId("confirm-btn"));
+
+          const questionsButton = getByTestId(
+            "content-modal-select-questions-button"
+          );
+
+          fireEvent.click(questionsButton);
+          fireEvent.click(getByText("Page 1"));
+          fireEvent.click(getByTestId("button-group").children[1]);
+          fireEvent.click(getByTestId("button-group").children[0]);
+
+          const sourceSection = sourceQuestionnaires[0].sections[0];
+          const destinationSection = destinationQuestionnaire.sections[0];
+
+          // Test modal closes
+          expect(
+            queryByText("Import content from Source questionnaire 1")
+          ).not.toBeInTheDocument();
+
+          expect(mockImportQuestions).toHaveBeenCalledTimes(1);
+          expect(mockImportQuestions).toHaveBeenCalledWith({
+            variables: {
+              input: {
+                questionIds: [sourceSection.folders[0].pages[0].id],
+                questionnaireId: sourceQuestionnaires[0].id,
+                position: {
+                  sectionId: destinationSection.id,
+                  folderId: destinationSection.folders[1].id,
+                  index: 2,
+                },
+              },
+            },
+          });
+        });
+
+        it("should import question to destination list collector confirmation page", () => {
+          useParams.mockImplementation(() => ({
+            questionnaireId: destinationQuestionnaire.id,
+            entityName: "page",
+            entityId:
+              destinationQuestionnaire.sections[0].folders[1].pages[2].id,
+          }));
+
+          const mockImportQuestions = jest.fn();
+          useMutation.mockImplementation(jest.fn(() => [mockImportQuestions]));
+          const { getByTestId, getAllByTestId, getByText, queryByText } =
+            renderImportingContent();
+          fireEvent.click(getByText(/All/));
+          const allRows = getAllByTestId("table-row");
+          fireEvent.click(allRows[0]);
+          fireEvent.click(getByTestId("confirm-btn"));
+
+          const questionsButton = getByTestId(
+            "content-modal-select-questions-button"
+          );
+
+          fireEvent.click(questionsButton);
+          fireEvent.click(getByText("Page 1"));
+          fireEvent.click(getByTestId("button-group").children[1]);
+          fireEvent.click(getByTestId("button-group").children[0]);
+
+          const sourceSection = sourceQuestionnaires[0].sections[0];
+          const destinationSection = destinationQuestionnaire.sections[0];
+
+          // Test modal closes
+          expect(
+            queryByText("Import content from Source questionnaire 1")
+          ).not.toBeInTheDocument();
+
+          expect(mockImportQuestions).toHaveBeenCalledTimes(1);
+          expect(mockImportQuestions).toHaveBeenCalledWith({
+            variables: {
+              input: {
+                questionIds: [sourceSection.folders[0].pages[0].id],
+                questionnaireId: sourceQuestionnaires[0].id,
+                position: {
+                  sectionId: destinationSection.id,
+                  index: 2,
+                },
+              },
+            },
+          });
         });
       });
     });
