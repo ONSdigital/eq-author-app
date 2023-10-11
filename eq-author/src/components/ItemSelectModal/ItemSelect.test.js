@@ -65,5 +65,30 @@ describe("PositionModal/ItemSelect", () => {
 
       expect(onChange).toHaveBeenCalled();
     });
+
+    it("should disable option if page is list qualifier", () => {
+      const wrapper = createOption({ pageType: "ListCollectorQualifierPage" });
+
+      const label = wrapper.find("[data-test='option-foo']");
+      expect(label.prop("disabled")).toBe(true);
+    });
+
+    it("should disable option if page is list confirmation", () => {
+      const wrapper = createOption({
+        pageType: "ListCollectorConfirmationPage",
+      });
+
+      const label = wrapper.find("[data-test='option-foo']");
+      expect(label.prop("disabled")).toBe(true);
+    });
+
+    it("should not disable option if page is question page", () => {
+      const wrapper = createOption({
+        pageType: "QuestionPage",
+      });
+
+      const label = wrapper.find("[data-test='option-foo']");
+      expect(label.prop("disabled")).toBe(false);
+    });
   });
 });

@@ -12,6 +12,7 @@ exports[`PositionModal/ItemSelect Option should render 1`] = `
     value="foo"
   />
   <ItemSelect__Label
+    data-test="option-foo"
     disabled={false}
     htmlFor="test"
     selected={true}

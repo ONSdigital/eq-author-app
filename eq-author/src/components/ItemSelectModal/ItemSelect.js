@@ -100,6 +100,7 @@ export const Option = ({
       disabled={isOptionDisabled(pageType, selectedItemPosition, index)}
       selected={selected}
       htmlFor={id}
+      data-test={`option-${value}`}
     >
       <IndentIcon icon={IconMoveIndicator}>
         <Truncated>{children}</Truncated>
