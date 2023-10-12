@@ -350,12 +350,38 @@ class RichTextEditor extends React.Component {
       : this.hasInlineStyle(editorState, style);
   };
 
-  state = { show: false, text: "", event: {} };
+  state = { show: false, text: "", multiline: false };
+
+  // handlePaste = (text, multiline) => {
+  //   if (/\s{2,}/g.test(text)) {
+  //     this.setState({
+  //       show: true,
+  //       multiline: multiline,
+  //       text: text,
+  //     });
+  //   } else {
+  //     if (!multiline) {
+  //       this.handleChange(
+  //         EditorState.push(
+  //           this.state.editorState,
+  //           Modifier.replaceText(
+  //             this.state.editorState.getCurrentContent(),
+  //             this.state.editorState.getSelection(),
+  //             text.replace(/\n/g, " ")
+  //           )
+  //         )
+  //       );
+  //     };
+  //   }
+
+  //   return "handled";
+  // };
 
   handlePaste = (text) => {
     if (/\s{2,}/g.test(text)) {
       this.setState({
         show: true,
+        multiline: false,
         text: text,
       });
     } else {
@@ -374,16 +400,43 @@ class RichTextEditor extends React.Component {
     return "handled";
   };
 
+  handlePasteMultiline = (text) => {
+    if (/\s{2,}/g.test(text)) {
+      this.setState({
+        show: true,
+        multiline: true,
+        text: text,
+      });
+      return "handled";
+    } else {
+      return true;
+    }
+  };
+
   handleOnPasteConfirm = () => {
-    const { text, editorState } = this.state;
+    const { text, multiline, editorState } = this.state;
     const currentContent = editorState.getCurrentContent();
     const currentSelection = editorState.getSelection();
+
+    let modifiedText;
+
+    if (multiline) {
+      console.log("multiline:true");
+      modifiedText = text
+        .replace(/ +/g, " ") // Replace multiple spaces with a single space
+        .replace(/\t+/g, " ") // Replace tabs with a single space
+        .replace(/(\n *\r*)+/g, "\n") // Preserve new lines and empty lines
+        .trim(); // Trim leading and trailing spaces
+    } else {
+      console.log("multiline:false");
+      modifiedText = text.replace(/\n/g, " ").trim().replace(/\s+/g, " ");
+    }
 
     // Replace the selected text with the pasted content
     const newContentState = Modifier.replaceText(
       currentContent,
       currentSelection,
-      text.replace(/\n/g, " ").trim().replace(/\s\s+/g, " ")
+      modifiedText
     );
 
     // Create a new EditorState with the updated content
@@ -485,7 +538,10 @@ class RichTextEditor extends React.Component {
                 customStyleMap={styleMap}
                 blockStyleFn={getBlockStyle}
                 handleReturn={multiline ? undefined : this.handleReturn}
-                handlePastedText={multiline ? undefined : this.handlePaste}
+                // handlePastedText={multiline ? undefined : this.handlePaste}
+                handlePastedText={
+                  multiline ? this.handlePasteMultiline : this.handlePaste
+                }
                 spellCheck
                 webDriverTestID={testSelector}
                 placeholder={placeholder}
