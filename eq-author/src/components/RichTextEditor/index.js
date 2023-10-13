@@ -27,7 +27,9 @@ import { sharedStyles } from "components/Forms/css";
 import { Field, Label } from "components/Forms";
 import ValidationError from "components/ValidationError";
 
-import PasteModal from "components/modals/PasteModal";
+import PasteModal, {
+  preserveRichFormatting,
+} from "components/modals/PasteModal";
 
 const styleMap = {
   ITALIC: {
@@ -352,31 +354,6 @@ class RichTextEditor extends React.Component {
 
   state = { show: false, text: "", multiline: false };
 
-  // handlePaste = (text, multiline) => {
-  //   if (/\s{2,}/g.test(text)) {
-  //     this.setState({
-  //       show: true,
-  //       multiline: multiline,
-  //       text: text,
-  //     });
-  //   } else {
-  //     if (!multiline) {
-  //       this.handleChange(
-  //         EditorState.push(
-  //           this.state.editorState,
-  //           Modifier.replaceText(
-  //             this.state.editorState.getCurrentContent(),
-  //             this.state.editorState.getSelection(),
-  //             text.replace(/\n/g, " ")
-  //           )
-  //         )
-  //       );
-  //     };
-  //   }
-
-  //   return "handled";
-  // };
-
   handlePaste = (text) => {
     if (/\s{2,}/g.test(text)) {
       this.setState({
@@ -421,14 +398,8 @@ class RichTextEditor extends React.Component {
     let modifiedText;
 
     if (multiline) {
-      console.log("multiline:true");
-      modifiedText = text
-        .replace(/ +/g, " ") // Replace multiple spaces with a single space
-        .replace(/\t+/g, " ") // Replace tabs with a single space
-        .replace(/(\n *\r*)+/g, "\n") // Preserve new lines and empty lines
-        .trim(); // Trim leading and trailing spaces
+      modifiedText = preserveRichFormatting(text);
     } else {
-      console.log("multiline:false");
       modifiedText = text.replace(/\n/g, " ").trim().replace(/\s+/g, " ");
     }
 

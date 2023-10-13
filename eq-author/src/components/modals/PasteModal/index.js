@@ -24,6 +24,19 @@ export const FormatText = (value) => {
   return value;
 };
 
+export const preserveRichFormatting = (text) => {
+  // Replace multiple spaces and tabs with a single space
+  let formattedText = text.replace(/[ \t]+/g, " ");
+
+  // Split the text into lines
+  let lines = formattedText.split(/\r?\n/);
+
+  // Remove leading and trailing spaces from each line and join them back with newline characters
+  formattedText = lines.map((line) => line.trim()).join("\n");
+
+  return formattedText;
+};
+
 const PasteModal = ({
   isOpen = false,
   onConfirm: handleConfirm,
