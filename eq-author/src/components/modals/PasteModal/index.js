@@ -6,6 +6,12 @@ import ButtonGroup from "components/buttons/ButtonGroup";
 import Button from "components/buttons/Button";
 import PropTypes from "prop-types";
 
+const StyledModal = styled(Modal)`
+  .Modal {
+    max-width: 500px;
+  }
+`;
+
 const Title = styled.h2`
   color: ${colors.darkGrey};
 `;
@@ -43,7 +49,7 @@ const PasteModal = ({
   onCancel: handleCancel,
 }) => {
   return (
-    <Modal isOpen={isOpen} onClose={handleCancel}>
+    <StyledModal isOpen={isOpen} onClose={handleCancel}>
       <Title>Confirm the removal of extra spaces from copied content</Title>
       <Message>
         <p>
@@ -64,7 +70,7 @@ const PasteModal = ({
           Confirm
         </Button>
       </ButtonGroupStyled>
-    </Modal>
+    </StyledModal>
   );
 };
 
