@@ -323,6 +323,30 @@ const Resolvers = {
         };
       }
     },
+    supplementaryDataSurveyIdList: async () => {
+      const url = `${process.env.SUPPLEMENTARY_DATA_GATEWAY}survey_list`;
+
+      try {
+        const response = await authorisedRequest(
+          url,
+          process.env.SUPPLEMENTARY_DATA_GATEWAY_AUDIENCE,
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        if (response.status !== 200) {
+          throw new Error(`enable to get versions. status(${response.status})`);
+        }
+        return {
+          surveyIdList: response.data,
+        };
+      } catch (err) {
+        logger.error(err.message);
+        return {
+          surveyIdList: [],
+        };
+      }
+    },
     supplementaryData: (_, args, ctx) => ctx.questionnaire.supplementaryData,
     listNames: (_, args, ctx) => {
       const listNames = [];
