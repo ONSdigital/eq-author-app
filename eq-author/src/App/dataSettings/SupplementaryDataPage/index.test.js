@@ -8,19 +8,22 @@ import { MeContext } from "App/MeContext";
 import { publishStatusSubscription } from "components/EditorLayout/Header";
 import QuestionnaireContext from "components/QuestionnaireContext";
 import unlinkSupplementaryDataMutation from "graphql/unlinkSupplementaryData.graphql";
+import GET_SUPPLEMENTARY_DATA_SURVEY_ID_LIST from "graphql/getSupplementaryDataSurveyIdList.graphql";
+import GET_SUPPLEMENTARY_DATA_VERSIONS_QUERY from "graphql/getSupplementaryDataVersions.graphql";
 
 jest.mock("@apollo/react-hooks", () => ({
   ...jest.requireActual("@apollo/react-hooks"),
   useQuery: jest.fn(),
+
   useMutation: jest.fn(() => [() => null]),
 }));
 
-useQuery.mockImplementation(() => ({
+const dataver = {
   loading: false,
   error: false,
   data: {
     supplementaryDataVersions: {
-      surveyId: "068",
+      surveyId: "121",
       versions: [
         {
           guid: "123-111-789",
@@ -46,7 +49,14 @@ useQuery.mockImplementation(() => ({
       ],
     },
   },
-}));
+};
+const sur = {
+  data: {
+    supplementaryDataSurveyIdList: {
+      surveyIdList: ["121"],
+    },
+  },
+};
 
 const renderSupplementaryDatasetPage = (questionnaire, props, user, mocks) => {
   return render(
@@ -105,6 +115,23 @@ describe("Supplementary dataset page", () => {
         }),
       },
     ];
+    useQuery.mockImplementation((key) => {
+      if (key === GET_SUPPLEMENTARY_DATA_VERSIONS_QUERY) {
+        return dataver;
+      } else if (key === GET_SUPPLEMENTARY_DATA_SURVEY_ID_LIST) {
+        return sur;
+      } else {
+        return {
+          loading: false,
+          error: false,
+          data: {},
+        };
+      }
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
   });
 
   it("should display heading and basic text", () => {
@@ -119,6 +146,7 @@ describe("Supplementary dataset page", () => {
       getByText("Only one dataset can be linked per questionnaire.")
     ).toBeTruthy();
   });
+
   describe("survey picker", () => {
     it("should display a select picker with all options", () => {
       const { getByText, getByTestId } = renderSupplementaryDatasetPage(
@@ -129,7 +157,7 @@ describe("Supplementary dataset page", () => {
       );
       expect(getByText("Select a survey ID")).toBeTruthy();
       expect(getByTestId("list-select")).toBeTruthy();
-      expect(getByText(/068/)).toBeTruthy();
+      expect(getByText(/121/)).toBeTruthy();
     });
 
     it("should select a survey id", async () => {
@@ -137,13 +165,14 @@ describe("Supplementary dataset page", () => {
         renderSupplementaryDatasetPage(questionnaire, props, user, mocks);
 
       const select = getByTestId("list-select");
-      fireEvent.change(select, { target: { value: "068" } });
-
-      expect(getByText("Datasets for survey ID 068")).toBeTruthy();
-      expect(getByTestId("datasets-table")).toBeTruthy();
-      expect(findAllByText("Date created")).toBeTruthy();
-      expect(getAllByTestId("dataset-row")).toBeTruthy();
-      expect(getByText("23/03/2023")).toBeTruthy();
+      fireEvent.change(select, { target: { value: "121" } });
+      await waitFor(() => {
+        expect(getByText("Datasets for survey ID 121")).toBeTruthy();
+        expect(getByTestId("datasets-table")).toBeTruthy();
+        expect(findAllByText("Date created")).toBeTruthy();
+        expect(getAllByTestId("dataset-row")).toBeTruthy();
+        expect(getByText("23/03/2023")).toBeTruthy();
+      });
     });
 
     it("should link a dataset", async () => {
@@ -157,7 +186,7 @@ describe("Supplementary dataset page", () => {
       );
 
       const select = getByTestId("list-select");
-      fireEvent.change(select, { target: { value: "068" } });
+      fireEvent.change(select, { target: { value: "121" } });
       await act(async () => {
         await fireEvent.click(getAllByTestId("btn-link")[0]);
       });
