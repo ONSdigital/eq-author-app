@@ -113,7 +113,7 @@ describe("Supplementary dataset page", () => {
         return {
           data: {
             supplementaryDataSurveyIdList: {
-              surveyIdList: ["121"],
+              surveyIdList: ["121", "122"],
             },
           },
         };
@@ -155,6 +155,7 @@ describe("Supplementary dataset page", () => {
       expect(getByText("Select a survey ID")).toBeTruthy();
       expect(getByTestId("list-select")).toBeTruthy();
       expect(getByText(/121/)).toBeTruthy();
+      expect(getByText(/122/)).toBeTruthy();
     });
 
     it("should select a survey id", async () => {
