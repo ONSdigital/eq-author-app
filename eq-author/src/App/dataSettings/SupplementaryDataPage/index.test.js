@@ -18,46 +18,6 @@ jest.mock("@apollo/react-hooks", () => ({
   useMutation: jest.fn(() => [() => null]),
 }));
 
-const dataver = {
-  loading: false,
-  error: false,
-  data: {
-    supplementaryDataVersions: {
-      surveyId: "121",
-      versions: [
-        {
-          guid: "123-111-789",
-          // eslint-disable-next-line camelcase
-          sds_schema_version: "1",
-          // eslint-disable-next-line camelcase
-          sds_published_at: "2023-01-12T13:37:27+00:00",
-        },
-        {
-          guid: "123-222-789",
-          // eslint-disable-next-line camelcase
-          sds_schema_version: "2",
-          // eslint-disable-next-line camelcase
-          sds_published_at: "2023-02-08T12:37:27+00:00",
-        },
-        {
-          guid: "123-333-789",
-          // eslint-disable-next-line camelcase
-          sds_schema_version: "3",
-          // eslint-disable-next-line camelcase
-          sds_published_at: "2023-03-23T08:37:27+00:00",
-        },
-      ],
-    },
-  },
-};
-const sur = {
-  data: {
-    supplementaryDataSurveyIdList: {
-      surveyIdList: ["121"],
-    },
-  },
-};
-
 const renderSupplementaryDatasetPage = (questionnaire, props, user, mocks) => {
   return render(
     <MeContext.Provider value={{ me: user, signOut: jest.fn(), props }}>
@@ -117,9 +77,46 @@ describe("Supplementary dataset page", () => {
     ];
     useQuery.mockImplementation((key) => {
       if (key === GET_SUPPLEMENTARY_DATA_VERSIONS_QUERY) {
-        return dataver;
+        return {
+          loading: false,
+          error: false,
+          data: {
+            supplementaryDataVersions: {
+              surveyId: "121",
+              versions: [
+                {
+                  guid: "123-111-789",
+                  // eslint-disable-next-line camelcase
+                  sds_schema_version: "1",
+                  // eslint-disable-next-line camelcase
+                  sds_published_at: "2023-01-12T13:37:27+00:00",
+                },
+                {
+                  guid: "123-222-789",
+                  // eslint-disable-next-line camelcase
+                  sds_schema_version: "2",
+                  // eslint-disable-next-line camelcase
+                  sds_published_at: "2023-02-08T12:37:27+00:00",
+                },
+                {
+                  guid: "123-333-789",
+                  // eslint-disable-next-line camelcase
+                  sds_schema_version: "3",
+                  // eslint-disable-next-line camelcase
+                  sds_published_at: "2023-03-23T08:37:27+00:00",
+                },
+              ],
+            },
+          },
+        };
       } else if (key === GET_SUPPLEMENTARY_DATA_SURVEY_ID_LIST) {
-        return sur;
+        return {
+          data: {
+            supplementaryDataSurveyIdList: {
+              surveyIdList: ["121"],
+            },
+          },
+        };
       } else {
         return {
           loading: false,
