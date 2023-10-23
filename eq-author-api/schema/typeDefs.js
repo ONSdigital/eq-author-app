@@ -850,7 +850,7 @@ type SupplementaryDataVersions {
 }
 
 type SupplementaryDataSurveyIdList {
-  surveyIdList: [String]
+  surveyIdList: [String]!
 }
 
 type SupplementaryDataField {
