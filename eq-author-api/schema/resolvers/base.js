@@ -335,7 +335,9 @@ const Resolvers = {
           }
         );
         if (response.status !== 200) {
-          throw new Error(`enable to get versions. status(${response.status})`);
+          throw new Error(
+            `unable to get survey list. status(${response.status})`
+          );
         }
         return {
           surveyIdList: response.data,
