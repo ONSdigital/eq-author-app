@@ -25,7 +25,7 @@ import {
 } from "constants/validationMessages";
 import LegalBasisSelect from "./LegalBasisSelect";
 
-import PasteModal, { FormatText } from "components/modals/PasteModal";
+import { FormatText } from "components/modals/PasteModal";
 
 const StyledPanel = styled.div`
   max-width: 97.5%;
@@ -114,37 +114,6 @@ const SettingsPage = ({ questionnaire }) => {
 
   const showOnHub = introduction?.showOnHub;
 
-  const handlePaste = (event) => {
-    const text = event.clipboardData.getData("text");
-    if (/\s{2,}/g.test(text)) {
-      setShowPasteModal({
-        show: true,
-        field: event.currentTarget.name,
-        text: event.clipboardData.getData("text"),
-      });
-    }
-  };
-
-  const updateOnPaste = () => {
-    const value = FormatText(showPasteModal.text.trim());
-    if (showPasteModal.field === "questionnaireTitle") {
-      setQuestionnaireTitle(value);
-    } else if (showPasteModal.field === "shortTitle") {
-      setQuestionnaireShortTitle(value);
-    }
-    setShowPasteModal({ show: false, field: "", text: "" });
-  };
-
-  const cancelPaste = () => {
-    setShowPasteModal({ show: false, field: "", text: "" });
-  };
-
-  const [showPasteModal, setShowPasteModal] = useState({
-    show: false,
-    field: "",
-    text: "",
-  });
-
   const handleTitleChange = ({ value }) => {
     value = value.trim();
     if (value !== "") {
@@ -201,15 +170,6 @@ const SettingsPage = ({ questionnaire }) => {
 
   return (
     <Container>
-      {/* <PasteModal isOpen={showPasteModal.show}
-        onConfirm={updateOnPaste}
-        onClose={cancelPaste}
-      /> */}
-      <PasteModal
-        isOpen={showPasteModal.show}
-        onConfirm={updateOnPaste}
-        onCancel={cancelPaste}
-      />
       <ScrollPane>
         <Header title="Settings" />
         <PageContainer tabIndex="-1" className="keyNav">
@@ -226,7 +186,6 @@ const SettingsPage = ({ questionnaire }) => {
                       <StyledInput
                         id="questionnaireTitle"
                         value={questionnaireTitle}
-                        onPaste={(e) => handlePaste(e)}
                         onChange={({ value }) =>
                           setQuestionnaireTitle(FormatText(value))
                         }
@@ -245,7 +204,6 @@ const SettingsPage = ({ questionnaire }) => {
                       <StyledInput
                         id="shortTitle"
                         value={questionnaireShortTitle}
-                        onPaste={(e) => handlePaste(e)}
                         onChange={({ value }) =>
                           setQuestionnaireShortTitle(FormatText(value))
                         }

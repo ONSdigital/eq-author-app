@@ -29,7 +29,7 @@ class WrappingInput extends React.Component {
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
     onBlur: PropTypes.func.isRequired,
-    onPaste: PropTypes.func.isRequired,
+    onPaste: PropTypes.func,
     onKeyDown: PropTypes.func,
     id: PropTypes.string.isRequired,
     bold: PropTypes.bool,

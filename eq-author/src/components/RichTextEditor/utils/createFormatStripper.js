@@ -10,13 +10,22 @@ const mapper = {
   heading: { format: "header-two", type: "blocks" },
 };
 
+// Custom filter function to replace multiple spaces with a single space
+function replaceMultipleSpaces(contentState) {
+  const text = contentState.getText();
+  const transformedText = text.replace(/\s+/g, " "); // Replace multiple spaces with a single space
+  return contentState.merge({
+    text: transformedText,
+  });
+}
+
 export default function createFormatStripper(controls) {
   const filterConfiguration = {
     blocks: [],
     styles: [],
     entities: [pipedFilterConfig, linkFilterConfig],
     maxNesting: 0,
-    whitespacedCharacters: [],
+    whitespacedCharacters: [replaceMultipleSpaces],
   };
 
   mapKeys(controls, (value, key) => {

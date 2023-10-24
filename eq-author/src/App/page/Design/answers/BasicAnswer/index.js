@@ -238,7 +238,7 @@ StatelessBasicAnswer.propTypes = {
   answer: CustomPropTypes.answer.isRequired,
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  onPaste: PropTypes.func.isRequired,
+  onPaste: PropTypes.func,
   children: PropTypes.element,
   labelText: PropTypes.string,
   labelPlaceholder: PropTypes.string,

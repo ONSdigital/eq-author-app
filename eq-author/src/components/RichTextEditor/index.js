@@ -294,6 +294,32 @@ class RichTextEditor extends React.Component {
     }
   };
 
+  onHandleBeforeInput = (chars, editorState) => {
+    // Get the current selection
+    const selection = editorState.getSelection();
+
+    // Get the content before and after the current selection
+    const contentState = editorState.getCurrentContent();
+    const blockBefore = contentState
+      .getBlockForKey(selection.getStartKey())
+      .getText()
+      .slice(0, selection.getStartOffset());
+    const blockAfter = contentState
+      .getBlockForKey(selection.getEndKey())
+      .getText()
+      .slice(selection.getEndOffset());
+
+    // Do not output a space if the previous or next character is a space
+    if (
+      (blockBefore.slice(-1) === " " && chars === " ") ||
+      (blockAfter.charAt(0) === " " && chars === " ")
+    ) {
+      return "handled";
+    }
+
+    return "not-handled";
+  };
+
   handleChange = (editorState) => {
     editorState = this.stripFormatting(editorState);
     return this.setState({ editorState });
@@ -509,10 +535,10 @@ class RichTextEditor extends React.Component {
                 customStyleMap={styleMap}
                 blockStyleFn={getBlockStyle}
                 handleReturn={multiline ? undefined : this.handleReturn}
-                // handlePastedText={multiline ? undefined : this.handlePaste}
                 handlePastedText={
                   multiline ? this.handlePasteMultiline : this.handlePaste
                 }
+                handleBeforeInput={this.onHandleBeforeInput}
                 spellCheck
                 webDriverTestID={testSelector}
                 placeholder={placeholder}
