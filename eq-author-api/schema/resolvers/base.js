@@ -1135,7 +1135,7 @@ const Resolvers = {
         "Northern Ireland": "northernireland",
         Business: "business",
         Social: "social",
-        Health: "health",
+        "Pandemic monitoring": "ukhsa-ons",
         "UKIS Northern Ireland": "ukis_ni",
         "UKIS ONS": "ukis",
       };
