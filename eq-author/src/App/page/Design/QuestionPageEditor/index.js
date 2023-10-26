@@ -227,6 +227,9 @@ UnwrappedQuestionPageEditor.fragments = {
       additionalInfoEnabled
       displayName
       position
+      confirmation {
+        id
+      }
       comments {
         ...Comment
       }

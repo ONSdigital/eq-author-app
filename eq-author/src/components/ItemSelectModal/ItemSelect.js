@@ -10,7 +10,10 @@ import withChangeHandler from "components/Forms/withChangeHandler";
 import IconText from "components/IconText";
 import Truncated from "components/Truncated";
 
+import isListCollectorPageType from "utils/isListCollectorPageType";
+
 import {
+  CalculatedSummaryPage,
   ListCollectorQualifierPage,
   ListCollectorAddItemPage,
   ListCollectorConfirmationPage,
@@ -62,7 +65,13 @@ const IndentIcon = styled(IconText)`
   padding-left: ${({ indent }) => (indent === "true" ? 1 : 0)}em;
 `;
 
-const isOptionDisabled = (pageType, selectedItemPosition, index) => {
+const isOptionDisabled = (
+  pageType,
+  isListCollectorFolder,
+  selectedItemPosition,
+  index,
+  selectedItem
+) => {
   if (
     pageType === ListCollectorQualifierPage ||
     pageType === ListCollectorConfirmationPage
@@ -71,6 +80,14 @@ const isOptionDisabled = (pageType, selectedItemPosition, index) => {
   }
   if (pageType === ListCollectorAddItemPage && selectedItemPosition > index) {
     return true;
+  }
+  if (isListCollectorFolder || isListCollectorPageType(pageType)) {
+    if (
+      selectedItem.pageType === CalculatedSummaryPage ||
+      selectedItem.confirmation
+    ) {
+      return true;
+    }
   }
   return false;
 };
@@ -83,6 +100,8 @@ export const Option = ({
   id = uniqueId("ItemList_Option"),
   children,
   pageType,
+  isListCollectorFolder,
+  selectedItem,
   selectedItemPosition,
   index,
   ...otherProps
@@ -94,10 +113,22 @@ export const Option = ({
       onChange={onChange}
       checked={selected}
       name={name}
-      disabled={isOptionDisabled(pageType, selectedItemPosition, index)}
+      disabled={isOptionDisabled(
+        pageType,
+        isListCollectorFolder,
+        selectedItemPosition,
+        index,
+        selectedItem
+      )}
     />
     <Label
-      disabled={isOptionDisabled(pageType, selectedItemPosition, index)}
+      disabled={isOptionDisabled(
+        pageType,
+        isListCollectorFolder,
+        selectedItemPosition,
+        index,
+        selectedItem
+      )}
       selected={selected}
       htmlFor={id}
       data-test={`option-label-${value}`}
