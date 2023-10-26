@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { colors } from "constants/theme";
 import Modal from "components/modals/Modal";
@@ -48,8 +48,23 @@ const PasteModal = ({
   onConfirm: handleConfirm,
   onCancel: handleCancel,
 }) => {
+  useEffect(() => {
+    const close = (event) => {
+      if (event.key === "Escape") {
+        handleCancel();
+      }
+    };
+
+    window.addEventListener("keydown", close);
+    return () => window.removeEventListener("keydown", close);
+  });
+
   return (
-    <StyledModal isOpen={isOpen} onClose={handleCancel}>
+    <StyledModal
+      isOpen={isOpen}
+      onClose={handleCancel}
+      data={{ test: "paste-modal" }}
+    >
       <Title>Confirm the removal of extra spaces from copied content</Title>
       <Message>
         <p>
@@ -63,10 +78,19 @@ const PasteModal = ({
         </p>
       </Message>
       <ButtonGroupStyled>
-        <Button variant="secondary" onClick={handleCancel}>
+        <Button
+          variant="secondary"
+          onClick={handleCancel}
+          data-test="paste-modal-cancel"
+        >
           Cancel
         </Button>
-        <Button variant="primary" onClick={handleConfirm} autoFocus>
+        <Button
+          variant="primary"
+          onClick={handleConfirm}
+          data-test="paste-modal-confirm"
+          autoFocus
+        >
           Confirm
         </Button>
       </ButtonGroupStyled>

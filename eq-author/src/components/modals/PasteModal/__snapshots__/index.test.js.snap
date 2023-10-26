@@ -1,0 +1,454 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PasteModal should render the modal correctly 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": .c3 {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.c1 {
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  min-width: 10em;
+  margin-bottom: 0;
+  z-index: 99999999;
+}
+
+.c2 {
+  display: inline-block;
+  text-align: initial;
+}
+
+.c0 {
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.c6 {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  position: relative;
+}
+
+.c7 {
+  max-height: 100vh;
+}
+
+.c8 {
+  float: right;
+  font-size: 32px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  margin: 0;
+  margin-top: 0.1rem;
+  margin-right: 0.05em;
+}
+
+.c4 .Modal {
+  padding: 2em;
+  position: absolute;
+  background: #FFFFFF;
+  box-shadow: 0 2px 12px 0 rgba(0,0,0,0.3);
+  -webkit-transform: scale(0.8);
+  -ms-transform: scale(0.8);
+  transform: scale(0.8);
+  -webkit-transform-origin: center center;
+  -ms-transform-origin: center center;
+  transform-origin: center center;
+  -webkit-transition: all 100ms ease-in 50ms;
+  transition: all 100ms ease-in 50ms;
+  opacity: 0;
+}
+
+.c4 .Modal:focus {
+  outline: 3px solid #3B7A9E;
+}
+
+.c4 .Modal--after-open {
+  -webkit-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+  opacity: 1;
+}
+
+.c4 .Modal--before-close {
+  -webkit-transform: scale(0.8);
+  -ms-transform: scale(0.8);
+  transform: scale(0.8);
+  opacity: 0;
+}
+
+.c4 .Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  -webkit-transition: opacity 100ms ease-out;
+  transition: opacity 100ms ease-out;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  z-index: 9999999;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.c4 .Overlay--after-open {
+  opacity: 1;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c4 .Overlay--before-close {
+  opacity: 0;
+}
+
+.c10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+.c10 >:not(:last-child) {
+  margin-right: 1em;
+}
+
+.c12 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  padding: 0.75em 2em;
+  border-radius: 4px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  line-height: 1;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  -webkit-transition: all 100ms ease-out;
+  transition: all 100ms ease-out;
+  -webkit-letter-spacing: 0;
+  -moz-letter-spacing: 0;
+  -ms-letter-spacing: 0;
+  letter-spacing: 0;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-bg);
+  --color-text: #3B7A9E;
+  --color-bg: #FFFFFF;
+  border: 1px solid var(--color-text);
+}
+
+.c12[disabled] {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.c12:focus-within {
+  border-color: transparent;
+  outline: 3px solid #FDBD56;
+  box-shadow: 0 0 0 3px #FDBD56;
+}
+
+.c12:hover {
+  --color-text: #FFFFFF;
+  --color-bg: #3B7A9E;
+  border-color: var(--color-bg);
+}
+
+.c13 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  padding: 0.75em 2em;
+  border-radius: 4px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  line-height: 1;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  -webkit-transition: all 100ms ease-out;
+  transition: all 100ms ease-out;
+  -webkit-letter-spacing: 0;
+  -moz-letter-spacing: 0;
+  -ms-letter-spacing: 0;
+  letter-spacing: 0;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-bg);
+  --color-text: #FFFFFF;
+  --color-bg: #3B7A9E;
+  position: relative;
+  border: none;
+}
+
+.c13[disabled] {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.c13:focus-within {
+  border-color: transparent;
+  outline: 3px solid #FDBD56;
+  box-shadow: 0 0 0 3px #FDBD56;
+}
+
+.c13:hover {
+  --color-text: #FFFFFF;
+  --color-bg: #2d5d79;
+  border-color: var(--color-bg);
+}
+
+.c5 .Modal {
+  max-width: 500px;
+}
+
+.c9 {
+  color: #666666;
+}
+
+.c11 {
+  padding-top: 1.5em;
+}
+
+<body
+    aria-hidden="true"
+    class="ReactModal__Body--open"
+  >
+    <div
+      data-react-modal-body-trap=""
+      style="position: absolute; opacity: 0;"
+      tabindex="0"
+    />
+    <div
+      id="toast"
+    >
+      <div
+        class="c0"
+      >
+        <div
+          class="c1"
+        >
+          <div
+            class="c2"
+          >
+            <ol
+              aria-live="assertive"
+              aria-relevant="additions removals"
+              class="c3"
+              role="alert"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div />
+    <div
+      data-react-modal-body-trap=""
+      style="position: absolute; opacity: 0;"
+      tabindex="0"
+    />
+    <div
+      class="c4 c5"
+    >
+      <div
+        class="Overlay Overlay--after-open"
+      >
+        <div
+          class="Modal Modal--after-open"
+          data-test="paste-modal"
+          role="dialog"
+          tabindex="-1"
+        >
+          <div
+            class="c6 c7"
+          >
+            <button
+              aria-label="Close"
+              class="c8"
+              role="button"
+            >
+              ×
+            </button>
+            <h2
+              class="c9"
+            >
+              Confirm the removal of extra spaces from copied content
+            </h2>
+            <div
+              class=""
+            >
+              <p>
+                The copied content contains extra spaces at the start of lines of text, between words, or at the end of lines of text.
+              </p>
+              <p>
+                Extra spaces need to be removed before this content can be pasted. Confirming will remove them automatically, while cancelling will prevent pasting.
+              </p>
+            </div>
+            <div
+              class="c10 c11"
+              data-test="button-group"
+            >
+              <button
+                class="c12"
+                data-test="paste-modal-cancel"
+                type="button"
+              >
+                Cancel
+              </button>
+              <button
+                class="c13"
+                data-test="paste-modal-confirm"
+                type="button"
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div />,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "history": Object {
+    "action": "POP",
+    "block": [Function],
+    "canGo": [Function],
+    "createHref": [Function],
+    "entries": Array [
+      Object {
+        "hash": "",
+        "key": "6i6lea",
+        "pathname": "/",
+        "search": "",
+        "state": undefined,
+      },
+    ],
+    "go": [Function],
+    "goBack": [Function],
+    "goForward": [Function],
+    "index": 0,
+    "length": 1,
+    "listen": [Function],
+    "location": Object {
+      "hash": "",
+      "key": "6i6lea",
+      "pathname": "/",
+      "search": "",
+      "state": undefined,
+    },
+    "push": [Function],
+    "replace": [Function],
+  },
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
