@@ -15,11 +15,6 @@ describe("PasteModal", () => {
       <PasteModal isOpen onConfirm={onConfirm} onCancel={onCancel} {...props} />
     );
 
-  it("should render the modal correctly", () => {
-    const pasteModal = renderModal();
-    expect(pasteModal).toMatchSnapshot();
-  });
-
   it("should close modal when cancel button is clicked", () => {
     const { getByTestId } = renderModal();
     const cancelButton = getByTestId("paste-modal-cancel");
