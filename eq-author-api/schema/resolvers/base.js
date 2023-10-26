@@ -1088,8 +1088,7 @@ const Resolvers = {
         { qid: ctx.questionnaire.id },
         `List removed with ID - ${input.id}`
       );
-      ctx.questionnaire.dataVersion =
-        ctx.questionnaire.collectionLists.lists.length > 0 ? "3" : "1";
+      setDataVersion(ctx);
 
       const answers = getAnswers(ctx);
 
@@ -1136,7 +1135,7 @@ const Resolvers = {
         "Northern Ireland": "northernireland",
         Business: "business",
         Social: "social",
-        Health: "health",
+        "Pandemic monitoring": "ukhsa-ons",
         "UKIS Northern Ireland": "ukis_ni",
         "UKIS ONS": "ukis",
       };
@@ -1629,7 +1628,7 @@ const Resolvers = {
               supplementaryDataVersion
             );
           }
-
+          setDataVersion(ctx);
           return ctx.questionnaire.supplementaryData;
         } else {
           logger.info(`Schema version data not found - ${id}`);
@@ -1646,6 +1645,7 @@ const Resolvers = {
       const oldSupplementaryData = ctx.questionnaire?.supplementaryData?.data;
       onUnlinkSupplementaryData(ctx, ctx.questionnaire, oldSupplementaryData);
       ctx.questionnaire.supplementaryData = undefined;
+      setDataVersion(ctx);
       return ctx.questionnaire;
     }),
   },

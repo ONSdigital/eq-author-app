@@ -232,9 +232,29 @@ const getPageQuery = `
         }
       }
       ... on ListCollectorAddItemPage {
+        description
+        descriptionEnabled
+        guidance
+        guidanceEnabled
+        definitionLabel
+        definitionContent
+        definitionEnabled
+        additionalInfoLabel
+        additionalInfoContent
+        additionalInfoEnabled
         comments {
           id
           commentText
+        }
+        validationErrorInfo {
+          id
+          errors {
+            id
+            type
+            field
+            errorCode
+          }
+          totalCount
         }
       }
       ... on ListCollectorConfirmationPage {

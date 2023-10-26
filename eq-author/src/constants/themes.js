@@ -11,10 +11,10 @@ const THEMES = [
       "Header includes the Office for National Statistics logo but does not include the links for 'Help', 'My account' or 'Sign out'",
   },
   {
-    id: "health",
-    title: "Health",
+    id: "ukhsa-ons",
+    title: "Pandemic monitoring",
     description:
-      "Header includes the Office for National Statistics logo but does not include the links for 'Help', 'My account' or 'Sign out'",
+      "Header includes the logos for Office for National Statistics and UK Health and Security Agency but does not include the links for ‘Help’, ‘My account’ or ‘Sign out’",
   },
   {
     id: "dbt",

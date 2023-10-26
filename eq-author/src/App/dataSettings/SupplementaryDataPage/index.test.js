@@ -20,7 +20,7 @@ useQuery.mockImplementation(() => ({
   error: false,
   data: {
     supplementaryDataVersions: {
-      surveyId: "123",
+      surveyId: "068",
       versions: [
         {
           guid: "123-111-789",
@@ -129,7 +129,7 @@ describe("Supplementary dataset page", () => {
       );
       expect(getByText("Select a survey ID")).toBeTruthy();
       expect(getByTestId("list-select")).toBeTruthy();
-      expect(getByText(/123/)).toBeTruthy();
+      expect(getByText(/068/)).toBeTruthy();
     });
 
     it("should select a survey id", async () => {
@@ -137,9 +137,9 @@ describe("Supplementary dataset page", () => {
         renderSupplementaryDatasetPage(questionnaire, props, user, mocks);
 
       const select = getByTestId("list-select");
-      fireEvent.change(select, { target: { value: "123" } });
+      fireEvent.change(select, { target: { value: "068" } });
 
-      expect(getByText("Datasets for survey ID 123")).toBeTruthy();
+      expect(getByText("Datasets for survey ID 068")).toBeTruthy();
       expect(getByTestId("datasets-table")).toBeTruthy();
       expect(findAllByText("Date created")).toBeTruthy();
       expect(getAllByTestId("dataset-row")).toBeTruthy();
@@ -157,7 +157,7 @@ describe("Supplementary dataset page", () => {
       );
 
       const select = getByTestId("list-select");
-      fireEvent.change(select, { target: { value: "123" } });
+      fireEvent.change(select, { target: { value: "068" } });
       await act(async () => {
         await fireEvent.click(getAllByTestId("btn-link")[0]);
       });
@@ -173,7 +173,7 @@ describe("Supplementary dataset page", () => {
         data: {
           supplementaryData: {
             id: "121-222-789",
-            surveyId: "121",
+            surveyId: "068",
             version: "2",
             dateCreated: "2023-01-12T13:37:27+00:00",
             data: [
@@ -206,7 +206,7 @@ describe("Supplementary dataset page", () => {
         user,
         mocks
       );
-      expect(getByText("Dataset for survey ID 121")).toBeTruthy();
+      expect(getByText("Dataset for survey ID 068")).toBeTruthy();
       expect(getByText("ID:")).toBeTruthy();
       expect(getByText("Version:")).toBeTruthy();
       expect(getByText("Date created:")).toBeTruthy();
@@ -223,7 +223,7 @@ describe("Supplementary dataset page", () => {
         data: {
           supplementaryData: {
             id: "121-222-789",
-            surveyId: "121",
+            surveyId: "068",
             version: "2",
             dateCreated: "2023-01-12T13:37:27+00:00",
             data: [
@@ -292,7 +292,7 @@ describe("Supplementary dataset page", () => {
         data: {
           supplementaryData: {
             id: "121-222-789",
-            surveyId: "121",
+            surveyId: "068",
             version: "2",
             dateCreated: "2023-01-12T13:37:27+00:00",
             data: [

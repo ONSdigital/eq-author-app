@@ -51,6 +51,8 @@ const migrations = [
   require("./convertListCollectorPageToFolder"),
   require("./addValidationToListCollectorAnswers"),
   require("./addFieldsToListCollectorFolderContents"),
+  require("./addAdditonalContentsToAddItemPage"),
+  require("./updateHealthThemeToPandemicMonitoring"),
 ];
 
 const currentVersion = migrations.length;
