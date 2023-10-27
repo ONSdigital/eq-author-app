@@ -74,6 +74,14 @@ const isOptionDisabled = (
   entityToMove,
   repeatingSection
 ) => {
+  if (isListCollectorFolder || isListCollectorPageType(pageType)) {
+    if (
+      selectedItem?.pageType === CalculatedSummaryPage ||
+      selectedItem?.confirmation
+    ) {
+      return true;
+    }
+  }
   if (
     pageType === ListCollectorQualifierPage ||
     pageType === ListCollectorConfirmationPage
@@ -82,14 +90,6 @@ const isOptionDisabled = (
   }
   if (pageType === ListCollectorAddItemPage && selectedItemPosition > index) {
     return true;
-  }
-  if (isListCollectorFolder || isListCollectorPageType(pageType)) {
-    if (
-      selectedItem.pageType === CalculatedSummaryPage ||
-      selectedItem.confirmation
-    ) {
-      return true;
-    }
   }
   if (repeatingSection && entityToMove.listId != null) {
     return true;

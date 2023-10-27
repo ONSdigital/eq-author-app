@@ -3,6 +3,13 @@ import ItemSelect, { Option } from "components/ItemSelectModal/ItemSelect";
 import { shallow } from "enzyme";
 import { times } from "lodash";
 
+import {
+  CalculatedSummaryPage,
+  ListCollectorQualifierPage,
+  ListCollectorAddItemPage,
+  ListCollectorConfirmationPage,
+} from "constants/page-types";
+
 describe("PositionModal/ItemSelect", () => {
   const createWrapper = (props = {}, render = shallow) =>
     render(
@@ -53,7 +60,7 @@ describe("PositionModal/ItemSelect", () => {
         </Option>
       );
 
-    const createListFolderOptions = () =>
+    const createListFolderOptions = (props) =>
       shallow(
         <ItemSelect name="foo" value="0">
           <Option
@@ -62,10 +69,11 @@ describe("PositionModal/ItemSelect", () => {
             value="list-qualifier-page"
             name="list-qualifier-page"
             onChange={jest.fn()}
-            pageType="ListCollectorQualifierPage"
+            pageType={ListCollectorQualifierPage}
             index={0}
             selectedItemPosition={2}
             data-test="option-list-qualifier-page"
+            {...props}
           >
             Qualifier page
           </Option>
@@ -75,10 +83,11 @@ describe("PositionModal/ItemSelect", () => {
             value="list-add-item-page"
             name="list-add-item-page"
             onChange={jest.fn()}
-            pageType="ListCollectorAddItemPage"
+            pageType={ListCollectorAddItemPage}
             index={1}
             selectedItemPosition={2}
             data-test="option-list-add-item-page"
+            {...props}
           >
             Add item page
           </Option>
@@ -92,6 +101,7 @@ describe("PositionModal/ItemSelect", () => {
             index={2}
             selectedItemPosition={2}
             data-test="option-question-page"
+            {...props}
           >
             Add item page
           </Option>
@@ -101,10 +111,11 @@ describe("PositionModal/ItemSelect", () => {
             value="list-confirmation-page"
             name="list-confirmation-page"
             onChange={jest.fn()}
-            pageType="ListCollectorConfirmationPage"
+            pageType={ListCollectorConfirmationPage}
             index={3}
             selectedItemPosition={2}
             data-test="option-list-confirmation-page"
+            {...props}
           >
             Confirmation page
           </Option>
@@ -125,7 +136,7 @@ describe("PositionModal/ItemSelect", () => {
     });
 
     it("should disable option if page is list qualifier", () => {
-      const wrapper = createOption({ pageType: "ListCollectorQualifierPage" });
+      const wrapper = createOption({ pageType: ListCollectorQualifierPage });
 
       const label = wrapper.find("[data-test='option-label-foo']");
       expect(label.prop("disabled")).toBe(true);
@@ -133,7 +144,7 @@ describe("PositionModal/ItemSelect", () => {
 
     it("should disable option if page is list confirmation", () => {
       const wrapper = createOption({
-        pageType: "ListCollectorConfirmationPage",
+        pageType: ListCollectorConfirmationPage,
       });
 
       const label = wrapper.find("[data-test='option-label-foo']");
@@ -160,6 +171,74 @@ describe("PositionModal/ItemSelect", () => {
 
       const label = wrapper.find("[data-test='option-label-foo']");
       expect(label.prop("disabled")).toBe(false);
+    });
+
+    describe("Confirmation and calculated summary", () => {
+      it("should disable option if page is list type and selected page has a confirmation page", () => {
+        const wrapper = createListFolderOptions({
+          selectedItem: {
+            id: "page-1",
+            confirmation: { id: "confirmation-1" },
+          },
+        });
+
+        const qualifierOption = wrapper.find(
+          "[data-test='option-list-qualifier-page']"
+        );
+        const addItemOption = wrapper.find(
+          "[data-test='option-list-add-item-page']"
+        );
+        const confirmationOption = wrapper.find(
+          "[data-test='option-list-confirmation-page']"
+        );
+
+        const qualifierLabel = qualifierOption
+          .dive()
+          .find("[data-test='option-label-list-qualifier-page']");
+        const addItemLabel = addItemOption
+          .dive()
+          .find("[data-test='option-label-list-add-item-page']");
+        const confirmationLabel = confirmationOption
+          .dive()
+          .find("[data-test='option-label-list-confirmation-page']");
+
+        expect(qualifierLabel.prop("disabled")).toBe(true);
+        expect(addItemLabel.prop("disabled")).toBe(true);
+        expect(confirmationLabel.prop("disabled")).toBe(true);
+      });
+
+      it("should disable option if page is list type and selected page is calculated summary", () => {
+        const wrapper = createListFolderOptions({
+          selectedItem: {
+            id: "page-1",
+            pageType: CalculatedSummaryPage,
+          },
+        });
+
+        const qualifierOption = wrapper.find(
+          "[data-test='option-list-qualifier-page']"
+        );
+        const addItemOption = wrapper.find(
+          "[data-test='option-list-add-item-page']"
+        );
+        const confirmationOption = wrapper.find(
+          "[data-test='option-list-confirmation-page']"
+        );
+
+        const qualifierLabel = qualifierOption
+          .dive()
+          .find("[data-test='option-label-list-qualifier-page']");
+        const addItemLabel = addItemOption
+          .dive()
+          .find("[data-test='option-label-list-add-item-page']");
+        const confirmationLabel = confirmationOption
+          .dive()
+          .find("[data-test='option-label-list-confirmation-page']");
+
+        expect(qualifierLabel.prop("disabled")).toBe(true);
+        expect(addItemLabel.prop("disabled")).toBe(true);
+        expect(confirmationLabel.prop("disabled")).toBe(true);
+      });
     });
   });
 });
