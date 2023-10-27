@@ -70,7 +70,9 @@ const isOptionDisabled = (
   isListCollectorFolder,
   selectedItemPosition,
   index,
-  selectedItem
+  selectedItem,
+  entityToMove,
+  repeatingSection
 ) => {
   if (
     pageType === ListCollectorQualifierPage ||
@@ -89,6 +91,9 @@ const isOptionDisabled = (
       return true;
     }
   }
+  if (repeatingSection && entityToMove.listId != null) {
+    return true;
+  }
   return false;
 };
 
@@ -102,6 +107,8 @@ export const Option = ({
   pageType,
   isListCollectorFolder,
   selectedItem,
+  entityToMove,
+  repeatingSection,
   selectedItemPosition,
   index,
   ...otherProps
@@ -118,7 +125,9 @@ export const Option = ({
         isListCollectorFolder,
         selectedItemPosition,
         index,
-        selectedItem
+        selectedItem,
+        entityToMove,
+        repeatingSection
       )}
     />
     <Label
@@ -127,7 +136,9 @@ export const Option = ({
         isListCollectorFolder,
         selectedItemPosition,
         index,
-        selectedItem
+        selectedItem,
+        entityToMove,
+        repeatingSection
       )}
       selected={selected}
       htmlFor={id}
@@ -149,6 +160,16 @@ Option.propTypes = {
   pageType: PropTypes.string,
   selectedItemPosition: PropTypes.number,
   index: PropTypes.number,
+  isListCollectorFolder: PropTypes.bool,
+  /**
+   * The item selected (highlighted) in the modal.
+   */
+  selectedItem: PropTypes.object, // eslint-disable-line
+  /**
+   * The item to be moved.
+   */
+  entityToMove: PropTypes.object, // eslint-disable-line
+  repeatingSection: PropTypes.bool,
   children: PropTypes.node.isRequired,
 };
 

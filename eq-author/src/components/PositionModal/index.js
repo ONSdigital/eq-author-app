@@ -41,7 +41,14 @@ const Indent = styled(Option)`
   margin-left: ${({ indent }) => (indent ? 1 : 0)}em;
 `;
 
-const PositionModal = ({ title, options, onMove, selected, onChange }) => {
+const PositionModal = ({
+  title,
+  options,
+  onMove,
+  selected,
+  entityToMove,
+  onChange,
+}) => {
   const positionButtonId = uniqueId("PositionModal");
   const [isOpen, setIsOpen] = useState(false);
   const [{ position, item }, previous, setOption] = usePosition({
@@ -126,7 +133,16 @@ const PositionModal = ({ title, options, onMove, selected, onChange }) => {
           onChange={onChange || handleChange} // onChange supplied for section selector
         >
           {orderedOptions.map(
-            ({ displayName, pageType, listId, parentEnabled }, i) => (
+            (
+              {
+                displayName,
+                pageType,
+                listId,
+                repeatingSection,
+                parentEnabled,
+              },
+              i
+            ) => (
               <Indent
                 data-test="options"
                 key={i}
@@ -137,6 +153,8 @@ const PositionModal = ({ title, options, onMove, selected, onChange }) => {
                 indent={parentEnabled ? parentEnabled.toString() : undefined}
                 pageType={pageType}
                 isListCollectorFolder={listId != null}
+                entityToMove={entityToMove}
+                repeatingSection={repeatingSection}
               >
                 {displayName}
               </Indent>
@@ -163,6 +181,7 @@ PositionModal.propTypes = {
     displayName: PropTypes.string,
     position: PropTypes.number,
   }).isRequired,
+  entityToMove: PropTypes.object, // eslint-disable-line
   onMove: PropTypes.func,
   onChange: PropTypes.func,
 };

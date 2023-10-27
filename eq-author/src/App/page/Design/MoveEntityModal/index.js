@@ -89,6 +89,7 @@ const MoveEntityModal = ({
             title={"Section"}
             options={questionnaire.sections}
             selected={selectedSection}
+            entityToMove={selected}
             onChange={({ value }) =>
               setSelectedSectionId(questionnaire.sections[value].id)
             }
@@ -102,6 +103,7 @@ const MoveEntityModal = ({
             }
             onMove={handleMove}
             selected={selected}
+            entityToMove={selected}
           />
         </MoveModal>
       ),
