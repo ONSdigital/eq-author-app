@@ -164,6 +164,16 @@ describe("PositionModal/ItemSelect", () => {
       expect(addItemLabel.prop("disabled")).toBe(true);
     });
 
+    it("should disable option if option is repeating section and entity being moved is list folder", () => {
+      const wrapper = createOption({
+        repeatingSection: true,
+        entityToMove: { id: "folder-1", listId: "list-1" },
+      });
+
+      const label = wrapper.find("[data-test='option-label-foo']");
+      expect(label.prop("disabled")).toBe(true);
+    });
+
     it("should not disable option if page is question page", () => {
       const wrapper = createOption({
         pageType: "QuestionPage",
