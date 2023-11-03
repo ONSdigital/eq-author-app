@@ -11,6 +11,7 @@ import EditorLayout from "components/EditorLayout";
 import CustomPropTypes from "custom-prop-types";
 
 import Badge from "components/Badge";
+import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
 
 const activeClassName = "active";
 
@@ -79,48 +80,56 @@ const TABS = [
   },
 ];
 
-const LogicPage = ({ children, page }) => (
-  <EditorLayout
-    design
-    preview={page?.__typename !== "Folder"}
-    logic
-    validationErrorInfo={page?.validationErrorInfo}
-    title={page?.displayName || page?.alias || ""}
-    singleColumnLayout
-    mainCanvasMaxWidth="80em"
-    comments={page?.comments}
-  >
-    <LogicMainCanvas>
-      <Grid>
-        <Column gutters={false} cols={2.5}>
-          <MenuTitle>Select your logic</MenuTitle>
-          <StyledUl>
-            {TABS.map(({ key, label }) => {
-              const errors = page?.validationErrorInfo?.errors?.filter(
-                ({ type }) => type && type.includes(key)
-              );
-              return (
-                <li data-test={key} key={key}>
-                  <LogicLink exact to={key} activeClassName="active" replace>
-                    {label}
-                    {errors?.length > 0 && (
-                      <Badge variant="logic" data-test="badge-withCount">
-                        {errors.length}
-                      </Badge>
-                    )}
-                  </LogicLink>
-                </li>
-              );
-            })}
-          </StyledUl>
-        </Column>
-        <Column gutters={false} cols={9.5}>
-          <LogicContainer>{children}</LogicContainer>
-        </Column>
-      </Grid>
-    </LogicMainCanvas>
-  </EditorLayout>
-);
+const LogicPage = ({ children, page }) => {
+  useSetNavigationCallbacksForPage({
+    page: page,
+    folder: page?.folder,
+    section: page?.section,
+  });
+
+  return (
+    <EditorLayout
+      design
+      preview={page?.__typename !== "Folder"}
+      logic
+      validationErrorInfo={page?.validationErrorInfo}
+      title={page?.displayName || page?.alias || ""}
+      singleColumnLayout
+      mainCanvasMaxWidth="80em"
+      comments={page?.comments}
+    >
+      <LogicMainCanvas>
+        <Grid>
+          <Column gutters={false} cols={2.5}>
+            <MenuTitle>Select your logic</MenuTitle>
+            <StyledUl>
+              {TABS.map(({ key, label }) => {
+                const errors = page?.validationErrorInfo?.errors?.filter(
+                  ({ type }) => type && type.includes(key)
+                );
+                return (
+                  <li data-test={key} key={key}>
+                    <LogicLink exact to={key} activeClassName="active" replace>
+                      {label}
+                      {errors?.length > 0 && (
+                        <Badge variant="logic" data-test="badge-withCount">
+                          {errors.length}
+                        </Badge>
+                      )}
+                    </LogicLink>
+                  </li>
+                );
+              })}
+            </StyledUl>
+          </Column>
+          <Column gutters={false} cols={9.5}>
+            <LogicContainer>{children}</LogicContainer>
+          </Column>
+        </Grid>
+      </LogicMainCanvas>
+    </EditorLayout>
+  );
+};
 
 LogicPage.propTypes = {
   children: PropTypes.node.isRequired,
