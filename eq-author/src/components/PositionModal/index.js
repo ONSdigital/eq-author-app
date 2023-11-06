@@ -139,6 +139,7 @@ const PositionModal = ({
                 pageType,
                 listId,
                 repeatingSection,
+                folder,
                 parentEnabled,
               },
               i
@@ -154,6 +155,7 @@ const PositionModal = ({
                 pageType={pageType}
                 isListCollectorFolder={listId != null}
                 entityToMove={entityToMove}
+                isInsideListCollectorFolder={folder?.listId != null}
                 repeatingSection={repeatingSection}
               >
                 {displayName}

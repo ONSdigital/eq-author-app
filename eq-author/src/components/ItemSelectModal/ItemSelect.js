@@ -72,9 +72,14 @@ const isOptionDisabled = (
   index,
   selectedItem,
   entityToMove,
-  repeatingSection
+  repeatingSection,
+  isInsideListCollectorFolder
 ) => {
-  if (isListCollectorFolder || isListCollectorPageType(pageType)) {
+  if (
+    isListCollectorFolder ||
+    isListCollectorPageType(pageType) ||
+    isInsideListCollectorFolder
+  ) {
     if (
       selectedItem?.pageType === CalculatedSummaryPage ||
       selectedItem?.confirmation
@@ -110,6 +115,7 @@ export const Option = ({
   entityToMove,
   repeatingSection,
   selectedItemPosition,
+  isInsideListCollectorFolder,
   index,
   ...otherProps
 }) => (
@@ -127,7 +133,8 @@ export const Option = ({
         index,
         selectedItem,
         entityToMove,
-        repeatingSection
+        repeatingSection,
+        isInsideListCollectorFolder
       )}
     />
     <Label
@@ -138,7 +145,8 @@ export const Option = ({
         index,
         selectedItem,
         entityToMove,
-        repeatingSection
+        repeatingSection,
+        isInsideListCollectorFolder
       )}
       selected={selected}
       htmlFor={id}
@@ -170,6 +178,7 @@ Option.propTypes = {
    */
   entityToMove: PropTypes.object, // eslint-disable-line
   repeatingSection: PropTypes.bool,
+  isInsideListCollectorFolder: PropTypes.bool,
   children: PropTypes.node.isRequired,
 };
 
