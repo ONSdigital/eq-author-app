@@ -7,7 +7,6 @@ import NoRouting, {
 import Panel from "components/Panel";
 
 import CustomPropTypes from "custom-prop-types";
-// import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
 
 import {
   useCreatePageWithFolder,
@@ -32,8 +31,6 @@ const Routing = ({ folder }) => {
   const addFolder = useCreateFolder();
   const addCalculatedSummaryPage = useCreateCalculatedSummaryPage();
   const addListCollectorFolder = useCreateListCollectorFolder();
-
-  // const folderId = folder.id;
 
   useSetNavigationCallbacks(
     {
