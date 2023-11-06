@@ -9,6 +9,7 @@ import PropTypes from "prop-types";
 const StyledModal = styled(Modal)`
   .Modal {
     max-width: 500px;
+    border-radius: 0.4rem;
   }
 `;
 
