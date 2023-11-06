@@ -849,6 +849,10 @@ type SupplementaryDataVersions {
   versions: [Version!]!
 }
 
+type SupplementaryDataSurveyIdList {
+  surveyIdList: [String]!
+}
+
 type SupplementaryDataField {
   id: ID,
   type: String,
@@ -908,6 +912,7 @@ type Query {
   collectionLists: CollectionLists
   list(input: QueryInput!): List
   supplementaryDataVersions(id: ID!): SupplementaryDataVersions
+  supplementaryDataSurveyIdList: SupplementaryDataSurveyIdList
   supplementaryData: SupplementaryData
   publishHistory: [PublishHistoryEvent]
   listNames: [ListName]
