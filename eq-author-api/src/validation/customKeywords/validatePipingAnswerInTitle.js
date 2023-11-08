@@ -10,6 +10,7 @@ const {
   getSectionByPageId,
   getListByAnswerId,
   getSupplementaryDataAsCollectionListbyFieldId,
+  getFolderByPageId,
 } = require("../../../schema/resolvers/utils");
 
 const pipedAnswerIdRegex =
@@ -77,14 +78,18 @@ module.exports = (ajv) =>
           );
         if (list) {
           let section = parentData;
+          const folder = getFolderByPageId({ questionnaire }, section.id);
+
           if (parentData.pageType) {
             section = getSectionByPageId({ questionnaire }, parentData.id);
           }
 
           if (!(dataPiped === "supplementary" && list.listName === "")) {
             if (
-              list.id !== section.repeatingSectionListId ||
-              !section.repeatingSection
+              (folder.listId !== undefined && list.id !== folder.listId) ||
+              (folder.listId === undefined &&
+                (list.id !== section.repeatingSectionListId ||
+                  !section.repeatingSection))
             ) {
               return hasError(PIPING_TITLE_DELETED);
             }

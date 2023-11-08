@@ -14,6 +14,9 @@ fragment RoutingPage on Page {
     pages {
       id
     }
+    ... on ListCollectorFolder {
+      listId
+    }
   }
   section {
     id
