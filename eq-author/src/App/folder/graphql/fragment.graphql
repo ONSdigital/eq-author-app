@@ -5,6 +5,10 @@ query GetFolderPageInfo($input: QueryInput!) {
     id
     displayName
     title
+    position
+    section {
+      id
+    }
     validationErrorInfo {
       ...ValidationErrorInfo
     }

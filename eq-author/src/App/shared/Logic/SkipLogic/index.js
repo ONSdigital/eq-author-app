@@ -22,7 +22,7 @@ import {
 } from "hooks/useCreateQuestionPage";
 import { useSetNavigationCallbacks } from "components/NavigationCallbacks";
 
-export const SkipLogicRoute = ({ match: { params }, folder }) => {
+export const SkipLogicRoute = ({ match: { params } }) => {
   const { loading, data } = useQuery(SKIPLOGIC_QUERY, {
     variables: {
       input: {
@@ -32,7 +32,7 @@ export const SkipLogicRoute = ({ match: { params }, folder }) => {
     fetchPolicy: "cache-and-network",
   });
 
-  const page = data?.skippable;
+  const entity = data?.skippable;
 
   const addPageWithFolder = useCreatePageWithFolder();
   const onAddQuestionPage = useCreateQuestionPage();
@@ -44,40 +44,40 @@ export const SkipLogicRoute = ({ match: { params }, folder }) => {
     {
       onAddQuestionPage: (createInsideFolder) =>
         createInsideFolder
-          ? onAddQuestionPage({ folderId: folder.id, position: 0 })
+          ? onAddQuestionPage({ folderId: entity.id, position: 0 })
           : addPageWithFolder({
-              sectionId: folder.section.id,
-              position: folder.position + 1,
+              sectionId: entity.section.id,
+              position: entity.position + 1,
             }),
       onAddCalculatedSummaryPage: (createInsideFolder) =>
         createInsideFolder
           ? addCalculatedSummaryPage({
-              folderId: folder.id,
-              position: folder.pages.length + 1,
+              folderId: entity.id,
+              position: entity.pages.length + 1,
             })
           : addPageWithFolder({
-              sectionId: folder.section.id,
-              position: folder.position + 1,
+              sectionId: entity.section.id,
+              position: entity.position + 1,
               isCalcSum: true,
             }),
       onAddFolder: () =>
         addFolder({
-          sectionId: folder.section.id,
-          position: folder.position + 1,
+          sectionId: entity.section.id,
+          position: entity.position + 1,
         }),
       onAddListCollectorFolder: () =>
         addListCollectorFolder({
-          sectionId: folder.section.id,
-          position: folder.position + 1,
+          sectionId: entity.section.id,
+          position: entity.position + 1,
         }),
     },
-    [folder]
+    [entity]
   );
 
   return (
-    <Logic page={page}>
-      {page ? (
-        <SkipLogicPage page={page} />
+    <Logic page={entity}>
+      {entity ? (
+        <SkipLogicPage page={entity} />
       ) : loading ? (
         <Loading height="20em"> Loading skip logic </Loading>
       ) : (

@@ -108,7 +108,7 @@ const QuestionPagePreview = ({ page }) => {
   } = page;
 
   useSetNavigationCallbacksForPage({
-    page: page,
+    page,
     folder: page?.folder,
     section: page?.section,
   });

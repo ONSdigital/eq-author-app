@@ -82,7 +82,7 @@ const TABS = [
 
 const LogicPage = ({ children, page }) => {
   useSetNavigationCallbacksForPage({
-    page: page,
+    page,
     folder: page?.folder,
     section: page?.section,
   });

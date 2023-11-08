@@ -4,9 +4,11 @@ import NoRouting, {
   Title,
   Paragraph,
 } from "App/shared/Logic/Routing/NoRouting";
+import GET_FOLDER_QUERY from "App/folder/graphql/fragment.graphql";
+import PropTypes from "prop-types";
 import Panel from "components/Panel";
 
-import CustomPropTypes from "custom-prop-types";
+import { useQuery } from "@apollo/react-hooks";
 
 import {
   useCreatePageWithFolder,
@@ -23,8 +25,16 @@ export const NO_ROUTING_TITLE = "Routing logic not available for folders";
 export const NO_ROUTING_PARAGRAPH =
   "The route will be based on the answer to the previous question.";
 
-const Routing = ({ folder }) => {
-  const page = folder;
+const Routing = ({ match }) => {
+  const { data } = useQuery(GET_FOLDER_QUERY, {
+    variables: {
+      input: {
+        folderId: match.params.folderId,
+      },
+    },
+  });
+
+  const folder = data?.folder;
 
   const addPageWithFolder = useCreatePageWithFolder();
   const onAddQuestionPage = useCreateQuestionPage();
@@ -67,7 +77,7 @@ const Routing = ({ folder }) => {
   );
 
   return (
-    <Logic page={page}>
+    <Logic page={folder}>
       <Panel>
         <NoRouting disabled>
           <Title>{NO_ROUTING_TITLE}</Title>
@@ -79,7 +89,11 @@ const Routing = ({ folder }) => {
 };
 
 Routing.propTypes = {
-  folder: CustomPropTypes.folder,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      folderId: PropTypes.string.isRequired,
+    }),
+  }),
 };
 
 export default Routing;
