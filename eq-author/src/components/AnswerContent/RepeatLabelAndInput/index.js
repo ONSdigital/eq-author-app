@@ -66,7 +66,10 @@ const RepeatingLabelAndInput = (props) => {
 
   return (
     <>
-      <ToggleWrapper disabled={disabled}>
+      <ToggleWrapper
+        disabled={disabled}
+        data-test={`repeat-label-input-wrapper-${id}`}
+      >
         <Label>Repeat label and input</Label>
         <Paragraph>
           Repeat this label and input for each answer added to the linked

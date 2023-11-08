@@ -8,6 +8,7 @@ import searchByQuestionTitleOrShortCode from "utils/searchFunctions/searchByQues
 import isListCollectorPageType from "utils/isListCollectorPageType";
 
 import { colors } from "constants/theme";
+import { QuestionPage } from "constants/page-types";
 
 import { ReactComponent as WarningIcon } from "assets/icon-warning-round.svg";
 import { ReactComponent as FolderIcon } from "assets/icon-folder.svg";
@@ -65,8 +66,8 @@ const WarningPanel = styled(IconText)`
 
 const isSelected = (items, target) => items.find(({ id }) => id === target.id);
 
-const Page = ({ page }) => {
-  const { title, displayName, pageType, alias } = page;
+const Page = ({ page, targetIsListCollectorFolder }) => {
+  const { title, displayName, pageType, alias, confirmation } = page;
   const { selectedPages, updateSelectedPages } =
     useContext(SelectedPageContext);
 
@@ -82,8 +83,21 @@ const Page = ({ page }) => {
       updateSelectedPages([...selectedPages, page]);
     }
   };
+
   return (
-    !isListCollectorPageType(pageType) && (
+    !isListCollectorPageType(pageType) &&
+    (targetIsListCollectorFolder ? (
+      pageType === QuestionPage &&
+      !confirmation && (
+        <Item
+          title={stripHtmlToText(title) || displayName}
+          subtitle={alias}
+          onClick={handleClick}
+          selected={Boolean(itemSelected)}
+          dataTest="Page"
+        />
+      )
+    ) : (
       <Item
         title={stripHtmlToText(title) || displayName}
         subtitle={alias}
@@ -91,14 +105,15 @@ const Page = ({ page }) => {
         selected={Boolean(itemSelected)}
         dataTest="Page"
       />
-    )
+    ))
   );
 };
 Page.propTypes = {
   page: PropTypes.object, // eslint-disable-line
+  targetIsListCollectorFolder: PropTypes.bool,
 };
 
-const Folder = ({ folder }) => {
+const Folder = ({ folder, targetIsListCollectorFolder }) => {
   const { displayName, pages } = folder;
 
   const numOfPagesInFolder = pages.length;
@@ -113,7 +128,11 @@ const Folder = ({ folder }) => {
       >
         <List className="sublist">
           {pages.map((page) => (
-            <Page key={`page-${page.id}`} page={page} />
+            <Page
+              key={`page-${page.id}`}
+              page={page}
+              targetIsListCollectorFolder={targetIsListCollectorFolder}
+            />
           ))}
         </List>
       </Item>
@@ -124,9 +143,10 @@ const Folder = ({ folder }) => {
 };
 Folder.propTypes = {
   folder: PropTypes.object, // eslint-disable-line
+  targetIsListCollectorFolder: PropTypes.bool,
 };
 
-const Section = ({ section }) => {
+const Section = ({ section, targetIsListCollectorFolder }) => {
   const { displayName, folders } = section;
 
   const numOfPagesInSection = getPages({ sections: [section] }).length;
@@ -138,10 +158,20 @@ const Section = ({ section }) => {
           {folders.map((folder) => {
             const { enabled } = folder;
             if (enabled) {
-              return <Folder key={`folder-${folder.id}`} folder={folder} />;
+              return (
+                <Folder
+                  key={`folder-${folder.id}`}
+                  folder={folder}
+                  targetIsListCollectorFolder={targetIsListCollectorFolder}
+                />
+              );
             } else {
               return folder.pages.map((page) => (
-                <Page key={`page-${page.id}`} page={page} />
+                <Page
+                  key={`page-${page.id}`}
+                  page={page}
+                  targetIsListCollectorFolder={targetIsListCollectorFolder}
+                />
               ));
             }
           })}
@@ -154,6 +184,7 @@ const Section = ({ section }) => {
 };
 Section.propTypes = {
   section: PropTypes.object, // eslint-disable-line
+  targetIsListCollectorFolder: PropTypes.bool,
 };
 
 const QuestionPicker = ({
@@ -166,6 +197,7 @@ const QuestionPicker = ({
   onCancel,
   onSubmit,
   startingSelectedQuestions = [],
+  targetIsListCollectorFolder,
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredSections, updateFilteredSections] = useState([]);
@@ -212,7 +244,11 @@ const QuestionPicker = ({
             >
               <List>
                 {filteredSections.map((section) => (
-                  <Section key={`section-${section.id}`} section={section} />
+                  <Section
+                    key={`section-${section.id}`}
+                    section={section}
+                    targetIsListCollectorFolder={targetIsListCollectorFolder}
+                  />
                 ))}
               </List>
             </SelectedPagesProvider>
@@ -263,6 +299,7 @@ QuestionPicker.propTypes = {
    * 'onClose' function after running 'onSubmit'.
    */
   onSubmit: PropTypes.func.isRequired,
+  targetIsListCollectorFolder: PropTypes.bool,
 };
 
 export default QuestionPicker;

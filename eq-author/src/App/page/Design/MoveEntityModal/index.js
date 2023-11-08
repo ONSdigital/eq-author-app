@@ -8,8 +8,7 @@ import { useQuestionnaire } from "components/QuestionnaireContext";
 
 export const buildPageList = (folders) => {
   const optionList = [];
-  const basicFolders = folders.filter((folder) => folder.listId == null);
-  basicFolders.forEach((folder) => {
+  folders.forEach((folder) => {
     const { id, pages } = folder;
     optionList.push({
       ...folder,
@@ -90,6 +89,7 @@ const MoveEntityModal = ({
             title={"Section"}
             options={questionnaire.sections}
             selected={selectedSection}
+            entityToMove={selected}
             onChange={({ value }) =>
               setSelectedSectionId(questionnaire.sections[value].id)
             }
@@ -103,6 +103,7 @@ const MoveEntityModal = ({
             }
             onMove={handleMove}
             selected={selected}
+            entityToMove={selected}
           />
         </MoveModal>
       ),

@@ -41,7 +41,14 @@ const Indent = styled(Option)`
   margin-left: ${({ indent }) => (indent ? 1 : 0)}em;
 `;
 
-const PositionModal = ({ title, options, onMove, selected, onChange }) => {
+const PositionModal = ({
+  title,
+  options,
+  onMove,
+  selected,
+  entityToMove,
+  onChange,
+}) => {
   const positionButtonId = uniqueId("PositionModal");
   const [isOpen, setIsOpen] = useState(false);
   const [{ position, item }, previous, setOption] = usePosition({
@@ -125,16 +132,36 @@ const PositionModal = ({ title, options, onMove, selected, onChange }) => {
           value={String(position)}
           onChange={onChange || handleChange} // onChange supplied for section selector
         >
-          {orderedOptions.map(({ displayName, parentEnabled }, i) => (
-            <Indent
-              data-test="options"
-              key={i}
-              value={String(i)}
-              indent={parentEnabled ? parentEnabled.toString() : undefined}
-            >
-              {displayName}
-            </Indent>
-          ))}
+          {orderedOptions.map(
+            (
+              {
+                displayName,
+                pageType,
+                listId,
+                repeatingSection,
+                folder,
+                parentEnabled,
+              },
+              i
+            ) => (
+              <Indent
+                data-test="options"
+                key={i}
+                value={String(i)}
+                index={i}
+                selectedItem={selected}
+                selectedItemPosition={position}
+                indent={parentEnabled ? parentEnabled.toString() : undefined}
+                pageType={pageType}
+                isListCollectorFolder={listId != null}
+                entityToMove={entityToMove}
+                isInsideListCollectorFolder={folder?.listId != null}
+                repeatingSection={repeatingSection}
+              >
+                {displayName}
+              </Indent>
+            )
+          )}
         </ItemSelect>
       </ItemSelectModal>
     </div>
@@ -156,6 +183,7 @@ PositionModal.propTypes = {
     displayName: PropTypes.string,
     position: PropTypes.number,
   }).isRequired,
+  entityToMove: PropTypes.object, // eslint-disable-line
   onMove: PropTypes.func,
   onChange: PropTypes.func,
 };

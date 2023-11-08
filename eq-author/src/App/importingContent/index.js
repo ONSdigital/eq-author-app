@@ -27,7 +27,16 @@ import SelectContentModal from "components/modals/ImportContentModal";
 import QuestionPicker from "components/QuestionPicker";
 import SectionPicker from "components/SectionPicker";
 
-const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
+import {
+  ListCollectorQualifierPage,
+  ListCollectorConfirmationPage,
+} from "constants/page-types";
+
+const ImportingContent = ({
+  stopImporting,
+  targetInsideFolder,
+  targetIsListCollectorFolder,
+}) => {
   /*
    * Modal display states
    */
@@ -166,7 +175,7 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
           currentEntityId
         );
 
-        const { position } = getFolderById(
+        const { listId, position } = getFolderById(
           sourceQuestionnaire,
           currentEntityId
         );
@@ -176,8 +185,13 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
         };
 
         if (targetInsideFolder) {
-          input.position.folderId = currentEntityId;
-          input.position.index = 0;
+          if (listId != null) {
+            input.position.folderId = currentEntityId;
+            input.position.index = 2;
+          } else {
+            input.position.folderId = currentEntityId;
+            input.position.index = 0;
+          }
         } else {
           input.position.index = position + 1;
         }
@@ -194,18 +208,25 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
           sectionId,
         };
 
-        const { id: folderId } = getFolderByPageId(
+        const { id: folderId, position: folderPosition } = getFolderByPageId(
           sourceQuestionnaire,
           currentEntityId
         );
 
-        const { position: positionOfPreviousPage } = getPageById(
+        const { pageType, position: positionOfPreviousPage } = getPageById(
           sourceQuestionnaire,
           currentEntityId
         );
 
-        input.position.folderId = folderId;
-        input.position.index = positionOfPreviousPage + 1;
+        if (pageType === ListCollectorConfirmationPage) {
+          input.position.index = folderPosition + 1;
+        } else if (pageType === ListCollectorQualifierPage) {
+          input.position.folderId = folderId;
+          input.position.index = positionOfPreviousPage + 2;
+        } else {
+          input.position.folderId = folderId;
+          input.position.index = positionOfPreviousPage + 1;
+        }
 
         break;
       }
@@ -395,6 +416,7 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
                 onClose={onGlobalCancel}
                 onCancel={onQuestionPickerCancel}
                 onSubmit={onQuestionPickerSubmit}
+                targetIsListCollectorFolder={targetIsListCollectorFolder}
               />
             );
           }}
@@ -455,6 +477,7 @@ const ImportingContent = ({ stopImporting, targetInsideFolder }) => {
 ImportingContent.propTypes = {
   stopImporting: PropTypes.func.isRequired,
   targetInsideFolder: PropTypes.bool,
+  targetIsListCollectorFolder: PropTypes.bool,
 };
 
 export default ImportingContent;

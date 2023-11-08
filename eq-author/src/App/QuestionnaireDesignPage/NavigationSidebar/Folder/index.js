@@ -5,6 +5,8 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { colors, focusStyle } from "constants/theme";
 
+import { QuestionPage } from "constants/page-types";
+
 import { buildFolderPath } from "utils/UrlUtils";
 
 import IconBasicFolder from "assets/icon-folder.svg?inline";
@@ -44,6 +46,7 @@ const Folder = ({
   questionnaireId,
   displayName,
   pages,
+  entity,
   validationErrorInfo,
   position,
   listId,
@@ -80,7 +83,13 @@ const Folder = ({
             <Droppable
               droppableId={folderId}
               type={`folder-content`}
-              isDropDisabled={listId != null} // TODO: List collector folder - update this to allow follow up questions when completing the follow up task
+              // Allows only question pages with no confirmation page to be dropped into list collector folders
+              isDropDisabled={
+                listId != null &&
+                (entity?.pageType !== QuestionPage ||
+                  (entity?.pageType === QuestionPage &&
+                    entity?.confirmation != null))
+              }
             >
               {(
                 { innerRef, placeholder, droppableProps },
@@ -117,6 +126,7 @@ Folder.propTypes = {
   pages: PropTypes.array.isRequired, // eslint-disable-line
   validationErrorInfo: PropTypes.object.isRequired, // eslint-disable-line
   position: PropTypes.number.isRequired,
+  entity: PropTypes.object, //eslint-disable-line
   listId: PropTypes.string,
 };
 

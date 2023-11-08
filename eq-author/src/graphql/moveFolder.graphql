@@ -27,6 +27,7 @@ mutation MoveFolderMutation($input: MoveFolderInput!) {
       title
       displayName
       position
+      allowRepeatingSection
       questionnaire {
         id
       }
