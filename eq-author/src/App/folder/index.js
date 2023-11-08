@@ -72,6 +72,7 @@ export default [
 
           if (data) {
             const { folder } = data;
+            props.folder = folder;
             return folder.listId ? (
               <Redirect to="design" />
             ) : (
