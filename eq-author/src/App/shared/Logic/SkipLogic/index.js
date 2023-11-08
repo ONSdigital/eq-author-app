@@ -10,7 +10,6 @@ import Logic from "App/shared/Logic";
 
 import SKIPLOGIC_QUERY from "./fragment.graphql";
 
-import CustomPropTypes from "custom-prop-types";
 import {
   useCreatePageWithFolder,
   useCreateFolder,
@@ -94,8 +93,6 @@ SkipLogicRoute.propTypes = {
       confirmationId: PropTypes.string,
     }).isRequired,
   }).isRequired,
-
-  folder: CustomPropTypes.folder,
 };
 
 export default SkipLogicRoute;
