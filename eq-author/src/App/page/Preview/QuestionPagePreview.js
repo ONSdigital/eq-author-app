@@ -18,6 +18,8 @@ import IconInfo from "./icon-info.svg?inline";
 import IconChevron from "./icon-chevron.svg";
 import Panel from "components/Panel";
 
+import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
+
 const Container = styled.div`
   padding: 2em;
   font-size: 1.1em;
@@ -104,6 +106,12 @@ const QuestionPagePreview = ({ page }) => {
     answers,
     comments,
   } = page;
+
+  useSetNavigationCallbacksForPage({
+    page,
+    folder: page?.folder,
+    section: page?.section,
+  });
 
   return (
     <EditorLayout
