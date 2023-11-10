@@ -28,6 +28,7 @@ describe("CalculatedSummaryPreview", () => {
       position: 1,
       title: "<p>Hello world</p>",
       totalTitle: "<p>Total be:</p>",
+      pageDescription: "Hello",
       alias: "Who am I?",
       type: "Number",
       answers: [],
@@ -105,13 +106,31 @@ describe("CalculatedSummaryPreview", () => {
 
   it("should render empty box when no total-title given", () => {
     page.totalTitle = "";
-    const wrapper = shallow(<CalculatedSummaryPreview page={page} />);
+    const wrapper = shallow(
+      <MeContext.Provider value={{ me }}>
+        <CalculatedSummaryPreview page={page} />
+      </MeContext.Provider>,
+      {
+        route: `/q/${questionnaireId}/page/2/preview`,
+        urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+        mocks,
+      }
+    );
     expect(wrapper.find(byTestAttr("no-total-title"))).toBeTruthy();
   });
 
   it("should render 'no answers selected' message", () => {
     page.summaryAnswers = [];
-    const wrapper = shallow(<CalculatedSummaryPreview page={page} />);
+    const wrapper = shallow(
+      <MeContext.Provider value={{ me }}>
+        <CalculatedSummaryPreview page={page} />
+      </MeContext.Provider>,
+      {
+        route: `/q/${questionnaireId}/page/2/preview`,
+        urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+        mocks,
+      }
+    );
     expect(wrapper.find(byTestAttr("no-answers-selected"))).toBeTruthy();
   });
 });

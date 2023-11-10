@@ -18,6 +18,12 @@ import NavItem from "components/NavItem";
 import ScrollPane from "components/ScrollPane";
 import Button from "components/buttons/Button";
 
+import {
+  getPageById,
+  getFolderById,
+  getSectionById,
+} from "utils/questionnaireUtils";
+
 import Section from "./Section";
 
 import IntroductionIcon from "assets/icon-introduction-page.svg?inline";
@@ -102,6 +108,7 @@ const NavigationSidebar = ({ questionnaire }) => {
   const { me } = useMe();
   const { entityId, tab = "design" } = useParams();
   const [openSections, toggleSections] = useState(true);
+  const [entity, setEntity] = useState({}); // Allows data for entity being dragged by user to be used in other droppables
 
   const [movePage] = useMutation(MOVE_PAGE_MUTATION);
   const [moveFolder] = useMutation(MOVE_FOLDER_MUTATION);
@@ -109,6 +116,16 @@ const NavigationSidebar = ({ questionnaire }) => {
 
   const isCurrentPage = (navItemId, currentPageId) =>
     navItemId === currentPageId;
+
+  const handleDragStart = ({ draggableId }) => {
+    // Gets entity being dragged by user if it is a page, folder or section
+    const draggingEntity =
+      getPageById(questionnaire, draggableId) ||
+      getFolderById(questionnaire, draggableId) ||
+      getSectionById(questionnaire, draggableId);
+
+    setEntity(draggingEntity);
+  };
 
   const handleDragEnd = ({ destination, source, draggableId }) =>
     onDragEnd(
@@ -157,7 +174,10 @@ const NavigationSidebar = ({ questionnaire }) => {
                 </MenuListItem>
               )}
             </NavList>
-            <DragDropContext onDragEnd={handleDragEnd}>
+            <DragDropContext
+              onDragStart={handleDragStart}
+              onDragEnd={handleDragEnd}
+            >
               <Droppable droppableId={`root`} type={`sections`}>
                 {(
                   { innerRef, placeholder, droppableProps },
@@ -168,15 +188,19 @@ const NavigationSidebar = ({ questionnaire }) => {
                     isDraggingOver={isDraggingOver}
                     {...droppableProps}
                   >
-                    {questionnaire.sections.map(({ id, ...rest }) => (
-                      <Section
-                        key={`section-${id}`}
-                        id={id}
-                        questionnaireId={questionnaire.id}
-                        open={openSections}
-                        {...rest}
-                      />
-                    ))}
+                    {questionnaire.sections.map(
+                      ({ id, repeatingSection, ...rest }) => (
+                        <Section
+                          key={`section-${id}`}
+                          id={id}
+                          questionnaireId={questionnaire.id}
+                          open={openSections}
+                          entity={entity}
+                          repeatingSection={repeatingSection}
+                          {...rest}
+                        />
+                      )
+                    )}
                     {placeholder}
                   </NavList>
                 )}

@@ -5,6 +5,12 @@ import { render } from "tests/utils/rtl";
 import Logic from ".";
 import { MeContext } from "App/MeContext";
 
+jest.mock("hooks/useCreateFolder", () => ({
+  useCreateFolder: jest.fn(),
+  useCreatePageWithFolder: jest.fn(),
+  useCreateListCollectorFolder: jest.fn(),
+}));
+
 jest.mock("@apollo/react-hooks", () => ({
   useSubscription: () => [jest.fn()],
 }));
