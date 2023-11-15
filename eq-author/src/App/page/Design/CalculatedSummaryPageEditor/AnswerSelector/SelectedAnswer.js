@@ -33,6 +33,7 @@ const Title = styled(Truncated)`
 const Chip = styled(MenuItemType)`
   color: ${colors.text};
   float: right;
+  font-size: 0.8em;
 `;
 
 const CloseButton = styled.button`
@@ -75,6 +76,7 @@ const SelectedAnswer = ({
   displayName,
   properties,
   type: answerType,
+  folderType,
   onRemove,
 }) => {
   const unitType = properties.unit || false;
@@ -93,6 +95,9 @@ const SelectedAnswer = ({
       <Wrapper>
         <Title>{displayName}</Title>
         {unitType && <Chip data-test="unit-type">{unitType}</Chip>}
+        {folderType === "ListCollectorFolder" && (
+          <Chip>List collector follow-up</Chip>
+        )}
         <Chip>{answerType}</Chip>
         <CloseButton
           data-test="remove-answer-button"
@@ -109,6 +114,7 @@ SelectedAnswer.propTypes = {
   onRemove: PropType.func.isRequired,
   displayName: PropType.string.isRequired,
   type: PropType.string.isRequired,
+  folderType: PropType.string,
   properties: PropType.object.isRequired, // eslint-disable-line
 };
 

@@ -15,6 +15,9 @@ import {
   DELETE_BUTTON_TEXT,
 } from "constants/modal-content";
 
+import { getPageByAnswerId } from "utils/questionnaireUtils";
+import { useQuestionnaire } from "components/QuestionnaireContext";
+
 const Title = styled.h3`
   font-weight: bold;
   font-size: 0.9em;
@@ -72,6 +75,15 @@ const Answers = ({ page, onUpdateCalculatedSummaryPage, onSelect }) => {
   const sectionTitle = page.section.displayName;
   const answerType = page.summaryAnswers[0].type;
   const selectedAnswers = page.summaryAnswers;
+
+  const { questionnaire } = useQuestionnaire();
+
+  selectedAnswers.forEach((answer) => {
+    answer.folderType = getPageByAnswerId(
+      questionnaire,
+      answer.id
+    )?.folder?.__typename;
+  });
 
   const {
     validationErrorInfo: { errors },
