@@ -234,6 +234,9 @@ const SubMenu = ({ data, onSelected, isSelected, isDisabled }) => {
               {page.pageType === "CalculatedSummaryPage" && (
                 <MenuItemPageType>CALCULATED SUMMARY</MenuItemPageType>
               )}
+              {page.folder?.__typename === "ListCollectorFolder" && (
+                <MenuItemPageType>LIST COLLECTOR FOLLOW-UP</MenuItemPageType>
+              )}
               <MenuItemType>{item.type.toUpperCase()}</MenuItemType>
               {item.type === UNIT && (
                 <MenuItemType>
