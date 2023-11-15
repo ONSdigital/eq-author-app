@@ -46,6 +46,10 @@ const PageSegment = styled.div`
 
 const Content = styled.p``;
 
+const ContentCustomMargin = styled.p`
+  margin-bottom: 0.2em;
+`;
+
 const StyledField = styled(Field)`
   padding: 0 2em;
 `;
@@ -67,6 +71,14 @@ const SelectorTitle = styled.h2`
   color: ${colors.black};
   margin: 0 0 0.4em;
 `;
+
+const UnorderedList = styled.ul`
+  padding-left: 0;
+  margin-top: 0;
+  margin-left: 2em;
+`;
+
+const ListItem = styled.li``;
 
 const HorizontalRule = styled.hr`
   border: 0;
@@ -214,7 +226,19 @@ export const CalculatedSummaryPageEditor = (props) => {
         />
         <HorizontalRule />
         <div>
-          <SelectorTitle>Answers to calculate</SelectorTitle>
+          <SelectorTitle>
+            Select answers or calculated summaries to total
+          </SelectorTitle>
+          <ContentCustomMargin>
+            A calculated summary must include at least:
+          </ContentCustomMargin>
+          <UnorderedList>
+            <ListItem>2 answers of the same type</ListItem>
+            <ListItem>
+              or 1 answer from a list collector follow-up question
+            </ListItem>
+            <ListItem>or 2 calculated summary totals</ListItem>
+          </UnorderedList>
           <AnswerSelector
             onUpdateCalculatedSummaryPage={onUpdateCalculatedSummaryPage}
             page={page}
