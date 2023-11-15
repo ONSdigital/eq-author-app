@@ -9,6 +9,8 @@ import { richTextEditorErrors } from "constants/validationMessages";
 import { colors } from "constants/theme";
 
 import { Field } from "components/Forms";
+import Collapsible from "components/Collapsible";
+
 import RichTextEditor from "components/RichTextEditor";
 import withEntityEditor from "components/withEntityEditor";
 import PageHeader from "../PageHeader";
@@ -22,7 +24,6 @@ import {
   VARIABLES,
 } from "components/ContentPickerSelectv3/content-types";
 
-//new
 import AnswerSelector from "./AnswerSelector";
 
 import withPropRenamed from "enhancers/withPropRenamed";
@@ -168,6 +169,22 @@ export const CalculatedSummaryPageEditor = (props) => {
             different sections.
           </Content>
         </ContentContainer>
+        <Collapsible title="Calculated summary for list collector follow-up questions">
+          <Content>
+            A calculated summary can total the answers for each list item`s
+            follow-up question. If additional answers are selected, they must be
+            of the same answer type.
+          </Content>
+          <Content>
+            The list item will be displayed in the calculated summary table with
+            its corresponding value.
+          </Content>
+          <Content>
+            If 1 list collector follow-up question is selected for the
+            calculated summary and 1 list item is added by the respondent, the
+            summary will be shown.
+          </Content>
+        </Collapsible>
       </StyledField>
       <PageSegment>
         <RichTextEditor
