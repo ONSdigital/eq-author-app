@@ -8,6 +8,7 @@ import gql from "graphql-tag";
 import { richTextEditorErrors } from "constants/validationMessages";
 import { colors } from "constants/theme";
 
+import { Field } from "components/Forms";
 import RichTextEditor from "components/RichTextEditor";
 import withEntityEditor from "components/withEntityEditor";
 import PageHeader from "../PageHeader";
@@ -40,6 +41,24 @@ const titleControls = {
 
 const PageSegment = styled.div`
   padding: 0 2em;
+`;
+
+const Content = styled.p``;
+
+const StyledField = styled(Field)`
+  padding: 0 2em;
+`;
+
+const ContentContainer = styled.span``;
+
+const Title = styled.h2`
+  display: block;
+  font-size: 1em;
+  margin-top: 1.33em;
+  margin-bottom: -0.5em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
 `;
 
 const SelectorTitle = styled.h2`
@@ -134,6 +153,22 @@ export const CalculatedSummaryPageEditor = (props) => {
         isMoveDisabled
         isDuplicateDisabled
       />
+      <StyledField>
+        <Title>What is a calculated summary?</Title>
+        <ContentContainer>
+          <Content>
+            A calculated summary allows you to combine answers of the same type
+            from multiple questions to generate a total.
+          </Content>
+          <Content>
+            Answer types such as currency, number, percentage, and unit are
+            permitted, along with the totals of other calculated summaries. The
+            answers being totalled must belong to the same section, except for
+            the totals of other calculated summaries, which can come from
+            different sections.
+          </Content>
+        </ContentContainer>
+      </StyledField>
       <PageSegment>
         <RichTextEditor
           id="summary-title"
