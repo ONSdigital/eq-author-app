@@ -56,8 +56,21 @@ const ModalToolbar = styled.div`
 
 const MenuContainer = styled.div`
   overflow: hidden;
-  height: 25em;
+  height: 20em;
+  display: flex;
 `;
+
+const ContentCustomMargin = styled.p`
+  margin-bottom: 0.2em;
+`;
+
+const UnorderedList = styled.ul`
+  padding-left: 0;
+  margin-top: 0;
+  margin-left: 2em;
+`;
+
+const ListItem = styled.li``;
 
 const QuestionPicker = ({
   data,
@@ -157,10 +170,20 @@ const QuestionPicker = ({
           <ModalHeader>
             <ModalTitle>{title}</ModalTitle>
             <ModalSubtitle>
-              Answers can only be selected from the current section. Calculated
-              summary totals can be selected from both current and previous
-              sections.
+              The answers being totalled must belong to the same section, except
+              for the totals of other calculated summaries, which can come from
+              different sections.
             </ModalSubtitle>
+            <ContentCustomMargin>
+              A calculated summary must include at least:
+            </ContentCustomMargin>
+            <UnorderedList>
+              <ListItem>2 answers of the same type</ListItem>
+              <ListItem>
+                or 1 answer from a list collector follow-up question
+              </ListItem>
+              <ListItem>or 2 calculated summary totals</ListItem>
+            </UnorderedList>
             <ModalToolbar>
               <SearchBar
                 onChange={({ value }) => setSearchTerm(value)}
