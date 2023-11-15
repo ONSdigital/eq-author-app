@@ -103,6 +103,7 @@ export const MenuItemTitle = styled.div`
   font-size: 1em;
   margin-bottom: 0.1em;
   color: var(--color);
+  width: 33em;
 `;
 
 export const MenuItemSubtitle = styled.div`
@@ -111,7 +112,7 @@ export const MenuItemSubtitle = styled.div`
 `;
 
 export const MenuItemType = styled.span`
-  font-size: 10px;
+  font-size: 0.9em;
   margin: 0 0.25em;
   background: #e4e8eb;
   padding: 0.3em 0.7em;
@@ -123,7 +124,7 @@ export const MenuItemType = styled.span`
 `;
 
 export const MenuItemPageType = styled.span`
-  font-size: 10px;
+  font-size: 0.9em;
   margin: 0 0.25em;
   background: #e4e8eb;
   padding: 0.3em 0.7em;
@@ -132,7 +133,7 @@ export const MenuItemPageType = styled.span`
   color: var(--colorTertiary);
   flex: 0 1 auto;
   justify-self: flex-end;
-  margin-right: 2em;
+  margin-right: 1em;
 `;
 
 export const SectionTitle = styled.div`
@@ -232,12 +233,12 @@ const SubMenu = ({ data, onSelected, isSelected, isDisabled }) => {
                 </MenuItemSubtitle>
               </MenuItemTitles>
               {page.pageType === "CalculatedSummaryPage" && (
-                <MenuItemPageType>CALCULATED SUMMARY</MenuItemPageType>
+                <MenuItemPageType>Calculated summary</MenuItemPageType>
               )}
               {page.folder?.__typename === "ListCollectorFolder" && (
-                <MenuItemPageType>LIST COLLECTOR FOLLOW-UP</MenuItemPageType>
+                <MenuItemPageType>List collector follow-up</MenuItemPageType>
               )}
-              <MenuItemType>{item.type.toUpperCase()}</MenuItemType>
+              <MenuItemType>{item.type}</MenuItemType>
               {item.type === UNIT && (
                 <MenuItemType>
                   {item.properties.unit ? item.properties.unit : "Missing unit"}
