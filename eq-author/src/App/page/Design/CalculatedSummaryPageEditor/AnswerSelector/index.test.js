@@ -169,7 +169,7 @@ describe("Submit selected answers", () => {
     );
     expect(pickerHeader[1]).toBeInTheDocument();
 
-    const calculatedSummaryAnswers = getAllByText("CALCULATED SUMMARY");
+    const calculatedSummaryAnswers = getAllByText("Calculated summary");
     expect(calculatedSummaryAnswers).toBeTruthy();
     calculatedSummaryAnswers[0].click();
     calculatedSummaryAnswers[1].click();
