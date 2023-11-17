@@ -182,3 +182,50 @@ describe("Submit selected answers", () => {
     expect(mockOnUpdateCalculatedSummaryPage).toHaveBeenCalledTimes(1);
   });
 });
+
+describe("Select list collector follow-up answers", () => {
+  let mockOnUpdateCalculatedSummaryPage, mockUseQuestionnaire;
+
+  beforeEach(() => {
+    mockOnUpdateCalculatedSummaryPage = jest.fn();
+
+    mockUseQuestionnaire = jest.fn(() => ({
+      questionnaire: mockCalculatedSummary,
+    }));
+
+    questionnaireContext.useQuestionnaire = mockUseQuestionnaire; // eslint-disable-line import/namespace
+  });
+
+  it("should submit the selected list collector follow-up answers", () => {
+    const { getByText, getAllByText, getByTestId } = render(() => (
+      <AnswerSelector
+        page={mockCalculatedSummary.sections[0].folders[2].pages[0]}
+        onUpdateCalculatedSummaryPage={mockOnUpdateCalculatedSummaryPage}
+      />
+    ));
+
+    const btn = getByText("Select an answer or calculated summary total");
+
+    expect(btn).not.toBeDisabled();
+    btn.click();
+
+    const pickerHeader = getAllByText(
+      "Select an answer or calculated summary total"
+    );
+    expect(pickerHeader[1]).toBeInTheDocument();
+
+    const listCollectorFollowupAnswers = getAllByText(
+      "List collector follow-up"
+    );
+    expect(listCollectorFollowupAnswers).toBeTruthy();
+    listCollectorFollowupAnswers[0].click();
+    listCollectorFollowupAnswers[1].click();
+
+    const selectButton = getByTestId("select-summary-answers");
+    expect(selectButton).toBeTruthy();
+
+    selectButton.click();
+
+    expect(mockOnUpdateCalculatedSummaryPage).toHaveBeenCalledTimes(1);
+  });
+});

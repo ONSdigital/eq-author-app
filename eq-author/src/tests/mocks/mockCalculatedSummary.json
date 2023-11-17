@@ -70,6 +70,253 @@
               "type": "Number"
             }
           ]
+        },
+        {
+          "displayName": "",
+          "title": "Collect1",
+          "folderId": "collect1",
+          "listId": "596b8a41-a115-416a-9571-8d13bce6788c",
+          "pages": [
+            {
+              "answers": [
+                {
+                  "qCode": "q3",
+                  "label": "",
+                  "type": "Radio",
+                  "options": [
+                    {
+                      "qCode": "",
+                      "label": "Yes",
+                      "id": "210b8a3c-bf00-4671-8a2a-93d23333dacf"
+                    },
+                    {
+                      "qCode": "",
+                      "label": "No",
+                      "id": "1d7ecd54-01d8-4454-bbb0-63ad0b1c8fd7"
+                    }
+                  ],
+                  "id": "7083f5d5-97d2-41b7-aaaa-f3640d4967ea",
+                  "properties": {
+                    "required": false
+                  },
+                  "validation": {}
+                }
+              ],
+              "title": "<p>Qualifier1</p>",
+              "additionalGuidanceEnabled": false,
+              "additionalGuidanceContent": "",
+              "pageType": "ListCollectorQualifierPage",
+              "pageDescription": "Qualifier page1",
+              "alias": null,
+              "id": "04084cc4-8306-4760-b15e-f238b953fa6a",
+              "position": 0
+            },
+            {
+              "definitionEnabled": false,
+              "additionalInfoContent": null,
+              "description": null,
+              "title": "<p>Add1</p>",
+              "definitionLabel": null,
+              "additionalInfoLabel": null,
+              "pageType": "ListCollectorAddItemPage",
+              "descriptionEnabled": false,
+              "additionalInfoEnabled": false,
+              "definitionContent": null,
+              "guidance": null,
+              "pageDescription": "Add page1",
+              "alias": null,
+              "guidanceEnabled": false,
+              "id": "b9dec144-54fe-4888-9d5a-318237c7c788",
+              "position": 1
+            },
+            {
+              "definitionEnabled": false,
+              "additionalInfoContent": null,
+              "answers": [
+                {
+                  "qCode": "q4",
+                  "description": "",
+                  "label": "<p>Num1</p>",
+                  "type": "Number",
+                  "repeatingLabelAndInputListId": "",
+                  "repeatingLabelAndInput": false,
+                  "guidance": "",
+                  "id": "64702f3e-8973-481f-9892-617365bc32e1",
+                  "questionPageId": "795742a0-0844-474c-a371-99e8af819dbe",
+                  "properties": {
+                    "required": false,
+                    "decimals": 0
+                  },
+                  "validation": {
+                    "maxValue": {
+                      "inclusive": true,
+                      "entityType": "Custom",
+                      "validationType": "maxValue",
+                      "enabled": false,
+                      "id": "d7034d76-cb20-45f7-9770-478d300fbbe0"
+                    },
+                    "minValue": {
+                      "inclusive": true,
+                      "entityType": "Custom",
+                      "validationType": "minValue",
+                      "enabled": false,
+                      "id": "12421c3c-52f9-4a7e-95a8-e38f4b31b8ce"
+                    }
+                  }
+                }
+              ],
+              "folder": {
+                "id": "collect1",
+                "position": 2,
+                "__typename": "ListCollectorFolder",
+                "enabled": false
+              },
+              "description": "",
+              "title": "<p>Num1</p>",
+              "definitionLabel": null,
+              "routing": null,
+              "additionalInfoLabel": null,
+              "pageType": "QuestionPage",
+              "descriptionEnabled": false,
+              "additionalInfoEnabled": false,
+              "definitionContent": null,
+              "guidance": null,
+              "pageDescription": "Num1",
+              "alias": null,
+              "guidanceEnabled": false,
+              "id": "795742a0-0844-474c-a371-99e8af819dbe"
+            },
+            {
+              "definitionEnabled": false,
+              "additionalInfoContent": null,
+              "answers": [
+                {
+                  "qCode": "q5",
+                  "description": "",
+                  "label": "<p>Copy of Num1</p>",
+                  "type": "Number",
+                  "repeatingLabelAndInputListId": "",
+                  "repeatingLabelAndInput": false,
+                  "guidance": "",
+                  "id": "1cfabf70-11cd-440d-8ceb-0c62c7007dfe",
+                  "questionPageId": "795742a0-0844-474c-a371-99e8af819dbe",
+                  "properties": {
+                    "required": false,
+                    "decimals": 0
+                  },
+                  "validation": {
+                    "maxValue": {
+                      "inclusive": true,
+                      "entityType": "Custom",
+                      "validationType": "maxValue",
+                      "enabled": false,
+                      "id": "472aee50-be33-4bc6-b6ce-3969a43ad876"
+                    },
+                    "minValue": {
+                      "inclusive": true,
+                      "entityType": "Custom",
+                      "validationType": "minValue",
+                      "enabled": false,
+                      "id": "73d4a75e-949f-4927-a3c8-7f60301b065d"
+                    }
+                  }
+                }
+              ],
+              "folder": {
+                "id": "collect1",
+                "position": 2,
+                "__typename": "ListCollectorFolder",
+                "enabled": false
+              },
+              "description": "",
+              "title": "<p>Copy of Num1</p>",
+              "definitionLabel": null,
+              "routing": null,
+              "additionalInfoLabel": null,
+              "pageType": "QuestionPage",
+              "descriptionEnabled": false,
+              "additionalInfoEnabled": false,
+              "definitionContent": null,
+              "guidance": null,
+              "pageDescription": "Copy of Num1",
+              "alias": "",
+              "guidanceEnabled": false,
+              "id": "fbc43059-9633-4977-b228-ef37d9610a0d"
+            },
+            {
+              "answers": [
+                {
+                  "qCode": "q6",
+                  "label": "",
+                  "type": "Radio",
+                  "options": [
+                    {
+                      "qCode": "",
+                      "label": "Yes",
+                      "id": "81d0d18e-65c5-4ab8-a04a-ca67e67d1260"
+                    },
+                    {
+                      "qCode": "",
+                      "label": "No",
+                      "id": "9d1cd58e-e054-46a1-ac68-fb5bedb5ad53"
+                    }
+                  ],
+                  "id": "6b4fe99c-5aad-481a-a169-e10f1cdd99e8",
+                  "properties": {
+                    "required": false
+                  },
+                  "validation": {}
+                }
+              ],
+              "title": "<p>Confirm1</p>",
+              "pageType": "ListCollectorConfirmationPage",
+              "pageDescription": "Confirm page1",
+              "alias": null,
+              "id": "343d14cc-2ee4-409b-96e8-a86c8438348d",
+              "position": 2
+            }
+          ],
+          "alias": "",
+          "id": "234ebaf5-80bd-44e9-aef4-76ef7c48a67d"
+        },
+        {
+          "folderId": "d1ced4db-c7af-4da0-b287-6e7f343492c5",
+          "skipConditions": null,
+          "pages": [
+            {
+              "totalTitle": "<p>Summary title2</p>",
+              "answers": [
+                {
+                  "label": "<p>Summary title2</p>",
+                  "type": "Number",
+                  "id": "e8f129ae-827e-411f-af36-d6ece81d8b20",
+                  "validation": {},
+                  "properties": {}
+                }
+              ],
+              "section": {
+                "id": "1",
+                "position": 0,
+                "__typename": "Section",
+                "displayName": "Untitled section"
+              },
+              "title": "<p>Summary2</p>",
+              "type": "Number",
+              "pageType": "CalculatedSummaryPage",
+              "summaryAnswers": [],
+              "pageDescription": "Summary2",
+              "alias": null,
+              "id": "05aaae72-5269-4882-b466-bc450bb4c202",
+              "validationErrorInfo": {
+                "id": "e76d80b3-8d5a-46b3-a9df-6659a976b8a2",
+                "errors": [],
+                "totalCount": 0,
+                "__typename": "ValidationErrorInfo"
+              }
+            }
+          ],
+          "alias": "Folder2",
+          "id": "d1ced4db-c7af-4da0-b287-6e7f343492c5"
         }
       ]
     },
