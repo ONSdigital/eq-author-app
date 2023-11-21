@@ -78,13 +78,6 @@ const Answers = ({ page, onUpdateCalculatedSummaryPage, onSelect }) => {
 
   const { questionnaire } = useQuestionnaire();
 
-  selectedAnswers.forEach((answer) => {
-    answer.folderType = getPageByAnswerId(
-      questionnaire,
-      answer.id
-    )?.folder?.__typename;
-  });
-
   const {
     validationErrorInfo: { errors },
   } = page;
@@ -125,6 +118,10 @@ const Answers = ({ page, onUpdateCalculatedSummaryPage, onSelect }) => {
           {selectedAnswers.map((answer) => (
             <SelectedAnswer
               key={answer.id}
+              insideListCollectorFolder={
+                getPageByAnswerId(questionnaire, answer.id)?.folder?.listId !=
+                null
+              }
               {...answer}
               onRemove={() => handleRemoveAnswers([answer])}
             />

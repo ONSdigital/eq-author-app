@@ -236,7 +236,7 @@ const SubMenu = ({ data, onSelected, isSelected, isDisabled }) => {
               {page.pageType === "CalculatedSummaryPage" && (
                 <MenuItemPageType>Calculated summary</MenuItemPageType>
               )}
-              {page.folder?.__typename === "ListCollectorFolder" && (
+              {page.folder?.listId != null && (
                 <MenuItemPageType>List collector follow-up</MenuItemPageType>
               )}
               <MenuItemType>{item.type}</MenuItemType>

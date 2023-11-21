@@ -76,7 +76,7 @@ const SelectedAnswer = ({
   displayName,
   properties,
   type: answerType,
-  folderType,
+  insideListCollectorFolder,
   onRemove,
 }) => {
   const unitType = properties.unit || false;
@@ -95,9 +95,7 @@ const SelectedAnswer = ({
       <Wrapper>
         <Title>{displayName}</Title>
         {unitType && <Chip data-test="unit-type">{unitType}</Chip>}
-        {folderType === "ListCollectorFolder" && (
-          <Chip>List collector follow-up</Chip>
-        )}
+        {insideListCollectorFolder && <Chip>List collector follow-up</Chip>}
         <Chip>{answerType}</Chip>
         <CloseButton
           data-test="remove-answer-button"
@@ -114,7 +112,7 @@ SelectedAnswer.propTypes = {
   onRemove: PropType.func.isRequired,
   displayName: PropType.string.isRequired,
   type: PropType.string.isRequired,
-  folderType: PropType.string,
+  insideListCollectorFolder: PropType.bool,
   properties: PropType.object.isRequired, // eslint-disable-line
 };
 
