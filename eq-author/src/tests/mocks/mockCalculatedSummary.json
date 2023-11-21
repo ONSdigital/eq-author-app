@@ -168,6 +168,7 @@
               "folder": {
                 "id": "collect1",
                 "position": 2,
+                "listId": 123,
                 "__typename": "ListCollectorFolder",
                 "enabled": false
               },
@@ -225,6 +226,7 @@
               "folder": {
                 "id": "collect1",
                 "position": 2,
+                "listId": 123,
                 "__typename": "ListCollectorFolder",
                 "enabled": false
               },
