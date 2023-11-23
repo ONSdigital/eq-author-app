@@ -103,7 +103,6 @@ export const MenuItemTitle = styled.div`
   font-size: 1em;
   margin-bottom: 0.1em;
   color: var(--color);
-  width: 33em;
 `;
 
 export const MenuItemSubtitle = styled.div`
