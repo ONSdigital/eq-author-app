@@ -42,13 +42,20 @@ const RoutingAnswerContentPicker = ({
     [questionnaire, pageId, includeSelf]
   );
 
+  const filteredPreviousAnswers = previousAnswers.map((answer) => {
+    return {
+      ...answer,
+      folders: answer.folders.filter((folder) => !folder.listId),
+    };
+  });
+
   const metadata =
     questionnaire?.metadata?.filter(
       ({ type }) => type === TEXT.value || type === TEXT_OPTIONAL.value
     ) || [];
 
   const data = {
-    [ANSWER]: previousAnswers,
+    [ANSWER]: filteredPreviousAnswers,
     [METADATA]: metadata,
   };
 
