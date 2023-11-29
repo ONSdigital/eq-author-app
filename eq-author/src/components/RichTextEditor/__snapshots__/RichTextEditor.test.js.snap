@@ -2,7 +2,7 @@
 
 exports[`components/RichTextEditor should allow multiline input 1`] = `
 <Fragment>
-  <PasteModal
+  <mockConstructor
     onCancel={[Function]}
     onConfirm={[Function]}
   />
@@ -339,7 +339,7 @@ exports[`components/RichTextEditor should allow multiline input 1`] = `
 
 exports[`components/RichTextEditor should render 1`] = `
 <Fragment>
-  <PasteModal
+  <mockConstructor
     onCancel={[Function]}
     onConfirm={[Function]}
   />
@@ -677,7 +677,7 @@ exports[`components/RichTextEditor should render 1`] = `
 
 exports[`components/RichTextEditor should render existing content 1`] = `
 <Fragment>
-  <PasteModal
+  <mockConstructor
     onCancel={[Function]}
     onConfirm={[Function]}
   />
@@ -1121,7 +1121,7 @@ exports[`components/RichTextEditor should render existing content 1`] = `
 
 exports[`components/RichTextEditor should show as disabled and readonly when disabled 1`] = `
 <Fragment>
-  <PasteModal
+  <mockConstructor
     onCancel={[Function]}
     onConfirm={[Function]}
   />
