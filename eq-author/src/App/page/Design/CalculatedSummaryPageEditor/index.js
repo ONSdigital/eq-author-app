@@ -183,7 +183,7 @@ export const CalculatedSummaryPageEditor = (props) => {
         </ContentContainer>
         <Collapsible title="Calculated summary for list collector follow-up questions">
           <Content>
-            A calculated summary can total the answers for each list item's
+            A calculated summary can total the answers for each list item&apos;s
             follow-up question. If additional answers are selected, they must be
             of the same answer type.
           </Content>
