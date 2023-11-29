@@ -1,10 +1,40 @@
 import React from "react";
 import { render, fireEvent } from "tests/utils/rtl";
-import PasteModal from ".";
+import PasteModal, { FormatText, preserveRichFormatting } from ".";
 
 import { keyCodes } from "constants/keyCodes";
 
 const { Escape } = keyCodes;
+
+describe("FormatText function", () => {
+  test("replaces multiple spaces with a single space", () => {
+    const inputText = "   Hello    World    ";
+    const expectedOutput = " Hello World ";
+    const result = FormatText(inputText);
+    expect(result).toBe(expectedOutput);
+  });
+
+  // Add more test cases if needed
+});
+
+// Test suite for preserveRichFormatting function
+describe("preserveRichFormatting function", () => {
+  test("replaces multiple spaces and tabs with a single space", () => {
+    const inputText = "   Hello \t\t World    ";
+    const expectedOutput = "Hello World";
+    const result = preserveRichFormatting(inputText);
+    expect(result).toBe(expectedOutput);
+  });
+
+  test("removes leading and trailing spaces from each line", () => {
+    const inputText = "   Line 1   \n   Line 2   \n   Line 3   ";
+    const expectedOutput = "Line 1\nLine 2\nLine 3";
+    const result = preserveRichFormatting(inputText);
+    expect(result).toBe(expectedOutput);
+  });
+
+  // Add more test cases if needed
+});
 
 describe("PasteModal", () => {
   let onConfirm, onCancel;
