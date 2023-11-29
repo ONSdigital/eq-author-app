@@ -15,9 +15,6 @@ import {
   DELETE_BUTTON_TEXT,
 } from "constants/modal-content";
 
-import { getPageByAnswerId } from "utils/questionnaireUtils";
-import { useQuestionnaire } from "components/QuestionnaireContext";
-
 const Title = styled.h3`
   font-weight: bold;
   font-size: 0.9em;
@@ -76,8 +73,6 @@ const Answers = ({ page, onUpdateCalculatedSummaryPage, onSelect }) => {
   const answerType = page.summaryAnswers[0].type;
   const selectedAnswers = page.summaryAnswers;
 
-  const { questionnaire } = useQuestionnaire();
-
   const {
     validationErrorInfo: { errors },
   } = page;
@@ -118,10 +113,7 @@ const Answers = ({ page, onUpdateCalculatedSummaryPage, onSelect }) => {
           {selectedAnswers.map((answer) => (
             <SelectedAnswer
               key={answer.id}
-              insideListCollectorFolder={
-                getPageByAnswerId(questionnaire, answer.id)?.folder?.listId !=
-                null
-              }
+              insideListCollectorFolder={answer?.page?.folder?.listId != null}
               {...answer}
               onRemove={() => handleRemoveAnswers([answer])}
             />
