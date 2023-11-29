@@ -10,6 +10,8 @@ import {
   useCreateListCollectorFolder,
 } from "hooks/useCreateFolder";
 
+import { ListCollectorQualifierPage } from "constants/page-types";
+
 export const defaultCallbacks = {
   onAddQuestionPage: () => {
     throw new Error("onAddQuestionPage callback not defined");
@@ -69,7 +71,10 @@ export const useSetNavigationCallbacksForPage = ({ page, folder, section }) => {
       onAddQuestionPage: () =>
         addQuestionPage({
           folderId: folder.id,
-          position: page.position + 1,
+          position:
+            page.pageType === ListCollectorQualifierPage
+              ? page.position + 2
+              : page.position + 1,
         }),
       onAddCalculatedSummaryPage: () =>
         addCalculatedSummaryPage({

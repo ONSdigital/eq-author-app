@@ -24,9 +24,10 @@ import withCreateSection from "enhancers/withCreateSection";
 import withCreateQuestionConfirmation from "../../withCreateQuestionConfirmation";
 import withCreateIntroductionPage from "../../withCreateIntroductionPage";
 
-import { QuestionPage } from "constants/page-types";
-
-import isListCollectorPageType from "utils/isListCollectorPageType";
+import {
+  QuestionPage,
+  ListCollectorConfirmationPage,
+} from "constants/page-types";
 
 export const UnwrappedNavigationHeader = ({
   onCreateQuestionConfirmation,
@@ -54,6 +55,25 @@ export const UnwrappedNavigationHeader = ({
   const isListCollectorFolder =
     folder && folder.__typename === "ListCollectorFolder";
 
+  const targetIsListCollectorFolder = () => {
+    if (isFolder) {
+      if (folder?.listId && targetInsideFolder) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      if (
+        page?.folder?.listId &&
+        page?.pageType !== ListCollectorConfirmationPage
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  };
+
   switch (entityName) {
     case PAGE:
       section = getSectionByPageId(questionnaire, entityId);
@@ -69,9 +89,13 @@ export const UnwrappedNavigationHeader = ({
       break;
   }
 
-  const canAddQuestionAndCalculatedSummmaryPages =
+  const canAddQuestionPage =
     [PAGE, FOLDER, SECTION].includes(entityName) &&
-    !isListCollectorPageType(page?.pageType); // TODO: List collector folder - update to allow adding follow up questions
+    page?.pageType !== ListCollectorConfirmationPage;
+
+  const canAddCalculatedSummaryPage =
+    [PAGE, FOLDER, SECTION].includes(entityName) &&
+    page?.folder?.listId === undefined;
 
   const canAddFolder = [PAGE, FOLDER, SECTION].includes(entityName);
   const canAddListCollectorFolder =
@@ -82,7 +106,7 @@ export const UnwrappedNavigationHeader = ({
   );
 
   let canAddQuestionConfirmation = false;
-  if (entityName === PAGE) {
+  if (entityName === PAGE && page?.folder?.listId == null) {
     canAddQuestionConfirmation =
       page?.pageType === QuestionPage && !page?.confirmation;
   }
@@ -91,9 +115,7 @@ export const UnwrappedNavigationHeader = ({
     !questionnaire?.introduction &&
     [PAGE, FOLDER, SECTION].includes(entityName);
 
-  const canImportContent =
-    [PAGE, FOLDER, SECTION].includes(entityName) &&
-    !isListCollectorPageType(page?.pageType); // TODO: List collector folder - update to allow importing follow up questions
+  const canImportContent = [PAGE, FOLDER, SECTION].includes(entityName);
 
   const handleAddQuestionPage = (createInsideFolder) => {
     setOpenMenu(!openMenu);
@@ -152,8 +174,8 @@ export const UnwrappedNavigationHeader = ({
         onAddListCollectorFolder={handleAddListCollectorFolder}
         onAddIntroductionPage={handleAddIntroductionPage}
         onStartImportingContent={handleStartImportingContent}
-        canAddQuestionPage={canAddQuestionAndCalculatedSummmaryPages}
-        canAddCalculatedSummaryPage={canAddQuestionAndCalculatedSummmaryPages}
+        canAddQuestionPage={canAddQuestionPage}
+        canAddCalculatedSummaryPage={canAddCalculatedSummaryPage}
         canAddQuestionConfirmation={canAddQuestionConfirmation}
         canAddListCollectorFolder={canAddListCollectorFolder}
         canAddIntroductionPage={canAddIntroductionPage}
@@ -169,6 +191,7 @@ export const UnwrappedNavigationHeader = ({
           questionnaires={getQuestionnaires()}
           stopImporting={() => setImportingContent(false)}
           targetInsideFolder={targetInsideFolder}
+          targetIsListCollectorFolder={targetIsListCollectorFolder()}
         />
       )}
     </>

@@ -53,6 +53,26 @@ export default (
     const newPosition = destination.index;
 
     const sourceFolder = getFolderByPageId(questionnaire, pageBeingMoved.id);
+
+    /* 
+      Prevent dropping question page into list collector folder before add item page and after confirmation page 
+      (only allow question pages between add item and confirmation pages in list collector folder) 
+    */
+    if (destinationFolder.listId != null) {
+      if (destinationFolder.id === sourceFolder.id) {
+        if (
+          newPosition <= 1 ||
+          newPosition >= destinationFolder.pages.length - 1
+        ) {
+          return -1;
+        }
+      } else {
+        if (newPosition <= 1 || newPosition >= destinationFolder.pages.length) {
+          return -1;
+        }
+      }
+    }
+
     sourceFolder.pages.splice(sourceFolder.pages.indexOf(pageBeingMoved), 1);
     destinationFolder.pages.splice(newPosition, 0, pageBeingMoved);
 

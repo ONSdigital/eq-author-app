@@ -223,7 +223,8 @@ export const StatelessBasicAnswer = ({
       )}
       {enableOn(["repeatingIndividualAnswers"]) &&
         answersWithRepeatingAnswersToggle.includes(type) &&
-        pageType === "QuestionPage" && (
+        pageType === "QuestionPage" &&
+        page?.folder?.listId == null && (
           <RepeatingLabelAndInput
             disabled={page.answers.length > 1}
             answer={answer}

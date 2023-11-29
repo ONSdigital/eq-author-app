@@ -1,63 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`QuestionPagePreview should render additional info content missing message 1`] = `
-<QuestionPagePreview__DetailsContent>
-  <Error
-    large={true}
-    margin={false}
-  >
-    Missing additional information content
-  </Error>
-</QuestionPagePreview__DetailsContent>
-`;
+exports[`QuestionPagePreview should render additional info content missing message 1`] = `null`;
 
-exports[`QuestionPagePreview should render additional info label missing message 1`] = `
-<QuestionPagePreview__DetailsTitle>
-  <Error
-    margin={true}
-    small={true}
-  >
-    Missing additional information label
-  </Error>
-</QuestionPagePreview__DetailsTitle>
-`;
+exports[`QuestionPagePreview should render additional info label missing message 1`] = `null`;
 
-exports[`QuestionPagePreview should render definition content missing message 1`] = `
-<QuestionPagePreview__DetailsContent>
-  <Error
-    large={true}
-    margin={false}
-  >
-    Missing definition content
-  </Error>
-</QuestionPagePreview__DetailsContent>
-`;
+exports[`QuestionPagePreview should render definition content missing message 1`] = `null`;
 
-exports[`QuestionPagePreview should render definition label missing message 1`] = `
-<QuestionPagePreview__DetailsTitle>
-  <Error
-    margin={true}
-    small={true}
-  >
-    Missing definition label
-  </Error>
-</QuestionPagePreview__DetailsTitle>
-`;
+exports[`QuestionPagePreview should render definition label missing message 1`] = `null`;
 
-exports[`QuestionPagePreview should render description missing message 1`] = `
-<Error
-  large={true}
-  margin={true}
->
-  Missing description
-</Error>
-`;
+exports[`QuestionPagePreview should render description missing message 1`] = `null`;
 
-exports[`QuestionPagePreview should render guidance missing message 1`] = `
-<Error
-  large={true}
-  margin={true}
->
-  Missing guidance
-</Error>
-`;
+exports[`QuestionPagePreview should render guidance missing message 1`] = `null`;

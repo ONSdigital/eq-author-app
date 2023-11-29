@@ -141,6 +141,7 @@ export const buildListCollectorPages = (idNumber) => {
       id: `qualifier-${idNumber}`,
       displayName: "List collector qualifier page",
       pageType: "ListCollectorQualifierPage",
+      position: 0,
       answers: [
         {
           id: `qualifier-answer-${idNumber}`,
@@ -162,11 +163,13 @@ export const buildListCollectorPages = (idNumber) => {
       id: `add-item-${idNumber}`,
       displayName: "List collector add item page",
       pageType: "ListCollectorAddItemPage",
+      position: 1,
     },
     {
       id: `confirmation--${idNumber}`,
       displayName: "List collector confirmation page",
       pageType: "ListCollectorConfirmationPage",
+      position: 2,
       answers: [
         {
           id: `confirmation-answer-${idNumber}`,

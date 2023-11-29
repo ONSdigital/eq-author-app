@@ -3,6 +3,18 @@ import { shallow } from "enzyme";
 
 import UnwrappedLogicPage from "./";
 
+jest.mock("hooks/useCreateFolder", () => ({
+  useCreateFolder: jest.fn(),
+  useCreatePageWithFolder: jest.fn(),
+  useCreateListCollectorFolder: jest.fn(),
+}));
+
+jest.mock("hooks/useCreateQuestionPage", () => ({
+  useCreateQuestionPage: jest.fn(),
+  useCreateCalculatedSummaryPage: jest.fn(),
+  useCreateListCollectorPage: jest.fn(),
+}));
+
 describe("Logic Page", () => {
   let props;
 

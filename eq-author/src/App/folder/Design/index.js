@@ -100,11 +100,19 @@ const FolderDesignPage = ({ history, match }) => {
 
   const folder = data?.folder;
 
+  const handleAddQuestionPageInsideFolder = () => {
+    if (folder.listId != null) {
+      return onAddQuestionPage({ folderId, position: 2 });
+    } else {
+      return onAddQuestionPage({ folderId, position: 0 });
+    }
+  };
+
   useSetNavigationCallbacks(
     {
       onAddQuestionPage: (createInsideFolder) =>
         createInsideFolder
-          ? onAddQuestionPage({ folderId, position: 0 })
+          ? handleAddQuestionPageInsideFolder()
           : addPageWithFolder({
               sectionId: folder.section.id,
               position: folder.position + 1,

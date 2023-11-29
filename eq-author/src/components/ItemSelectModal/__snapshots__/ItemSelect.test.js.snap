@@ -4,6 +4,7 @@ exports[`PositionModal/ItemSelect Option should render 1`] = `
 <div>
   <VisuallyHidden
     checked={true}
+    disabled={false}
     id="test"
     name="bar"
     onChange={[MockFunction]}
@@ -11,6 +12,8 @@ exports[`PositionModal/ItemSelect Option should render 1`] = `
     value="foo"
   />
   <ItemSelect__Label
+    data-test="option-label-foo"
+    disabled={false}
     htmlFor="test"
     selected={true}
   >
