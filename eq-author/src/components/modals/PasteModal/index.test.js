@@ -13,11 +13,8 @@ describe("FormatText function", () => {
     const result = FormatText(inputText);
     expect(result).toBe(expectedOutput);
   });
-
-  // Add more test cases if needed
 });
 
-// Test suite for preserveRichFormatting function
 describe("preserveRichFormatting function", () => {
   test("replaces multiple spaces and tabs with a single space", () => {
     const inputText = "   Hello \t\t World    ";
@@ -32,8 +29,6 @@ describe("preserveRichFormatting function", () => {
     const result = preserveRichFormatting(inputText);
     expect(result).toBe(expectedOutput);
   });
-
-  // Add more test cases if needed
 });
 
 describe("PasteModal", () => {
