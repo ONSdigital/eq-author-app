@@ -103,12 +103,15 @@ export const MenuItemTitle = styled.div`
   font-size: 1em;
   margin-bottom: 0.1em;
   color: var(--color);
+  width: ${(props) =>
+    props.contentPickerTitle === "Select an answer" ? "30em" : "33em"};
 `;
 
 export const MenuItemSubtitle = styled.div`
   font-size: 0.9em;
   color: var(--colorSecondary);
-  width: 33em;
+  width: ${(props) =>
+    props.contentPickerTitle === "Select an answer" ? "30em" : "33em"};
 `;
 
 export const MenuItemType = styled.span`
@@ -198,7 +201,13 @@ Menu.propTypes = {
   isSelected: PropTypes.func.isRequired,
 };
 
-const SubMenu = ({ data, onSelected, isSelected, isDisabled }) => {
+const SubMenu = ({
+  data,
+  onSelected,
+  isSelected,
+  isDisabled,
+  contentPickerTitle,
+}) => {
   const onEnterUp = (event, item) => {
     if (event.keyCode === 13) {
       //13 is the enter keycode
@@ -223,12 +232,16 @@ const SubMenu = ({ data, onSelected, isSelected, isDisabled }) => {
                 };
 
           return (
-            <SubMenuItem key={item.id} {...enabledProps}>
+            <SubMenuItem
+              key={item.id}
+              contentPickerTitle={contentPickerTitle}
+              {...enabledProps}
+            >
               <MenuItemTitles>
-                <MenuItemTitle>
+                <MenuItemTitle contentPickerTitle={contentPickerTitle}>
                   <Truncated>{item.displayName}</Truncated>
                 </MenuItemTitle>
-                <MenuItemSubtitle>
+                <MenuItemSubtitle contentPickerTitle={contentPickerTitle}>
                   <Truncated>{page.displayName}</Truncated>
                 </MenuItemSubtitle>
               </MenuItemTitles>
@@ -257,6 +270,7 @@ SubMenu.propTypes = {
   onSelected: PropTypes.func.isRequired,
   isSelected: PropTypes.func.isRequired,
   isDisabled: PropTypes.func,
+  contentPickerTitle: PropTypes.string,
 };
 
 const FlatSectionMenu = ({ data, ...otherProps }) =>
