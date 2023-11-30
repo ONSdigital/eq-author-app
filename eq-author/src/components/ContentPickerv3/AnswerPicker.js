@@ -100,11 +100,7 @@ const AnswerPicker = ({
       <MenuContainer>
         {option === OPTION_ANSWERS && data.length > 0 && numOfResults > 0 && (
           <ScrollPane>
-            <FlatSectionMenu
-              data={searchResults}
-              contentPickerTitle={contentPickerTitle}
-              {...otherProps}
-            />
+            <FlatSectionMenu data={searchResults} {...otherProps} />
           </ScrollPane>
         )}
         {option === OPTION_SECTIONS && data.length > 0 && numOfResults > 0 && (

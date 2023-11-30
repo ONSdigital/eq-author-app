@@ -102,15 +102,13 @@ export const MenuItemTitle = styled.div`
   font-size: 1em;
   margin-bottom: 0.1em;
   color: var(--color);
-  width: ${(props) =>
-    props.contentPickerTitle === "Select an answer" ? "28em" : "33em"};
+  width: ${(props) => (props.isCalculatedSummary ? "33em" : "28em")};
 `;
 
 export const MenuItemSubtitle = styled.div`
   font-size: 0.9em;
   color: var(--colorSecondary);
-  width: ${(props) =>
-    props.contentPickerTitle === "Select an answer" ? "28em" : "33em"};
+  width: ${(props) => (props.isCalculatedSummary ? "33em" : "28em")};
 `;
 
 export const MenuItemType = styled.span`
@@ -205,7 +203,7 @@ const SubMenu = ({
   onSelected,
   isSelected,
   isDisabled,
-  contentPickerTitle,
+  isCalculatedSummary,
 }) => {
   const onEnterUp = (event, item) => {
     if (event.keyCode === 13) {
@@ -231,16 +229,12 @@ const SubMenu = ({
                 };
 
           return (
-            <SubMenuItem
-              key={item.id}
-              contentPickerTitle={contentPickerTitle}
-              {...enabledProps}
-            >
+            <SubMenuItem key={item.id} {...enabledProps}>
               <MenuItemTitles>
-                <MenuItemTitle contentPickerTitle={contentPickerTitle}>
+                <MenuItemTitle isCalculatedSummary={isCalculatedSummary}>
                   {item.displayName}
                 </MenuItemTitle>
-                <MenuItemSubtitle contentPickerTitle={contentPickerTitle}>
+                <MenuItemSubtitle isCalculatedSummary={isCalculatedSummary}>
                   <Truncated>{page.displayName}</Truncated>
                 </MenuItemSubtitle>
               </MenuItemTitles>
@@ -269,10 +263,10 @@ SubMenu.propTypes = {
   onSelected: PropTypes.func.isRequired,
   isSelected: PropTypes.func.isRequired,
   isDisabled: PropTypes.func,
-  contentPickerTitle: PropTypes.string,
+  isCalculatedSummary: PropTypes.boolean,
 };
 
-const FlatSectionMenu = ({ data, ...otherProps }) =>
+const FlatSectionMenu = ({ data, isCalculatedSummary, ...otherProps }) =>
   data.map((section) => {
     const numOfPages = getPages({ sections: [section] }).length;
 
@@ -285,6 +279,7 @@ const FlatSectionMenu = ({ data, ...otherProps }) =>
         <SectionTitle>{section.displayName}</SectionTitle>
         <SubMenu
           data={section.folders.flatMap(({ pages }) => pages)}
+          isCalculatedSummary={isCalculatedSummary}
           {...otherProps}
         />
       </div>

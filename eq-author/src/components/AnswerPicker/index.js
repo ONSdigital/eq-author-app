@@ -199,6 +199,7 @@ const QuestionPicker = ({
                 isDisabled={isDisabled}
                 isSelected={isSelected}
                 data={searchResults}
+                isCalculatedSummary
                 {...otherProps}
               />
             </ScrollPane>
