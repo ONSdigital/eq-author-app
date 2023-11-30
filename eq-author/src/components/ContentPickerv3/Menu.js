@@ -24,7 +24,6 @@ export const MenuItem = styled.li`
   align-items: center;
   font-size: 0.9em;
   padding: 0 1em;
-  height: 3.5em;
   background-color: ${colors.white};
   position: relative;
   cursor: pointer;
@@ -104,14 +103,14 @@ export const MenuItemTitle = styled.div`
   margin-bottom: 0.1em;
   color: var(--color);
   width: ${(props) =>
-    props.contentPickerTitle === "Select an answer" ? "30em" : "33em"};
+    props.contentPickerTitle === "Select an answer" ? "28em" : "33em"};
 `;
 
 export const MenuItemSubtitle = styled.div`
   font-size: 0.9em;
   color: var(--colorSecondary);
   width: ${(props) =>
-    props.contentPickerTitle === "Select an answer" ? "30em" : "33em"};
+    props.contentPickerTitle === "Select an answer" ? "28em" : "33em"};
 `;
 
 export const MenuItemType = styled.span`
@@ -239,7 +238,7 @@ const SubMenu = ({
             >
               <MenuItemTitles>
                 <MenuItemTitle contentPickerTitle={contentPickerTitle}>
-                  <Truncated>{item.displayName}</Truncated>
+                  {item.displayName}
                 </MenuItemTitle>
                 <MenuItemSubtitle contentPickerTitle={contentPickerTitle}>
                   <Truncated>{page.displayName}</Truncated>
