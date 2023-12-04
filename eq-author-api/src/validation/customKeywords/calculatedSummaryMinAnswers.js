@@ -24,12 +24,12 @@ module.exports = (ajv) =>
         const folders = getFolders({ questionnaire });
         const pages = getPages({ questionnaire });
 
-        const currentSectionAnswers = pages.reduce(
+        const allAnswers = pages.reduce(
           (acc, page) => (page.answers ? [...acc, ...page.answers] : acc),
           []
         );
 
-        const selectedAnswers = currentSectionAnswers.filter((answer) =>
+        const selectedAnswers = allAnswers.filter((answer) =>
           parentData.summaryAnswers.includes(answer.id)
         );
 
