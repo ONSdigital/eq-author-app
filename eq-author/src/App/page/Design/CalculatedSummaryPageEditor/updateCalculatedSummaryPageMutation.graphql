@@ -22,6 +22,12 @@ mutation UpdateCalculatedSummaryPage(
       page {
         id
         displayName
+        folder {
+          id
+          ... on ListCollectorFolder {
+            listId
+          }
+        }
         section {
           id
           displayName
