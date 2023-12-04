@@ -24,6 +24,7 @@ export const MenuItem = styled.li`
   align-items: center;
   font-size: 0.9em;
   padding: 0 1em;
+  min-height: ${(props) => !props.isCalculatedSummary && `3.5em`};
   background-color: ${colors.white};
   position: relative;
   cursor: pointer;
