@@ -93,7 +93,7 @@ const PipingMenu = ({
   const filteredAnswerData = answerData.map((answer) => {
     return {
       ...answer,
-      folders: answer.folders.filter((folder) => !folder.listId),
+      folders: answer.folders.filter((folder) => folder.listId == null),
     };
   });
 
