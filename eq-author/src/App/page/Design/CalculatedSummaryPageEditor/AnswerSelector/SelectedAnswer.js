@@ -77,6 +77,7 @@ const SelectedAnswer = ({
   properties,
   type: answerType,
   page,
+  insideListCollectorFolder,
   onRemove,
 }) => {
   const unitType = properties.unit || false;
@@ -100,6 +101,7 @@ const SelectedAnswer = ({
         {pageType === "CalculatedSummaryPage" && (
           <Chip>Calculated Summary</Chip>
         )}
+        {insideListCollectorFolder && <Chip>List collector follow-up</Chip>}
         <Chip>{answerType}</Chip>
         <CloseButton
           data-test="remove-answer-button"
@@ -116,6 +118,7 @@ SelectedAnswer.propTypes = {
   onRemove: PropType.func.isRequired,
   displayName: PropType.string.isRequired,
   type: PropType.string.isRequired,
+  insideListCollectorFolder: PropType.bool,
   properties: PropType.object.isRequired, // eslint-disable-line
   page: PropType.object, // eslint-disable-line
 };

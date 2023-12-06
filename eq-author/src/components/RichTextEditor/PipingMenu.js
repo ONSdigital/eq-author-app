@@ -90,10 +90,32 @@ const PipingMenu = ({
     [questionnaire, pageId]
   );
 
+  const filteredAnswerData = answerData.map((answer) => {
+    return {
+      ...answer,
+      folders: answer.folders.filter((folder) => folder.listId == null),
+    };
+  });
+
   const metadataData = questionnaire?.metadata || [];
+
+  let listCollectorFollowUpAnswers = [];
+  answerData.forEach((answer) =>
+    answer.folders.forEach((folder) => {
+      if (folder?.listId === listId) {
+        folder.pages.forEach((page) => {
+          page.answers.forEach((answer) => {
+            listCollectorFollowUpAnswers.push(answer);
+          });
+        });
+      }
+    })
+  );
 
   const listAnswers =
     find(questionnaire?.collectionLists?.lists, { id: listId })?.answers || [];
+
+  const listAllAnswers = [...listAnswers, ...listCollectorFollowUpAnswers];
 
   const supplementaryData =
     questionnaire?.supplementaryData?.data
@@ -112,11 +134,11 @@ const PipingMenu = ({
       case METADATA:
         return metadataData;
       case ANSWER:
-        return answerData;
+        return filteredAnswerData;
       case VARIABLES:
         return allCalculatedSummaryPages;
       case LIST_ANSWER:
-        return listAnswers;
+        return listAllAnswers;
       case SUPPLEMENTARY_DATA:
         return supplementaryData;
       default:

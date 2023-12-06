@@ -24,7 +24,7 @@ export const MenuItem = styled.li`
   align-items: center;
   font-size: 0.9em;
   padding: 0 1em;
-  height: 3.5em;
+  min-height: ${(props) => !props.isCalculatedSummary && `3.5em`};
   background-color: ${colors.white};
   position: relative;
   cursor: pointer;
@@ -103,15 +103,17 @@ export const MenuItemTitle = styled.div`
   font-size: 1em;
   margin-bottom: 0.1em;
   color: var(--color);
+  width: ${(props) => (props.isCalculatedSummary ? "33em" : "28em")};
 `;
 
 export const MenuItemSubtitle = styled.div`
   font-size: 0.9em;
   color: var(--colorSecondary);
+  width: ${(props) => (props.isCalculatedSummary ? "33em" : "28em")};
 `;
 
 export const MenuItemType = styled.span`
-  font-size: 10px;
+  font-size: 0.9em;
   margin: 0 0.25em;
   background: #e4e8eb;
   padding: 0.3em 0.7em;
@@ -123,7 +125,7 @@ export const MenuItemType = styled.span`
 `;
 
 export const MenuItemPageType = styled.span`
-  font-size: 10px;
+  font-size: 0.9em;
   margin: 0 0.25em;
   background: #e4e8eb;
   padding: 0.3em 0.7em;
@@ -132,7 +134,7 @@ export const MenuItemPageType = styled.span`
   color: var(--colorTertiary);
   flex: 0 1 auto;
   justify-self: flex-end;
-  margin-right: 2em;
+  margin-right: 1em;
 `;
 
 export const SectionTitle = styled.div`
@@ -197,7 +199,13 @@ Menu.propTypes = {
   isSelected: PropTypes.func.isRequired,
 };
 
-const SubMenu = ({ data, onSelected, isSelected, isDisabled }) => {
+const SubMenu = ({
+  data,
+  onSelected,
+  isSelected,
+  isDisabled,
+  isCalculatedSummary,
+}) => {
   const onEnterUp = (event, item) => {
     if (event.keyCode === 13) {
       //13 is the enter keycode
@@ -224,17 +232,20 @@ const SubMenu = ({ data, onSelected, isSelected, isDisabled }) => {
           return (
             <SubMenuItem key={item.id} {...enabledProps}>
               <MenuItemTitles>
-                <MenuItemTitle>
-                  <Truncated>{item.displayName}</Truncated>
+                <MenuItemTitle isCalculatedSummary={isCalculatedSummary}>
+                  {item.displayName}
                 </MenuItemTitle>
-                <MenuItemSubtitle>
+                <MenuItemSubtitle isCalculatedSummary={isCalculatedSummary}>
                   <Truncated>{page.displayName}</Truncated>
                 </MenuItemSubtitle>
               </MenuItemTitles>
               {page.pageType === "CalculatedSummaryPage" && (
-                <MenuItemPageType>CALCULATED SUMMARY</MenuItemPageType>
+                <MenuItemPageType>Calculated summary</MenuItemPageType>
               )}
-              <MenuItemType>{item.type.toUpperCase()}</MenuItemType>
+              {page.folder?.listId != null && (
+                <MenuItemPageType>List collector follow-up</MenuItemPageType>
+              )}
+              <MenuItemType>{item.type}</MenuItemType>
               {item.type === UNIT && (
                 <MenuItemType>
                   {item.properties.unit ? item.properties.unit : "Missing unit"}
@@ -253,9 +264,10 @@ SubMenu.propTypes = {
   onSelected: PropTypes.func.isRequired,
   isSelected: PropTypes.func.isRequired,
   isDisabled: PropTypes.func,
+  isCalculatedSummary: PropTypes.boolean,
 };
 
-const FlatSectionMenu = ({ data, ...otherProps }) =>
+const FlatSectionMenu = ({ data, isCalculatedSummary, ...otherProps }) =>
   data.map((section) => {
     const numOfPages = getPages({ sections: [section] }).length;
 
@@ -268,6 +280,7 @@ const FlatSectionMenu = ({ data, ...otherProps }) =>
         <SectionTitle>{section.displayName}</SectionTitle>
         <SubMenu
           data={section.folders.flatMap(({ pages }) => pages)}
+          isCalculatedSummary={isCalculatedSummary}
           {...otherProps}
         />
       </div>
