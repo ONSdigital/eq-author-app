@@ -113,6 +113,7 @@ const Answers = ({ page, onUpdateCalculatedSummaryPage, onSelect }) => {
           {selectedAnswers.map((answer) => (
             <SelectedAnswer
               key={answer.id}
+              insideListCollectorFolder={answer?.page?.folder?.listId != null}
               {...answer}
               onRemove={() => handleRemoveAnswers([answer])}
             />

@@ -217,9 +217,8 @@
                   "calculatedSummaryPosition": {
                     "$data": "/sections"
                   },
-                  "minItems": 2,
-                  "errorMessage": {
-                    "minItems": "ERR_NO_ANSWERS"
+                  "calculatedSummaryMinAnswers": {
+                    "$data": "/sections"
                   }
                 },
                 "totalTitle": {

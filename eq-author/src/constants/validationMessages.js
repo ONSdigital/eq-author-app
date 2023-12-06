@@ -191,7 +191,8 @@ export const characterErrors = {
 };
 
 export const calculatedSummaryErrors = {
-  ERR_NO_ANSWERS: "Select at least two answers or calculated summary totals",
+  ERR_NO_ANSWERS:
+    "Minimum selection requirements not met. Add an answer or calculated summary total.",
   ERR_CALCULATED_UNIT_INCONSISTENCY:
     "Select answers that are the same unit type",
   CALCSUM_MOVED: "The calculated summary must appear after the answers it uses",

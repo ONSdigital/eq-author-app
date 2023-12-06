@@ -230,7 +230,7 @@ describe("Question Picker", () => {
 
     expect(
       getByText(
-        "Answers can only be selected from the current section. Calculated summary totals can be selected from both current and previous sections."
+        "The answers being totalled must belong to the same section, except for the totals of other calculated summaries, which can come from different sections."
       )
     ).toBeTruthy();
   });
