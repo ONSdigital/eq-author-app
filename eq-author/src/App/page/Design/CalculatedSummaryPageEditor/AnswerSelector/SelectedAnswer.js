@@ -34,6 +34,7 @@ const Chip = styled(MenuItemType)`
   color: ${colors.text};
   float: right;
   font-size: 0.8em;
+  margin-left: 0.8em;
 `;
 
 const CloseButton = styled.button`
