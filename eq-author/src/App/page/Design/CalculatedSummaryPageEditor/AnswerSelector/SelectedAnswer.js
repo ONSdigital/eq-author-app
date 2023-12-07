@@ -99,7 +99,7 @@ const SelectedAnswer = ({
         <Title>{displayName}</Title>
         {unitType && <Chip data-test="unit-type">{unitType}</Chip>}
         {pageType === "CalculatedSummaryPage" && (
-          <Chip>Calculated Summary</Chip>
+          <Chip>Calculated summary</Chip>
         )}
         {insideListCollectorFolder && <Chip>List collector follow-up</Chip>}
         <Chip>{answerType}</Chip>
