@@ -16,10 +16,6 @@ describe("Selected answer", () => {
     mockDisplayName = "Star Wars: The Old Republic";
 
     mockType = "Unit";
-
-    mockPage = {
-      pageType: "CalculatedSummaryPage",
-    };
   });
 
   it("Can render", () => {
@@ -62,7 +58,9 @@ describe("Selected answer", () => {
 
   it("displays the calculated summary page type", () => {
     mockType = "Number";
-    mockProperties.unit = "";
+    mockPage = {
+      pageType: "CalculatedSummaryPage",
+    };
 
     const { getByText } = render(
       <SelectedAnswer
@@ -80,7 +78,6 @@ describe("Selected answer", () => {
 
   it("displays the list collector follow-up page type", () => {
     mockType = "Number";
-    mockProperties.unit = "";
 
     const { getByText } = render(
       <SelectedAnswer
