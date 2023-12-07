@@ -4,7 +4,7 @@ import { render } from "tests/utils/rtl";
 import SelectedAnswer from "./SelectedAnswer";
 
 describe("Selected answer", () => {
-  let mockProperties, mockOnRemove, mockDisplayName, mockType;
+  let mockProperties, mockOnRemove, mockDisplayName, mockType, mockPage;
 
   beforeEach(() => {
     mockProperties = {
@@ -16,6 +16,10 @@ describe("Selected answer", () => {
     mockDisplayName = "Star Wars: The Old Republic";
 
     mockType = "Unit";
+
+    mockPage = {
+      pageType: "CalculatedSummaryPage",
+    };
   });
 
   it("Can render", () => {
@@ -54,5 +58,41 @@ describe("Selected answer", () => {
     const unitType = queryByTestId("unit-type");
 
     expect(unitType).not.toBeInTheDocument();
+  });
+
+  it("displays the calculated summary page type", () => {
+    mockType = "Number";
+    mockProperties.unit = "";
+
+    const { getByText } = render(
+      <SelectedAnswer
+        properties={mockProperties}
+        onRemove={mockOnRemove}
+        displayName={mockDisplayName}
+        type={mockType}
+        page={mockPage}
+      />
+    );
+
+    const pageType = getByText("Calculated summary");
+    expect(pageType).toBeInTheDocument();
+  });
+
+  it("displays the list collector follow-up page type", () => {
+    mockType = "Number";
+    mockProperties.unit = "";
+
+    const { getByText } = render(
+      <SelectedAnswer
+        properties={mockProperties}
+        onRemove={mockOnRemove}
+        displayName={mockDisplayName}
+        type={mockType}
+        insideListCollectorFolder
+      />
+    );
+
+    const pageType = getByText("List collector follow-up");
+    expect(pageType).toBeInTheDocument();
   });
 });
