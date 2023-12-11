@@ -112,9 +112,10 @@ describe("Supplementary dataset page", () => {
       } else if (key === GET_SUPPLEMENTARY_DATA_SURVEY_ID_LIST) {
         return {
           data: {
-            supplementaryDataSurveyIdList: {
-              surveyIdList: ["121", "122"],
-            },
+            supplementaryDataSurveyIdList: [
+              { surveyId: "121", surveyName: "survey1" },
+              { surveyId: "122", surveyName: "survey2" },
+            ],
           },
         };
       } else {

@@ -7,14 +7,19 @@ const fetch = require("node-fetch");
 const query = `
 query GetSupplementaryDataSurveyIdList {
     supplementaryDataSurveyIdList {
-        surveyIdList
+        surveyId
+        surveyName
     }
  }`;
 
 fetch.mockImplementation(() =>
   Promise.resolve({
     status: 200,
-    json: () => ["121", "122", "123"],
+    json: () => [
+      { survey_id: "121", survey_name: "survey1" },
+      { survey_id: "122", survey_name: "survey2" },
+      { survey_id: "123", survey_name: "survey3" },
+    ],
   })
 );
 
@@ -22,9 +27,11 @@ describe("SupplementaryDataSurveyIdList", () => {
   it("should query supplementary data survey id list schema", async () => {
     const expectedResponse = {
       data: {
-        supplementaryDataSurveyIdList: {
-          surveyIdList: ["121", "122", "123"],
-        },
+        supplementaryDataSurveyIdList: [
+          { surveyId: "121", surveyName: "survey1" },
+          { surveyId: "122", surveyName: "survey2" },
+          { surveyId: "123", surveyName: "survey3" },
+        ],
       },
     };
 

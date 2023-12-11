@@ -339,9 +339,12 @@ const Resolvers = {
             `unable to get survey list. status(${response.status})`
           );
         }
-        return {
-          surveyIdList: response.data,
-        };
+        return response.data.map((survey) => {
+          return {
+            surveyId: survey.survey_id,
+            surveyName: survey.survey_name,
+          };
+        });
       } catch (err) {
         logger.error(err.message);
         return {
