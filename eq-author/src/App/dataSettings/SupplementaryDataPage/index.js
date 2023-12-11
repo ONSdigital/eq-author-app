@@ -169,7 +169,7 @@ const SupplementaryDataPage = () => {
   const schemaData = tableData?.data;
 
   const surveyIdList =
-    supplementaryDataSurveyIdList?.supplementaryDataSurveyIdList?.surveyIdList;
+    supplementaryDataSurveyIdList?.supplementaryDataSurveyIdList;
 
   const handleUnlinkClick = () => {
     setShowUnlinkModal(true);
@@ -244,9 +244,12 @@ const SupplementaryDataPage = () => {
                               >
                                 Survey ID
                               </Option>
-                              {surveyIdList?.map((surveyID) => (
-                                <Option key={surveyID} value={surveyID}>
-                                  {surveyID}
+                              {surveyIdList?.map((survey) => (
+                                <Option
+                                  key={survey.surveyId}
+                                  value={survey.surveyId}
+                                >
+                                  {survey.surveyId} - {survey.surveyName}
                                 </Option>
                               ))}
                             </CustomSelect>
