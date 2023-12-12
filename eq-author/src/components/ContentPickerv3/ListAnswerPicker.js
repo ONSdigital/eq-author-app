@@ -65,6 +65,7 @@ const TableHeadCol = styled.div`
 
 const VariableItem = styled(SubMenuItem)`
   display: table-row;
+  height: 3.5em;
 `;
 
 const VariableItemList = styled.ul`
