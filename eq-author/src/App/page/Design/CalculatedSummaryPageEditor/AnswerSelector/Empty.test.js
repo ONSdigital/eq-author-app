@@ -39,7 +39,7 @@ describe("Empty state", () => {
     expect(selectBtn).toBeInTheDocument();
 
     const errorMsg = getByText(
-      "Select at least two answers or calculated summary totals"
+      "Minimum selection requirements not met. Add an answer or calculated summary total."
     );
     expect(errorMsg).toBeInTheDocument();
   });

@@ -98,6 +98,15 @@ AnswerSelector.fragments = {
         displayName
         type
         properties
+        page {
+          id
+          folder {
+            id
+            ... on ListCollectorFolder {
+              listId
+            }
+          }
+        }
       }
       type
     }

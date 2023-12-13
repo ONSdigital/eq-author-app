@@ -8,6 +8,9 @@ import gql from "graphql-tag";
 import { richTextEditorErrors } from "constants/validationMessages";
 import { colors } from "constants/theme";
 
+import { Field } from "components/Forms";
+import Collapsible from "components/Collapsible";
+
 import RichTextEditor from "components/RichTextEditor";
 import withEntityEditor from "components/withEntityEditor";
 import PageHeader from "../PageHeader";
@@ -21,7 +24,6 @@ import {
   VARIABLES,
 } from "components/ContentPickerSelectv3/content-types";
 
-//new
 import AnswerSelector from "./AnswerSelector";
 
 import withPropRenamed from "enhancers/withPropRenamed";
@@ -42,11 +44,41 @@ const PageSegment = styled.div`
   padding: 0 2em;
 `;
 
+const Content = styled.p``;
+
+const ContentCustomMargin = styled.p`
+  margin-bottom: 0.2em;
+`;
+
+const StyledField = styled(Field)`
+  padding: 0 2em;
+`;
+
+const ContentContainer = styled.span``;
+
+const Title = styled.h2`
+  display: block;
+  font-size: 1em;
+  margin-top: 1.33em;
+  margin-bottom: -0.5em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+`;
+
 const SelectorTitle = styled.h2`
   font-size: 1em;
   color: ${colors.black};
   margin: 0 0 0.4em;
 `;
+
+const UnorderedList = styled.ul`
+  padding-left: 0;
+  margin-top: 0;
+  margin-left: 2em;
+`;
+
+const ListItem = styled.li``;
 
 const HorizontalRule = styled.hr`
   border: 0;
@@ -134,6 +166,38 @@ export const CalculatedSummaryPageEditor = (props) => {
         isMoveDisabled
         isDuplicateDisabled
       />
+      <StyledField>
+        <Title>What is a calculated summary?</Title>
+        <ContentContainer>
+          <Content>
+            A calculated summary allows you to combine answers of the same type
+            from multiple questions to generate a total.
+          </Content>
+          <Content>
+            Answer types such as currency, number, percentage, and unit are
+            permitted, along with the totals of other calculated summaries. The
+            answers being totalled must belong to the same section, except for
+            the totals of other calculated summaries, which can come from
+            different sections.
+          </Content>
+        </ContentContainer>
+        <Collapsible title="Calculated summary for list collector follow-up questions">
+          <Content>
+            A calculated summary can total the answers for each list item&apos;s
+            follow-up question. If additional answers are selected, they must be
+            of the same answer type.
+          </Content>
+          <Content>
+            The list item will be displayed in the calculated summary table with
+            its corresponding value.
+          </Content>
+          <Content>
+            If 1 list collector follow-up question is selected for the
+            calculated summary and 1 list item is added by the respondent, the
+            summary will be shown.
+          </Content>
+        </Collapsible>
+      </StyledField>
       <PageSegment>
         <RichTextEditor
           id="summary-title"
@@ -162,7 +226,19 @@ export const CalculatedSummaryPageEditor = (props) => {
         />
         <HorizontalRule />
         <div>
-          <SelectorTitle>Answers to calculate</SelectorTitle>
+          <SelectorTitle>
+            Select answers or calculated summaries to total
+          </SelectorTitle>
+          <ContentCustomMargin>
+            A calculated summary must include at least:
+          </ContentCustomMargin>
+          <UnorderedList>
+            <ListItem>2 answers of the same type</ListItem>
+            <ListItem>
+              or 1 answer from a list collector follow-up question
+            </ListItem>
+            <ListItem>or 2 calculated summary totals</ListItem>
+          </UnorderedList>
           <AnswerSelector
             onUpdateCalculatedSummaryPage={onUpdateCalculatedSummaryPage}
             page={page}
