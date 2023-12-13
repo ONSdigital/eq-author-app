@@ -100,6 +100,7 @@ AnswerSelector.fragments = {
         properties
         page {
           id
+          pageType
           folder {
             id
             ... on ListCollectorFolder {
