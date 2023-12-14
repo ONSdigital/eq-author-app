@@ -4,7 +4,6 @@ import { withRouter } from "react-router-dom";
 
 import { CollapsiblesEditor } from "./";
 
-
 describe("CollapsiblesEditor", () => {
   let props, Component;
   beforeEach(() => {
