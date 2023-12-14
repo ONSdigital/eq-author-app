@@ -42,7 +42,7 @@ class WrappingInput extends React.Component {
     bold: false,
   };
 
-  state = { show: false, text: "", event: {} };
+  state = { showPasteModal: false, text: "", event: {} };
 
   handleChange = (e) => {
     e.target.value = e.target.value.replace(/\n/g, " ");
@@ -55,7 +55,7 @@ class WrappingInput extends React.Component {
     e.persist();
     if (/\s{2,}/g.test(text)) {
       this.setState({
-        show: true,
+        showPasteModal: true,
         text: text,
         event: e,
       });
@@ -87,11 +87,11 @@ class WrappingInput extends React.Component {
     }
 
     // Clear the showPasteModal state
-    this.setState({ show: false, text: "" });
+    this.setState({ showPasteModal: false, text: "" });
   };
 
   handleOnPasteCancel = () => {
-    this.setState({ show: false, text: "" });
+    this.setState({ showPasteModal: false, text: "" });
   };
 
   handleKeyDown = (e) => {
@@ -108,7 +108,7 @@ class WrappingInput extends React.Component {
     return (
       <>
         <PasteModal
-          isOpen={state.show}
+          isOpen={state.showPasteModal}
           onConfirm={this.handleOnPasteConfirm}
           onCancel={this.handleOnPasteCancel}
         />
