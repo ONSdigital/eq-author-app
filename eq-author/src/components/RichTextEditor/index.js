@@ -378,12 +378,12 @@ class RichTextEditor extends React.Component {
       : this.hasInlineStyle(editorState, style);
   };
 
-  state = { show: false, text: "", multiline: false };
+  state = { showPasteModal: false, text: "", multiline: false };
 
   handlePaste = (text) => {
     if (/\s{2,}/g.test(text)) {
       this.setState({
-        show: true,
+        showPasteModal: true,
         multiline: false,
         text: text,
       });
@@ -406,13 +406,13 @@ class RichTextEditor extends React.Component {
   handlePasteMultiline = (text) => {
     if (/\s{2,}/g.test(text)) {
       this.setState({
-        show: true,
+        showPasteModal: true,
         multiline: true,
         text: text,
       });
       return "handled";
     } else {
-      return true;
+      return "not-handled";
     }
   };
 
@@ -444,11 +444,15 @@ class RichTextEditor extends React.Component {
     );
 
     // Set the new editor state and close the paste modal
-    this.setState({ editorState: newEditorState, show: false, text: "" });
+    this.setState({
+      editorState: newEditorState,
+      showPasteModal: false,
+      text: "",
+    });
   };
 
   handleOnPasteCancel = () => {
-    this.setState({ show: false, text: "" });
+    this.setState({ showPasteModal: false, text: "" });
   };
 
   handleReturn = () => {
@@ -488,7 +492,7 @@ class RichTextEditor extends React.Component {
     return (
       <>
         <PasteModal
-          isOpen={state.show}
+          isOpen={state.showPasteModal}
           onConfirm={this.handleOnPasteConfirm}
           onCancel={this.handleOnPasteCancel}
         />
