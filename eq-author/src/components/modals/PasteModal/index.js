@@ -26,11 +26,6 @@ const ButtonGroupStyled = styled(ButtonGroup).attrs({
   padding-top: 1.5em;
 `;
 
-export const FormatText = (value) => {
-  value = value.replace(/\s+/g, " ");
-  return value;
-};
-
 export const preserveRichFormatting = (text) => {
   // Replace multiple spaces and tabs with a single space
   let formattedText = text.replace(/[ \t]+/g, " ");

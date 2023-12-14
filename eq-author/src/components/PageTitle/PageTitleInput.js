@@ -6,7 +6,8 @@ import { colors, radius } from "constants/theme";
 import ValidationError from "components/ValidationError";
 // import ExternalLink from "components-themed/ExternalLink";
 
-import PasteModal, { FormatText } from "components/modals/PasteModal";
+import PasteModal from "components/modals/PasteModal";
+import { reduceMultipleSpaces } from "utils/reduceMultipleSpaces";
 
 const PageTitleContent = styled.div`
   color: ${colors.black};
@@ -91,7 +92,7 @@ const PageTitleInput = ({
       // Insert the pasted text at the cursor position
       const newValue =
         currentValue.substring(0, cursorPosition) +
-        FormatText(text) +
+        reduceMultipleSpaces(text) +
         currentValue.substring(target.selectionEnd);
 
       const updatedEvent = { ...event, persist: undefined }; // Create a new event without the persist method

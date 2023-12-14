@@ -1,19 +1,10 @@
 import React from "react";
 import { render, fireEvent } from "tests/utils/rtl";
-import PasteModal, { FormatText, preserveRichFormatting } from ".";
+import PasteModal, { preserveRichFormatting } from ".";
 
 import { keyCodes } from "constants/keyCodes";
 
 const { Escape } = keyCodes;
-
-describe("FormatText function", () => {
-  test("replaces multiple spaces with a single space", () => {
-    const inputText = "   Hello    World    ";
-    const expectedOutput = " Hello World ";
-    const result = FormatText(inputText);
-    expect(result).toBe(expectedOutput);
-  });
-});
 
 describe("preserveRichFormatting function", () => {
   test("replaces multiple spaces and tabs with a single space", () => {

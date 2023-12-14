@@ -8,7 +8,8 @@ import { invoke } from "lodash";
 import { sharedStyles } from "components/Forms/css";
 import ValidationError from "components/ValidationError";
 
-import PasteModal, { FormatText } from "components/modals/PasteModal";
+import PasteModal from "components/modals/PasteModal";
+import { reduceMultipleSpaces } from "utils/reduceMultipleSpaces";
 
 const ENTER_KEY = 13;
 
@@ -72,7 +73,7 @@ class WrappingInput extends React.Component {
       // Concatenate the text before and after the selection with the pasted text
       const newValue =
         currentValue.substring(0, selectionStart) +
-        FormatText(text) +
+        reduceMultipleSpaces(text) +
         currentValue.substring(selectionEnd);
 
       // Create a new event with the updated value

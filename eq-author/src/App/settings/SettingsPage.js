@@ -25,7 +25,7 @@ import {
 } from "constants/validationMessages";
 import LegalBasisSelect from "./LegalBasisSelect";
 
-import { FormatText } from "components/modals/PasteModal";
+import { reduceMultipleSpaces } from "utils/reduceMultipleSpaces";
 
 const StyledPanel = styled.div`
   max-width: 97.5%;
@@ -187,7 +187,7 @@ const SettingsPage = ({ questionnaire }) => {
                         id="questionnaireTitle"
                         value={questionnaireTitle}
                         onChange={({ value }) =>
-                          setQuestionnaireTitle(FormatText(value))
+                          setQuestionnaireTitle(reduceMultipleSpaces(value))
                         }
                         onBlur={(e) => handleTitleChange({ ...e.target })}
                         data-test="change-questionnaire-title"
@@ -205,7 +205,9 @@ const SettingsPage = ({ questionnaire }) => {
                         id="shortTitle"
                         value={questionnaireShortTitle}
                         onChange={({ value }) =>
-                          setQuestionnaireShortTitle(FormatText(value))
+                          setQuestionnaireShortTitle(
+                            reduceMultipleSpaces(value)
+                          )
                         }
                         onBlur={(e) => handleShortTitleChange({ ...e.target })}
                         data-test="change-questionnaire-short-title"
