@@ -58,7 +58,7 @@ const PageTitleInput = ({
   altFieldName,
   errorMessage,
 }) => {
-  const [showPasteModal, setShowPasteModal] = useState({
+  const [pasteModalInfo, setPasteModalInfo] = useState({
     show: false,
     text: "",
     event: {},
@@ -74,7 +74,7 @@ const PageTitleInput = ({
     const text = event.clipboardData.getData("text");
     event.persist();
     if (/\s{2,}/g.test(text)) {
-      setShowPasteModal({
+      setPasteModalInfo({
         show: true,
         text: text,
         event: event,
@@ -83,7 +83,7 @@ const PageTitleInput = ({
   };
 
   const updateOnPaste = () => {
-    const { text, event } = showPasteModal;
+    const { text, event } = pasteModalInfo;
     if (event && event.persist) {
       const target = event.target;
       const cursorPosition = target.selectionStart;
@@ -101,17 +101,17 @@ const PageTitleInput = ({
       onChange(updatedEvent.target);
     }
 
-    // Clear the showPasteModal state
-    setShowPasteModal({ show: false, text: "" });
+    // Clear the pasteModalInfo state
+    setPasteModalInfo({ show: false, text: "" });
   };
 
   const cancelPaste = () => {
-    setShowPasteModal({ show: false, text: "" });
+    setPasteModalInfo({ show: false, text: "" });
   };
   return (
     <PageTitleContent>
       <PasteModal
-        isOpen={showPasteModal.show}
+        isOpen={pasteModalInfo.show}
         onConfirm={updateOnPaste}
         onCancel={cancelPaste}
       />
