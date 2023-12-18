@@ -2,14 +2,15 @@ import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { colors } from "constants/theme";
 import Modal from "components/modals/Modal";
-import ButtonGroup from "components/buttons/ButtonGroup";
-import Button from "components/buttons/Button";
+import Button from "components-themed/buttons";
 import PropTypes from "prop-types";
+import Theme from "contexts/themeContext";
 
 const StyledModal = styled(Modal)`
   .Modal {
     max-width: 500px;
     border-radius: 0.4rem;
+    padding: 0 20px 20px 20px;
   }
 `;
 
@@ -19,11 +20,20 @@ const Title = styled.h2`
 
 const Message = styled.div``;
 
-const ButtonGroupStyled = styled(ButtonGroup).attrs({
-  horizontal: true,
-  align: "right",
-})`
-  padding-top: 1.5em;
+const StyledButtonCancel = styled(Button)`
+  background-color: ${colors.grey15};
+  margin-right: ${(props) => props.margin && `0.5em`};
+`;
+
+const StyledButtonConfirm = styled(Button)`
+  background-color: ${colors.leafGreen};
+  margin-right: ${(props) => props.margin && `0.5em`};
+`;
+
+const ButtonContainer = styled.div`
+  margin-top: 1em;
+  float: right;
+  padding-bottom: 0.3em;
 `;
 
 export const preserveRichFormatting = (text) => {
@@ -73,23 +83,25 @@ const PasteModal = ({
           prevent pasting.
         </p>
       </Message>
-      <ButtonGroupStyled>
-        <Button
-          variant="secondary"
-          onClick={handleCancel}
-          data-test="paste-modal-cancel"
-        >
-          Cancel
-        </Button>
-        <Button
-          variant="primary"
-          onClick={handleConfirm}
-          data-test="paste-modal-confirm"
-          autoFocus
-        >
-          Confirm
-        </Button>
-      </ButtonGroupStyled>
+      <Theme>
+        <ButtonContainer>
+          <StyledButtonCancel
+            variant="secondary"
+            margin
+            onClick={handleCancel}
+            data-test="paste-modal-cancel"
+          >
+            Cancel
+          </StyledButtonCancel>
+          <StyledButtonConfirm
+            variant="primary"
+            onClick={handleConfirm}
+            data-test="paste-modal-confirm"
+          >
+            Confirm
+          </StyledButtonConfirm>
+        </ButtonContainer>
+      </Theme>
     </StyledModal>
   );
 };
