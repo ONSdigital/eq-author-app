@@ -7,7 +7,7 @@ import { keyCodes } from "constants/keyCodes";
 const { Escape } = keyCodes;
 
 describe("preserveRichFormatting function", () => {
-  test("replaces multiple spaces and tabs with a single space", () => {
+  it("should replace multiple spaces and tabs with a single space", () => {
     const inputText = "   Hello \t\t World    ";
     const expectedOutput = "Hello World";
     const result = preserveRichFormatting(inputText);
