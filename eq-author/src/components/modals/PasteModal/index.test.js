@@ -7,14 +7,14 @@ import { keyCodes } from "constants/keyCodes";
 const { Escape } = keyCodes;
 
 describe("preserveRichFormatting function", () => {
-  test("replaces multiple spaces and tabs with a single space", () => {
+  it("should replace multiple spaces and tabs with a single space", () => {
     const inputText = "   Hello \t\t World    ";
     const expectedOutput = "Hello World";
     const result = preserveRichFormatting(inputText);
     expect(result).toBe(expectedOutput);
   });
 
-  test("removes leading and trailing spaces from each line", () => {
+  it("should remove leading and trailing spaces from each line", () => {
     const inputText = "   Line 1   \n   Line 2   \n   Line 3   ";
     const expectedOutput = "Line 1\nLine 2\nLine 3";
     const result = preserveRichFormatting(inputText);
