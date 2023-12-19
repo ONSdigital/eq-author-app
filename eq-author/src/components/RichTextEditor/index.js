@@ -394,7 +394,7 @@ class RichTextEditor extends React.Component {
           Modifier.replaceText(
             this.state.editorState.getCurrentContent(),
             this.state.editorState.getSelection(),
-            text.replace(/\n/g, " ")
+            text.replace(/\n/g, " ").trim()
           )
         )
       );
