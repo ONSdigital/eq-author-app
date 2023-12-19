@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { colors } from "constants/theme";
 import Modal from "components/modals/Modal";
@@ -104,32 +104,6 @@ const PasteModal = ({
       </Theme>
     </StyledModal>
   );
-};
-
-export const usePasteModal = ({ action, ...props }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleConfirm = useCallback(() => {
-    action();
-    setIsOpen(false);
-  }, [action]);
-
-  const handleCancel = useCallback(() => setIsOpen(false), []);
-
-  return {
-    trigger: useCallback(() => setIsOpen(true), []),
-    component: useCallback(
-      () => (
-        <PasteModal
-          {...props}
-          isOpen={isOpen}
-          onConfirm={handleConfirm}
-          onCancel={handleCancel}
-        />
-      ),
-      [props, handleCancel, handleConfirm, isOpen]
-    ),
-  };
 };
 
 PasteModal.propTypes = {

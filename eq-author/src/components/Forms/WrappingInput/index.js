@@ -79,7 +79,7 @@ class WrappingInput extends React.Component {
       // Create a new event with the updated value
       const updatedEvent = {
         ...event,
-        target: { ...target, value: newValue },
+        target: { ...target, value: newValue.trim().replace(/\s+/g, " ") },
       };
 
       // Call the onChange prop with the updated event

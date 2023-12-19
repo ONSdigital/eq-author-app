@@ -96,7 +96,7 @@ const PageTitleInput = ({
         currentValue.substring(target.selectionEnd);
 
       const updatedEvent = { ...event, persist: undefined }; // Create a new event without the persist method
-      updatedEvent.target.value = newValue;
+      updatedEvent.target.value = newValue.trim().replace(/\s+/g, " ");
 
       onChange(updatedEvent.target);
     }
