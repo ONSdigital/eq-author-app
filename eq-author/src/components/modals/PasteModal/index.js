@@ -20,13 +20,7 @@ const Title = styled.h2`
 
 const Message = styled.div``;
 
-const StyledButtonCancel = styled(Button)`
-  background-color: ${colors.grey15};
-  margin-right: ${(props) => props.margin && `0.5em`};
-`;
-
-const StyledButtonConfirm = styled(Button)`
-  background-color: ${colors.leafGreen};
+const StyledButton = styled(Button)`
   margin-right: ${(props) => props.margin && `0.5em`};
 `;
 
@@ -83,23 +77,23 @@ const PasteModal = ({
           prevent pasting.
         </p>
       </Message>
-      <Theme>
+      <Theme themeName={"onsLegacyFont"}>
         <ButtonContainer>
-          <StyledButtonCancel
+          <StyledButton
             variant="secondary"
             margin
             onClick={handleCancel}
             data-test="paste-modal-cancel"
           >
             Cancel
-          </StyledButtonCancel>
-          <StyledButtonConfirm
+          </StyledButton>
+          <StyledButton
             variant="primary"
             onClick={handleConfirm}
             data-test="paste-modal-confirm"
           >
             Confirm
-          </StyledButtonConfirm>
+          </StyledButton>
         </ButtonContainer>
       </Theme>
     </StyledModal>
