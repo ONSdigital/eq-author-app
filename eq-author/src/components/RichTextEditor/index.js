@@ -27,6 +27,10 @@ import { sharedStyles } from "components/Forms/css";
 import { Field, Label } from "components/Forms";
 import ValidationError from "components/ValidationError";
 
+import PasteModal, {
+  preserveRichFormatting,
+} from "components/modals/PasteModal";
+
 const styleMap = {
   ITALIC: {
     backgroundColor: "#cbe2c8",
@@ -290,6 +294,32 @@ class RichTextEditor extends React.Component {
     }
   };
 
+  onHandleBeforeInput = (chars, editorState) => {
+    // Get the current selection
+    const selection = editorState.getSelection();
+
+    // Get the content before and after the current selection
+    const contentState = editorState.getCurrentContent();
+    const blockBefore = contentState
+      .getBlockForKey(selection.getStartKey())
+      .getText()
+      .slice(0, selection.getStartOffset());
+    const blockAfter = contentState
+      .getBlockForKey(selection.getEndKey())
+      .getText()
+      .slice(selection.getEndOffset());
+
+    // Do not output a space if the previous or next character is a space
+    if (
+      (blockBefore.slice(-1) === " " && chars === " ") ||
+      (blockAfter.charAt(0) === " " && chars === " ")
+    ) {
+      return "handled";
+    }
+
+    return "not-handled";
+  };
+
   handleChange = (editorState) => {
     editorState = this.stripFormatting(editorState);
     return this.setState({ editorState });
@@ -348,19 +378,81 @@ class RichTextEditor extends React.Component {
       : this.hasInlineStyle(editorState, style);
   };
 
+  state = { showPasteModal: false, text: "", multiline: false };
+
   handlePaste = (text) => {
-    this.handleChange(
-      EditorState.push(
-        this.state.editorState,
-        Modifier.replaceText(
-          this.state.editorState.getCurrentContent(),
-          this.state.editorState.getSelection(),
-          text.replace(/\n/g, " ")
+    if (/\s{2,}/g.test(text)) {
+      this.setState({
+        showPasteModal: true,
+        multiline: false,
+        text: text,
+      });
+    } else {
+      this.handleChange(
+        EditorState.push(
+          this.state.editorState,
+          Modifier.replaceText(
+            this.state.editorState.getCurrentContent(),
+            this.state.editorState.getSelection(),
+            text.replace(/\n/g, " ").trim()
+          )
         )
-      )
-    );
+      );
+    }
 
     return "handled";
+  };
+
+  handlePasteMultiline = (text) => {
+    if (/\s{2,}/g.test(text)) {
+      this.setState({
+        showPasteModal: true,
+        multiline: true,
+        text: text,
+      });
+      return "handled";
+    } else {
+      return "not-handled";
+    }
+  };
+
+  handleOnPasteConfirm = () => {
+    const { text, multiline, editorState } = this.state;
+    const currentContent = editorState.getCurrentContent();
+    const currentSelection = editorState.getSelection();
+
+    let modifiedText;
+
+    if (multiline) {
+      modifiedText = preserveRichFormatting(text);
+    } else {
+      modifiedText = text.replace(/\n/g, " ").trim().replace(/\s+/g, " ");
+    }
+
+    // Replace the selected text with the pasted content
+    const newContentState = Modifier.replaceText(
+      currentContent,
+      currentSelection,
+      modifiedText
+    );
+
+    // Create a new EditorState with the updated content
+    const newEditorState = EditorState.push(
+      editorState,
+      newContentState,
+      "insert-characters"
+    );
+
+    // Set the new editor state and close the paste modal
+    this.setState({
+      editorState: newEditorState,
+      showPasteModal: false,
+      text: "",
+    });
+  };
+
+  handleOnPasteCancel = () => {
+    this.setState({ showPasteModal: false, text: "" });
   };
 
   handleReturn = () => {
@@ -395,70 +487,81 @@ class RichTextEditor extends React.Component {
     } = this.props;
 
     const hasError = errorValidationMsg && true;
+    const { state } = this;
 
     return (
-      <Wrapper hasError={hasError} withoutMargin={withoutMargin}>
-        <Field
-          onClick={this.handleClick}
-          onBlur={this.handleBlur}
-          onFocus={this.handleFocus}
-          data-test="rte-field"
-          disabled={disabled}
-          last={hasError}
-        >
-          {label && <Label id={`label-${id}`}>{label}</Label>}
-          <Input
-            className={className}
-            size={size}
-            maxHeight={maxHeight}
-            multiline={multiline}
-            placeholderStyle={contentState.getBlockMap().first().getType()}
-            invalid={Boolean(errorValidationMsg)}
+      <>
+        <PasteModal
+          isOpen={state.showPasteModal}
+          onConfirm={this.handleOnPasteConfirm}
+          onCancel={this.handleOnPasteCancel}
+        />
+        <Wrapper hasError={hasError} withoutMargin={withoutMargin}>
+          <Field
+            onClick={this.handleClick}
+            onBlur={this.handleBlur}
+            onFocus={this.handleFocus}
+            data-test="rte-field"
+            disabled={disabled}
+            last={hasError}
           >
-            <Toolbar
-              pageType={pageType}
-              editorState={editorState}
-              onToggle={this.handleToggle}
-              onPiping={this.handlePiping}
-              onLinkChosen={this.handleLinkChosen}
-              isActiveControl={this.isActiveControl}
-              selectionIsCollapsed={selection.isCollapsed()}
-              visible={focused}
-              testId={`${testSelector}-toolbar`}
-              linkCount={linkCount}
-              linkLimit={linkLimit}
-              allCalculatedSummaryPages={allCalculatedSummaryPages}
-              {...otherProps}
-            />
+            {label && <Label id={`label-${id}`}>{label}</Label>}
+            <Input
+              className={className}
+              size={size}
+              maxHeight={maxHeight}
+              multiline={multiline}
+              placeholderStyle={contentState.getBlockMap().first().getType()}
+              invalid={Boolean(errorValidationMsg)}
+            >
+              <Toolbar
+                pageType={pageType}
+                editorState={editorState}
+                onToggle={this.handleToggle}
+                onPiping={this.handlePiping}
+                onLinkChosen={this.handleLinkChosen}
+                isActiveControl={this.isActiveControl}
+                selectionIsCollapsed={selection.isCollapsed()}
+                visible={focused}
+                testId={`${testSelector}-toolbar`}
+                linkCount={linkCount}
+                linkLimit={linkLimit}
+                allCalculatedSummaryPages={allCalculatedSummaryPages}
+                {...otherProps}
+              />
 
-            <Editor
-              ariaLabel={label}
-              ariaLabelledBy={label && `label-${id}`}
-              editorState={editorState}
-              onChange={this.handleChange}
-              ref={this.setEditorInstance}
-              customStyleMap={styleMap}
-              blockStyleFn={getBlockStyle}
-              handleReturn={multiline ? undefined : this.handleReturn}
-              handlePastedText={multiline ? undefined : this.handlePaste}
-              spellCheck
-              webDriverTestID={testSelector}
-              placeholder={placeholder}
-              decorators={[PipedValueDecorator]}
-              plugins={this.plugins}
-              readOnly={disabled}
-            />
-          </Input>
-        </Field>
-        {errorValidationMsg &&
-          (Array.isArray(errorValidationMsg) ? (
-            errorValidationMsg.map((errMsg) => (
-              <ValidationError key={errMsg}>{errMsg}</ValidationError>
-            ))
-          ) : (
-            <ValidationError>{errorValidationMsg}</ValidationError>
-          ))}
-      </Wrapper>
+              <Editor
+                ariaLabel={label}
+                ariaLabelledBy={label && `label-${id}`}
+                editorState={editorState}
+                onChange={this.handleChange}
+                ref={this.setEditorInstance}
+                customStyleMap={styleMap}
+                blockStyleFn={getBlockStyle}
+                handleReturn={multiline ? undefined : this.handleReturn}
+                handlePastedText={
+                  multiline ? this.handlePasteMultiline : this.handlePaste
+                }
+                handleBeforeInput={this.onHandleBeforeInput}
+                spellCheck
+                webDriverTestID={testSelector}
+                placeholder={placeholder}
+                decorators={[PipedValueDecorator]}
+                plugins={this.plugins}
+                readOnly={disabled}
+              />
+            </Input>
+          </Field>
+          {errorValidationMsg &&
+            (Array.isArray(errorValidationMsg) ? (
+              errorValidationMsg.map((errMsg) => (
+                <ValidationError key={errMsg}>{errMsg}</ValidationError>
+              ))
+            ) : (
+              <ValidationError>{errorValidationMsg}</ValidationError>
+            ))}
+        </Wrapper>
+      </>
     );
   }
 }

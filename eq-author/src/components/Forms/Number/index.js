@@ -138,7 +138,7 @@ Number.propTypes = {
   value: PropTypes.number,
   step: PropTypes.number,
   min: PropTypes.number,
-  max: PropTypes.number.isRequired,
+  max: PropTypes.number,
   default: PropTypes.number,
   type: PropTypes.oneOf([CURRENCY, PERCENTAGE, NUMBER, UNIT]),
   "data-test": PropTypes.string,
