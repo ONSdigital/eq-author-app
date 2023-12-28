@@ -86,8 +86,8 @@ module.exports = (ajv) =>
 
           if (!(dataPiped === "supplementary" && list.listName === "")) {
             if (
-              (folder.listId !== undefined && list.id !== folder.listId) ||
-              (folder.listId === undefined &&
+              (folder?.listId !== undefined && list.id !== folder?.listId) ||
+              (folder?.listId === undefined &&
                 (list.id !== section.repeatingSectionListId ||
                   !section.repeatingSection))
             ) {
