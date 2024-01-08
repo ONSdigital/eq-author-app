@@ -152,91 +152,112 @@ const ImportingContent = ({
     }
   };
 
+  const containsConsecutiveSpaces = (text) => {
+    if (/\s{2,}/g.test(text)) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   const onReviewQuestionsSubmit = (selectedQuestions) => {
     const questionIds = selectedQuestions.map(({ id }) => id);
+    let questionContainsConsecutiveSpaces = false;
 
-    let input = {
-      questionIds,
-      questionnaireId: questionnaireImportingFrom.id,
-    };
+    selectedQuestions.forEach((selectedQuestion) => {
+      Object.values(selectedQuestion).forEach((value) => {
+        if (containsConsecutiveSpaces(value)) {
+          questionContainsConsecutiveSpaces = true;
+        }
+      });
+    });
 
-    switch (currentEntityName) {
-      case "section": {
-        input.position = {
-          sectionId: currentEntityId,
-          index: 0,
-        };
+    if (questionContainsConsecutiveSpaces) {
+      //TODO: Display confirm remove consecutive spaces modal
+    } else {
+      let input = {
+        questionIds,
+        questionnaireId: questionnaireImportingFrom.id,
+      };
 
-        break;
-      }
-      case "folder": {
-        const { id: sectionId } = getSectionByFolderId(
-          sourceQuestionnaire,
-          currentEntityId
-        );
+      switch (currentEntityName) {
+        case "section": {
+          input.position = {
+            sectionId: currentEntityId,
+            index: 0,
+          };
 
-        const { listId, position } = getFolderById(
-          sourceQuestionnaire,
-          currentEntityId
-        );
+          break;
+        }
+        case "folder": {
+          const { id: sectionId } = getSectionByFolderId(
+            sourceQuestionnaire,
+            currentEntityId
+          );
 
-        input.position = {
-          sectionId,
-        };
+          const { listId, position } = getFolderById(
+            sourceQuestionnaire,
+            currentEntityId
+          );
 
-        if (targetInsideFolder) {
-          if (listId != null) {
-            input.position.folderId = currentEntityId;
-            input.position.index = 2;
+          input.position = {
+            sectionId,
+          };
+
+          if (targetInsideFolder) {
+            if (listId != null) {
+              input.position.folderId = currentEntityId;
+              input.position.index = 2;
+            } else {
+              input.position.folderId = currentEntityId;
+              input.position.index = 0;
+            }
           } else {
-            input.position.folderId = currentEntityId;
-            input.position.index = 0;
+            input.position.index = position + 1;
           }
-        } else {
-          input.position.index = position + 1;
+
+          break;
         }
+        case "page": {
+          const { id: sectionId } = getSectionByPageId(
+            sourceQuestionnaire,
+            currentEntityId
+          );
 
-        break;
-      }
-      case "page": {
-        const { id: sectionId } = getSectionByPageId(
-          sourceQuestionnaire,
-          currentEntityId
-        );
+          input.position = {
+            sectionId,
+          };
 
-        input.position = {
-          sectionId,
-        };
+          const { id: folderId, position: folderPosition } = getFolderByPageId(
+            sourceQuestionnaire,
+            currentEntityId
+          );
 
-        const { id: folderId, position: folderPosition } = getFolderByPageId(
-          sourceQuestionnaire,
-          currentEntityId
-        );
+          const { pageType, position: positionOfPreviousPage } = getPageById(
+            sourceQuestionnaire,
+            currentEntityId
+          );
 
-        const { pageType, position: positionOfPreviousPage } = getPageById(
-          sourceQuestionnaire,
-          currentEntityId
-        );
+          if (pageType === ListCollectorConfirmationPage) {
+            input.position.index = folderPosition + 1;
+          } else if (pageType === ListCollectorQualifierPage) {
+            input.position.folderId = folderId;
+            input.position.index = positionOfPreviousPage + 2;
+          } else {
+            input.position.folderId = folderId;
+            input.position.index = positionOfPreviousPage + 1;
+          }
 
-        if (pageType === ListCollectorConfirmationPage) {
-          input.position.index = folderPosition + 1;
-        } else if (pageType === ListCollectorQualifierPage) {
-          input.position.folderId = folderId;
-          input.position.index = positionOfPreviousPage + 2;
-        } else {
-          input.position.folderId = folderId;
-          input.position.index = positionOfPreviousPage + 1;
+          break;
         }
+        default: {
+          throw new Error("Unknown entity");
+        }
+      }
 
-        break;
-      }
-      default: {
-        throw new Error("Unknown entity");
-      }
+      importQuestions({ variables: { input } });
+      onGlobalCancel();
     }
-
-    importQuestions({ variables: { input } });
-    onGlobalCancel();
   };
 
   // Selecting sections to import
