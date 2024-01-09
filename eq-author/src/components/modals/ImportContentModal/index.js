@@ -72,7 +72,6 @@ const ImportQuestionReviewModal = ({
 
 ImportQuestionReviewModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  onConfirm: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   onBack: PropTypes.func.isRequired,
   onSelectQuestions: PropTypes.func.isRequired,

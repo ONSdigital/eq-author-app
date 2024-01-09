@@ -26,6 +26,7 @@ import ReviewSectionsModal from "components/modals/ImportSectionReviewModal";
 import SelectContentModal from "components/modals/ImportContentModal";
 import QuestionPicker from "components/QuestionPicker";
 import SectionPicker from "components/SectionPicker";
+import PasteModal from "components/modals/PasteModal";
 
 import {
   ListCollectorQualifierPage,
@@ -48,6 +49,9 @@ const ImportingContent = ({
   const [reviewingSections, setReviewingSections] = useState(false);
   const [selectingSections, setSelectingSections] = useState(false);
   const [selectingContent, setSelectingContent] = useState(false);
+  const [showConsecutiveSpaceModal, setShowConsecutiveSpaceModal] =
+    useState(false);
+
   /*
    * Data
    */
@@ -173,7 +177,12 @@ const ImportingContent = ({
     });
 
     if (questionContainsConsecutiveSpaces) {
-      //TODO: Display confirm remove consecutive spaces modal
+      setReviewingQuestions(false);
+      setSelectingQuestions(false);
+      setReviewingSections(false);
+      setSelectingSections(false);
+      setSelectingContent(false);
+      setShowConsecutiveSpaceModal(true);
     } else {
       let input = {
         questionIds,
@@ -388,7 +397,6 @@ const ImportingContent = ({
           isOpen={selectingContent}
           questionnaire={questionnaireImportingFrom}
           onCancel={onGlobalCancel}
-          onConfirm={onReviewQuestionsSubmit}
           onBack={onBackFromReviewingQuestions}
           onSelectQuestions={onSelectQuestions}
           onSelectSections={onSelectSections}
@@ -490,6 +498,9 @@ const ImportingContent = ({
             );
           }}
         </Query>
+      )}
+      {showConsecutiveSpaceModal && (
+        <PasteModal isOpen={showConsecutiveSpaceModal} />
       )}
     </>
   );
