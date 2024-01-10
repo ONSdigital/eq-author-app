@@ -502,6 +502,7 @@ const ImportingContent = ({
         <ExtraSpaceConfirmationModal
           isOpen={showExtraSpaceModal}
           onConfirm={() => onReviewQuestionsSubmit(questionsToImport)}
+          onCancel={onGlobalCancel}
         />
       )}
     </>
