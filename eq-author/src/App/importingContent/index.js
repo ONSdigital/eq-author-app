@@ -26,7 +26,7 @@ import ReviewSectionsModal from "components/modals/ImportSectionReviewModal";
 import SelectContentModal from "components/modals/ImportContentModal";
 import QuestionPicker from "components/QuestionPicker";
 import SectionPicker from "components/SectionPicker";
-import PasteModal from "components/modals/PasteModal";
+import ExtraSpaceConfirmationModal from "components/modals/PasteModal";
 
 import {
   ListCollectorQualifierPage,
@@ -49,8 +49,7 @@ const ImportingContent = ({
   const [reviewingSections, setReviewingSections] = useState(false);
   const [selectingSections, setSelectingSections] = useState(false);
   const [selectingContent, setSelectingContent] = useState(false);
-  const [showConsecutiveSpaceModal, setShowConsecutiveSpaceModal] =
-    useState(false);
+  const [showExtraSpaceModal, setShowExtraSpaceModal] = useState(false);
 
   /*
    * Data
@@ -156,7 +155,7 @@ const ImportingContent = ({
     }
   };
 
-  const containsConsecutiveSpaces = (text) => {
+  const containsExtraSpaces = (text) => {
     if (/\s{2,}/g.test(text)) {
       return true;
     } else {
@@ -166,23 +165,23 @@ const ImportingContent = ({
 
   const onReviewQuestionsSubmit = (selectedQuestions) => {
     const questionIds = selectedQuestions.map(({ id }) => id);
-    let questionContainsConsecutiveSpaces = false;
+    let questionContainsExtraSpaces = false;
 
     selectedQuestions.forEach((selectedQuestion) => {
       Object.values(selectedQuestion).forEach((value) => {
-        if (containsConsecutiveSpaces(value)) {
-          questionContainsConsecutiveSpaces = true;
+        if (containsExtraSpaces(value)) {
+          questionContainsExtraSpaces = true;
         }
       });
     });
 
-    if (questionContainsConsecutiveSpaces) {
+    if (questionContainsExtraSpaces && !showExtraSpaceModal) {
       setReviewingQuestions(false);
       setSelectingQuestions(false);
       setReviewingSections(false);
       setSelectingSections(false);
       setSelectingContent(false);
-      setShowConsecutiveSpaceModal(true);
+      setShowExtraSpaceModal(true);
     } else {
       let input = {
         questionIds,
@@ -499,8 +498,11 @@ const ImportingContent = ({
           }}
         </Query>
       )}
-      {showConsecutiveSpaceModal && (
-        <PasteModal isOpen={showConsecutiveSpaceModal} />
+      {showExtraSpaceModal && (
+        <ExtraSpaceConfirmationModal
+          isOpen={showExtraSpaceModal}
+          onConfirm={() => onReviewQuestionsSubmit(questionsToImport)}
+        />
       )}
     </>
   );
