@@ -7,6 +7,7 @@ const {
   remapAllNestedIds,
   getSectionsByIds,
 } = require("./utils");
+const removeExtraSpaces = require("../../utils/removeExtraSpaces");
 
 const createFolder = require("../../src/businessLogic/createFolder");
 
@@ -64,6 +65,10 @@ module.exports = {
           )
         );
 
+        const pagesWithoutExtraSpaces = strippedPages.map((page) => {
+          return removeExtraSpaces(page);
+        });
+
         let section;
         if (folderId) {
           const folder = getFolderById(ctx, folderId);
@@ -72,7 +77,7 @@ module.exports = {
               `Folder with ID ${folderId} doesn't exist in target questionnaire.`
             );
           }
-          folder.pages.splice(insertionIndex, 0, ...strippedPages);
+          folder.pages.splice(insertionIndex, 0, ...pagesWithoutExtraSpaces);
           section = getSectionByFolderId(ctx, folderId);
         } else {
           section = getSectionById(ctx, sectionId);
@@ -86,7 +91,9 @@ module.exports = {
           section.folders.splice(
             insertionIndex,
             0,
-            ...strippedPages.map((page) => createFolder({ pages: [page] }))
+            ...pagesWithoutExtraSpaces.map((page) =>
+              createFolder({ pages: [page] })
+            )
           );
         }
 
