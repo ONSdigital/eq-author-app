@@ -30,7 +30,8 @@ module.exports = (ctx, list) => {
 
   if (
     ctx.questionnaire.introduction &&
-    ctx.questionnaire.collectionLists.lists.length === 0
+    (ctx.questionnaire.lists === undefined ||
+      ctx.questionnaire.collectionLists.lists.length === 0)
   ) {
     ctx.questionnaire.introduction.disallowPreviewQuestions = false;
   }
