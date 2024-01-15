@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 import PropTypes from "prop-types";
-import { takeRightWhile } from "lodash";
+import { takeRightWhile, reject } from "lodash";
 
 import {
   ContentSelectButton,
@@ -42,11 +42,18 @@ export const generateAvailableRoutingDestinations = (
   const currentSectionPages = currentSection.folders.flatMap(
     ({ pages }) => pages
   );
-  const routablePages = takeRightWhile(
+  let routablePages = takeRightWhile(
     currentSectionPages,
     ({ id }) => id !== pageId
   );
   routablePages.forEach((page) => (page.section = currentSection));
+
+  routablePages = reject(routablePages, {
+    pageType: "ListCollectorAddItemPage",
+  });
+  routablePages = reject(routablePages, {
+    pageType: "ListCollectorConfirmationPage",
+  });
 
   return {
     pages: routablePages || [],
