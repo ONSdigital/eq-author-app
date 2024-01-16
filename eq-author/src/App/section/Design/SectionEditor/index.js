@@ -36,6 +36,7 @@ import {
 
 const titleControls = {
   emphasis: true,
+  piping: true,
 };
 
 const Padding = styled.div`
@@ -164,6 +165,7 @@ export class SectionEditor extends React.Component {
             size="large"
             testSelector="txt-section-title"
             autoFocus={autoFocusTitle}
+            listId={section.repeatingSectionListId}
             errorValidationMsg={
               section &&
               this.props.getValidationError({
