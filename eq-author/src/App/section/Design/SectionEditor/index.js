@@ -166,6 +166,7 @@ export class SectionEditor extends React.Component {
             testSelector="txt-section-title"
             autoFocus={autoFocusTitle}
             listId={section.repeatingSectionListId}
+            isRepeatingSection={section.repeatingSection}
             errorValidationMsg={
               section &&
               this.props.getValidationError({

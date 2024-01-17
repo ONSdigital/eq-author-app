@@ -177,6 +177,7 @@ class RichTextEditor extends React.Component {
     linkCount: PropTypes.number,
     linkLimit: PropTypes.number,
     withoutMargin: PropTypes.bool,
+    isRepeatingSection: PropTypes.bool,
     allCalculatedSummaryPages: PropTypes.array, //eslint-disable-line
   };
 
@@ -483,6 +484,7 @@ class RichTextEditor extends React.Component {
       linkLimit,
       withoutMargin,
       allCalculatedSummaryPages,
+      isRepeatingSection,
       ...otherProps
     } = this.props;
 
@@ -527,6 +529,7 @@ class RichTextEditor extends React.Component {
                 linkCount={linkCount}
                 linkLimit={linkLimit}
                 allCalculatedSummaryPages={allCalculatedSummaryPages}
+                isRepeatingSection={isRepeatingSection}
                 {...otherProps}
               />
 
