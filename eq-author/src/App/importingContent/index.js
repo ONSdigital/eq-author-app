@@ -158,11 +158,28 @@ const ImportingContent = ({
     }
   };
 
-  const containsExtraSpaces = (text) => {
-    if (/\s{2,}/g.test(text)) {
-      return true;
-    } else {
-      return false;
+  // Checks if inputData contains extra spaces, including all strings, array items and object values
+  const containsExtraSpaces = (inputData) => {
+    // Does not check for extra spaces if inputData is null or undefined
+    if (inputData != null) {
+      // Checks if inputData is a string containing extra spaces
+      if (typeof inputData === "string" && /\s{2,}/g.test(inputData)) {
+        return true;
+      }
+      // If inputData is an array, recursively calls containsExtraSpaces to return true if any of its items contain extra spaces
+      else if (Array.isArray(inputData)) {
+        return inputData.some((element) => containsExtraSpaces(element));
+      }
+      // If inputData is an object, recursively calls containsExtraSpaces to return true if any of its values contain extra spaces
+      else if (typeof inputData === "object") {
+        return Object.values(inputData).some((value) =>
+          containsExtraSpaces(value)
+        );
+      }
+      // If inputData is a different type, return false as it does not contain extra spaces
+      else {
+        return false;
+      }
     }
   };
 
