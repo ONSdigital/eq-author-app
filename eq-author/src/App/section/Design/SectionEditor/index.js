@@ -170,7 +170,10 @@ export class SectionEditor extends React.Component {
               section &&
               this.props.getValidationError({
                 field: "title",
-                message: sectionErrors.SECTION_TITLE_NOT_ENTERED,
+                message:
+                  sectionErrors[
+                    section?.validationErrorInfo?.errors[0]?.errorCode
+                  ],
               })
             }
           />
