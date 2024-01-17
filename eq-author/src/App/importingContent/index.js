@@ -49,7 +49,10 @@ const ImportingContent = ({
   const [reviewingSections, setReviewingSections] = useState(false);
   const [selectingSections, setSelectingSections] = useState(false);
   const [selectingContent, setSelectingContent] = useState(false);
-  const [showExtraSpaceModal, setShowExtraSpaceModal] = useState(false);
+  const [showQuestionExtraSpaceModal, setShowQuestionExtraSpaceModal] =
+    useState(false);
+  const [showSectionExtraSpaceModal, setShowSectionExtraSpaceModal] =
+    useState(false);
 
   /*
    * Data
@@ -175,13 +178,13 @@ const ImportingContent = ({
       });
     });
 
-    if (questionContainsExtraSpaces && !showExtraSpaceModal) {
+    if (questionContainsExtraSpaces && !showQuestionExtraSpaceModal) {
       setReviewingQuestions(false);
       setSelectingQuestions(false);
       setReviewingSections(false);
       setSelectingSections(false);
       setSelectingContent(false);
-      setShowExtraSpaceModal(true);
+      setShowQuestionExtraSpaceModal(true);
     } else {
       let input = {
         questionIds,
@@ -308,57 +311,76 @@ const ImportingContent = ({
 
   const onReviewSectionsSubmit = (selectedSections) => {
     const sectionIds = selectedSections.map(({ id }) => id);
+    let sectionContainsExtraSpaces = false;
 
-    let input = {
-      sectionIds,
-      questionnaireId: questionnaireImportingFrom.id,
-    };
+    selectedSections.forEach((selectedSection) => {
+      Object.values(selectedSection).forEach((value) => {
+        if (containsExtraSpaces(value)) {
+          sectionContainsExtraSpaces = true;
+        }
+      });
+    });
 
-    switch (currentEntityName) {
-      case "section": {
-        const { position } = getSectionById(
-          sourceQuestionnaire,
-          currentEntityId
-        );
+    if (sectionContainsExtraSpaces && !showSectionExtraSpaceModal) {
+      setReviewingQuestions(false);
+      setSelectingQuestions(false);
+      setReviewingSections(false);
+      setSelectingSections(false);
+      setSelectingContent(false);
+      setShowQuestionExtraSpaceModal(false);
+      setShowSectionExtraSpaceModal(true);
+    } else {
+      let input = {
+        sectionIds,
+        questionnaireId: questionnaireImportingFrom.id,
+      };
 
-        input.position = {
-          sectionId: currentEntityId,
-          index: position + 1,
-        };
+      switch (currentEntityName) {
+        case "section": {
+          const { position } = getSectionById(
+            sourceQuestionnaire,
+            currentEntityId
+          );
 
-        break;
+          input.position = {
+            sectionId: currentEntityId,
+            index: position + 1,
+          };
+
+          break;
+        }
+        case "folder": {
+          const { id: sectionId, position: positionOfParentSection } =
+            getSectionByFolderId(sourceQuestionnaire, currentEntityId);
+
+          input.position = {
+            sectionId,
+          };
+
+          input.position.index = positionOfParentSection + 1;
+
+          break;
+        }
+        case "page": {
+          const { id: sectionId, position: positionOfParentSection } =
+            getSectionByPageId(sourceQuestionnaire, currentEntityId);
+
+          input.position = {
+            sectionId,
+          };
+
+          input.position.index = positionOfParentSection + 1;
+
+          break;
+        }
+        default: {
+          throw new Error("Unknown entity");
+        }
       }
-      case "folder": {
-        const { id: sectionId, position: positionOfParentSection } =
-          getSectionByFolderId(sourceQuestionnaire, currentEntityId);
 
-        input.position = {
-          sectionId,
-        };
-
-        input.position.index = positionOfParentSection + 1;
-
-        break;
-      }
-      case "page": {
-        const { id: sectionId, position: positionOfParentSection } =
-          getSectionByPageId(sourceQuestionnaire, currentEntityId);
-
-        input.position = {
-          sectionId,
-        };
-
-        input.position.index = positionOfParentSection + 1;
-
-        break;
-      }
-      default: {
-        throw new Error("Unknown entity");
-      }
+      importSections({ variables: { input } });
+      onGlobalCancel();
     }
-
-    importSections({ variables: { input } });
-    onGlobalCancel();
   };
 
   return (
@@ -498,10 +520,17 @@ const ImportingContent = ({
           }}
         </Query>
       )}
-      {showExtraSpaceModal && (
+      {showQuestionExtraSpaceModal && (
         <ExtraSpaceConfirmationModal
-          isOpen={showExtraSpaceModal}
+          isOpen={showQuestionExtraSpaceModal}
           onConfirm={() => onReviewQuestionsSubmit(questionsToImport)}
+          onCancel={onGlobalCancel}
+        />
+      )}
+      {showSectionExtraSpaceModal && (
+        <ExtraSpaceConfirmationModal
+          isOpen={showSectionExtraSpaceModal}
+          onConfirm={() => onReviewSectionsSubmit(sectionsToImport)}
           onCancel={onGlobalCancel}
         />
       )}
