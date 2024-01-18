@@ -128,13 +128,14 @@ module.exports = {
           );
         }
 
-        let sectionsWithoutLogic = [];
+        const strippedSections = [];
 
         // Re-create UUIDs, strip QCodes, routing and skip conditions from imported pages
         // Keep piping intact for now - will show "[Deleted answer]" to users when piped ID not resolvable
 
         sourceSections.forEach((section) => {
           remapAllNestedIds(section);
+          removeExtraSpaces(section);
           section.displayConditions = null;
           section.questionnaireId = ctx.questionnaire.id;
           section.folders.forEach((folder) => {
@@ -163,7 +164,7 @@ module.exports = {
           if (section.repeatingSectionListId) {
             section.repeatingSectionListId = "";
           }
-          sectionsWithoutLogic.push(section);
+          strippedSections.push(section);
         });
 
         const section = getSectionById(ctx, sectionId);
@@ -173,7 +174,7 @@ module.exports = {
           );
         }
 
-        destinationSections.splice(insertionIndex, 0, ...sectionsWithoutLogic);
+        destinationSections.splice(insertionIndex, 0, ...strippedSections);
         ctx.questionnaire.hub = ctx.questionnaire.sections.length > 1;
         return destinationSections;
       }
