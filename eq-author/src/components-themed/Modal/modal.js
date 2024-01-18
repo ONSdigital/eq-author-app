@@ -74,6 +74,10 @@ const WarningWrapper = styled.div`
   margin-top: 1.3em;
 `;
 
+const ContentWrapper = styled.div`
+  width: 26em;
+`;
+
 const Modal = ({
   title,
   subtitle,
@@ -85,6 +89,7 @@ const Modal = ({
   updatedFontTheme,
   onConfirm,
   onClose,
+  children,
 }) => {
   // https://stackoverflow.com/questions/63074577/close-modal-popup-using-esc-key-on-keyboard
   useEffect(() => {
@@ -111,6 +116,7 @@ const Modal = ({
               </CloseButton>
               <Title>{title}</Title>
               {subtitle && <Subtitle>{subtitle}</Subtitle>}
+              <ContentWrapper>{children}</ContentWrapper>
               {warningMessage && (
                 <WarningWrapper>
                   <Panel withPanelMargin={false} variant="warning">
@@ -176,6 +182,10 @@ Modal.propTypes = {
    * Temporary prop - if false, onsLegacyFont is used as the modal's theme
    */
   updatedFontTheme: PropTypes.bool, // TODO: remove updatedFontTheme when theme container is fixed for fontSize 18px
+  /**
+   * Content to display in the modal.
+   */
+  children: PropTypes.node,
 };
 
 Modal.defaultProps = {

@@ -26,7 +26,7 @@ import ReviewSectionsModal from "components/modals/ImportSectionReviewModal";
 import SelectContentModal from "components/modals/ImportContentModal";
 import QuestionPicker from "components/QuestionPicker";
 import SectionPicker from "components/SectionPicker";
-import ExtraSpaceConfirmationModal from "components/modals/PasteModal";
+import ExtraSpaceConfirmationModal from "components-themed/Modal";
 
 import {
   ListCollectorQualifierPage,
@@ -539,17 +539,39 @@ const ImportingContent = ({
       )}
       {showQuestionExtraSpaceModal && (
         <ExtraSpaceConfirmationModal
+          title="Confirm the removal of extra spaces from selected content"
+          negativeButtonText="Cancel import"
+          warningMessage="By cancelling the content will not be imported"
           isOpen={showQuestionExtraSpaceModal}
           onConfirm={() => onReviewQuestionsSubmit(questionsToImport)}
-          onCancel={onGlobalCancel}
-        />
+          onClose={onGlobalCancel}
+        >
+          <p>
+            The selected content contains extra spaces at the start of lines of
+            text, between words, or at the end of lines of text.
+          </p>
+          <p>
+            Extra spaces need to be removed before this content can be imported.
+          </p>
+        </ExtraSpaceConfirmationModal>
       )}
       {showSectionExtraSpaceModal && (
         <ExtraSpaceConfirmationModal
+          title="Confirm the removal of extra spaces from selected content"
+          negativeButtonText="Cancel import"
+          warningMessage="By cancelling the content will not be imported"
           isOpen={showSectionExtraSpaceModal}
           onConfirm={() => onReviewSectionsSubmit(sectionsToImport)}
-          onCancel={onGlobalCancel}
-        />
+          onClose={onGlobalCancel}
+        >
+          <p>
+            The selected content contains extra spaces at the start of lines of
+            text, between words, or at the end of lines of text.
+          </p>
+          <p>
+            Extra spaces need to be removed before this content can be imported.
+          </p>
+        </ExtraSpaceConfirmationModal>
       )}
     </>
   );
