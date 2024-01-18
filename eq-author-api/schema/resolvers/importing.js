@@ -46,6 +46,7 @@ module.exports = {
         }
 
         pages.forEach((page) => {
+          removeExtraSpaces(page);
           if (page.answers.length === 1) {
             if (page.answers[0].repeatingLabelAndInputListId) {
               page.answers[0].repeatingLabelAndInputListId = "";
@@ -65,10 +66,6 @@ module.exports = {
           )
         );
 
-        const pagesWithoutExtraSpaces = strippedPages.map((page) => {
-          return removeExtraSpaces(page);
-        });
-
         let section;
         if (folderId) {
           const folder = getFolderById(ctx, folderId);
@@ -77,7 +74,7 @@ module.exports = {
               `Folder with ID ${folderId} doesn't exist in target questionnaire.`
             );
           }
-          folder.pages.splice(insertionIndex, 0, ...pagesWithoutExtraSpaces);
+          folder.pages.splice(insertionIndex, 0, ...strippedPages);
           section = getSectionByFolderId(ctx, folderId);
         } else {
           section = getSectionById(ctx, sectionId);
@@ -91,9 +88,7 @@ module.exports = {
           section.folders.splice(
             insertionIndex,
             0,
-            ...pagesWithoutExtraSpaces.map((page) =>
-              createFolder({ pages: [page] })
-            )
+            ...strippedPages.map((page) => createFolder({ pages: [page] }))
           );
         }
 
