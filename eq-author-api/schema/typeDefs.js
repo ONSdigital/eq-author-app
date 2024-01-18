@@ -917,6 +917,8 @@ type Query {
   supplementaryData: SupplementaryData
   publishHistory: [PublishHistoryEvent]
   listNames: [ListName]
+  collectionListNames: [ListName]
+  supplementaryDataListNames: [ListName]
 }
 
 input CommonFilters {

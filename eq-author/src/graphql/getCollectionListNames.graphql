@@ -1,0 +1,7 @@
+query GetCollectionListNames {
+  collectionListNames {
+    id,
+    listName,
+    displayName,
+  }
+}
