@@ -8,7 +8,7 @@ const removeExtraSpaces = (inputObject) => {
           if (typeof item === "object") {
             return removeExtraSpaces(item);
           } else {
-            return item;
+            return item.replace(/\s+/g, " ");
           }
         });
       } else if (typeof inputObject[key] === "object") {
