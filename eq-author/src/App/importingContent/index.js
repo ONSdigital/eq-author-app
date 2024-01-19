@@ -540,9 +540,9 @@ const ImportingContent = ({
       {showQuestionExtraSpaceModal && (
         <ExtraSpaceConfirmationModal
           title="Confirm the removal of extra spaces from selected content"
-          negativeButtonText="Cancel import"
           warningMessage="By cancelling the content will not be imported"
           isOpen={showQuestionExtraSpaceModal}
+          withButtonMargin={false}
           onConfirm={() => onReviewQuestionsSubmit(questionsToImport)}
           onClose={onGlobalCancel}
         >
@@ -558,9 +558,9 @@ const ImportingContent = ({
       {showSectionExtraSpaceModal && (
         <ExtraSpaceConfirmationModal
           title="Confirm the removal of extra spaces from selected content"
-          negativeButtonText="Cancel import"
           warningMessage="By cancelling the content will not be imported"
           isOpen={showSectionExtraSpaceModal}
+          withButtonMargin={false}
           onConfirm={() => onReviewSectionsSubmit(sectionsToImport)}
           onClose={onGlobalCancel}
         >

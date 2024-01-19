@@ -63,21 +63,17 @@ const Subtitle = styled.h3`
 `;
 
 const StyledButton = styled(Button)`
-  margin-top: 3em;
   margin-right: ${(props) => props.margin && `0.5em`};
 `;
 
 const ButtonContainer = styled.div`
   float: right;
   padding-bottom: 0.3em;
+  margin-top: ${(props) => props.withButtonMargin && `3em`};
 `;
 
 const WarningWrapper = styled.div`
   margin-top: 1.3em;
-`;
-
-const ContentWrapper = styled.div`
-  width: 26em;
 `;
 
 const Modal = ({
@@ -87,6 +83,7 @@ const Modal = ({
   positiveButtonText,
   negativeButtonText,
   isOpen,
+  withButtonMargin = true,
   // TODO: remove updatedFontTheme when theme container is fixed for fontSize 18px
   updatedFontTheme,
   onConfirm,
@@ -118,7 +115,7 @@ const Modal = ({
               </CloseButton>
               <Title>{title}</Title>
               {subtitle && <Subtitle>{subtitle}</Subtitle>}
-              <ContentWrapper>{children}</ContentWrapper>
+              {children}
               {warningMessage && (
                 <WarningWrapper>
                   <Panel withPanelMargin={false} variant="warning">
@@ -126,7 +123,7 @@ const Modal = ({
                   </Panel>
                 </WarningWrapper>
               )}
-              <ButtonContainer>
+              <ButtonContainer withButtonMargin={withButtonMargin}>
                 <StyledButton
                   variant="secondary"
                   margin
