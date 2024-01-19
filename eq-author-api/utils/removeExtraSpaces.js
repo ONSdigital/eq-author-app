@@ -1,23 +1,23 @@
-const removeExtraSpaces = (inputObject) => {
-  if (inputObject) {
-    Object.keys(inputObject).forEach((key) => {
-      if (typeof inputObject[key] === "string") {
-        inputObject[key] = inputObject[key].replace(/\s+/g, " ");
-      } else if (Array.isArray(inputObject[key])) {
-        inputObject[key] = inputObject[key].map((item) => {
-          if (typeof item === "object") {
-            return removeExtraSpaces(item);
-          } else {
-            return item.replace(/\s+/g, " ");
-          }
-        });
-      } else if (typeof inputObject[key] === "object") {
-        inputObject[key] = removeExtraSpaces(inputObject[key]);
-      }
-    });
+const removeExtraSpaces = (inputData) => {
+  // Does not remove extra spaces from inputData if inputData is null or undefined
+  if (inputData !== null && inputData !== undefined) {
+    // If inputData is a string, remove extra spaces
+    if (typeof inputData === "string") {
+      inputData = inputData.replace(/\s+/g, " ");
+    }
+    // If inputData is an array, recursively call removeExtraSpaces to remove extra spaces from each of its items
+    else if (Array.isArray(inputData)) {
+      inputData = inputData.map((item) => removeExtraSpaces(item));
+    }
+    // If inputData is an object, loop through each of its keys and recursively call removeExtraSpaces to remove extra spaces from each of its values
+    else if (typeof inputData === "object") {
+      Object.keys(inputData).forEach((key) => {
+        inputData[key] = removeExtraSpaces(inputData[key]);
+      });
+    }
   }
 
-  return inputObject;
+  return inputData;
 };
 
 module.exports = removeExtraSpaces;

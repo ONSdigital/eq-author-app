@@ -1,6 +1,34 @@
 const removeExtraSpaces = require("./removeExtraSpaces");
 
 describe("removeExtraSpaces", () => {
+  it("should remove extra spaces from string values", () => {
+    const sectionTitleWithExtraSpaces = "Section   1";
+
+    const sectionTitleWithoutExtraSpaces = removeExtraSpaces(
+      sectionTitleWithExtraSpaces
+    );
+
+    expect(sectionTitleWithoutExtraSpaces).toEqual("Section 1");
+  });
+
+  it("should remove extra spaces from arrays of strings", () => {
+    const answerLabelsWithExtraSpaces = [
+      "Answer  1",
+      "Answer   2",
+      "Answer  3",
+    ];
+
+    const answerLabelsWithoutExtraSpaces = removeExtraSpaces(
+      answerLabelsWithExtraSpaces
+    );
+
+    expect(answerLabelsWithoutExtraSpaces).toEqual([
+      "Answer 1",
+      "Answer 2",
+      "Answer 3",
+    ]);
+  });
+
   it("should remove extra spaces from all string values in object", () => {
     const sectionWithExtraSpaces = {
       id: "section-with-extra-spaces-1",
@@ -24,6 +52,7 @@ describe("removeExtraSpaces", () => {
         },
       ],
     };
+
     const sectionWithoutExtraSpaces = removeExtraSpaces(sectionWithExtraSpaces);
 
     expect(sectionWithoutExtraSpaces).toMatchObject({
@@ -54,9 +83,11 @@ describe("removeExtraSpaces", () => {
     const page = {
       id: "page-1",
       title: "Page 1",
-      answerLabels: ["Answer  1", "Answer   2", "Answer  3"], // Mock value to test array of strings - `answerLabels` is not an attribute of `page` in Author
+      answerLabels: ["Answer  1", "Answer   2", "Answer  3"], // Mock value to test array of strings in an object - `answerLabels` is not an attribute of `page` in Author
     };
+
     const pageWithoutExtraSpaces = removeExtraSpaces(page);
+
     expect(pageWithoutExtraSpaces).toMatchObject({
       id: "page-1",
       title: "Page 1",
