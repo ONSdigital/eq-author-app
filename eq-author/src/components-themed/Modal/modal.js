@@ -8,7 +8,9 @@ import Theme from "contexts/themeContext";
 import Button from "components-themed/buttons";
 import Panel from "components-themed/panels";
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  color: ${({ theme }) => theme.colors.text};
+`;
 
 const ModalBackground = styled.div`
   position: fixed;
