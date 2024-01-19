@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
 import { Field, Label } from "components/Forms";
 import { useQuery } from "@apollo/react-hooks";
-import GET_LISTNAMES from "graphql/getListNames.graphql";
+import GET_COLLECTION_LISTNAMES from "graphql/getCollectionListNames.graphql";
+import GET_SUPPLEMETARY_LISTNAMES from "graphql/getSupplementaryListNames.graphql";
 import Icon from "assets/icon-select.svg";
 import Loading from "components/Loading";
 import { find, some } from "lodash";
@@ -95,17 +96,28 @@ const renderErrors = (errors, field) => {
 };
 
 const RepeatingSection = ({ section, handleUpdate }) => {
-  const { loading, data } = useQuery(GET_LISTNAMES, {
-    fetchPolicy: "cache-and-network",
-  });
+  const { loading: collectionLoading, data: collectionData } = useQuery(
+    GET_COLLECTION_LISTNAMES,
+    {
+      fetchPolicy: "cache-and-network",
+    }
+  );
+  const { loading: supplementaryLoading, data: supplementaryData } = useQuery(
+    GET_SUPPLEMETARY_LISTNAMES,
+    {
+      fetchPolicy: "cache-and-network",
+    }
+  );
 
-  if (loading) {
+  if (collectionLoading || supplementaryLoading) {
     return <Loading height="100%">Questionnaire lists loading…</Loading>;
   }
   let listNames = [];
-
-  if (data) {
-    listNames = data.listNames || [];
+  if (collectionData && section.position !== 0) {
+    listNames = collectionData.collectionListNames || [];
+  }
+  if (supplementaryData) {
+    listNames = [...listNames, ...supplementaryData.supplementaryDataListNames];
   }
 
   return (
@@ -117,10 +129,7 @@ const RepeatingSection = ({ section, handleUpdate }) => {
         used to ask the same questions for each item selected.
       </Caption>
       <InlineField
-        disabled={
-          !section.allowRepeatingSection ||
-          (section.position === 0 && !section.repeatingSection)
-        }
+        disabled={!section.allowRepeatingSection}
         data-test="repeating-section-toggle-field"
       >
         <Label htmlFor="repeating-section">Repeating section</Label>
