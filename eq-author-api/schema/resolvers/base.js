@@ -367,6 +367,24 @@ const Resolvers = {
       }
       return listNames;
     },
+    collectionListNames: (_, args, ctx) => {
+      const listNames = [];
+      if (ctx.questionnaire?.collectionLists?.lists?.length) {
+        listNames.push(...ctx.questionnaire.collectionLists.lists);
+      }
+      return listNames;
+    },
+    supplementaryDataListNames: (_, args, ctx) => {
+      const listNames = [];
+      if (ctx.questionnaire?.supplementaryData?.data) {
+        listNames.push(
+          ...ctx.questionnaire.supplementaryData.data.filter(
+            (list) => list.listName
+          )
+        );
+      }
+      return listNames;
+    },
   },
 
   Subscription: {
@@ -1785,11 +1803,24 @@ const Resolvers = {
           id === sectionId && !pageId && !folderId
       ),
     comments: ({ id }, args, ctx) => ctx.comments[id],
-    allowRepeatingSection: ({ id }, args, ctx) =>
-      !some(
-        getFoldersBySectionId(ctx, id),
-        (folder) => folder.listId !== undefined
-      ),
+    allowRepeatingSection: (section, args, ctx) => {
+      if (
+        some(
+          getFoldersBySectionId(ctx, section.id),
+          (folder) => folder.listId !== undefined
+        )
+      ) {
+        return false;
+      }
+      if (
+        findIndex(ctx.questionnaire.sections, { id: section.id }) === 0 &&
+        !ctx.questionnaire.supplementaryData &&
+        !section.repeatingSection
+      ) {
+        return false;
+      }
+      return true;
+    },
   },
 
   CollectionLists: {
