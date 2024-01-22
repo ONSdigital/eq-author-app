@@ -90,6 +90,8 @@ const ImportingContent = ({
     setReviewingSections(false);
     setSelectingSections(false);
     setSelectingContent(false);
+    setShowQuestionExtraSpaceModal(false);
+    setShowSectionExtraSpaceModal(false);
   };
 
   // Selecting a questionnaire
