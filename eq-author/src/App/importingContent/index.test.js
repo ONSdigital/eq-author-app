@@ -28,6 +28,9 @@ const listCollectorFolder = buildListCollectorFolders()[0];
 destinationQuestionnaire.sections[0].folders[1] = listCollectorFolder;
 listCollectorFolder.position = 1;
 
+const extraSpaceModalTitle =
+  "Confirm the removal of extra spaces from selected content";
+
 const sourceQuestionnaires = [
   {
     id: "source-questionnaire-id",
@@ -134,6 +137,42 @@ const sourceQuestionnaires = [
                   {
                     id: "answer-4",
                     type: "Number",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: "section-3",
+        title: "Section  3",
+        alias: "",
+        displayName: "Section  3",
+        folders: [
+          {
+            id: "folder-3",
+            pages: [
+              {
+                id: "page-5",
+                title: "Page 5",
+                pageType: "QuestionPage",
+                answers: [
+                  {
+                    id: "answer-5",
+                    type: "Number",
+                  },
+                ],
+              },
+              {
+                id: "page-6",
+                title: "Page 6",
+                pageType: "QuestionPage",
+                answers: [
+                  {
+                    id: "answer-6",
+                    type: "Number",
+                    label: "Answer 6  with extra spaces",
                   },
                 ],
               },
@@ -814,6 +853,67 @@ describe("Importing content", () => {
                 position: {
                   sectionId: destinationSection.id,
                   index: 2,
+                },
+              },
+            },
+          });
+        });
+      });
+
+      describe("Extra spaces", () => {
+        it("should display extra space confirmation modal before importing questions containing extra spaces", () => {
+          useParams.mockImplementation(() => ({
+            questionnaireId: destinationQuestionnaire.id,
+            entityName: "page",
+            entityId:
+              destinationQuestionnaire.sections[0].folders[0].pages[0].id,
+          }));
+
+          const mockImportQuestions = jest.fn();
+          useMutation.mockImplementation(jest.fn(() => [mockImportQuestions]));
+
+          const { getByTestId, getAllByTestId, getByText, queryByText } =
+            renderImportingContent();
+          fireEvent.click(getByText(/All/));
+          const allRows = getAllByTestId("table-row");
+          fireEvent.click(allRows[0]);
+          fireEvent.click(getByTestId("confirm-btn"));
+
+          const questionsButton = getByTestId(
+            "content-modal-select-questions-button"
+          );
+
+          fireEvent.click(questionsButton);
+          fireEvent.click(getByText("Page 6"));
+          fireEvent.click(getByTestId("button-group").children[1]);
+          fireEvent.click(getByTestId("button-group").children[0]);
+
+          const sourceSection = sourceQuestionnaires[0].sections[2];
+          const destinationSection = destinationQuestionnaire.sections[0];
+
+          expect(
+            queryByText("Import content from Source questionnaire 1")
+          ).not.toBeInTheDocument();
+
+          expect(mockImportQuestions).toHaveBeenCalledTimes(0);
+
+          // Extra space confirmation modal
+
+          expect(queryByText(extraSpaceModalTitle)).toBeInTheDocument();
+          const extraSpaceModalConfirmButton =
+            getByTestId("btn-modal-positive");
+
+          fireEvent.click(extraSpaceModalConfirmButton);
+          expect(mockImportQuestions).toHaveBeenCalledTimes(1);
+          expect(mockImportQuestions).toHaveBeenCalledWith({
+            variables: {
+              input: {
+                questionIds: [sourceSection.folders[0].pages[1].id],
+                questionnaireId: sourceQuestionnaires[0].id,
+                position: {
+                  sectionId: destinationSection.id,
+                  folderId: destinationSection.folders[0].id,
+                  index: 1,
                 },
               },
             },
