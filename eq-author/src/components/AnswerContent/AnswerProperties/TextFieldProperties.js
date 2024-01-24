@@ -1,19 +1,29 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import styled from "styled-components";
+
 import Required from "components/AnswerContent/Required";
-import CollapsibleToggled from "components/CollapsibleToggled";
 import InlineField from "components/AnswerContent/Format/InlineField";
-import { filter } from "lodash";
-import Number from "components/Forms/Number";
+import CollapsibleToggled from "components/CollapsibleToggled";
+import Number, { NumberInput } from "components/Forms/Number";
+
+import { radius } from "constants/theme";
+
+const SmallNumber = styled(Number)`
+  width: 7em;
+  margin-left: 0;
+
+  ${NumberInput} {
+    border-radius: ${radius};
+    padding: 0.25em 0.5em;
+  }
+`;
 
 const TextFieldProperties = ({
   answer,
   updateAnswer,
   hasMutuallyExclusiveAnswer,
 }) => {
-  const errors = filter(answer.validationErrorInfo.errors, {
-    field: "maxLength",
-  });
   const [maxLength, setMaxLength] = useState(answer.properties.maxLength);
   useEffect(() => {
     setMaxLength(answer.properties.maxLength);
@@ -38,7 +48,6 @@ const TextFieldProperties = ({
         id="character-length"
         title="Character limit"
         quoted={false}
-        withContentSpace
         onChange={({ value }) =>
           updateAnswer({
             variables: {
@@ -53,15 +62,15 @@ const TextFieldProperties = ({
           id="maxCharactersLimit"
           label={"Maximum number of characters"}
         >
-          <Number
+          <SmallNumber
             id="maxCharactersInput"
             answer={answer}
             name={answer.id}
             value={maxLength}
             onBlur={() => onUpdateMaxLength(maxLength)}
             onChange={({ value }) => setMaxLength(value)}
-            max={200}
-            invalid={errors.length > 0}
+            max={100}
+            min={8}
             data-test="maxCharacterInput"
           />
         </InlineField>
