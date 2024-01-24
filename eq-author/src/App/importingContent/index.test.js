@@ -1277,6 +1277,66 @@ describe("Importing content", () => {
           },
         });
       });
+
+      describe("Extra spaces", () => {
+        it("should display extra space confirmation modal before importing sections containing extra spaces", () => {
+          const mockImportSections = jest.fn();
+          useParams.mockImplementation(() => ({
+            questionnaireId: destinationQuestionnaire.id,
+            entityName: "section",
+            entityId: destinationQuestionnaire.sections[0].id,
+          }));
+
+          useMutation.mockImplementation(jest.fn(() => [mockImportSections]));
+          const { getByTestId, getAllByTestId, getByText, queryByText } =
+            renderImportingContent();
+          fireEvent.click(getByText(/All/));
+          const allRows = getAllByTestId("table-row");
+          fireEvent.click(allRows[0]);
+          fireEvent.click(getByTestId("confirm-btn"));
+
+          const sectionsButton = getByTestId(
+            "content-modal-select-sections-button"
+          );
+
+          fireEvent.click(sectionsButton);
+          fireEvent.click(getByText("Section 3")); // Section picker modal displays section titles without extra spaces
+          fireEvent.click(getByTestId("button-group").children[1]);
+          fireEvent.click(getByTestId("button-group").children[0]);
+
+          const sourceSection = sourceQuestionnaires[0].sections[2];
+          const destinationSection = destinationQuestionnaire.sections[0];
+
+          // Test modal closes
+          expect(
+            queryByText("Import content from Source questionnaire 1")
+          ).not.toBeInTheDocument();
+
+          expect(mockImportSections).toHaveBeenCalledTimes(0);
+
+          // Extra space confirmation modal
+
+          expect(queryByText(extraSpaceModalTitle)).toBeInTheDocument();
+          const extraSpaceModalConfirmButton =
+            getByTestId("btn-modal-positive");
+
+          fireEvent.click(extraSpaceModalConfirmButton);
+          expect(mockImportSections).toHaveBeenCalledTimes(1);
+
+          expect(mockImportSections).toHaveBeenCalledWith({
+            variables: {
+              input: {
+                sectionIds: [sourceSection.id],
+                questionnaireId: sourceQuestionnaires[0].id,
+                position: {
+                  sectionId: destinationSection.id,
+                  index: 1,
+                },
+              },
+            },
+          });
+        });
+      });
     });
   });
 });
