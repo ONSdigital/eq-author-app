@@ -99,6 +99,18 @@
       "then": {
         "$ref": "#/definitions/dateRangeAnswer"
       }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "TextArea"
+          }
+        }
+      },
+      "then": {
+        "$ref": "#/definitions/textAreaAnswer"
+      }
     }
   ],
   "definitions": {
@@ -296,18 +308,28 @@
         }
       ]
     },
+    "textAreaAnswer": {
+      "type": "object",
+      "properties": {
+        "properties": {
+          "type": "object",
+          "properties": {
+            "maxLength": {
+              "type": "number",
+              "minimum": 10,
+              "maximum": 2000,
+              "errorMessage": {
+                "minimum": "ERR_MAX_LENGTH_TOO_SMALL",
+                "maximum": "ERR_MAX_LENGTH_TOO_LARGE"
+              }
+            }
+          }
+        }
+      }
+    },
     "properties": {
       "type": "object",
       "properties": {
-        "maxLength": {
-          "type": "number",
-          "minimum": 10,
-          "maximum": 2000,
-          "errorMessage": {
-            "minimum": "ERR_MAX_LENGTH_TOO_SMALL",
-            "maximum": "ERR_MAX_LENGTH_TOO_LARGE"
-          }
-        },
         "unit": {
           "$ref": "definitions.json#/definitions/populatedString"
         }
