@@ -22,6 +22,15 @@ const Container = styled.div`
   gap: 0.5em;
 `;
 
+const WarningWrapper = styled.div`
+  .warning-icon {
+    margin-top: -1.1em;
+  }
+  .warning-flex-container {
+    width: 40em;
+  }
+`;
+
 const ImportQuestionReviewModal = ({
   questionnaire,
   isOpen,
@@ -41,10 +50,12 @@ const ImportQuestionReviewModal = ({
     <Header>
       <Heading> Import content from {questionnaire.title} </Heading>
       <Subheading>
-        <Warning className="import" withIconMarginTop>
-          Question logic, piping and Qcodes will not be imported. Any extra
-          spaces in lines of text will be removed.
-        </Warning>
+        <WarningWrapper>
+          <Warning>
+            Question logic, piping and Qcodes will not be imported. Any extra
+            spaces in lines of text will be removed.
+          </Warning>
+        </WarningWrapper>
       </Subheading>
     </Header>
     <Content>
