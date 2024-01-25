@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Query } from "react-apollo";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 
 import { useParams } from "react-router-dom";
 import { useMutation } from "@apollo/react-hooks";
@@ -32,6 +33,12 @@ import {
   ListCollectorQualifierPage,
   ListCollectorConfirmationPage,
 } from "constants/page-types";
+
+const ExtraSpaceModalWrapper = styled.div`
+  .modal-button-container {
+    margin-top: 1em;
+  }
+`;
 
 const ImportingContent = ({
   stopImporting,
@@ -540,40 +547,44 @@ const ImportingContent = ({
         </Query>
       )}
       {showQuestionExtraSpaceModal && (
-        <ExtraSpaceConfirmationModal
-          title="Confirm the removal of extra spaces from selected content"
-          warningMessage="By cancelling, the content will not be imported"
-          isOpen={showQuestionExtraSpaceModal}
-          buttonMargin="1em"
-          onConfirm={() => onReviewQuestionsSubmit(questionsToImport)}
-          onClose={onGlobalCancel}
-        >
-          <p>
-            The selected content contains extra spaces at the start of lines of
-            text, between words, or at the end of lines of text.
-          </p>
-          <p>
-            Extra spaces need to be removed before this content can be imported.
-          </p>
-        </ExtraSpaceConfirmationModal>
+        <ExtraSpaceModalWrapper>
+          <ExtraSpaceConfirmationModal
+            title="Confirm the removal of extra spaces from selected content"
+            warningMessage="By cancelling, the content will not be imported"
+            isOpen={showQuestionExtraSpaceModal}
+            onConfirm={() => onReviewQuestionsSubmit(questionsToImport)}
+            onClose={onGlobalCancel}
+          >
+            <p>
+              The selected content contains extra spaces at the start of lines
+              of text, between words, or at the end of lines of text.
+            </p>
+            <p>
+              Extra spaces need to be removed before this content can be
+              imported.
+            </p>
+          </ExtraSpaceConfirmationModal>
+        </ExtraSpaceModalWrapper>
       )}
       {showSectionExtraSpaceModal && (
-        <ExtraSpaceConfirmationModal
-          title="Confirm the removal of extra spaces from selected content"
-          warningMessage="By cancelling, the content will not be imported"
-          isOpen={showSectionExtraSpaceModal}
-          buttonMargin="1em"
-          onConfirm={() => onReviewSectionsSubmit(sectionsToImport)}
-          onClose={onGlobalCancel}
-        >
-          <p>
-            The selected content contains extra spaces at the start of lines of
-            text, between words, or at the end of lines of text.
-          </p>
-          <p>
-            Extra spaces need to be removed before this content can be imported.
-          </p>
-        </ExtraSpaceConfirmationModal>
+        <ExtraSpaceModalWrapper>
+          <ExtraSpaceConfirmationModal
+            title="Confirm the removal of extra spaces from selected content"
+            warningMessage="By cancelling, the content will not be imported"
+            isOpen={showSectionExtraSpaceModal}
+            onConfirm={() => onReviewSectionsSubmit(sectionsToImport)}
+            onClose={onGlobalCancel}
+          >
+            <p>
+              The selected content contains extra spaces at the start of lines
+              of text, between words, or at the end of lines of text.
+            </p>
+            <p>
+              Extra spaces need to be removed before this content can be
+              imported.
+            </p>
+          </ExtraSpaceConfirmationModal>
+        </ExtraSpaceModalWrapper>
       )}
     </>
   );
