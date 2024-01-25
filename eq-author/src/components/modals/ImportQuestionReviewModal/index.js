@@ -112,8 +112,9 @@ const ImportQuestionReviewModal = ({
     <Header>
       <Heading> Import content from {questionnaire.title} </Heading>
       <Subheading>
-        <Warning>
-          Question logic, piping and Qcodes will not be imported.
+        <Warning contentWidth="40em" withIconMarginTop>
+          Question logic, piping and Qcodes will not be imported. Any extra
+          spaces in lines of text will be removed.
         </Warning>
       </Subheading>
     </Header>

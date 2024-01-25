@@ -69,7 +69,7 @@ const StyledButton = styled(Button)`
 const ButtonContainer = styled.div`
   float: right;
   padding-bottom: 0.3em;
-  margin-top: ${(props) => props.withButtonMargin && `3em`};
+  margin-top: ${(props) => props.buttonMargin};
 `;
 
 const WarningWrapper = styled.div`
@@ -83,7 +83,7 @@ const Modal = ({
   positiveButtonText,
   negativeButtonText,
   isOpen,
-  withButtonMargin = true,
+  buttonMargin = "3em",
   // TODO: remove updatedFontTheme when theme container is fixed for fontSize 18px
   updatedFontTheme,
   onConfirm,
@@ -123,7 +123,7 @@ const Modal = ({
                   </Panel>
                 </WarningWrapper>
               )}
-              <ButtonContainer withButtonMargin={withButtonMargin}>
+              <ButtonContainer buttonMargin={buttonMargin}>
                 <StyledButton
                   variant="secondary"
                   margin
@@ -169,6 +169,10 @@ Modal.propTypes = {
    * If true, the modal is displayed on screen.
    */
   isOpen: PropTypes.bool,
+  /**
+   * margin-top applied to button container.
+   */
+  buttonMargin: PropTypes.string,
   /**
    * Function for the modal's positive action.
    */

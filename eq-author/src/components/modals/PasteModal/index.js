@@ -26,9 +26,9 @@ const PasteModal = ({
   return (
     <Modal
       title="Confirm the removal of extra spaces from copied content"
-      warningMessage="By cancelling the content will not be pasted"
+      warningMessage="By cancelling, the content will not be pasted"
       isOpen={isOpen}
-      withButtonMargin={false}
+      buttonMargin="1em"
       onConfirm={handleConfirm}
       onClose={handleCancel}
       data={{ test: "paste-modal" }}
