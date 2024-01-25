@@ -30,7 +30,7 @@ const TextFieldProperties = ({
   }, [answer.properties.maxLength]);
 
   const onUpdateMaxLength = (value) => {
-    const newValue = value === null ? null : value;
+    const newValue = value === null ? 8 : value;
     updateAnswer({
       variables: {
         input: {
