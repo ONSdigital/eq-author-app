@@ -117,17 +117,22 @@ const PipingMenu = ({
 
   const listAllAnswers = [...listAnswers, ...listCollectorFollowUpAnswers];
 
-  const supplementaryData =
-    questionnaire?.supplementaryData?.data
-      .filter((list) => list.listName === "" || list.id === listId)
-      .flatMap((list) => {
-        return list.schemaFields.map((schemaField) => {
-          return {
-            listName: list.listName,
-            ...schemaField,
-          };
-        });
-      }) || [];
+  let allSupplementaryData = questionnaire?.supplementaryData?.data || [];
+
+  if (allSupplementaryData && pageType !== "Introduction") {
+    allSupplementaryData = allSupplementaryData.filter(
+      (list) => list.listName === "" || list.id === listId
+    );
+  }
+
+  const supplementaryData = allSupplementaryData.flatMap((list) => {
+    return list.schemaFields.map((schemaField) => {
+      return {
+        listName: list.listName,
+        ...schemaField,
+      };
+    });
+  });
 
   const handlePickerContent = (contentType) => {
     switch (contentType) {
