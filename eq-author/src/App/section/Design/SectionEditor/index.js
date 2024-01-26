@@ -56,10 +56,10 @@ const SectionCanvas = styled.div`
 const hasNavigation = (section) =>
   get(section, ["questionnaire", "navigation"]);
 
-const getMultipleErrorsByField = (field, validationErrors) => {
+const getMultipleErrorsByField = (field, errorMessages, validationErrors) => {
   const errorArray = validationErrors.filter((error) => error.field === field);
   const errMsgArray = errorArray.map(
-    (error) => sectionErrors[error?.errorCode] || error?.errorCode
+    (error) => errorMessages[error?.errorCode] || error?.errorCode
   );
 
   if (!errMsgArray.length) {
@@ -181,6 +181,7 @@ export class SectionEditor extends React.Component {
             isRepeatingSection={section.repeatingSection}
             errorValidationMsg={getMultipleErrorsByField(
               "title",
+              sectionErrors.TITLE,
               section?.validationErrorInfo?.errors
             )}
           />
@@ -188,24 +189,16 @@ export class SectionEditor extends React.Component {
           <SectionIntroduction
             section={section}
             handleUpdate={handleUpdate}
-            introductionTitleErrorMessage={
-              section &&
-              this.props.getValidationError({
-                field: "introductionTitle",
-                label: "Introduction Title",
-                requiredMsg: sectionErrors.SECTION_INTRO_TITLE_NOT_ENTERED,
-                message: richTextEditorErrors.PIPING_TITLE_DELETED.message,
-              })
-            }
-            introductionContentErrorMessage={
-              section &&
-              this.props.getValidationError({
-                field: "introductionContent",
-                label: "Introduction Content",
-                requiredMsg: sectionErrors.SECTION_INTRO_CONTENT_NOT_ENTERED,
-                message: richTextEditorErrors.PIPING_TITLE_DELETED.message,
-              })
-            }
+            introductionTitleErrorMessage={getMultipleErrorsByField(
+              "introductionTitle",
+              sectionErrors.INTRO_TITLE,
+              section?.validationErrorInfo?.errors
+            )}
+            introductionContentErrorMessage={getMultipleErrorsByField(
+              "introductionContent",
+              sectionErrors.INTRO_CONTENT,
+              section?.validationErrorInfo?.errors
+            )}
           />
           <HorizontalRule />
           <SectionSummary

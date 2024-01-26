@@ -149,11 +149,19 @@ export const questionDefinitionErrors = {
 };
 
 export const sectionErrors = {
-  ERR_REQUIRED_WHEN_SETTING: "Enter a section title",
-  SUMMARY_TITLE_NOT_ENTERED: "Enter a summary title",
-  SECTION_INTRO_TITLE_NOT_ENTERED: "Enter an introduction title",
-  SECTION_INTRO_CONTENT_NOT_ENTERED: "Enter introduction content",
-  PIPING_TITLE_DELETED: "The answer being piped has been deleted",
+  TITLE: {
+    ERR_REQUIRED_WHEN_SETTING: "Enter a section title",
+    SUMMARY_TITLE_NOT_ENTERED: "Enter a summary title",
+    PIPING_TITLE_DELETED: "The answer being piped has been deleted",
+  },
+  INTRO_TITLE: {
+    ERR_VALID_REQUIRED: "Enter an introduction title",
+    PIPING_TITLE_DELETED: "The answer being piped has been deleted",
+  },
+  INTRO_CONTENT: {
+    ERR_VALID_REQUIRED: "Enter introduction content",
+    PIPING_TITLE_DELETED: "The answer being piped has been deleted",
+  },
 };
 
 export const listErrors = {
