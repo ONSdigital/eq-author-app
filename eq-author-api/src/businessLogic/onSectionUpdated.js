@@ -5,8 +5,6 @@ const {
 const { flatMap } = require("lodash");
 const cheerio = require("cheerio");
 
-const { getSections } = require("../../schema/resolvers/utils/sectionGetters");
-
 const updatePipingValue = (htmlText, answerId, newValue) => {
   if (!htmlText) {
     return htmlText;
@@ -40,6 +38,11 @@ const deletePiping = (answers, section, pages) => {
       answer.id,
       "Deleted answer"
     );
+    section.title = updatePipingValue(
+      section.title,
+      answer.id,
+      "Deleted answer"
+    );
   });
 };
 
@@ -53,6 +56,11 @@ const updatePiping = (answers, section, pages) => {
     );
     section.introductionContent = updatePipingValue(
       section.introductionContent,
+      answer.id,
+      answer.label || "Untitled answer"
+    );
+    section.title = updatePipingValue(
+      section.title,
       answer.id,
       answer.label || "Untitled answer"
     );
@@ -73,7 +81,6 @@ module.exports = (ctx, section, oldSection) => {
       section?.repeatingSectionListId
     );
   const pages = flatMap(section?.folders, "pages");
-  const sections = getSections(ctx);
 
   if (
     (!section.repeatingSection && oldSection.repeatingSection) ||
@@ -82,7 +89,6 @@ module.exports = (ctx, section, oldSection) => {
   ) {
     if (oldList) {
       deletePiping(oldList.answers, section, pages);
-      deletePiping(oldList.answers, section, sections);
     }
   }
 
@@ -94,7 +100,6 @@ module.exports = (ctx, section, oldSection) => {
   ) {
     if (newList) {
       updatePiping(newList.answers, section, pages);
-      updatePiping(newList.answers, section, sections);
     }
   }
 };
