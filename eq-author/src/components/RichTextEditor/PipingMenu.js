@@ -121,7 +121,10 @@ const PipingMenu = ({
 
   if (
     allSupplementaryData &&
-    !(pageType === "Introduction" && questionnaire.sections[0].repeatingSection)
+    !(
+      pageType === "Introduction" &&
+      questionnaire?.sections[0]?.repeatingSection
+    )
   ) {
     allSupplementaryData = allSupplementaryData.filter(
       (list) => list.listName === "" || list.id === listId
