@@ -24,10 +24,7 @@ import getIdForObject from "utils/getIdForObject";
 import MoveSectionModal from "./MoveSectionModal";
 import MoveSectionQuery from "./MoveSectionModal/MoveSectionQuery";
 import SectionIntroduction from "./SectionIntroduction";
-import {
-  sectionErrors,
-  richTextEditorErrors,
-} from "constants/validationMessages";
+import { sectionErrors } from "constants/validationMessages";
 import {
   DELETE_SECTION_TITLE,
   DELETE_PAGE_WARNING,
