@@ -56,6 +56,18 @@ const SectionCanvas = styled.div`
 const hasNavigation = (section) =>
   get(section, ["questionnaire", "navigation"]);
 
+const getMultipleErrorsByField = (field, validationErrors) => {
+  const errorArray = validationErrors.filter((error) => error.field === field);
+  const errMsgArray = errorArray.map(
+    (error) => sectionErrors[error?.errorCode] || error?.errorCode
+  );
+
+  if (!errMsgArray.length) {
+    return null;
+  }
+  return errMsgArray;
+};
+
 export class SectionEditor extends React.Component {
   static propTypes = {
     section: propType(sectionFragment),
@@ -167,16 +179,10 @@ export class SectionEditor extends React.Component {
             autoFocus={autoFocusTitle}
             listId={section.repeatingSectionListId}
             isRepeatingSection={section.repeatingSection}
-            errorValidationMsg={
-              section &&
-              this.props.getValidationError({
-                field: "title",
-                message:
-                  sectionErrors[
-                    section?.validationErrorInfo?.errors[0]?.errorCode
-                  ],
-              })
-            }
+            errorValidationMsg={getMultipleErrorsByField(
+              "title",
+              section?.validationErrorInfo?.errors
+            )}
           />
           <HorizontalRule />
           <SectionIntroduction
