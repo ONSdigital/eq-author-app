@@ -56,14 +56,13 @@ const TextFieldProperties = ({
           })
         }
         isOpen={answer.limitCharacter}
-      />
-      {answer.limitCharacter && (
+      >
         <InlineField
           id="maxCharactersLimit"
           label={"Maximum number of characters"}
         >
           <SmallNumber
-            id="maxCharactersInput"
+            id="limitCharactersInput"
             answer={answer}
             name={answer.id}
             value={maxLength}
@@ -71,10 +70,10 @@ const TextFieldProperties = ({
             onChange={({ value }) => setMaxLength(value)}
             max={100}
             min={8}
-            data-test="maxCharacterInput"
+            data-test="limitCharacterInput"
           />
         </InlineField>
-      )}
+      </CollapsibleToggled>
 
       <Required
         answer={answer}
