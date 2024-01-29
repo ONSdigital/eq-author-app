@@ -38,6 +38,11 @@ const deletePiping = (answers, section, pages) => {
       answer.id,
       "Deleted answer"
     );
+    section.title = updatePipingValue(
+      section.title,
+      answer.id,
+      "Deleted answer"
+    );
   });
 };
 
@@ -51,6 +56,11 @@ const updatePiping = (answers, section, pages) => {
     );
     section.introductionContent = updatePipingValue(
       section.introductionContent,
+      answer.id,
+      answer.label || "Untitled answer"
+    );
+    section.title = updatePipingValue(
+      section.title,
       answer.id,
       answer.label || "Untitled answer"
     );

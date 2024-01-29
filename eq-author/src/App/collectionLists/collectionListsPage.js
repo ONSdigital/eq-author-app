@@ -110,6 +110,7 @@ const CollectionListsPage = ({
   const handleDeleteList = (id) => () => {
     deleteList({
       variables: { input: { id: id } },
+      refetchQueries: ["GetQuestionnaire"],
     });
   };
 
@@ -127,6 +128,7 @@ const CollectionListsPage = ({
   const handleDeleteAnswer = (answerId) => {
     deleteAnswer({
       variables: { input: { id: answerId } },
+      refetchQueries: ["GetQuestionnaire"],
     });
   };
 

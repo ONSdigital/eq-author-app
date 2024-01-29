@@ -24,10 +24,7 @@ import getIdForObject from "utils/getIdForObject";
 import MoveSectionModal from "./MoveSectionModal";
 import MoveSectionQuery from "./MoveSectionModal/MoveSectionQuery";
 import SectionIntroduction from "./SectionIntroduction";
-import {
-  sectionErrors,
-  richTextEditorErrors,
-} from "constants/validationMessages";
+import { sectionErrors } from "constants/validationMessages";
 import {
   DELETE_SECTION_TITLE,
   DELETE_PAGE_WARNING,
@@ -36,6 +33,7 @@ import {
 
 const titleControls = {
   emphasis: true,
+  piping: true,
 };
 
 const Padding = styled.div`
@@ -54,6 +52,18 @@ const SectionCanvas = styled.div`
 
 const hasNavigation = (section) =>
   get(section, ["questionnaire", "navigation"]);
+
+const getMultipleErrorsByField = (field, errorMessages, validationErrors) => {
+  const errorArray = validationErrors.filter((error) => error.field === field);
+  const errMsgArray = errorArray.map(
+    (error) => errorMessages[error?.errorCode] || error?.errorCode
+  );
+
+  if (!errMsgArray.length) {
+    return null;
+  }
+  return errMsgArray;
+};
 
 export class SectionEditor extends React.Component {
   static propTypes = {
@@ -164,36 +174,28 @@ export class SectionEditor extends React.Component {
             size="large"
             testSelector="txt-section-title"
             autoFocus={autoFocusTitle}
-            errorValidationMsg={
-              section &&
-              this.props.getValidationError({
-                field: "title",
-                message: sectionErrors.SECTION_TITLE_NOT_ENTERED,
-              })
-            }
+            listId={section.repeatingSectionListId}
+            isRepeatingSection={section.repeatingSection}
+            errorValidationMsg={getMultipleErrorsByField(
+              "title",
+              sectionErrors.TITLE,
+              section?.validationErrorInfo?.errors
+            )}
           />
           <HorizontalRule />
           <SectionIntroduction
             section={section}
             handleUpdate={handleUpdate}
-            introductionTitleErrorMessage={
-              section &&
-              this.props.getValidationError({
-                field: "introductionTitle",
-                label: "Introduction Title",
-                requiredMsg: sectionErrors.SECTION_INTRO_TITLE_NOT_ENTERED,
-                message: richTextEditorErrors.PIPING_TITLE_DELETED.message,
-              })
-            }
-            introductionContentErrorMessage={
-              section &&
-              this.props.getValidationError({
-                field: "introductionContent",
-                label: "Introduction Content",
-                requiredMsg: sectionErrors.SECTION_INTRO_CONTENT_NOT_ENTERED,
-                message: richTextEditorErrors.PIPING_TITLE_DELETED.message,
-              })
-            }
+            introductionTitleErrorMessage={getMultipleErrorsByField(
+              "introductionTitle",
+              sectionErrors.INTRO_TITLE,
+              section?.validationErrorInfo?.errors
+            )}
+            introductionContentErrorMessage={getMultipleErrorsByField(
+              "introductionContent",
+              sectionErrors.INTRO_CONTENT,
+              section?.validationErrorInfo?.errors
+            )}
           />
           <HorizontalRule />
           <SectionSummary
