@@ -6,8 +6,10 @@ import Required from "components/AnswerContent/Required";
 import InlineField from "components/AnswerContent/Format/InlineField";
 import CollapsibleToggled from "components/CollapsibleToggled";
 import Number, { NumberInput } from "components/Forms/Number";
+import ValidationError from "components/ValidationError";
 
 import { radius } from "constants/theme";
+import { textFieldErrors } from "constants/validationMessages";
 
 const SmallNumber = styled(Number)`
   width: 7em;
@@ -29,8 +31,12 @@ const TextFieldProperties = ({
     setMaxLength(answer.properties.maxLength);
   }, [answer.properties.maxLength]);
 
+  const errors = answer.validationErrorInfo.errors.filter(
+    (error) => error.field === "maxLength"
+  );
+
   const onUpdateMaxLength = (value) => {
-    const newValue = value === null ? 8 : value;
+    const newValue = value === null ? 100 : value;
     updateAnswer({
       variables: {
         input: {
@@ -68,11 +74,14 @@ const TextFieldProperties = ({
             value={maxLength}
             onBlur={() => onUpdateMaxLength(maxLength)}
             onChange={({ value }) => setMaxLength(value)}
-            max={100}
-            min={8}
             data-test="limitCharacterInput"
           />
         </InlineField>
+        {errors.length > 0 && (
+          <ValidationError>
+            {textFieldErrors[errors[0].errorCode].message}
+          </ValidationError>
+        )}
       </CollapsibleToggled>
 
       <Required

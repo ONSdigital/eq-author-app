@@ -171,6 +171,17 @@ export const pageDescriptionErrors = {
     "The page description entered has already been used for another page. Enter a unique page description.",
 };
 
+export const textFieldErrors = {
+  ERR_MAX_LENGTH_TOO_LARGE: {
+    errorCode: "ERR_MAX_LENGTH_TOO_LARGE",
+    message: "Enter a character limit less than or equal to 100",
+  },
+  ERR_MAX_LENGTH_TOO_SMALL: {
+    errorCode: "ERR_MAX_LENGTH_TOO_SMALL",
+    message: "Enter a character limit greater than or equal to 8",
+  },
+};
+
 export const textAreaErrors = {
   ERR_MAX_LENGTH_TOO_LARGE: {
     errorCode: "ERR_MAX_LENGTH_TOO_large",

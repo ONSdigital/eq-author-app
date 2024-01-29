@@ -60,7 +60,6 @@ const TextAreaProperties = ({
           value={maxLength}
           onBlur={() => onUpdateMaxLength(maxLength)}
           onChange={({ value }) => setMaxLength(value)}
-          max={2000}
           invalid={errors.length > 0}
           data-test="maxCharacterInput"
         />

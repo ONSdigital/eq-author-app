@@ -104,6 +104,18 @@
       "if": {
         "properties": {
           "type": {
+            "const": "TextField"
+          }
+        }
+      },
+      "then": {
+        "$ref": "#/definitions/textFieldAnswer"
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
             "const": "TextArea"
           }
         }
@@ -307,6 +319,34 @@
           }
         }
       ]
+    },
+    "textFieldAnswer": {
+      "type": "object",
+      "if": {
+        "properties": {
+          "limitCharacter": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "properties": {
+            "type": "object",
+            "properties": {
+              "maxLength": {
+                "type": "number",
+                "minimum": 8,
+                "maximum": 100,
+                "errorMessage": {
+                  "minimum": "ERR_MAX_LENGTH_TOO_SMALL",
+                  "maximum": "ERR_MAX_LENGTH_TOO_LARGE"
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "textAreaAnswer": {
       "type": "object",

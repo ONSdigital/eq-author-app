@@ -24,12 +24,15 @@ describe("TextField Property", () => {
         },
         limitCharacter: true,
         type: "TextField",
+        validationErrorInfo: {
+          errors: [],
+        },
       },
       updateAnswer,
     };
   });
 
-  it("should set input box value to 8 when the textbox is cleared", async () => {
+  it("should set input box value to 100 when the textbox is cleared", async () => {
     const { getByTestId } = renderTextProperties(props);
     const inputBox = getByTestId("limitCharacterInput");
 
@@ -44,7 +47,7 @@ describe("TextField Property", () => {
       fireEvent.blur(inputBox);
       await flushPromises();
     });
-    expect(inputBox.value).toBe("8");
+    expect(inputBox.value).toBe("100");
   });
 
   it("should set input box value to 8", async () => {
@@ -71,5 +74,31 @@ describe("TextField Property", () => {
 
     fireEvent.click(getByTestId("character-length-input"));
     expect(updateAnswer).toHaveBeenCalled();
+  });
+
+  it("should render minimum value message when there is ERR_MAX_LENGTH_TOO_SMALL error", () => {
+    props.answer.validationErrorInfo.errors[0] = {
+      errorCode: "ERR_MAX_LENGTH_TOO_SMALL",
+      field: "maxLength",
+    };
+    props.answer.properties.maxLength = 5;
+    const { getByText } = renderTextProperties(props);
+
+    expect(
+      getByText(/Enter a character limit greater than or equal to 8/)
+    ).toBeInTheDocument();
+  });
+
+  it("should render maximum value message when there is ERR_MAX_LENGTH_TOO_LARGE error", () => {
+    props.answer.validationErrorInfo.errors[0] = {
+      errorCode: "ERR_MAX_LENGTH_TOO_LARGE",
+      field: "maxLength",
+    };
+    props.answer.properties.maxLength = 105;
+    const { getByText } = renderTextProperties(props);
+
+    expect(
+      getByText(/Enter a character limit less than or equal to 100/)
+    ).toBeInTheDocument();
   });
 });
