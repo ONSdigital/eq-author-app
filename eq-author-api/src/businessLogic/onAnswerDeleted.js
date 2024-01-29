@@ -81,6 +81,14 @@ const removeAnswerFromPiping = (ctx, deletedAnswer, pages) => {
       deletedAnswer.id,
       "Deleted answer"
     );
+
+    page.answers?.forEach((answer) => {
+      answer.label = updatePipingValue(
+        answer.label,
+        deletedAnswer.id,
+        "Deleted answer"
+      );
+    });
   });
 
   const sections = getSections(ctx);
