@@ -49,7 +49,10 @@ const TextAreaProperties = ({
 
   return (
     <>
-      <InlineField id="maxCharactersField" label={"Max characters"}>
+      <InlineField
+        id="maxCharactersField"
+        label={"Maximum number of characters"}
+      >
         <SmallNumber
           id="maxCharactersInput"
           answer={answer}
