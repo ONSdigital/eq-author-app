@@ -23,6 +23,12 @@
         },
         {
           "requiredWhenSectionSetting": "sectionSummary"
+        },
+        {
+          "validatePipingAnswerInTitle": true
+        },
+        {
+          "validatePipingMetadataInTitle": true
         }
       ],
       "errorMessage": "ERR_REQUIRED_WHEN_SETTING"

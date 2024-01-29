@@ -3,7 +3,6 @@ import { shallow } from "enzyme";
 
 import { SectionEditor } from "App/section/Design/SectionEditor";
 import RichTextEditor from "components/RichTextEditor";
-import { sectionErrors } from "constants/validationMessages";
 import suppressConsoleMessage from "tests/utils/supressConsol";
 
 /*
@@ -96,7 +95,6 @@ describe("SectionEditor", () => {
     onCloseDeleteConfirmModal: jest.fn(),
     onMoveSectionDialog: jest.fn(),
     onCloseMoveSectionDialog: jest.fn(),
-    getValidationError: jest.fn(),
   };
 
   const render = ({ ...props }) =>
@@ -170,6 +168,15 @@ describe("SectionEditor", () => {
       requiredCompleted: false,
       showOnHub: false,
       sectionSummary: true,
+      validationErrorInfo: {
+        errors: [
+          {
+            type: "section",
+            field: "title",
+            errorCode: "ERR_REQUIRED_WHEN_SETTING",
+          },
+        ],
+      },
       questionnaire: {
         id: "2",
         navigation: false,
@@ -177,20 +184,13 @@ describe("SectionEditor", () => {
         collapsibleSummary: false,
       },
     };
-    const getValidationError = jest.fn().mockReturnValue("Validation error");
 
-    const wrapper = render({ section, getValidationError });
-
+    const wrapper = render({ section });
     expect(
       wrapper
         .find("[testSelector='txt-section-title']")
         .prop("errorValidationMsg")
-    ).toBe("Validation error");
-
-    expect(getValidationError).toHaveBeenCalledWith({
-      field: "title",
-      message: sectionErrors.SECTION_TITLE_NOT_ENTERED,
-    });
+    ).toEqual(["Enter a section title"]);
   });
 
   it("should not autofocus the section title when its empty and navigation has just been turned on", () => {
@@ -224,24 +224,26 @@ describe("SectionEditor", () => {
   });
 
   it("should show an error when there is a validation error", () => {
-    const getValidationError = jest.fn().mockReturnValue("Validation error");
     const wrapper = render({
       section: {
         ...section1,
         title: "",
+        validationErrorInfo: {
+          errors: [
+            {
+              type: "section",
+              field: "title",
+              errorCode: "ERR_REQUIRED_WHEN_SETTING",
+            },
+          ],
+        },
       },
-      getValidationError,
     });
     expect(
       wrapper
         .find("[testSelector='txt-section-title']")
         .prop("errorValidationMsg")
-    ).toBe("Validation error");
-
-    expect(getValidationError).toHaveBeenCalledWith({
-      field: "title",
-      message: sectionErrors.SECTION_TITLE_NOT_ENTERED,
-    });
+    ).toEqual(["Enter a section title"]);
   });
 
   describe("DeleteConfirmDialog", () => {

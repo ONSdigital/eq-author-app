@@ -3,6 +3,7 @@ const cheerio = require("cheerio");
 const {
   getListById,
   getSupplementaryDataAsCollectionListById,
+  getSections,
 } = require("../../schema/resolvers/utils");
 
 const updatePipingValue = (htmlText, answerId, newValue) => {
@@ -15,6 +16,34 @@ const updatePipingValue = (htmlText, answerId, newValue) => {
     elem.children[0].data = `[${newValue}]`;
   });
   return htmlDoc.html();
+};
+
+const updatePipingInSections = (ctx, updatedAnswer) => {
+  const sections = getSections(ctx);
+
+  sections.forEach((section) => {
+    if (section.title?.includes(updatedAnswer.id)) {
+      section.title = updatePipingValue(
+        section.title,
+        updatedAnswer.id,
+        updatedAnswer.label.replace(/(<([^>]+)>)/gi, "")
+      );
+    }
+    if (section.introductionTitle?.includes(updatedAnswer.id)) {
+      section.introductionTitle = updatePipingValue(
+        section.introductionTitle,
+        updatedAnswer.id,
+        updatedAnswer.label.replace(/(<([^>]+)>)/gi, "")
+      );
+    }
+    if (section.introductionContent?.includes(updatedAnswer.id)) {
+      section.introductionContent = updatePipingValue(
+        section.introductionContent,
+        updatedAnswer.id,
+        updatedAnswer.label.replace(/(<([^>]+)>)/gi, "")
+      );
+    }
+  });
 };
 
 const updatePipingInAnswers = (updatedAnswer, pages) => {
@@ -102,4 +131,5 @@ const updatePipingRepeatingAnswer = (ctx, updatedAnswer, oldAnswer) => {
 module.exports = (ctx, updatedAnswer, pages, oldAnswer) => {
   updatePipingInAnswers(updatedAnswer, pages);
   updatePipingRepeatingAnswer(ctx, updatedAnswer, oldAnswer);
+  updatePipingInSections(ctx, updatedAnswer);
 };
