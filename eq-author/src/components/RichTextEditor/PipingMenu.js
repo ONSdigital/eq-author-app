@@ -38,6 +38,7 @@ const PipingMenuPropTypes = {
   allCalculatedSummaryPages: PropTypes.array, //eslint-disable-line
   listId: PropTypes.string,
   supplementaryDataId: PropTypes.string,
+  isRepeatingSection: PropTypes.bool,
 };
 
 const PipingMenu = ({
@@ -48,6 +49,7 @@ const PipingMenu = ({
   allowableTypes = [ANSWER, METADATA],
   allCalculatedSummaryPages = [], // Default array is empty to disable variable piping button
   listId,
+  isRepeatingSection,
 }) => {
   const [pickerContent, setPickerContent] = useState(ANSWER);
   const [contentTypes, setContentTypes] = useState([ANSWER]);
@@ -60,7 +62,12 @@ const PipingMenu = ({
     setPickerContent(pickerContent);
     const tempContentTypes = [pickerContent];
     if (pickerContent === ANSWER) {
-      if (some(questionnaire?.collectionLists?.lists, { id: listId })) {
+      if (isRepeatingSection) {
+        tempContentTypes.push(LIST_ANSWER);
+        setPickerContent(LIST_ANSWER);
+        const answerContentTypeIndex = tempContentTypes.indexOf(ANSWER);
+        tempContentTypes.splice(answerContentTypeIndex, 1);
+      } else if (some(questionnaire?.collectionLists?.lists, { id: listId })) {
         tempContentTypes.push(LIST_ANSWER);
       }
     }

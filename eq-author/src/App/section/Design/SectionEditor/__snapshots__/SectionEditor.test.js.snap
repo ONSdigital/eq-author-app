@@ -25,10 +25,13 @@ exports[`SectionEditor should render 1`] = `
       controls={
         Object {
           "emphasis": true,
+          "piping": true,
         }
       }
       disabled={false}
+      errorValidationMsg={null}
       id="section-title"
+      isRepeatingSection={false}
       label={
         <DescribedText
           description="This will be shown on the hub."
@@ -36,6 +39,7 @@ exports[`SectionEditor should render 1`] = `
           Section title
         </DescribedText>
       }
+      listId={null}
       maxHeight={12}
       multiline={false}
       name="title"
@@ -48,6 +52,8 @@ exports[`SectionEditor should render 1`] = `
     <SectionEditor__HorizontalRule />
     <SectionIntroduction
       handleUpdate={[Function]}
+      introductionContentErrorMessage={null}
+      introductionTitleErrorMessage={null}
       section={
         Object {
           "alias": "alias",
@@ -147,10 +153,13 @@ exports[`SectionEditor should render 2`] = `
       controls={
         Object {
           "emphasis": true,
+          "piping": true,
         }
       }
       disabled={false}
+      errorValidationMsg={null}
       id="section-title"
+      isRepeatingSection={false}
       label={
         <DescribedText
           description="This will be shown on the hub."
@@ -158,6 +167,7 @@ exports[`SectionEditor should render 2`] = `
           Section title
         </DescribedText>
       }
+      listId={null}
       maxHeight={12}
       multiline={false}
       name="title"
@@ -170,6 +180,8 @@ exports[`SectionEditor should render 2`] = `
     <SectionEditor__HorizontalRule />
     <SectionIntroduction
       handleUpdate={[Function]}
+      introductionContentErrorMessage={null}
+      introductionTitleErrorMessage={null}
       section={
         Object {
           "alias": "alias",
