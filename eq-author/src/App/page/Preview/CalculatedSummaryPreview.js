@@ -16,6 +16,20 @@ import { colors } from "constants/theme";
 import CalculatedSummaryPageEditor from "../Design/CalculatedSummaryPageEditor";
 import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
 
+const Button = styled.div`
+  color: white;
+  background-color: ${colors.positive};
+  border: 2px solid ${colors.positive};
+  padding: 0.75rem 1rem;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 3px;
+  display: inline-block;
+  text-rendering: optimizeLegibility;
+  margin-bottom: 2em;
+`;
+
 const Container = styled.div`
   padding: 2em;
   font-size: 1.1em;
@@ -103,8 +117,6 @@ const CalculatedSummaryPagePreview = ({ page }) => {
       <Panel data-test="calSum test page">
         <Container>
           <PageTitle title={page.title} />
-          <Info>Please review your answers and confirm these are correct.</Info>
-
           {page.summaryAnswers.length > 0 ? (
             <Summary>
               {page.summaryAnswers.map((answer) => (
@@ -151,6 +163,7 @@ const CalculatedSummaryPagePreview = ({ page }) => {
               No answers selected
             </Error>
           )}
+          <Button>Yes, I confirm this is correct</Button>
         </Container>
       </Panel>
     </EditorLayout>
