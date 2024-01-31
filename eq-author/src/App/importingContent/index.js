@@ -197,11 +197,9 @@ const ImportingContent = ({
     let questionContainsExtraSpaces = false;
 
     selectedQuestions.forEach((selectedQuestion) => {
-      Object.values(selectedQuestion).forEach((value) => {
-        if (containsExtraSpaces(value)) {
-          questionContainsExtraSpaces = true;
-        }
-      });
+      if (containsExtraSpaces(selectedQuestion)) {
+        questionContainsExtraSpaces = true;
+      }
     });
 
     if (questionContainsExtraSpaces && !showQuestionExtraSpaceModal) {
@@ -340,11 +338,9 @@ const ImportingContent = ({
     let sectionContainsExtraSpaces = false;
 
     selectedSections.forEach((selectedSection) => {
-      Object.values(selectedSection).forEach((value) => {
-        if (containsExtraSpaces(value)) {
-          sectionContainsExtraSpaces = true;
-        }
-      });
+      if (containsExtraSpaces(selectedSection)) {
+        sectionContainsExtraSpaces = true;
+      }
     });
 
     if (sectionContainsExtraSpaces && !showSectionExtraSpaceModal) {
