@@ -53,6 +53,7 @@ const TextFieldProperties = ({
       <CollapsibleToggled
         id="character-length"
         title="Character limit"
+        ariaLabel="Character limit"
         quoted={false}
         onChange={({ value }) =>
           updateAnswer({
@@ -68,7 +69,7 @@ const TextFieldProperties = ({
           label={"Maximum number of characters"}
         >
           <SmallNumber
-            id="limitCharactersInput"
+            id="maxCharactersLimit"
             answer={answer}
             name={answer.id}
             value={maxLength}
