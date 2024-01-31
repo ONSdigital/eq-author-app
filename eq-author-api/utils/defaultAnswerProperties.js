@@ -8,6 +8,7 @@ const {
   UNIT,
   DURATION,
   TEXTAREA,
+  TEXTFIELD,
 } = require("../constants/answerTypes");
 
 const defaultAnswerPropertiesMap = {
@@ -18,6 +19,7 @@ const defaultAnswerPropertiesMap = {
   [UNIT]: { required: false, decimals: 0, unit: "" },
   [DURATION]: { required: false, unit: "YearsMonths" },
   [TEXTAREA]: { required: false, maxLength: 2000 },
+  [TEXTFIELD]: { required: false, maxLength: 100 },
 };
 
 module.exports = (type) =>

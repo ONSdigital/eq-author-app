@@ -425,6 +425,7 @@ type BasicAnswer implements Answer {
   mutuallyExclusiveOption: Option
   repeatingLabelAndInput: Boolean
   repeatingLabelAndInputListId: ID
+  limitCharacter: Boolean
 }
 
 type MultipleChoiceAnswer implements Answer {
@@ -1533,6 +1534,7 @@ input UpdateAnswerInput {
   defaultAnswer: Boolean
   repeatingLabelAndInput: Boolean
   repeatingLabelAndInputListId: ID
+  limitCharacter: Boolean
 }
 
 input UpdateAnswersOfTypeInput {

@@ -270,6 +270,7 @@ StatelessBasicAnswer.fragments = {
   BasicAnswer: gql`
     fragment BasicAnswer on BasicAnswer {
       repeatingLabelAndInput
+      limitCharacter
       repeatingLabelAndInputListId
       options {
         id
