@@ -25,12 +25,17 @@ query GetQuestionnaire($input: QueryInput!) {
       id
       title
       alias
+      introductionTitle
+      introductionContent
+      introductionPageDescription
+      sectionSummaryPageDescription
       displayName
       position
       folders {
         id
         alias
         displayName
+        title
         position
         pages {
           id
@@ -40,8 +45,99 @@ query GetQuestionnaire($input: QueryInput!) {
           displayName
           pageType
           ... on QuestionPage {
+            description
+            guidance
+            definitionLabel
+            definitionContent
+            additionalInfoLabel
+            additionalInfoContent
+            answers {
+              ...AnswerWithoutQCode
+              ... on MultipleChoiceAnswer {
+                options {
+                  ...OptionWithoutQCode
+                }
+              }
+            }
             confirmation {
               id
+              title
+              displayName
+              pageDescription
+              positive {
+                id
+                label
+                description
+              }
+              negative {
+                id
+                label
+                description
+              }
+            }
+          }
+          ... on CalculatedSummaryPage {
+            id
+            title
+            alias
+            pageType
+            pageDescription
+            displayName
+            position
+            totalTitle
+            type
+            answers {
+              ...AnswerWithoutQCode
+            }
+          }
+          ... on ListCollectorQualifierPage {
+            id
+            title
+            alias
+            displayName
+            pageDescription
+            position
+            pageType
+            additionalGuidanceContent
+            answers {
+              ...AnswerWithoutQCode
+              ... on MultipleChoiceAnswer {
+                options {
+                  ...OptionWithoutQCode
+                }
+              }
+            }
+          }
+          ... on ListCollectorAddItemPage {
+            id
+            title
+            alias
+            displayName
+            position
+            pageType
+            pageDescription
+            description
+            guidance
+            definitionLabel
+            definitionContent
+            additionalInfoLabel
+            additionalInfoContent
+          }
+          ... on ListCollectorConfirmationPage {
+            id
+            title
+            alias
+            displayName
+            position
+            pageType
+            pageDescription
+            answers {
+              ...AnswerWithoutQCode
+              ... on MultipleChoiceAnswer {
+                options {
+                  ...OptionWithoutQCode
+                }
+              }
             }
           }
         }
@@ -56,5 +152,31 @@ query GetQuestionnaire($input: QueryInput!) {
     supplementaryData {
       ...SupplementaryData
     }
+  }
+}
+
+# Answer and option fragments without the QCode fields - required for importing content, removes qCode field used in their reusable fragment files
+# Extra space modal should not be displayed when QCodes have extra spaces as QCodes are removed when importing
+fragment AnswerWithoutQCode on Answer {
+  id
+  description
+  guidance
+  label
+  secondaryLabel
+  secondaryLabelDefault
+  type
+  properties
+  displayName
+  advancedProperties
+}
+
+fragment OptionWithoutQCode on Option {
+  id
+  description
+  label
+  value
+  displayName
+  additionalAnswer {
+    ...AnswerWithoutQCode
   }
 }

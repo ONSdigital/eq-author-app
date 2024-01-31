@@ -146,9 +146,9 @@ const sourceQuestionnaires = [
       },
       {
         id: "section-3",
-        title: "Section  3",
+        title: "Section 3",
         alias: "",
-        displayName: "Section  3",
+        displayName: "Section 3",
         folders: [
           {
             id: "folder-3",
@@ -1300,7 +1300,7 @@ describe("Importing content", () => {
           );
 
           fireEvent.click(sectionsButton);
-          fireEvent.click(getByText("Section 3")); // Section picker modal displays section titles without extra spaces
+          fireEvent.click(getByText("Section 3"));
           fireEvent.click(getByTestId("button-group").children[1]);
           fireEvent.click(getByTestId("button-group").children[0]);
 
