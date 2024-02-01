@@ -200,7 +200,7 @@ export const UnwrappedMainNavigation = ({
                 }
               >
                 <StyledIconText nav icon={qcodeIcon}>
-                  QCodes and values
+                  Q Codes and values
                 </StyledIconText>
                 {qcodesEnabled && hasQCodeError && (
                   <Badge data-test="small-badge" variant="main-nav" />
