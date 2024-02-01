@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { withRouter, useParams } from "react-router-dom";
 
+import GET_SUPPLEMENTARY_DATA_SURVEY_ID_LIST from "graphql/getSupplementaryDataSurveyIdList.graphql";
 import UPDATE_SUPPLEMENTARY_DATA from "graphql/updateSupplementaryData.graphql";
 import GET_SUPPLEMENTARY_DATA from "graphql/getSupplementaryData.graphql";
 import UNLINK_SUPPLEMENTARY_DATA from "graphql/unlinkSupplementaryData.graphql";
@@ -19,7 +20,6 @@ import Loading from "components/Loading";
 import Error from "components/Error";
 
 import Theme from "contexts/themeContext";
-import { SURVEY_IDS } from "constants/surveyIDs";
 import { colors, radius } from "constants/theme";
 import Icon from "assets/icon-select.svg";
 import {
@@ -143,6 +143,13 @@ const SupplementaryDataPage = () => {
     fetchPolicy: "cache-and-network",
   });
 
+  const { data: supplementaryDataSurveyIdList } = useQuery(
+    GET_SUPPLEMENTARY_DATA_SURVEY_ID_LIST,
+    {
+      fetchPolicy: "network-only",
+    }
+  );
+
   const buildData = () => {
     let schemaData;
     if (supplementaryData?.supplementaryData?.data) {
@@ -153,12 +160,16 @@ const SupplementaryDataPage = () => {
     if (schemaData) {
       schemaData.surveyId = supplementaryData.supplementaryData?.surveyId;
     }
+
     return schemaData;
   };
 
   const tableData = buildData();
 
   const schemaData = tableData?.data;
+
+  const surveyIdList =
+    supplementaryDataSurveyIdList?.supplementaryDataSurveyIdList;
 
   const handleUnlinkClick = () => {
     setShowUnlinkModal(true);
@@ -233,9 +244,12 @@ const SupplementaryDataPage = () => {
                               >
                                 Survey ID
                               </Option>
-                              {SURVEY_IDS.map((surveyID) => (
-                                <Option key={surveyID} value={surveyID}>
-                                  {surveyID}
+                              {surveyIdList?.map((survey) => (
+                                <Option
+                                  key={survey.surveyId}
+                                  value={survey.surveyId}
+                                >
+                                  {survey.surveyId} - {survey.surveyName}
                                 </Option>
                               ))}
                             </CustomSelect>

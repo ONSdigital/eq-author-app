@@ -40,6 +40,15 @@ describe("AddItemPagePreview", () => {
       title: "Page 1",
       displayName: "Page 1",
       pageType: "ListCollectorAddItemPage",
+      definitionEnabled: true,
+      additionalInfoContent: "additionalInfoContent",
+      description: "Description",
+      definitionLabel: "",
+      additionalInfoLabel: "",
+      descriptionEnabled: true,
+      additionalInfoEnabled: true,
+      definitionContent: "",
+      guidanceEnabled: false,
       folder: { id: "folder-1", listId: "list-1" },
       section: { id: "section-1" },
       comments: [],
@@ -144,5 +153,33 @@ describe("AddItemPagePreview", () => {
     expect(getByTestId("answer-wrapper-answer-1")).toBeInTheDocument();
 
     expect(getByTestId("answer-wrapper-answer-2")).toBeInTheDocument();
+  });
+
+  it("should render description preview when it has content and is enabled", () => {
+    const { getByTestId, getByText } = renderAddItemPagePreview(props);
+
+    expect(getByTestId("description")).toBeInTheDocument();
+
+    expect(getByText("Description")).toBeInTheDocument();
+  });
+
+  it("should render no definitions text when it doesn't have content and is enabled", () => {
+    const { getByTestId, getByText } = renderAddItemPagePreview(props);
+
+    expect(getByTestId("definition")).toBeInTheDocument();
+
+    expect(getByText("Missing definition content")).toBeInTheDocument();
+    expect(getByText("Missing definition label")).toBeInTheDocument();
+  });
+
+  it("should render no additonalInfo label text when it doesn't have content and is enabled and render additonalInfo content when it has content and is enabled", () => {
+    const { getByTestId, getByText } = renderAddItemPagePreview(props);
+
+    expect(getByTestId("additional-info")).toBeInTheDocument();
+
+    expect(getByText("additionalInfoContent")).toBeInTheDocument();
+    expect(
+      getByText("Missing additional information label")
+    ).toBeInTheDocument();
   });
 });

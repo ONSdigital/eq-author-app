@@ -119,4 +119,10 @@ describe("Routing Page", () => {
     renderWithContext(<RoutingPage page={page} createRouting={jest.fn()} />);
     expect(screen.getByText("Add rule")).toBeTruthy();
   });
+
+  it("should show the routing not available message when page is inside a list folder", () => {
+    page.folder.listId = "list-1";
+    renderWithContext(<RoutingPage page={page} createRouting={jest.fn()} />);
+    expect(screen.getByText(messages.ROUTING_NOT_AVAILABLE)).toBeTruthy();
+  });
 });

@@ -11,7 +11,7 @@ describe("withUpdateCalculatedSummaryPage", () => {
       props = mapMutateToProps({ mutate });
       page = {
         displayName: "123",
-        summaryAnswers: [],
+        summaryAnswers: [{ id: "1" }],
       };
     });
 
@@ -22,7 +22,7 @@ describe("withUpdateCalculatedSummaryPage", () => {
     it("should call mutate", () => {
       props.onUpdateCalculatedSummaryPage(page);
       expect(mutate).toHaveBeenCalledWith({
-        variables: { input: { summaryAnswers: [] } },
+        variables: { input: { summaryAnswers: ["1"] } },
       });
     });
   });

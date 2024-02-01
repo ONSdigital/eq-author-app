@@ -1,6 +1,6 @@
 const { generateToken } = require("../utils/jwtHelper");
 const { assign, isNil, isEmpty } = require("lodash");
-const { sanitiseMetadata } = require("../utils/sanitiseMetadata");
+const { sanitiseMetadata } = require("../utils/sanitiseMetadataV2");
 const { getQuestionnaire } = require("../db/datastore");
 const { defaultTypeValueNames } = require("../utils/defaultMetadata");
 
@@ -44,7 +44,7 @@ module.exports.getLaunchUrl = async (req, res, next) => {
   } else {
     const sanitisedMetadata = await sanitiseMetadata(
       metadataValues,
-      questionnaireId
+      questionnaire
     );
 
     const jwt = await generateToken(sanitisedMetadata);

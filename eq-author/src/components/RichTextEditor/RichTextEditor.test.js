@@ -5,7 +5,6 @@ import { RichUtils, EditorState, convertToRaw } from "draft-js";
 import Editor from "draft-js-plugins-editor";
 import Raw from "draft-js-raw-content-state";
 import { omit } from "lodash";
-
 import RichTextEditor from "components/RichTextEditor";
 import Toolbar, {
   STYLE_BLOCK,
@@ -18,6 +17,12 @@ import { createPipedEntity } from "components/RichTextEditor/entities/PipedValue
 
 // https://github.com/facebook/draft-js/issues/702
 jest.mock("draft-js/lib/generateRandomKey", () => () => "123");
+
+jest.mock("components/modals/PasteModal", () => ({
+  __esModule: true,
+  namedExport: jest.fn(),
+  default: jest.fn().mockImplementation(() => null),
+}));
 
 let wrapper, props, editorInstance, editorFocus;
 
@@ -162,6 +167,16 @@ describe("components/RichTextEditor", function () {
 
   it("should remove carriage returns on paste", () => {
     const text = "hello\nworld";
+
+    const handled = wrapper.find(Editor).prop("handlePastedText")(text);
+    const html = wrapper.instance().getHTML();
+
+    expect(handled).toBe("handled");
+    expect(html).toContain("hello world");
+  });
+
+  it("should handle paste without the pasteModal for multiple spaced text", () => {
+    const text = "hello world";
 
     const handled = wrapper.find(Editor).prop("handlePastedText")(text);
     const html = wrapper.instance().getHTML();

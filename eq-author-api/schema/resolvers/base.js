@@ -77,6 +77,7 @@ const {
   getListByAnswerId,
   getAnswerByOptionId,
   setDataVersion,
+  authorisedRequest,
 } = require("./utils");
 
 const createAnswer = require("../../src/businessLogic/createAnswer");
@@ -300,14 +301,55 @@ const Resolvers = {
       const url = `${process.env.SUPPLEMENTARY_DATA_GATEWAY}schema_metadata?survey_id=${id}`;
 
       try {
-        const response = await fetch(url);
-        const supplementaryDataVersions = await response.json();
+        const response = await authorisedRequest(
+          url,
+          process.env.SUPPLEMENTARY_DATA_GATEWAY_AUDIENCE,
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        if (response.status !== 200) {
+          throw new Error(`enable to get versions. status(${response.status})`);
+        }
         return {
           surveyId: id,
-          versions: supplementaryDataVersions,
+          versions: response.data,
         };
       } catch (err) {
-        throw Error(err);
+        logger.error(err.message);
+        return {
+          surveyId: id,
+          versions: [],
+        };
+      }
+    },
+    supplementaryDataSurveyIdList: async () => {
+      const url = `${process.env.SUPPLEMENTARY_DATA_GATEWAY}survey_list`;
+
+      try {
+        const response = await authorisedRequest(
+          url,
+          process.env.SUPPLEMENTARY_DATA_GATEWAY_AUDIENCE,
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        if (response.status !== 200) {
+          throw new Error(
+            `unable to get survey list. status(${response.status})`
+          );
+        }
+        return response.data.map((survey) => {
+          return {
+            surveyId: survey.survey_id,
+            surveyName: survey.survey_name,
+          };
+        });
+      } catch (err) {
+        logger.error(err.message);
+        return {
+          surveyIdList: [],
+        };
       }
     },
     supplementaryData: (_, args, ctx) => ctx.questionnaire.supplementaryData,
@@ -316,6 +358,24 @@ const Resolvers = {
       if (ctx.questionnaire?.collectionLists?.lists?.length) {
         listNames.push(...ctx.questionnaire.collectionLists.lists);
       }
+      if (ctx.questionnaire?.supplementaryData?.data) {
+        listNames.push(
+          ...ctx.questionnaire.supplementaryData.data.filter(
+            (list) => list.listName
+          )
+        );
+      }
+      return listNames;
+    },
+    collectionListNames: (_, args, ctx) => {
+      const listNames = [];
+      if (ctx.questionnaire?.collectionLists?.lists?.length) {
+        listNames.push(...ctx.questionnaire.collectionLists.lists);
+      }
+      return listNames;
+    },
+    supplementaryDataListNames: (_, args, ctx) => {
+      const listNames = [];
       if (ctx.questionnaire?.supplementaryData?.data) {
         listNames.push(
           ...ctx.questionnaire.supplementaryData.data.filter(
@@ -1075,8 +1135,7 @@ const Resolvers = {
         { qid: ctx.questionnaire.id },
         `List removed with ID - ${input.id}`
       );
-      ctx.questionnaire.dataVersion =
-        ctx.questionnaire.collectionLists.lists.length > 0 ? "3" : "1";
+      setDataVersion(ctx);
 
       const answers = getAnswers(ctx);
 
@@ -1123,7 +1182,7 @@ const Resolvers = {
         "Northern Ireland": "northernireland",
         Business: "business",
         Social: "social",
-        Health: "health",
+        "Pandemic monitoring": "ukhsa-ons",
         "UKIS Northern Ireland": "ukis_ni",
         "UKIS ONS": "ukis",
       };
@@ -1535,11 +1594,15 @@ const Resolvers = {
         ctx.questionnaire.publishHistory = [publishResult];
       }
 
-      const convertedResponse = await fetch(`${process.env.CONVERSION_URL}`, {
-        method: "post",
-        body: JSON.stringify(ctx.questionnaire),
-        headers: { "Content-Type": "application/json" },
-      }).catch((e) => {
+      const convertedResponse = await authorisedRequest(
+        `${process.env.CONVERSION_URL}`,
+        null,
+        {
+          method: "POST",
+          body: JSON.stringify(ctx.questionnaire),
+          headers: { "Content-Type": "application/json" },
+        }
+      ).catch((e) => {
         publishResult.success = false;
         publishResult.errorMessage = `Failed to fetch questionnaire - ${e.message}`;
       });
@@ -1554,19 +1617,23 @@ const Resolvers = {
         return ctx.questionnaire;
       }
 
-      const convertedQuestionnaire = await convertedResponse.json();
+      const convertedQuestionnaire = convertedResponse.data;
 
-      await fetch(`${process.env.CIR_PUBLISH_SCHEMA_GATEWAY}publishSchema`, {
-        method: "post",
-        body: JSON.stringify(convertedQuestionnaire),
-        headers: { "Content-Type": "application/json" },
-      })
+      await authorisedRequest(
+        `${process.env.CIR_PUBLISH_SCHEMA_GATEWAY}publish_collection_instrument`,
+        process.env.CIR_PUBLISH_SCHEMA_GATEWAY_AUDIENCE,
+        {
+          method: "POST",
+          body: JSON.stringify(convertedQuestionnaire),
+          headers: { "Content-Type": "application/json" },
+        }
+      )
         .then(async (res) => {
           if (res.status === 200) {
-            const responseJson = await res.json();
+            const responseJson = res.data;
 
             publishResult.cirId = responseJson.id;
-            publishResult.cirVersion = responseJson.version;
+            publishResult.cirVersion = responseJson.ci_version;
             publishResult.success = true;
           } else {
             publishResult.success = false;
@@ -1585,8 +1652,14 @@ const Resolvers = {
       const url = `${process.env.SUPPLEMENTARY_DATA_GATEWAY}schema?survey_id=${surveyId}&version=${version}`;
 
       try {
-        const response = await fetch(url);
-        const supplementaryDataVersion = await response.json();
+        const response = await authorisedRequest(
+          url,
+          process.env.SUPPLEMENTARY_DATA_GATEWAY_AUDIENCE,
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        const supplementaryDataVersion = response.data;
 
         if (supplementaryDataVersion) {
           logger.info(`Schema version data returned - ${id}`);
@@ -1602,7 +1675,7 @@ const Resolvers = {
               supplementaryDataVersion
             );
           }
-
+          setDataVersion(ctx);
           return ctx.questionnaire.supplementaryData;
         } else {
           logger.info(`Schema version data not found - ${id}`);
@@ -1619,6 +1692,7 @@ const Resolvers = {
       const oldSupplementaryData = ctx.questionnaire?.supplementaryData?.data;
       onUnlinkSupplementaryData(ctx, ctx.questionnaire, oldSupplementaryData);
       ctx.questionnaire.supplementaryData = undefined;
+      setDataVersion(ctx);
       return ctx.questionnaire;
     }),
   },
@@ -1729,11 +1803,24 @@ const Resolvers = {
           id === sectionId && !pageId && !folderId
       ),
     comments: ({ id }, args, ctx) => ctx.comments[id],
-    allowRepeatingSection: ({ id }, args, ctx) =>
-      !some(
-        getFoldersBySectionId(ctx, id),
-        (folder) => folder.listId !== undefined
-      ),
+    allowRepeatingSection: (section, args, ctx) => {
+      if (
+        some(
+          getFoldersBySectionId(ctx, section.id),
+          (folder) => folder.listId !== undefined
+        )
+      ) {
+        return false;
+      }
+      if (
+        findIndex(ctx.questionnaire.sections, { id: section.id }) === 0 &&
+        !ctx.questionnaire.supplementaryData &&
+        !section.repeatingSection
+      ) {
+        return false;
+      }
+      return true;
+    },
   },
 
   CollectionLists: {

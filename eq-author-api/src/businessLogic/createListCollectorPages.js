@@ -30,6 +30,10 @@ const createListCollectorAddItemPage = (input = { position: 1 }) => ({
   pageType: "ListCollectorAddItemPage",
   title: "",
   pageDescription: "",
+  descriptionEnabled: false,
+  guidanceEnabled: false,
+  definitionEnabled: false,
+  additionalInfoEnabled: false,
   alias: null,
   ...omit(input, "folderId"),
 });

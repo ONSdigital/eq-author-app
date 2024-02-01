@@ -25,6 +25,8 @@ import {
 } from "constants/validationMessages";
 import LegalBasisSelect from "./LegalBasisSelect";
 
+import { reduceMultipleSpaces } from "utils/reduceMultipleSpaces";
+
 const StyledPanel = styled.div`
   max-width: 97.5%;
   padding: 1.3em;
@@ -71,7 +73,6 @@ const Container = styled.div`
 
 const SettingsContainer = styled.div`
   padding: 0.8em;
-  border-left: 1px solid ${colors.lightGrey};
 `;
 
 const PageMainCanvas = styled.div`
@@ -83,7 +84,6 @@ const PageMainCanvas = styled.div`
 
 const PageContainer = styled.div`
   padding: 0.8em;
-  border-left: 1px solid ${colors.lightGrey};
   &:focus {
     border: 3px solid #fdbd56;
     margin: 0;
@@ -186,7 +186,9 @@ const SettingsPage = ({ questionnaire }) => {
                       <StyledInput
                         id="questionnaireTitle"
                         value={questionnaireTitle}
-                        onChange={({ value }) => setQuestionnaireTitle(value)}
+                        onChange={({ value }) =>
+                          setQuestionnaireTitle(reduceMultipleSpaces(value))
+                        }
                         onBlur={(e) => handleTitleChange({ ...e.target })}
                         data-test="change-questionnaire-title"
                       />
@@ -203,7 +205,9 @@ const SettingsPage = ({ questionnaire }) => {
                         id="shortTitle"
                         value={questionnaireShortTitle}
                         onChange={({ value }) =>
-                          setQuestionnaireShortTitle(value)
+                          setQuestionnaireShortTitle(
+                            reduceMultipleSpaces(value)
+                          )
                         }
                         onBlur={(e) => handleShortTitleChange({ ...e.target })}
                         data-test="change-questionnaire-short-title"

@@ -33,6 +33,8 @@ const Title = styled(Truncated)`
 const Chip = styled(MenuItemType)`
   color: ${colors.text};
   float: right;
+  font-size: 0.8em;
+  margin-left: 0.8em;
 `;
 
 const CloseButton = styled.button`
@@ -75,11 +77,15 @@ const SelectedAnswer = ({
   displayName,
   properties,
   type: answerType,
+  page,
+  insideListCollectorFolder,
   onRemove,
 }) => {
   const unitType = properties.unit || false;
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const pageType = page?.pageType;
 
   return (
     <>
@@ -93,6 +99,10 @@ const SelectedAnswer = ({
       <Wrapper>
         <Title>{displayName}</Title>
         {unitType && <Chip data-test="unit-type">{unitType}</Chip>}
+        {pageType === "CalculatedSummaryPage" && (
+          <Chip>Calculated summary</Chip>
+        )}
+        {insideListCollectorFolder && <Chip>List collector follow-up</Chip>}
         <Chip>{answerType}</Chip>
         <CloseButton
           data-test="remove-answer-button"
@@ -109,7 +119,9 @@ SelectedAnswer.propTypes = {
   onRemove: PropType.func.isRequired,
   displayName: PropType.string.isRequired,
   type: PropType.string.isRequired,
+  insideListCollectorFolder: PropType.bool,
   properties: PropType.object.isRequired, // eslint-disable-line
+  page: PropType.object, // eslint-disable-line
 };
 
 export default SelectedAnswer;

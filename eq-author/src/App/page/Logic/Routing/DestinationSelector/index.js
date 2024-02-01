@@ -16,7 +16,7 @@ const DESTINATION_TYPE = {
   Section: "Section",
   QuestionPage: "QuestionPage",
   CalculatedSummaryPage: "CalculatedSummaryPage",
-  ListCollectorPage: "ListCollectorPage",
+  ListCollectorPage: "ListCollectorQualifierPage",
 };
 
 const RoutingRuleResult = styled.div`

@@ -71,6 +71,10 @@ const section = {
           displayName: "bar",
           position: 0,
           pageType: "QuestionPage",
+          confirmation: {
+            id: "confirmation-1",
+            __typename: "QuestionConfirmation",
+          },
         },
         {
           __typename: "QuestionPage",
@@ -80,6 +84,10 @@ const section = {
           displayName: "blah",
           position: 1,
           pageType: "QuestionPage",
+          confirmation: {
+            id: "confirmation-2",
+            __typename: "QuestionConfirmation",
+          },
         },
       ],
     },

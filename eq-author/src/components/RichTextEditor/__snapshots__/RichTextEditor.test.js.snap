@@ -1,862 +1,882 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/RichTextEditor should allow multiline input 1`] = `
-<RichTextEditor__Wrapper
-  size="small"
->
-  <Field
-    data-test="rte-field"
-    disabled={false}
-    last={false}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onFocus={[Function]}
+<Fragment>
+  <mockConstructor
+    onCancel={[Function]}
+    onConfirm={[Function]}
+  />
+  <RichTextEditor__Wrapper
+    size="small"
   >
-    <Label
-      bold={true}
-      id="label-test"
+    <Field
+      data-test="rte-field"
+      disabled={false}
+      last={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
     >
-      I am a label
-    </Label>
-    <RichTextEditor__Input
-      invalid={false}
-      maxHeight={12}
-      multiline={true}
-      placeholderStyle="unstyled"
-    >
-      <ToolBar
-        autoFocus={false}
-        controls={Object {}}
-        editorState={
-          EditorState {
-            "_immutable": Immutable.Record {
-              "allowUndo": true,
-              "currentContent": Immutable.Record {
-                "entityMap": Object {
-                  "__add": [Function],
-                  "__create": [Function],
-                  "__get": [Function],
-                  "__getAll": [Function],
-                  "__getLastCreatedEntityKey": [Function],
-                  "__loadWithEntities": [Function],
-                  "__mergeData": [Function],
-                  "__replaceData": [Function],
-                  "add": [Function],
-                  "create": [Function],
-                  "get": [Function],
-                  "getLastCreatedEntityKey": [Function],
-                  "mergeData": [Function],
-                  "replaceData": [Function],
-                },
-                "blockMap": Immutable.OrderedMap {
-                  "123": Immutable.Record {
-                    "key": "123",
-                    "type": "unstyled",
-                    "text": "",
-                    "characterList": Immutable.List [],
-                    "depth": 0,
-                    "data": Immutable.Map {},
+      <Label
+        bold={true}
+        id="label-test"
+      >
+        I am a label
+      </Label>
+      <RichTextEditor__Input
+        invalid={false}
+        maxHeight={12}
+        multiline={true}
+        placeholderStyle="unstyled"
+      >
+        <ToolBar
+          autoFocus={false}
+          controls={Object {}}
+          editorState={
+            EditorState {
+              "_immutable": Immutable.Record {
+                "allowUndo": true,
+                "currentContent": Immutable.Record {
+                  "entityMap": Object {
+                    "__add": [Function],
+                    "__create": [Function],
+                    "__get": [Function],
+                    "__getAll": [Function],
+                    "__getLastCreatedEntityKey": [Function],
+                    "__loadWithEntities": [Function],
+                    "__mergeData": [Function],
+                    "__replaceData": [Function],
+                    "add": [Function],
+                    "create": [Function],
+                    "get": [Function],
+                    "getLastCreatedEntityKey": [Function],
+                    "mergeData": [Function],
+                    "replaceData": [Function],
                   },
-                },
-                "selectionBefore": Immutable.Record {
-                  "anchorKey": "123",
-                  "anchorOffset": 0,
-                  "focusKey": "123",
-                  "focusOffset": 0,
-                  "isBackward": false,
-                  "hasFocus": false,
-                },
-                "selectionAfter": Immutable.Record {
-                  "anchorKey": "123",
-                  "anchorOffset": 0,
-                  "focusKey": "123",
-                  "focusOffset": 0,
-                  "isBackward": false,
-                  "hasFocus": false,
-                },
-              },
-              "decorator": CompositeDraftDecorator {
-                "_decorators": Array [
-                  Object {
-                    "component": Object {
-                      "$$typeof": Symbol(react.forward_ref),
-                      "attrs": Array [],
-                      "componentStyle": ComponentStyle {
-                        "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
-                        "isStatic": false,
-                        "rules": Array [
-                          "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
-                          "4px",
-                          ";white-space:pre-wrap;",
-                        ],
-                      },
-                      "displayName": "PipedValue__PipedValueDecorator",
-                      "foldedComponentIds": Array [],
-                      "render": [Function],
-                      "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
-                      "target": "span",
-                      "toString": [Function],
-                      "warnTooManyClasses": [Function],
-                      "withComponent": [Function],
+                  "blockMap": Immutable.OrderedMap {
+                    "123": Immutable.Record {
+                      "key": "123",
+                      "type": "unstyled",
+                      "text": "",
+                      "characterList": Immutable.List [],
+                      "depth": 0,
+                      "data": Immutable.Map {},
                     },
-                    "strategy": [Function],
                   },
-                ],
-              },
-              "directionMap": Immutable.OrderedMap {
-                "123": "LTR",
-              },
-              "forceSelection": false,
-              "inCompositionMode": false,
-              "inlineStyleOverride": null,
-              "lastChangeType": null,
-              "nativelyRenderedContent": null,
-              "redoStack": Immutable.Stack [],
-              "selection": Immutable.Record {
-                "anchorKey": "123",
-                "anchorOffset": 0,
-                "focusKey": "123",
-                "focusOffset": 0,
-                "isBackward": false,
-                "hasFocus": false,
-              },
-              "treeMap": Immutable.OrderedMap {
-                "123": Immutable.List [
-                  Immutable.Record {
-                    "start": 0,
-                    "end": 0,
-                    "decoratorKey": null,
-                    "leaves": Immutable.List [
-                      Immutable.Record {
-                        "start": 0,
-                        "end": 0,
+                  "selectionBefore": Immutable.Record {
+                    "anchorKey": "123",
+                    "anchorOffset": 0,
+                    "focusKey": "123",
+                    "focusOffset": 0,
+                    "isBackward": false,
+                    "hasFocus": false,
+                  },
+                  "selectionAfter": Immutable.Record {
+                    "anchorKey": "123",
+                    "anchorOffset": 0,
+                    "focusKey": "123",
+                    "focusOffset": 0,
+                    "isBackward": false,
+                    "hasFocus": false,
+                  },
+                },
+                "decorator": CompositeDraftDecorator {
+                  "_decorators": Array [
+                    Object {
+                      "component": Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                          "isStatic": false,
+                          "rules": Array [
+                            "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
+                            "4px",
+                            ";white-space:pre-wrap;",
+                          ],
+                        },
+                        "displayName": "PipedValue__PipedValueDecorator",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                        "target": "span",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
                       },
-                    ],
-                  },
-                ],
-              },
-              "undoStack": Immutable.Stack [],
-            },
-          }
-        }
-        isActiveControl={[Function]}
-        name="test-name"
-        onLinkChosen={[Function]}
-        onPiping={[Function]}
-        onToggle={[Function]}
-        onUpdate={[MockFunction]}
-        selectionIsCollapsed={true}
-        testId="test-selector-foo-toolbar"
-        visible={false}
-      />
-      <PluginEditor
-        ariaLabel="I am a label"
-        ariaLabelledBy="label-test"
-        blockStyleFn={[Function]}
-        customStyleMap={
-          Object {
-            "ITALIC": Object {
-              "backgroundColor": "#cbe2c8",
-            },
-          }
-        }
-        decorators={
-          Array [
-            Object {
-              "component": Object {
-                "$$typeof": Symbol(react.forward_ref),
-                "attrs": Array [],
-                "componentStyle": ComponentStyle {
-                  "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
-                  "isStatic": false,
-                  "rules": Array [
-                    "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
-                    "4px",
-                    ";white-space:pre-wrap;",
+                      "strategy": [Function],
+                    },
                   ],
                 },
-                "displayName": "PipedValue__PipedValueDecorator",
-                "foldedComponentIds": Array [],
-                "render": [Function],
-                "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
-                "target": "span",
-                "toString": [Function],
-                "warnTooManyClasses": [Function],
-                "withComponent": [Function],
-              },
-              "strategy": [Function],
-            },
-          ]
-        }
-        defaultBlockRenderMap={true}
-        defaultKeyBindings={true}
-        defaultKeyCommands={true}
-        editorState={
-          EditorState {
-            "_immutable": Immutable.Record {
-              "allowUndo": true,
-              "currentContent": Immutable.Record {
-                "entityMap": Object {
-                  "__add": [Function],
-                  "__create": [Function],
-                  "__get": [Function],
-                  "__getAll": [Function],
-                  "__getLastCreatedEntityKey": [Function],
-                  "__loadWithEntities": [Function],
-                  "__mergeData": [Function],
-                  "__replaceData": [Function],
-                  "add": [Function],
-                  "create": [Function],
-                  "get": [Function],
-                  "getLastCreatedEntityKey": [Function],
-                  "mergeData": [Function],
-                  "replaceData": [Function],
+                "directionMap": Immutable.OrderedMap {
+                  "123": "LTR",
                 },
-                "blockMap": Immutable.OrderedMap {
-                  "123": Immutable.Record {
-                    "key": "123",
-                    "type": "unstyled",
-                    "text": "",
-                    "characterList": Immutable.List [],
-                    "depth": 0,
-                    "data": Immutable.Map {},
+                "forceSelection": false,
+                "inCompositionMode": false,
+                "inlineStyleOverride": null,
+                "lastChangeType": null,
+                "nativelyRenderedContent": null,
+                "redoStack": Immutable.Stack [],
+                "selection": Immutable.Record {
+                  "anchorKey": "123",
+                  "anchorOffset": 0,
+                  "focusKey": "123",
+                  "focusOffset": 0,
+                  "isBackward": false,
+                  "hasFocus": false,
+                },
+                "treeMap": Immutable.OrderedMap {
+                  "123": Immutable.List [
+                    Immutable.Record {
+                      "start": 0,
+                      "end": 0,
+                      "decoratorKey": null,
+                      "leaves": Immutable.List [
+                        Immutable.Record {
+                          "start": 0,
+                          "end": 0,
+                        },
+                      ],
+                    },
+                  ],
+                },
+                "undoStack": Immutable.Stack [],
+              },
+            }
+          }
+          isActiveControl={[Function]}
+          name="test-name"
+          onLinkChosen={[Function]}
+          onPiping={[Function]}
+          onToggle={[Function]}
+          onUpdate={[MockFunction]}
+          selectionIsCollapsed={true}
+          testId="test-selector-foo-toolbar"
+          visible={false}
+        />
+        <PluginEditor
+          ariaLabel="I am a label"
+          ariaLabelledBy="label-test"
+          blockStyleFn={[Function]}
+          customStyleMap={
+            Object {
+              "ITALIC": Object {
+                "backgroundColor": "#cbe2c8",
+              },
+            }
+          }
+          decorators={
+            Array [
+              Object {
+                "component": Object {
+                  "$$typeof": Symbol(react.forward_ref),
+                  "attrs": Array [],
+                  "componentStyle": ComponentStyle {
+                    "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                    "isStatic": false,
+                    "rules": Array [
+                      "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
+                      "4px",
+                      ";white-space:pre-wrap;",
+                    ],
+                  },
+                  "displayName": "PipedValue__PipedValueDecorator",
+                  "foldedComponentIds": Array [],
+                  "render": [Function],
+                  "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                  "target": "span",
+                  "toString": [Function],
+                  "warnTooManyClasses": [Function],
+                  "withComponent": [Function],
+                },
+                "strategy": [Function],
+              },
+            ]
+          }
+          defaultBlockRenderMap={true}
+          defaultKeyBindings={true}
+          defaultKeyCommands={true}
+          editorState={
+            EditorState {
+              "_immutable": Immutable.Record {
+                "allowUndo": true,
+                "currentContent": Immutable.Record {
+                  "entityMap": Object {
+                    "__add": [Function],
+                    "__create": [Function],
+                    "__get": [Function],
+                    "__getAll": [Function],
+                    "__getLastCreatedEntityKey": [Function],
+                    "__loadWithEntities": [Function],
+                    "__mergeData": [Function],
+                    "__replaceData": [Function],
+                    "add": [Function],
+                    "create": [Function],
+                    "get": [Function],
+                    "getLastCreatedEntityKey": [Function],
+                    "mergeData": [Function],
+                    "replaceData": [Function],
+                  },
+                  "blockMap": Immutable.OrderedMap {
+                    "123": Immutable.Record {
+                      "key": "123",
+                      "type": "unstyled",
+                      "text": "",
+                      "characterList": Immutable.List [],
+                      "depth": 0,
+                      "data": Immutable.Map {},
+                    },
+                  },
+                  "selectionBefore": Immutable.Record {
+                    "anchorKey": "123",
+                    "anchorOffset": 0,
+                    "focusKey": "123",
+                    "focusOffset": 0,
+                    "isBackward": false,
+                    "hasFocus": false,
+                  },
+                  "selectionAfter": Immutable.Record {
+                    "anchorKey": "123",
+                    "anchorOffset": 0,
+                    "focusKey": "123",
+                    "focusOffset": 0,
+                    "isBackward": false,
+                    "hasFocus": false,
                   },
                 },
-                "selectionBefore": Immutable.Record {
-                  "anchorKey": "123",
-                  "anchorOffset": 0,
-                  "focusKey": "123",
-                  "focusOffset": 0,
-                  "isBackward": false,
-                  "hasFocus": false,
-                },
-                "selectionAfter": Immutable.Record {
-                  "anchorKey": "123",
-                  "anchorOffset": 0,
-                  "focusKey": "123",
-                  "focusOffset": 0,
-                  "isBackward": false,
-                  "hasFocus": false,
-                },
-              },
-              "decorator": CompositeDraftDecorator {
-                "_decorators": Array [
-                  Object {
-                    "component": Object {
-                      "$$typeof": Symbol(react.forward_ref),
-                      "attrs": Array [],
-                      "componentStyle": ComponentStyle {
-                        "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
-                        "isStatic": false,
-                        "rules": Array [
-                          "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
-                          "4px",
-                          ";white-space:pre-wrap;",
-                        ],
+                "decorator": CompositeDraftDecorator {
+                  "_decorators": Array [
+                    Object {
+                      "component": Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                          "isStatic": false,
+                          "rules": Array [
+                            "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
+                            "4px",
+                            ";white-space:pre-wrap;",
+                          ],
+                        },
+                        "displayName": "PipedValue__PipedValueDecorator",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                        "target": "span",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
                       },
-                      "displayName": "PipedValue__PipedValueDecorator",
-                      "foldedComponentIds": Array [],
-                      "render": [Function],
-                      "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
-                      "target": "span",
-                      "toString": [Function],
-                      "warnTooManyClasses": [Function],
-                      "withComponent": [Function],
+                      "strategy": [Function],
                     },
+                  ],
+                },
+                "directionMap": Immutable.OrderedMap {
+                  "123": "LTR",
+                },
+                "forceSelection": false,
+                "inCompositionMode": false,
+                "inlineStyleOverride": null,
+                "lastChangeType": null,
+                "nativelyRenderedContent": null,
+                "redoStack": Immutable.Stack [],
+                "selection": Immutable.Record {
+                  "anchorKey": "123",
+                  "anchorOffset": 0,
+                  "focusKey": "123",
+                  "focusOffset": 0,
+                  "isBackward": false,
+                  "hasFocus": false,
+                },
+                "treeMap": Immutable.OrderedMap {
+                  "123": Immutable.List [
+                    Immutable.Record {
+                      "start": 0,
+                      "end": 0,
+                      "decoratorKey": null,
+                      "leaves": Immutable.List [
+                        Immutable.Record {
+                          "start": 0,
+                          "end": 0,
+                        },
+                      ],
+                    },
+                  ],
+                },
+                "undoStack": Immutable.Stack [],
+              },
+            }
+          }
+          handleBeforeInput={[Function]}
+          handlePastedText={[Function]}
+          onChange={[Function]}
+          placeholder=""
+          plugins={
+            Array [
+              Object {
+                "handleReturn": [Function],
+              },
+              Object {
+                "decorators": Array [
+                  Object {
+                    "component": [Function],
                     "strategy": [Function],
                   },
                 ],
               },
-              "directionMap": Immutable.OrderedMap {
-                "123": "LTR",
-              },
-              "forceSelection": false,
-              "inCompositionMode": false,
-              "inlineStyleOverride": null,
-              "lastChangeType": null,
-              "nativelyRenderedContent": null,
-              "redoStack": Immutable.Stack [],
-              "selection": Immutable.Record {
-                "anchorKey": "123",
-                "anchorOffset": 0,
-                "focusKey": "123",
-                "focusOffset": 0,
-                "isBackward": false,
-                "hasFocus": false,
-              },
-              "treeMap": Immutable.OrderedMap {
-                "123": Immutable.List [
-                  Immutable.Record {
-                    "start": 0,
-                    "end": 0,
-                    "decoratorKey": null,
-                    "leaves": Immutable.List [
-                      Immutable.Record {
-                        "start": 0,
-                        "end": 0,
-                      },
-                    ],
-                  },
-                ],
-              },
-              "undoStack": Immutable.Stack [],
-            },
+            ]
           }
-        }
-        onChange={[Function]}
-        placeholder=""
-        plugins={
-          Array [
-            Object {
-              "handleReturn": [Function],
-            },
-            Object {
-              "decorators": Array [
-                Object {
-                  "component": [Function],
-                  "strategy": [Function],
-                },
-              ],
-            },
-          ]
-        }
-        readOnly={false}
-        spellCheck={true}
-        webDriverTestID="test-selector-foo"
-      />
-    </RichTextEditor__Input>
-  </Field>
-</RichTextEditor__Wrapper>
+          readOnly={false}
+          spellCheck={true}
+          webDriverTestID="test-selector-foo"
+        />
+      </RichTextEditor__Input>
+    </Field>
+  </RichTextEditor__Wrapper>
+</Fragment>
 `;
 
 exports[`components/RichTextEditor should render 1`] = `
-<RichTextEditor__Wrapper
-  size="small"
->
-  <Field
-    data-test="rte-field"
-    disabled={false}
-    last={false}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onFocus={[Function]}
+<Fragment>
+  <mockConstructor
+    onCancel={[Function]}
+    onConfirm={[Function]}
+  />
+  <RichTextEditor__Wrapper
+    size="small"
   >
-    <Label
-      bold={true}
-      id="label-test"
+    <Field
+      data-test="rte-field"
+      disabled={false}
+      last={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
     >
-      I am a label
-    </Label>
-    <RichTextEditor__Input
-      invalid={false}
-      maxHeight={12}
-      multiline={false}
-      placeholderStyle="unstyled"
-    >
-      <ToolBar
-        autoFocus={false}
-        controls={Object {}}
-        editorState={
-          EditorState {
-            "_immutable": Immutable.Record {
-              "allowUndo": true,
-              "currentContent": Immutable.Record {
-                "entityMap": Object {
-                  "__add": [Function],
-                  "__create": [Function],
-                  "__get": [Function],
-                  "__getAll": [Function],
-                  "__getLastCreatedEntityKey": [Function],
-                  "__loadWithEntities": [Function],
-                  "__mergeData": [Function],
-                  "__replaceData": [Function],
-                  "add": [Function],
-                  "create": [Function],
-                  "get": [Function],
-                  "getLastCreatedEntityKey": [Function],
-                  "mergeData": [Function],
-                  "replaceData": [Function],
-                },
-                "blockMap": Immutable.OrderedMap {
-                  "123": Immutable.Record {
-                    "key": "123",
-                    "type": "unstyled",
-                    "text": "",
-                    "characterList": Immutable.List [],
-                    "depth": 0,
-                    "data": Immutable.Map {},
+      <Label
+        bold={true}
+        id="label-test"
+      >
+        I am a label
+      </Label>
+      <RichTextEditor__Input
+        invalid={false}
+        maxHeight={12}
+        multiline={false}
+        placeholderStyle="unstyled"
+      >
+        <ToolBar
+          autoFocus={false}
+          controls={Object {}}
+          editorState={
+            EditorState {
+              "_immutable": Immutable.Record {
+                "allowUndo": true,
+                "currentContent": Immutable.Record {
+                  "entityMap": Object {
+                    "__add": [Function],
+                    "__create": [Function],
+                    "__get": [Function],
+                    "__getAll": [Function],
+                    "__getLastCreatedEntityKey": [Function],
+                    "__loadWithEntities": [Function],
+                    "__mergeData": [Function],
+                    "__replaceData": [Function],
+                    "add": [Function],
+                    "create": [Function],
+                    "get": [Function],
+                    "getLastCreatedEntityKey": [Function],
+                    "mergeData": [Function],
+                    "replaceData": [Function],
                   },
-                },
-                "selectionBefore": Immutable.Record {
-                  "anchorKey": "123",
-                  "anchorOffset": 0,
-                  "focusKey": "123",
-                  "focusOffset": 0,
-                  "isBackward": false,
-                  "hasFocus": false,
-                },
-                "selectionAfter": Immutable.Record {
-                  "anchorKey": "123",
-                  "anchorOffset": 0,
-                  "focusKey": "123",
-                  "focusOffset": 0,
-                  "isBackward": false,
-                  "hasFocus": false,
-                },
-              },
-              "decorator": CompositeDraftDecorator {
-                "_decorators": Array [
-                  Object {
-                    "component": Object {
-                      "$$typeof": Symbol(react.forward_ref),
-                      "attrs": Array [],
-                      "componentStyle": ComponentStyle {
-                        "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
-                        "isStatic": false,
-                        "rules": Array [
-                          "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
-                          "4px",
-                          ";white-space:pre-wrap;",
-                        ],
-                      },
-                      "displayName": "PipedValue__PipedValueDecorator",
-                      "foldedComponentIds": Array [],
-                      "render": [Function],
-                      "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
-                      "target": "span",
-                      "toString": [Function],
-                      "warnTooManyClasses": [Function],
-                      "withComponent": [Function],
+                  "blockMap": Immutable.OrderedMap {
+                    "123": Immutable.Record {
+                      "key": "123",
+                      "type": "unstyled",
+                      "text": "",
+                      "characterList": Immutable.List [],
+                      "depth": 0,
+                      "data": Immutable.Map {},
                     },
-                    "strategy": [Function],
                   },
-                ],
-              },
-              "directionMap": Immutable.OrderedMap {
-                "123": "LTR",
-              },
-              "forceSelection": false,
-              "inCompositionMode": false,
-              "inlineStyleOverride": null,
-              "lastChangeType": null,
-              "nativelyRenderedContent": null,
-              "redoStack": Immutable.Stack [],
-              "selection": Immutable.Record {
-                "anchorKey": "123",
-                "anchorOffset": 0,
-                "focusKey": "123",
-                "focusOffset": 0,
-                "isBackward": false,
-                "hasFocus": false,
-              },
-              "treeMap": Immutable.OrderedMap {
-                "123": Immutable.List [
-                  Immutable.Record {
-                    "start": 0,
-                    "end": 0,
-                    "decoratorKey": null,
-                    "leaves": Immutable.List [
-                      Immutable.Record {
-                        "start": 0,
-                        "end": 0,
+                  "selectionBefore": Immutable.Record {
+                    "anchorKey": "123",
+                    "anchorOffset": 0,
+                    "focusKey": "123",
+                    "focusOffset": 0,
+                    "isBackward": false,
+                    "hasFocus": false,
+                  },
+                  "selectionAfter": Immutable.Record {
+                    "anchorKey": "123",
+                    "anchorOffset": 0,
+                    "focusKey": "123",
+                    "focusOffset": 0,
+                    "isBackward": false,
+                    "hasFocus": false,
+                  },
+                },
+                "decorator": CompositeDraftDecorator {
+                  "_decorators": Array [
+                    Object {
+                      "component": Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                          "isStatic": false,
+                          "rules": Array [
+                            "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
+                            "4px",
+                            ";white-space:pre-wrap;",
+                          ],
+                        },
+                        "displayName": "PipedValue__PipedValueDecorator",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                        "target": "span",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
                       },
-                    ],
-                  },
-                ],
-              },
-              "undoStack": Immutable.Stack [],
-            },
-          }
-        }
-        isActiveControl={[Function]}
-        name="test-name"
-        onLinkChosen={[Function]}
-        onPiping={[Function]}
-        onToggle={[Function]}
-        onUpdate={[MockFunction]}
-        selectionIsCollapsed={true}
-        testId="test-selector-foo-toolbar"
-        visible={false}
-      />
-      <PluginEditor
-        ariaLabel="I am a label"
-        ariaLabelledBy="label-test"
-        blockStyleFn={[Function]}
-        customStyleMap={
-          Object {
-            "ITALIC": Object {
-              "backgroundColor": "#cbe2c8",
-            },
-          }
-        }
-        decorators={
-          Array [
-            Object {
-              "component": Object {
-                "$$typeof": Symbol(react.forward_ref),
-                "attrs": Array [],
-                "componentStyle": ComponentStyle {
-                  "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
-                  "isStatic": false,
-                  "rules": Array [
-                    "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
-                    "4px",
-                    ";white-space:pre-wrap;",
+                      "strategy": [Function],
+                    },
                   ],
                 },
-                "displayName": "PipedValue__PipedValueDecorator",
-                "foldedComponentIds": Array [],
-                "render": [Function],
-                "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
-                "target": "span",
-                "toString": [Function],
-                "warnTooManyClasses": [Function],
-                "withComponent": [Function],
-              },
-              "strategy": [Function],
-            },
-          ]
-        }
-        defaultBlockRenderMap={true}
-        defaultKeyBindings={true}
-        defaultKeyCommands={true}
-        editorState={
-          EditorState {
-            "_immutable": Immutable.Record {
-              "allowUndo": true,
-              "currentContent": Immutable.Record {
-                "entityMap": Object {
-                  "__add": [Function],
-                  "__create": [Function],
-                  "__get": [Function],
-                  "__getAll": [Function],
-                  "__getLastCreatedEntityKey": [Function],
-                  "__loadWithEntities": [Function],
-                  "__mergeData": [Function],
-                  "__replaceData": [Function],
-                  "add": [Function],
-                  "create": [Function],
-                  "get": [Function],
-                  "getLastCreatedEntityKey": [Function],
-                  "mergeData": [Function],
-                  "replaceData": [Function],
+                "directionMap": Immutable.OrderedMap {
+                  "123": "LTR",
                 },
-                "blockMap": Immutable.OrderedMap {
-                  "123": Immutable.Record {
-                    "key": "123",
-                    "type": "unstyled",
-                    "text": "",
-                    "characterList": Immutable.List [],
-                    "depth": 0,
-                    "data": Immutable.Map {},
+                "forceSelection": false,
+                "inCompositionMode": false,
+                "inlineStyleOverride": null,
+                "lastChangeType": null,
+                "nativelyRenderedContent": null,
+                "redoStack": Immutable.Stack [],
+                "selection": Immutable.Record {
+                  "anchorKey": "123",
+                  "anchorOffset": 0,
+                  "focusKey": "123",
+                  "focusOffset": 0,
+                  "isBackward": false,
+                  "hasFocus": false,
+                },
+                "treeMap": Immutable.OrderedMap {
+                  "123": Immutable.List [
+                    Immutable.Record {
+                      "start": 0,
+                      "end": 0,
+                      "decoratorKey": null,
+                      "leaves": Immutable.List [
+                        Immutable.Record {
+                          "start": 0,
+                          "end": 0,
+                        },
+                      ],
+                    },
+                  ],
+                },
+                "undoStack": Immutable.Stack [],
+              },
+            }
+          }
+          isActiveControl={[Function]}
+          name="test-name"
+          onLinkChosen={[Function]}
+          onPiping={[Function]}
+          onToggle={[Function]}
+          onUpdate={[MockFunction]}
+          selectionIsCollapsed={true}
+          testId="test-selector-foo-toolbar"
+          visible={false}
+        />
+        <PluginEditor
+          ariaLabel="I am a label"
+          ariaLabelledBy="label-test"
+          blockStyleFn={[Function]}
+          customStyleMap={
+            Object {
+              "ITALIC": Object {
+                "backgroundColor": "#cbe2c8",
+              },
+            }
+          }
+          decorators={
+            Array [
+              Object {
+                "component": Object {
+                  "$$typeof": Symbol(react.forward_ref),
+                  "attrs": Array [],
+                  "componentStyle": ComponentStyle {
+                    "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                    "isStatic": false,
+                    "rules": Array [
+                      "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
+                      "4px",
+                      ";white-space:pre-wrap;",
+                    ],
+                  },
+                  "displayName": "PipedValue__PipedValueDecorator",
+                  "foldedComponentIds": Array [],
+                  "render": [Function],
+                  "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                  "target": "span",
+                  "toString": [Function],
+                  "warnTooManyClasses": [Function],
+                  "withComponent": [Function],
+                },
+                "strategy": [Function],
+              },
+            ]
+          }
+          defaultBlockRenderMap={true}
+          defaultKeyBindings={true}
+          defaultKeyCommands={true}
+          editorState={
+            EditorState {
+              "_immutable": Immutable.Record {
+                "allowUndo": true,
+                "currentContent": Immutable.Record {
+                  "entityMap": Object {
+                    "__add": [Function],
+                    "__create": [Function],
+                    "__get": [Function],
+                    "__getAll": [Function],
+                    "__getLastCreatedEntityKey": [Function],
+                    "__loadWithEntities": [Function],
+                    "__mergeData": [Function],
+                    "__replaceData": [Function],
+                    "add": [Function],
+                    "create": [Function],
+                    "get": [Function],
+                    "getLastCreatedEntityKey": [Function],
+                    "mergeData": [Function],
+                    "replaceData": [Function],
+                  },
+                  "blockMap": Immutable.OrderedMap {
+                    "123": Immutable.Record {
+                      "key": "123",
+                      "type": "unstyled",
+                      "text": "",
+                      "characterList": Immutable.List [],
+                      "depth": 0,
+                      "data": Immutable.Map {},
+                    },
+                  },
+                  "selectionBefore": Immutable.Record {
+                    "anchorKey": "123",
+                    "anchorOffset": 0,
+                    "focusKey": "123",
+                    "focusOffset": 0,
+                    "isBackward": false,
+                    "hasFocus": false,
+                  },
+                  "selectionAfter": Immutable.Record {
+                    "anchorKey": "123",
+                    "anchorOffset": 0,
+                    "focusKey": "123",
+                    "focusOffset": 0,
+                    "isBackward": false,
+                    "hasFocus": false,
                   },
                 },
-                "selectionBefore": Immutable.Record {
-                  "anchorKey": "123",
-                  "anchorOffset": 0,
-                  "focusKey": "123",
-                  "focusOffset": 0,
-                  "isBackward": false,
-                  "hasFocus": false,
-                },
-                "selectionAfter": Immutable.Record {
-                  "anchorKey": "123",
-                  "anchorOffset": 0,
-                  "focusKey": "123",
-                  "focusOffset": 0,
-                  "isBackward": false,
-                  "hasFocus": false,
-                },
-              },
-              "decorator": CompositeDraftDecorator {
-                "_decorators": Array [
-                  Object {
-                    "component": Object {
-                      "$$typeof": Symbol(react.forward_ref),
-                      "attrs": Array [],
-                      "componentStyle": ComponentStyle {
-                        "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
-                        "isStatic": false,
-                        "rules": Array [
-                          "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
-                          "4px",
-                          ";white-space:pre-wrap;",
-                        ],
+                "decorator": CompositeDraftDecorator {
+                  "_decorators": Array [
+                    Object {
+                      "component": Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                          "isStatic": false,
+                          "rules": Array [
+                            "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
+                            "4px",
+                            ";white-space:pre-wrap;",
+                          ],
+                        },
+                        "displayName": "PipedValue__PipedValueDecorator",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                        "target": "span",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
                       },
-                      "displayName": "PipedValue__PipedValueDecorator",
-                      "foldedComponentIds": Array [],
-                      "render": [Function],
-                      "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
-                      "target": "span",
-                      "toString": [Function],
-                      "warnTooManyClasses": [Function],
-                      "withComponent": [Function],
+                      "strategy": [Function],
                     },
+                  ],
+                },
+                "directionMap": Immutable.OrderedMap {
+                  "123": "LTR",
+                },
+                "forceSelection": false,
+                "inCompositionMode": false,
+                "inlineStyleOverride": null,
+                "lastChangeType": null,
+                "nativelyRenderedContent": null,
+                "redoStack": Immutable.Stack [],
+                "selection": Immutable.Record {
+                  "anchorKey": "123",
+                  "anchorOffset": 0,
+                  "focusKey": "123",
+                  "focusOffset": 0,
+                  "isBackward": false,
+                  "hasFocus": false,
+                },
+                "treeMap": Immutable.OrderedMap {
+                  "123": Immutable.List [
+                    Immutable.Record {
+                      "start": 0,
+                      "end": 0,
+                      "decoratorKey": null,
+                      "leaves": Immutable.List [
+                        Immutable.Record {
+                          "start": 0,
+                          "end": 0,
+                        },
+                      ],
+                    },
+                  ],
+                },
+                "undoStack": Immutable.Stack [],
+              },
+            }
+          }
+          handleBeforeInput={[Function]}
+          handlePastedText={[Function]}
+          handleReturn={[Function]}
+          onChange={[Function]}
+          placeholder=""
+          plugins={
+            Array [
+              Object {
+                "handleReturn": [Function],
+              },
+              Object {
+                "decorators": Array [
+                  Object {
+                    "component": [Function],
                     "strategy": [Function],
                   },
                 ],
               },
-              "directionMap": Immutable.OrderedMap {
-                "123": "LTR",
-              },
-              "forceSelection": false,
-              "inCompositionMode": false,
-              "inlineStyleOverride": null,
-              "lastChangeType": null,
-              "nativelyRenderedContent": null,
-              "redoStack": Immutable.Stack [],
-              "selection": Immutable.Record {
-                "anchorKey": "123",
-                "anchorOffset": 0,
-                "focusKey": "123",
-                "focusOffset": 0,
-                "isBackward": false,
-                "hasFocus": false,
-              },
-              "treeMap": Immutable.OrderedMap {
-                "123": Immutable.List [
-                  Immutable.Record {
-                    "start": 0,
-                    "end": 0,
-                    "decoratorKey": null,
-                    "leaves": Immutable.List [
-                      Immutable.Record {
-                        "start": 0,
-                        "end": 0,
-                      },
-                    ],
-                  },
-                ],
-              },
-              "undoStack": Immutable.Stack [],
-            },
+            ]
           }
-        }
-        handlePastedText={[Function]}
-        handleReturn={[Function]}
-        onChange={[Function]}
-        placeholder=""
-        plugins={
-          Array [
-            Object {
-              "handleReturn": [Function],
-            },
-            Object {
-              "decorators": Array [
-                Object {
-                  "component": [Function],
-                  "strategy": [Function],
-                },
-              ],
-            },
-          ]
-        }
-        readOnly={false}
-        spellCheck={true}
-        webDriverTestID="test-selector-foo"
-      />
-    </RichTextEditor__Input>
-  </Field>
-</RichTextEditor__Wrapper>
+          readOnly={false}
+          spellCheck={true}
+          webDriverTestID="test-selector-foo"
+        />
+      </RichTextEditor__Input>
+    </Field>
+  </RichTextEditor__Wrapper>
+</Fragment>
 `;
 
 exports[`components/RichTextEditor should render existing content 1`] = `
-<RichTextEditor__Wrapper
-  size="small"
->
-  <Field
-    data-test="rte-field"
-    disabled={false}
-    last={false}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onFocus={[Function]}
+<Fragment>
+  <mockConstructor
+    onCancel={[Function]}
+    onConfirm={[Function]}
+  />
+  <RichTextEditor__Wrapper
+    size="small"
   >
-    <Label
-      bold={true}
-      id="label-test"
+    <Field
+      data-test="rte-field"
+      disabled={false}
+      last={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
     >
-      I am a label
-    </Label>
-    <RichTextEditor__Input
-      invalid={false}
-      maxHeight={12}
-      multiline={false}
-      placeholderStyle="unordered-list-item"
-    >
-      <ToolBar
-        autoFocus={false}
-        controls={Object {}}
-        editorState={
-          EditorState {
-            "_immutable": Immutable.Record {
-              "allowUndo": true,
-              "currentContent": Immutable.Record {
-                "entityMap": Object {
-                  "__add": [Function],
-                  "__create": [Function],
-                  "__get": [Function],
-                  "__getAll": [Function],
-                  "__getLastCreatedEntityKey": [Function],
-                  "__loadWithEntities": [Function],
-                  "__mergeData": [Function],
-                  "__replaceData": [Function],
-                  "add": [Function],
-                  "create": [Function],
-                  "get": [Function],
-                  "getLastCreatedEntityKey": [Function],
-                  "mergeData": [Function],
-                  "replaceData": [Function],
-                },
-                "blockMap": Immutable.OrderedMap {
-                  "123": Immutable.Record {
-                    "key": "123",
-                    "type": "unordered-list-item",
-                    "text": "Emphasis",
-                    "characterList": Immutable.List [
-                      Immutable.Record {
-                        "style": Immutable.OrderedSet [
-                          "ITALIC",
-                        ],
-                        "entity": null,
-                      },
-                      Immutable.Record {
-                        "style": Immutable.OrderedSet [
-                          "ITALIC",
-                        ],
-                        "entity": null,
-                      },
-                      Immutable.Record {
-                        "style": Immutable.OrderedSet [
-                          "ITALIC",
-                        ],
-                        "entity": null,
-                      },
-                      Immutable.Record {
-                        "style": Immutable.OrderedSet [
-                          "ITALIC",
-                        ],
-                        "entity": null,
-                      },
-                      Immutable.Record {
-                        "style": Immutable.OrderedSet [
-                          "ITALIC",
-                        ],
-                        "entity": null,
-                      },
-                      Immutable.Record {
-                        "style": Immutable.OrderedSet [
-                          "ITALIC",
-                        ],
-                        "entity": null,
-                      },
-                      Immutable.Record {
-                        "style": Immutable.OrderedSet [
-                          "ITALIC",
-                        ],
-                        "entity": null,
-                      },
-                      Immutable.Record {
-                        "style": Immutable.OrderedSet [
-                          "ITALIC",
-                        ],
-                        "entity": null,
-                      },
-                    ],
-                    "depth": 0,
-                    "data": Immutable.Map {},
+      <Label
+        bold={true}
+        id="label-test"
+      >
+        I am a label
+      </Label>
+      <RichTextEditor__Input
+        invalid={false}
+        maxHeight={12}
+        multiline={false}
+        placeholderStyle="unordered-list-item"
+      >
+        <ToolBar
+          autoFocus={false}
+          controls={Object {}}
+          editorState={
+            EditorState {
+              "_immutable": Immutable.Record {
+                "allowUndo": true,
+                "currentContent": Immutable.Record {
+                  "entityMap": Object {
+                    "__add": [Function],
+                    "__create": [Function],
+                    "__get": [Function],
+                    "__getAll": [Function],
+                    "__getLastCreatedEntityKey": [Function],
+                    "__loadWithEntities": [Function],
+                    "__mergeData": [Function],
+                    "__replaceData": [Function],
+                    "add": [Function],
+                    "create": [Function],
+                    "get": [Function],
+                    "getLastCreatedEntityKey": [Function],
+                    "mergeData": [Function],
+                    "replaceData": [Function],
                   },
-                },
-                "selectionBefore": Immutable.Record {
-                  "anchorKey": "123",
-                  "anchorOffset": 0,
-                  "focusKey": "123",
-                  "focusOffset": 0,
-                  "isBackward": false,
-                  "hasFocus": false,
-                },
-                "selectionAfter": Immutable.Record {
-                  "anchorKey": "123",
-                  "anchorOffset": 0,
-                  "focusKey": "123",
-                  "focusOffset": 0,
-                  "isBackward": false,
-                  "hasFocus": false,
-                },
-              },
-              "decorator": CompositeDraftDecorator {
-                "_decorators": Array [
-                  Object {
-                    "component": Object {
-                      "$$typeof": Symbol(react.forward_ref),
-                      "attrs": Array [],
-                      "componentStyle": ComponentStyle {
-                        "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
-                        "isStatic": false,
-                        "rules": Array [
-                          "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
-                          "4px",
-                          ";white-space:pre-wrap;",
-                        ],
-                      },
-                      "displayName": "PipedValue__PipedValueDecorator",
-                      "foldedComponentIds": Array [],
-                      "render": [Function],
-                      "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
-                      "target": "span",
-                      "toString": [Function],
-                      "warnTooManyClasses": [Function],
-                      "withComponent": [Function],
+                  "blockMap": Immutable.OrderedMap {
+                    "123": Immutable.Record {
+                      "key": "123",
+                      "type": "unordered-list-item",
+                      "text": "Emphasis",
+                      "characterList": Immutable.List [
+                        Immutable.Record {
+                          "style": Immutable.OrderedSet [
+                            "ITALIC",
+                          ],
+                          "entity": null,
+                        },
+                        Immutable.Record {
+                          "style": Immutable.OrderedSet [
+                            "ITALIC",
+                          ],
+                          "entity": null,
+                        },
+                        Immutable.Record {
+                          "style": Immutable.OrderedSet [
+                            "ITALIC",
+                          ],
+                          "entity": null,
+                        },
+                        Immutable.Record {
+                          "style": Immutable.OrderedSet [
+                            "ITALIC",
+                          ],
+                          "entity": null,
+                        },
+                        Immutable.Record {
+                          "style": Immutable.OrderedSet [
+                            "ITALIC",
+                          ],
+                          "entity": null,
+                        },
+                        Immutable.Record {
+                          "style": Immutable.OrderedSet [
+                            "ITALIC",
+                          ],
+                          "entity": null,
+                        },
+                        Immutable.Record {
+                          "style": Immutable.OrderedSet [
+                            "ITALIC",
+                          ],
+                          "entity": null,
+                        },
+                        Immutable.Record {
+                          "style": Immutable.OrderedSet [
+                            "ITALIC",
+                          ],
+                          "entity": null,
+                        },
+                      ],
+                      "depth": 0,
+                      "data": Immutable.Map {},
                     },
-                    "strategy": [Function],
                   },
-                ],
-              },
-              "directionMap": Immutable.OrderedMap {
-                "123": "LTR",
-              },
-              "forceSelection": false,
-              "inCompositionMode": false,
-              "inlineStyleOverride": null,
-              "lastChangeType": null,
-              "nativelyRenderedContent": null,
-              "redoStack": Immutable.Stack [],
-              "selection": Immutable.Record {
-                "anchorKey": "123",
-                "anchorOffset": 0,
-                "focusKey": "123",
-                "focusOffset": 0,
-                "isBackward": false,
-                "hasFocus": false,
-              },
-              "treeMap": Immutable.OrderedMap {
-                "123": Immutable.List [
-                  Immutable.Record {
-                    "start": 0,
-                    "end": 8,
-                    "decoratorKey": null,
-                    "leaves": Immutable.List [
-                      Immutable.Record {
-                        "start": 0,
-                        "end": 8,
+                  "selectionBefore": Immutable.Record {
+                    "anchorKey": "123",
+                    "anchorOffset": 0,
+                    "focusKey": "123",
+                    "focusOffset": 0,
+                    "isBackward": false,
+                    "hasFocus": false,
+                  },
+                  "selectionAfter": Immutable.Record {
+                    "anchorKey": "123",
+                    "anchorOffset": 0,
+                    "focusKey": "123",
+                    "focusOffset": 0,
+                    "isBackward": false,
+                    "hasFocus": false,
+                  },
+                },
+                "decorator": CompositeDraftDecorator {
+                  "_decorators": Array [
+                    Object {
+                      "component": Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                          "isStatic": false,
+                          "rules": Array [
+                            "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
+                            "4px",
+                            ";white-space:pre-wrap;",
+                          ],
+                        },
+                        "displayName": "PipedValue__PipedValueDecorator",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                        "target": "span",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
                       },
-                    ],
-                  },
-                ],
+                      "strategy": [Function],
+                    },
+                  ],
+                },
+                "directionMap": Immutable.OrderedMap {
+                  "123": "LTR",
+                },
+                "forceSelection": false,
+                "inCompositionMode": false,
+                "inlineStyleOverride": null,
+                "lastChangeType": null,
+                "nativelyRenderedContent": null,
+                "redoStack": Immutable.Stack [],
+                "selection": Immutable.Record {
+                  "anchorKey": "123",
+                  "anchorOffset": 0,
+                  "focusKey": "123",
+                  "focusOffset": 0,
+                  "isBackward": false,
+                  "hasFocus": false,
+                },
+                "treeMap": Immutable.OrderedMap {
+                  "123": Immutable.List [
+                    Immutable.Record {
+                      "start": 0,
+                      "end": 8,
+                      "decoratorKey": null,
+                      "leaves": Immutable.List [
+                        Immutable.Record {
+                          "start": 0,
+                          "end": 8,
+                        },
+                      ],
+                    },
+                  ],
+                },
+                "undoStack": Immutable.Stack [],
               },
-              "undoStack": Immutable.Stack [],
-            },
+            }
           }
-        }
-        isActiveControl={[Function]}
-        name="test-name"
-        onLinkChosen={[Function]}
-        onPiping={[Function]}
-        onToggle={[Function]}
-        onUpdate={[MockFunction]}
-        selectionIsCollapsed={true}
-        testId="test-selector-foo-toolbar"
-        value="
+          isActiveControl={[Function]}
+          name="test-name"
+          onLinkChosen={[Function]}
+          onPiping={[Function]}
+          onToggle={[Function]}
+          onUpdate={[MockFunction]}
+          selectionIsCollapsed={true}
+          testId="test-selector-foo-toolbar"
+          value="
   <h2>List of styles:</h2>
   <ul>
     <li>Regular</li>
@@ -864,566 +884,575 @@ exports[`components/RichTextEditor should render existing content 1`] = `
     <li><em>Emphasis</em></li>
   </ul>
 "
-        visible={false}
-      />
-      <PluginEditor
-        ariaLabel="I am a label"
-        ariaLabelledBy="label-test"
-        blockStyleFn={[Function]}
-        customStyleMap={
-          Object {
-            "ITALIC": Object {
-              "backgroundColor": "#cbe2c8",
-            },
-          }
-        }
-        decorators={
-          Array [
+          visible={false}
+        />
+        <PluginEditor
+          ariaLabel="I am a label"
+          ariaLabelledBy="label-test"
+          blockStyleFn={[Function]}
+          customStyleMap={
             Object {
-              "component": Object {
-                "$$typeof": Symbol(react.forward_ref),
-                "attrs": Array [],
-                "componentStyle": ComponentStyle {
-                  "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
-                  "isStatic": false,
-                  "rules": Array [
-                    "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
-                    "4px",
-                    ";white-space:pre-wrap;",
-                  ],
-                },
-                "displayName": "PipedValue__PipedValueDecorator",
-                "foldedComponentIds": Array [],
-                "render": [Function],
-                "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
-                "target": "span",
-                "toString": [Function],
-                "warnTooManyClasses": [Function],
-                "withComponent": [Function],
+              "ITALIC": Object {
+                "backgroundColor": "#cbe2c8",
               },
-              "strategy": [Function],
-            },
-          ]
-        }
-        defaultBlockRenderMap={true}
-        defaultKeyBindings={true}
-        defaultKeyCommands={true}
-        editorState={
-          EditorState {
-            "_immutable": Immutable.Record {
-              "allowUndo": true,
-              "currentContent": Immutable.Record {
-                "entityMap": Object {
-                  "__add": [Function],
-                  "__create": [Function],
-                  "__get": [Function],
-                  "__getAll": [Function],
-                  "__getLastCreatedEntityKey": [Function],
-                  "__loadWithEntities": [Function],
-                  "__mergeData": [Function],
-                  "__replaceData": [Function],
-                  "add": [Function],
-                  "create": [Function],
-                  "get": [Function],
-                  "getLastCreatedEntityKey": [Function],
-                  "mergeData": [Function],
-                  "replaceData": [Function],
-                },
-                "blockMap": Immutable.OrderedMap {
-                  "123": Immutable.Record {
-                    "key": "123",
-                    "type": "unordered-list-item",
-                    "text": "Emphasis",
-                    "characterList": Immutable.List [
-                      Immutable.Record {
-                        "style": Immutable.OrderedSet [
-                          "ITALIC",
-                        ],
-                        "entity": null,
-                      },
-                      Immutable.Record {
-                        "style": Immutable.OrderedSet [
-                          "ITALIC",
-                        ],
-                        "entity": null,
-                      },
-                      Immutable.Record {
-                        "style": Immutable.OrderedSet [
-                          "ITALIC",
-                        ],
-                        "entity": null,
-                      },
-                      Immutable.Record {
-                        "style": Immutable.OrderedSet [
-                          "ITALIC",
-                        ],
-                        "entity": null,
-                      },
-                      Immutable.Record {
-                        "style": Immutable.OrderedSet [
-                          "ITALIC",
-                        ],
-                        "entity": null,
-                      },
-                      Immutable.Record {
-                        "style": Immutable.OrderedSet [
-                          "ITALIC",
-                        ],
-                        "entity": null,
-                      },
-                      Immutable.Record {
-                        "style": Immutable.OrderedSet [
-                          "ITALIC",
-                        ],
-                        "entity": null,
-                      },
-                      Immutable.Record {
-                        "style": Immutable.OrderedSet [
-                          "ITALIC",
-                        ],
-                        "entity": null,
-                      },
+            }
+          }
+          decorators={
+            Array [
+              Object {
+                "component": Object {
+                  "$$typeof": Symbol(react.forward_ref),
+                  "attrs": Array [],
+                  "componentStyle": ComponentStyle {
+                    "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                    "isStatic": false,
+                    "rules": Array [
+                      "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
+                      "4px",
+                      ";white-space:pre-wrap;",
                     ],
-                    "depth": 0,
-                    "data": Immutable.Map {},
+                  },
+                  "displayName": "PipedValue__PipedValueDecorator",
+                  "foldedComponentIds": Array [],
+                  "render": [Function],
+                  "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                  "target": "span",
+                  "toString": [Function],
+                  "warnTooManyClasses": [Function],
+                  "withComponent": [Function],
+                },
+                "strategy": [Function],
+              },
+            ]
+          }
+          defaultBlockRenderMap={true}
+          defaultKeyBindings={true}
+          defaultKeyCommands={true}
+          editorState={
+            EditorState {
+              "_immutable": Immutable.Record {
+                "allowUndo": true,
+                "currentContent": Immutable.Record {
+                  "entityMap": Object {
+                    "__add": [Function],
+                    "__create": [Function],
+                    "__get": [Function],
+                    "__getAll": [Function],
+                    "__getLastCreatedEntityKey": [Function],
+                    "__loadWithEntities": [Function],
+                    "__mergeData": [Function],
+                    "__replaceData": [Function],
+                    "add": [Function],
+                    "create": [Function],
+                    "get": [Function],
+                    "getLastCreatedEntityKey": [Function],
+                    "mergeData": [Function],
+                    "replaceData": [Function],
+                  },
+                  "blockMap": Immutable.OrderedMap {
+                    "123": Immutable.Record {
+                      "key": "123",
+                      "type": "unordered-list-item",
+                      "text": "Emphasis",
+                      "characterList": Immutable.List [
+                        Immutable.Record {
+                          "style": Immutable.OrderedSet [
+                            "ITALIC",
+                          ],
+                          "entity": null,
+                        },
+                        Immutable.Record {
+                          "style": Immutable.OrderedSet [
+                            "ITALIC",
+                          ],
+                          "entity": null,
+                        },
+                        Immutable.Record {
+                          "style": Immutable.OrderedSet [
+                            "ITALIC",
+                          ],
+                          "entity": null,
+                        },
+                        Immutable.Record {
+                          "style": Immutable.OrderedSet [
+                            "ITALIC",
+                          ],
+                          "entity": null,
+                        },
+                        Immutable.Record {
+                          "style": Immutable.OrderedSet [
+                            "ITALIC",
+                          ],
+                          "entity": null,
+                        },
+                        Immutable.Record {
+                          "style": Immutable.OrderedSet [
+                            "ITALIC",
+                          ],
+                          "entity": null,
+                        },
+                        Immutable.Record {
+                          "style": Immutable.OrderedSet [
+                            "ITALIC",
+                          ],
+                          "entity": null,
+                        },
+                        Immutable.Record {
+                          "style": Immutable.OrderedSet [
+                            "ITALIC",
+                          ],
+                          "entity": null,
+                        },
+                      ],
+                      "depth": 0,
+                      "data": Immutable.Map {},
+                    },
+                  },
+                  "selectionBefore": Immutable.Record {
+                    "anchorKey": "123",
+                    "anchorOffset": 0,
+                    "focusKey": "123",
+                    "focusOffset": 0,
+                    "isBackward": false,
+                    "hasFocus": false,
+                  },
+                  "selectionAfter": Immutable.Record {
+                    "anchorKey": "123",
+                    "anchorOffset": 0,
+                    "focusKey": "123",
+                    "focusOffset": 0,
+                    "isBackward": false,
+                    "hasFocus": false,
                   },
                 },
-                "selectionBefore": Immutable.Record {
-                  "anchorKey": "123",
-                  "anchorOffset": 0,
-                  "focusKey": "123",
-                  "focusOffset": 0,
-                  "isBackward": false,
-                  "hasFocus": false,
-                },
-                "selectionAfter": Immutable.Record {
-                  "anchorKey": "123",
-                  "anchorOffset": 0,
-                  "focusKey": "123",
-                  "focusOffset": 0,
-                  "isBackward": false,
-                  "hasFocus": false,
-                },
-              },
-              "decorator": CompositeDraftDecorator {
-                "_decorators": Array [
-                  Object {
-                    "component": Object {
-                      "$$typeof": Symbol(react.forward_ref),
-                      "attrs": Array [],
-                      "componentStyle": ComponentStyle {
-                        "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
-                        "isStatic": false,
-                        "rules": Array [
-                          "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
-                          "4px",
-                          ";white-space:pre-wrap;",
-                        ],
+                "decorator": CompositeDraftDecorator {
+                  "_decorators": Array [
+                    Object {
+                      "component": Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                          "isStatic": false,
+                          "rules": Array [
+                            "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
+                            "4px",
+                            ";white-space:pre-wrap;",
+                          ],
+                        },
+                        "displayName": "PipedValue__PipedValueDecorator",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                        "target": "span",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
                       },
-                      "displayName": "PipedValue__PipedValueDecorator",
-                      "foldedComponentIds": Array [],
-                      "render": [Function],
-                      "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
-                      "target": "span",
-                      "toString": [Function],
-                      "warnTooManyClasses": [Function],
-                      "withComponent": [Function],
+                      "strategy": [Function],
                     },
+                  ],
+                },
+                "directionMap": Immutable.OrderedMap {
+                  "123": "LTR",
+                },
+                "forceSelection": false,
+                "inCompositionMode": false,
+                "inlineStyleOverride": null,
+                "lastChangeType": null,
+                "nativelyRenderedContent": null,
+                "redoStack": Immutable.Stack [],
+                "selection": Immutable.Record {
+                  "anchorKey": "123",
+                  "anchorOffset": 0,
+                  "focusKey": "123",
+                  "focusOffset": 0,
+                  "isBackward": false,
+                  "hasFocus": false,
+                },
+                "treeMap": Immutable.OrderedMap {
+                  "123": Immutable.List [
+                    Immutable.Record {
+                      "start": 0,
+                      "end": 8,
+                      "decoratorKey": null,
+                      "leaves": Immutable.List [
+                        Immutable.Record {
+                          "start": 0,
+                          "end": 8,
+                        },
+                      ],
+                    },
+                  ],
+                },
+                "undoStack": Immutable.Stack [],
+              },
+            }
+          }
+          handleBeforeInput={[Function]}
+          handlePastedText={[Function]}
+          handleReturn={[Function]}
+          onChange={[Function]}
+          placeholder=""
+          plugins={
+            Array [
+              Object {
+                "handleReturn": [Function],
+              },
+              Object {
+                "decorators": Array [
+                  Object {
+                    "component": [Function],
                     "strategy": [Function],
                   },
                 ],
               },
-              "directionMap": Immutable.OrderedMap {
-                "123": "LTR",
-              },
-              "forceSelection": false,
-              "inCompositionMode": false,
-              "inlineStyleOverride": null,
-              "lastChangeType": null,
-              "nativelyRenderedContent": null,
-              "redoStack": Immutable.Stack [],
-              "selection": Immutable.Record {
-                "anchorKey": "123",
-                "anchorOffset": 0,
-                "focusKey": "123",
-                "focusOffset": 0,
-                "isBackward": false,
-                "hasFocus": false,
-              },
-              "treeMap": Immutable.OrderedMap {
-                "123": Immutable.List [
-                  Immutable.Record {
-                    "start": 0,
-                    "end": 8,
-                    "decoratorKey": null,
-                    "leaves": Immutable.List [
-                      Immutable.Record {
-                        "start": 0,
-                        "end": 8,
-                      },
-                    ],
-                  },
-                ],
-              },
-              "undoStack": Immutable.Stack [],
-            },
+            ]
           }
-        }
-        handlePastedText={[Function]}
-        handleReturn={[Function]}
-        onChange={[Function]}
-        placeholder=""
-        plugins={
-          Array [
-            Object {
-              "handleReturn": [Function],
-            },
-            Object {
-              "decorators": Array [
-                Object {
-                  "component": [Function],
-                  "strategy": [Function],
-                },
-              ],
-            },
-          ]
-        }
-        readOnly={false}
-        spellCheck={true}
-        webDriverTestID="test-selector-foo"
-      />
-    </RichTextEditor__Input>
-  </Field>
-</RichTextEditor__Wrapper>
+          readOnly={false}
+          spellCheck={true}
+          webDriverTestID="test-selector-foo"
+        />
+      </RichTextEditor__Input>
+    </Field>
+  </RichTextEditor__Wrapper>
+</Fragment>
 `;
 
 exports[`components/RichTextEditor should show as disabled and readonly when disabled 1`] = `
-<RichTextEditor__Wrapper
-  size="small"
->
-  <Field
-    data-test="rte-field"
-    disabled={true}
-    last={false}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onFocus={[Function]}
+<Fragment>
+  <mockConstructor
+    onCancel={[Function]}
+    onConfirm={[Function]}
+  />
+  <RichTextEditor__Wrapper
+    size="small"
   >
-    <Label
-      bold={true}
-      id="label-test"
+    <Field
+      data-test="rte-field"
+      disabled={true}
+      last={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
     >
-      I am a label
-    </Label>
-    <RichTextEditor__Input
-      invalid={false}
-      maxHeight={12}
-      multiline={false}
-      placeholderStyle="unstyled"
-    >
-      <ToolBar
-        autoFocus={false}
-        controls={Object {}}
-        editorState={
-          EditorState {
-            "_immutable": Immutable.Record {
-              "allowUndo": true,
-              "currentContent": Immutable.Record {
-                "entityMap": Object {
-                  "__add": [Function],
-                  "__create": [Function],
-                  "__get": [Function],
-                  "__getAll": [Function],
-                  "__getLastCreatedEntityKey": [Function],
-                  "__loadWithEntities": [Function],
-                  "__mergeData": [Function],
-                  "__replaceData": [Function],
-                  "add": [Function],
-                  "create": [Function],
-                  "get": [Function],
-                  "getLastCreatedEntityKey": [Function],
-                  "mergeData": [Function],
-                  "replaceData": [Function],
-                },
-                "blockMap": Immutable.OrderedMap {
-                  "123": Immutable.Record {
-                    "key": "123",
-                    "type": "unstyled",
-                    "text": "",
-                    "characterList": Immutable.List [],
-                    "depth": 0,
-                    "data": Immutable.Map {},
+      <Label
+        bold={true}
+        id="label-test"
+      >
+        I am a label
+      </Label>
+      <RichTextEditor__Input
+        invalid={false}
+        maxHeight={12}
+        multiline={false}
+        placeholderStyle="unstyled"
+      >
+        <ToolBar
+          autoFocus={false}
+          controls={Object {}}
+          editorState={
+            EditorState {
+              "_immutable": Immutable.Record {
+                "allowUndo": true,
+                "currentContent": Immutable.Record {
+                  "entityMap": Object {
+                    "__add": [Function],
+                    "__create": [Function],
+                    "__get": [Function],
+                    "__getAll": [Function],
+                    "__getLastCreatedEntityKey": [Function],
+                    "__loadWithEntities": [Function],
+                    "__mergeData": [Function],
+                    "__replaceData": [Function],
+                    "add": [Function],
+                    "create": [Function],
+                    "get": [Function],
+                    "getLastCreatedEntityKey": [Function],
+                    "mergeData": [Function],
+                    "replaceData": [Function],
                   },
-                },
-                "selectionBefore": Immutable.Record {
-                  "anchorKey": "123",
-                  "anchorOffset": 0,
-                  "focusKey": "123",
-                  "focusOffset": 0,
-                  "isBackward": false,
-                  "hasFocus": false,
-                },
-                "selectionAfter": Immutable.Record {
-                  "anchorKey": "123",
-                  "anchorOffset": 0,
-                  "focusKey": "123",
-                  "focusOffset": 0,
-                  "isBackward": false,
-                  "hasFocus": false,
-                },
-              },
-              "decorator": CompositeDraftDecorator {
-                "_decorators": Array [
-                  Object {
-                    "component": Object {
-                      "$$typeof": Symbol(react.forward_ref),
-                      "attrs": Array [],
-                      "componentStyle": ComponentStyle {
-                        "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
-                        "isStatic": false,
-                        "rules": Array [
-                          "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
-                          "4px",
-                          ";white-space:pre-wrap;",
-                        ],
-                      },
-                      "displayName": "PipedValue__PipedValueDecorator",
-                      "foldedComponentIds": Array [],
-                      "render": [Function],
-                      "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
-                      "target": "span",
-                      "toString": [Function],
-                      "warnTooManyClasses": [Function],
-                      "withComponent": [Function],
+                  "blockMap": Immutable.OrderedMap {
+                    "123": Immutable.Record {
+                      "key": "123",
+                      "type": "unstyled",
+                      "text": "",
+                      "characterList": Immutable.List [],
+                      "depth": 0,
+                      "data": Immutable.Map {},
                     },
-                    "strategy": [Function],
                   },
-                ],
-              },
-              "directionMap": Immutable.OrderedMap {
-                "123": "LTR",
-              },
-              "forceSelection": false,
-              "inCompositionMode": false,
-              "inlineStyleOverride": null,
-              "lastChangeType": null,
-              "nativelyRenderedContent": null,
-              "redoStack": Immutable.Stack [],
-              "selection": Immutable.Record {
-                "anchorKey": "123",
-                "anchorOffset": 0,
-                "focusKey": "123",
-                "focusOffset": 0,
-                "isBackward": false,
-                "hasFocus": false,
-              },
-              "treeMap": Immutable.OrderedMap {
-                "123": Immutable.List [
-                  Immutable.Record {
-                    "start": 0,
-                    "end": 0,
-                    "decoratorKey": null,
-                    "leaves": Immutable.List [
-                      Immutable.Record {
-                        "start": 0,
-                        "end": 0,
+                  "selectionBefore": Immutable.Record {
+                    "anchorKey": "123",
+                    "anchorOffset": 0,
+                    "focusKey": "123",
+                    "focusOffset": 0,
+                    "isBackward": false,
+                    "hasFocus": false,
+                  },
+                  "selectionAfter": Immutable.Record {
+                    "anchorKey": "123",
+                    "anchorOffset": 0,
+                    "focusKey": "123",
+                    "focusOffset": 0,
+                    "isBackward": false,
+                    "hasFocus": false,
+                  },
+                },
+                "decorator": CompositeDraftDecorator {
+                  "_decorators": Array [
+                    Object {
+                      "component": Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                          "isStatic": false,
+                          "rules": Array [
+                            "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
+                            "4px",
+                            ";white-space:pre-wrap;",
+                          ],
+                        },
+                        "displayName": "PipedValue__PipedValueDecorator",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                        "target": "span",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
                       },
-                    ],
-                  },
-                ],
-              },
-              "undoStack": Immutable.Stack [],
-            },
-          }
-        }
-        isActiveControl={[Function]}
-        name="test-name"
-        onLinkChosen={[Function]}
-        onPiping={[Function]}
-        onToggle={[Function]}
-        onUpdate={[MockFunction]}
-        selectionIsCollapsed={true}
-        testId="test-selector-foo-toolbar"
-        visible={false}
-      />
-      <PluginEditor
-        ariaLabel="I am a label"
-        ariaLabelledBy="label-test"
-        blockStyleFn={[Function]}
-        customStyleMap={
-          Object {
-            "ITALIC": Object {
-              "backgroundColor": "#cbe2c8",
-            },
-          }
-        }
-        decorators={
-          Array [
-            Object {
-              "component": Object {
-                "$$typeof": Symbol(react.forward_ref),
-                "attrs": Array [],
-                "componentStyle": ComponentStyle {
-                  "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
-                  "isStatic": false,
-                  "rules": Array [
-                    "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
-                    "4px",
-                    ";white-space:pre-wrap;",
+                      "strategy": [Function],
+                    },
                   ],
                 },
-                "displayName": "PipedValue__PipedValueDecorator",
-                "foldedComponentIds": Array [],
-                "render": [Function],
-                "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
-                "target": "span",
-                "toString": [Function],
-                "warnTooManyClasses": [Function],
-                "withComponent": [Function],
-              },
-              "strategy": [Function],
-            },
-          ]
-        }
-        defaultBlockRenderMap={true}
-        defaultKeyBindings={true}
-        defaultKeyCommands={true}
-        editorState={
-          EditorState {
-            "_immutable": Immutable.Record {
-              "allowUndo": true,
-              "currentContent": Immutable.Record {
-                "entityMap": Object {
-                  "__add": [Function],
-                  "__create": [Function],
-                  "__get": [Function],
-                  "__getAll": [Function],
-                  "__getLastCreatedEntityKey": [Function],
-                  "__loadWithEntities": [Function],
-                  "__mergeData": [Function],
-                  "__replaceData": [Function],
-                  "add": [Function],
-                  "create": [Function],
-                  "get": [Function],
-                  "getLastCreatedEntityKey": [Function],
-                  "mergeData": [Function],
-                  "replaceData": [Function],
+                "directionMap": Immutable.OrderedMap {
+                  "123": "LTR",
                 },
-                "blockMap": Immutable.OrderedMap {
-                  "123": Immutable.Record {
-                    "key": "123",
-                    "type": "unstyled",
-                    "text": "",
-                    "characterList": Immutable.List [],
-                    "depth": 0,
-                    "data": Immutable.Map {},
+                "forceSelection": false,
+                "inCompositionMode": false,
+                "inlineStyleOverride": null,
+                "lastChangeType": null,
+                "nativelyRenderedContent": null,
+                "redoStack": Immutable.Stack [],
+                "selection": Immutable.Record {
+                  "anchorKey": "123",
+                  "anchorOffset": 0,
+                  "focusKey": "123",
+                  "focusOffset": 0,
+                  "isBackward": false,
+                  "hasFocus": false,
+                },
+                "treeMap": Immutable.OrderedMap {
+                  "123": Immutable.List [
+                    Immutable.Record {
+                      "start": 0,
+                      "end": 0,
+                      "decoratorKey": null,
+                      "leaves": Immutable.List [
+                        Immutable.Record {
+                          "start": 0,
+                          "end": 0,
+                        },
+                      ],
+                    },
+                  ],
+                },
+                "undoStack": Immutable.Stack [],
+              },
+            }
+          }
+          isActiveControl={[Function]}
+          name="test-name"
+          onLinkChosen={[Function]}
+          onPiping={[Function]}
+          onToggle={[Function]}
+          onUpdate={[MockFunction]}
+          selectionIsCollapsed={true}
+          testId="test-selector-foo-toolbar"
+          visible={false}
+        />
+        <PluginEditor
+          ariaLabel="I am a label"
+          ariaLabelledBy="label-test"
+          blockStyleFn={[Function]}
+          customStyleMap={
+            Object {
+              "ITALIC": Object {
+                "backgroundColor": "#cbe2c8",
+              },
+            }
+          }
+          decorators={
+            Array [
+              Object {
+                "component": Object {
+                  "$$typeof": Symbol(react.forward_ref),
+                  "attrs": Array [],
+                  "componentStyle": ComponentStyle {
+                    "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                    "isStatic": false,
+                    "rules": Array [
+                      "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
+                      "4px",
+                      ";white-space:pre-wrap;",
+                    ],
+                  },
+                  "displayName": "PipedValue__PipedValueDecorator",
+                  "foldedComponentIds": Array [],
+                  "render": [Function],
+                  "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                  "target": "span",
+                  "toString": [Function],
+                  "warnTooManyClasses": [Function],
+                  "withComponent": [Function],
+                },
+                "strategy": [Function],
+              },
+            ]
+          }
+          defaultBlockRenderMap={true}
+          defaultKeyBindings={true}
+          defaultKeyCommands={true}
+          editorState={
+            EditorState {
+              "_immutable": Immutable.Record {
+                "allowUndo": true,
+                "currentContent": Immutable.Record {
+                  "entityMap": Object {
+                    "__add": [Function],
+                    "__create": [Function],
+                    "__get": [Function],
+                    "__getAll": [Function],
+                    "__getLastCreatedEntityKey": [Function],
+                    "__loadWithEntities": [Function],
+                    "__mergeData": [Function],
+                    "__replaceData": [Function],
+                    "add": [Function],
+                    "create": [Function],
+                    "get": [Function],
+                    "getLastCreatedEntityKey": [Function],
+                    "mergeData": [Function],
+                    "replaceData": [Function],
+                  },
+                  "blockMap": Immutable.OrderedMap {
+                    "123": Immutable.Record {
+                      "key": "123",
+                      "type": "unstyled",
+                      "text": "",
+                      "characterList": Immutable.List [],
+                      "depth": 0,
+                      "data": Immutable.Map {},
+                    },
+                  },
+                  "selectionBefore": Immutable.Record {
+                    "anchorKey": "123",
+                    "anchorOffset": 0,
+                    "focusKey": "123",
+                    "focusOffset": 0,
+                    "isBackward": false,
+                    "hasFocus": false,
+                  },
+                  "selectionAfter": Immutable.Record {
+                    "anchorKey": "123",
+                    "anchorOffset": 0,
+                    "focusKey": "123",
+                    "focusOffset": 0,
+                    "isBackward": false,
+                    "hasFocus": false,
                   },
                 },
-                "selectionBefore": Immutable.Record {
-                  "anchorKey": "123",
-                  "anchorOffset": 0,
-                  "focusKey": "123",
-                  "focusOffset": 0,
-                  "isBackward": false,
-                  "hasFocus": false,
-                },
-                "selectionAfter": Immutable.Record {
-                  "anchorKey": "123",
-                  "anchorOffset": 0,
-                  "focusKey": "123",
-                  "focusOffset": 0,
-                  "isBackward": false,
-                  "hasFocus": false,
-                },
-              },
-              "decorator": CompositeDraftDecorator {
-                "_decorators": Array [
-                  Object {
-                    "component": Object {
-                      "$$typeof": Symbol(react.forward_ref),
-                      "attrs": Array [],
-                      "componentStyle": ComponentStyle {
-                        "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
-                        "isStatic": false,
-                        "rules": Array [
-                          "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
-                          "4px",
-                          ";white-space:pre-wrap;",
-                        ],
+                "decorator": CompositeDraftDecorator {
+                  "_decorators": Array [
+                    Object {
+                      "component": Object {
+                        "$$typeof": Symbol(react.forward_ref),
+                        "attrs": Array [],
+                        "componentStyle": ComponentStyle {
+                          "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                          "isStatic": false,
+                          "rules": Array [
+                            "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
+                            "4px",
+                            ";white-space:pre-wrap;",
+                          ],
+                        },
+                        "displayName": "PipedValue__PipedValueDecorator",
+                        "foldedComponentIds": Array [],
+                        "render": [Function],
+                        "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                        "target": "span",
+                        "toString": [Function],
+                        "warnTooManyClasses": [Function],
+                        "withComponent": [Function],
                       },
-                      "displayName": "PipedValue__PipedValueDecorator",
-                      "foldedComponentIds": Array [],
-                      "render": [Function],
-                      "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
-                      "target": "span",
-                      "toString": [Function],
-                      "warnTooManyClasses": [Function],
-                      "withComponent": [Function],
+                      "strategy": [Function],
                     },
+                  ],
+                },
+                "directionMap": Immutable.OrderedMap {
+                  "123": "LTR",
+                },
+                "forceSelection": false,
+                "inCompositionMode": false,
+                "inlineStyleOverride": null,
+                "lastChangeType": null,
+                "nativelyRenderedContent": null,
+                "redoStack": Immutable.Stack [],
+                "selection": Immutable.Record {
+                  "anchorKey": "123",
+                  "anchorOffset": 0,
+                  "focusKey": "123",
+                  "focusOffset": 0,
+                  "isBackward": false,
+                  "hasFocus": false,
+                },
+                "treeMap": Immutable.OrderedMap {
+                  "123": Immutable.List [
+                    Immutable.Record {
+                      "start": 0,
+                      "end": 0,
+                      "decoratorKey": null,
+                      "leaves": Immutable.List [
+                        Immutable.Record {
+                          "start": 0,
+                          "end": 0,
+                        },
+                      ],
+                    },
+                  ],
+                },
+                "undoStack": Immutable.Stack [],
+              },
+            }
+          }
+          handleBeforeInput={[Function]}
+          handlePastedText={[Function]}
+          handleReturn={[Function]}
+          onChange={[Function]}
+          placeholder=""
+          plugins={
+            Array [
+              Object {
+                "handleReturn": [Function],
+              },
+              Object {
+                "decorators": Array [
+                  Object {
+                    "component": [Function],
                     "strategy": [Function],
                   },
                 ],
               },
-              "directionMap": Immutable.OrderedMap {
-                "123": "LTR",
-              },
-              "forceSelection": false,
-              "inCompositionMode": false,
-              "inlineStyleOverride": null,
-              "lastChangeType": null,
-              "nativelyRenderedContent": null,
-              "redoStack": Immutable.Stack [],
-              "selection": Immutable.Record {
-                "anchorKey": "123",
-                "anchorOffset": 0,
-                "focusKey": "123",
-                "focusOffset": 0,
-                "isBackward": false,
-                "hasFocus": false,
-              },
-              "treeMap": Immutable.OrderedMap {
-                "123": Immutable.List [
-                  Immutable.Record {
-                    "start": 0,
-                    "end": 0,
-                    "decoratorKey": null,
-                    "leaves": Immutable.List [
-                      Immutable.Record {
-                        "start": 0,
-                        "end": 0,
-                      },
-                    ],
-                  },
-                ],
-              },
-              "undoStack": Immutable.Stack [],
-            },
+            ]
           }
-        }
-        handlePastedText={[Function]}
-        handleReturn={[Function]}
-        onChange={[Function]}
-        placeholder=""
-        plugins={
-          Array [
-            Object {
-              "handleReturn": [Function],
-            },
-            Object {
-              "decorators": Array [
-                Object {
-                  "component": [Function],
-                  "strategy": [Function],
-                },
-              ],
-            },
-          ]
-        }
-        readOnly={true}
-        spellCheck={true}
-        webDriverTestID="test-selector-foo"
-      />
-    </RichTextEditor__Input>
-  </Field>
-</RichTextEditor__Wrapper>
+          readOnly={true}
+          spellCheck={true}
+          webDriverTestID="test-selector-foo"
+        />
+      </RichTextEditor__Input>
+    </Field>
+  </RichTextEditor__Wrapper>
+</Fragment>
 `;

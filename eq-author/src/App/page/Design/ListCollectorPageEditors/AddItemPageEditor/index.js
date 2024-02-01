@@ -1,14 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useMutation } from "@apollo/react-hooks";
 import CustomPropTypes from "custom-prop-types";
+import PropTypes from "prop-types";
+import { filter } from "graphql-anywhere";
+
 import styled from "styled-components";
 import { colors } from "constants/theme.js";
 import gql from "graphql-tag";
+
+import QuestionProperties from "App/page/Design/QuestionPageEditor/QuestionProperties";
 
 import { Field } from "components/Forms";
 import RichTextEditor from "components/RichTextEditor";
 import Collapsible from "components/Collapsible";
 import PageTitle from "components/PageTitle";
+
 import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
 import {
   ANSWER,
@@ -22,6 +28,7 @@ import PageHeader from "../../PageHeader";
 
 import UPDATE_PAGE_MUTATION from "graphql/updatePage.graphql";
 import CommentFragment from "graphql/fragments/comment.graphql";
+import addPageFragment from "graphql/fragments/list-collector-add-item-page.graphql";
 
 // Uses h2 with overwritten h4 styling to improve accessibility - https://www.w3schools.com/tags/tag_hn.asp
 const Title = styled.h2`
@@ -48,12 +55,15 @@ const HorizontalSeparator = styled.hr`
   margin: 1.5em 0;
 `;
 
+const StyledCollapsible = styled(Collapsible)`
+  margin-top: 1em;
+`;
 const titleControls = {
   emphasis: true,
   piping: true,
 };
 
-const AddItemPageEditor = ({ page }) => {
+const AddItemPageEditor = ({ fetchAnswers, page }) => {
   const {
     id,
     alias,
@@ -63,12 +73,19 @@ const AddItemPageEditor = ({ page }) => {
     section,
     validationErrorInfo,
   } = page;
+
   const [addItemPageAlias, setAddItemPageAlias] = useState(alias);
   const [addItemPageDescription, setAddItemPageDescription] =
     useState(pageDescription);
+  const [addItemPage, setAddItemPage] = useState(page);
 
-  const [updatePage] = useMutation(UPDATE_PAGE_MUTATION);
+  useEffect(() => {
+    setAddItemPage(addItemPage);
+  }, [addItemPage]);
 
+  const [updatePage] = useMutation(UPDATE_PAGE_MUTATION, {
+    refetchQueries: ["GetPage"],
+  });
   const getErrorMessage = (field) => {
     const errorCodeResult = validationErrorInfo.errors.find(
       (error) => error.field === field
@@ -82,6 +99,23 @@ const AddItemPageEditor = ({ page }) => {
     folder,
     section,
   });
+
+  const handleChange = ({ name, value }) => {
+    const updatedPage = { ...addItemPage };
+    updatedPage[name] = value;
+    setAddItemPage(updatedPage);
+  };
+
+  const handleOnUpdate = (event) => {
+    const inputData = event.target || event;
+    const updatedPage = { ...addItemPage };
+    updatedPage[inputData.name] = inputData.value;
+    setAddItemPage(updatedPage);
+    const data = filter(addPageFragment, updatedPage);
+    updatePage({
+      variables: { input: data },
+    });
+  };
 
   return (
     <Container data-test="list-collector-add-item-page-editor">
@@ -122,15 +156,19 @@ const AddItemPageEditor = ({ page }) => {
           heading="Page title and description"
           pageDescription={addItemPageDescription}
           onChange={({ value }) => setAddItemPageDescription(value)}
-          onUpdate={({ value }) =>
-            updatePage({
-              variables: { input: { id, pageDescription: value } },
-            })
-          }
+          onUpdate={handleOnUpdate}
           errors={validationErrorInfo.errors}
         />
         <HorizontalSeparator />
-        <Collapsible title="Why can’t I add an answer type?">
+        <QuestionProperties
+          page={addItemPage}
+          onChange={handleChange}
+          onUpdate={handleOnUpdate}
+          fetchAnswers={fetchAnswers}
+          variant="marginlessContent"
+          errors={validationErrorInfo.errors}
+        />
+        <StyledCollapsible title="Why can’t I add an answer type?">
           <Content>
             The answer type for the question for adding a list item is
             determined by the answer template in the linked collection list. To
@@ -143,7 +181,7 @@ const AddItemPageEditor = ({ page }) => {
             collection list, the answer template is applied to all the questions
             for adding a list item.
           </Content>
-        </Collapsible>
+        </StyledCollapsible>
         <Collapsible title="How to gather additional information on each list item">
           <Content>
             How you approach gathering additional information for each list item
@@ -199,6 +237,7 @@ const AddItemPageEditor = ({ page }) => {
 
 AddItemPageEditor.propTypes = {
   page: CustomPropTypes.page,
+  fetchAnswers: PropTypes.func,
 };
 
 AddItemPageEditor.fragments = {
@@ -234,6 +273,16 @@ AddItemPageEditor.fragments = {
           }
         }
       }
+      description
+      descriptionEnabled
+      guidance
+      guidanceEnabled
+      definitionLabel
+      definitionContent
+      definitionEnabled
+      additionalInfoLabel
+      additionalInfoContent
+      additionalInfoEnabled
       comments {
         ...Comment
       }

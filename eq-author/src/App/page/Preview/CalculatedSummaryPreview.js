@@ -14,6 +14,7 @@ import CommentsPanel from "App/Comments";
 
 import { colors } from "constants/theme";
 import CalculatedSummaryPageEditor from "../Design/CalculatedSummaryPageEditor";
+import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
 
 const Container = styled.div`
   padding: 2em;
@@ -82,6 +83,12 @@ const SummaryTotalLabel = styled.div`
 `;
 
 const CalculatedSummaryPagePreview = ({ page }) => {
+  useSetNavigationCallbacksForPage({
+    page: page,
+    folder: page?.folder,
+    section: page?.section,
+  });
+
   return (
     <EditorLayout
       title={page.displayName}

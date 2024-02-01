@@ -165,6 +165,12 @@ fragment Pages on Page {
     totalCount
   }
   ... on ListCollectorQualifierPage {
+    folder {
+      id
+      ... on ListCollectorFolder {
+        listId
+      }
+    }
     answers {
       ...Answers
     }
@@ -173,11 +179,34 @@ fragment Pages on Page {
     }
   }
   ... on ListCollectorAddItemPage {
+    folder {
+      id
+      ... on ListCollectorFolder {
+        listId
+      }
+    }
+    id
+    description
+    descriptionEnabled
+    guidance
+    guidanceEnabled
+    definitionLabel
+    definitionContent
+    definitionEnabled
+    additionalInfoLabel
+    additionalInfoContent
+    additionalInfoEnabled
     comments {
       ...Comment
     }
   }
   ... on ListCollectorConfirmationPage {
+    folder {
+      id
+      ... on ListCollectorFolder {
+        listId
+      }
+    }
     answers {
       ...Answers
     }
@@ -202,6 +231,12 @@ fragment Pages on Page {
   ... on QuestionPage {
     answers {
       ...Answers
+    }
+    folder {
+      id
+      ... on ListCollectorFolder {
+        listId
+      }
     }
     confirmation {
       id
@@ -274,6 +309,16 @@ fragment ListCollectorAddItemPages on ListCollectorAddItemPage {
   position
   displayName
   pageType
+  description
+  descriptionEnabled
+  guidance
+  guidanceEnabled
+  definitionLabel
+  definitionContent
+  definitionEnabled
+  additionalInfoLabel
+  additionalInfoContent
+  additionalInfoEnabled
   validationErrorInfo {
     id
     errors {

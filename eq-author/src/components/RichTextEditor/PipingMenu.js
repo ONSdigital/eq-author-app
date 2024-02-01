@@ -38,6 +38,7 @@ const PipingMenuPropTypes = {
   allCalculatedSummaryPages: PropTypes.array, //eslint-disable-line
   listId: PropTypes.string,
   supplementaryDataId: PropTypes.string,
+  isRepeatingSection: PropTypes.bool,
 };
 
 const PipingMenu = ({
@@ -48,6 +49,7 @@ const PipingMenu = ({
   allowableTypes = [ANSWER, METADATA],
   allCalculatedSummaryPages = [], // Default array is empty to disable variable piping button
   listId,
+  isRepeatingSection,
 }) => {
   const [pickerContent, setPickerContent] = useState(ANSWER);
   const [contentTypes, setContentTypes] = useState([ANSWER]);
@@ -60,7 +62,12 @@ const PipingMenu = ({
     setPickerContent(pickerContent);
     const tempContentTypes = [pickerContent];
     if (pickerContent === ANSWER) {
-      if (some(questionnaire?.collectionLists?.lists, { id: listId })) {
+      if (isRepeatingSection) {
+        tempContentTypes.push(LIST_ANSWER);
+        setPickerContent(LIST_ANSWER);
+        const answerContentTypeIndex = tempContentTypes.indexOf(ANSWER);
+        tempContentTypes.splice(answerContentTypeIndex, 1);
+      } else if (some(questionnaire?.collectionLists?.lists, { id: listId })) {
         tempContentTypes.push(LIST_ANSWER);
       }
     }
@@ -90,33 +97,66 @@ const PipingMenu = ({
     [questionnaire, pageId]
   );
 
+  const filteredAnswerData = answerData.map((answer) => {
+    return {
+      ...answer,
+      folders: answer.folders.filter((folder) => folder.listId == null),
+    };
+  });
+
   const metadataData = questionnaire?.metadata || [];
+
+  let listCollectorFollowUpAnswers = [];
+  answerData.forEach((answer) =>
+    answer.folders.forEach((folder) => {
+      if (folder?.listId === listId) {
+        folder.pages.forEach((page) => {
+          page.answers.forEach((answer) => {
+            listCollectorFollowUpAnswers.push(answer);
+          });
+        });
+      }
+    })
+  );
 
   const listAnswers =
     find(questionnaire?.collectionLists?.lists, { id: listId })?.answers || [];
 
-  const supplementaryData =
-    questionnaire?.supplementaryData?.data
-      .filter((list) => list.listName === "" || list.id === listId)
-      .flatMap((list) => {
-        return list.schemaFields.map((schemaField) => {
-          return {
-            listName: list.listName,
-            ...schemaField,
-          };
-        });
-      }) || [];
+  const listAllAnswers = [...listAnswers, ...listCollectorFollowUpAnswers];
+
+  let allSupplementaryData = questionnaire?.supplementaryData?.data || [];
+
+  if (
+    allSupplementaryData &&
+    !(
+      pageType === "Introduction" &&
+      questionnaire?.sections[0]?.repeatingSection
+    )
+  ) {
+    allSupplementaryData = allSupplementaryData.filter(
+      (list) => list.listName === "" || list.id === listId
+    );
+  }
+
+  const supplementaryData = allSupplementaryData.flatMap((list) => {
+    return list.schemaFields.map((schemaField) => {
+      return {
+        listName: list.listName,
+        ...schemaField,
+      };
+    });
+  });
 
   const handlePickerContent = (contentType) => {
     switch (contentType) {
       case METADATA:
         return metadataData;
       case ANSWER:
-        return answerData;
+        return filteredAnswerData;
       case VARIABLES:
         return allCalculatedSummaryPages;
       case LIST_ANSWER:
-        return listAnswers;
+        return listAllAnswers;
       case SUPPLEMENTARY_DATA:
         return supplementaryData;
       default:

@@ -43,6 +43,12 @@ mutation MovePage($input: MovePageInput!) {
           position
           displayName
           pageType
+          folder {
+            id
+            ... on ListCollectorFolder {
+              listId
+            }
+          }
           ... on QuestionPage {
             answers {
               ...Answer

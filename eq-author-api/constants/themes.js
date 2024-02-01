@@ -10,7 +10,7 @@ const THEME_SHORT_NAMES = [
   "dbt-dsit",
   "dbt-dsit-ni",
   "social",
-  "health",
+  "ukhsa-ons",
   "desnz",
   "desnz-ni",
 ];

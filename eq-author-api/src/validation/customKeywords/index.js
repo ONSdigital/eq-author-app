@@ -19,4 +19,5 @@ module.exports = (ajv) => {
   require("./validateSecondaryCondition")(ajv);
   require("./validatePageDescription")(ajv);
   require("./requiredWhenIntroductionSetting")(ajv);
+  require("./calculatedSummaryMinAnswers")(ajv);
 };

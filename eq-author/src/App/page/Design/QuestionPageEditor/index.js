@@ -44,6 +44,7 @@ import {
 import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
 import ContentContainer from "components/ContentContainer";
 import ValidationError from "components/ValidationError";
+import Panel from "components-themed/panels/panel";
 
 const QuestionSegment = styled.div`
   padding: 0 2em;
@@ -132,6 +133,12 @@ export const UnwrappedQuestionPageEditor = (props) => {
             enableValidationMessage={enableValidationMessage}
             allCalculatedSummaryPages={allCalculatedSummaryPages}
           />
+          {page?.folder?.listId != null && (
+            <Panel withLeftBorder>
+              When piping an answer from a linked collection list to a follow-up
+              question, the latest list item added will be piped.
+            </Panel>
+          )}
         </QuestionSegment>
         <PageTitleSegment>
           <PageTitleContainer
@@ -147,6 +154,7 @@ export const UnwrappedQuestionPageEditor = (props) => {
           onChange={onChange}
           onUpdate={onUpdate}
           fetchAnswers={fetchAnswers}
+          variant="content"
         />
         <AnswersEditor
           answers={answers}
@@ -219,6 +227,9 @@ UnwrappedQuestionPageEditor.fragments = {
       additionalInfoEnabled
       displayName
       position
+      confirmation {
+        id
+      }
       comments {
         ...Comment
       }

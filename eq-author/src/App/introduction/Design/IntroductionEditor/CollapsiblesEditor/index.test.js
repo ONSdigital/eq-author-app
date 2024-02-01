@@ -4,8 +4,6 @@ import { withRouter } from "react-router-dom";
 
 import { CollapsiblesEditor } from "./";
 
-jest.mock("components/RichTextEditor");
-
 describe("CollapsiblesEditor", () => {
   let props, Component;
   beforeEach(() => {

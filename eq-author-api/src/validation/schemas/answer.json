@@ -99,6 +99,30 @@
       "then": {
         "$ref": "#/definitions/dateRangeAnswer"
       }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "TextField"
+          }
+        }
+      },
+      "then": {
+        "$ref": "#/definitions/textFieldAnswer"
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "TextArea"
+          }
+        }
+      },
+      "then": {
+        "$ref": "#/definitions/textAreaAnswer"
+      }
     }
   ],
   "definitions": {
@@ -296,18 +320,56 @@
         }
       ]
     },
+    "textFieldAnswer": {
+      "type": "object",
+      "if": {
+        "properties": {
+          "limitCharacter": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "properties": {
+            "type": "object",
+            "properties": {
+              "maxLength": {
+                "type": "number",
+                "minimum": 8,
+                "maximum": 100,
+                "errorMessage": {
+                  "minimum": "ERR_MAX_LENGTH_TOO_SMALL",
+                  "maximum": "ERR_MAX_LENGTH_TOO_LARGE"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "textAreaAnswer": {
+      "type": "object",
+      "properties": {
+        "properties": {
+          "type": "object",
+          "properties": {
+            "maxLength": {
+              "type": "number",
+              "minimum": 10,
+              "maximum": 2000,
+              "errorMessage": {
+                "minimum": "ERR_MAX_LENGTH_TOO_SMALL",
+                "maximum": "ERR_MAX_LENGTH_TOO_LARGE"
+              }
+            }
+          }
+        }
+      }
+    },
     "properties": {
       "type": "object",
       "properties": {
-        "maxLength": {
-          "type": "number",
-          "minimum": 10,
-          "maximum": 2000,
-          "errorMessage": {
-            "minimum": "ERR_MAX_LENGTH_TOO_SMALL",
-            "maximum": "ERR_MAX_LENGTH_TOO_LARGE"
-          }
-        },
         "unit": {
           "$ref": "definitions.json#/definitions/populatedString"
         }

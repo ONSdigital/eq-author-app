@@ -1,0 +1,6 @@
+query GetSupplementaryDataSurveyIdList {
+  supplementaryDataSurveyIdList {
+    surveyId
+    surveyName
+  }
+}

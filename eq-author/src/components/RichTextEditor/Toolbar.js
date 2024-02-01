@@ -102,6 +102,7 @@ class ToolBar extends React.Component {
     linkLimit: PropTypes.number,
     allCalculatedSummaryPages: PropTypes.array, //eslint-disable-line
     listId: PropTypes.string,
+    isRepeatingSection: PropTypes.bool,
   };
 
   renderButton = (button) => {
@@ -138,6 +139,7 @@ class ToolBar extends React.Component {
       linkLimit,
       allCalculatedSummaryPages,
       listId,
+      isRepeatingSection,
     } = this.props;
 
     const isPipingDisabled = !(piping && selectionIsCollapsed);
@@ -170,6 +172,7 @@ class ToolBar extends React.Component {
                 defaultTab={defaultTab}
                 allCalculatedSummaryPages={allCalculatedSummaryPages}
                 listId={listId}
+                isRepeatingSection={isRepeatingSection}
               />
             </>
           )}

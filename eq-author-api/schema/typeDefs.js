@@ -206,6 +206,16 @@ type ListCollectorAddItemPage implements Page {
   folder: Folder!
   section: Section!
   position: Int!
+  description: String
+  descriptionEnabled: Boolean!
+  guidance: String
+  guidanceEnabled: Boolean!
+  definitionLabel: String
+  definitionContent: String
+  definitionEnabled: Boolean!
+  additionalInfoLabel: String
+  additionalInfoContent: String
+  additionalInfoEnabled: Boolean!
   comments: [Comment]
   validationErrorInfo: ValidationErrorInfo
 }
@@ -415,6 +425,7 @@ type BasicAnswer implements Answer {
   mutuallyExclusiveOption: Option
   repeatingLabelAndInput: Boolean
   repeatingLabelAndInputListId: ID
+  limitCharacter: Boolean
 }
 
 type MultipleChoiceAnswer implements Answer {
@@ -839,6 +850,11 @@ type SupplementaryDataVersions {
   versions: [Version!]!
 }
 
+type SupplementaryDataSurveyIdList {
+  surveyId: String!
+  surveyName: String
+}
+
 type SupplementaryDataField {
   id: ID,
   type: String,
@@ -898,9 +914,12 @@ type Query {
   collectionLists: CollectionLists
   list(input: QueryInput!): List
   supplementaryDataVersions(id: ID!): SupplementaryDataVersions
+  supplementaryDataSurveyIdList: [SupplementaryDataSurveyIdList]
   supplementaryData: SupplementaryData
   publishHistory: [PublishHistoryEvent]
   listNames: [ListName]
+  collectionListNames: [ListName]
+  supplementaryDataListNames: [ListName]
 }
 
 input CommonFilters {
@@ -1515,6 +1534,7 @@ input UpdateAnswerInput {
   defaultAnswer: Boolean
   repeatingLabelAndInput: Boolean
   repeatingLabelAndInputListId: ID
+  limitCharacter: Boolean
 }
 
 input UpdateAnswersOfTypeInput {
