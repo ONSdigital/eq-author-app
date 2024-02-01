@@ -34,7 +34,7 @@ const StyledMainCanvas = styled(MainCanvas)`
 
 const Padding = styled.div`
   margin: 2em auto 1em;
-  eidth: 100%;
+  width: 100%;
   padding: 0 0.5em 0 1em;
   max-width: 80em;
 `;
