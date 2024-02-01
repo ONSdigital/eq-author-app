@@ -116,7 +116,7 @@ const CalculatedSummaryPagePreview = ({ page }) => {
     >
       <Panel data-test="calSum test page">
         <Container>
-          <PageTitle title={page.title} />
+          <PageTitle title={`${page.title} Is this correct?`} />
           {page.summaryAnswers.length > 0 ? (
             <Summary>
               {page.summaryAnswers.map((answer) => (
