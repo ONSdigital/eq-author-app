@@ -149,10 +149,19 @@ export const questionDefinitionErrors = {
 };
 
 export const sectionErrors = {
-  SECTION_TITLE_NOT_ENTERED: "Enter a section title",
-  SUMMARY_TITLE_NOT_ENTERED: "Enter a summary title",
-  SECTION_INTRO_TITLE_NOT_ENTERED: "Enter an introduction title",
-  SECTION_INTRO_CONTENT_NOT_ENTERED: "Enter introduction content",
+  TITLE: {
+    ERR_REQUIRED_WHEN_SETTING: "Enter a section title",
+    SUMMARY_TITLE_NOT_ENTERED: "Enter a summary title",
+    PIPING_TITLE_DELETED: "The answer being piped has been deleted",
+  },
+  INTRO_TITLE: {
+    ERR_VALID_REQUIRED: "Enter an introduction title",
+    PIPING_TITLE_DELETED: "The answer being piped has been deleted",
+  },
+  INTRO_CONTENT: {
+    ERR_VALID_REQUIRED: "Enter introduction content",
+    PIPING_TITLE_DELETED: "The answer being piped has been deleted",
+  },
 };
 
 export const listErrors = {
@@ -169,6 +178,17 @@ export const pageDescriptionErrors = {
   ANOTHER_PAGE_DESCRIPTION_MISSING: "Page description required",
   ERR_UNIQUE_PAGE_DESCRIPTION:
     "The page description entered has already been used for another page. Enter a unique page description.",
+};
+
+export const textFieldErrors = {
+  ERR_MAX_LENGTH_TOO_LARGE: {
+    errorCode: "ERR_MAX_LENGTH_TOO_LARGE",
+    message: "Enter a character limit less than or equal to 100",
+  },
+  ERR_MAX_LENGTH_TOO_SMALL: {
+    errorCode: "ERR_MAX_LENGTH_TOO_SMALL",
+    message: "Enter a character limit greater than or equal to 8",
+  },
 };
 
 export const textAreaErrors = {

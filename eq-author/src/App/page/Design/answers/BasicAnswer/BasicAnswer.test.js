@@ -54,6 +54,9 @@ describe("BasicAnswer", () => {
           description: "option description",
         },
       ],
+      validationErrorInfo: {
+        errors: [],
+      },
     };
     onChange = jest.fn();
     onUpdate = jest.fn();

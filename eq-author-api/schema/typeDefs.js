@@ -425,6 +425,7 @@ type BasicAnswer implements Answer {
   mutuallyExclusiveOption: Option
   repeatingLabelAndInput: Boolean
   repeatingLabelAndInputListId: ID
+  limitCharacter: Boolean
 }
 
 type MultipleChoiceAnswer implements Answer {
@@ -917,6 +918,8 @@ type Query {
   supplementaryData: SupplementaryData
   publishHistory: [PublishHistoryEvent]
   listNames: [ListName]
+  collectionListNames: [ListName]
+  supplementaryDataListNames: [ListName]
 }
 
 input CommonFilters {
@@ -1531,6 +1534,7 @@ input UpdateAnswerInput {
   defaultAnswer: Boolean
   repeatingLabelAndInput: Boolean
   repeatingLabelAndInputListId: ID
+  limitCharacter: Boolean
 }
 
 input UpdateAnswersOfTypeInput {

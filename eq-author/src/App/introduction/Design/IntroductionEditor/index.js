@@ -147,6 +147,7 @@ const IntroductionEditor = ({ introduction, history }) => {
             id="intro-title"
             name="title"
             label="Title"
+            pageType="Introduction"
             multiline
             value={title}
             size="large"
@@ -305,6 +306,7 @@ const IntroductionEditor = ({ introduction, history }) => {
             <RichTextEditor
               id={`details-additionalGuidancePanel-${id}`}
               name="additionalGuidancePanel"
+              pageType="Introduction"
               value={additionalGuidancePanel}
               label=""
               onUpdate={({ value }) =>
@@ -331,6 +333,7 @@ const IntroductionEditor = ({ introduction, history }) => {
             id="intro-description"
             name="description"
             label="Description"
+            pageType="Introduction"
             multiline
             value={description}
             controls={descriptionControls}
@@ -424,6 +427,7 @@ const IntroductionEditor = ({ introduction, history }) => {
             id="secondary-title"
             name="secondaryTitle"
             label="Title"
+            pageType="Introduction"
             value={secondaryTitle}
             controls={titleControls}
             size="large"
@@ -442,6 +446,7 @@ const IntroductionEditor = ({ introduction, history }) => {
             id="secondary-description"
             name="secondaryDescription"
             label="Description"
+            pageType="Introduction"
             multiline
             value={secondaryDescription}
             controls={descriptionControls}
@@ -472,6 +477,7 @@ const IntroductionEditor = ({ introduction, history }) => {
             id="tertiary-title"
             name="tertiaryTitle"
             label="Title"
+            pageType="Introduction"
             value={tertiaryTitle}
             controls={titleControls}
             size="large"
@@ -490,6 +496,7 @@ const IntroductionEditor = ({ introduction, history }) => {
             id="tertiary-description"
             name="tertiaryDescription"
             label="Description"
+            pageType="Introduction"
             multiline
             value={tertiaryDescription}
             controls={descriptionControls}
