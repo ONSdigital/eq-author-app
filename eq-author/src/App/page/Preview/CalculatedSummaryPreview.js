@@ -5,7 +5,6 @@ import { propType } from "graphql-anywhere";
 import styled from "styled-components";
 import Error from "components/preview/Error";
 import PageTitle from "components/preview/elements/PageTitle";
-import Info from "components/preview/elements/Info";
 
 import EditorLayout from "components/EditorLayout";
 import Panel from "components/Panel";
@@ -103,6 +102,11 @@ const CalculatedSummaryPagePreview = ({ page }) => {
     section: page?.section,
   });
 
+  const endsWithFullStop = (string) => {
+    const stringWithoutClosingParagraphTag = string.replace(/<\/p>$/, "");
+    return stringWithoutClosingParagraphTag.endsWith(".");
+  };
+
   return (
     <EditorLayout
       title={page.displayName}
@@ -116,7 +120,14 @@ const CalculatedSummaryPagePreview = ({ page }) => {
     >
       <Panel data-test="calSum test page">
         <Container>
-          <PageTitle title={`${page.title} Is this correct?`} />
+          <PageTitle
+            title={
+              endsWithFullStop(page.title)
+                ? `${page.title} Is this correct?`
+                : `${page.title}. Is this correct`
+            }
+          />
+          {/* {`${page.title} Is this correct?`} */}
           {page.summaryAnswers.length > 0 ? (
             <Summary>
               {page.summaryAnswers.map((answer) => (
