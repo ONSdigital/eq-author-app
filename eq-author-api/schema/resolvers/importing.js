@@ -131,6 +131,9 @@ module.exports = {
           section.displayConditions = null;
           section.questionnaireId = ctx.questionnaire.id;
           section.folders.forEach((folder) => {
+            if (folder.listId) {
+              folder.listId = "";
+            }
             folder.skipConditions = null;
             folder.pages.forEach((page) => {
               page.routing = null;
