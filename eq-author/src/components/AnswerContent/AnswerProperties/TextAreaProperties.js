@@ -49,7 +49,10 @@ const TextAreaProperties = ({
 
   return (
     <>
-      <InlineField id="maxCharactersField" label={"Max characters"}>
+      <InlineField
+        id="maxCharactersField"
+        label={"Maximum number of characters"}
+      >
         <SmallNumber
           id="maxCharactersInput"
           answer={answer}
@@ -57,7 +60,6 @@ const TextAreaProperties = ({
           value={maxLength}
           onBlur={() => onUpdateMaxLength(maxLength)}
           onChange={({ value }) => setMaxLength(value)}
-          max={2000}
           invalid={errors.length > 0}
           data-test="maxCharacterInput"
         />

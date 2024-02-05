@@ -18,6 +18,7 @@ mutation createAnswer($input: CreateAnswerInput!) {
     ... on BasicAnswer {
       secondaryQCode
       repeatingLabelAndInput
+      limitCharacter
       repeatingLabelAndInputListId
       options {
         ...Option
