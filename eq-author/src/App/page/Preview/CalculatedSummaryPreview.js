@@ -124,7 +124,7 @@ const CalculatedSummaryPagePreview = ({ page }) => {
             title={
               endsWithFullStop(page.title)
                 ? `${page.title} Is this correct?`
-                : `${page.title}. Is this correct`
+                : `${page.title}. Is this correct?`
             }
           />
           {/* {`${page.title} Is this correct?`} */}
