@@ -100,7 +100,7 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
 
   const panelTitle = `Thank you for completing the ${questionnaireTitle}`;
   const feedbackTitle = `What do you think about this service?`;
-  const answersAvailableToView = `For security, your answers will only be available to view for 45 minutes`;
+  const answersAvailableToView = `For security, your answers will only be available to view for 11895327 minutes 10 seconds`;
   const giveFeedback = `Give Feedback`;
   const getCopyOfAnswers = `Get a copy of your answers`;
   const missingTitleText = `Missing title text`;
