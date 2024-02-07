@@ -19,7 +19,7 @@ const Wrapper = styled.div`
 
 const Section = styled.div`
   &:not(:first-child) {
-    margin-top: 1em;
+    margin-top: 0.5em;
   }
 `;
 
@@ -88,6 +88,12 @@ const BlueUnderlined = styled.span`
   text-decoration: underline;
   font-weight: ${(props) => props.bold && `bold`};
 `;
+const NewLine = styled.br``;
+
+const Text = styled.p`
+  line-height: 2.2em;
+  margin-bottom: 0em;
+`;
 
 const SubmissionEditor = ({ submission, questionnaireTitle }) => {
   const { furtherContent, viewPrintAnswers, feedback } = submission;
@@ -144,9 +150,11 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
               title={getCopyOfAnswers}
               missingText={missingTitleText}
             />
-            You can&nbsp;
-            <BlueUnderlined>save or print your answers</BlueUnderlined>
-            &nbsp;for your records.
+            <Text>
+              We may contact you to query your answers. <NewLine />
+              If you need a copy for your records,&nbsp;
+              <BlueUnderlined>save or print your answers</BlueUnderlined>.
+            </Text>
           </Section>
           <Section>
             <InlineField>
