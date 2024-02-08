@@ -112,6 +112,7 @@ const SettingsPage = ({ questionnaire }) => {
     theme,
     legalBasis,
     dataVersion,
+    dataVersionThreeRequired,
   } = questionnaire;
 
   const showOnHub = introduction?.showOnHub;
@@ -408,6 +409,7 @@ const SettingsPage = ({ questionnaire }) => {
                       <DataVersionSelect
                         questionnaireId={questionnaireId}
                         selectedDataVersion={dataVersion}
+                        dataVersionThreeRequired={dataVersionThreeRequired}
                       />
                     </Field>
                   </StyledPanel>

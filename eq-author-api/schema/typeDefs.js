@@ -62,6 +62,7 @@ type Questionnaire {
   navigation: Boolean
   hub: Boolean
   dataVersion: String
+  dataVersionThreeRequired: Boolean
   createdAt: DateTime
   updatedAt: DateTime
   createdBy: User!

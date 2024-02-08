@@ -48,15 +48,25 @@ const dataVersionOptions = [
   },
 ];
 
-const DataVersionOption = ({ questionnaireId, value, selected, children }) => {
+const DataVersionOption = ({
+  questionnaireId,
+  value,
+  selected,
+  dataVersionThreeRequired,
+  children,
+}) => {
   const [updateQuestionnaire] = useMutation(UPDATE_QUESTIONNAIRE_MUTATION);
   return (
-    <StyledRadioLabel selected={selected}>
+    <StyledRadioLabel
+      selected={selected}
+      disabled={value !== "3" && dataVersionThreeRequired}
+    >
       <Input
         id={`data-version-input-${value}`}
         type="radio"
         variant="radioBox"
         checked={selected}
+        disabled={value !== "3" && dataVersionThreeRequired}
         onChange={() =>
           updateQuestionnaire({
             variables: { input: { id: questionnaireId, dataVersion: value } },
@@ -68,7 +78,11 @@ const DataVersionOption = ({ questionnaireId, value, selected, children }) => {
   );
 };
 
-const DataVersionSelect = ({ questionnaireId, selectedDataVersion }) => {
+const DataVersionSelect = ({
+  questionnaireId,
+  selectedDataVersion,
+  dataVersionThreeRequired,
+}) => {
   return (
     <RadioField>
       {dataVersionOptions.map(({ value, title, description }) => (
@@ -77,6 +91,7 @@ const DataVersionSelect = ({ questionnaireId, selectedDataVersion }) => {
           value={value}
           selected={value === selectedDataVersion}
           questionnaireId={questionnaireId}
+          dataVersionThreeRequired={dataVersionThreeRequired}
         >
           <StyledRadioTitle>{title}</StyledRadioTitle>
           <RadioDescription>{description}</RadioDescription>
@@ -90,6 +105,7 @@ DataVersionOption.propTypes = {
   questionnaireId: PropTypes.string,
   value: PropTypes.string,
   selected: PropTypes.bool,
+  dataVersionThreeRequired: PropTypes.bool,
   children: PropTypes.node,
 };
 
@@ -97,6 +113,7 @@ DataVersionSelect.propTypes = {
   questionnaireId: PropTypes.string,
   shortName: PropTypes.string,
   selectedDataVersion: PropTypes.string,
+  dataVersionThreeRequired: PropTypes.bool,
 };
 
 export default DataVersionSelect;

@@ -16,13 +16,14 @@ export const RadioLabel = styled.label`
   }
   border: 1px solid ${colors.bordersLight};
   flex: 1 1 33.3333333%;
-  cursor: pointer;
+  cursor: ${(props) => !props.disabled && `pointer`};
   display: flex;
   flex-direction: column;
   color: ${colors.textLight};
   position: relative;
   background: ${(props) =>
     props.selected ? `${colors.lighterGrey}` : `${colors.white}`};
+  ${(props) => props.disabled && "opacity: 0.6;"}
 
   &:hover {
     box-shadow: 0 0 0 1px ${colors.blue};
