@@ -149,7 +149,7 @@ const createNewQuestionnaire = (input) => {
     qcodes: true,
     navigation: false,
     hub: false,
-    dataVersion: "1",
+    dataVersion: "3",
     createdAt: new Date(),
     metadata: [],
     sections: [createSection()],
