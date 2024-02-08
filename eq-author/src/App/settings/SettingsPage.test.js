@@ -52,6 +52,7 @@ describe("Settings page", () => {
       legalBasis: "NOTICE_1",
       theme: "business",
       displayName: "Roar",
+      dataVersion: "1",
       introduction: {
         id: "spyro-1",
         showOnHub: false,

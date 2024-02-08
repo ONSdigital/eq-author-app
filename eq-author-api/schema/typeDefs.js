@@ -1311,6 +1311,7 @@ input UpdateQuestionnaireInput {
   editors: [ID!] 
   isPublic: Boolean
   permission: String
+  dataVersion: String
 }
 
 
