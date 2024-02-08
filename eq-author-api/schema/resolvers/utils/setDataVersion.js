@@ -1,7 +1,8 @@
 const { getAnswers } = require("./answerGetters");
+const allDataVersions = require("../../../constants/allDataVersions");
 
 const setDataVersion = ({ questionnaire }) => {
-  questionnaire.allowableDataVersions = ["1", "3"];
+  questionnaire.allowableDataVersions = allDataVersions;
 
   if (questionnaire.collectionLists?.lists?.length) {
     questionnaire.dataVersion = "3";

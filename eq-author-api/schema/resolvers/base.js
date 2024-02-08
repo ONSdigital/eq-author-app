@@ -26,6 +26,7 @@ const {
   AWAITING_APPROVAL,
   UPDATES_REQUIRED,
 } = require("../../constants/publishStatus");
+const allDataVersions = require("../../constants/allDataVersions");
 
 const { DURATION_LOOKUP } = require("../../constants/durationTypes");
 const {
@@ -150,7 +151,7 @@ const createNewQuestionnaire = (input) => {
     navigation: false,
     hub: false,
     dataVersion: "3",
-    allowableDataVersions: ["1", "3"],
+    allowableDataVersions: allDataVersions,
     createdAt: new Date(),
     metadata: [],
     sections: [createSection()],
