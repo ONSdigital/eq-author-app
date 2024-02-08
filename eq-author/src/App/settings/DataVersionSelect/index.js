@@ -52,21 +52,21 @@ const DataVersionOption = ({
   questionnaireId,
   value,
   selected,
-  dataVersionThreeRequired,
+  allowableDataVersions,
   children,
 }) => {
   const [updateQuestionnaire] = useMutation(UPDATE_QUESTIONNAIRE_MUTATION);
   return (
     <StyledRadioLabel
       selected={selected}
-      disabled={value !== "3" && dataVersionThreeRequired}
+      disabled={!allowableDataVersions?.includes(value)}
     >
       <Input
         id={`data-version-input-${value}`}
         type="radio"
         variant="radioBox"
         checked={selected}
-        disabled={value !== "3" && dataVersionThreeRequired}
+        disabled={!allowableDataVersions?.includes(value)}
         onChange={() =>
           updateQuestionnaire({
             variables: { input: { id: questionnaireId, dataVersion: value } },
@@ -81,7 +81,7 @@ const DataVersionOption = ({
 const DataVersionSelect = ({
   questionnaireId,
   selectedDataVersion,
-  dataVersionThreeRequired,
+  allowableDataVersions,
 }) => {
   return (
     <RadioField>
@@ -91,7 +91,7 @@ const DataVersionSelect = ({
           value={value}
           selected={value === selectedDataVersion}
           questionnaireId={questionnaireId}
-          dataVersionThreeRequired={dataVersionThreeRequired}
+          allowableDataVersions={allowableDataVersions}
         >
           <StyledRadioTitle>{title}</StyledRadioTitle>
           <RadioDescription>{description}</RadioDescription>
@@ -105,7 +105,7 @@ DataVersionOption.propTypes = {
   questionnaireId: PropTypes.string,
   value: PropTypes.string,
   selected: PropTypes.bool,
-  dataVersionThreeRequired: PropTypes.bool,
+  allowableDataVersions: PropTypes.arrayOf(PropTypes.string),
   children: PropTypes.node,
 };
 
@@ -113,7 +113,7 @@ DataVersionSelect.propTypes = {
   questionnaireId: PropTypes.string,
   shortName: PropTypes.string,
   selectedDataVersion: PropTypes.string,
-  dataVersionThreeRequired: PropTypes.bool,
+  allowableDataVersions: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default DataVersionSelect;

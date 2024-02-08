@@ -1,17 +1,17 @@
 const { getAnswers } = require("./answerGetters");
 
 const setDataVersion = ({ questionnaire }) => {
-  questionnaire.dataVersionThreeRequired = false;
+  questionnaire.allowableDataVersions = ["1", "3"];
 
   if (questionnaire.collectionLists?.lists?.length) {
     questionnaire.dataVersion = "3";
-    questionnaire.dataVersionThreeRequired = true;
+    questionnaire.allowableDataVersions = ["3"];
     return;
   }
 
   if (questionnaire.supplementaryData) {
     questionnaire.dataVersion = "3";
-    questionnaire.dataVersionThreeRequired = true;
+    questionnaire.allowableDataVersions = ["3"];
     return;
   }
 
@@ -20,7 +20,7 @@ const setDataVersion = ({ questionnaire }) => {
     return answer.options?.some((option) => {
       if (option.dynamicAnswer) {
         questionnaire.dataVersion = "3";
-        questionnaire.dataVersionThreeRequired = true;
+        questionnaire.allowableDataVersions = ["3"];
         return true;
       }
       return false;

@@ -150,6 +150,7 @@ const createNewQuestionnaire = (input) => {
     navigation: false,
     hub: false,
     dataVersion: "3",
+    allowableDataVersions: ["1", "3"],
     createdAt: new Date(),
     metadata: [],
     sections: [createSection()],

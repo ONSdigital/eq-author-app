@@ -16,7 +16,7 @@ fragment Questionnaire on Questionnaire {
   shortTitle
   displayName
   dataVersion
-  dataVersionThreeRequired
+  allowableDataVersions
   introduction {
     id
     showOnHub
