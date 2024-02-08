@@ -1,7 +1,6 @@
 const { getAnswers } = require("./answerGetters");
 
 const setDataVersion = ({ questionnaire }) => {
-  questionnaire.dataVersion = "1";
   questionnaire.dataVersionThreeRequired = false;
 
   if (questionnaire.collectionLists?.lists?.length) {
