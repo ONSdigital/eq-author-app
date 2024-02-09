@@ -72,6 +72,7 @@ const DataVersionOption = ({
             variables: { input: { id: questionnaireId, dataVersion: value } },
           })
         }
+        data-test={`data-version-input-${value}`}
       />
       {children}
     </StyledRadioLabel>
