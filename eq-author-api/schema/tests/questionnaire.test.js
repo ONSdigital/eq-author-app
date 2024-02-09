@@ -1,4 +1,5 @@
 const { last, findIndex, find } = require("lodash");
+const { CHECKBOX, RADIO } = require("../../constants/answerTypes");
 
 jest.mock("node-fetch");
 const fetch = require("node-fetch");
@@ -35,6 +36,9 @@ const {
   setQuestionnaireLocked,
   updateSubmission,
 } = require("../../tests/utils/contextBuilder/questionnaire");
+const {
+  updateOption,
+} = require("../../tests/utils/contextBuilder/option/updateOption");
 
 const {
   createAnswer,
@@ -162,6 +166,66 @@ describe("questionnaire", () => {
       });
       const queriedShortTitleQuestionnaire = await queryQuestionnaire(ctx);
       expect(queriedShortTitleQuestionnaire.displayName).toEqual("short title");
+    });
+
+    it("should set data version to 3 and remove data version 1 from allowable data versions if questionnaire contains dynamic answers", async () => {
+      const ctx = await buildContext({
+        supplementaryData: null,
+        sections: [
+          {
+            folders: [
+              {
+                pages: [
+                  {
+                    answers: [
+                      {
+                        type: CHECKBOX,
+                        options: [
+                          {
+                            label: "checkbox-option-1",
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                  {
+                    answers: [
+                      {
+                        type: RADIO,
+                        options: [
+                          {
+                            id: "radio-option-1",
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+
+      expect(ctx.questionnaire.dataVersion).toEqual("3");
+      expect(ctx.questionnaire.allowableDataVersions).toEqual(["1", "3"]);
+
+      const option =
+        ctx.questionnaire.sections[0].folders[0].pages[1].answers[0].options[0];
+
+      const update = {
+        id: option.id,
+        label: "Dynamic option 1",
+        description: "Dynamic option description",
+        value: "dynamic-option-1",
+        qCode: "dynamic-option-1",
+        dynamicAnswer: true,
+      };
+
+      updateOption(ctx, update);
+
+      expect(ctx.questionnaire.dataVersion).toEqual("3");
+      expect(ctx.questionnaire.allowableDataVersions).toEqual(["3"]);
     });
 
     describe("starring", () => {
