@@ -127,7 +127,6 @@ const CalculatedSummaryPagePreview = ({ page }) => {
                 : `${page.title}. Is this correct?`
             }
           />
-
           {page.summaryAnswers.length > 0 ? (
             <Summary>
               {page.summaryAnswers.map((answer) => (
