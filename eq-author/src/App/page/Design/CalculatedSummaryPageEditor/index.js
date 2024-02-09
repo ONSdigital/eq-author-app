@@ -204,7 +204,7 @@ export const CalculatedSummaryPageEditor = (props) => {
           id="summary-title"
           name="title"
           label={
-            <DescribedText description='The question "Is this correct?" will be added to the end of the calculated summary title '>
+            <DescribedText description='The question "Is this correct?" will be added to the end of the calculated summary title.'>
               Calculated summary title
             </DescribedText>
           }
