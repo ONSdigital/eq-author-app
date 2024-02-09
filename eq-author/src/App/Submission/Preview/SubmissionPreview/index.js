@@ -19,7 +19,8 @@ const Wrapper = styled.div`
 
 const Section = styled.div`
   &:not(:first-child) {
-    margin-top: 0.5em;
+    margin-top: ${(props) =>
+      props.marginTop ? `${props.marginTop}em` : `0.5em`};
   }
 `;
 
@@ -167,7 +168,7 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
         </>
       )}
       {feedback && (
-        <Section>
+        <Section marginTop="1.3">
           <Feedback>
             <PageTitle title={feedbackTitle} missingText={missingTitleText} />
             <FeedbackLabel bold={false}>{commentsImprovements}</FeedbackLabel>
