@@ -1,7 +1,8 @@
 const LEGAL_BASIS_OPTIONS = [
   {
     value: "NOTICE_1",
-    description: "Section 1 of the Statistics of Trade Act 1947.",
+    description:
+      "Notice is given under section 1 of the Statistics of Trade Act 1947.",
   },
   {
     value: "NOTICE_2",

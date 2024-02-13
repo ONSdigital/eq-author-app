@@ -155,19 +155,19 @@ const IntroductionPreview = ({ introduction }) => {
         data-test="description"
         dangerouslySetInnerHTML={{ __html: description }}
       />
+      {previewQuestions && (
+        <>
+          <Description>
+            <BlueUnderlined>
+              View the questions you will be asked in this survey
+            </BlueUnderlined>
+          </Description>
+        </>
+      )}
       {legalBasisCode !== "VOLUNTARY" && (
         <>
           <PageTitle title="Your response is legally required" />
           <Description>{legalBasisDescription}</Description>
-        </>
-      )}
-      {previewQuestions && (
-        <>
-          <PageTitle title="Preview the questions before starting the survey" />
-          <Description>
-            You can <BlueUnderlined>preview the questions</BlueUnderlined> you
-            may be asked in this survey.
-          </Description>
         </>
       )}
       <Button>Start survey</Button>
