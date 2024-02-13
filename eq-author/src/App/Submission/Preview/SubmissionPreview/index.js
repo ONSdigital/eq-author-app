@@ -3,14 +3,11 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme.js";
 
-import IconText from "components/IconText";
 import PageTitle from "components/preview/elements/PageTitle";
 import { Field, Label } from "components/Forms";
 import Panel from "components-themed/panels";
 import Feedback from "components-themed/Feedback";
 import Error from "components/preview/Error";
-
-import { ReactComponent as WarningIcon } from "assets/icon-warning-round.svg";
 
 const Wrapper = styled.div`
   padding: 2em;
@@ -34,16 +31,8 @@ const TitleWrapper = styled.div`
   margin-top: -0.35em;
 `;
 
-const WarningPanel = styled(IconText)`
-  svg {
-    height: 2em;
-    width: 2em;
-  }
-`;
-
 const WarningPanelText = styled.div`
   font-weight: bold;
-  margin-left: 0.5em;
 `;
 
 const PanelSection = styled.div`
@@ -89,12 +78,8 @@ const BlueUnderlined = styled.span`
   text-decoration: underline;
   font-weight: ${(props) => props.bold && `bold`};
 `;
-const NewLine = styled.br``;
 
-const Text = styled.p`
-  line-height: 2.2em;
-  margin-bottom: 0em;
-`;
+const Text = styled.p``;
 
 const SubmissionEditor = ({ submission, questionnaireTitle }) => {
   const { furtherContent, viewPrintAnswers, feedback } = submission;
@@ -151,17 +136,17 @@ const SubmissionEditor = ({ submission, questionnaireTitle }) => {
               title={getCopyOfAnswers}
               missingText={missingTitleText}
             />
+            <Text>We may contact you to query your answers.</Text>
             <Text>
-              We may contact you to query your answers. <NewLine />
               If you need a copy for your records,&nbsp;
               <BlueUnderlined>save or print your answers</BlueUnderlined>.
             </Text>
           </Section>
           <Section>
             <InlineField>
-              <WarningPanel icon={WarningIcon} left bold withMargin>
+              <Panel variant="warning">
                 <WarningPanelText>{answersAvailableToView}</WarningPanelText>
-              </WarningPanel>
+              </Panel>
             </InlineField>
             {feedback && <SectionSeparator />}
           </Section>
