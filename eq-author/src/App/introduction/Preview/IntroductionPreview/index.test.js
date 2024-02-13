@@ -4,6 +4,11 @@ import { shallow } from "enzyme";
 import { useQuery } from "@apollo/react-hooks";
 
 import IntroductionPreview, { Collapsibles } from ".";
+import { useQuestionnaire } from "components/QuestionnaireContext";
+
+jest.mock("components/QuestionnaireContext", () => ({
+  useQuestionnaire: jest.fn(),
+}));
 
 jest.mock("@apollo/react-hooks", () => ({
   ...jest.requireActual("@apollo/react-hooks"),
@@ -18,6 +23,11 @@ useQuery.mockImplementation(() => ({
 
 describe("Introduction Preview", () => {
   let props;
+  useQuestionnaire.mockImplementation(() => ({
+    questionnaire: {
+      legalBasis: "NOTICE_1",
+    },
+  }));
   beforeEach(() => {
     props = {
       loading: false,

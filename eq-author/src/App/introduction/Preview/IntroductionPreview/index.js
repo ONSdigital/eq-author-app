@@ -168,12 +168,12 @@ const IntroductionPreview = ({ introduction }) => {
         <>
           <PageTitle title="Your response is legally required" />
           <Description>
-            {`Notice is given under
-            ${legalBasisCode === "NOTICE_FUELS" ? "the" : ""}
-             ${
-               legalBasisDescription.charAt(0).toLowerCase() +
-               legalBasisDescription.slice(1)
-             }`}
+            {`Notice is given under ${
+              legalBasisCode === "NOTICE_FUELS"
+                ? `the ${legalBasisDescription}`
+                : legalBasisDescription?.charAt(0).toLowerCase() +
+                  legalBasisDescription?.slice(1)
+            }`}
           </Description>
         </>
       )}
