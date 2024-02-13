@@ -167,7 +167,14 @@ const IntroductionPreview = ({ introduction }) => {
       {legalBasisCode !== "VOLUNTARY" && (
         <>
           <PageTitle title="Your response is legally required" />
-          <Description>{legalBasisDescription}</Description>
+          <Description>
+            {`Notice is given under
+            ${legalBasisCode === "NOTICE_FUELS" ? "the" : ""}
+             ${
+               legalBasisDescription.charAt(0).toLowerCase() +
+               legalBasisDescription.slice(1)
+             }`}
+          </Description>
         </>
       )}
       <Button>Start survey</Button>
