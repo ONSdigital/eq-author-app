@@ -131,12 +131,18 @@ module.exports = {
           section.displayConditions = null;
           section.questionnaireId = ctx.questionnaire.id;
           section.folders.forEach((folder) => {
+            if (folder.listId) {
+              folder.listId = "";
+            }
             folder.skipConditions = null;
             folder.pages.forEach((page) => {
               page.routing = null;
               page.skipConditions = null;
 
-              if (page.pageType !== "ListCollectorPage") {
+              if (
+                page.pageType !== "ListCollectorPage" &&
+                page.answers !== undefined
+              ) {
                 page.answers.forEach((answer) => {
                   return stripQCodes(answer);
                 });
@@ -152,6 +158,7 @@ module.exports = {
               }
             });
           });
+
           // Fix for missing validation error after importing repeating section
           if (section.repeatingSectionListId) {
             section.repeatingSectionListId = "";
