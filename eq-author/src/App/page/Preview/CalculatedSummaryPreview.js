@@ -102,9 +102,15 @@ const CalculatedSummaryPagePreview = ({ page }) => {
     section: page?.section,
   });
 
-  const endsWithFullStop = (string) => {
-    const stringWithoutClosingParagraphTag = string.replace(/<\/p>$/, "");
-    return stringWithoutClosingParagraphTag.endsWith(".");
+  const addConfirmationToTitle = () => {
+    if (page.title) {
+      const titleWithoutClosingParagraphTag = page.title.replace(/<\/p>$/, "");
+      if (titleWithoutClosingParagraphTag.endsWith(".")) {
+        return `${page.title} Is this correct?`;
+      } else {
+        return `${page.title}. Is this correct?`;
+      }
+    }
   };
 
   return (
@@ -120,13 +126,7 @@ const CalculatedSummaryPagePreview = ({ page }) => {
     >
       <Panel data-test="calSum test page">
         <Container>
-          <PageTitle
-            title={
-              endsWithFullStop(page.title)
-                ? `${page.title} Is this correct?`
-                : `${page.title}. Is this correct?`
-            }
-          />
+          <PageTitle title={addConfirmationToTitle()} />
           {page.summaryAnswers.length > 0 ? (
             <Summary>
               {page.summaryAnswers.map((answer) => (
