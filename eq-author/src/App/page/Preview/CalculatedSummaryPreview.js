@@ -57,7 +57,9 @@ const Summary = styled.div`
 `;
 
 const SummaryItem = styled.div`
-  border-top: 1px solid #999;
+  &:not(:first-of-type) {
+    border-top: 1px solid #999;
+  }
   border-radius: 0;
   position: relative;
   padding: 1rem 0;
