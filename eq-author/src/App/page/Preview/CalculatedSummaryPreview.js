@@ -1,6 +1,7 @@
 /* eslint-disable react/no-danger */
 import React from "react";
 import { propType } from "graphql-anywhere";
+import { darken } from "polished";
 
 import styled from "styled-components";
 import Error from "components/preview/Error";
@@ -22,11 +23,12 @@ const Button = styled.div`
   padding: 0.75rem 1rem;
   margin: 0;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: bold;
   border-radius: 3px;
   display: inline-block;
   text-rendering: optimizeLegibility;
   margin-bottom: 2em;
+  box-shadow: 0 3px ${({ theme }) => darken(0.15, theme.colors.primary)};
 `;
 
 const Container = styled.div`
