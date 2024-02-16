@@ -57,6 +57,16 @@ describe("Introduction Preview", () => {
     expect(shallow(<IntroductionPreview {...props} />)).toMatchSnapshot();
   });
 
+  it("should render the word 'the' when legal basis is NOTICE_FUELS", () => {
+    useQuestionnaire.mockImplementation(() => ({
+      questionnaire: {
+        legalBasis: "NOTICE_FUELS",
+      },
+    }));
+
+    expect(shallow(<IntroductionPreview {...props} />)).toMatchSnapshot();
+  });
+
   it("should not show incomplete collapsibles", () => {
     props.introduction.collapsibles = [
       { id: "2", title: "collapsible title", description: "" },
