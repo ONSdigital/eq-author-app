@@ -171,7 +171,9 @@ const IntroductionPreview = ({ introduction }) => {
             {`Notice is given under ${
               legalBasisCode === "NOTICE_FUELS"
                 ? `the ${legalBasisDescription}`
-                : legalBasisDescription
+                : `${legalBasisDescription
+                    ?.charAt(0)
+                    .toLowerCase()}${legalBasisDescription?.slice(1)}`
             }`}
           </Description>
         </>
