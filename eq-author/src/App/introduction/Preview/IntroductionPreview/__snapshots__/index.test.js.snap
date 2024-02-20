@@ -10,15 +10,15 @@ exports[`Introduction Preview should render 1`] = `
   />
   If the company details or structure have changed contact us on
    
-  <IntroductionPreview__BlueUnderlined>
+  <IntroductionPreview__DummyLink>
     0300 1234 931
-  </IntroductionPreview__BlueUnderlined>
+  </IntroductionPreview__DummyLink>
    
   or email
    
-  <IntroductionPreview__BlueUnderlined>
+  <IntroductionPreview__DummyLink>
     surveys@ons.gov.uk
-  </IntroductionPreview__BlueUnderlined>
+  </IntroductionPreview__DummyLink>
   <IntroductionPreview__Description
     dangerouslySetInnerHTML={
       Object {
@@ -71,15 +71,15 @@ exports[`Introduction Preview should render the word 'the' when legal basis is N
   />
   If the company details or structure have changed contact us on
    
-  <IntroductionPreview__BlueUnderlined>
+  <IntroductionPreview__DummyLink>
     0300 1234 931
-  </IntroductionPreview__BlueUnderlined>
+  </IntroductionPreview__DummyLink>
    
   or email
    
-  <IntroductionPreview__BlueUnderlined>
+  <IntroductionPreview__DummyLink>
     surveys@ons.gov.uk
-  </IntroductionPreview__BlueUnderlined>
+  </IntroductionPreview__DummyLink>
   <IntroductionPreview__Description
     dangerouslySetInnerHTML={
       Object {
