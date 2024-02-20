@@ -172,7 +172,10 @@ const ImportingContent = ({
     // Does not check for extra spaces if inputData is null or undefined
     if (inputData != null) {
       // Checks if inputData is a string containing extra spaces
-      if (typeof inputData === "string" && /\s{2,}/g.test(inputData)) {
+      if (
+        (typeof inputData === "string" && /\s{2,}/g.test(inputData)) ||
+        (typeof inputData === "string" && inputData.trim() !== inputData)
+      ) {
         return true;
       }
       // If inputData is an array, recursively calls containsExtraSpaces to return true if any of its items contain extra spaces

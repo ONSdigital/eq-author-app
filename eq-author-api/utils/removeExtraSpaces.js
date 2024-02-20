@@ -3,7 +3,7 @@ const removeExtraSpaces = (inputData) => {
   if (inputData !== null && inputData !== undefined) {
     // If inputData is a string, remove extra spaces
     if (typeof inputData === "string") {
-      inputData = inputData.replace(/\s+/g, " ");
+      inputData = inputData.replace(/\s+/g, " ").trim();
     }
     // If inputData is an array, recursively call removeExtraSpaces to remove extra spaces from each of its items
     else if (Array.isArray(inputData)) {
