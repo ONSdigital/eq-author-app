@@ -200,18 +200,6 @@ const sourceQuestionnaires = [
                   },
                 ],
               },
-              {
-                id: "page-8",
-                title: "Page 8",
-                pageType: "QuestionPage",
-                answers: [
-                  {
-                    id: "answer-8",
-                    type: "Number",
-                    label: "Answer 8 with extra spaces ",
-                  },
-                ],
-              },
             ],
           },
         ],
