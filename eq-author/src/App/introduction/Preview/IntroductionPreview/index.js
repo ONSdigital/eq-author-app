@@ -94,7 +94,7 @@ const CollapsiblesContent = styled.div`
   padding: 0.2em 0 0.2em 1em;
 `;
 
-const BlueUnderlined = styled.text`
+const DummyLink = styled.text`
   color: ${colors.blue};
   text-decoration: underline;
 `;
@@ -135,13 +135,13 @@ const IntroductionPreview = ({ introduction }) => {
       <PageTitle missingText="Missing introduction title" title={title} />
       If the company details or structure have changed contact us on{" "}
       {contactDetailsPhoneNumber !== "" ? (
-        <BlueUnderlined>{contactDetailsPhoneNumber}</BlueUnderlined>
+        <DummyLink>{contactDetailsPhoneNumber}</DummyLink>
       ) : (
         <MissingText>Phone number missing</MissingText>
       )}{" "}
       or email{" "}
       {contactDetailsEmailAddress !== "" ? (
-        <BlueUnderlined>{contactDetailsEmailAddress}</BlueUnderlined>
+        <DummyLink>{contactDetailsEmailAddress}</DummyLink>
       ) : (
         <MissingText>Email address missing </MissingText>
       )}
@@ -158,9 +158,9 @@ const IntroductionPreview = ({ introduction }) => {
       {previewQuestions && (
         <>
           <Description>
-            <BlueUnderlined>
+            <DummyLink>
               View the questions you will be asked in this survey
-            </BlueUnderlined>
+            </DummyLink>
           </Description>
         </>
       )}
