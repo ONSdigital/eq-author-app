@@ -172,11 +172,19 @@ const ImportingContent = ({
     // Does not check for extra spaces if inputData is null or undefined
     if (inputData != null) {
       // Checks if inputData is a string containing extra spaces
-      if (
-        (typeof inputData === "string" && /\s{2,}/g.test(inputData)) ||
-        (typeof inputData === "string" && inputData.trim() !== inputData)
-      ) {
-        return true;
+      if (typeof inputData === "string") {
+        // Removes opening and closing HTML tags from the start and end of the string
+        const inputDataWithoutTags = inputData
+          .replace(/^(<\/?[^>]+>)+/, "")
+          .replace(/(<\/?[^>]+>)+$/, "");
+
+        // Checks for consecutive, leading and trailing spaces
+        if (
+          /\s{2,}/g.test(inputDataWithoutTags) ||
+          inputDataWithoutTags.trim() !== inputDataWithoutTags
+        ) {
+          return true;
+        }
       }
       // If inputData is an array, recursively calls containsExtraSpaces to return true if any of its items contain extra spaces
       else if (Array.isArray(inputData)) {
@@ -293,7 +301,10 @@ const ImportingContent = ({
         }
       }
 
-      importQuestions({ variables: { input } });
+      importQuestions({
+        variables: { input },
+        refetchQueries: ["GetQuestionnaire"],
+      });
       onGlobalCancel();
     }
   };
@@ -403,7 +414,10 @@ const ImportingContent = ({
         }
       }
 
-      importSections({ variables: { input } });
+      importSections({
+        variables: { input },
+        refetchQueries: ["GetQuestionnaire"],
+      });
       onGlobalCancel();
     }
   };
