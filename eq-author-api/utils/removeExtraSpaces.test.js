@@ -11,6 +11,16 @@ describe("removeExtraSpaces", () => {
     expect(sectionTitleWithoutExtraSpaces).toEqual("Section 1");
   });
 
+  it("should remove extra spaces from string values with HTML tags", () => {
+    const sectionTitleWithExtraSpaces = "<p> Section   1 </p>";
+
+    const sectionTitleWithoutExtraSpaces = removeExtraSpaces(
+      sectionTitleWithExtraSpaces
+    );
+
+    expect(sectionTitleWithoutExtraSpaces).toEqual("<p>Section 1</p>");
+  });
+
   it("should remove extra spaces from arrays of strings", () => {
     const answerLabelsWithExtraSpaces = [
       "Answer  1 ",
