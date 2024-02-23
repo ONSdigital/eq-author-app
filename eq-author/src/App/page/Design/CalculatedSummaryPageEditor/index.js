@@ -4,6 +4,7 @@ import { propType } from "graphql-anywhere";
 import { get, flowRight, some } from "lodash";
 import styled from "styled-components";
 import gql from "graphql-tag";
+import DescribedText from "components/DescribedText";
 
 import { richTextEditorErrors } from "constants/validationMessages";
 import { colors } from "constants/theme";
@@ -202,7 +203,11 @@ export const CalculatedSummaryPageEditor = (props) => {
         <RichTextEditor
           id="summary-title"
           name="title"
-          label="Calculated summary title"
+          label={
+            <DescribedText description='The question "Is this correct?" will be added to the end of the calculated summary title.'>
+              Calculated summary title
+            </DescribedText>
+          }
           placeholder=""
           value={page.title}
           onUpdate={onChangeUpdate}
@@ -217,6 +222,7 @@ export const CalculatedSummaryPageEditor = (props) => {
           autoFocus={!page.title}
           pageType={page.pageType}
         />
+
         <HorizontalRule />
         <PageTitleContainer
           pageDescription={page.pageDescription}
