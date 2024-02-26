@@ -153,10 +153,9 @@ const CalculatedSummaryPagePreview = ({ page }) => {
                 <SummaryTotal>
                   <Grid>
                     <Column cols={7}>
-                      <SummaryTotalLabel
-                        data-test="total-title"
-                        dangerouslySetInnerHTML={{ __html: page.totalTitle }}
-                      />
+                      <SummaryTotalLabel data-test="total-title">
+                        {page.totalTitle.replace(/<\/?p>/g, "")}
+                      </SummaryTotalLabel>
                     </Column>
                     <Column cols={3}>
                       <SummaryValue>Value</SummaryValue>
