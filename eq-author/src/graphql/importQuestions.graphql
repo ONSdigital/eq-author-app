@@ -1,124 +1,82 @@
+#import "./fragments/section.graphql"
+#import "./fragments/folder.graphql"
+#import "./fragments/page.graphql"
+#import "./fragments/answer.graphql"
+#import "./fragments/option.graphql"
 #import "./fragments/comment.graphql"
 
-mutation ImportStuff($input: ImportQuestionsInput!) {
+mutation ImportQuestions($input: ImportQuestionsInput!) {
   importQuestions(input: $input) {
-    id
-    ...Sections
-  }
-}
-
-fragment Sections on Section {
-  id
-  title
-  displayName
-  questionnaire {
-    id
-  }
-  comments {
-    ...Comment
-  }
-  validationErrorInfo {
-    id
-    totalCount
-  }
-  ...PageNav
-}
-
-fragment PageNav on Section {
-  id
-  folders {
-    id
-    alias
-    displayName
+    ...Section
     position
-    pages {
-      ...Pages
-      ...ConfirmationPages
-    }
-    validationErrorInfo {
-      id
-      totalCount
-    }
-  }
-}
-
-fragment Pages on Page {
-  id
-  alias
-  title
-  alias
-  position
-  displayName
-  pageType
-  validationErrorInfo {
-    id
-    errors {
-      id
-      type
-      field
-      errorCode
-    }
-    totalCount
-  }
-  ... on QuestionPage {
-    comments {
-      ...Comment
-    }
-    answers {
-      ...Answers
-    }
-    confirmation {
-      id
-    }
-  }
-}
-
-fragment Answers on Answer {
-  id
-  displayName
-  description
-  guidance
-  qCode
-  label
-  secondaryLabel
-  secondaryLabelDefault
-  type
-  properties
-  ... on BasicAnswer {
-    secondaryQCode
-  }
-  ... on MultipleChoiceAnswer {
-    options {
-      id
-      displayName
-      label
-      description
-      value
-      qCode
-    }
-    mutuallyExclusiveOption {
-      id
-      displayName
-      label
-      description
-      value
-      qCode
-    }
-  }
-}
-
-fragment ConfirmationPages on QuestionPage {
-  id
-  confirmation {
-    id
     displayName
-    qCode
-    comments {
-      ...Comment
-    }
-    validationErrorInfo {
-      id
-      totalCount
+    folders {
+      ...Folder
+      pages {
+        ...Page
+        position
+        displayName
+        pageType
+        title
+        ... on QuestionPage {
+          alias
+          description
+          guidance
+          answers {
+            ...Answer
+            ... on BasicAnswer {
+              secondaryQCode
+            }
+            ... on MultipleChoiceAnswer {
+              options {
+                ...Option
+              }
+              mutuallyExclusiveOption {
+                id
+                displayName
+                label
+                description
+                value
+                qCode
+              }
+            }
+          }
+          confirmation {
+            id
+            qCode
+            displayName
+            comments {
+              ...Comment
+            }
+          }
+          comments {
+            ...Comment
+          }
+        }
+        ... on CalculatedSummaryPage {
+          id
+          title
+          alias
+          pageType
+          pageDescription
+          displayName
+          position
+          totalTitle
+          type
+          answers {
+            ...Answer
+            ... on BasicAnswer {
+              secondaryQCode
+            }
+          }
+          summaryAnswers {
+            id
+          }
+          comments {
+            ...Comment
+          }
+        }
+      }
     }
   }
 }
