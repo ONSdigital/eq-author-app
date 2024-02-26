@@ -12,10 +12,7 @@ import createRouterContext from "react-router-test-context";
 import { byTestAttr } from "tests/utils/selectors";
 import { MeContext } from "App/MeContext";
 
-import GET_QUESTIONNAIRE_QUERY from "graphql/getQuestionnaire.graphql";
 import { publishStatusSubscription } from "components/EditorLayout/Header";
-
-import { WRITE } from "constants/questionnaire-permissions";
 
 import SectionRoute, { UnwrappedSectionRoute, SECTION_QUERY } from "./";
 import suppressConsoleMessage from "tests/utils/supressConsol";
@@ -116,77 +113,6 @@ const section = {
   },
 };
 
-const moveSectionMock = {
-  request: {
-    query: GET_QUESTIONNAIRE_QUERY,
-    variables: {
-      input: {
-        questionnaireId,
-      },
-    },
-  },
-  result: {
-    data: {
-      questionnaire: {
-        id: questionnaireId,
-        title: "",
-        description: "",
-        surveyId: "1",
-        formType: "0001",
-        eqId: "TestEqId",
-        theme: "foo",
-        legalBasis: "NOTICE_1",
-        themes: [],
-        collectionLists: {
-          __typename: "collectionLists",
-          id: "abc",
-          lists: [],
-        },
-        type: "Social",
-        qcodes: true,
-        navigation: true,
-        hub: false,
-        summary: "",
-        collapsibleSummary: false,
-        displayName: "Display name",
-        shortTitle: "Short tile",
-        permission: WRITE,
-        isPublic: true,
-        introduction: {
-          id: "1",
-          showOnHub: false,
-          __typename: "Introduction",
-        },
-        createdBy: {
-          id: "1",
-          name: "Some user",
-          email: "some@user.com",
-          picture: "some.jpg",
-          __typename: "User",
-        },
-        editors: [],
-        __typename: "Questionnaire",
-        sections: [section, section],
-        submission: {
-          id: "submission-1",
-          furtherContent: "<p>Test</p>",
-          viewPrintAnswers: true,
-          feedback: true,
-          comments: [],
-          __typename: "Submission",
-        },
-        validationErrorInfo: {
-          errors: [],
-          id: "validation-error-id",
-          totalCount: "0",
-          __typename: "ValidationErrorInfo",
-        },
-        supplementaryData: null,
-      },
-    },
-  },
-};
-
 const mockSectionQuery = {
   request: {
     query: SECTION_QUERY,
@@ -270,11 +196,7 @@ describe("SectionRoute", () => {
       );
 
     it("should show loading spinner while request in flight", async () => {
-      const wrapper = render([
-        mockSectionQuery,
-        moveSectionMock,
-        publishStatusMock,
-      ]);
+      const wrapper = render([mockSectionQuery, publishStatusMock]);
       expect(wrapper.find(`[data-test="loading"]`).exists()).toBe(true);
       expect(wrapper.find(`[data-test="section-editor"]`).exists()).toBe(false);
       await act(async () => {
@@ -283,11 +205,7 @@ describe("SectionRoute", () => {
     });
 
     it("should render the editor once loaded", async () => {
-      const wrapper = render([
-        mockSectionQuery,
-        moveSectionMock,
-        publishStatusMock,
-      ]);
+      const wrapper = render([mockSectionQuery, publishStatusMock]);
 
       await act(async () => {
         await flushPromises();
@@ -355,7 +273,7 @@ describe("SectionRoute", () => {
           <Router history={history}>
             <TestProvider
               reduxProps={{ store }}
-              apolloProps={{ mocks: [moveSectionMock, publishStatusMock] }}
+              apolloProps={{ mocks: [publishStatusMock] }}
             >
               <Route path={"/q/:questionnaireId/section/:sectionId"}>
                 {({ match }) => (

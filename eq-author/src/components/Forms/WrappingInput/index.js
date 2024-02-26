@@ -54,6 +54,7 @@ class WrappingInput extends React.Component {
     const text = e.clipboardData.getData("text");
     e.persist();
     if (/\s{2,}/g.test(text)) {
+      e.preventDefault();
       this.setState({
         showPasteModal: true,
         text: text,

@@ -8,7 +8,9 @@ import Theme from "contexts/themeContext";
 import Button from "components-themed/buttons";
 import Panel from "components-themed/panels";
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  color: ${({ theme }) => theme.colors.text};
+`;
 
 const ModalBackground = styled.div`
   position: fixed;
@@ -61,13 +63,13 @@ const Subtitle = styled.h3`
 `;
 
 const StyledButton = styled(Button)`
-  margin-top: 3em;
   margin-right: ${(props) => props.margin && `0.5em`};
 `;
 
 const ButtonContainer = styled.div`
   float: right;
   padding-bottom: 0.3em;
+  margin-top: 3em;
 `;
 
 const WarningWrapper = styled.div`
@@ -85,6 +87,7 @@ const Modal = ({
   updatedFontTheme,
   onConfirm,
   onClose,
+  children,
 }) => {
   // https://stackoverflow.com/questions/63074577/close-modal-popup-using-esc-key-on-keyboard
   useEffect(() => {
@@ -111,6 +114,7 @@ const Modal = ({
               </CloseButton>
               <Title>{title}</Title>
               {subtitle && <Subtitle>{subtitle}</Subtitle>}
+              {children}
               {warningMessage && (
                 <WarningWrapper>
                   <Panel withPanelMargin={false} variant="warning">
@@ -118,7 +122,7 @@ const Modal = ({
                   </Panel>
                 </WarningWrapper>
               )}
-              <ButtonContainer>
+              <ButtonContainer className="modal-button-container">
                 <StyledButton
                   variant="secondary"
                   margin
@@ -176,6 +180,10 @@ Modal.propTypes = {
    * Temporary prop - if false, onsLegacyFont is used as the modal's theme
    */
   updatedFontTheme: PropTypes.bool, // TODO: remove updatedFontTheme when theme container is fixed for fontSize 18px
+  /**
+   * Content to display in the modal.
+   */
+  children: PropTypes.node,
 };
 
 Modal.defaultProps = {

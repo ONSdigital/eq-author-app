@@ -7,6 +7,7 @@ const {
   remapAllNestedIds,
   getSectionsByIds,
 } = require("./utils");
+const removeExtraSpaces = require("../../utils/removeExtraSpaces");
 
 const createFolder = require("../../src/businessLogic/createFolder");
 
@@ -45,6 +46,7 @@ module.exports = {
         }
 
         pages.forEach((page) => {
+          removeExtraSpaces(page);
           if (page.answers.length === 1) {
             if (page.answers[0].repeatingLabelAndInputListId) {
               page.answers[0].repeatingLabelAndInputListId = "";
@@ -121,22 +123,29 @@ module.exports = {
           );
         }
 
-        let sectionsWithoutLogic = [];
+        const strippedSections = [];
 
         // Re-create UUIDs, strip QCodes, routing and skip conditions from imported pages
         // Keep piping intact for now - will show "[Deleted answer]" to users when piped ID not resolvable
 
         sourceSections.forEach((section) => {
           remapAllNestedIds(section);
+          removeExtraSpaces(section);
           section.displayConditions = null;
           section.questionnaireId = ctx.questionnaire.id;
           section.folders.forEach((folder) => {
+            if (folder.listId) {
+              folder.listId = "";
+            }
             folder.skipConditions = null;
             folder.pages.forEach((page) => {
               page.routing = null;
               page.skipConditions = null;
 
-              if (page.pageType !== "ListCollectorPage") {
+              if (
+                page.pageType !== "ListCollectorPage" &&
+                page.answers !== undefined
+              ) {
                 page.answers.forEach((answer) => {
                   return stripQCodes(answer);
                 });
@@ -152,11 +161,12 @@ module.exports = {
               }
             });
           });
+
           // Fix for missing validation error after importing repeating section
           if (section.repeatingSectionListId) {
             section.repeatingSectionListId = "";
           }
-          sectionsWithoutLogic.push(section);
+          strippedSections.push(section);
         });
 
         const section = getSectionById(ctx, sectionId);
@@ -166,7 +176,7 @@ module.exports = {
           );
         }
 
-        destinationSections.splice(insertionIndex, 0, ...sectionsWithoutLogic);
+        destinationSections.splice(insertionIndex, 0, ...strippedSections);
         ctx.questionnaire.hub = ctx.questionnaire.sections.length > 1;
         return destinationSections;
       }
