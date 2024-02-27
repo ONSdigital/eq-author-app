@@ -33,6 +33,26 @@ const StyledRadioLabel = styled(RadioLabel)`
   width: fit-content;
 `;
 
+const Caption = styled.p`
+  margin-top: 0.2em;
+  margin-bottom: 0.6em;
+  font-size: 0.85em;
+`;
+
+const StyledFieldset = styled.fieldset`
+  border: none;
+  padding: 0;
+  margin: 0;
+`;
+
+const StyledLegend = styled.legend`
+  display: block;
+  padding: 0;
+  font-weight: bold;
+  color: ${colors.text};
+  line-height: 1.3;
+`;
+
 const dataVersionOptions = [
   {
     value: "1",
@@ -85,20 +105,27 @@ const DataVersionSelect = ({
   allowableDataVersions,
 }) => {
   return (
-    <RadioField>
-      {dataVersionOptions.map(({ value, title, description }) => (
-        <DataVersionOption
-          key={title}
-          value={value}
-          selected={value === selectedDataVersion}
-          questionnaireId={questionnaireId}
-          allowableDataVersions={allowableDataVersions}
-        >
-          <StyledRadioTitle>{title}</StyledRadioTitle>
-          <RadioDescription>{description}</RadioDescription>
-        </DataVersionOption>
-      ))}
-    </RadioField>
+    <StyledFieldset>
+      <StyledLegend>Data version</StyledLegend>
+      <Caption>
+        There are two processing methods for questionnaire data: data version 1
+        and data version 3.
+      </Caption>
+      <RadioField>
+        {dataVersionOptions.map(({ value, title, description }) => (
+          <DataVersionOption
+            key={title}
+            value={value}
+            selected={value === selectedDataVersion}
+            questionnaireId={questionnaireId}
+            allowableDataVersions={allowableDataVersions}
+          >
+            <StyledRadioTitle>{title}</StyledRadioTitle>
+            <RadioDescription>{description}</RadioDescription>
+          </DataVersionOption>
+        ))}
+      </RadioField>
+    </StyledFieldset>
   );
 };
 

@@ -401,11 +401,6 @@ const SettingsPage = ({ questionnaire }) => {
                       />
                     </Field>
                     <Field>
-                      <Label htmlFor="dataVersion">Data version</Label>
-                      <Caption>
-                        There are two processing methods for questionnaire data:
-                        data version 1 and data version 3.
-                      </Caption>
                       <DataVersionSelect
                         questionnaireId={questionnaireId}
                         selectedDataVersion={dataVersion}
