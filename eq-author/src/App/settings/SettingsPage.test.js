@@ -53,9 +53,30 @@ describe("Settings page", () => {
       theme: "business",
       displayName: "Roar",
       dataVersion: "1",
+      allowableDataVersions: ["1", "3"],
       introduction: {
         id: "spyro-1",
+        title: "Introduction",
         showOnHub: false,
+        contactDetailsPhoneNumber: "",
+        contactDetailsEmailAddress: "",
+        contactDetailsEmailSubject: "",
+        contactDetailsIncludeRuRef: true,
+        description: "",
+        additionalGuidancePanelSwitch: false,
+        additionalGuidancePanel: "",
+        previewQuestions: false,
+        disallowPreviewQuestions: false,
+        secondaryTitle: "",
+        secondaryDescription: "",
+        tertiaryTitle: "",
+        tertiaryDescription: "",
+        validationErrorInfo: {
+          id: "validation-error-info-introduction",
+          errors: [],
+          totalCount: 0,
+          __typename: "ValidationErrorInfo",
+        },
         __typename: "QuestionnaireIntroduction",
       },
       createdBy: {
@@ -222,14 +243,10 @@ describe("Settings page", () => {
           queryWasCalled = true;
           return {
             data: {
-              updateQuestionnaireIntroductionMutation: {
-                ...mockQuestionnaire,
-                hub: true,
-                navigation: false,
-                introduction: {
-                  showOnHub: true,
-                },
-                __typename: "Questionnaire",
+              updateQuestionnaireIntroduction: {
+                ...mockQuestionnaire.introduction,
+                showOnHub: true,
+                __typename: "QuestionnaireIntroduction",
               },
             },
           };
