@@ -13,6 +13,8 @@ import {
 
 import UPDATE_QUESTIONNAIRE_MUTATION from "graphql/updateQuestionnaire.graphql";
 
+import DATA_VERSION_OPTIONS from "constants/data-version-options";
+
 const StyledRadioTitle = styled(RadioTitle)`
   font-size: 1em;
   letter-spacing: 0;
@@ -52,21 +54,6 @@ const StyledLegend = styled.legend`
   color: ${colors.text};
   line-height: 1.3;
 `;
-
-const dataVersionOptions = [
-  {
-    value: "1",
-    title: "Data version 1",
-    description:
-      "Enables downstream processing of older questionnaires without complex features",
-  },
-  {
-    value: "3",
-    title: "Data version 3",
-    description:
-      "Enables downstream processing of newer questionnaires with complex features",
-  },
-];
 
 const DataVersionOption = ({
   questionnaireId,
@@ -112,7 +99,7 @@ const DataVersionSelect = ({
         and data version 3.
       </Caption>
       <RadioField>
-        {dataVersionOptions.map(({ value, title, description }) => (
+        {DATA_VERSION_OPTIONS.map(({ value, title, description }) => (
           <DataVersionOption
             key={title}
             value={value}
