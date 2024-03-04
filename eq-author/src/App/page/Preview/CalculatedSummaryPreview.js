@@ -5,6 +5,7 @@ import { propType } from "graphql-anywhere";
 import styled from "styled-components";
 import Error from "components/preview/Error";
 import PageTitle from "components/preview/elements/PageTitle";
+import Info from "components/preview/elements/Info";
 
 import EditorLayout from "components/EditorLayout";
 import Panel from "components/Panel";
@@ -14,20 +15,6 @@ import CommentsPanel from "App/Comments";
 import { colors } from "constants/theme";
 import CalculatedSummaryPageEditor from "../Design/CalculatedSummaryPageEditor";
 import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
-
-const Button = styled.div`
-  color: white;
-  background-color: ${colors.positive};
-  border: 2px solid ${colors.positive};
-  padding: 0.75rem 1rem;
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 3px;
-  display: inline-block;
-  text-rendering: optimizeLegibility;
-  margin-bottom: 2em;
-`;
 
 const Container = styled.div`
   padding: 2em;
@@ -57,9 +44,7 @@ const Summary = styled.div`
 `;
 
 const SummaryItem = styled.div`
-  &:not(:first-of-type) {
-    border-top: 1px solid #999;
-  }
+  border-top: 1px solid #999;
   border-radius: 0;
   position: relative;
   padding: 1rem 0;
@@ -104,17 +89,6 @@ const CalculatedSummaryPagePreview = ({ page }) => {
     section: page?.section,
   });
 
-  const addConfirmationToTitle = () => {
-    if (page.title) {
-      const titleWithoutClosingParagraphTag = page.title.replace(/<\/p>$/, "");
-      if (titleWithoutClosingParagraphTag.endsWith(".")) {
-        return `${page.title} Is this correct?`;
-      } else {
-        return `${page.title}. Is this correct?`;
-      }
-    }
-  };
-
   return (
     <EditorLayout
       title={page.displayName}
@@ -128,7 +102,9 @@ const CalculatedSummaryPagePreview = ({ page }) => {
     >
       <Panel data-test="calSum test page">
         <Container>
-          <PageTitle title={addConfirmationToTitle()} />
+          <PageTitle title={page.title} />
+          <Info>Please review your answers and confirm these are correct.</Info>
+
           {page.summaryAnswers.length > 0 ? (
             <Summary>
               {page.summaryAnswers.map((answer) => (
@@ -153,10 +129,9 @@ const CalculatedSummaryPagePreview = ({ page }) => {
                 <SummaryTotal>
                   <Grid>
                     <Column cols={7}>
-                      <SummaryTotalLabel
-                        data-test="total-title"
-                        dangerouslySetInnerHTML={{ __html: page.totalTitle }}
-                      />
+                      <SummaryTotalLabel data-test="total-title">
+                        {page.totalTitle.replace(/<\/?p>/g, "")}
+                      </SummaryTotalLabel>
                     </Column>
                     <Column cols={3}>
                       <SummaryValue>Value</SummaryValue>
@@ -175,7 +150,6 @@ const CalculatedSummaryPagePreview = ({ page }) => {
               No answers selected
             </Error>
           )}
-          <Button>Yes, I confirm this is correct</Button>
         </Container>
       </Panel>
     </EditorLayout>
