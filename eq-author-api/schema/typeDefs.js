@@ -62,6 +62,7 @@ type Questionnaire {
   navigation: Boolean
   hub: Boolean
   dataVersion: String
+  allowableDataVersions: [String]
   createdAt: DateTime
   updatedAt: DateTime
   createdBy: User!
@@ -1311,6 +1312,7 @@ input UpdateQuestionnaireInput {
   editors: [ID!] 
   isPublic: Boolean
   permission: String
+  dataVersion: String
 }
 
 

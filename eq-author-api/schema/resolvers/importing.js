@@ -16,6 +16,8 @@ const { UserInputError } = require("apollo-server-express");
 
 const { createMutation } = require("./createMutation");
 
+const { setDataVersion } = require("./utils");
+
 module.exports = {
   Mutation: {
     importQuestions: createMutation(
@@ -91,6 +93,7 @@ module.exports = {
             ...strippedPages.map((page) => createFolder({ pages: [page] }))
           );
         }
+        setDataVersion(ctx);
 
         return section;
       }
@@ -178,6 +181,8 @@ module.exports = {
 
         destinationSections.splice(insertionIndex, 0, ...strippedSections);
         ctx.questionnaire.hub = ctx.questionnaire.sections.length > 1;
+        setDataVersion(ctx);
+
         return destinationSections;
       }
     ),
