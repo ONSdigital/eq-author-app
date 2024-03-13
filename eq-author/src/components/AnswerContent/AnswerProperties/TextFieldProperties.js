@@ -75,6 +75,7 @@ const TextFieldProperties = ({
             value={maxLength}
             onBlur={() => onUpdateMaxLength(maxLength)}
             onChange={({ value }) => setMaxLength(value)}
+            invalid={errors.length > 0}
             data-test="limitCharacterInput"
           />
         </InlineField>
