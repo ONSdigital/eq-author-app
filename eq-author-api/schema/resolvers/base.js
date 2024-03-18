@@ -26,6 +26,7 @@ const {
   AWAITING_APPROVAL,
   UPDATES_REQUIRED,
 } = require("../../constants/publishStatus");
+const allDataVersions = require("../../constants/allDataVersions");
 
 const { DURATION_LOOKUP } = require("../../constants/durationTypes");
 const {
@@ -149,7 +150,8 @@ const createNewQuestionnaire = (input) => {
     qcodes: true,
     navigation: false,
     hub: false,
-    dataVersion: "1",
+    dataVersion: "3",
+    allowableDataVersions: allDataVersions,
     createdAt: new Date(),
     metadata: [],
     sections: [createSection()],
@@ -658,6 +660,7 @@ const Resolvers = {
       const pages = getPages(ctx);
 
       onSectionDeleted(ctx, removedSection, pages);
+      setDataVersion(ctx);
 
       if (!ctx.questionnaire.sections.length) {
         ctx.questionnaire.sections.push(createSection());
@@ -727,6 +730,7 @@ const Resolvers = {
       const pages = getPages(ctx);
 
       onFolderDeleted(ctx, removedFolder, pages);
+      setDataVersion(ctx);
 
       if (!section.folders.length) {
         section.folders.push(createFolder());
@@ -862,6 +866,7 @@ const Resolvers = {
       const deletedAnswer = first(remove(page.answers, { id: input.id }));
 
       onAnswerDeleted(ctx, page, deletedAnswer, pages);
+      setDataVersion(ctx);
 
       return page;
     }),

@@ -94,7 +94,7 @@ const CollapsiblesContent = styled.div`
   padding: 0.2em 0 0.2em 1em;
 `;
 
-const BlueUnderlined = styled.text`
+const DummyLink = styled.text`
   color: ${colors.blue};
   text-decoration: underline;
 `;
@@ -135,13 +135,13 @@ const IntroductionPreview = ({ introduction }) => {
       <PageTitle missingText="Missing introduction title" title={title} />
       If the company details or structure have changed contact us on{" "}
       {contactDetailsPhoneNumber !== "" ? (
-        <BlueUnderlined>{contactDetailsPhoneNumber}</BlueUnderlined>
+        <DummyLink>{contactDetailsPhoneNumber}</DummyLink>
       ) : (
         <MissingText>Phone number missing</MissingText>
       )}{" "}
       or email{" "}
       {contactDetailsEmailAddress !== "" ? (
-        <BlueUnderlined>{contactDetailsEmailAddress}</BlueUnderlined>
+        <DummyLink>{contactDetailsEmailAddress}</DummyLink>
       ) : (
         <MissingText>Email address missing </MissingText>
       )}
@@ -155,18 +155,26 @@ const IntroductionPreview = ({ introduction }) => {
         data-test="description"
         dangerouslySetInnerHTML={{ __html: description }}
       />
+      {previewQuestions && (
+        <>
+          <Description>
+            <DummyLink>
+              View the questions you will be asked in this survey
+            </DummyLink>
+          </Description>
+        </>
+      )}
       {legalBasisCode !== "VOLUNTARY" && (
         <>
           <PageTitle title="Your response is legally required" />
-          <Description>{legalBasisDescription}</Description>
-        </>
-      )}
-      {previewQuestions && (
-        <>
-          <PageTitle title="Preview the questions before starting the survey" />
           <Description>
-            You can <BlueUnderlined>preview the questions</BlueUnderlined> you
-            may be asked in this survey.
+            {`Notice is given under ${
+              legalBasisCode === "NOTICE_FUELS"
+                ? `the ${legalBasisDescription}`
+                : `${legalBasisDescription
+                    ?.charAt(0)
+                    .toLowerCase()}${legalBasisDescription?.slice(1)}`
+            }`}
           </Description>
         </>
       )}

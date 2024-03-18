@@ -65,6 +65,15 @@ const Container = styled.div`
   gap: 0.5em;
 `;
 
+const WarningWrapper = styled.div`
+  .warning-icon {
+    margin-top: -1.1em;
+  }
+  .warning-flex-container {
+    width: 40em;
+  }
+`;
+
 const SectionRow = ({ section: { alias, title, displayName }, onRemove }) => (
   <SectionContainer>
     <SpacedRow>
@@ -113,9 +122,12 @@ const ImportSectionReviewModal = ({
     <Header>
       <Heading> Import content from {questionnaire.title} </Heading>
       <Subheading>
-        <Warning>
-          Question logic, piping and Qcodes will not be imported.
-        </Warning>
+        <WarningWrapper>
+          <Warning>
+            Question logic, piping and Qcodes will not be imported. Any extra
+            spaces in lines of text will be removed.
+          </Warning>
+        </WarningWrapper>
       </Subheading>
     </Header>
     <Content>

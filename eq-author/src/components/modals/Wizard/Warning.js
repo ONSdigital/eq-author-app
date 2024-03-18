@@ -15,12 +15,14 @@ const Flex = styled.div`
 
 /* Show a stylised warning message with black, circular warning icon */
 const Warning = ({ children }) => (
-  <Flex>
-    <StyledWarningIcon />
+  <Flex className="warning-flex-container">
+    <StyledWarningIcon className="warning-icon" />
     <span>{children}</span>
   </Flex>
 );
 
-Warning.propTypes = { children: PropTypes.node };
+Warning.propTypes = {
+  children: PropTypes.node,
+};
 
 export default Warning;
