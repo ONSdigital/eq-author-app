@@ -10,15 +10,15 @@ exports[`Introduction Preview should render 1`] = `
   />
   If the company details or structure have changed contact us on
    
-  <IntroductionPreview__BlueUnderlined>
+  <IntroductionPreview__DummyLink>
     0300 1234 931
-  </IntroductionPreview__BlueUnderlined>
+  </IntroductionPreview__DummyLink>
    
   or email
    
-  <IntroductionPreview__BlueUnderlined>
+  <IntroductionPreview__DummyLink>
     surveys@ons.gov.uk
-  </IntroductionPreview__BlueUnderlined>
+  </IntroductionPreview__DummyLink>
   <IntroductionPreview__Description
     dangerouslySetInnerHTML={
       Object {
@@ -30,7 +30,70 @@ exports[`Introduction Preview should render 1`] = `
   <PageTitle
     title="Your response is legally required"
   />
-  <IntroductionPreview__Description />
+  <IntroductionPreview__Description>
+    Notice is given under section 1 of the Statistics of Trade Act 1947.
+  </IntroductionPreview__Description>
+  <IntroductionPreview__Button>
+    Start survey
+  </IntroductionPreview__Button>
+  <PageTitle
+    missingText="Missing secondary title"
+    title="secondaryTitle"
+  />
+  <IntroductionPreview__Description
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "<p>secondaryDescription</p>",
+      }
+    }
+  />
+  <PageTitle
+    missingText="Missing tertiary title"
+    title="tertiaryTitle"
+  />
+  <IntroductionPreview__Description
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "tertiaryDescription",
+      }
+    }
+  />
+</IntroductionPreview__Container>
+`;
+
+exports[`Introduction Preview should render the word 'the' when legal basis is NOTICE_FUELS 1`] = `
+<IntroductionPreview__Container
+  data-test="introduction-preview-container"
+>
+  <PageTitle
+    missingText="Missing introduction title"
+    title="foo"
+  />
+  If the company details or structure have changed contact us on
+   
+  <IntroductionPreview__DummyLink>
+    0300 1234 931
+  </IntroductionPreview__DummyLink>
+   
+  or email
+   
+  <IntroductionPreview__DummyLink>
+    surveys@ons.gov.uk
+  </IntroductionPreview__DummyLink>
+  <IntroductionPreview__Description
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "<p>bar</p>",
+      }
+    }
+    data-test="description"
+  />
+  <PageTitle
+    title="Your response is legally required"
+  />
+  <IntroductionPreview__Description>
+    Notice is given under the Petroleum Act 1998 and Section 1 of the Statistics of Trade Act 1947.
+  </IntroductionPreview__Description>
   <IntroductionPreview__Button>
     Start survey
   </IntroductionPreview__Button>

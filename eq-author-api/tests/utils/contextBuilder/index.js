@@ -73,7 +73,8 @@ const buildContext = async (questionnaireConfig, userConfig = {}) => {
   const { questionnaire } = ctx;
   ctx.questionnaire.sections = [];
   ctx.comments = comments || {};
-  ctx.questionnaire.supplementaryData = supplementaryData || {};
+  ctx.questionnaire.supplementaryData =
+    supplementaryData === null ? null : supplementaryData || {};
 
   if (Array.isArray(sections)) {
     for (let section of sections) {

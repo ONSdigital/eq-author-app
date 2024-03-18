@@ -74,6 +74,7 @@ const PageTitleInput = ({
     const text = event.clipboardData.getData("text");
     event.persist();
     if (/\s{2,}/g.test(text)) {
+      event.preventDefault();
       setPasteModalInfo({
         show: true,
         text: text,

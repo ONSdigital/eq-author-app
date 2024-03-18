@@ -53,6 +53,7 @@ const migrations = [
   require("./addFieldsToListCollectorFolderContents"),
   require("./addAdditonalContentsToAddItemPage"),
   require("./updateHealthThemeToPandemicMonitoring"),
+  require("./addAllowableDataVersions"),
 ];
 
 const currentVersion = migrations.length;

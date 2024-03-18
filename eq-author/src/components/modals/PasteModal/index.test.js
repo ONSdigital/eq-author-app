@@ -33,14 +33,14 @@ describe("PasteModal", () => {
 
   it("should close modal when cancel button is clicked", () => {
     const { getByTestId } = renderModal();
-    const cancelButton = getByTestId("paste-modal-cancel");
+    const cancelButton = getByTestId("btn-modal-negative");
     fireEvent.click(cancelButton);
     expect(onCancel).toHaveBeenCalledTimes(1);
   });
 
   it("should close modal when confirm button is clicked", () => {
     const { getByTestId } = renderModal();
-    const confirmButton = getByTestId("paste-modal-confirm");
+    const confirmButton = getByTestId("btn-modal-positive");
     fireEvent.click(confirmButton);
     expect(onConfirm).toHaveBeenCalledTimes(1);
   });
@@ -57,7 +57,7 @@ describe("PasteModalEscape", () => {
 
   it("should close modal when escape key is pressed", () => {
     const { getByTestId } = renderModal();
-    fireEvent.keyDown(getByTestId("paste-modal"), {
+    fireEvent.keyDown(getByTestId("modal"), {
       key: Escape,
       code: Escape,
     });

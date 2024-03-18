@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Query } from "react-apollo";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 
 import { useParams } from "react-router-dom";
 import { useMutation } from "@apollo/react-hooks";
@@ -26,11 +27,18 @@ import ReviewSectionsModal from "components/modals/ImportSectionReviewModal";
 import SelectContentModal from "components/modals/ImportContentModal";
 import QuestionPicker from "components/QuestionPicker";
 import SectionPicker from "components/SectionPicker";
+import ExtraSpaceConfirmationModal from "components-themed/Modal";
 
 import {
   ListCollectorQualifierPage,
   ListCollectorConfirmationPage,
 } from "constants/page-types";
+
+const ExtraSpaceModalWrapper = styled.div`
+  .modal-button-container {
+    margin-top: 1em;
+  }
+`;
 
 const ImportingContent = ({
   stopImporting,
@@ -48,6 +56,11 @@ const ImportingContent = ({
   const [reviewingSections, setReviewingSections] = useState(false);
   const [selectingSections, setSelectingSections] = useState(false);
   const [selectingContent, setSelectingContent] = useState(false);
+  const [showQuestionExtraSpaceModal, setShowQuestionExtraSpaceModal] =
+    useState(false);
+  const [showSectionExtraSpaceModal, setShowSectionExtraSpaceModal] =
+    useState(false);
+
   /*
    * Data
    */
@@ -84,6 +97,8 @@ const ImportingContent = ({
     setReviewingSections(false);
     setSelectingSections(false);
     setSelectingContent(false);
+    setShowQuestionExtraSpaceModal(false);
+    setShowSectionExtraSpaceModal(false);
   };
 
   // Selecting a questionnaire
@@ -152,91 +167,146 @@ const ImportingContent = ({
     }
   };
 
-  const onReviewQuestionsSubmit = (selectedQuestions) => {
-    const questionIds = selectedQuestions.map(({ id }) => id);
+  // Checks if inputData contains extra spaces, including all strings, array items and object values
+  const containsExtraSpaces = (inputData) => {
+    // Does not check for extra spaces if inputData is null or undefined
+    if (inputData != null) {
+      // Checks if inputData is a string containing extra spaces
+      if (typeof inputData === "string") {
+        // Removes opening and closing HTML tags from the start and end of the string
+        const inputDataWithoutTags = inputData
+          .replace(/^(<\/?[^>]+>)+/, "")
+          .replace(/(<\/?[^>]+>)+$/, "");
 
-    let input = {
-      questionIds,
-      questionnaireId: questionnaireImportingFrom.id,
-    };
-
-    switch (currentEntityName) {
-      case "section": {
-        input.position = {
-          sectionId: currentEntityId,
-          index: 0,
-        };
-
-        break;
-      }
-      case "folder": {
-        const { id: sectionId } = getSectionByFolderId(
-          sourceQuestionnaire,
-          currentEntityId
-        );
-
-        const { listId, position } = getFolderById(
-          sourceQuestionnaire,
-          currentEntityId
-        );
-
-        input.position = {
-          sectionId,
-        };
-
-        if (targetInsideFolder) {
-          if (listId != null) {
-            input.position.folderId = currentEntityId;
-            input.position.index = 2;
-          } else {
-            input.position.folderId = currentEntityId;
-            input.position.index = 0;
-          }
-        } else {
-          input.position.index = position + 1;
+        // Checks for consecutive, leading and trailing spaces
+        if (
+          /\s{2,}/g.test(inputDataWithoutTags) ||
+          inputDataWithoutTags.trim() !== inputDataWithoutTags
+        ) {
+          return true;
         }
-
-        break;
       }
-      case "page": {
-        const { id: sectionId } = getSectionByPageId(
-          sourceQuestionnaire,
-          currentEntityId
-        );
-
-        input.position = {
-          sectionId,
-        };
-
-        const { id: folderId, position: folderPosition } = getFolderByPageId(
-          sourceQuestionnaire,
-          currentEntityId
-        );
-
-        const { pageType, position: positionOfPreviousPage } = getPageById(
-          sourceQuestionnaire,
-          currentEntityId
-        );
-
-        if (pageType === ListCollectorConfirmationPage) {
-          input.position.index = folderPosition + 1;
-        } else if (pageType === ListCollectorQualifierPage) {
-          input.position.folderId = folderId;
-          input.position.index = positionOfPreviousPage + 2;
-        } else {
-          input.position.folderId = folderId;
-          input.position.index = positionOfPreviousPage + 1;
-        }
-
-        break;
+      // If inputData is an array, recursively calls containsExtraSpaces to return true if any of its items contain extra spaces
+      else if (Array.isArray(inputData)) {
+        return inputData.some((element) => containsExtraSpaces(element));
       }
-      default: {
-        throw new Error("Unknown entity");
+      // If inputData is an object, recursively calls containsExtraSpaces to return true if any of its values contain extra spaces
+      else if (typeof inputData === "object") {
+        return Object.values(inputData).some((value) =>
+          containsExtraSpaces(value)
+        );
+      }
+      // If inputData is a different type, return false as it does not contain extra spaces
+      else {
+        return false;
       }
     }
+  };
 
-    importQuestions({ variables: { input } });
-    onGlobalCancel();
+  const onReviewQuestionsSubmit = (selectedQuestions) => {
+    const questionIds = selectedQuestions.map(({ id }) => id);
+    let questionContainsExtraSpaces = false;
+
+    selectedQuestions.forEach((selectedQuestion) => {
+      if (containsExtraSpaces(selectedQuestion)) {
+        questionContainsExtraSpaces = true;
+      }
+    });
+
+    if (questionContainsExtraSpaces && !showQuestionExtraSpaceModal) {
+      setReviewingQuestions(false);
+      setSelectingQuestions(false);
+      setReviewingSections(false);
+      setSelectingSections(false);
+      setSelectingContent(false);
+      setShowQuestionExtraSpaceModal(true);
+    } else {
+      let input = {
+        questionIds,
+        questionnaireId: questionnaireImportingFrom.id,
+      };
+
+      switch (currentEntityName) {
+        case "section": {
+          input.position = {
+            sectionId: currentEntityId,
+            index: 0,
+          };
+
+          break;
+        }
+        case "folder": {
+          const { id: sectionId } = getSectionByFolderId(
+            sourceQuestionnaire,
+            currentEntityId
+          );
+
+          const { listId, position } = getFolderById(
+            sourceQuestionnaire,
+            currentEntityId
+          );
+
+          input.position = {
+            sectionId,
+          };
+
+          if (targetInsideFolder) {
+            if (listId != null) {
+              input.position.folderId = currentEntityId;
+              input.position.index = 2;
+            } else {
+              input.position.folderId = currentEntityId;
+              input.position.index = 0;
+            }
+          } else {
+            input.position.index = position + 1;
+          }
+
+          break;
+        }
+        case "page": {
+          const { id: sectionId } = getSectionByPageId(
+            sourceQuestionnaire,
+            currentEntityId
+          );
+
+          input.position = {
+            sectionId,
+          };
+
+          const { id: folderId, position: folderPosition } = getFolderByPageId(
+            sourceQuestionnaire,
+            currentEntityId
+          );
+
+          const { pageType, position: positionOfPreviousPage } = getPageById(
+            sourceQuestionnaire,
+            currentEntityId
+          );
+
+          if (pageType === ListCollectorConfirmationPage) {
+            input.position.index = folderPosition + 1;
+          } else if (pageType === ListCollectorQualifierPage) {
+            input.position.folderId = folderId;
+            input.position.index = positionOfPreviousPage + 2;
+          } else {
+            input.position.folderId = folderId;
+            input.position.index = positionOfPreviousPage + 1;
+          }
+
+          break;
+        }
+        default: {
+          throw new Error("Unknown entity");
+        }
+      }
+
+      importQuestions({
+        variables: { input },
+        refetchQueries: ["GetQuestionnaire"],
+      });
+      onGlobalCancel();
+    }
   };
 
   // Selecting sections to import
@@ -279,57 +349,77 @@ const ImportingContent = ({
 
   const onReviewSectionsSubmit = (selectedSections) => {
     const sectionIds = selectedSections.map(({ id }) => id);
+    let sectionContainsExtraSpaces = false;
 
-    let input = {
-      sectionIds,
-      questionnaireId: questionnaireImportingFrom.id,
-    };
-
-    switch (currentEntityName) {
-      case "section": {
-        const { position } = getSectionById(
-          sourceQuestionnaire,
-          currentEntityId
-        );
-
-        input.position = {
-          sectionId: currentEntityId,
-          index: position + 1,
-        };
-
-        break;
+    selectedSections.forEach((selectedSection) => {
+      if (containsExtraSpaces(selectedSection)) {
+        sectionContainsExtraSpaces = true;
       }
-      case "folder": {
-        const { id: sectionId, position: positionOfParentSection } =
-          getSectionByFolderId(sourceQuestionnaire, currentEntityId);
+    });
 
-        input.position = {
-          sectionId,
-        };
+    if (sectionContainsExtraSpaces && !showSectionExtraSpaceModal) {
+      setReviewingQuestions(false);
+      setSelectingQuestions(false);
+      setReviewingSections(false);
+      setSelectingSections(false);
+      setSelectingContent(false);
+      setShowQuestionExtraSpaceModal(false);
+      setShowSectionExtraSpaceModal(true);
+    } else {
+      let input = {
+        sectionIds,
+        questionnaireId: questionnaireImportingFrom.id,
+      };
 
-        input.position.index = positionOfParentSection + 1;
+      switch (currentEntityName) {
+        case "section": {
+          const { position } = getSectionById(
+            sourceQuestionnaire,
+            currentEntityId
+          );
 
-        break;
+          input.position = {
+            sectionId: currentEntityId,
+            index: position + 1,
+          };
+
+          break;
+        }
+        case "folder": {
+          const { id: sectionId, position: positionOfParentSection } =
+            getSectionByFolderId(sourceQuestionnaire, currentEntityId);
+
+          input.position = {
+            sectionId,
+          };
+
+          input.position.index = positionOfParentSection + 1;
+
+          break;
+        }
+        case "page": {
+          const { id: sectionId, position: positionOfParentSection } =
+            getSectionByPageId(sourceQuestionnaire, currentEntityId);
+
+          input.position = {
+            sectionId,
+          };
+
+          input.position.index = positionOfParentSection + 1;
+
+          break;
+        }
+        default: {
+          throw new Error("Unknown entity");
+        }
       }
-      case "page": {
-        const { id: sectionId, position: positionOfParentSection } =
-          getSectionByPageId(sourceQuestionnaire, currentEntityId);
 
-        input.position = {
-          sectionId,
-        };
-
-        input.position.index = positionOfParentSection + 1;
-
-        break;
-      }
-      default: {
-        throw new Error("Unknown entity");
-      }
+      importSections({
+        variables: { input },
+        refetchQueries: ["GetQuestionnaire"],
+      });
+      onGlobalCancel();
     }
-
-    importSections({ variables: { input } });
-    onGlobalCancel();
   };
 
   return (
@@ -367,7 +457,6 @@ const ImportingContent = ({
           isOpen={selectingContent}
           questionnaire={questionnaireImportingFrom}
           onCancel={onGlobalCancel}
-          onConfirm={onReviewQuestionsSubmit}
           onBack={onBackFromReviewingQuestions}
           onSelectQuestions={onSelectQuestions}
           onSelectSections={onSelectSections}
@@ -469,6 +558,46 @@ const ImportingContent = ({
             );
           }}
         </Query>
+      )}
+      {showQuestionExtraSpaceModal && (
+        <ExtraSpaceModalWrapper>
+          <ExtraSpaceConfirmationModal
+            title="Confirm the removal of extra spaces from selected content"
+            warningMessage="By cancelling, the content will not be imported"
+            isOpen={showQuestionExtraSpaceModal}
+            onConfirm={() => onReviewQuestionsSubmit(questionsToImport)}
+            onClose={onGlobalCancel}
+          >
+            <p>
+              The selected content contains extra spaces at the start of lines
+              of text, between words, or at the end of lines of text.
+            </p>
+            <p>
+              Extra spaces need to be removed before this content can be
+              imported.
+            </p>
+          </ExtraSpaceConfirmationModal>
+        </ExtraSpaceModalWrapper>
+      )}
+      {showSectionExtraSpaceModal && (
+        <ExtraSpaceModalWrapper>
+          <ExtraSpaceConfirmationModal
+            title="Confirm the removal of extra spaces from selected content"
+            warningMessage="By cancelling, the content will not be imported"
+            isOpen={showSectionExtraSpaceModal}
+            onConfirm={() => onReviewSectionsSubmit(sectionsToImport)}
+            onClose={onGlobalCancel}
+          >
+            <p>
+              The selected content contains extra spaces at the start of lines
+              of text, between words, or at the end of lines of text.
+            </p>
+            <p>
+              Extra spaces need to be removed before this content can be
+              imported.
+            </p>
+          </ExtraSpaceConfirmationModal>
+        </ExtraSpaceModalWrapper>
       )}
     </>
   );

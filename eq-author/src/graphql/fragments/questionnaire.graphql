@@ -15,6 +15,8 @@ fragment Questionnaire on Questionnaire {
   type
   shortTitle
   displayName
+  dataVersion
+  allowableDataVersions
   introduction {
     id
     showOnHub

@@ -11,6 +11,8 @@ import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
 import updateQuestionnaireIntroductionMutation from "graphql/updateQuestionnaireIntroduction.graphql";
 
 import ThemeSelect from "./ThemeSelect";
+import LegalBasisSelect from "./LegalBasisSelect";
+import DataVersionSelect from "./DataVersionSelect";
 
 import { Grid, Column } from "components/Grid";
 import Header from "components/EditorLayout/Header";
@@ -23,7 +25,6 @@ import {
   FORM_TYPE_ERRORS,
   EQ_ID_ERRORS,
 } from "constants/validationMessages";
-import LegalBasisSelect from "./LegalBasisSelect";
 
 import { reduceMultipleSpaces } from "utils/reduceMultipleSpaces";
 
@@ -110,6 +111,8 @@ const SettingsPage = ({ questionnaire }) => {
     formType: initialFormType,
     theme,
     legalBasis,
+    dataVersion,
+    allowableDataVersions,
   } = questionnaire;
 
   const showOnHub = introduction?.showOnHub;
@@ -395,6 +398,13 @@ const SettingsPage = ({ questionnaire }) => {
                       <LegalBasisSelect
                         questionnaireId={questionnaireId}
                         selectedLegalBasis={legalBasis}
+                      />
+                    </Field>
+                    <Field>
+                      <DataVersionSelect
+                        questionnaireId={questionnaireId}
+                        selectedDataVersion={dataVersion}
+                        allowableDataVersions={allowableDataVersions}
                       />
                     </Field>
                   </StyledPanel>
