@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useMemo } from "react";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
-import { getPages } from "utils/questionnaireUtils";
+import { getPages, getPageByAnswerId } from "utils/questionnaireUtils";
 
 import {
   RADIO_OPTION,
@@ -12,6 +12,7 @@ import {
   ANSWER_OPTION_TYPES,
   SELECT,
   SELECT_OPTION,
+  MUTUALLY_EXCLUSIVE_OPTION,
 } from "constants/answer-types";
 
 import {
@@ -205,7 +206,7 @@ const getEmptyQCodes = (answerRows, dataVersion) => {
 
 // getDuplicatedOptionValues :: [AnswerRow] -> [Value]
 // Return an array of Values which are duplicated within an answer in the given list of answer rows
-export const getDuplicatedOptionValues = (flattenedAnswers) => {
+export const getDuplicatedOptionValues = (flattenedAnswers, questionnaire) => {
   // acc - accumulator
   let currentQuestionId = "";
   let idValue = "";
@@ -214,9 +215,20 @@ export const getDuplicatedOptionValues = (flattenedAnswers) => {
       if ([RADIO, CHECKBOX, SELECT].includes(type)) {
         currentQuestionId = id;
       }
+
+      if ([MUTUALLY_EXCLUSIVE].includes(type)) {
+        const page = getPageByAnswerId(questionnaire, id);
+        currentQuestionId = page.answers[0]?.id;
+      }
+
       if (
         value &&
-        [CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type)
+        [
+          CHECKBOX_OPTION,
+          RADIO_OPTION,
+          SELECT_OPTION,
+          MUTUALLY_EXCLUSIVE_OPTION,
+        ].includes(type)
       ) {
         idValue = currentQuestionId.concat(value);
         const currentValue = acc.get(idValue);
@@ -259,8 +271,8 @@ export const QCodeContextProvider = ({ questionnaire = {}, children }) => {
     getEmptyOptionValues(answerRows);
 
   const duplicatedOptionValues = useMemo(
-    () => getDuplicatedOptionValues(answerRows) ?? [],
-    [answerRows]
+    () => getDuplicatedOptionValues(answerRows, questionnaire) ?? [],
+    [answerRows, questionnaire]
   );
 
   const hasOptionValueError =
