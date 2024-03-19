@@ -217,7 +217,6 @@ describe("Qcode Table", () => {
       "Answer Type",
       "Answer label",
       "Q code for answer type",
-      "Value for checkbox, radio and select answer labels",
     ];
     fieldHeadings.forEach((heading) => expect(getByText(heading)).toBeTruthy());
   });
