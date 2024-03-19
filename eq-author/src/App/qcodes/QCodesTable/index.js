@@ -204,7 +204,12 @@ const Row = memo((props) => {
       <SpacedTableColumn>{TYPE_TO_DESCRIPTION[type]}</SpacedTableColumn>
       <SpacedTableColumn>{stripHtmlToText(label)}</SpacedTableColumn>
       {dataVersion === "3" ? (
-        [CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type) ? (
+        [
+          CHECKBOX_OPTION,
+          RADIO_OPTION,
+          SELECT_OPTION,
+          MUTUALLY_EXCLUSIVE_OPTION,
+        ].includes(type) ? (
           <EmptyTableColumn />
         ) : (
           <SpacedTableColumn>
@@ -224,7 +229,12 @@ const Row = memo((props) => {
             )}
           </SpacedTableColumn>
         )
-      ) : [CHECKBOX, RADIO_OPTION, SELECT_OPTION].includes(type) ? (
+      ) : [
+          CHECKBOX,
+          RADIO_OPTION,
+          SELECT_OPTION,
+          MUTUALLY_EXCLUSIVE_OPTION,
+        ].includes(type) ? (
         <EmptyTableColumn />
       ) : (
         <SpacedTableColumn>
@@ -242,8 +252,12 @@ const Row = memo((props) => {
           )}
         </SpacedTableColumn>
       )}
-      {[CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type) &&
-      !hideOptionValue ? (
+      {[
+        CHECKBOX_OPTION,
+        RADIO_OPTION,
+        SELECT_OPTION,
+        MUTUALLY_EXCLUSIVE_OPTION,
+      ].includes(type) && !hideOptionValue ? (
         <SpacedTableColumn>
           <ErrorWrappedInput
             name={`${id}-optionValue-entry`}
