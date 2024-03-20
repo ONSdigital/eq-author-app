@@ -190,7 +190,12 @@ const getEmptyQCodes = (answerRows, dataVersion) => {
     return answerRows?.find(
       ({ qCode, drivingQCode, anotherQCode, type }) =>
         !(qCode || drivingQCode || anotherQCode) &&
-        ![CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type)
+        ![
+          CHECKBOX_OPTION,
+          RADIO_OPTION,
+          SELECT_OPTION,
+          MUTUALLY_EXCLUSIVE_OPTION,
+        ].includes(type)
     );
   }
   // If dataVersion is not 3, checkbox answers and radio options do not have QCodes, and therefore these can be empty
@@ -199,7 +204,13 @@ const getEmptyQCodes = (answerRows, dataVersion) => {
     return answerRows?.find(
       ({ qCode, type }) =>
         !qCode &&
-        ![CHECKBOX, CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type)
+        ![
+          CHECKBOX,
+          CHECKBOX_OPTION,
+          RADIO_OPTION,
+          SELECT_OPTION,
+          MUTUALLY_EXCLUSIVE_OPTION,
+        ].includes(type)
     );
   }
 };
@@ -265,15 +276,16 @@ export const QCodeContextProvider = ({ questionnaire = {}, children }) => {
     [answerRows, questionnaire]
   );
 
-  const hasQCodeError =
-    duplicatedQCodes?.length ||
-    getEmptyQCodes(answerRows, questionnaire.dataVersion) ||
-    getEmptyOptionValues(answerRows);
-
   const duplicatedOptionValues = useMemo(
     () => getDuplicatedOptionValues(answerRows, questionnaire) ?? [],
     [answerRows, questionnaire]
   );
+
+  const hasQCodeError =
+    duplicatedQCodes?.length ||
+    duplicatedOptionValues?.length ||
+    getEmptyQCodes(answerRows, questionnaire.dataVersion) ||
+    getEmptyOptionValues(answerRows);
 
   const hasOptionValueError =
     duplicatedOptionValues?.length || getEmptyOptionValues(answerRows);
