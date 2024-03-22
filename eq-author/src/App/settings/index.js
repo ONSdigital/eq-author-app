@@ -16,6 +16,7 @@ export default [
         variables={{
           input: { questionnaireId: props.match.params.questionnaireId },
         }}
+        fetchPolicy="cache-and-network"
       >
         {({ loading, error, data }) => {
           if (loading) {

@@ -59,16 +59,19 @@ mutation ImportSections($input: ImportSectionsInput!) {
           title
           alias
           pageType
+          pageDescription
           displayName
           position
+          totalTitle
+          type
+          answers {
+            ...Answer
+            ... on BasicAnswer {
+              secondaryQCode
+            }
+          }
           summaryAnswers {
             id
-            displayName
-            description
-            guidance
-            label
-            secondaryLabel
-            secondaryLabelDefault
           }
           comments {
             ...Comment

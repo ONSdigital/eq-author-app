@@ -20,6 +20,7 @@ const { createQuestionPage } = require("./questionPage");
 const deleteFirstPageSkipConditions = require("../../../src/businessLogic/deleteFirstPageSkipConditions");
 const deleteLastPageRouting = require("../../../src/businessLogic/deleteLastPageRouting");
 const onFolderDeleted = require("../../../src/businessLogic/onFolderDeleted");
+const { setDataVersion } = require("../utils/setDataVersion");
 
 const Resolvers = {};
 
@@ -86,6 +87,7 @@ Resolvers.Mutation = {
 
     deleteFirstPageSkipConditions(ctx);
     deleteLastPageRouting(ctx);
+    setDataVersion(ctx);
 
     return section;
   }),
