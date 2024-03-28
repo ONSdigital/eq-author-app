@@ -163,7 +163,7 @@ const optionsSetup = (dataVersion) => {
           description: null,
           label: "OR1",
           additionalAnswer: null,
-          id: "9d6d013d-64c0-4757-b8e3-f991e2dcfb92",
+          id: "or1",
           value: "m1-value",
         },
         {
@@ -171,7 +171,7 @@ const optionsSetup = (dataVersion) => {
           description: null,
           label: "OR2",
           additionalAnswer: null,
-          id: "4b362d2e-1ec0-4cb2-b90d-572be5133ab2",
+          id: "or2",
           value: "m1-value",
         },
       ],
