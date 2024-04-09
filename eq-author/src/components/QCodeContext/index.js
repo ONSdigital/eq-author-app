@@ -259,7 +259,12 @@ const getEmptyOptionValues = (answerRows) => {
   return answerRows?.find(
     ({ value, type, hideOptionValue }) =>
       !value &&
-      [CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type) &&
+      [
+        CHECKBOX_OPTION,
+        RADIO_OPTION,
+        SELECT_OPTION,
+        MUTUALLY_EXCLUSIVE_OPTION,
+      ].includes(type) &&
       !hideOptionValue
   );
 };
