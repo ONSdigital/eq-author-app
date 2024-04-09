@@ -51,6 +51,12 @@ import {
   VALUE_REQUIRED,
 } from "constants/validationMessages";
 
+import {
+  getPageByAnswerId,
+  getAnswerByOptionId,
+} from "utils/questionnaireUtils";
+import { useQuestionnaire } from "components/QuestionnaireContext";
+
 const SpacedTableColumn = styled(TableColumn)`
   padding: 0.5em 0.5em 0.2em;
   color: ${colors.text};
@@ -204,7 +210,12 @@ const Row = memo((props) => {
       <SpacedTableColumn>{TYPE_TO_DESCRIPTION[type]}</SpacedTableColumn>
       <SpacedTableColumn>{stripHtmlToText(label)}</SpacedTableColumn>
       {dataVersion === "3" ? (
-        [CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type) ? (
+        [
+          CHECKBOX_OPTION,
+          RADIO_OPTION,
+          SELECT_OPTION,
+          MUTUALLY_EXCLUSIVE_OPTION,
+        ].includes(type) ? (
           <EmptyTableColumn />
         ) : (
           <SpacedTableColumn>
@@ -224,7 +235,12 @@ const Row = memo((props) => {
             )}
           </SpacedTableColumn>
         )
-      ) : [CHECKBOX, RADIO_OPTION, SELECT_OPTION].includes(type) ? (
+      ) : [
+          CHECKBOX,
+          RADIO_OPTION,
+          SELECT_OPTION,
+          MUTUALLY_EXCLUSIVE_OPTION,
+        ].includes(type) ? (
         <EmptyTableColumn />
       ) : (
         <SpacedTableColumn>
@@ -242,7 +258,13 @@ const Row = memo((props) => {
           )}
         </SpacedTableColumn>
       )}
-      {[CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type) &&
+      {dataVersion === "3" &&
+      [
+        CHECKBOX_OPTION,
+        RADIO_OPTION,
+        SELECT_OPTION,
+        MUTUALLY_EXCLUSIVE_OPTION,
+      ].includes(type) &&
       !hideOptionValue ? (
         <SpacedTableColumn>
           <ErrorWrappedInput
@@ -286,6 +308,7 @@ Row.propTypes = {
 };
 
 export const QCodeTable = () => {
+  const { questionnaire } = useQuestionnaire();
   const { answerRows, duplicatedQCodes, dataVersion, duplicatedOptionValues } =
     useQCodeContext();
   const getErrorMessage = (qCode) =>
@@ -301,27 +324,56 @@ export const QCodeTable = () => {
   return (
     <Table data-test="qcodes-table">
       <TableHead>
-        <TableRow>
-          <TableHeadColumn width="10%">Short code</TableHeadColumn>
-          <TableHeadColumn width="15%">Question</TableHeadColumn>
-          <TableHeadColumn width="20%">Answer Type</TableHeadColumn>
-          <TableHeadColumn width="15%">Answer label</TableHeadColumn>
-          <TableHeadColumn width="20%">Q code for answer type</TableHeadColumn>
-          <TableHeadColumn width="20%">
-            Value for checkbox, radio and select answer labels
-          </TableHeadColumn>
-        </TableRow>
+        {dataVersion === "3" ? (
+          <TableRow>
+            <TableHeadColumn width="10%">Short code</TableHeadColumn>
+            <TableHeadColumn width="15%">Question</TableHeadColumn>
+            <TableHeadColumn width="20%">Answer Type</TableHeadColumn>
+            <TableHeadColumn width="15%">Answer label</TableHeadColumn>
+            <TableHeadColumn width="20%">
+              Q code for answer type
+            </TableHeadColumn>
+            <TableHeadColumn width="20%">
+              Value for checkbox, radio and select answer labels
+            </TableHeadColumn>
+          </TableRow>
+        ) : (
+          <TableRow>
+            <TableHeadColumn width="10%">Short code</TableHeadColumn>
+            <TableHeadColumn width="20%">Question</TableHeadColumn>
+            <TableHeadColumn width="25%">Answer Type</TableHeadColumn>
+            <TableHeadColumn width="20%">Answer label</TableHeadColumn>
+            <TableHeadColumn width="25%">
+              Q code for answer type
+            </TableHeadColumn>
+          </TableRow>
+        )}
       </TableHead>
       <StyledTableBody>
         {answerRows?.map((item, index) => {
           if (
-            ![CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(item.type)
+            ![
+              CHECKBOX_OPTION,
+              RADIO_OPTION,
+              SELECT_OPTION,
+              MUTUALLY_EXCLUSIVE_OPTION,
+            ].includes(item.type)
           ) {
             currentQuestionId = item.id ? item.id : "";
           }
+          if ([MUTUALLY_EXCLUSIVE_OPTION].includes(item.type)) {
+            const answer = getAnswerByOptionId(questionnaire, item.id);
+            const page = getPageByAnswerId(questionnaire, answer.id);
+            currentQuestionId = page.answers[0]?.id;
+          }
           if (
             item.value &&
-            [CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(item.type)
+            [
+              CHECKBOX_OPTION,
+              RADIO_OPTION,
+              SELECT_OPTION,
+              MUTUALLY_EXCLUSIVE_OPTION,
+            ].includes(item.type)
           ) {
             idValue = currentQuestionId.concat(item.value);
           }

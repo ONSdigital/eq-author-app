@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useMemo } from "react";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
-import { getPages } from "utils/questionnaireUtils";
+import { getPages, getPageByAnswerId } from "utils/questionnaireUtils";
 
 import {
   RADIO_OPTION,
@@ -12,6 +12,7 @@ import {
   ANSWER_OPTION_TYPES,
   SELECT,
   SELECT_OPTION,
+  MUTUALLY_EXCLUSIVE_OPTION,
 } from "constants/answer-types";
 
 import {
@@ -39,11 +40,14 @@ export const flattenAnswer = (answer) =>
           option: true,
         }
     ) ?? []),
-    answer.mutuallyExclusiveOption && {
-      ...answer.mutuallyExclusiveOption,
-      type: "MutuallyExclusiveOption",
-      option: true,
-    },
+    ...(answer.options?.map(
+      (option) =>
+        answer.type === MUTUALLY_EXCLUSIVE && {
+          ...option,
+          type: "MutuallyExclusiveOption",
+          option: true,
+        }
+    ) ?? []),
     answer.secondaryLabel && {
       ...answer,
       label: answer.secondaryLabel,
@@ -186,7 +190,12 @@ const getEmptyQCodes = (answerRows, dataVersion) => {
     return answerRows?.find(
       ({ qCode, drivingQCode, anotherQCode, type }) =>
         !(qCode || drivingQCode || anotherQCode) &&
-        ![CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type)
+        ![
+          CHECKBOX_OPTION,
+          RADIO_OPTION,
+          SELECT_OPTION,
+          MUTUALLY_EXCLUSIVE_OPTION,
+        ].includes(type)
     );
   }
   // If dataVersion is not 3, checkbox answers and radio options do not have QCodes, and therefore these can be empty
@@ -195,14 +204,19 @@ const getEmptyQCodes = (answerRows, dataVersion) => {
     return answerRows?.find(
       ({ qCode, type }) =>
         !qCode &&
-        ![CHECKBOX, CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type)
+        ![
+          CHECKBOX,
+          RADIO_OPTION,
+          SELECT_OPTION,
+          MUTUALLY_EXCLUSIVE_OPTION,
+        ].includes(type)
     );
   }
 };
 
 // getDuplicatedOptionValues :: [AnswerRow] -> [Value]
 // Return an array of Values which are duplicated within an answer in the given list of answer rows
-export const getDuplicatedOptionValues = (flattenedAnswers) => {
+export const getDuplicatedOptionValues = (flattenedAnswers, questionnaire) => {
   // acc - accumulator
   let currentQuestionId = "";
   let idValue = "";
@@ -211,9 +225,20 @@ export const getDuplicatedOptionValues = (flattenedAnswers) => {
       if ([RADIO, CHECKBOX, SELECT].includes(type)) {
         currentQuestionId = id;
       }
+
+      if ([MUTUALLY_EXCLUSIVE].includes(type)) {
+        const page = getPageByAnswerId(questionnaire, id);
+        currentQuestionId = page.answers[0]?.id;
+      }
+
       if (
         value &&
-        [CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type)
+        [
+          CHECKBOX_OPTION,
+          RADIO_OPTION,
+          SELECT_OPTION,
+          MUTUALLY_EXCLUSIVE_OPTION,
+        ].includes(type)
       ) {
         idValue = currentQuestionId.concat(value);
         const currentValue = acc.get(idValue);
@@ -234,7 +259,12 @@ const getEmptyOptionValues = (answerRows) => {
   return answerRows?.find(
     ({ value, type, hideOptionValue }) =>
       !value &&
-      [CHECKBOX_OPTION, RADIO_OPTION, SELECT_OPTION].includes(type) &&
+      [
+        CHECKBOX_OPTION,
+        RADIO_OPTION,
+        SELECT_OPTION,
+        MUTUALLY_EXCLUSIVE_OPTION,
+      ].includes(type) &&
       !hideOptionValue
   );
 };
@@ -250,15 +280,16 @@ export const QCodeContextProvider = ({ questionnaire = {}, children }) => {
     [answerRows, questionnaire]
   );
 
+  const duplicatedOptionValues = useMemo(
+    () => getDuplicatedOptionValues(answerRows, questionnaire) ?? [],
+    [answerRows, questionnaire]
+  );
+
   const hasQCodeError =
     duplicatedQCodes?.length ||
     getEmptyQCodes(answerRows, questionnaire.dataVersion) ||
-    getEmptyOptionValues(answerRows);
-
-  const duplicatedOptionValues = useMemo(
-    () => getDuplicatedOptionValues(answerRows) ?? [],
-    [answerRows]
-  );
+    (questionnaire.dataVersion === "3" && duplicatedOptionValues?.length) ||
+    (questionnaire.dataVersion === "3" && getEmptyOptionValues(answerRows));
 
   const hasOptionValueError =
     duplicatedOptionValues?.length || getEmptyOptionValues(answerRows);

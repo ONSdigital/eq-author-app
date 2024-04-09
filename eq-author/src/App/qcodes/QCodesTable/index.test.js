@@ -105,7 +105,7 @@ const textSetup = () => {
 };
 
 const optionsSetup = (dataVersion) => {
-  const questionnaire = buildQuestionnaire({ answerCount: 2 });
+  const questionnaire = buildQuestionnaire({ answerCount: 3 });
   Object.assign(questionnaire.sections[0].folders[0].pages[0], {
     alias: "multiple-choice-answer-types-alias",
     title: "<p>Multiple choice answer types</p>",
@@ -147,13 +147,35 @@ const optionsSetup = (dataVersion) => {
           value: "option-2",
         },
       ],
-      mutuallyExclusiveOption: {
-        id: "checkbox-option-3-id",
-        label: "Mutually-exclusive-option-label",
-        mutuallyExclusive: true,
-        qCode: "mutually-exclusive-option",
-        value: "mutually-exclusive-option",
-      },
+    })
+  );
+
+  Object.assign(
+    questionnaire.sections[0].folders[0].pages[0].answers[2],
+    (questionnaire.dataVersion = dataVersion),
+    generateAnswer({
+      qCode: "mutually-exclusive-1",
+      label: "mutually-exclusive-1-label",
+      type: "MutuallyExclusive",
+      options: [
+        {
+          qCode: "",
+          description: null,
+          label: "OR1",
+          additionalAnswer: null,
+          id: "or1",
+          value: "m1-value",
+        },
+        {
+          qCode: "",
+          description: null,
+          label: "OR2",
+          additionalAnswer: null,
+          id: "or2",
+          value: "m1-value",
+        },
+      ],
+      id: "mutually-exclusive-option-id",
     })
   );
 
@@ -195,7 +217,6 @@ describe("Qcode Table", () => {
       "Answer Type",
       "Answer label",
       "Q code for answer type",
-      "Value for checkbox, radio and select answer labels",
     ];
     fieldHeadings.forEach((heading) => expect(getByText(heading)).toBeTruthy());
   });
@@ -605,15 +626,15 @@ describe("Qcode Table", () => {
         describe("options", () => {
           it("should display type", () => {
             expect(utils.getAllByText(/Checkbox option/)).toHaveLength(2);
-            expect(utils.getByText(/Mutually exclusive/)).toBeVisible();
+            expect(
+              utils.getAllByText(/Mutually exclusive option/)
+            ).toHaveLength(2);
           });
 
           it("should display answer label", () => {
             expect(utils.getByText(/checkbox-option-1-label/)).toBeVisible();
             expect(utils.getByText(/checkbox-option-2-label/)).toBeVisible();
-            expect(
-              utils.getByText(/Mutually-exclusive-option-label/)
-            ).toBeVisible();
+            expect(utils.getByText(/mutually-exclusive-1-label/)).toBeVisible();
           });
 
           it("should display answer qCode", () => {
@@ -624,8 +645,8 @@ describe("Qcode Table", () => {
               utils.getByTestId("checkbox-option-2-id-test-input").value
             ).toEqual("option-2");
             expect(
-              utils.getByTestId("checkbox-option-3-id-test-input").value
-            ).toEqual("mutually-exclusive-option");
+              utils.getByTestId("mutually-exclusive-option-id-test-input").value
+            ).toEqual("mutually-exclusive-1");
           });
 
           it("should save qCode for option", () => {
@@ -647,17 +668,26 @@ describe("Qcode Table", () => {
 
           it("should save qCode for mutually exclusive option", () => {
             fireEvent.change(
-              utils.getByTestId("checkbox-option-3-id-test-input"),
+              utils.getByTestId("mutually-exclusive-option-id-test-input"),
               {
                 target: { value: "187" },
               }
             );
+            fireEvent.change(
+              utils.getByTestId("mutually-exclusive-option-id-test-input"),
+              {
+                target: { value: "mutually-exclusive-new-1" },
+              }
+            );
             fireEvent.blur(
-              utils.getByTestId("checkbox-option-3-id-test-input")
+              utils.getByTestId("mutually-exclusive-option-id-test-input")
             );
             expect(mock).toHaveBeenCalledWith({
               variables: {
-                input: { id: "checkbox-option-3-id", qCode: "187" },
+                input: {
+                  id: "mutually-exclusive-option-id",
+                  qCode: "mutually-exclusive-new-1",
+                },
               },
             });
           });
@@ -688,8 +718,8 @@ describe("Qcode Table", () => {
         ).toBeInTheDocument();
 
         expect(
-          utils.getByTestId("checkbox-option-3-id-test-input").value
-        ).toEqual("mutually-exclusive-option");
+          utils.getByTestId("mutually-exclusive-option-id-test-input").value
+        ).toEqual("mutually-exclusive-1");
       });
 
       it("should save qCode for checkbox answer", () => {
