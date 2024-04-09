@@ -160,7 +160,7 @@ exports[`components/RichTextEditor should allow multiline input 1`] = `
           blockStyleFn={[Function]}
           customStyleMap={
             Object {
-              "ITALIC": Object {
+              "HIGHLIGHT": Object {
                 "backgroundColor": "#cbe2c8",
               },
             }
@@ -497,7 +497,7 @@ exports[`components/RichTextEditor should render 1`] = `
           blockStyleFn={[Function]}
           customStyleMap={
             Object {
-              "ITALIC": Object {
+              "HIGHLIGHT": Object {
                 "backgroundColor": "#cbe2c8",
               },
             }
@@ -892,7 +892,7 @@ exports[`components/RichTextEditor should render existing content 1`] = `
           blockStyleFn={[Function]}
           customStyleMap={
             Object {
-              "ITALIC": Object {
+              "HIGHLIGHT": Object {
                 "backgroundColor": "#cbe2c8",
               },
             }
@@ -1279,7 +1279,7 @@ exports[`components/RichTextEditor should show as disabled and readonly when dis
           blockStyleFn={[Function]}
           customStyleMap={
             Object {
-              "ITALIC": Object {
+              "HIGHLIGHT": Object {
                 "backgroundColor": "#cbe2c8",
               },
             }
