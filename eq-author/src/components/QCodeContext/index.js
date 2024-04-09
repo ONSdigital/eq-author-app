@@ -206,7 +206,6 @@ const getEmptyQCodes = (answerRows, dataVersion) => {
         !qCode &&
         ![
           CHECKBOX,
-          CHECKBOX_OPTION,
           RADIO_OPTION,
           SELECT_OPTION,
           MUTUALLY_EXCLUSIVE_OPTION,
