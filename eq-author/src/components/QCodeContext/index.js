@@ -283,9 +283,9 @@ export const QCodeContextProvider = ({ questionnaire = {}, children }) => {
 
   const hasQCodeError =
     duplicatedQCodes?.length ||
-    duplicatedOptionValues?.length ||
     getEmptyQCodes(answerRows, questionnaire.dataVersion) ||
-    getEmptyOptionValues(answerRows);
+    (questionnaire.dataVersion === "3" && duplicatedOptionValues?.length) ||
+    (questionnaire.dataVersion === "3" && getEmptyOptionValues(answerRows));
 
   const hasOptionValueError =
     duplicatedOptionValues?.length || getEmptyOptionValues(answerRows);
