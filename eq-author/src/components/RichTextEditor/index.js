@@ -32,7 +32,7 @@ import PasteModal, {
 } from "components/modals/PasteModal";
 
 const styleMap = {
-  ITALIC: {
+  HIGHLIGHT: {
     backgroundColor: "#cbe2c8",
   },
 };

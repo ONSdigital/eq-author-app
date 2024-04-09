@@ -1,3 +1,4 @@
+import React from "react";
 import { convertToHTML, convertFromHTML } from "draft-convert";
 
 export const toHTML = (entityMap) => {
@@ -6,7 +7,18 @@ export const toHTML = (entityMap) => {
     return mapper ? mapper(entity) : originalText;
   };
 
-  const convert = convertToHTML({ entityToHTML });
+  // Adds strong tags with class names to text based on the text's style
+  const styleToHTML = (style) => {
+    if (style === "BOLD") {
+      return <strong className="bold" />;
+    }
+
+    if (style === "HIGHLIGHT") {
+      return <strong className="highlight" />;
+    }
+  };
+
+  const convert = convertToHTML({ styleToHTML, entityToHTML });
 
   return (editorState) => convert(editorState.getCurrentContent());
 };
@@ -21,5 +33,16 @@ export const fromHTML = (nodeToFn) => {
     return entity || null;
   };
 
-  return convertFromHTML({ htmlToEntity });
+  // Applies specific styles based on tags and class names - buttons in the toolbar are activated based on these styles
+  const htmlToStyle = (nodeName, node, currentStyle) => {
+    if (nodeName === "strong" && node.className === "highlight") {
+      return currentStyle.add("HIGHLIGHT").remove("BOLD");
+    }
+    if (nodeName === "strong" && node.className === "bold") {
+      return currentStyle.add("BOLD");
+    }
+    return currentStyle;
+  };
+
+  return convertFromHTML({ htmlToStyle, htmlToEntity });
 };
