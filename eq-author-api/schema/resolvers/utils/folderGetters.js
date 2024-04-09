@@ -10,9 +10,17 @@ const getFolderById = (ctx, id) => find(getFolders(ctx), { id });
 const getFolderByPageId = (ctx, id) =>
   find(getFolders(ctx), ({ pages }) => pages && some(pages, { id }));
 
+const getFolderByAnswerId = (ctx, id) =>
+  find(
+    getFolders(ctx),
+    ({ pages }) =>
+      pages && some(pages, ({ answers }) => answers && some(answers, { id }))
+  );
+
 module.exports = {
   getFolders,
   getFoldersBySectionId,
   getFolderById,
   getFolderByPageId,
+  getFolderByAnswerId,
 };

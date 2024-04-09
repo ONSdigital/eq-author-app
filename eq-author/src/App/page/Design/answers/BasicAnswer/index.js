@@ -124,7 +124,12 @@ export const StatelessBasicAnswer = ({
           controls={pipingControls}
           size="large"
           allowableTypes={[ANSWER, METADATA]}
-          listId={answer.repeatingLabelAndInputListId ?? null}
+          listId={
+            (answer.repeatingLabelAndInputListId ||
+              page.section?.repeatingSectionListId ||
+              page.folder?.listId) ??
+            null
+          }
           hasLabelErrors={hasLabelErrors(answer.validationErrorInfo?.errors)}
           autoFocus={!answer.label}
         />
