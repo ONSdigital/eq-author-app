@@ -5,7 +5,7 @@ import { filterConfig as linkFilterConfig } from "components/RichTextEditor/Link
 
 const mapper = {
   bold: { id: "bold", format: "BOLD", type: "styles" },
-  emphasis: { id: "emphasis", format: "BOLD", type: "styles" },
+  highlight: { id: "highlight", format: "BOLD", type: "styles" },
   list: { id: "list", format: "unordered-list-item", type: "blocks" },
   heading: { id: "heading", format: "header-two", type: "blocks" },
 };

@@ -31,11 +31,11 @@ import PasteModal, {
   preserveRichFormatting,
 } from "components/modals/PasteModal";
 
-const styleMap = (usesHighlightStyle) => {
+const styleMap = (controls) => {
   return {
     BOLD: {
-      backgroundColor: usesHighlightStyle && "#cbe2c8",
-      fontWeight: !usesHighlightStyle && "bold",
+      backgroundColor: controls.highlight && "#cbe2c8",
+      fontWeight: controls.bold && "bold",
     },
   };
 };
@@ -161,7 +161,7 @@ class RichTextEditor extends React.Component {
       piping: PropTypes.bool,
       link: PropTypes.bool,
       bold: PropTypes.bool,
-      emphasis: PropTypes.bool,
+      highlight: PropTypes.bool,
       list: PropTypes.bool,
       heading: PropTypes.bool,
     }),
@@ -181,7 +181,6 @@ class RichTextEditor extends React.Component {
     linkLimit: PropTypes.number,
     withoutMargin: PropTypes.bool,
     isRepeatingSection: PropTypes.bool,
-    usesHighlightStyle: PropTypes.bool,
     allCalculatedSummaryPages: PropTypes.array, //eslint-disable-line
   };
 
@@ -377,12 +376,12 @@ class RichTextEditor extends React.Component {
 
   isActiveControl = ({ id, style, type }) => {
     const { editorState } = this.state;
-    const { usesHighlightStyle } = this.props;
+    const { controls } = this.props;
 
-    // Displays bold button as inactive when highlight style is used, and emphasis button as inactive when highlight style is not used
+    // Displays bold and highlight buttons as inactive when the control is not enabled
     if (
-      (usesHighlightStyle && id === "bold") ||
-      (!usesHighlightStyle && id === "emphasis")
+      (id === "bold" && !controls.bold) ||
+      (id === "highlight" && !controls.highlight)
     ) {
       return false;
     }
@@ -498,7 +497,6 @@ class RichTextEditor extends React.Component {
       withoutMargin,
       allCalculatedSummaryPages,
       isRepeatingSection,
-      usesHighlightStyle, // Uses highlight style instead of bold for strong tags when true
       ...otherProps
     } = this.props;
 
@@ -544,7 +542,6 @@ class RichTextEditor extends React.Component {
                 linkLimit={linkLimit}
                 allCalculatedSummaryPages={allCalculatedSummaryPages}
                 isRepeatingSection={isRepeatingSection}
-                usesHighlightStyle={usesHighlightStyle}
                 {...otherProps}
               />
 
@@ -554,7 +551,7 @@ class RichTextEditor extends React.Component {
                 editorState={editorState}
                 onChange={this.handleChange}
                 ref={this.setEditorInstance}
-                customStyleMap={styleMap(usesHighlightStyle)}
+                customStyleMap={styleMap(this.props.controls)}
                 blockStyleFn={getBlockStyle}
                 handleReturn={multiline ? undefined : this.handleReturn}
                 handlePastedText={
