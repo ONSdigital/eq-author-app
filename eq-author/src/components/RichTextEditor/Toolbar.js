@@ -31,11 +31,11 @@ export const styleButtons = [
     style: "BOLD",
   },
   {
-    id: "highlight",
+    id: "emphasis",
     title: "Highlight",
     icon: iconEmphasis,
     type: STYLE_INLINE,
-    style: "HIGHLIGHT",
+    style: "BOLD",
   },
 ];
 

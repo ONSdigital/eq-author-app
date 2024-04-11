@@ -56,6 +56,7 @@ export class StatelessMetaEditor extends React.Component {
           listId={
             (page.section?.repeatingSectionListId || page.folder.listId) ?? null
           }
+          usesHighlightStyle
           errorValidationMsg={this.errorMsg("title")}
         />
       </div>

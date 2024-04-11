@@ -31,10 +31,13 @@ import PasteModal, {
   preserveRichFormatting,
 } from "components/modals/PasteModal";
 
-const styleMap = {
-  HIGHLIGHT: {
-    backgroundColor: "#cbe2c8",
-  },
+const styleMap = (usesHighlightStyle) => {
+  return {
+    BOLD: {
+      backgroundColor: usesHighlightStyle && "#cbe2c8",
+      fontWeight: !usesHighlightStyle && "bold",
+    },
+  };
 };
 
 const heading = css`
@@ -178,6 +181,7 @@ class RichTextEditor extends React.Component {
     linkLimit: PropTypes.number,
     withoutMargin: PropTypes.bool,
     isRepeatingSection: PropTypes.bool,
+    usesHighlightStyle: PropTypes.bool,
     allCalculatedSummaryPages: PropTypes.array, //eslint-disable-line
   };
 
@@ -371,8 +375,17 @@ class RichTextEditor extends React.Component {
   hasInlineStyle = (editorState, style) =>
     editorState.getCurrentInlineStyle().has(style);
 
-  isActiveControl = ({ style, type }) => {
+  isActiveControl = ({ id, style, type }) => {
     const { editorState } = this.state;
+    const { usesHighlightStyle } = this.props;
+
+    // Displays bold button as inactive when highlight style is used, and emphasis button as inactive when highlight style is not used
+    if (
+      (usesHighlightStyle && id === "bold") ||
+      (!usesHighlightStyle && id === "emphasis")
+    ) {
+      return false;
+    }
 
     return type === STYLE_BLOCK
       ? this.hasBlockStyle(editorState, style)
@@ -485,6 +498,7 @@ class RichTextEditor extends React.Component {
       withoutMargin,
       allCalculatedSummaryPages,
       isRepeatingSection,
+      usesHighlightStyle, // Uses highlight style instead of bold for strong tags when true
       ...otherProps
     } = this.props;
 
@@ -530,6 +544,7 @@ class RichTextEditor extends React.Component {
                 linkLimit={linkLimit}
                 allCalculatedSummaryPages={allCalculatedSummaryPages}
                 isRepeatingSection={isRepeatingSection}
+                usesHighlightStyle={usesHighlightStyle}
                 {...otherProps}
               />
 
@@ -539,7 +554,7 @@ class RichTextEditor extends React.Component {
                 editorState={editorState}
                 onChange={this.handleChange}
                 ref={this.setEditorInstance}
-                customStyleMap={styleMap}
+                customStyleMap={styleMap(usesHighlightStyle)}
                 blockStyleFn={getBlockStyle}
                 handleReturn={multiline ? undefined : this.handleReturn}
                 handlePastedText={

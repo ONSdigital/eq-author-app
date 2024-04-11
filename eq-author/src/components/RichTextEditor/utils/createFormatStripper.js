@@ -4,10 +4,10 @@ import { filterConfig as pipedFilterConfig } from "components/RichTextEditor/ent
 import { filterConfig as linkFilterConfig } from "components/RichTextEditor/LinkPlugin";
 
 const mapper = {
-  bold: { format: "BOLD", type: "styles" },
-  highlight: { format: "HIGHLIGHT", type: "styles" },
-  list: { format: "unordered-list-item", type: "blocks" },
-  heading: { format: "header-two", type: "blocks" },
+  bold: { id: "bold", format: "BOLD", type: "styles" },
+  emphasis: { id: "emphasis", format: "BOLD", type: "styles" },
+  list: { id: "list", format: "unordered-list-item", type: "blocks" },
+  heading: { id: "heading", format: "header-two", type: "blocks" },
 };
 
 export default function createFormatStripper(controls) {
