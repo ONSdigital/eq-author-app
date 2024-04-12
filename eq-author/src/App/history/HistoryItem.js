@@ -160,7 +160,6 @@ const HistoryItem = ({
               value={noteState}
               controls={{
                 heading: true,
-                emphasis: true,
                 list: true,
                 bold: true,
               }}
