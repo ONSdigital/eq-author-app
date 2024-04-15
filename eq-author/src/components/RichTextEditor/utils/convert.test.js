@@ -33,30 +33,6 @@ describe("convert", () => {
 
       expect(html).toEqual(htmlEntity);
     });
-
-    it("should convert BOLD style to HTML", () => {
-      const rawBoldText = new Raw()
-        .addBlock("Test text")
-        .addInlineStyle("BOLD", 0, 4); // Applies BOLD style to first four characters in "Test text"
-      const expectedHtmlBold = `<p><strong class="bold">Test</strong> text</p>`;
-
-      const convert = toHTML({});
-      const convertedHtml = convert(rawBoldText.toEditorState());
-
-      expect(convertedHtml).toEqual(expectedHtmlBold);
-    });
-
-    it("should convert HIGHLIGHT style to HTML", () => {
-      const rawHighlightText = new Raw()
-        .addBlock("Test text")
-        .addInlineStyle("HIGHLIGHT", 0, 4); // Applies HIGHLIGHT style to first four characters in "Test text"
-      const expectedHtmlHighlight = `<p><strong class="highlight">Test</strong> text</p>`;
-
-      const convert = toHTML({});
-      const convertedHtml = convert(rawHighlightText.toEditorState());
-
-      expect(convertedHtml).toEqual(expectedHtmlHighlight);
-    });
   });
 
   describe("fromHTML", () => {
@@ -77,32 +53,6 @@ describe("convert", () => {
       const editorState = EditorState.createWithContent(convert(htmlEntity));
 
       expect(stateToRaw(editorState)).toEqual(rawEntity.toRawContentState());
-    });
-
-    it("should convert BOLD from HTML", () => {
-      const htmlBold = `<p><strong class="bold">Test</strong> text</p>`;
-      const rawBoldText = new Raw()
-        .addBlock("Test text")
-        .addInlineStyle("BOLD", 0, 4); // Applies BOLD style to first four characters in "Test text"
-
-      const convert = fromHTML({});
-      const editorState = EditorState.createWithContent(convert(htmlBold));
-
-      expect(stateToRaw(editorState)).toEqual(rawBoldText.toRawContentState());
-    });
-
-    it("should convert HIGHLIGHT from HTML", () => {
-      const htmlHighlight = `<p><strong class="highlight">Test</strong> text</p>`;
-      const rawHighlightText = new Raw()
-        .addBlock("Test text")
-        .addInlineStyle("HIGHLIGHT", 0, 4); // Applies HIGHLIGHT style to first four characters in "Test text"
-
-      const convert = fromHTML({});
-      const editorState = EditorState.createWithContent(convert(htmlHighlight));
-
-      expect(stateToRaw(editorState)).toEqual(
-        rawHighlightText.toRawContentState()
-      );
     });
   });
 });

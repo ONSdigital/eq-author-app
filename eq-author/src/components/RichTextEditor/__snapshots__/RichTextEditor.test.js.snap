@@ -31,7 +31,12 @@ exports[`components/RichTextEditor should allow multiline input 1`] = `
       >
         <ToolBar
           autoFocus={false}
-          controls={Object {}}
+          controls={
+            Object {
+              "bold": true,
+              "highlight": false,
+            }
+          }
           editorState={
             EditorState {
               "_immutable": Immutable.Record {
@@ -160,8 +165,9 @@ exports[`components/RichTextEditor should allow multiline input 1`] = `
           blockStyleFn={[Function]}
           customStyleMap={
             Object {
-              "HIGHLIGHT": Object {
-                "backgroundColor": "#cbe2c8",
+              "BOLD": Object {
+                "backgroundColor": false,
+                "fontWeight": "bold",
               },
             }
           }
@@ -368,7 +374,12 @@ exports[`components/RichTextEditor should render 1`] = `
       >
         <ToolBar
           autoFocus={false}
-          controls={Object {}}
+          controls={
+            Object {
+              "bold": true,
+              "highlight": false,
+            }
+          }
           editorState={
             EditorState {
               "_immutable": Immutable.Record {
@@ -497,8 +508,9 @@ exports[`components/RichTextEditor should render 1`] = `
           blockStyleFn={[Function]}
           customStyleMap={
             Object {
-              "HIGHLIGHT": Object {
-                "backgroundColor": "#cbe2c8",
+              "BOLD": Object {
+                "backgroundColor": false,
+                "fontWeight": "bold",
               },
             }
           }
@@ -706,7 +718,12 @@ exports[`components/RichTextEditor should render existing content 1`] = `
       >
         <ToolBar
           autoFocus={false}
-          controls={Object {}}
+          controls={
+            Object {
+              "bold": true,
+              "highlight": false,
+            }
+          }
           editorState={
             EditorState {
               "_immutable": Immutable.Record {
@@ -732,53 +749,59 @@ exports[`components/RichTextEditor should render existing content 1`] = `
                     "123": Immutable.Record {
                       "key": "123",
                       "type": "unordered-list-item",
-                      "text": "Emphasis",
+                      "text": "Highlight",
                       "characterList": Immutable.List [
                         Immutable.Record {
                           "style": Immutable.OrderedSet [
-                            "ITALIC",
+                            "BOLD",
                           ],
                           "entity": null,
                         },
                         Immutable.Record {
                           "style": Immutable.OrderedSet [
-                            "ITALIC",
+                            "BOLD",
                           ],
                           "entity": null,
                         },
                         Immutable.Record {
                           "style": Immutable.OrderedSet [
-                            "ITALIC",
+                            "BOLD",
                           ],
                           "entity": null,
                         },
                         Immutable.Record {
                           "style": Immutable.OrderedSet [
-                            "ITALIC",
+                            "BOLD",
                           ],
                           "entity": null,
                         },
                         Immutable.Record {
                           "style": Immutable.OrderedSet [
-                            "ITALIC",
+                            "BOLD",
                           ],
                           "entity": null,
                         },
                         Immutable.Record {
                           "style": Immutable.OrderedSet [
-                            "ITALIC",
+                            "BOLD",
                           ],
                           "entity": null,
                         },
                         Immutable.Record {
                           "style": Immutable.OrderedSet [
-                            "ITALIC",
+                            "BOLD",
                           ],
                           "entity": null,
                         },
                         Immutable.Record {
                           "style": Immutable.OrderedSet [
-                            "ITALIC",
+                            "BOLD",
+                          ],
+                          "entity": null,
+                        },
+                        Immutable.Record {
+                          "style": Immutable.OrderedSet [
+                            "BOLD",
                           ],
                           "entity": null,
                         },
@@ -853,12 +876,12 @@ exports[`components/RichTextEditor should render existing content 1`] = `
                   "123": Immutable.List [
                     Immutable.Record {
                       "start": 0,
-                      "end": 8,
+                      "end": 9,
                       "decoratorKey": null,
                       "leaves": Immutable.List [
                         Immutable.Record {
                           "start": 0,
-                          "end": 8,
+                          "end": 9,
                         },
                       ],
                     },
@@ -881,7 +904,7 @@ exports[`components/RichTextEditor should render existing content 1`] = `
   <ul>
     <li>Regular</li>
     <li><strong>Bold</strong></li>
-    <li><em>Emphasis</em></li>
+    <li><strong>Highlight</strong></li>
   </ul>
 "
           visible={false}
@@ -892,8 +915,9 @@ exports[`components/RichTextEditor should render existing content 1`] = `
           blockStyleFn={[Function]}
           customStyleMap={
             Object {
-              "HIGHLIGHT": Object {
-                "backgroundColor": "#cbe2c8",
+              "BOLD": Object {
+                "backgroundColor": false,
+                "fontWeight": "bold",
               },
             }
           }
@@ -953,53 +977,59 @@ exports[`components/RichTextEditor should render existing content 1`] = `
                     "123": Immutable.Record {
                       "key": "123",
                       "type": "unordered-list-item",
-                      "text": "Emphasis",
+                      "text": "Highlight",
                       "characterList": Immutable.List [
                         Immutable.Record {
                           "style": Immutable.OrderedSet [
-                            "ITALIC",
+                            "BOLD",
                           ],
                           "entity": null,
                         },
                         Immutable.Record {
                           "style": Immutable.OrderedSet [
-                            "ITALIC",
+                            "BOLD",
                           ],
                           "entity": null,
                         },
                         Immutable.Record {
                           "style": Immutable.OrderedSet [
-                            "ITALIC",
+                            "BOLD",
                           ],
                           "entity": null,
                         },
                         Immutable.Record {
                           "style": Immutable.OrderedSet [
-                            "ITALIC",
+                            "BOLD",
                           ],
                           "entity": null,
                         },
                         Immutable.Record {
                           "style": Immutable.OrderedSet [
-                            "ITALIC",
+                            "BOLD",
                           ],
                           "entity": null,
                         },
                         Immutable.Record {
                           "style": Immutable.OrderedSet [
-                            "ITALIC",
+                            "BOLD",
                           ],
                           "entity": null,
                         },
                         Immutable.Record {
                           "style": Immutable.OrderedSet [
-                            "ITALIC",
+                            "BOLD",
                           ],
                           "entity": null,
                         },
                         Immutable.Record {
                           "style": Immutable.OrderedSet [
-                            "ITALIC",
+                            "BOLD",
+                          ],
+                          "entity": null,
+                        },
+                        Immutable.Record {
+                          "style": Immutable.OrderedSet [
+                            "BOLD",
                           ],
                           "entity": null,
                         },
@@ -1074,12 +1104,12 @@ exports[`components/RichTextEditor should render existing content 1`] = `
                   "123": Immutable.List [
                     Immutable.Record {
                       "start": 0,
-                      "end": 8,
+                      "end": 9,
                       "decoratorKey": null,
                       "leaves": Immutable.List [
                         Immutable.Record {
                           "start": 0,
-                          "end": 8,
+                          "end": 9,
                         },
                       ],
                     },
@@ -1150,7 +1180,12 @@ exports[`components/RichTextEditor should show as disabled and readonly when dis
       >
         <ToolBar
           autoFocus={false}
-          controls={Object {}}
+          controls={
+            Object {
+              "bold": true,
+              "highlight": false,
+            }
+          }
           editorState={
             EditorState {
               "_immutable": Immutable.Record {
@@ -1279,8 +1314,9 @@ exports[`components/RichTextEditor should show as disabled and readonly when dis
           blockStyleFn={[Function]}
           customStyleMap={
             Object {
-              "HIGHLIGHT": Object {
-                "backgroundColor": "#cbe2c8",
+              "BOLD": Object {
+                "backgroundColor": false,
+                "fontWeight": "bold",
               },
             }
           }

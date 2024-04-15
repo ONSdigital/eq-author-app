@@ -6,8 +6,7 @@ exports[`Editor Editor Component should autoFocus the title when there is not on
     autoFocus={true}
     controls={
       Object {
-        "bold": true,
-        "emphasis": true,
+        "highlight": true,
         "piping": true,
       }
     }
@@ -88,8 +87,7 @@ exports[`Editor Editor Component should render 1`] = `
     autoFocus={false}
     controls={
       Object {
-        "bold": true,
-        "emphasis": true,
+        "highlight": true,
         "piping": true,
       }
     }

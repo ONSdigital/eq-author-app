@@ -35,7 +35,7 @@ export const styleButtons = [
     title: "Highlight",
     icon: iconEmphasis,
     type: STYLE_INLINE,
-    style: "BOLD",
+    style: "BOLD", // BOLD style wraps text in strong tags - used for highlighting
   },
 ];
 
