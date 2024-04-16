@@ -37,6 +37,7 @@ const isLeftSideAnswerTypeCompatible = (
     [answerTypes.CHECKBOX]: "SelectedOptions",
     [answerTypes.DATE]: "DateValue",
     [answerTypes.SELECT]: "SelectedOptions",
+    [answerTypes.MUTUALLY_EXCLUSIVE]: "SelectedOptions",
   };
 
   if (secondaryCondition) {
