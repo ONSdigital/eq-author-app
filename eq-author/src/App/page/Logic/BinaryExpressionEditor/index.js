@@ -14,6 +14,7 @@ import {
   CHECKBOX,
   DATE,
   SELECT,
+  MUTUALLY_EXCLUSIVE,
 } from "constants/answer-types";
 
 import { TEXT, TEXT_OPTIONAL } from "constants/metadata-types";
@@ -110,6 +111,7 @@ const ANSWER_TYPE_TO_RIGHT_EDITOR = {
   [RADIO]: MultipleChoiceAnswerOptionsSelector,
   [SELECT]: MultipleChoiceAnswerOptionsSelector,
   [CHECKBOX]: MultipleChoiceAnswerOptionsSelector,
+  [MUTUALLY_EXCLUSIVE]: MultipleChoiceAnswerOptionsSelector,
   [NUMBER]: NumberAnswerSelector,
   [PERCENTAGE]: NumberAnswerSelector,
   [CURRENCY]: NumberAnswerSelector,

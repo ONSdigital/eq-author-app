@@ -91,9 +91,12 @@ Resolvers.LeftSide2 = {
   __resolveType: ({ type, sideType }) => {
     if (sideType === "Answer") {
       if (
-        [answerTypes.RADIO, answerTypes.CHECKBOX, answerTypes.SELECT].includes(
-          type
-        )
+        [
+          answerTypes.RADIO,
+          answerTypes.CHECKBOX,
+          answerTypes.SELECT,
+          answerTypes.MUTUALLY_EXCLUSIVE,
+        ].includes(type)
       ) {
         return "MultipleChoiceAnswer";
       }
