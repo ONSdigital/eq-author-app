@@ -26,6 +26,7 @@ export const preprocessMetadata = (metadata) =>
 const RoutingAnswerContentPicker = ({
   includeSelf,
   selectedContentDisplayName,
+  expressionGroup,
   ...otherProps
 }) => {
   const { questionnaire } = useQuestionnaire();
@@ -38,8 +39,9 @@ const RoutingAnswerContentPicker = ({
         id: pageId,
         includeTargetPage: includeSelf,
         preprocessAnswers,
+        expressionGroup,
       }),
-    [questionnaire, pageId, includeSelf]
+    [questionnaire, pageId, includeSelf, expressionGroup]
   );
 
   const filteredPreviousAnswers = previousAnswers.map((answer) => {

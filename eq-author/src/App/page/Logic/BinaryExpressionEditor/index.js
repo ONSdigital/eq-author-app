@@ -213,6 +213,7 @@ export const UnwrappedBinaryExpressionEditor = ({
                 ? expression.left
                 : undefined
             }
+            expressionGroup={expressionGroup}
             onSubmit={handleLeftSideChange}
             selectedId={expression?.left?.id}
             data-test="routing-answer-picker"

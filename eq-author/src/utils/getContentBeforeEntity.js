@@ -2,13 +2,16 @@ import { remove } from "lodash";
 
 import isListCollectorPageType from "utils/isListCollectorPageType";
 
+import { MUTUALLY_EXCLUSIVE } from "constants/answer-types";
+
 const identity = (x) => x;
 
 const getContentBeforeEntity = (
   questionnaire,
   id,
   preprocessAnswers,
-  includeTarget
+  includeTarget,
+  expressionGroup
 ) => {
   const sections = [];
 
@@ -37,9 +40,27 @@ const getContentBeforeEntity = (
           return sections;
         }
 
-        const answers =
+        let answers =
           !isListCollectorPageType(page.pageType) &&
           (page?.answers?.flatMap(preprocessAnswers) || []);
+
+        if (expressionGroup?.operator === "And") {
+          expressionGroup.expressions.forEach((expression) => {
+            if (expression?.left?.page?.id) {
+              answers = answers.filter((answer) => {
+                if (expression.left.page.id === answer.page.id) {
+                  if (expression.left.type === MUTUALLY_EXCLUSIVE) {
+                    return false;
+                  } else {
+                    return answer.type !== MUTUALLY_EXCLUSIVE;
+                  }
+                }
+                return true;
+              });
+            }
+          });
+        }
+
         if (answers.length) {
           sections[sections.length - 1].folders[
             sections[sections.length - 1].folders.length - 1
@@ -75,6 +96,7 @@ export default ({
   id,
   preprocessAnswers = identity,
   includeTargetPage = false,
+  expressionGroup,
 } = {}) => {
   if (!questionnaire || !id || questionnaire?.introduction?.id === id) {
     return [];
@@ -85,7 +107,8 @@ export default ({
       questionnaire,
       id,
       preprocessAnswers,
-      includeTargetPage
+      includeTargetPage,
+      expressionGroup
     ).filter(({ folders }) => folders.length)
   );
 };
