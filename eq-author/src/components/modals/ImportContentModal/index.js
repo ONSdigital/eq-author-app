@@ -37,6 +37,7 @@ const ImportQuestionReviewModal = ({
   onCancel,
   onBack,
   onSelectQuestions,
+  onSelectFolders,
   onSelectSections,
 }) => (
   <Wizard
@@ -60,8 +61,7 @@ const ImportQuestionReviewModal = ({
     </Header>
     <Content>
       <ContentHeading>
-        *Select individual questions or entire sections to be imported, you
-        cannot choose both*
+        Select sections, folders or question to import
       </ContentHeading>
 
       <Container>
@@ -70,6 +70,12 @@ const ImportQuestionReviewModal = ({
           data-test="content-modal-select-questions-button"
         >
           Questions
+        </Button>
+        <Button
+          onClick={onSelectFolders}
+          data-test="content-modal-select-folders-button"
+        >
+          Folders
         </Button>
         <Button
           onClick={onSelectSections}
@@ -87,6 +93,7 @@ ImportQuestionReviewModal.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onBack: PropTypes.func.isRequired,
   onSelectQuestions: PropTypes.func.isRequired,
+  onSelectFolders: PropTypes.func.isRequired,
   onSelectSections: PropTypes.func.isRequired,
   questionnaire: PropTypes.shape({
     title: PropTypes.string.isRequired,
