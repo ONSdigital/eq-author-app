@@ -85,6 +85,10 @@ const Folder = ({ folder }) => {
   );
 };
 
+Folder.propTypes = {
+  folder: PropTypes.object, // eslint-disable-line
+};
+
 const Section = ({ section }) => {
   const { displayName, folders } = section;
 
@@ -104,6 +108,10 @@ const Section = ({ section }) => {
 
   // Handles sections with no folders matching the search term
   return <React.Fragment />;
+};
+
+Section.propTypes = {
+  section: PropTypes.object, // eslint-disable-line
 };
 
 const FolderPicker = ({
@@ -185,14 +193,6 @@ const FolderPicker = ({
       </Footer>
     </StyledModal>
   );
-};
-
-Folder.propTypes = {
-  folder: PropTypes.object, // eslint-disable-line
-};
-
-Section.propTypes = {
-  section: PropTypes.object, // eslint-disable-line
 };
 
 FolderPicker.propTypes = {

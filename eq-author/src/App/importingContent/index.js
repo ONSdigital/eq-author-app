@@ -24,6 +24,7 @@ import IMPORT_SECTIONS from "graphql/importSections.graphql";
 
 import QuestionnaireSelectModal from "components/modals/QuestionnaireSelectModal";
 import ReviewQuestionsModal from "components/modals/ImportQuestionReviewModal";
+import ReviewFoldersModal from "components/modals/ImportFolderReviewModal";
 import ReviewSectionsModal from "components/modals/ImportSectionReviewModal";
 import SelectContentModal from "components/modals/ImportContentModal";
 import QuestionPicker from "components/QuestionPicker";
@@ -173,6 +174,17 @@ const ImportingContent = ({
     setReviewingFolders(false);
     setReviewingSections(false);
     setSelectingSections(false);
+    setSelectingContent(false);
+  };
+
+  const onFolderPickerSubmit = (selection) => {
+    setFoldersToImport(selection);
+    setSelectingQuestions(false);
+    setReviewingQuestions(false);
+    setReviewingSections(false);
+    setSelectingSections(false);
+    setSelectingFolders(false);
+    setReviewingFolders(true);
     setSelectingContent(false);
   };
 
@@ -580,11 +592,26 @@ const ImportingContent = ({
                 showSearch
                 onClose={onGlobalCancel}
                 // onCancel={onFolderPickerCancel}
-                // onSubmit={onFolderPickerSubmit}
+                onSubmit={onFolderPickerSubmit}
               />
             );
           }}
         </Query>
+      )}
+      {reviewingFolders && (
+        <ReviewFoldersModal
+          isOpen={reviewingFolders}
+          questionnaire={questionnaireImportingFrom}
+          startingSelectedFolders={foldersToImport}
+          onCancel={onGlobalCancel}
+          // onConfirm={onReviewFoldersSubmit}
+          // onBack={onBackFromReviewingFolders}
+          onSelectQuestions={onSelectQuestions}
+          onSelectFolders={onSelectFolders}
+          onSelectSections={onSelectSections}
+          // onRemoveAll={onRemoveAllSelectedContent}
+          // onRemoveSingle={onRemoveSingleSelectedContent}
+        />
       )}
       {reviewingSections && (
         <ReviewSectionsModal
