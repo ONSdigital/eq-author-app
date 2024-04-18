@@ -19,6 +19,7 @@ import {
 import GET_QUESTIONNAIRE_LIST from "graphql/getQuestionnaireList.graphql";
 import GET_QUESTIONNAIRE from "graphql/getQuestionnaire.graphql";
 import IMPORT_QUESTIONS from "graphql/importQuestions.graphql";
+import IMPORT_FOLDERS from "graphql/importFolders.graphql";
 import IMPORT_SECTIONS from "graphql/importSections.graphql";
 
 import QuestionnaireSelectModal from "components/modals/QuestionnaireSelectModal";
@@ -26,6 +27,7 @@ import ReviewQuestionsModal from "components/modals/ImportQuestionReviewModal";
 import ReviewSectionsModal from "components/modals/ImportSectionReviewModal";
 import SelectContentModal from "components/modals/ImportContentModal";
 import QuestionPicker from "components/QuestionPicker";
+import FolderPicker from "components/FolderPicker";
 import SectionPicker from "components/SectionPicker";
 import ExtraSpaceConfirmationModal from "components-themed/Modal";
 
@@ -53,6 +55,8 @@ const ImportingContent = ({
   const [selectingQuestionnaire, setSelectingQuestionnaire] = useState(true);
   const [reviewingQuestions, setReviewingQuestions] = useState(false);
   const [selectingQuestions, setSelectingQuestions] = useState(false);
+  const [reviewingFolders, setReviewingFolders] = useState(false);
+  const [selectingFolders, setSelectingFolders] = useState(false);
   const [reviewingSections, setReviewingSections] = useState(false);
   const [selectingSections, setSelectingSections] = useState(false);
   const [selectingContent, setSelectingContent] = useState(false);
@@ -69,6 +73,8 @@ const ImportingContent = ({
   const [questionnaireImportingFrom, setQuestionnaireImportingFrom] =
     useState(null);
 
+  const [foldersToImport, setFoldersToImport] = useState([]);
+
   const [sectionsToImport, setSectionsToImport] = useState([]);
 
   const {
@@ -84,6 +90,7 @@ const ImportingContent = ({
    */
 
   const [importQuestions] = useMutation(IMPORT_QUESTIONS);
+  const [importFolders] = useMutation(IMPORT_FOLDERS);
   const [importSections] = useMutation(IMPORT_SECTIONS);
 
   // Global
@@ -96,6 +103,8 @@ const ImportingContent = ({
     stopImporting();
     setReviewingSections(false);
     setSelectingSections(false);
+    setSelectingFolders(false);
+    setReviewingFolders(false);
     setSelectingContent(false);
     setShowQuestionExtraSpaceModal(false);
     setShowSectionExtraSpaceModal(false);
@@ -118,6 +127,8 @@ const ImportingContent = ({
     setReviewingQuestions(true);
     setReviewingSections(false);
     setSelectingSections(false);
+    setSelectingFolders(false);
+    setReviewingFolders(false);
     setSelectingContent(false);
   };
 
@@ -127,6 +138,8 @@ const ImportingContent = ({
     setReviewingQuestions(true);
     setReviewingSections(false);
     setSelectingSections(false);
+    setSelectingFolders(false);
+    setReviewingFolders(false);
     setSelectingContent(false);
   };
 
@@ -137,6 +150,8 @@ const ImportingContent = ({
     setSelectingQuestions(true);
     setReviewingSections(false);
     setSelectingSections(false);
+    setSelectingFolders(false);
+    setReviewingFolders(false);
     setSelectingContent(false);
   };
 
@@ -148,6 +163,20 @@ const ImportingContent = ({
     setSelectingSections(false);
     setSelectingContent(false);
   };
+
+  // Selecting folders to import
+
+  const onSelectFolders = () => {
+    setReviewingQuestions(false);
+    setSelectingQuestions(false);
+    setSelectingFolders(true);
+    setReviewingFolders(false);
+    setReviewingSections(false);
+    setSelectingSections(false);
+    setSelectingContent(false);
+  };
+
+  // TODO: Reviewing folders to import
 
   const onRemoveAllSelectedContent = () => {
     if (reviewingQuestions) {
@@ -218,6 +247,8 @@ const ImportingContent = ({
       setSelectingQuestions(false);
       setReviewingSections(false);
       setSelectingSections(false);
+      setSelectingFolders(false);
+      setReviewingFolders(false);
       setSelectingContent(false);
       setShowQuestionExtraSpaceModal(true);
     } else {
@@ -316,6 +347,8 @@ const ImportingContent = ({
     setReviewingSections(true);
     setSelectingQuestions(false);
     setReviewingQuestions(false);
+    setSelectingFolders(false);
+    setReviewingFolders(false);
     setSelectingContent(false);
   };
 
@@ -325,6 +358,8 @@ const ImportingContent = ({
     setReviewingSections(true);
     setSelectingQuestions(false);
     setReviewingQuestions(false);
+    setSelectingFolders(false);
+    setReviewingFolders(false);
     setSelectingContent(false);
   };
 
@@ -335,6 +370,8 @@ const ImportingContent = ({
     setSelectingSections(true);
     setSelectingQuestions(false);
     setReviewingQuestions(false);
+    setSelectingFolders(false);
+    setReviewingFolders(false);
     setSelectingContent(false);
   };
 
@@ -344,6 +381,8 @@ const ImportingContent = ({
     setReviewingSections(false);
     setSelectingQuestions(false);
     setReviewingQuestions(false);
+    setSelectingFolders(false);
+    setReviewingFolders(false);
     setSelectingContent(false);
   };
 
@@ -363,6 +402,8 @@ const ImportingContent = ({
       setReviewingSections(false);
       setSelectingSections(false);
       setSelectingContent(false);
+      setSelectingFolders(false);
+      setReviewingFolders(false);
       setShowQuestionExtraSpaceModal(false);
       setShowSectionExtraSpaceModal(true);
     } else {
@@ -459,6 +500,7 @@ const ImportingContent = ({
           onCancel={onGlobalCancel}
           onBack={onBackFromReviewingQuestions}
           onSelectQuestions={onSelectQuestions}
+          onSelectFolders={onSelectFolders}
           onSelectSections={onSelectSections}
         />
       )}
@@ -506,6 +548,39 @@ const ImportingContent = ({
                 onCancel={onQuestionPickerCancel}
                 onSubmit={onQuestionPickerSubmit}
                 targetIsListCollectorFolder={targetIsListCollectorFolder}
+              />
+            );
+          }}
+        </Query>
+      )}
+      {selectingFolders && (
+        <Query
+          query={GET_QUESTIONNAIRE}
+          variables={{
+            input: { questionnaireId: questionnaireImportingFrom.id },
+          }}
+        >
+          {({ loading, error, data }) => {
+            if (loading) {
+              return <React.Fragment />;
+            }
+
+            if (error || !data) {
+              return <React.Fragment />;
+            }
+
+            const { sections } = data.questionnaire;
+
+            return (
+              <FolderPicker
+                title="Select the folder(s) to import"
+                isOpen={selectingFolders}
+                sections={sections}
+                startingSelectedFolders={foldersToImport}
+                showSearch
+                onClose={onGlobalCancel}
+                // onCancel={onFolderPickerCancel}
+                // onSubmit={onFolderPickerSubmit}
               />
             );
           }}
