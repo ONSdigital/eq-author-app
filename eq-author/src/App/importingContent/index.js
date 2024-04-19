@@ -279,6 +279,32 @@ const ImportingContent = ({
     }
   };
 
+  const isInsideRepeatingSection = () => {
+    switch (currentEntityName) {
+      case "section": {
+        const section = getSectionById(sourceQuestionnaire, currentEntityId);
+        return section.repeatingSection;
+      }
+      case "folder": {
+        const section = getSectionByFolderId(
+          sourceQuestionnaire,
+          currentEntityId
+        );
+        return section.repeatingSection;
+      }
+      case "page": {
+        const section = getSectionByPageId(
+          sourceQuestionnaire,
+          currentEntityId
+        );
+        return section.repeatingSection;
+      }
+      default: {
+        return false;
+      }
+    }
+  };
+
   const onReviewQuestionsSubmit = (selectedQuestions) => {
     const questionIds = selectedQuestions.map(({ id }) => id);
     let questionContainsExtraSpaces = false;
@@ -702,12 +728,28 @@ const ImportingContent = ({
             }
 
             const { sections } = data.questionnaire;
+            const sectionsToDisplay = [];
+
+            // Removes list collector folders from sections containing selectable folders when importing into a repeating section
+            if (isInsideRepeatingSection()) {
+              sections.forEach((section) => {
+                const foldersWithoutListCollectors = section.folders.filter(
+                  (folder) => folder.listId == null
+                );
+                sectionsToDisplay.push({
+                  ...section,
+                  folders: foldersWithoutListCollectors,
+                });
+              });
+            } else {
+              sectionsToDisplay.push(...sections);
+            }
 
             return (
               <FolderPicker
                 title="Select the folder(s) to import"
                 isOpen={selectingFolders}
-                sections={sections}
+                sections={sectionsToDisplay}
                 startingSelectedFolders={foldersToImport}
                 showSearch
                 onClose={onGlobalCancel}
