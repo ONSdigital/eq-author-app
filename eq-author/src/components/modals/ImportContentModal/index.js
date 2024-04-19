@@ -66,10 +66,10 @@ const ImportQuestionReviewModal = ({
 
       <Container>
         <Button
-          onClick={onSelectQuestions}
-          data-test="content-modal-select-questions-button"
+          onClick={onSelectSections}
+          data-test="content-modal-select-sections-button"
         >
-          Questions
+          Sections
         </Button>
         <Button
           onClick={onSelectFolders}
@@ -78,10 +78,10 @@ const ImportQuestionReviewModal = ({
           Folders
         </Button>
         <Button
-          onClick={onSelectSections}
-          data-test="content-modal-select-sections-button"
+          onClick={onSelectQuestions}
+          data-test="content-modal-select-questions-button"
         >
-          Sections
+          Questions
         </Button>
       </Container>
     </Content>

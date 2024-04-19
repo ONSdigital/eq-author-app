@@ -106,6 +106,7 @@ const ImportQuestionReviewModal = ({
   onCancel,
   onBack,
   onSelectQuestions,
+  onSelectFolders,
   onSelectSections,
   onRemoveSingle,
   onRemoveAll,
@@ -151,19 +152,10 @@ const ImportQuestionReviewModal = ({
         </>
       ) : (
         <ContentHeading>
-          *Select individual questions or entire sections to be imported, you
-          cannot choose both*
+          Select sections, folders or question to import
         </ContentHeading>
       )}
       <Container>
-        <Button
-          onClick={onSelectQuestions}
-          data-test="question-review-select-questions-button"
-        >
-          {startingSelectedQuestions?.length >= 1
-            ? "Select more questions"
-            : "Questions"}
-        </Button>
         {startingSelectedQuestions?.length === 0 && (
           <Button
             onClick={onSelectSections}
@@ -172,6 +164,22 @@ const ImportQuestionReviewModal = ({
             Sections
           </Button>
         )}
+        {startingSelectedQuestions?.length === 0 && (
+          <Button
+            onClick={onSelectFolders}
+            data-test="question-review-select-folders-button"
+          >
+            Folders
+          </Button>
+        )}
+        <Button
+          onClick={onSelectQuestions}
+          data-test="question-review-select-questions-button"
+        >
+          {startingSelectedQuestions?.length >= 1
+            ? "Select more questions"
+            : "Questions"}
+        </Button>
       </Container>
     </Content>
   </Wizard>
@@ -182,8 +190,9 @@ ImportQuestionReviewModal.propTypes = {
   onConfirm: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   onBack: PropTypes.func.isRequired,
-  onSelectQuestions: PropTypes.func.isRequired,
   onSelectSections: PropTypes.func.isRequired,
+  onSelectFolders: PropTypes.func.isRequired,
+  onSelectQuestions: PropTypes.func.isRequired,
   onRemoveSingle: PropTypes.func.isRequired,
   onRemoveAll: PropTypes.func.isRequired,
   questionnaire: PropTypes.shape({
