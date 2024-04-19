@@ -177,6 +177,16 @@ const ImportingContent = ({
     setSelectingContent(false);
   };
 
+  const onFolderPickerCancel = () => {
+    setSelectingQuestions(false);
+    setReviewingQuestions(false);
+    setReviewingSections(false);
+    setSelectingSections(false);
+    setSelectingFolders(false);
+    setReviewingFolders(true);
+    setSelectingContent(false);
+  };
+
   const onFolderPickerSubmit = (selection) => {
     setFoldersToImport(selection);
     setSelectingQuestions(false);
@@ -591,7 +601,7 @@ const ImportingContent = ({
                 startingSelectedFolders={foldersToImport}
                 showSearch
                 onClose={onGlobalCancel}
-                // onCancel={onFolderPickerCancel}
+                onCancel={onFolderPickerCancel}
                 onSubmit={onFolderPickerSubmit}
               />
             );
