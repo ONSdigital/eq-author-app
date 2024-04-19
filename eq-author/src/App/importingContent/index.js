@@ -675,7 +675,6 @@ const ImportingContent = ({
                 isOpen={selectingQuestions}
                 sections={sections}
                 startingSelectedQuestions={questionsToImport}
-                warningPanel="You cannot import folders but you can import any questions they contain."
                 showSearch
                 onClose={onGlobalCancel}
                 onCancel={onQuestionPickerCancel}
@@ -773,7 +772,6 @@ const ImportingContent = ({
                 isOpen={selectingSections}
                 sections={sections}
                 startingSelectedSections={sectionsToImport}
-                warningPanel="You cannot import folders but you can import any questions they contain."
                 showSearch
                 onClose={onGlobalCancel}
                 onCancel={onSectionPickerCancel}
