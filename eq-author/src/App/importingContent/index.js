@@ -203,7 +203,11 @@ const ImportingContent = ({
   const onRemoveAllSelectedContent = () => {
     if (reviewingQuestions) {
       setQuestionsToImport([]);
-    } else {
+    }
+    if (reviewingFolders) {
+      setFoldersToImport([]);
+    }
+    if (reviewingSections) {
       setSectionsToImport([]);
     }
   };
@@ -212,7 +216,12 @@ const ImportingContent = ({
     if (reviewingQuestions) {
       const filteredQuestions = questionsToImport.filter((_, i) => i !== index);
       setQuestionsToImport(filteredQuestions);
-    } else {
+    }
+    if (reviewingFolders) {
+      const filteredFolders = foldersToImport.filter((_, i) => i !== index);
+      setFoldersToImport(filteredFolders);
+    }
+    if (reviewingSections) {
       const filteredSections = sectionsToImport.filter((_, i) => i !== index);
       setSectionsToImport(filteredSections);
     }
@@ -620,8 +629,8 @@ const ImportingContent = ({
           onSelectQuestions={onSelectQuestions}
           onSelectFolders={onSelectFolders}
           onSelectSections={onSelectSections}
-          // onRemoveAll={onRemoveAllSelectedContent}
-          // onRemoveSingle={onRemoveSingleSelectedContent}
+          onRemoveAll={onRemoveAllSelectedContent}
+          onRemoveSingle={onRemoveSingleSelectedContent}
         />
       )}
       {reviewingSections && (
