@@ -117,6 +117,7 @@ const ImportingContent = ({
     setQuestionnaireImportingFrom(questionnaire);
     setSelectingQuestionnaire(false);
     setReviewingQuestions(false);
+    setReviewingFolders(false);
     setReviewingSections(false);
     setSelectingContent(true);
   };
@@ -160,22 +161,14 @@ const ImportingContent = ({
     setReviewingQuestions(false);
     setSelectingQuestionnaire(true);
     setQuestionsToImport([]);
+    setSelectingFolders(false);
+    setReviewingFolders(false);
     setReviewingSections(false);
     setSelectingSections(false);
     setSelectingContent(false);
   };
 
   // Selecting folders to import
-
-  const onSelectFolders = () => {
-    setReviewingQuestions(false);
-    setSelectingQuestions(false);
-    setSelectingFolders(true);
-    setReviewingFolders(false);
-    setReviewingSections(false);
-    setSelectingSections(false);
-    setSelectingContent(false);
-  };
 
   const onFolderPickerCancel = () => {
     setSelectingQuestions(false);
@@ -198,7 +191,28 @@ const ImportingContent = ({
     setSelectingContent(false);
   };
 
-  // TODO: Reviewing folders to import
+  // Reviewing folders to import
+
+  const onSelectFolders = () => {
+    setReviewingQuestions(false);
+    setSelectingQuestions(false);
+    setSelectingFolders(true);
+    setReviewingFolders(false);
+    setReviewingSections(false);
+    setSelectingSections(false);
+    setSelectingContent(false);
+  };
+
+  const onBackFromReviewingFolders = () => {
+    setReviewingQuestions(false);
+    setSelectingQuestionnaire(true);
+    setQuestionsToImport([]);
+    setSelectingFolders(false);
+    setReviewingFolders(false);
+    setReviewingSections(false);
+    setSelectingSections(false);
+    setSelectingContent(false);
+  };
 
   const onRemoveAllSelectedContent = () => {
     if (reviewingQuestions) {
@@ -625,7 +639,7 @@ const ImportingContent = ({
           startingSelectedFolders={foldersToImport}
           onCancel={onGlobalCancel}
           // onConfirm={onReviewFoldersSubmit}
-          // onBack={onBackFromReviewingFolders}
+          onBack={onBackFromReviewingFolders}
           onSelectQuestions={onSelectQuestions}
           onSelectFolders={onSelectFolders}
           onSelectSections={onSelectSections}
