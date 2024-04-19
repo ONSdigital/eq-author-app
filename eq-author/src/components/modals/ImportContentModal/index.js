@@ -61,7 +61,7 @@ const ImportQuestionReviewModal = ({
     </Header>
     <Content>
       <ContentHeading>
-        Select sections, folders or question to import
+        Select sections, folders or questions to import
       </ContentHeading>
 
       <Container>
