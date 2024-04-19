@@ -6,121 +6,123 @@
 
 mutation ImportFolders($input: ImportFoldersInput!) {
   importFolders(input: $input) {
-    ...Folder
-    pages {
-      ...Page
-      position
-      displayName
-      pageType
-      title
-      ... on QuestionPage {
-        alias
-        description
-        guidance
-        answers {
-          ...Answer
-          ... on BasicAnswer {
-            secondaryQCode
-          }
-          ... on MultipleChoiceAnswer {
-            options {
-              ...Option
+    folders {
+      ...Folder
+      pages {
+        ...Page
+        position
+        displayName
+        pageType
+        title
+        ... on QuestionPage {
+          alias
+          description
+          guidance
+          answers {
+            ...Answer
+            ... on BasicAnswer {
+              secondaryQCode
             }
-            mutuallyExclusiveOption {
-              id
-              displayName
-              label
-              description
-              value
-              qCode
+            ... on MultipleChoiceAnswer {
+              options {
+                ...Option
+              }
+              mutuallyExclusiveOption {
+                id
+                displayName
+                label
+                description
+                value
+                qCode
+              }
             }
           }
-        }
-        confirmation {
-          id
-          qCode
-          displayName
+          confirmation {
+            id
+            qCode
+            displayName
+            comments {
+              ...Comment
+            }
+          }
           comments {
             ...Comment
           }
         }
-        comments {
-          ...Comment
-        }
-      }
-      ... on CalculatedSummaryPage {
-        id
-        title
-        alias
-        pageType
-        pageDescription
-        displayName
-        position
-        totalTitle
-        type
-        answers {
-          ...Answer
-          ... on BasicAnswer {
-            secondaryQCode
-          }
-        }
-        summaryAnswers {
+        ... on CalculatedSummaryPage {
           id
-        }
-        comments {
-          ...Comment
-        }
-      }
-      ... on ListCollectorQualifierPage {
-        id
-        answers {
-          id
-          ... on MultipleChoiceAnswer {
+          title
+          alias
+          pageType
+          pageDescription
+          displayName
+          position
+          totalTitle
+          type
+          answers {
             ...Answer
-            options {
-              ...Option
-            }
-            mutuallyExclusiveOption {
-              id
+            ... on BasicAnswer {
+              secondaryQCode
             }
           }
+          summaryAnswers {
+            id
+          }
+          comments {
+            ...Comment
+          }
         }
-        comments {
-          ...Comment
-        }
-      }
-      ... on ListCollectorAddItemPage {
-        id
-        description
-        descriptionEnabled
-        guidance
-        guidanceEnabled
-        definitionLabel
-        definitionContent
-        definitionEnabled
-        additionalInfoLabel
-        additionalInfoContent
-        additionalInfoEnabled
-        comments {
-          ...Comment
-        }
-      }
-      ... on ListCollectorConfirmationPage {
-        id
-        answers {
+        ... on ListCollectorQualifierPage {
           id
-          ... on MultipleChoiceAnswer {
-            ...Answer
-            options {
-              ...Option
-            }
-            mutuallyExclusiveOption {
-              id
+          answers {
+            id
+            ... on MultipleChoiceAnswer {
+              ...Answer
+              options {
+                ...Option
+              }
+              mutuallyExclusiveOption {
+                id
+              }
             }
           }
+          comments {
+            ...Comment
+          }
         }
-        comments {
-          ...Comment
+        ... on ListCollectorAddItemPage {
+          id
+          description
+          descriptionEnabled
+          guidance
+          guidanceEnabled
+          definitionLabel
+          definitionContent
+          definitionEnabled
+          additionalInfoLabel
+          additionalInfoContent
+          additionalInfoEnabled
+          comments {
+            ...Comment
+          }
+        }
+        ... on ListCollectorConfirmationPage {
+          id
+          answers {
+            id
+            ... on MultipleChoiceAnswer {
+              ...Answer
+              options {
+                ...Option
+              }
+              mutuallyExclusiveOption {
+                id
+              }
+            }
+          }
+          comments {
+            ...Comment
+          }
         }
       }
     }

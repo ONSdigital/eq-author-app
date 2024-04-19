@@ -985,6 +985,12 @@ input ImportQuestionsInput {
   position: Position!
 }
 
+input ImportFoldersInput {
+  questionnaireId: ID!
+  folderIds: [ID!]!
+  position: Position!
+}
+
 input ImportSectionsInput {
   questionnaireId: ID!
   sectionIds: [ID!]!
@@ -999,6 +1005,7 @@ type Mutation {
   setQuestionnaireLocked(input: SetQuestionnaireLockedInput!): Questionnaire
 
   importQuestions(input: ImportQuestionsInput!): Section
+  importFolders(input: ImportFoldersInput!): Section
   importSections(input: ImportSectionsInput!): [Section]
 
   createHistoryNote(input: createHistoryNoteInput!): [History!]!

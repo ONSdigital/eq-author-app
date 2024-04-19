@@ -63,6 +63,8 @@ const ImportingContent = ({
   const [selectingContent, setSelectingContent] = useState(false);
   const [showQuestionExtraSpaceModal, setShowQuestionExtraSpaceModal] =
     useState(false);
+  const [showFolderExtraSpaceModal, setShowFolderExtraSpaceModal] =
+    useState(false);
   const [showSectionExtraSpaceModal, setShowSectionExtraSpaceModal] =
     useState(false);
 
@@ -385,6 +387,91 @@ const ImportingContent = ({
     }
   };
 
+  const onReviewFoldersSubmit = (selectedFolders) => {
+    const folderIds = selectedFolders.map(({ id }) => id);
+    let folderContainsExtraSpaces = false;
+
+    selectedFolders.forEach((selectedFolder) => {
+      if (containsExtraSpaces(selectedFolder)) {
+        folderContainsExtraSpaces = true;
+      }
+    });
+
+    if (folderContainsExtraSpaces && !showFolderExtraSpaceModal) {
+      setReviewingQuestions(false);
+      setSelectingQuestions(false);
+      setReviewingSections(false);
+      setSelectingSections(false);
+      setSelectingFolders(false);
+      setReviewingFolders(false);
+      setSelectingContent(false);
+      setShowFolderExtraSpaceModal(true);
+    } else {
+      let input = {
+        folderIds,
+        questionnaireId: questionnaireImportingFrom.id,
+      };
+
+      switch (currentEntityName) {
+        case "section": {
+          input.position = {
+            sectionId: currentEntityId,
+            index: 0,
+          };
+
+          break;
+        }
+        case "folder": {
+          const { id: sectionId } = getSectionByFolderId(
+            sourceQuestionnaire,
+            currentEntityId
+          );
+
+          const { position } = getFolderById(
+            sourceQuestionnaire,
+            currentEntityId
+          );
+
+          input.position = {
+            sectionId,
+          };
+
+          input.position.index = position + 1;
+
+          break;
+        }
+        case "page": {
+          const { id: sectionId } = getSectionByPageId(
+            sourceQuestionnaire,
+            currentEntityId
+          );
+
+          input.position = {
+            sectionId,
+          };
+
+          const { position: folderPosition } = getFolderByPageId(
+            sourceQuestionnaire,
+            currentEntityId
+          );
+
+          input.position.index = folderPosition + 1;
+
+          break;
+        }
+        default: {
+          throw new Error("Unknown entity");
+        }
+      }
+
+      importFolders({
+        variables: { input },
+        refetchQueries: ["GetQuestionnaire"],
+      });
+      onGlobalCancel();
+    }
+  };
+
   // Selecting sections to import
 
   const onSectionPickerCancel = () => {
@@ -638,7 +725,7 @@ const ImportingContent = ({
           questionnaire={questionnaireImportingFrom}
           startingSelectedFolders={foldersToImport}
           onCancel={onGlobalCancel}
-          // onConfirm={onReviewFoldersSubmit}
+          onConfirm={onReviewFoldersSubmit}
           onBack={onBackFromReviewingFolders}
           onSelectQuestions={onSelectQuestions}
           onSelectFolders={onSelectFolders}
@@ -703,6 +790,26 @@ const ImportingContent = ({
             warningMessage="By cancelling, the content will not be imported"
             isOpen={showQuestionExtraSpaceModal}
             onConfirm={() => onReviewQuestionsSubmit(questionsToImport)}
+            onClose={onGlobalCancel}
+          >
+            <p>
+              The selected content contains extra spaces at the start of lines
+              of text, between words, or at the end of lines of text.
+            </p>
+            <p>
+              Extra spaces need to be removed before this content can be
+              imported.
+            </p>
+          </ExtraSpaceConfirmationModal>
+        </ExtraSpaceModalWrapper>
+      )}
+      {showFolderExtraSpaceModal && (
+        <ExtraSpaceModalWrapper>
+          <ExtraSpaceConfirmationModal
+            title="Confirm the removal of extra spaces from selected content"
+            warningMessage="By cancelling, the content will not be imported"
+            isOpen={showFolderExtraSpaceModal}
+            onConfirm={() => onReviewFoldersSubmit(foldersToImport)}
             onClose={onGlobalCancel}
           >
             <p>
