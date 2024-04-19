@@ -132,7 +132,7 @@ const PipingMenu = ({
     );
   }
 
-  const supplementaryData = allSupplementaryData.flatMap((list) => {
+  let supplementaryData = allSupplementaryData.flatMap((list) => {
     return list.schemaFields.map((schemaField) => {
       return {
         listName: list.listName,
@@ -140,6 +140,10 @@ const PipingMenu = ({
       };
     });
   });
+
+  supplementaryData = supplementaryData.filter(
+    (list) => !(list.listName !== "" && list.type === "array")
+  );
 
   const handlePickerContent = (contentType) => {
     switch (contentType) {
