@@ -180,7 +180,10 @@ const FolderPicker = ({
       <Main>
         {searchTerm === "" ||
         (searchTerm !== "" &&
-          searchByFolderTitleOrShortCode(sections, searchTerm).length > 0) ? (
+          // Checks if there are any sections with folders matching the search term
+          searchByFolderTitleOrShortCode(sections, searchTerm).some(
+            (section) => section.folders.length > 0
+          )) ? (
           <ScrollPane>
             <SelectedFoldersProvider
               value={{ selectedFolders, updateSelectedFolders }}
