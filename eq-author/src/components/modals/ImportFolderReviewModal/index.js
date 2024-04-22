@@ -6,7 +6,6 @@ import { colors, radius, focusStyle, getTextHoverStyle } from "constants/theme";
 import Wizard, {
   Header,
   Heading,
-  Subheading,
   Content,
   Warning,
   SpacedRow,
@@ -71,6 +70,13 @@ const WarningWrapper = styled.div`
   .warning-flex-container {
     width: 40em;
   }
+`;
+
+const Subheading = styled.h3`
+  margin: 0 0.5em 0 0;
+  display: block;
+  font-weight: bold;
+  font-size: 1em;
 `;
 
 const FolderRow = ({ folder: { alias, title, displayName }, onRemove }) => (
