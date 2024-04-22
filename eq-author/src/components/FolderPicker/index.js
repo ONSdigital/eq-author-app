@@ -11,8 +11,11 @@ import SelectedFolderContext, {
   SelectedFoldersProvider,
 } from "./SelectedFoldersContext";
 
+import { ReactComponent as WarningIcon } from "assets/icon-warning-round.svg";
+
 import Modal from "components/modals/Modal";
 import SearchBar from "components/SearchBar";
+import IconText from "components/IconText";
 import Button from "components/buttons/Button";
 import ButtonGroup from "components/buttons/ButtonGroup";
 import ScrollPane from "components/ScrollPane";
@@ -29,12 +32,8 @@ const StyledModal = styled(Modal)`
   }
 `;
 
-const Header = styled.header`
+const Header = styled.div`
   margin: 0 1.5em;
-
-  > * {
-    margin-bottom: 2em;
-  }
 `;
 
 const Main = styled.main`
@@ -51,6 +50,22 @@ const Title = styled.h2`
   font-size: 1.2em;
   color: ${colors.darkGrey};
   margin-bottom: 0.75em;
+`;
+
+const WarningPanel = styled(IconText)`
+  font-weight: bold;
+  font-size: 1.1em;
+  margin-bottom: 0.8em;
+
+  svg {
+    width: 3em;
+    height: 3em;
+    margin-right: 0.5em;
+  }
+`;
+
+const SearchBarWrapper = styled.div`
+  margin-bottom: 1.5em;
 `;
 
 const isSelected = (items, target) => items.find(({ id }) => id === target.id);
@@ -119,6 +134,7 @@ const FolderPicker = ({
   sections,
   showSearch,
   isOpen,
+  warningMessage,
   onClose,
   onCancel,
   onSubmit,
@@ -146,12 +162,19 @@ const FolderPicker = ({
     <StyledModal isOpen={isOpen} onClose={onClose} hasCloseButton>
       <Header>
         <Title>{title}</Title>
+        {warningMessage && (
+          <WarningPanel icon={WarningIcon} left>
+            {warningMessage}
+          </WarningPanel>
+        )}
         {showSearch && (
-          <SearchBar
-            size="large"
-            onChange={({ value }) => setSearchTerm(value)}
-            placeholder="Search folders"
-          />
+          <SearchBarWrapper>
+            <SearchBar
+              size="large"
+              onChange={({ value }) => setSearchTerm(value)}
+              placeholder="Search folders"
+            />
+          </SearchBarWrapper>
         )}
       </Header>
       <Main>
@@ -200,6 +223,7 @@ FolderPicker.propTypes = {
   sections: PropTypes.array.isRequired, // eslint-disable-line
   startingSelectedFolders: PropTypes.array, // eslint-disable-line
   showSearch: PropTypes.bool,
+  warningMessage: PropTypes.string,
   isOpen: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
