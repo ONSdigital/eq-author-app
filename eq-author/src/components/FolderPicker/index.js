@@ -71,7 +71,7 @@ const SearchBarWrapper = styled.div`
 const isSelected = (items, target) => items.find(({ id }) => id === target.id);
 
 const Folder = ({ folder }) => {
-  const { title, alias, displayName } = folder;
+  const { title, alias, displayName, listId } = folder;
   const { selectedFolders, updateSelectedFolders } = useContext(
     SelectedFolderContext
   );
@@ -93,6 +93,7 @@ const Folder = ({ folder }) => {
     <Item
       title={title || alias || displayName}
       subtitle={title && alias}
+      isListCollector={Boolean(listId)}
       onClick={handleClick}
       selected={Boolean(itemSelected)}
       dataTest="folder-picker-item"

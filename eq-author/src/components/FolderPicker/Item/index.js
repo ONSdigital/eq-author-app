@@ -111,9 +111,19 @@ const Subtitle = styled.span`
   color: ${colors.darkGrey};
 `;
 
+const ContentBadge = styled.span`
+  font-size: 0.8em;
+  position: absolute;
+  padding: 0.3em 0.7em;
+  right: 1.5em;
+  background: ${colors.lightMediumGrey};
+  border-radius: 1em;
+`;
+
 const WrappedItem = ({
   title,
   subtitle,
+  isListCollector,
   variant,
   selected,
   unselectable = false,
@@ -141,6 +151,7 @@ const WrappedItem = ({
       >
         {variant !== "heading" && subtitle && <Subtitle>{subtitle}</Subtitle>}
         {variant !== "heading" && <Title>{title}</Title>}
+        {isListCollector && <ContentBadge>List collector</ContentBadge>}
         {variant === "heading" && <Heading>{title}</Heading>}
       </Item>
       {children}
@@ -152,6 +163,7 @@ WrappedItem.propTypes = {
   unselectable: PropTypes.bool,
   title: PropTypes.string.isRequired,
   subtitle: PropTypes.string,
+  isListCollector: PropTypes.bool,
   variant: PropTypes.string,
   selected: PropTypes.bool,
   onClick: PropTypes.func,
