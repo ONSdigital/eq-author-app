@@ -31,9 +31,7 @@ describe("Import sections review modal", () => {
     );
 
     expect(
-      screen.queryByText(
-        /Select individual questions or entire sections to be imported, you cannot choose both/
-      )
+      screen.queryByText(/Select sections, folders or questions to import/)
     ).toBeTruthy();
     // Import button should be disabled when no questions selected
     expect(screen.getByText(/^Import$/)).toBeDisabled();

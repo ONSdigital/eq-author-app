@@ -420,9 +420,7 @@ describe("Importing content", () => {
 
       expect(queryByText("Page 1")).not.toBeInTheDocument();
       expect(
-        queryByText(
-          "*Select individual questions or entire sections to be imported, you cannot choose both*"
-        )
+        queryByText("Select sections, folders or questions to import")
       ).toBeInTheDocument();
     });
 
@@ -478,9 +476,7 @@ describe("Importing content", () => {
       expect(queryByText("Page 1")).not.toBeInTheDocument();
       expect(queryByText("Page 2")).not.toBeInTheDocument();
       expect(
-        getByText(
-          "*Select individual questions or entire sections to be imported, you cannot choose both*"
-        )
+        getByText("Select sections, folders or questions to import")
       ).toBeInTheDocument();
     });
 
@@ -1240,9 +1236,7 @@ describe("Importing content", () => {
 
       expect(queryByText("Section 1")).not.toBeInTheDocument();
       expect(
-        queryByText(
-          "*Select individual questions or entire sections to be imported, you cannot choose both*"
-        )
+        queryByText("Select sections, folders or questions to import")
       ).toBeInTheDocument();
     });
 
@@ -1298,9 +1292,7 @@ describe("Importing content", () => {
       expect(queryByText("Section 1")).not.toBeInTheDocument();
       expect(queryByText("Section 2")).not.toBeInTheDocument();
       expect(
-        getByText(
-          "*Select individual questions or entire sections to be imported, you cannot choose both*"
-        )
+        getByText("Select sections, folders or questions to import")
       ).toBeInTheDocument();
     });
 
