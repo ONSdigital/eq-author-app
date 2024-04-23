@@ -752,8 +752,9 @@ const ImportingContent = ({
                 sections={sectionsToDisplay}
                 startingSelectedFolders={foldersToImport}
                 warningMessage={
-                  isInsideRepeatingSection() &&
-                  "You cannot import list collector folders into a repeating section"
+                  isInsideRepeatingSection()
+                    ? "You cannot import list collector folders into a repeating section"
+                    : ""
                 }
                 showSearch
                 onClose={onGlobalCancel}
