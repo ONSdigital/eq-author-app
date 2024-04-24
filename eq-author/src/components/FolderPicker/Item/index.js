@@ -121,6 +121,7 @@ const ContentBadge = styled.span`
 `;
 
 const WrappedItem = ({
+  id,
   title,
   subtitle,
   isListCollector,
@@ -129,16 +130,15 @@ const WrappedItem = ({
   unselectable = false,
   onClick,
   children,
-  dataTest,
 }) => {
-  const onEnterUp = (keyCode, callback) => {
-    if (keyCode === 13) {
-      callback();
+  const handleEnterUp = (key, onEnter) => {
+    if (key === "Enter") {
+      onEnter();
     }
   };
 
   return (
-    <ListItem data-test={dataTest}>
+    <ListItem>
       <Item
         variant={variant}
         className={`${variant}`}
@@ -146,19 +146,32 @@ const WrappedItem = ({
         $unselectable={unselectable}
         tabIndex={unselectable ? -1 : 0}
         onClick={onClick}
-        onKeyUp={({ keyCode }) => onEnterUp(keyCode, onClick)}
-        data-test="folder-picker-item"
+        onKeyUp={({ key }) => handleEnterUp(key, onClick)}
+        data-test={`folder-picker-item-${id}`}
       >
-        {variant !== "heading" && subtitle && <Subtitle>{subtitle}</Subtitle>}
-        {variant !== "heading" && <Title>{title}</Title>}
-        {isListCollector && <ContentBadge>List collector</ContentBadge>}
-        {variant === "heading" && <Heading>{title}</Heading>}
+        {variant !== "heading" && subtitle && (
+          <Subtitle data-test={`folder-picker-subtitle-${id}`}>
+            {subtitle}
+          </Subtitle>
+        )}
+        {variant !== "heading" && (
+          <Title data-test={`folder-picker-title-${id}`}>{title}</Title>
+        )}
+        {isListCollector && (
+          <ContentBadge data-test={`folder-picker-content-badge-${id}`}>
+            List collector
+          </ContentBadge>
+        )}
+        {variant === "heading" && (
+          <Heading data-test={`folder-picker-heading-${id}`}>{title}</Heading>
+        )}
       </Item>
       {children}
     </ListItem>
   );
 };
 WrappedItem.propTypes = {
+  id: PropTypes.string,
   icon: PropTypes.node,
   unselectable: PropTypes.bool,
   title: PropTypes.string.isRequired,
@@ -168,7 +181,6 @@ WrappedItem.propTypes = {
   selected: PropTypes.bool,
   onClick: PropTypes.func,
   children: PropTypes.node,
-  dataTest: PropTypes.string,
 };
 
 export default WrappedItem;

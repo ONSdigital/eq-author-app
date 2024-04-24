@@ -71,7 +71,7 @@ const SearchBarWrapper = styled.div`
 const isSelected = (items, target) => items.find(({ id }) => id === target.id);
 
 const Folder = ({ folder }) => {
-  const { title, alias, displayName, listId } = folder;
+  const { id, title, alias, displayName, listId } = folder;
   const { selectedFolders, updateSelectedFolders } = useContext(
     SelectedFolderContext
   );
@@ -91,12 +91,12 @@ const Folder = ({ folder }) => {
 
   return (
     <Item
+      id={id}
       title={title || alias || displayName}
       subtitle={title && alias}
       isListCollector={Boolean(listId)}
       onClick={handleClick}
       selected={Boolean(itemSelected)}
-      dataTest="folder-picker-item"
     />
   );
 };
@@ -106,13 +106,13 @@ Folder.propTypes = {
 };
 
 const Section = ({ section }) => {
-  const { displayName, folders } = section;
+  const { id, displayName, folders } = section;
 
   const numOfFoldersInSection = getFolders({ sections: [section] }).length;
 
   if (numOfFoldersInSection > 0) {
     return (
-      <Item variant="heading" title={displayName} unselectable>
+      <Item id={id} variant="heading" title={displayName} unselectable>
         <List>
           {folders.map((folder) => {
             return <Folder key={`folder-${folder.id}`} folder={folder} />;
