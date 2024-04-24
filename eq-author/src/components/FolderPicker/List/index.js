@@ -14,6 +14,7 @@ const List = ({ children, className }) => {
     </OrderedList>
   );
 };
+
 List.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
