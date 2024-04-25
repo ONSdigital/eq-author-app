@@ -32,7 +32,7 @@ const StyledModal = styled(Modal)`
   }
 `;
 
-const Header = styled.div`
+const Header = styled.header`
   margin: 0 1.5em;
 `;
 
@@ -161,15 +161,15 @@ const FolderPicker = ({
 
   return (
     <StyledModal isOpen={isOpen} onClose={onClose} hasCloseButton>
-      <Header>
-        <Title>{title}</Title>
+      <Header data-test="folder-picker-header">
+        <Title data-test="folder-picker-title">{title}</Title>
         {warningMessage && (
           <WarningPanel icon={WarningIcon} left>
             {warningMessage}
           </WarningPanel>
         )}
         {showSearch && (
-          <SearchBarWrapper>
+          <SearchBarWrapper data-test="folder-picker-search-bar-wrapper">
             <SearchBar
               size="large"
               onChange={({ value }) => setSearchTerm(value)}
@@ -178,7 +178,7 @@ const FolderPicker = ({
           </SearchBarWrapper>
         )}
       </Header>
-      <Main>
+      <Main data-test="folder-picker-main">
         {searchTerm === "" ||
         (searchTerm !== "" &&
           // Checks if there are any sections with folders matching the search term
@@ -203,9 +203,13 @@ const FolderPicker = ({
           />
         )}
       </Main>
-      <Footer>
+      <Footer data-test="folder-picker-footer">
         <ButtonGroup horizontal align="right">
-          <Button variant="secondary" onClick={onCancel}>
+          <Button
+            variant="secondary"
+            onClick={onCancel}
+            data-test="folder-picker-button-cancel"
+          >
             Cancel
           </Button>
           <Button
@@ -213,6 +217,7 @@ const FolderPicker = ({
             autoFocus
             disabled={selectedFolders.length === 0}
             onClick={() => handleSubmit(selectedFolders)}
+            data-test="folder-picker-button-select"
           >
             Select
           </Button>
