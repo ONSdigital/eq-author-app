@@ -25,11 +25,6 @@ const Container = styled.div`
   p:last-of-type {
     margin-bottom: 0;
   }
-  em {
-    background-color: #dce5b0;
-    padding: 0 0.125em;
-    font-style: normal;
-  }
   span[data-piped] {
     background-color: #e0e0e0;
     padding: 0 0.125em;
@@ -130,7 +125,10 @@ const CalculatedSummaryPagePreview = ({ page }) => {
                   <Grid>
                     <Column cols={7}>
                       <SummaryTotalLabel data-test="total-title">
-                        {page.totalTitle.replace(/<\/?p>/g, "")}
+                        {
+                          /* Removes all HTML tags */
+                          page.totalTitle.replace(/<[^>]*>/g, "")
+                        }
                       </SummaryTotalLabel>
                     </Column>
                     <Column cols={3}>

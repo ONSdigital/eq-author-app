@@ -46,7 +46,6 @@ const InlineField = styled(Field)`
 const contentControls = {
   heading: true,
   bold: true,
-  emphasis: true,
   list: true,
   link: true,
 };

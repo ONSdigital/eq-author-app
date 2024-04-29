@@ -31,10 +31,13 @@ import PasteModal, {
   preserveRichFormatting,
 } from "components/modals/PasteModal";
 
-const styleMap = {
-  ITALIC: {
-    backgroundColor: "#cbe2c8",
-  },
+const styleMap = (controls) => {
+  return {
+    BOLD: {
+      backgroundColor: controls.highlight && "#cbe2c8",
+      fontWeight: controls.bold && "bold",
+    },
+  };
 };
 
 const heading = css`
@@ -158,7 +161,7 @@ class RichTextEditor extends React.Component {
       piping: PropTypes.bool,
       link: PropTypes.bool,
       bold: PropTypes.bool,
-      emphasis: PropTypes.bool,
+      highlight: PropTypes.bool,
       list: PropTypes.bool,
       heading: PropTypes.bool,
     }),
@@ -371,8 +374,17 @@ class RichTextEditor extends React.Component {
   hasInlineStyle = (editorState, style) =>
     editorState.getCurrentInlineStyle().has(style);
 
-  isActiveControl = ({ style, type }) => {
+  isActiveControl = ({ id, style, type }) => {
     const { editorState } = this.state;
+    const { controls } = this.props;
+
+    // Displays bold and highlight buttons as inactive when the control is not enabled
+    if (
+      (id === "bold" && !controls.bold) ||
+      (id === "highlight" && !controls.highlight)
+    ) {
+      return false;
+    }
 
     return type === STYLE_BLOCK
       ? this.hasBlockStyle(editorState, style)
@@ -539,7 +551,7 @@ class RichTextEditor extends React.Component {
                 editorState={editorState}
                 onChange={this.handleChange}
                 ref={this.setEditorInstance}
-                customStyleMap={styleMap}
+                customStyleMap={styleMap(this.props.controls)}
                 blockStyleFn={getBlockStyle}
                 handleReturn={multiline ? undefined : this.handleReturn}
                 handlePastedText={
