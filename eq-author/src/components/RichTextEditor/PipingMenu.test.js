@@ -34,12 +34,60 @@ const mockMetadata = [
   },
 ];
 
+const mockSupplementaryData = {
+  surveyId: "221",
+  data: [
+    {
+      schemaFields: [
+        {
+          identifier: "employer_paye",
+          description:
+            "The tax office employer reference. This will be between 1 and 10 characters, which can be letters and numbers.",
+          type: "string",
+          example: "AB456",
+          selector: "reference",
+          id: "c5f64732-3bb2-40ba-8b0d-fc3b7e22c834",
+        },
+      ],
+      id: "f0d7091a-44be-4c88-9d78-a807aa7509ec",
+      listName: "",
+    },
+    {
+      schemaFields: [
+        {
+          identifier: "local-units",
+          description: "Name of the local unit",
+          type: "string",
+          example: "STUBBS BUILDING PRODUCTS LTD",
+          selector: "name",
+          id: "673a30af-5197-4d2a-be0c-e5795a998491",
+        },
+        {
+          identifier: "local-units",
+          description: "The “trading as” name for the local unit",
+          type: "string",
+          example: "STUBBS PRODUCTS",
+          selector: "trading_name",
+          id: "af2ff1a6-fc5d-419f-9538-0d052a5e6728",
+        },
+      ],
+      id: "6e901afa-473a-4704-8bbd-de054569379c",
+      listName: "local-units",
+    },
+  ],
+  sdsDateCreated: "2023-12-15T11:21:34Z",
+  sdsGuid: "621c954b-5523-4eda-a3eb-f18bebd20b8d",
+  sdsVersion: "1",
+  id: "b6c84aee-ea11-41e6-8be8-5715b066d297",
+};
+
 const mockQuestionnaire = buildQuestionnaire({
   sectionCount: 1,
   folderCount: 1,
   pageCount: 2,
 });
 mockQuestionnaire.metadata = mockMetadata;
+mockQuestionnaire.supplementaryData = mockSupplementaryData;
 mockQuestionnaire.sections[0].folders[0].pages[0].answers = [
   {
     id: "answer-1",
@@ -101,11 +149,12 @@ describe("PipingMenu", () => {
     expect(wrapper.find(PIPING_BUTTON_VALUE).prop("disabled")).toBe(true);
   });
 
-  it("should render as disabled when there is no answerData and metadataData", () => {
+  it("should render as disabled when there is no answerData, metadataData, and supplementaryData", () => {
     const wrapper = render({
       questionnaire: {
         ...mockQuestionnaire,
         metadata: [],
+        supplementaryData: [],
       },
       currentPageId: "1.1.1",
     });
