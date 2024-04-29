@@ -36,7 +36,7 @@ import CommentFragment from "graphql/fragments/comment.graphql";
 import AnswerFragment from "graphql/fragments/answer.graphql";
 
 const titleControls = {
-  emphasis: true,
+  highlight: true,
   piping: true,
 };
 

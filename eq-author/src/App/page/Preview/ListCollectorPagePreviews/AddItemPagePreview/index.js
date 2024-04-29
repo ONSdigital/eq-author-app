@@ -32,11 +32,6 @@ const Container = styled.div`
   p:last-of-type {
     margin-bottom: 0;
   }
-  em {
-    background-color: ${colors.highlightGreen};
-    padding: 0 0.125em;
-    font-style: normal;
-  }
   span[data-piped] {
     background-color: ${colors.pipingGrey};
     padding: 0 0.125em;

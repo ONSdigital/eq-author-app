@@ -32,7 +32,7 @@ import {
 } from "constants/modal-content";
 
 const titleControls = {
-  emphasis: true,
+  highlight: true,
   piping: true,
 };
 

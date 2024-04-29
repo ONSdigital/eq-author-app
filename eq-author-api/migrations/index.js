@@ -54,6 +54,7 @@ const migrations = [
   require("./addAdditonalContentsToAddItemPage"),
   require("./updateHealthThemeToPandemicMonitoring"),
   require("./addAllowableDataVersions"),
+  require("./convertEmTagsToStrongTags"),
 ];
 
 const currentVersion = migrations.length;
