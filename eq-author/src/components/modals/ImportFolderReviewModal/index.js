@@ -79,14 +79,17 @@ const Subheading = styled.h3`
   font-size: 1em;
 `;
 
-const FolderRow = ({ folder: { alias, title, displayName }, onRemove }) => (
+const FolderRow = ({ folder: { id, alias, title, displayName }, onRemove }) => (
   <FolderContainer>
     <SpacedRow>
       <div>
         <p>{title && alias}</p>
         <p>{title || displayName} </p>
       </div>
-      <RemoveButton onClick={onRemove}>
+      <RemoveButton
+        onClick={onRemove}
+        data-test={`folder-review-item-remove-button-${id}`}
+      >
         <span role="img" aria-label="Remove">
           ✕
         </span>
