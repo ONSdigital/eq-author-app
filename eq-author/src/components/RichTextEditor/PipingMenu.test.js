@@ -8,6 +8,7 @@ import PipingMenu, {
 import {
   ANSWER,
   METADATA,
+  SUPPLEMENTARY_DATA,
   VARIABLES,
 } from "components/ContentPickerSelectv3/content-types";
 
@@ -111,7 +112,7 @@ describe("PipingMenu", () => {
     return shallow(
       <PipingMenu
         onItemChosen={handleItemChosen}
-        allowableTypes={[ANSWER, METADATA, VARIABLES]}
+        allowableTypes={[ANSWER, METADATA, SUPPLEMENTARY_DATA, VARIABLES]}
         canFocus
         {...props}
       />
