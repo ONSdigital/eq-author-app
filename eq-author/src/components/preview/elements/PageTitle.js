@@ -8,6 +8,11 @@ const Title = styled.h1`
   font-size: 1.4em;
   margin: 0 0 1em;
   word-wrap: break-word;
+  strong {
+    background-color: #dce5b0;
+    padding: 0 0.125em;
+    font-style: normal;
+  }
 `;
 
 const PageTitle = ({ title, missingText = "Missing Page Title" }) => {

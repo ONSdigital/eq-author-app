@@ -22,9 +22,8 @@ exports[`IntroductionEditor should render 1`] = `
         autoFocus={false}
         controls={
           Object {
-            "bold": true,
-            "emphasis": true,
             "heading": true,
+            "highlight": true,
             "link": true,
             "piping": true,
           }
@@ -178,7 +177,6 @@ exports[`IntroductionEditor should render 1`] = `
         controls={
           Object {
             "bold": true,
-            "emphasis": true,
             "link": true,
             "list": true,
             "piping": true,
@@ -281,7 +279,7 @@ exports[`IntroductionEditor should render 1`] = `
         autoFocus={false}
         controls={
           Object {
-            "emphasis": true,
+            "highlight": true,
             "piping": true,
           }
         }
@@ -303,7 +301,6 @@ exports[`IntroductionEditor should render 1`] = `
         controls={
           Object {
             "bold": true,
-            "emphasis": true,
             "link": true,
             "list": true,
             "piping": true,
@@ -348,7 +345,7 @@ exports[`IntroductionEditor should render 1`] = `
         autoFocus={false}
         controls={
           Object {
-            "emphasis": true,
+            "highlight": true,
             "piping": true,
           }
         }
@@ -370,7 +367,6 @@ exports[`IntroductionEditor should render 1`] = `
         controls={
           Object {
             "bold": true,
-            "emphasis": true,
             "link": true,
             "list": true,
             "piping": true,

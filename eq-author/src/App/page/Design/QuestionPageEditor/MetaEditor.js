@@ -19,7 +19,7 @@ import {
 } from "components/ContentPickerSelectv3/content-types";
 
 const titleControls = {
-  emphasis: true,
+  highlight: true,
   piping: true,
 };
 
