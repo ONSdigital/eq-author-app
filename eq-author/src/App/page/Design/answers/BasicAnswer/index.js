@@ -158,8 +158,8 @@ export const StatelessBasicAnswer = ({
           }
           return (
             error.field === "label" && (
-              <ValidationError key={error.id}>
-                {PIPING_TITLE_MOVED.message}
+              <ValidationError key={error.id === "PIPING_TITLE_MOVED"}>
+                {message}
               </ValidationError>
             )
           );
