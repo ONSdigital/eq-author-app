@@ -128,6 +128,7 @@ const sourceQuestionnaires = [
                   {
                     id: "answer-3",
                     type: "Number",
+                    label: "Answer 3 ",
                   },
                 ],
               },
@@ -1536,6 +1537,338 @@ describe("Importing content", () => {
             },
           },
           refetchQueries: ["GetQuestionnaire"],
+        });
+      });
+
+      describe("Extra spaces", () => {
+        it("should display extra space confirmation modal before importing folders containing extra spaces", () => {
+          const mockImportFolders = jest.fn();
+          useParams.mockImplementation(() => ({
+            questionnaireId: destinationQuestionnaire.id,
+            entityName: "section",
+            entityId: destinationQuestionnaire.sections[0].id,
+          }));
+
+          useMutation.mockImplementation(jest.fn(() => [mockImportFolders]));
+          const { getByTestId, getAllByTestId, getByText, queryByText } =
+            renderImportingContent();
+          fireEvent.click(getByText(/All/));
+          const allRows = getAllByTestId("table-row");
+          fireEvent.click(allRows[0]);
+          fireEvent.click(getByTestId("confirm-btn"));
+
+          const foldersButton = getByTestId(
+            "content-modal-select-folders-button"
+          );
+
+          fireEvent.click(foldersButton);
+          fireEvent.click(getByText("Folder 3"));
+          // Folder picker's "Select" button
+          fireEvent.click(getByTestId("button-group").children[1]);
+
+          expect(
+            queryByText("Import content from Source questionnaire 1")
+          ).toBeInTheDocument();
+
+          // Folder review modal's "Import" button
+          fireEvent.click(getByTestId("button-group").children[0]);
+
+          const sourceSection = sourceQuestionnaires[0].sections[2];
+          const destinationSection = destinationQuestionnaire.sections[0];
+
+          // Test modal closes
+          expect(
+            queryByText("Import content from Source questionnaire 1")
+          ).not.toBeInTheDocument();
+
+          expect(mockImportFolders).toHaveBeenCalledTimes(0);
+
+          // Extra space confirmation modal
+
+          expect(queryByText(extraSpaceModalTitle)).toBeInTheDocument();
+          const extraSpaceModalConfirmButton =
+            getByTestId("btn-modal-positive");
+
+          fireEvent.click(extraSpaceModalConfirmButton);
+          expect(mockImportFolders).toHaveBeenCalledTimes(1);
+
+          expect(mockImportFolders).toHaveBeenCalledWith({
+            variables: {
+              input: {
+                folderIds: [sourceSection.folders[0].id],
+                questionnaireId: sourceQuestionnaires[0].id,
+                position: {
+                  sectionId: destinationSection.id,
+                  index: 0,
+                },
+              },
+            },
+            refetchQueries: ["GetQuestionnaire"],
+          });
+        });
+
+        it("should display extra space confirmation modal before importing folders containing leading spaces", () => {
+          const mockImportFolders = jest.fn();
+          useParams.mockImplementation(() => ({
+            questionnaireId: destinationQuestionnaire.id,
+            entityName: "section",
+            entityId: destinationQuestionnaire.sections[0].id,
+          }));
+
+          useMutation.mockImplementation(jest.fn(() => [mockImportFolders]));
+          const { getByTestId, getAllByTestId, getByText, queryByText } =
+            renderImportingContent();
+          fireEvent.click(getByText(/All/));
+          const allRows = getAllByTestId("table-row");
+          fireEvent.click(allRows[0]);
+          fireEvent.click(getByTestId("confirm-btn"));
+
+          const foldersButton = getByTestId(
+            "content-modal-select-folders-button"
+          );
+
+          fireEvent.click(foldersButton);
+          fireEvent.click(getByText("Folder 4"));
+          // Folder picker's "Select" button
+          fireEvent.click(getByTestId("button-group").children[1]);
+
+          expect(
+            queryByText("Import content from Source questionnaire 1")
+          ).toBeInTheDocument();
+
+          // Folder review modal's "Import" button
+          fireEvent.click(getByTestId("button-group").children[0]);
+
+          const sourceSection = sourceQuestionnaires[0].sections[3];
+          const destinationSection = destinationQuestionnaire.sections[0];
+
+          // Test modal closes
+          expect(
+            queryByText("Import content from Source questionnaire 1")
+          ).not.toBeInTheDocument();
+
+          expect(mockImportFolders).toHaveBeenCalledTimes(0);
+
+          // Extra space confirmation modal
+
+          expect(queryByText(extraSpaceModalTitle)).toBeInTheDocument();
+          const extraSpaceModalConfirmButton =
+            getByTestId("btn-modal-positive");
+
+          fireEvent.click(extraSpaceModalConfirmButton);
+          expect(mockImportFolders).toHaveBeenCalledTimes(1);
+
+          expect(mockImportFolders).toHaveBeenCalledWith({
+            variables: {
+              input: {
+                folderIds: [sourceSection.folders[0].id],
+                questionnaireId: sourceQuestionnaires[0].id,
+                position: {
+                  sectionId: destinationSection.id,
+                  index: 0,
+                },
+              },
+            },
+            refetchQueries: ["GetQuestionnaire"],
+          });
+        });
+
+        it("should display extra space confirmation modal before importing folders containing trailing spaces", () => {
+          const mockImportFolders = jest.fn();
+          useParams.mockImplementation(() => ({
+            questionnaireId: destinationQuestionnaire.id,
+            entityName: "section",
+            entityId: destinationQuestionnaire.sections[0].id,
+          }));
+
+          useMutation.mockImplementation(jest.fn(() => [mockImportFolders]));
+          const { getByTestId, getAllByTestId, getByText, queryByText } =
+            renderImportingContent();
+          fireEvent.click(getByText(/All/));
+          const allRows = getAllByTestId("table-row");
+          fireEvent.click(allRows[0]);
+          fireEvent.click(getByTestId("confirm-btn"));
+
+          const foldersButton = getByTestId(
+            "content-modal-select-folders-button"
+          );
+
+          fireEvent.click(foldersButton);
+          fireEvent.click(getByText("Folder 2"));
+          // Folder picker's "Select" button
+          fireEvent.click(getByTestId("button-group").children[1]);
+
+          expect(
+            queryByText("Import content from Source questionnaire 1")
+          ).toBeInTheDocument();
+
+          // Folder review modal's "Import" button
+          fireEvent.click(getByTestId("button-group").children[0]);
+
+          const sourceSection = sourceQuestionnaires[0].sections[1];
+          const destinationSection = destinationQuestionnaire.sections[0];
+
+          // Test modal closes
+          expect(
+            queryByText("Import content from Source questionnaire 1")
+          ).not.toBeInTheDocument();
+
+          expect(mockImportFolders).toHaveBeenCalledTimes(0);
+
+          // Extra space confirmation modal
+
+          expect(queryByText(extraSpaceModalTitle)).toBeInTheDocument();
+          const extraSpaceModalConfirmButton =
+            getByTestId("btn-modal-positive");
+
+          fireEvent.click(extraSpaceModalConfirmButton);
+          expect(mockImportFolders).toHaveBeenCalledTimes(1);
+
+          expect(mockImportFolders).toHaveBeenCalledWith({
+            variables: {
+              input: {
+                folderIds: [sourceSection.folders[0].id],
+                questionnaireId: sourceQuestionnaires[0].id,
+                position: {
+                  sectionId: destinationSection.id,
+                  index: 0,
+                },
+              },
+            },
+            refetchQueries: ["GetQuestionnaire"],
+          });
+        });
+
+        it("should display extra space confirmation modal before importing folders containing tags with leading spaces", () => {
+          const mockImportFolders = jest.fn();
+          useParams.mockImplementation(() => ({
+            questionnaireId: destinationQuestionnaire.id,
+            entityName: "section",
+            entityId: destinationQuestionnaire.sections[0].id,
+          }));
+
+          useMutation.mockImplementation(jest.fn(() => [mockImportFolders]));
+          const { getByTestId, getAllByTestId, getByText, queryByText } =
+            renderImportingContent();
+          fireEvent.click(getByText(/All/));
+          const allRows = getAllByTestId("table-row");
+          fireEvent.click(allRows[0]);
+          fireEvent.click(getByTestId("confirm-btn"));
+
+          const foldersButton = getByTestId(
+            "content-modal-select-folders-button"
+          );
+
+          fireEvent.click(foldersButton);
+          fireEvent.click(getByText("Folder 6"));
+          // Folder picker's "Select" button
+          fireEvent.click(getByTestId("button-group").children[1]);
+
+          expect(
+            queryByText("Import content from Source questionnaire 1")
+          ).toBeInTheDocument();
+
+          // Folder review modal's "Import" button
+          fireEvent.click(getByTestId("button-group").children[0]);
+
+          const sourceSection = sourceQuestionnaires[0].sections[5];
+          const destinationSection = destinationQuestionnaire.sections[0];
+
+          // Test modal closes
+          expect(
+            queryByText("Import content from Source questionnaire 1")
+          ).not.toBeInTheDocument();
+
+          expect(mockImportFolders).toHaveBeenCalledTimes(0);
+
+          // Extra space confirmation modal
+
+          expect(queryByText(extraSpaceModalTitle)).toBeInTheDocument();
+          const extraSpaceModalConfirmButton =
+            getByTestId("btn-modal-positive");
+
+          fireEvent.click(extraSpaceModalConfirmButton);
+          expect(mockImportFolders).toHaveBeenCalledTimes(1);
+
+          expect(mockImportFolders).toHaveBeenCalledWith({
+            variables: {
+              input: {
+                folderIds: [sourceSection.folders[0].id],
+                questionnaireId: sourceQuestionnaires[0].id,
+                position: {
+                  sectionId: destinationSection.id,
+                  index: 0,
+                },
+              },
+            },
+            refetchQueries: ["GetQuestionnaire"],
+          });
+        });
+
+        it("should display extra space confirmation modal before importing folders containing tags with trailing spaces", () => {
+          const mockImportFolders = jest.fn();
+          useParams.mockImplementation(() => ({
+            questionnaireId: destinationQuestionnaire.id,
+            entityName: "section",
+            entityId: destinationQuestionnaire.sections[0].id,
+          }));
+
+          useMutation.mockImplementation(jest.fn(() => [mockImportFolders]));
+          const { getByTestId, getAllByTestId, getByText, queryByText } =
+            renderImportingContent();
+          fireEvent.click(getByText(/All/));
+          const allRows = getAllByTestId("table-row");
+          fireEvent.click(allRows[0]);
+          fireEvent.click(getByTestId("confirm-btn"));
+
+          const foldersButton = getByTestId(
+            "content-modal-select-folders-button"
+          );
+
+          fireEvent.click(foldersButton);
+          fireEvent.click(getByText("Folder 5"));
+          // Folder picker's "Select" button
+          fireEvent.click(getByTestId("button-group").children[1]);
+
+          expect(
+            queryByText("Import content from Source questionnaire 1")
+          ).toBeInTheDocument();
+
+          // Folder review modal's "Import" button
+          fireEvent.click(getByTestId("button-group").children[0]);
+
+          const sourceSection = sourceQuestionnaires[0].sections[4];
+          const destinationSection = destinationQuestionnaire.sections[0];
+
+          // Test modal closes
+          expect(
+            queryByText("Import content from Source questionnaire 1")
+          ).not.toBeInTheDocument();
+
+          expect(mockImportFolders).toHaveBeenCalledTimes(0);
+
+          // Extra space confirmation modal
+
+          expect(queryByText(extraSpaceModalTitle)).toBeInTheDocument();
+          const extraSpaceModalConfirmButton =
+            getByTestId("btn-modal-positive");
+
+          fireEvent.click(extraSpaceModalConfirmButton);
+          expect(mockImportFolders).toHaveBeenCalledTimes(1);
+
+          expect(mockImportFolders).toHaveBeenCalledWith({
+            variables: {
+              input: {
+                folderIds: [sourceSection.folders[0].id],
+                questionnaireId: sourceQuestionnaires[0].id,
+                position: {
+                  sectionId: destinationSection.id,
+                  index: 0,
+                },
+              },
+            },
+            refetchQueries: ["GetQuestionnaire"],
+          });
         });
       });
     });
