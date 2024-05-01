@@ -23,10 +23,18 @@ jest.mock("components/QuestionnaireContext", () => ({
 
 useMutation.mockImplementation(jest.fn(() => [jest.fn()]));
 
-const destinationQuestionnaire = buildQuestionnaire({ answerCount: 1 });
+const destinationQuestionnaire = buildQuestionnaire({
+  answerCount: 1,
+  sectionCount: 2,
+});
 const listCollectorFolder = buildListCollectorFolders()[0];
-destinationQuestionnaire.sections[0].folders[1] = listCollectorFolder;
 listCollectorFolder.position = 1;
+destinationQuestionnaire.sections[0].folders[1] = listCollectorFolder;
+destinationQuestionnaire.sections[1] = {
+  ...destinationQuestionnaire.sections[1],
+  repeatingSection: true,
+  repeatingSectionListId: "list-1",
+};
 
 const extraSpaceModalTitle =
   "Confirm the removal of extra spaces from selected content";
@@ -251,6 +259,24 @@ const sourceQuestionnaires = [
                 answers: [
                   {
                     id: "answer-9",
+                    type: "Number",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: "folder-7",
+            displayName: "Folder 7",
+            listId: "list-1",
+            pages: [
+              {
+                id: "page-10",
+                title: "Page 10",
+                pageType: "QuestionPage",
+                answers: [
+                  {
+                    id: "answer-10",
                     type: "Number",
                   },
                 ],
@@ -1200,6 +1226,10 @@ describe("Importing content", () => {
       fireEvent.click(foldersButton);
 
       expect(getByText("Select the folder(s) to import")).toBeInTheDocument();
+      // Tests all folders (folders 1-7) are in the document
+      for (let i = 1; i < 8; i++) {
+        expect(getByText(`Folder ${i}`)).toBeInTheDocument();
+      }
     });
 
     it("should display a selected folder on the review modal", () => {
@@ -1384,6 +1414,33 @@ describe("Importing content", () => {
       expect(
         queryByText("Select the folder(s) to import")
       ).not.toBeInTheDocument();
+    });
+
+    it("should not display list collector folders when importing into a repeating section", () => {
+      useParams.mockImplementation(() => ({
+        questionnaireId: destinationQuestionnaire.id,
+        entityName: "section",
+        entityId: destinationQuestionnaire.sections[1].id,
+      }));
+
+      const { getByTestId, getAllByTestId, getByText, queryByText } =
+        renderImportingContent();
+      fireEvent.click(getByText(/All/));
+      const allRows = getAllByTestId("table-row");
+      fireEvent.click(allRows[0]);
+      fireEvent.click(getByTestId("confirm-btn"));
+
+      const foldersButton = getByTestId("content-modal-select-folders-button");
+
+      fireEvent.click(foldersButton);
+
+      // Tests all basic folders (folders 1-6) are in the document
+      for (let i = 1; i < 7; i++) {
+        expect(getByText(`Folder ${i}`)).toBeInTheDocument();
+      }
+
+      // Tests list collector folder is not in the document
+      expect(queryByText("Folder 7")).not.toBeInTheDocument();
     });
 
     describe("Confirm import folder", () => {
