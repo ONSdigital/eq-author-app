@@ -23,7 +23,7 @@ const Container = styled.div`
     margin-bottom: 0;
   }
   em {
-    background-color: ${colors.highlightGreen};
+    background-color: ${colors.neonYellow};
     padding: 0 0.125em;
     font-style: normal;
   }

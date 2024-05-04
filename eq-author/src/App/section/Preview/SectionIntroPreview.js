@@ -1,6 +1,7 @@
 /* eslint-disable react/no-danger */
 import React from "react";
 import styled from "styled-components";
+import { colors } from "../../../constants/theme";
 
 import fragment from "graphql/fragments/section.graphql";
 
@@ -16,7 +17,7 @@ const Wrapper = styled.div`
     margin-bottom: 0;
   }
   em {
-    background-color: #dce5b0;
+    background-color: ${colors.neonYellow};
     padding: 0 0.125em;
     font-style: normal;
   }

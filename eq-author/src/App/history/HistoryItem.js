@@ -70,13 +70,13 @@ const EventText = styled.div`
     margin: 0 0 1em;
     word-break: break-all;
     em {
-      background-color: ${colors.highlightGreen};
+      background-color: ${colors.neonYellow};
       font-style: normal;
     }
   }
   h2 {
     em {
-      background-color: ${colors.highlightGreen};
+      background-color: ${colors.neonYellow};
       font-style: normal;
     }
   }
@@ -90,7 +90,7 @@ const EventText = styled.div`
         font-weight: bold;
       }
       em {
-        background-color: ${colors.highlightGreen};
+        background-color: ${colors.neonYellow};
         font-style: normal;
       }
     }

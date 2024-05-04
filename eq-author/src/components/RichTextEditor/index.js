@@ -27,13 +27,15 @@ import { sharedStyles } from "components/Forms/css";
 import { Field, Label } from "components/Forms";
 import ValidationError from "components/ValidationError";
 
+import { colors } from "../../constants/theme";
+
 import PasteModal, {
   preserveRichFormatting,
 } from "components/modals/PasteModal";
 
 const styleMap = {
   ITALIC: {
-    backgroundColor: "#cbe2c8",
+    backgroundColor: colors.neonYellow,
   },
 };
 

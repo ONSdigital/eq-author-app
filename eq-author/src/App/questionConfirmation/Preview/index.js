@@ -33,7 +33,7 @@ const Container = styled.div`
     margin-bottom: 0;
   }
   em {
-    background-color: #dce5b0;
+    background-color: ${colors.neonYellow};
     padding: 0 0.125em;
     font-style: normal;
   }
