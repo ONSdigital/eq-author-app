@@ -1,10 +1,14 @@
 const { buildContext } = require("../../tests/utils/contextBuilder");
 const { getPages, getFolders, getSections } = require("../resolvers/utils");
+
 const {
   importQuestions,
   importFolders,
   importSections,
 } = require("../../tests/utils/contextBuilder/importing");
+const {
+  updateFolder,
+} = require("../../tests/utils/contextBuilder/folder/updateFolder");
 
 describe("Importing questions", () => {
   describe("Error conditions", () => {
@@ -366,6 +370,62 @@ describe("Importing folders", () => {
                 qCode: null,
               },
             ],
+          },
+        ],
+      });
+    });
+
+    it("should set folder listId to empty string when importing a folder with listId", async () => {
+      const sourceStructure = {
+        sections: [
+          {
+            folders: [
+              {
+                listId: "list-1",
+                pages: [{ title: "Page 1" }, { title: "Page 2" }],
+              },
+            ],
+          },
+        ],
+      };
+
+      const { ctx } = await setup(sourceStructure);
+      const destinationSection = ctx.questionnaire.sections[0];
+      const sourceQuestionnaireCtx = await buildContext(sourceStructure);
+      const { questionnaire: sourceQuestionnaire } = sourceQuestionnaireCtx;
+
+      await updateFolder(sourceQuestionnaireCtx, {
+        folderId: sourceQuestionnaire.sections[0].folders[0].id,
+        listId: "list-1",
+      });
+
+      await importFolders(ctx, {
+        questionnaireId: sourceQuestionnaire.id,
+        folderIds: [sourceQuestionnaire.sections[0].folders[0].id],
+        position: {
+          index: 0,
+          sectionId: destinationSection.id,
+        },
+      });
+
+      expect(sourceQuestionnaire.sections[0].folders[0].listId).not.toEqual("");
+      expect(sourceQuestionnaire.sections[0].folders[0].listId).toEqual(
+        "list-1"
+      );
+
+      expect(destinationSection.folders[0]).toMatchObject({
+        ...sourceQuestionnaire.sections[0].folders[0],
+        id: expect.any(String),
+        folderId: expect.any(String),
+        listId: "",
+        pages: [
+          {
+            ...sourceQuestionnaire.sections[0].folders[0].pages[0],
+            id: expect.any(String),
+          },
+          {
+            ...sourceQuestionnaire.sections[0].folders[0].pages[1],
+            id: expect.any(String),
           },
         ],
       });
