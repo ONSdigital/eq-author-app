@@ -57,7 +57,7 @@ const SectionIntroduction = ({
           size="large"
           testSelector="txt-introduction-title"
           value={section?.introductionTitle}
-          controls={{ piping: true }}
+          controls={{ highlight: true, piping: true }}
           listId={section?.repeatingSectionListId ?? null}
           errorValidationMsg={introductionTitleErrorMessage}
         />
@@ -74,7 +74,6 @@ const SectionIntroduction = ({
             bold: true,
             list: true,
             piping: true,
-            emphasis: true,
             link: true,
           }}
           listId={section?.repeatingSectionListId ?? null}

@@ -13,7 +13,7 @@ exports[`MetaEditor should be able to display both deleted metadata and deleted 
     autoFocus={false}
     controls={
       Object {
-        "emphasis": true,
+        "highlight": true,
         "piping": true,
       }
     }
@@ -55,7 +55,7 @@ exports[`MetaEditor should display the correct error message when piping answer 
     autoFocus={false}
     controls={
       Object {
-        "emphasis": true,
+        "highlight": true,
         "piping": true,
       }
     }
@@ -96,7 +96,7 @@ exports[`MetaEditor should display the correct error message when piping answer 
     autoFocus={false}
     controls={
       Object {
-        "emphasis": true,
+        "highlight": true,
         "piping": true,
       }
     }
@@ -137,7 +137,7 @@ exports[`MetaEditor should display the correct error message when the definition
     autoFocus={false}
     controls={
       Object {
-        "emphasis": true,
+        "highlight": true,
         "piping": true,
       }
     }
@@ -174,7 +174,7 @@ exports[`MetaEditor should display the correct error message when the definition
     autoFocus={false}
     controls={
       Object {
-        "emphasis": true,
+        "highlight": true,
         "piping": true,
       }
     }
@@ -211,7 +211,7 @@ exports[`MetaEditor should display the correct error message when the descriptio
     autoFocus={false}
     controls={
       Object {
-        "emphasis": true,
+        "highlight": true,
         "piping": true,
       }
     }
@@ -248,7 +248,7 @@ exports[`MetaEditor should display the correct error message when the includes/e
     autoFocus={false}
     controls={
       Object {
-        "emphasis": true,
+        "highlight": true,
         "piping": true,
       }
     }
@@ -285,7 +285,7 @@ exports[`MetaEditor should display the correct error message when the title is m
     autoFocus={false}
     controls={
       Object {
-        "emphasis": true,
+        "highlight": true,
         "piping": true,
       }
     }
@@ -326,7 +326,7 @@ exports[`MetaEditor should render 1`] = `
     autoFocus={false}
     controls={
       Object {
-        "emphasis": true,
+        "highlight": true,
         "piping": true,
       }
     }
