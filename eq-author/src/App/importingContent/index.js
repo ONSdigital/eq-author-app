@@ -206,9 +206,9 @@ const ImportingContent = ({
   };
 
   const onBackFromReviewingFolders = () => {
+    setFoldersToImport([]);
     setReviewingQuestions(false);
     setSelectingQuestionnaire(true);
-    setQuestionsToImport([]);
     setSelectingFolders(false);
     setReviewingFolders(false);
     setReviewingSections(false);
