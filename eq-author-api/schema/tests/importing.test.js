@@ -9,6 +9,9 @@ const {
 const {
   updateFolder,
 } = require("../../tests/utils/contextBuilder/folder/updateFolder");
+const {
+  updateAnswer,
+} = require("../../tests/utils/contextBuilder/answer/updateAnswer");
 
 describe("Importing questions", () => {
   describe("Error conditions", () => {
@@ -381,7 +384,6 @@ describe("Importing folders", () => {
           {
             folders: [
               {
-                listId: "list-1",
                 pages: [{ title: "Page 1" }, { title: "Page 2" }],
               },
             ],
@@ -428,6 +430,81 @@ describe("Importing folders", () => {
             id: expect.any(String),
           },
         ],
+      });
+    });
+
+    it("should set repeatingLabelAndInputListId to empty string when importing a folder containing a repeating answer", async () => {
+      const sourceStructure = {
+        sections: [
+          {
+            folders: [
+              {
+                pages: [
+                  {
+                    title: "Page 1",
+                    answers: [
+                      {
+                        label: "Answer 1",
+                        repeatingLabelAndInput: true,
+                        type: "TextField",
+                      },
+                    ],
+                  },
+                  { title: "Page 2" },
+                ],
+              },
+            ],
+          },
+        ],
+      };
+
+      const { ctx } = await setup(sourceStructure);
+      const destinationSection = ctx.questionnaire.sections[0];
+
+      const sourceQuestionnaireCtx = await buildContext(sourceStructure);
+      const { questionnaire: sourceQuestionnaire } = sourceQuestionnaireCtx;
+
+      const sourceQuestionnaireFirstPage =
+        sourceQuestionnaire.sections[0].folders[0].pages[0];
+
+      await updateAnswer(sourceQuestionnaireCtx, {
+        id: sourceQuestionnaireFirstPage.answers[0].id,
+        repeatingLabelAndInput: true,
+        repeatingLabelAndInputListId: "list-1",
+      });
+
+      expect(
+        sourceQuestionnaireFirstPage.answers[0].repeatingLabelAndInputListId
+      ).toEqual("list-1");
+      expect(
+        sourceQuestionnaireFirstPage.answers[0].repeatingLabelAndInput
+      ).toEqual(true);
+
+      await importFolders(ctx, {
+        questionnaireId: sourceQuestionnaire.id,
+        folderIds: [sourceQuestionnaire.sections[0].folders[0].id],
+        position: {
+          index: 0,
+          sectionId: destinationSection.id,
+        },
+      });
+
+      expect(destinationSection.folders[0].pages[0]).toMatchObject({
+        ...sourceQuestionnaireFirstPage,
+        id: expect.any(String),
+        answers: [
+          {
+            ...sourceQuestionnaireFirstPage.answers[0],
+            id: expect.any(String),
+            questionPageId: expect.any(String),
+            repeatingLabelAndInput: true,
+            repeatingLabelAndInputListId: "",
+          },
+        ],
+        totalValidation: {
+          ...sourceQuestionnaireFirstPage.totalValidation,
+          id: expect.any(String),
+        },
       });
     });
   });
