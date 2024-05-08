@@ -54,7 +54,7 @@ const HorizontalSeparator = styled.hr`
 `;
 
 const titleControls = {
-  emphasis: true,
+  highlight: true,
   piping: true,
 };
 
@@ -124,6 +124,7 @@ const ConfirmationPageEditor = ({ page, onUpdateOption }) => {
             })
           }
           errorValidationMsg={getErrorMessage("title")}
+          size="large"
           controls={titleControls}
           allowableTypes={[ANSWER, METADATA, VARIABLES]}
           testSelector="confirmation-question"

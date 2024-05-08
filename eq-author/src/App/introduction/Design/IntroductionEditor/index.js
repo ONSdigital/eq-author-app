@@ -45,13 +45,12 @@ const SectionDescription = styled.p`
 `;
 
 const titleControls = {
-  emphasis: true,
+  highlight: true,
   piping: true,
 };
 
 const descriptionControls = {
   bold: true,
-  emphasis: true,
   piping: true,
   list: true,
   link: true,
@@ -165,9 +164,8 @@ const IntroductionEditor = ({ introduction, history }) => {
             }
             controls={{
               heading: true,
-              bold: true,
               link: true,
-              emphasis: true,
+              highlight: true,
               piping: true,
             }}
             testSelector="txt-intro-title"
