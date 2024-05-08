@@ -53,7 +53,7 @@ const ImportQuestionReviewModal = ({
       <Subheading>
         <WarningWrapper>
           <Warning>
-            Question logic, piping and Qcodes will not be imported. Any extra
+            Question logic, piping and Q codes will not be imported. Any extra
             spaces in lines of text will be removed.
           </Warning>
         </WarningWrapper>
