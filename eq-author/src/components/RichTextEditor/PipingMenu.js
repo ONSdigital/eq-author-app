@@ -126,7 +126,7 @@ const PipingMenu = ({
 
   let allSupplementaryData = questionnaire?.supplementaryData?.data || [];
 
-  if (allSupplementaryData && !(pageType === "Introduction")) {
+  if (allSupplementaryData && pageType !== "Introduction") {
     allSupplementaryData = allSupplementaryData.filter(
       (list) => list.listName === "" || list.id === listId
     );
@@ -142,7 +142,7 @@ const PipingMenu = ({
   });
 
   supplementaryData = supplementaryData.filter(
-    (list) => !(list.listName !== "" && list.type === "array")
+    (list) => list.listName === "" || list.type !== "array"
   );
 
   const handlePickerContent = (contentType) => {
