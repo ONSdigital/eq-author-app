@@ -31,10 +31,12 @@ import PasteModal, {
   preserveRichFormatting,
 } from "components/modals/PasteModal";
 
+import { colors } from "../../constants/theme";
+
 const styleMap = (controls) => {
   return {
     BOLD: {
-      backgroundColor: controls.highlight && "#cbe2c8",
+      backgroundColor: controls.highlight && colors.neonYellow,
       fontWeight: controls.bold && "bold",
     },
   };
