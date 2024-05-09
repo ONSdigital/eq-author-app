@@ -42,7 +42,7 @@ module.exports = (ajv) =>
           });
         });
 
-        if (parentData.summaryAnswers.length === 1 || selectedFolder?.listId) {
+        if (parentData.summaryAnswers.length === 1 && selectedFolder?.listId) {
           return true;
         } else {
           isValid.errors = [
