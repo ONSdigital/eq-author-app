@@ -312,16 +312,6 @@ const saveQuestionnaire = async (changedQuestionnaire) => {
       updatedAt,
     });
 
-    logger.info(
-      { savedFields: justListSaveFields(updatedQuestionnaire) },
-      "Saved fields"
-    );
-
-    logger.info(
-      { updatedQuestionnaire: updatedQuestionnaire },
-      "Updated questionnaire"
-    );
-
     const versionDoc = baseDoc.collection("versions").doc(uuidv4());
 
     await versionDoc.set({
