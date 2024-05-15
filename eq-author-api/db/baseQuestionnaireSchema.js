@@ -61,7 +61,20 @@ const baseQuestionnaireFields = {
   locked,
 };
 
+const saveQuestionnaireFields = {
+  id,
+  isPublic,
+  title,
+  type,
+  shortTitle,
+  publishStatus,
+  introduction,
+  editors,
+  locked,
+};
+
 module.exports = {
   baseQuestionnaireFields,
   ...baseQuestionnaireFields,
+  saveQuestionnaireFields,
 };
