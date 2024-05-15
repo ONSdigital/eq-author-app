@@ -301,7 +301,10 @@ const saveQuestionnaire = async (changedQuestionnaire) => {
       updatedAt,
     });
 
-    logger.info(updatedQuestionnaire, "Updated questionnaire");
+    logger.info(
+      { updatedQuestionnaire: updatedQuestionnaire },
+      "Updated questionnaire"
+    );
 
     const versionDoc = baseDoc.collection("versions").doc(uuidv4());
 
