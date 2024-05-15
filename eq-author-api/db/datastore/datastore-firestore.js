@@ -313,7 +313,7 @@ const saveQuestionnaire = async (changedQuestionnaire) => {
     });
 
     logger.info(
-      { ...justListSaveFields(updatedQuestionnaire) },
+      { savedFields: justListSaveFields(updatedQuestionnaire) },
       "Saved fields"
     );
 
