@@ -282,8 +282,7 @@ const saveQuestionnaire = async (changedQuestionnaire) => {
         "Unable to save questionnaire; cannot find required field: ID (from saveQuestionnaire)"
       );
     }
-    const createdAt = new Date();
-    const updatedAt = createdAt;
+    const updatedAt = new Date();
 
     const originalQuestionnaire = await getQuestionnaire(id);
 
