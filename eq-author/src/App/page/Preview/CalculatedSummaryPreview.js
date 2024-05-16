@@ -32,6 +32,19 @@ const Container = styled.div`
     white-space: pre-wrap;
   }
 `;
+const Button = styled.div`
+  color: white;
+  background-color: ${colors.green};
+  border: 2px solid ${colors.green};
+  padding: 0.75rem 1rem;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 3px;
+  display: inline-block;
+  text-rendering: optimizeLegibility;
+  margin-bottom: 2em;
+`;
 
 const Summary = styled.div`
   border-bottom: 1px solid #999;
@@ -98,7 +111,6 @@ const CalculatedSummaryPagePreview = ({ page }) => {
       <Panel data-test="calSum test page">
         <Container>
           <PageTitle title={page.title} />
-          <Info>Please review your answers and confirm these are correct.</Info>
 
           {page.summaryAnswers.length > 0 ? (
             <Summary>
@@ -148,6 +160,7 @@ const CalculatedSummaryPagePreview = ({ page }) => {
               No answers selected
             </Error>
           )}
+          <Button>Yes, I confirm this is correct</Button>
         </Container>
       </Panel>
     </EditorLayout>
