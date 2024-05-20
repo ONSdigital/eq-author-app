@@ -17,10 +17,14 @@ const getFolderByAnswerId = (ctx, id) =>
       pages && some(pages, ({ answers }) => answers && some(answers, { id }))
   );
 
+const getFoldersByIds = (ctx, ids) =>
+  getFolders(ctx).filter(({ id }) => ids.includes(id));
+
 module.exports = {
   getFolders,
   getFoldersBySectionId,
   getFolderById,
   getFolderByPageId,
   getFolderByAnswerId,
+  getFoldersByIds,
 };
