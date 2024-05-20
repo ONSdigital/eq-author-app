@@ -23,10 +23,18 @@ jest.mock("components/QuestionnaireContext", () => ({
 
 useMutation.mockImplementation(jest.fn(() => [jest.fn()]));
 
-const destinationQuestionnaire = buildQuestionnaire({ answerCount: 1 });
+const destinationQuestionnaire = buildQuestionnaire({
+  answerCount: 1,
+  sectionCount: 2,
+});
 const listCollectorFolder = buildListCollectorFolders()[0];
-destinationQuestionnaire.sections[0].folders[1] = listCollectorFolder;
 listCollectorFolder.position = 1;
+destinationQuestionnaire.sections[0].folders[1] = listCollectorFolder;
+destinationQuestionnaire.sections[1] = {
+  ...destinationQuestionnaire.sections[1],
+  repeatingSection: true,
+  repeatingSectionListId: "list-1",
+};
 
 const extraSpaceModalTitle =
   "Confirm the removal of extra spaces from selected content";
@@ -59,6 +67,7 @@ const sourceQuestionnaires = [
         folders: [
           {
             id: "folder-1",
+            displayName: "Folder 1",
             pages: [
               {
                 id: "page-1",
@@ -117,6 +126,7 @@ const sourceQuestionnaires = [
         folders: [
           {
             id: "folder-2",
+            displayName: "Folder 2",
             pages: [
               {
                 id: "page-3",
@@ -126,6 +136,7 @@ const sourceQuestionnaires = [
                   {
                     id: "answer-3",
                     type: "Number",
+                    label: "Answer 3 ",
                   },
                 ],
               },
@@ -152,6 +163,7 @@ const sourceQuestionnaires = [
         folders: [
           {
             id: "folder-3",
+            displayName: "Folder 3",
             pages: [
               {
                 id: "page-5",
@@ -188,6 +200,7 @@ const sourceQuestionnaires = [
         folders: [
           {
             id: "folder-4",
+            displayName: "Folder 4",
             pages: [
               {
                 id: "page-7",
@@ -212,6 +225,7 @@ const sourceQuestionnaires = [
         folders: [
           {
             id: "folder-5",
+            displayName: "Folder 5",
             pages: [
               {
                 id: "page-8",
@@ -236,6 +250,7 @@ const sourceQuestionnaires = [
         folders: [
           {
             id: "folder-6",
+            displayName: "Folder 6",
             pages: [
               {
                 id: "page-9",
@@ -244,6 +259,24 @@ const sourceQuestionnaires = [
                 answers: [
                   {
                     id: "answer-9",
+                    type: "Number",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: "folder-7",
+            displayName: "Folder 7",
+            listId: "list-1",
+            pages: [
+              {
+                id: "page-10",
+                title: "Page 10",
+                pageType: "QuestionPage",
+                answers: [
+                  {
+                    id: "answer-10",
                     type: "Number",
                   },
                 ],
@@ -420,9 +453,7 @@ describe("Importing content", () => {
 
       expect(queryByText("Page 1")).not.toBeInTheDocument();
       expect(
-        queryByText(
-          "*Select individual questions or entire sections to be imported, you cannot choose both*"
-        )
+        queryByText("Select sections, folders or questions to import")
       ).toBeInTheDocument();
     });
 
@@ -478,9 +509,7 @@ describe("Importing content", () => {
       expect(queryByText("Page 1")).not.toBeInTheDocument();
       expect(queryByText("Page 2")).not.toBeInTheDocument();
       expect(
-        getByText(
-          "*Select individual questions or entire sections to be imported, you cannot choose both*"
-        )
+        getByText("Select sections, folders or questions to import")
       ).toBeInTheDocument();
     });
 
@@ -1183,6 +1212,725 @@ describe("Importing content", () => {
     });
   });
 
+  describe("import folders", () => {
+    it("should open the 'Select the folder(s) to import' modal", () => {
+      const { getByTestId, getAllByTestId, getByText } =
+        renderImportingContent();
+      fireEvent.click(getByText(/All/));
+      const allRows = getAllByTestId("table-row");
+      fireEvent.click(allRows[0]);
+      fireEvent.click(getByTestId("confirm-btn"));
+
+      const foldersButton = getByTestId("content-modal-select-folders-button");
+
+      fireEvent.click(foldersButton);
+
+      expect(getByText("Select the folder(s) to import")).toBeInTheDocument();
+      // Tests all folders (folders 1-7) are in the document
+      for (let i = 1; i < 8; i++) {
+        expect(getByText(`Folder ${i}`)).toBeInTheDocument();
+      }
+    });
+
+    it("should display a selected folder on the review modal", () => {
+      const { getByTestId, getAllByTestId, getByText } =
+        renderImportingContent();
+      fireEvent.click(getByText(/All/));
+      const allRows = getAllByTestId("table-row");
+      fireEvent.click(allRows[0]);
+      fireEvent.click(getByTestId("confirm-btn"));
+
+      const foldersButton = getByTestId("content-modal-select-folders-button");
+
+      fireEvent.click(foldersButton);
+      fireEvent.click(getByText("Folder 1"));
+      fireEvent.click(getByTestId("button-group").children[1]);
+
+      expect(getByText("Folder 1")).toBeInTheDocument();
+      expect(
+        getByText("Import content from Source questionnaire 1")
+      ).toBeInTheDocument();
+    });
+
+    it("should cancel select folder modal", () => {
+      const { getByTestId, getAllByTestId, getByText, queryByText } =
+        renderImportingContent();
+      fireEvent.click(getByText(/All/));
+      const allRows = getAllByTestId("table-row");
+      fireEvent.click(allRows[0]);
+      fireEvent.click(getByTestId("confirm-btn"));
+
+      const foldersButton = getByTestId("content-modal-select-folders-button");
+
+      fireEvent.click(foldersButton);
+      fireEvent.click(getByText("Folder 1"));
+
+      fireEvent.click(getByTestId("button-group").children[0]);
+
+      expect(queryByText("Folder 1")).not.toBeInTheDocument();
+      expect(
+        queryByText("Select sections, folders or questions to import")
+      ).toBeInTheDocument();
+    });
+
+    it("should return to questionnaire selector modal on back button click from folder review modal", () => {
+      const { getByTestId, getAllByTestId, getByText, queryByText } =
+        renderImportingContent();
+      fireEvent.click(getByText(/All/));
+      const allRows = getAllByTestId("table-row");
+      fireEvent.click(allRows[0]);
+      fireEvent.click(getByTestId("confirm-btn"));
+
+      const foldersButton = getByTestId("content-modal-select-folders-button");
+
+      fireEvent.click(foldersButton);
+      fireEvent.click(getByText("Folder 1"));
+      fireEvent.click(getByTestId("button-group").children[1]);
+
+      expect(queryByText("Folder 1")).toBeInTheDocument();
+      expect(
+        getByText("Import content from Source questionnaire 1")
+      ).toBeInTheDocument();
+
+      const backButton = getByText("Back");
+      fireEvent.click(backButton);
+
+      expect(queryByText("Folder 1")).not.toBeInTheDocument();
+      expect(getByTestId("questionnaire-select-modal")).toBeInTheDocument();
+      expect(
+        queryByText("Select the source questionnaire")
+      ).toBeInTheDocument();
+      expect(queryByText("Source questionnaire 1")).toBeInTheDocument();
+    });
+
+    it("should remove all selected folders", () => {
+      const { getByTestId, getAllByTestId, getByText, queryByText } =
+        renderImportingContent();
+      fireEvent.click(getByText(/All/));
+      const allRows = getAllByTestId("table-row");
+      fireEvent.click(allRows[0]);
+      fireEvent.click(getByTestId("confirm-btn"));
+
+      const foldersButton = getByTestId("content-modal-select-folders-button");
+
+      fireEvent.click(foldersButton);
+      fireEvent.click(getByText("Folder 1"));
+      fireEvent.click(getByText("Folder 2"));
+      fireEvent.click(getByTestId("button-group").children[1]);
+
+      expect(queryByText("Folder 1")).toBeInTheDocument();
+      expect(queryByText("Folder 2")).toBeInTheDocument();
+
+      fireEvent.click(getByText("Remove all"));
+
+      expect(queryByText("Folder 1")).not.toBeInTheDocument();
+      expect(queryByText("Folder 2")).not.toBeInTheDocument();
+      expect(
+        getByText("Select sections, folders or questions to import")
+      ).toBeInTheDocument();
+    });
+
+    it("should remove a selected folder using the item's remove button", () => {
+      const { getByTestId, getAllByTestId, getByText, queryByText } =
+        renderImportingContent();
+      fireEvent.click(getByText(/All/));
+      const allRows = getAllByTestId("table-row");
+      fireEvent.click(allRows[0]);
+      fireEvent.click(getByTestId("confirm-btn"));
+
+      const foldersButton = getByTestId("content-modal-select-folders-button");
+
+      fireEvent.click(foldersButton);
+      fireEvent.click(getByText("Folder 1"));
+      fireEvent.click(getByText("Folder 2"));
+      fireEvent.click(getByTestId("button-group").children[1]);
+
+      expect(getByText("Folder 1")).toBeInTheDocument();
+      expect(getByText("Folder 2")).toBeInTheDocument();
+      expect(getByText("Folders to import")).toBeInTheDocument();
+
+      fireEvent.click(getByTestId("folder-review-item-remove-button-folder-1"));
+
+      expect(queryByText("Folder 1")).not.toBeInTheDocument();
+      expect(getByText("Folder 2")).toBeInTheDocument();
+      expect(getByText("Folder to import")).toBeInTheDocument();
+    });
+
+    it("should select multiple folders", () => {
+      const { getByTestId, getAllByTestId, getByText } =
+        renderImportingContent();
+      fireEvent.click(getByText(/All/));
+      const allRows = getAllByTestId("table-row");
+      fireEvent.click(allRows[0]);
+      fireEvent.click(getByTestId("confirm-btn"));
+
+      const foldersButton = getByTestId("content-modal-select-folders-button");
+
+      fireEvent.click(foldersButton);
+      fireEvent.click(getByText("Folder 1"));
+      fireEvent.click(getByTestId("button-group").children[1]);
+      fireEvent.click(getByTestId("folder-review-select-folders-button"));
+      fireEvent.click(getByText("Folder 2"));
+      fireEvent.click(getByTestId("button-group").children[1]);
+
+      expect(getByText("Folder 1")).toBeInTheDocument();
+      expect(getByText("Folder 2")).toBeInTheDocument();
+      expect(getByText("Folders to import")).toBeInTheDocument();
+    });
+
+    it("should render empty fragment for folder list loading", () => {
+      const { queryByText, getByTestId, getByText, getAllByTestId } =
+        renderImportingContent();
+      fireEvent.click(getByText(/All/));
+      const allRows = getAllByTestId("table-row");
+      fireEvent.click(allRows[0]);
+      fireEvent.click(getByTestId("confirm-btn"));
+
+      const foldersButton = getByTestId("content-modal-select-folders-button");
+      useQuery.mockImplementationOnce(() => ({
+        loading: true,
+      }));
+      fireEvent.click(foldersButton);
+
+      expect(
+        queryByText("Select the folder(s) to import")
+      ).not.toBeInTheDocument();
+    });
+
+    it("should render empty fragment for folder list error", () => {
+      const { queryByText, getByTestId, getByText, getAllByTestId } =
+        renderImportingContent();
+      fireEvent.click(getByText(/All/));
+      const allRows = getAllByTestId("table-row");
+      fireEvent.click(allRows[0]);
+      fireEvent.click(getByTestId("confirm-btn"));
+
+      const foldersButton = getByTestId("content-modal-select-folders-button");
+      useQuery.mockImplementationOnce(() => ({
+        error: true,
+      }));
+      fireEvent.click(foldersButton);
+
+      expect(
+        queryByText("Select the folder(s) to import")
+      ).not.toBeInTheDocument();
+    });
+
+    it("should not display list collector folders when importing into a repeating section", () => {
+      useParams.mockImplementation(() => ({
+        questionnaireId: destinationQuestionnaire.id,
+        entityName: "section",
+        entityId: destinationQuestionnaire.sections[1].id,
+      }));
+
+      const { getByTestId, getAllByTestId, getByText, queryByText } =
+        renderImportingContent();
+      fireEvent.click(getByText(/All/));
+      const allRows = getAllByTestId("table-row");
+      fireEvent.click(allRows[0]);
+      fireEvent.click(getByTestId("confirm-btn"));
+
+      const foldersButton = getByTestId("content-modal-select-folders-button");
+
+      fireEvent.click(foldersButton);
+
+      // Tests all basic folders (folders 1-6) are in the document
+      for (let i = 1; i < 7; i++) {
+        expect(getByText(`Folder ${i}`)).toBeInTheDocument();
+      }
+
+      // Tests list collector folder is not in the document
+      expect(queryByText("Folder 7")).not.toBeInTheDocument();
+    });
+
+    describe("Confirm import folder", () => {
+      it("should import folder to destination questionnaire section", () => {
+        const mockImportFolders = jest.fn();
+        useParams.mockImplementation(() => ({
+          questionnaireId: destinationQuestionnaire.id,
+          entityName: "section",
+          entityId: destinationQuestionnaire.sections[0].id,
+        }));
+
+        useMutation.mockImplementation(jest.fn(() => [mockImportFolders]));
+        const { getByTestId, getAllByTestId, getByText, queryByText } =
+          renderImportingContent();
+        fireEvent.click(getByText(/All/));
+        const allRows = getAllByTestId("table-row");
+        fireEvent.click(allRows[0]);
+        fireEvent.click(getByTestId("confirm-btn"));
+
+        const foldersButton = getByTestId(
+          "content-modal-select-folders-button"
+        );
+
+        fireEvent.click(foldersButton);
+        fireEvent.click(getByText("Folder 1"));
+        // Folder picker's "Select" button
+        fireEvent.click(getByTestId("button-group").children[1]);
+        // Folder review modal's "Import" button
+        fireEvent.click(getByTestId("button-group").children[0]);
+
+        const sourceSection = sourceQuestionnaires[0].sections[0];
+        const destinationSection = destinationQuestionnaire.sections[0];
+
+        // Test modal closes
+        expect(
+          queryByText("Import content from Source questionnaire 1")
+        ).not.toBeInTheDocument();
+
+        expect(mockImportFolders).toHaveBeenCalledTimes(1);
+        expect(mockImportFolders).toHaveBeenCalledWith({
+          variables: {
+            input: {
+              folderIds: [sourceSection.folders[0].id],
+              questionnaireId: sourceQuestionnaires[0].id,
+              position: {
+                sectionId: destinationSection.id,
+                index: 0,
+              },
+            },
+          },
+          refetchQueries: ["GetQuestionnaire"],
+        });
+      });
+
+      it("should import folder to destination questionnaire folder", () => {
+        const mockImportFolders = jest.fn();
+        useParams.mockImplementation(() => ({
+          questionnaireId: destinationQuestionnaire.id,
+          entityName: "folder",
+          entityId: destinationQuestionnaire.sections[0].folders[0].id,
+        }));
+
+        useMutation.mockImplementation(jest.fn(() => [mockImportFolders]));
+        const { getByTestId, getAllByTestId, getByText, queryByText } =
+          renderImportingContent();
+        fireEvent.click(getByText(/All/));
+        const allRows = getAllByTestId("table-row");
+        fireEvent.click(allRows[0]);
+        fireEvent.click(getByTestId("confirm-btn"));
+
+        const foldersButton = getByTestId(
+          "content-modal-select-folders-button"
+        );
+
+        fireEvent.click(foldersButton);
+        fireEvent.click(getByText("Folder 1"));
+        // Folder picker's "Select" button
+        fireEvent.click(getByTestId("button-group").children[1]);
+        // Folder review modal's "Import" button
+        fireEvent.click(getByTestId("button-group").children[0]);
+
+        const sourceSection = sourceQuestionnaires[0].sections[0];
+        const destinationSection = destinationQuestionnaire.sections[0];
+
+        // Test modal closes
+        expect(
+          queryByText("Import content from Source questionnaire 1")
+        ).not.toBeInTheDocument();
+
+        expect(mockImportFolders).toHaveBeenCalledTimes(1);
+        expect(mockImportFolders).toHaveBeenCalledWith({
+          variables: {
+            input: {
+              folderIds: [sourceSection.folders[0].id],
+              questionnaireId: sourceQuestionnaires[0].id,
+              position: {
+                sectionId: destinationSection.id,
+                index: 1,
+              },
+            },
+          },
+          refetchQueries: ["GetQuestionnaire"],
+        });
+      });
+
+      it("should import folder to destination questionnaire page", () => {
+        const mockImportFolders = jest.fn();
+        useParams.mockImplementation(() => ({
+          questionnaireId: destinationQuestionnaire.id,
+          entityName: "page",
+          entityId: destinationQuestionnaire.sections[0].folders[0].pages[0].id,
+        }));
+
+        useMutation.mockImplementation(jest.fn(() => [mockImportFolders]));
+        const { getByTestId, getAllByTestId, getByText, queryByText } =
+          renderImportingContent();
+        fireEvent.click(getByText(/All/));
+        const allRows = getAllByTestId("table-row");
+        fireEvent.click(allRows[0]);
+        fireEvent.click(getByTestId("confirm-btn"));
+
+        const foldersButton = getByTestId(
+          "content-modal-select-folders-button"
+        );
+
+        fireEvent.click(foldersButton);
+        fireEvent.click(getByText("Folder 1"));
+        // Folder picker's "Select" button
+        fireEvent.click(getByTestId("button-group").children[1]);
+        // Folder review modal's "Import" button
+        fireEvent.click(getByTestId("button-group").children[0]);
+
+        const sourceSection = sourceQuestionnaires[0].sections[0];
+        const destinationSection = destinationQuestionnaire.sections[0];
+
+        // Test modal closes
+        expect(
+          queryByText("Import content from Source questionnaire 1")
+        ).not.toBeInTheDocument();
+
+        expect(mockImportFolders).toHaveBeenCalledTimes(1);
+        expect(mockImportFolders).toHaveBeenCalledWith({
+          variables: {
+            input: {
+              folderIds: [sourceSection.folders[0].id],
+              questionnaireId: sourceQuestionnaires[0].id,
+              position: {
+                sectionId: destinationSection.id,
+                index: 1,
+              },
+            },
+          },
+          refetchQueries: ["GetQuestionnaire"],
+        });
+      });
+
+      describe("Extra spaces", () => {
+        it("should display extra space confirmation modal before importing folders containing extra spaces", () => {
+          const mockImportFolders = jest.fn();
+          useParams.mockImplementation(() => ({
+            questionnaireId: destinationQuestionnaire.id,
+            entityName: "section",
+            entityId: destinationQuestionnaire.sections[0].id,
+          }));
+
+          useMutation.mockImplementation(jest.fn(() => [mockImportFolders]));
+          const { getByTestId, getAllByTestId, getByText, queryByText } =
+            renderImportingContent();
+          fireEvent.click(getByText(/All/));
+          const allRows = getAllByTestId("table-row");
+          fireEvent.click(allRows[0]);
+          fireEvent.click(getByTestId("confirm-btn"));
+
+          const foldersButton = getByTestId(
+            "content-modal-select-folders-button"
+          );
+
+          fireEvent.click(foldersButton);
+          fireEvent.click(getByText("Folder 3"));
+          // Folder picker's "Select" button
+          fireEvent.click(getByTestId("button-group").children[1]);
+
+          expect(
+            queryByText("Import content from Source questionnaire 1")
+          ).toBeInTheDocument();
+
+          // Folder review modal's "Import" button
+          fireEvent.click(getByTestId("button-group").children[0]);
+
+          const sourceSection = sourceQuestionnaires[0].sections[2];
+          const destinationSection = destinationQuestionnaire.sections[0];
+
+          // Test modal closes
+          expect(
+            queryByText("Import content from Source questionnaire 1")
+          ).not.toBeInTheDocument();
+
+          expect(mockImportFolders).toHaveBeenCalledTimes(0);
+
+          // Extra space confirmation modal
+
+          expect(queryByText(extraSpaceModalTitle)).toBeInTheDocument();
+          const extraSpaceModalConfirmButton =
+            getByTestId("btn-modal-positive");
+
+          fireEvent.click(extraSpaceModalConfirmButton);
+          expect(mockImportFolders).toHaveBeenCalledTimes(1);
+
+          expect(mockImportFolders).toHaveBeenCalledWith({
+            variables: {
+              input: {
+                folderIds: [sourceSection.folders[0].id],
+                questionnaireId: sourceQuestionnaires[0].id,
+                position: {
+                  sectionId: destinationSection.id,
+                  index: 0,
+                },
+              },
+            },
+            refetchQueries: ["GetQuestionnaire"],
+          });
+        });
+
+        it("should display extra space confirmation modal before importing folders containing leading spaces", () => {
+          const mockImportFolders = jest.fn();
+          useParams.mockImplementation(() => ({
+            questionnaireId: destinationQuestionnaire.id,
+            entityName: "section",
+            entityId: destinationQuestionnaire.sections[0].id,
+          }));
+
+          useMutation.mockImplementation(jest.fn(() => [mockImportFolders]));
+          const { getByTestId, getAllByTestId, getByText, queryByText } =
+            renderImportingContent();
+          fireEvent.click(getByText(/All/));
+          const allRows = getAllByTestId("table-row");
+          fireEvent.click(allRows[0]);
+          fireEvent.click(getByTestId("confirm-btn"));
+
+          const foldersButton = getByTestId(
+            "content-modal-select-folders-button"
+          );
+
+          fireEvent.click(foldersButton);
+          fireEvent.click(getByText("Folder 4"));
+          // Folder picker's "Select" button
+          fireEvent.click(getByTestId("button-group").children[1]);
+
+          expect(
+            queryByText("Import content from Source questionnaire 1")
+          ).toBeInTheDocument();
+
+          // Folder review modal's "Import" button
+          fireEvent.click(getByTestId("button-group").children[0]);
+
+          const sourceSection = sourceQuestionnaires[0].sections[3];
+          const destinationSection = destinationQuestionnaire.sections[0];
+
+          // Test modal closes
+          expect(
+            queryByText("Import content from Source questionnaire 1")
+          ).not.toBeInTheDocument();
+
+          expect(mockImportFolders).toHaveBeenCalledTimes(0);
+
+          // Extra space confirmation modal
+
+          expect(queryByText(extraSpaceModalTitle)).toBeInTheDocument();
+          const extraSpaceModalConfirmButton =
+            getByTestId("btn-modal-positive");
+
+          fireEvent.click(extraSpaceModalConfirmButton);
+          expect(mockImportFolders).toHaveBeenCalledTimes(1);
+
+          expect(mockImportFolders).toHaveBeenCalledWith({
+            variables: {
+              input: {
+                folderIds: [sourceSection.folders[0].id],
+                questionnaireId: sourceQuestionnaires[0].id,
+                position: {
+                  sectionId: destinationSection.id,
+                  index: 0,
+                },
+              },
+            },
+            refetchQueries: ["GetQuestionnaire"],
+          });
+        });
+
+        it("should display extra space confirmation modal before importing folders containing trailing spaces", () => {
+          const mockImportFolders = jest.fn();
+          useParams.mockImplementation(() => ({
+            questionnaireId: destinationQuestionnaire.id,
+            entityName: "section",
+            entityId: destinationQuestionnaire.sections[0].id,
+          }));
+
+          useMutation.mockImplementation(jest.fn(() => [mockImportFolders]));
+          const { getByTestId, getAllByTestId, getByText, queryByText } =
+            renderImportingContent();
+          fireEvent.click(getByText(/All/));
+          const allRows = getAllByTestId("table-row");
+          fireEvent.click(allRows[0]);
+          fireEvent.click(getByTestId("confirm-btn"));
+
+          const foldersButton = getByTestId(
+            "content-modal-select-folders-button"
+          );
+
+          fireEvent.click(foldersButton);
+          fireEvent.click(getByText("Folder 2"));
+          // Folder picker's "Select" button
+          fireEvent.click(getByTestId("button-group").children[1]);
+
+          expect(
+            queryByText("Import content from Source questionnaire 1")
+          ).toBeInTheDocument();
+
+          // Folder review modal's "Import" button
+          fireEvent.click(getByTestId("button-group").children[0]);
+
+          const sourceSection = sourceQuestionnaires[0].sections[1];
+          const destinationSection = destinationQuestionnaire.sections[0];
+
+          // Test modal closes
+          expect(
+            queryByText("Import content from Source questionnaire 1")
+          ).not.toBeInTheDocument();
+
+          expect(mockImportFolders).toHaveBeenCalledTimes(0);
+
+          // Extra space confirmation modal
+
+          expect(queryByText(extraSpaceModalTitle)).toBeInTheDocument();
+          const extraSpaceModalConfirmButton =
+            getByTestId("btn-modal-positive");
+
+          fireEvent.click(extraSpaceModalConfirmButton);
+          expect(mockImportFolders).toHaveBeenCalledTimes(1);
+
+          expect(mockImportFolders).toHaveBeenCalledWith({
+            variables: {
+              input: {
+                folderIds: [sourceSection.folders[0].id],
+                questionnaireId: sourceQuestionnaires[0].id,
+                position: {
+                  sectionId: destinationSection.id,
+                  index: 0,
+                },
+              },
+            },
+            refetchQueries: ["GetQuestionnaire"],
+          });
+        });
+
+        it("should display extra space confirmation modal before importing folders containing tags with leading spaces", () => {
+          const mockImportFolders = jest.fn();
+          useParams.mockImplementation(() => ({
+            questionnaireId: destinationQuestionnaire.id,
+            entityName: "section",
+            entityId: destinationQuestionnaire.sections[0].id,
+          }));
+
+          useMutation.mockImplementation(jest.fn(() => [mockImportFolders]));
+          const { getByTestId, getAllByTestId, getByText, queryByText } =
+            renderImportingContent();
+          fireEvent.click(getByText(/All/));
+          const allRows = getAllByTestId("table-row");
+          fireEvent.click(allRows[0]);
+          fireEvent.click(getByTestId("confirm-btn"));
+
+          const foldersButton = getByTestId(
+            "content-modal-select-folders-button"
+          );
+
+          fireEvent.click(foldersButton);
+          fireEvent.click(getByText("Folder 6"));
+          // Folder picker's "Select" button
+          fireEvent.click(getByTestId("button-group").children[1]);
+
+          expect(
+            queryByText("Import content from Source questionnaire 1")
+          ).toBeInTheDocument();
+
+          // Folder review modal's "Import" button
+          fireEvent.click(getByTestId("button-group").children[0]);
+
+          const sourceSection = sourceQuestionnaires[0].sections[5];
+          const destinationSection = destinationQuestionnaire.sections[0];
+
+          // Test modal closes
+          expect(
+            queryByText("Import content from Source questionnaire 1")
+          ).not.toBeInTheDocument();
+
+          expect(mockImportFolders).toHaveBeenCalledTimes(0);
+
+          // Extra space confirmation modal
+
+          expect(queryByText(extraSpaceModalTitle)).toBeInTheDocument();
+          const extraSpaceModalConfirmButton =
+            getByTestId("btn-modal-positive");
+
+          fireEvent.click(extraSpaceModalConfirmButton);
+          expect(mockImportFolders).toHaveBeenCalledTimes(1);
+
+          expect(mockImportFolders).toHaveBeenCalledWith({
+            variables: {
+              input: {
+                folderIds: [sourceSection.folders[0].id],
+                questionnaireId: sourceQuestionnaires[0].id,
+                position: {
+                  sectionId: destinationSection.id,
+                  index: 0,
+                },
+              },
+            },
+            refetchQueries: ["GetQuestionnaire"],
+          });
+        });
+
+        it("should display extra space confirmation modal before importing folders containing tags with trailing spaces", () => {
+          const mockImportFolders = jest.fn();
+          useParams.mockImplementation(() => ({
+            questionnaireId: destinationQuestionnaire.id,
+            entityName: "section",
+            entityId: destinationQuestionnaire.sections[0].id,
+          }));
+
+          useMutation.mockImplementation(jest.fn(() => [mockImportFolders]));
+          const { getByTestId, getAllByTestId, getByText, queryByText } =
+            renderImportingContent();
+          fireEvent.click(getByText(/All/));
+          const allRows = getAllByTestId("table-row");
+          fireEvent.click(allRows[0]);
+          fireEvent.click(getByTestId("confirm-btn"));
+
+          const foldersButton = getByTestId(
+            "content-modal-select-folders-button"
+          );
+
+          fireEvent.click(foldersButton);
+          fireEvent.click(getByText("Folder 5"));
+          // Folder picker's "Select" button
+          fireEvent.click(getByTestId("button-group").children[1]);
+
+          expect(
+            queryByText("Import content from Source questionnaire 1")
+          ).toBeInTheDocument();
+
+          // Folder review modal's "Import" button
+          fireEvent.click(getByTestId("button-group").children[0]);
+
+          const sourceSection = sourceQuestionnaires[0].sections[4];
+          const destinationSection = destinationQuestionnaire.sections[0];
+
+          // Test modal closes
+          expect(
+            queryByText("Import content from Source questionnaire 1")
+          ).not.toBeInTheDocument();
+
+          expect(mockImportFolders).toHaveBeenCalledTimes(0);
+
+          // Extra space confirmation modal
+
+          expect(queryByText(extraSpaceModalTitle)).toBeInTheDocument();
+          const extraSpaceModalConfirmButton =
+            getByTestId("btn-modal-positive");
+
+          fireEvent.click(extraSpaceModalConfirmButton);
+          expect(mockImportFolders).toHaveBeenCalledTimes(1);
+
+          expect(mockImportFolders).toHaveBeenCalledWith({
+            variables: {
+              input: {
+                folderIds: [sourceSection.folders[0].id],
+                questionnaireId: sourceQuestionnaires[0].id,
+                position: {
+                  sectionId: destinationSection.id,
+                  index: 0,
+                },
+              },
+            },
+            refetchQueries: ["GetQuestionnaire"],
+          });
+        });
+      });
+    });
+  });
+
   describe("import sections", () => {
     it("should open the 'Select the section(s) to import' modal", () => {
       const { getByTestId, getAllByTestId, getByText } =
@@ -1240,9 +1988,7 @@ describe("Importing content", () => {
 
       expect(queryByText("Section 1")).not.toBeInTheDocument();
       expect(
-        queryByText(
-          "*Select individual questions or entire sections to be imported, you cannot choose both*"
-        )
+        queryByText("Select sections, folders or questions to import")
       ).toBeInTheDocument();
     });
 
@@ -1298,9 +2044,7 @@ describe("Importing content", () => {
       expect(queryByText("Section 1")).not.toBeInTheDocument();
       expect(queryByText("Section 2")).not.toBeInTheDocument();
       expect(
-        getByText(
-          "*Select individual questions or entire sections to be imported, you cannot choose both*"
-        )
+        getByText("Select sections, folders or questions to import")
       ).toBeInTheDocument();
     });
 
