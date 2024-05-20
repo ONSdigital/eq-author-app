@@ -37,6 +37,9 @@ query GetQuestionnaire($input: QueryInput!) {
         displayName
         title
         position
+        ... on ListCollectorFolder {
+          listId
+        }
         pages {
           id
           title

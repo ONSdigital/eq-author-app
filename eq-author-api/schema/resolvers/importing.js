@@ -1,6 +1,7 @@
 const {
   getPagesByIds,
   getFolderById,
+  getFoldersByIds,
   getSectionById,
   getSectionByFolderId,
   stripQCodes,
@@ -93,6 +94,70 @@ module.exports = {
             ...strippedPages.map((page) => createFolder({ pages: [page] }))
           );
         }
+        setDataVersion(ctx);
+
+        return section;
+      }
+    ),
+    importFolders: createMutation(
+      async (_, { input: { questionnaireId, folderIds, position } }, ctx) => {
+        const { sectionId, index: insertionIndex } = position;
+
+        if (!sectionId) {
+          throw new UserInputError("Target section ID must be provided.");
+        }
+
+        const sourceQuestionnaire = await getQuestionnaire(questionnaireId);
+        if (!sourceQuestionnaire) {
+          throw new UserInputError(
+            `Questionnaire with ID ${questionnaireId} does not exist.`
+          );
+        }
+
+        const sourceFolders = getFoldersByIds(
+          { questionnaire: sourceQuestionnaire },
+          folderIds
+        );
+
+        if (sourceFolders.length !== folderIds.length) {
+          throw new UserInputError(
+            `Not all folder IDs in [${folderIds}] exist in source questionnaire ${questionnaireId}.`
+          );
+        }
+
+        sourceFolders.forEach((folder) => {
+          remapAllNestedIds(folder);
+          removeExtraSpaces(folder);
+          folder.skipConditions = null;
+          if (folder.listId) {
+            folder.listId = "";
+          }
+          folder.pages.forEach((page) => {
+            page.routing = null;
+            page.skipConditions = null;
+            if (page.answers !== undefined) {
+              page.answers.forEach((answer) => {
+                return stripQCodes(answer);
+              });
+            }
+
+            if (page.answers?.length === 1) {
+              if (page.answers[0].repeatingLabelAndInputListId) {
+                page.answers[0].repeatingLabelAndInputListId = "";
+              }
+            }
+          });
+        });
+
+        const section = getSectionById(ctx, sectionId);
+
+        if (!section) {
+          throw new UserInputError(
+            `Section with ID ${sectionId} doesn't exist in target questionnaire.`
+          );
+        }
+
+        section.folders.splice(insertionIndex, 0, ...sourceFolders);
         setDataVersion(ctx);
 
         return section;
