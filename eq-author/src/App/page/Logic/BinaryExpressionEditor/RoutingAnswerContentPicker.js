@@ -80,6 +80,7 @@ RoutingAnswerContentPicker.propTypes = {
     PropTypes.object,
     PropTypes.string,
   ]),
+  expressionGroup: PropTypes.object, //eslint-disable-line
 };
 
 export default RoutingAnswerContentPicker;

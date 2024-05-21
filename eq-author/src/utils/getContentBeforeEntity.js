@@ -44,14 +44,23 @@ const getContentBeforeEntity = (
           !isListCollectorPageType(page.pageType) &&
           (page?.answers?.flatMap(preprocessAnswers) || []);
 
+        /*
+          When expression group's condition is "And":
+            1. Do not include mutually exclusive answers on the same page as the expression's left side answer
+            2. Do not include answers on the same page as the expression's left side answer when the expression's left side answer is mutually exclusive
+        */
         if (expressionGroup?.operator === "And") {
           expressionGroup.expressions.forEach((expression) => {
             if (expression?.left?.page?.id) {
               answers = answers.filter((answer) => {
+                // If the expression's left side answer is on the same page as the looped answer
                 if (expression.left.page.id === answer.page.id) {
+                  // If the expression's left side answer is mutually exclusive, do not include the looped answer (as looped answer and expression answer are on the same page)
                   if (expression.left.type === MUTUALLY_EXCLUSIVE) {
                     return false;
-                  } else {
+                  }
+                  // If the expression's left side answer is not mutually exclusive, only include the looped answer if it is also not mutually exclusive (as looped answer and expression answer are on the same page)
+                  else {
                     return answer.type !== MUTUALLY_EXCLUSIVE;
                   }
                 }
