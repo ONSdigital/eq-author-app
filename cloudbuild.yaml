@@ -1,10 +1,10 @@
 steps:
-  - name: 'node:$_NODE_VERSION'
+  - name: "node:$_NODE_VERSION"
     id: yarn_install_and_build
     dir: eq-author
     entrypoint: /bin/bash
     args:
-      - '-c'
+      - "-c"
       - |
         if [ $_ENV = "staging" ]; then
           yarn install
@@ -21,8 +21,8 @@ steps:
     entrypoint: sh
     waitFor:
       - yarn_install_and_build
-    args: 
-      - '-c'
+    args:
+      - "-c"
       - |
         if [ $_ENV = "staging" ]; then
           docker build -t "eu.gcr.io/ons-eqbs-images/eq-author:$SHORT_SHA" .
@@ -38,9 +38,9 @@ steps:
     dir: eq-author-api
     entrypoint: sh
     waitFor:
-      - '-'
-    args: 
-      - '-c'
+      - "-"
+    args:
+      - "-c"
       - |
         if [ $_ENV = "staging" ]; then
           docker build -t "eu.gcr.io/ons-eqbs-images/eq-author-api:$SHORT_SHA" .
@@ -51,11 +51,11 @@ steps:
           echo "*************************************************************"
         fi
 
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine'
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk:alpine"
     id: tag_author_release
     entrypoint: /bin/bash
     args:
-      - '-c'
+      - "-c"
       - |
         if [ $_ENV = "preprod" ]; then
           gcloud container images add-tag \
@@ -67,11 +67,11 @@ steps:
           echo "*************************************************************"
         fi
 
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine'
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk:alpine"
     id: tag_author_api_release
     entrypoint: /bin/bash
     args:
-      - '-c'
+      - "-c"
       - |
         if [ $_ENV = "preprod" ]; then
           gcloud container images add-tag \
@@ -83,11 +83,11 @@ steps:
           echo "*************************************************************"
         fi
 
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine'
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk:alpine"
     id: deploy_author_api
     entrypoint: sh
     args:
-      - '-c'
+      - "-c"
       - |
         if [ $_ENV = "staging" ]; then
           gcloud run deploy eq-author-api \
@@ -100,12 +100,12 @@ steps:
           --region europe-west2 \
           --platform managed
         fi
- 
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:alpine'
+
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk:alpine"
     id: deploy_author
     entrypoint: sh
     args:
-      - '-c'
+      - "-c"
       - |
         if [ $_ENV = "staging" ]; then
           gcloud run deploy eq-author \
@@ -118,4 +118,4 @@ steps:
           --region europe-west2 \
           --platform managed
         fi
-timeout: 1200s
+timeout: 1800s
