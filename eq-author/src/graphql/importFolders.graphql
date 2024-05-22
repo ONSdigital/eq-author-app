@@ -1,0 +1,130 @@
+#import "./fragments/folder.graphql"
+#import "./fragments/page.graphql"
+#import "./fragments/answer.graphql"
+#import "./fragments/option.graphql"
+#import "./fragments/comment.graphql"
+
+mutation ImportFolders($input: ImportFoldersInput!) {
+  importFolders(input: $input) {
+    folders {
+      ...Folder
+      pages {
+        ...Page
+        position
+        displayName
+        pageType
+        title
+        ... on QuestionPage {
+          alias
+          description
+          guidance
+          answers {
+            ...Answer
+            ... on BasicAnswer {
+              secondaryQCode
+            }
+            ... on MultipleChoiceAnswer {
+              options {
+                ...Option
+              }
+              mutuallyExclusiveOption {
+                id
+                displayName
+                label
+                description
+                value
+                qCode
+              }
+            }
+          }
+          confirmation {
+            id
+            qCode
+            displayName
+            comments {
+              ...Comment
+            }
+          }
+          comments {
+            ...Comment
+          }
+        }
+        ... on CalculatedSummaryPage {
+          id
+          title
+          alias
+          pageType
+          pageDescription
+          displayName
+          position
+          totalTitle
+          type
+          answers {
+            ...Answer
+            ... on BasicAnswer {
+              secondaryQCode
+            }
+          }
+          summaryAnswers {
+            id
+          }
+          comments {
+            ...Comment
+          }
+        }
+        ... on ListCollectorQualifierPage {
+          id
+          answers {
+            id
+            ... on MultipleChoiceAnswer {
+              ...Answer
+              options {
+                ...Option
+              }
+              mutuallyExclusiveOption {
+                id
+              }
+            }
+          }
+          comments {
+            ...Comment
+          }
+        }
+        ... on ListCollectorAddItemPage {
+          id
+          description
+          descriptionEnabled
+          guidance
+          guidanceEnabled
+          definitionLabel
+          definitionContent
+          definitionEnabled
+          additionalInfoLabel
+          additionalInfoContent
+          additionalInfoEnabled
+          comments {
+            ...Comment
+          }
+        }
+        ... on ListCollectorConfirmationPage {
+          id
+          answers {
+            id
+            ... on MultipleChoiceAnswer {
+              ...Answer
+              options {
+                ...Option
+              }
+              mutuallyExclusiveOption {
+                id
+              }
+            }
+          }
+          comments {
+            ...Comment
+          }
+        }
+      }
+    }
+  }
+}

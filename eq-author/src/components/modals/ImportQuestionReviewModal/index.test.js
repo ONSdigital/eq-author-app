@@ -16,6 +16,7 @@ const mockQuestions = [
 const mockOnSelectQuestions = jest.fn();
 const mockOnRemoveSingle = jest.fn();
 const mockOnRemoveAll = jest.fn();
+const mockOnSelectFolders = jest.fn();
 const mockOnSelectSections = jest.fn();
 
 describe("Import questions review modal", () => {
@@ -25,6 +26,7 @@ describe("Import questions review modal", () => {
         questionnaire={mockQuestionnaire}
         isOpen
         onSelectQuestions={mockOnSelectQuestions}
+        onSelectFolders={mockOnSelectFolders}
         onSelectSections={mockOnSelectSections}
         startingSelectedQuestions={[]}
         onConfirm={jest.fn()}
@@ -36,9 +38,7 @@ describe("Import questions review modal", () => {
     );
 
     expect(
-      screen.queryByText(
-        /Select individual questions or entire sections to be imported, you cannot choose both/
-      )
+      screen.queryByText(/Select sections, folders or questions to import/)
     ).toBeTruthy();
     // Import button should be disabled when no questions selected
     expect(screen.getByText(/^Import$/)).toBeDisabled();
@@ -57,6 +57,7 @@ describe("Import questions review modal", () => {
         isOpen
         startingSelectedQuestions={mockQuestions}
         onSelectQuestions={mockOnSelectQuestions}
+        onSelectFolders={mockOnSelectFolders}
         onSelectSections={mockOnSelectSections}
         onConfirm={jest.fn()}
         onCancel={jest.fn()}
@@ -76,6 +77,7 @@ describe("Import questions review modal", () => {
         isOpen
         startingSelectedQuestions={mockQuestions}
         onSelectQuestions={mockOnSelectQuestions}
+        onSelectFolders={mockOnSelectFolders}
         onSelectSections={mockOnSelectSections}
         onConfirm={jest.fn()}
         onCancel={jest.fn()}
@@ -97,6 +99,7 @@ describe("Import questions review modal", () => {
         isOpen
         startingSelectedQuestions={mockQuestions}
         onSelectSections={mockOnSelectSections}
+        onSelectFolders={mockOnSelectFolders}
         onSelectQuestions={mockOnSelectQuestions}
         onConfirm={jest.fn()}
         onCancel={jest.fn()}
@@ -118,6 +121,7 @@ describe("Import questions review modal", () => {
         questionnaire={mockQuestionnaire}
         isOpen
         onSelectSections={mockOnSelectSections}
+        onSelectFolders={mockOnSelectFolders}
         onSelectQuestions={mockOnSelectQuestions}
         startingSelectedQuestions={mockQuestions}
         onConfirm={mockHandleConfirm}
@@ -141,6 +145,7 @@ describe("Import questions review modal", () => {
           questionnaire={mockQuestionnaire}
           isOpen
           onSelectSections={mockOnSelectSections}
+          onSelectFolders={mockOnSelectFolders}
           onSelectQuestions={mockOnSelectQuestions}
           startingSelectedQuestions={[]}
           onConfirm={jest.fn()}
@@ -162,6 +167,7 @@ describe("Import questions review modal", () => {
           questionnaire={mockQuestionnaire}
           isOpen
           onSelectSections={mockOnSelectSections}
+          onSelectFolders={mockOnSelectFolders}
           onSelectQuestions={mockOnSelectQuestions}
           startingSelectedQuestions={mockQuestions}
           onConfirm={jest.fn()}
@@ -183,6 +189,7 @@ describe("Import questions review modal", () => {
           questionnaire={mockQuestionnaire}
           isOpen
           onSelectSections={mockOnSelectSections}
+          onSelectFolders={mockOnSelectFolders}
           onSelectQuestions={mockOnSelectQuestions}
           startingSelectedQuestions={[]}
           onConfirm={jest.fn()}

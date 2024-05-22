@@ -31,11 +31,11 @@ export const styleButtons = [
     style: "BOLD",
   },
   {
-    id: "emphasis",
+    id: "highlight",
     title: "Highlight",
     icon: iconEmphasis,
     type: STYLE_INLINE,
-    style: "ITALIC",
+    style: "BOLD", // BOLD style wraps text in strong tags - used for highlighting
   },
 ];
 
@@ -86,7 +86,7 @@ class ToolBar extends React.Component {
     selectionIsCollapsed: PropTypes.bool.isRequired,
     controls: PropTypes.shape({
       bold: PropTypes.bool,
-      emphasis: PropTypes.bool,
+      highlight: PropTypes.bool,
       heading: PropTypes.bool,
       list: PropTypes.bool,
       piping: PropTypes.bool,

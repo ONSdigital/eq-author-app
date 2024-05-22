@@ -65,7 +65,7 @@ export class UnwrappedEditor extends React.Component {
           label="Confirmation question"
           value={title}
           onUpdate={this.handleRichTextUpdate}
-          controls={{ bold: true, emphasis: true, piping: true }}
+          controls={{ highlight: true, piping: true }}
           size="large"
           testSelector="txt-confirmation-title"
           data-test="title-input"

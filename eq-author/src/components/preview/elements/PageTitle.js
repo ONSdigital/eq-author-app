@@ -4,10 +4,17 @@ import styled from "styled-components";
 
 import Error from "components/preview/Error";
 
+import { colors } from "../../../constants/theme";
+
 const Title = styled.h1`
   font-size: 1.4em;
   margin: 0 0 1em;
   word-wrap: break-word;
+  strong {
+    background-color: ${colors.neonYellow};
+    padding: 0 0.125em;
+    font-style: normal;
+  }
 `;
 
 const PageTitle = ({ title, missingText = "Missing Page Title" }) => {
