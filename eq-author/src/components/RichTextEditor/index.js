@@ -2,7 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
 import Editor from "draft-js-plugins-editor";
-import { EditorState, RichUtils, Modifier, CompositeDecorator } from "draft-js";
+import {
+  EditorState,
+  RichUtils,
+  Modifier,
+  CompositeDecorator,
+  ContentState,
+} from "draft-js";
+import { stateFromHTML } from "draft-js-import-html";
 import "draft-js/dist/Draft.css";
 import createBlockBreakoutPlugin from "draft-js-block-breakout-plugin";
 
@@ -395,12 +402,12 @@ class RichTextEditor extends React.Component {
 
   state = { showPasteModal: false, text: "", multiline: false };
 
-  handlePaste = (text) => {
+  handlePaste = (text, html) => {
     if (/\s{2,}/g.test(text)) {
       this.setState({
         showPasteModal: true,
         multiline: false,
-        text: text,
+        text: html || text,
       });
     } else {
       this.handleChange(
@@ -418,12 +425,12 @@ class RichTextEditor extends React.Component {
     return "handled";
   };
 
-  handlePasteMultiline = (text) => {
+  handlePasteMultiline = (text, html) => {
     if (/\s{2,}/g.test(text)) {
       this.setState({
         showPasteModal: true,
         multiline: true,
-        text: text,
+        text: html || text,
       });
       return "handled";
     } else {
@@ -436,27 +443,52 @@ class RichTextEditor extends React.Component {
     const currentContent = editorState.getCurrentContent();
     const currentSelection = editorState.getSelection();
 
-    let modifiedText;
+    let newEditorState;
+    let processedText = text;
 
     if (multiline) {
-      modifiedText = preserveRichFormatting(text);
+      // Process the text to remove multiple spaces
+      processedText = processedText.replace(/\s{2,}/g, " ").trim();
+      // Convert processed text from HTML to ContentState
+      const contentState = stateFromHTML(processedText);
+      const fragment = contentState.getBlockMap();
+
+      // Replace the selected text with the pasted content
+      const newContentState = Modifier.replaceWithFragment(
+        currentContent,
+        currentSelection,
+        fragment
+      );
+
+      // Create a new EditorState with the updated content
+      newEditorState = EditorState.push(
+        editorState,
+        newContentState,
+        "insert-characters"
+      );
     } else {
-      modifiedText = text.replace(/\n/g, " ").trim().replace(/\s+/g, " ");
+      // For single line pastes, replace multiple spaces with a single space
+      processedText = processedText
+        .replace(/\n/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+      const contentState = stateFromHTML(processedText);
+      const fragment = contentState.getBlockMap();
+
+      // Replace the selected text with the pasted content
+      const newContentState = Modifier.replaceWithFragment(
+        currentContent,
+        currentSelection,
+        fragment
+      );
+
+      // Create a new EditorState with the updated content
+      newEditorState = EditorState.push(
+        editorState,
+        newContentState,
+        "insert-characters"
+      );
     }
-
-    // Replace the selected text with the pasted content
-    const newContentState = Modifier.replaceText(
-      currentContent,
-      currentSelection,
-      modifiedText
-    );
-
-    // Create a new EditorState with the updated content
-    const newEditorState = EditorState.push(
-      editorState,
-      newContentState,
-      "insert-characters"
-    );
 
     // Set the new editor state and close the paste modal
     this.setState({
