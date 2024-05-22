@@ -2,13 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
 import Editor from "draft-js-plugins-editor";
-import {
-  EditorState,
-  RichUtils,
-  Modifier,
-  CompositeDecorator,
-  ContentState,
-} from "draft-js";
+import { EditorState, RichUtils, Modifier, CompositeDecorator } from "draft-js";
 import { stateFromHTML } from "draft-js-import-html";
 import "draft-js/dist/Draft.css";
 import createBlockBreakoutPlugin from "draft-js-block-breakout-plugin";
@@ -34,9 +28,7 @@ import { sharedStyles } from "components/Forms/css";
 import { Field, Label } from "components/Forms";
 import ValidationError from "components/ValidationError";
 
-import PasteModal, {
-  preserveRichFormatting,
-} from "components/modals/PasteModal";
+import PasteModal from "components/modals/PasteModal";
 
 import { colors } from "../../constants/theme";
 
