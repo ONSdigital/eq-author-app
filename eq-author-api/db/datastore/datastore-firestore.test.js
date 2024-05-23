@@ -258,6 +258,16 @@ describe("Firestore Datastore", () => {
       });
       expect(updatedAt !== savedQuestionnaire.updatedAt).toBeTruthy();
     });
+
+    it("Should not update the 'createdAt' property", async () => {
+      const createdAt = questionnaire.createdAt;
+      const savedQuestionnaire = await saveQuestionnaire({
+        id: "123",
+        title: "Updated questionnaire title",
+        ...questionnaire,
+      });
+      expect(createdAt === savedQuestionnaire.createdAt).toBeTruthy();
+    });
   });
 
   describe("Getting a list of questionnaires", () => {
