@@ -263,7 +263,7 @@ describe("Firestore Datastore", () => {
       const createdAt = questionnaire.createdAt;
       const savedQuestionnaire = await saveQuestionnaire({
         id: "123",
-        title: "Updated question title",
+        title: "Updated questionnaire title",
         ...questionnaire,
       });
       expect(createdAt === savedQuestionnaire.createdAt).toBeTruthy();
