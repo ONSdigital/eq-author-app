@@ -59,19 +59,23 @@ describe("utils/getPreviousAnswers", () => {
       },
     });
 
-    // Tests previousContent[0] matches the questionnaire's first section
     expect(previousContent).toHaveLength(2);
+
+    // Tests previousContent[0] matches the questionnaire's first section
     expect(previousContent[0]).toMatchObject(questionnaire.sections[0]);
 
-    // Tests previousContent[1]'s first folder's first page matches the questionnaire's second section's first folder's first page
+    // Tests previousContent[1]'s first folder has two pages
     expect(previousContent[1].folders[0].pages).toHaveLength(2);
+    // Tests previousContent[1]'s first folder's first page has two answers
     expect(previousContent[1].folders[0].pages[0].answers).toHaveLength(2);
+    // Tests previousContent[1]'s first folder's first page matches the questionnaire's second section's first folder's first page
     expect(previousContent[1].folders[0].pages[0]).toMatchObject(
       questionnaire.sections[1].folders[0].pages[0]
     );
 
-    // Tests previousContent[1]'s first folder's second page matches the questionnaire's second section's first folder's second page
+    // Tests previousContent[1]'s first folder's second page has two answers
     expect(previousContent[1].folders[0].pages[1].answers).toHaveLength(2);
+    // Tests previousContent[1]'s first folder's second page matches the questionnaire's second section's first folder's second page
     expect(previousContent[1].folders[0].pages[1]).toMatchObject(
       questionnaire.sections[1].folders[0].pages[1]
     );
@@ -100,18 +104,21 @@ describe("utils/getPreviousAnswers", () => {
       },
     });
 
-    // Tests previousContent[0] matches the questionnaire's first section
     expect(previousContent).toHaveLength(2);
+
+    // Tests previousContent[0] matches the questionnaire's first section
     expect(previousContent[0]).toMatchObject(questionnaire.sections[0]);
 
-    // Tests previousContent[1]'s first folder's first page matches the questionnaire's second section's first folder's first page
+    // Tests previousContent[1]'s first folder has two pages
     expect(previousContent[1].folders[0].pages).toHaveLength(2);
+    // Tests previousContent[1]'s first folder's first page has two answers
     expect(previousContent[1].folders[0].pages[0].answers).toHaveLength(2);
+    // Tests previousContent[1]'s first folder's first page matches the questionnaire's second section's first folder's first page
     expect(previousContent[1].folders[0].pages[0]).toMatchObject(
       questionnaire.sections[1].folders[0].pages[0]
     );
 
-    // Tests mutually exclusive answer is removed from previousContent[1]'s first folder's second page
+    // Tests to assert that the mutually exclusive answer is removed from previousContent[1]'s first folder's second page
     expect(previousContent[1].folders[0].pages[1].answers).toHaveLength(1);
     expect(previousContent[1].folders[0].pages[1].answers[0]).toMatchObject(
       questionnaire.sections[1].folders[0].pages[1].answers[0]
@@ -147,13 +154,16 @@ describe("utils/getPreviousAnswers", () => {
       },
     });
 
-    // Tests previousContent[0] matches the questionnaire's first section
     expect(previousContent).toHaveLength(2);
+
+    // Tests previousContent[0] matches the questionnaire's first section
     expect(previousContent[0]).toMatchObject(questionnaire.sections[0]);
 
-    // Tests previousContent[1]'s first folder's first page matches the questionnaire's second section's first folder's first page, and that the second page has been removed
+    // Tests previousContent[1]'s first folder has one page (the second page has been removed as left side answer is mutually exclusive)
     expect(previousContent[1].folders[0].pages).toHaveLength(1);
+    // Tests previousContent[1]'s first folder's first page has two answers
     expect(previousContent[1].folders[0].pages[0].answers).toHaveLength(2);
+    // Tests previousContent[1]'s first folder's first page matches the questionnaire's second section's first folder's first page
     expect(previousContent[1].folders[0].pages[0]).toMatchObject(
       questionnaire.sections[1].folders[0].pages[0]
     );
