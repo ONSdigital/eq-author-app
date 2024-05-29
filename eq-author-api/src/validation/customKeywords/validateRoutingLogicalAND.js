@@ -1,11 +1,16 @@
 const { groupBy } = require("lodash");
-const { getAnswerById } = require("../../../schema/resolvers/utils");
+const {
+  getAnswerById,
+  getPageByAnswerId,
+} = require("../../../schema/resolvers/utils");
+
 const {
   CURRENCY,
   NUMBER,
   PERCENTAGE,
   UNIT,
   CHECKBOX,
+  MUTUALLY_EXCLUSIVE,
 } = require("../../../constants/answerTypes");
 const createValidationError = require("../createValidationError");
 const { ERR_LOGICAL_AND } = require("../../../constants/validationErrorCodes");
@@ -21,6 +26,7 @@ module.exports = (ajv) => {
       _parentSchema,
       { rootData: questionnaire, instancePath }
     ) {
+      const allExpressions = expressions;
       const invalidAnswerIds = new Set();
       const expressionsByAnswerId = groupBy(expressions, "left.answerId");
       const potentialConflicts = Object.entries(expressionsByAnswerId).filter(
@@ -38,8 +44,33 @@ module.exports = (ajv) => {
           return addError(answerId);
         }
 
-        // Bail out if answer isn't numerical or checkbox - remaining code validates number-type answers
         const answer = getAnswerById({ questionnaire }, answerId);
+        const expressionsContainMutuallyExclusive = allExpressions.some(
+          (expression) =>
+            getAnswerById({ questionnaire }, expression.left.answerId)?.type ===
+            MUTUALLY_EXCLUSIVE
+        );
+        const allExpressionAnswerIds = allExpressions.map(
+          (expression) => expression.left.answerId
+        );
+        const pageIdsForExpressionAnswers = allExpressionAnswerIds.map(
+          (answerId) => getPageByAnswerId({ questionnaire }, answerId)?.id
+        );
+
+        // Set removes duplicate values from pageIdsForExpressionAnswers array - if the length of the array is different to the size of the set then the array contains duplicates
+        const expressionsContainDuplicatePageIds =
+          new Set(pageIdsForExpressionAnswers).size !==
+          pageIdsForExpressionAnswers.length;
+
+        // If any of the expressions contain a mutually exclusive answer and there are multiple answers from the same page then add an error
+        if (
+          expressionsContainMutuallyExclusive &&
+          expressionsContainDuplicatePageIds
+        ) {
+          return addError(answerId);
+        }
+
+        // Bail out if answer isn't numerical or checkbox - remaining code validates number-type answers
         if (
           !answer ||
           ![CURRENCY, NUMBER, UNIT, PERCENTAGE, CHECKBOX].includes(answer.type)
