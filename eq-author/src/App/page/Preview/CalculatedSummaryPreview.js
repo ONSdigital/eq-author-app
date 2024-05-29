@@ -5,7 +5,6 @@ import { propType } from "graphql-anywhere";
 import styled from "styled-components";
 import Error from "components/preview/Error";
 import PageTitle from "components/preview/elements/PageTitle";
-import Info from "components/preview/elements/Info";
 
 import EditorLayout from "components/EditorLayout";
 import Panel from "components/Panel";
@@ -15,6 +14,9 @@ import CommentsPanel from "App/Comments";
 import { colors } from "constants/theme";
 import CalculatedSummaryPageEditor from "../Design/CalculatedSummaryPageEditor";
 import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
+import { getPageByAnswerId } from "utils/questionnaireUtils";
+import { useQuestionnaire } from "components/QuestionnaireContext";
+import Answers from "../Design/CalculatedSummaryPageEditor/AnswerSelector/Answers";
 
 const Container = styled.div`
   padding: 2em;
@@ -97,6 +99,21 @@ const CalculatedSummaryPagePreview = ({ page }) => {
     section: page?.section,
   });
 
+  const { questionnaire } = useQuestionnaire();
+  const uniqueTitles = new Set();
+
+  const titles = page.summaryAnswers.map((answer) => {
+    const pages = getPageByAnswerId(questionnaire, answer.id);
+    if (pages) {
+      const title = pages.title.replace(/<[^>]*>/g, "");
+      if (!uniqueTitles.has(title)) {
+        uniqueTitles.add(title);
+        return title;
+      }
+    }
+    return null;
+  });
+
   return (
     <EditorLayout
       title={page.displayName}
@@ -114,6 +131,7 @@ const CalculatedSummaryPagePreview = ({ page }) => {
 
           {page.summaryAnswers.length > 0 ? (
             <Summary>
+              <div>{titles}</div>
               {page.summaryAnswers.map((answer) => (
                 <SummaryItem key={answer.id}>
                   <Grid>
