@@ -45,6 +45,7 @@ module.exports = (ajv) => {
         }
 
         const answer = getAnswerById({ questionnaire }, answerId);
+        const page = getPageByAnswerId({ questionnaire }, answerId);
         const expressionsContainMutuallyExclusive = allExpressions.some(
           (expression) =>
             getAnswerById({ questionnaire }, expression.left.answerId)?.type ===
@@ -57,6 +58,14 @@ module.exports = (ajv) => {
           (answerId) => getPageByAnswerId({ questionnaire }, answerId)?.id
         );
 
+        // Creates an array of all pageIds that are found in pageIdsForExpressionAnswers more than once - self represents the pageIdsForExpressionAnswers array itself
+        // If the index of the looped id is not equal to the looping index then the id is a duplicate
+        const duplicatePageIds = pageIdsForExpressionAnswers.filter(
+          (id, index, self) => {
+            return self.indexOf(id) !== index;
+          }
+        );
+
         // Set removes duplicate values from pageIdsForExpressionAnswers array - if the length of the array is different to the size of the set then the array contains duplicates
         const expressionsContainDuplicatePageIds =
           new Set(pageIdsForExpressionAnswers).size !==
@@ -67,7 +76,13 @@ module.exports = (ajv) => {
           expressionsContainMutuallyExclusive &&
           expressionsContainDuplicatePageIds
         ) {
-          return addError(answerId);
+          // Prevents the error being added to answers that are not on the same page as the mutually exclusive answer
+          if (
+            duplicatePageIds.includes(page.id) &&
+            page.answers.some((answer) => answer.type === MUTUALLY_EXCLUSIVE)
+          ) {
+            return addError(answerId);
+          }
         }
 
         // Bail out if answer isn't numerical or checkbox - remaining code validates number-type answers
