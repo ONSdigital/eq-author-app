@@ -66,15 +66,10 @@ module.exports = (ajv) => {
           }
         );
 
-        // Set removes duplicate values from pageIdsForExpressionAnswers array - if the length of the array is different to the size of the set then the array contains duplicates
-        const expressionsContainDuplicatePageIds =
-          new Set(pageIdsForExpressionAnswers).size !==
-          pageIdsForExpressionAnswers.length;
-
-        // If any of the expressions contain a mutually exclusive answer and there are multiple answers from the same page then add an error
+        // If any of the expressions contain a mutually exclusive answer and there are multiple answers from the same page
         if (
           expressionsContainMutuallyExclusive &&
-          expressionsContainDuplicatePageIds
+          duplicatePageIds.length > 0
         ) {
           // Prevents the error being added to answers that are not on the same page as the mutually exclusive answer
           if (
