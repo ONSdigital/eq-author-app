@@ -458,10 +458,9 @@ class RichTextEditor extends React.Component {
         false
       );
       while (walker.nextNode()) {
-        walker.currentNode.nodeValue = walker.currentNode.nodeValue.replace(
-          /\s{2,}/g,
-          " "
-        );
+        walker.currentNode.nodeValue = walker.currentNode.nodeValue
+          .replace(/\s{2,}/g, " ")
+          .replace(/  /g, " ");
       }
       processedText = div.innerHTML;
 
@@ -484,9 +483,10 @@ class RichTextEditor extends React.Component {
       );
     } else {
       // For single line pastes, replace multiple spaces with a single space
-      processedText = processedText
+      processedText = sanitizedHtml
         .replace(/\n/g, " ")
         .replace(/\s+/g, " ")
+        .replace(/  /g, " ")
         .trim();
       const contentState = stateFromHTML(processedText);
       const fragment = contentState.getBlockMap();
