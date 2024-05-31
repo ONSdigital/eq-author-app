@@ -438,9 +438,33 @@ class RichTextEditor extends React.Component {
     let newEditorState;
     let processedText = text;
 
+    // Simple HTML sanitization function
+    const sanitizeHtml = (html) => {
+      const doc = new DOMParser().parseFromString(html, "text/html");
+      return doc.body.innerHTML;
+    };
+
+    // Sanitize the input HTML
+    const sanitizedHtml = sanitizeHtml(processedText);
+
     if (multiline) {
       // Process the text to remove multiple spaces
-      processedText = processedText.replace(/\s{2,}/g, " ").trim();
+      const div = document.createElement("div");
+      div.innerHTML = sanitizedHtml;
+      const walker = document.createTreeWalker(
+        div,
+        NodeFilter.SHOW_TEXT,
+        null,
+        false
+      );
+      while (walker.nextNode()) {
+        walker.currentNode.nodeValue = walker.currentNode.nodeValue.replace(
+          /\s{2,}/g,
+          " "
+        );
+      }
+      processedText = div.innerHTML;
+
       // Convert processed text from HTML to ContentState
       const contentState = stateFromHTML(processedText);
       const fragment = contentState.getBlockMap();
