@@ -16,7 +16,6 @@ import CalculatedSummaryPageEditor from "../Design/CalculatedSummaryPageEditor";
 import { useSetNavigationCallbacksForPage } from "components/NavigationCallbacks";
 import { getPageByAnswerId } from "utils/questionnaireUtils";
 import { useQuestionnaire } from "components/QuestionnaireContext";
-import Answers from "../Design/CalculatedSummaryPageEditor/AnswerSelector/Answers";
 
 const Container = styled.div`
   padding: 2em;
@@ -93,26 +92,30 @@ const SummaryTotalLabel = styled.div`
 `;
 
 const CalculatedSummaryPagePreview = ({ page }) => {
+  const { questionnaire } = useQuestionnaire();
   useSetNavigationCallbacksForPage({
     page: page,
     folder: page?.folder,
     section: page?.section,
   });
 
-  const { questionnaire } = useQuestionnaire();
-  const uniqueTitles = new Set();
+  const usedPageIds = [];
 
-  const titles = page.summaryAnswers.map((answer) => {
-    const pages = getPageByAnswerId(questionnaire, answer.id);
-    if (pages) {
-      const title = pages.title.replace(/<[^>]*>/g, "");
-      if (!uniqueTitles.has(title)) {
-        uniqueTitles.add(title);
-        return title;
-      }
-    }
-    return null;
-  });
+  const getDuplicatedPageIds = () => {
+    const allPageIds = [];
+
+    page.summaryAnswers.forEach((summaryAnswer) => {
+      const summaryAnswerPage = getPageByAnswerId(
+        questionnaire,
+        summaryAnswer.id
+      );
+      allPageIds.push(summaryAnswerPage?.id);
+    });
+
+    return allPageIds.filter(
+      (pageId, index) => allPageIds.indexOf(pageId) !== index
+    );
+  };
 
   return (
     <EditorLayout
@@ -131,24 +134,40 @@ const CalculatedSummaryPagePreview = ({ page }) => {
 
           {page.summaryAnswers.length > 0 ? (
             <Summary>
-              <div>{titles}</div>
-              {page.summaryAnswers.map((answer) => (
-                <SummaryItem key={answer.id}>
-                  <Grid>
-                    <Column cols={7}>
-                      <SummaryLabel data-test="answer-item">
-                        {answer.displayName}
-                      </SummaryLabel>
-                    </Column>
-                    <Column cols={3}>
-                      <SummaryValue>Value</SummaryValue>
-                    </Column>
-                    <Column cols={2}>
-                      <SummaryLink>Change</SummaryLink>
-                    </Column>
-                  </Grid>
-                </SummaryItem>
-              ))}
+              {page.summaryAnswers.map((answer) => {
+                const answerPage = getPageByAnswerId(questionnaire, answer.id);
+                const hasAnswerPageIdBeenUsed = usedPageIds.includes(
+                  answerPage?.id
+                );
+                if (!hasAnswerPageIdBeenUsed) {
+                  usedPageIds.push(answerPage?.id);
+                }
+
+                const duplicatedPageIds = getDuplicatedPageIds();
+
+                return (
+                  <>
+                    {!hasAnswerPageIdBeenUsed &&
+                      duplicatedPageIds.includes(answerPage?.id) &&
+                      answerPage?.title.replace(/<p>|<\/p>/g, "")}
+                    <SummaryItem key={answer.id}>
+                      <Grid>
+                        <Column cols={7}>
+                          <SummaryLabel data-test="answer-item">
+                            {answer.displayName}
+                          </SummaryLabel>
+                        </Column>
+                        <Column cols={3}>
+                          <SummaryValue>Value</SummaryValue>
+                        </Column>
+                        <Column cols={2}>
+                          <SummaryLink>Change</SummaryLink>
+                        </Column>
+                      </Grid>
+                    </SummaryItem>
+                  </>
+                );
+              })}
 
               {page.totalTitle ? (
                 <SummaryTotal>
