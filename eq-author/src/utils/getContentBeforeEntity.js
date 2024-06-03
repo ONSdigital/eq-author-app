@@ -16,7 +16,7 @@ const getContentBeforeEntity = (
   selectedId
 ) => {
   const sections = [];
-  const selectedAnswerPageId = getPageByAnswerId(questionnaire, selectedId)?.id;
+  const selectedAnswerPage = getPageByAnswerId(questionnaire, selectedId);
 
   for (const section of questionnaire.sections) {
     if (section.id === id) {
@@ -56,7 +56,7 @@ const getContentBeforeEntity = (
           expressionGroup.expressions.forEach((expression) => {
             if (expression?.left?.page?.id) {
               // Filters answers if the expression's left side page is not the selected answer's page - allows selection of answers on the same page as the selected answer
-              if (expression.left.page.id !== selectedAnswerPageId) {
+              if (expression.left.page.id !== selectedAnswerPage?.id) {
                 answers = answers.filter((answer) => {
                   // If the expression's left side answer is on the same page as the looped answer
                   if (expression.left.page.id === answer.page.id) {
@@ -78,7 +78,7 @@ const getContentBeforeEntity = (
                 const expressionsFromSamePage =
                   expressionGroup.expressions.filter(
                     (expression) =>
-                      expression?.left?.page?.id === selectedAnswerPageId
+                      expression?.left?.page?.id === selectedAnswerPage?.id
                   );
 
                 /* 
@@ -88,11 +88,14 @@ const getContentBeforeEntity = (
                 const expressionGroupIncludesExpressionFromSamePage =
                   expressionsFromSamePage.length > 1; // Checks length to see if there is more than one expression in the expression group using the selected answer's page
 
-                // Filters out answers on the same page as the selected answer if the expression group includes more than one expression using the selected answer's page
+                // Filters out answers on the same page as the selected answer if the expression group includes more than one expression using the selected answer's page and the selected answer's page includes a mutually exclusive answer
                 answers = answers.filter((answer) => {
                   if (
-                    answer.page.id === selectedAnswerPageId &&
-                    expressionGroupIncludesExpressionFromSamePage
+                    answer.page.id === selectedAnswerPage?.id &&
+                    expressionGroupIncludesExpressionFromSamePage &&
+                    selectedAnswerPage?.answers.some(
+                      (answer) => answer.type === MUTUALLY_EXCLUSIVE
+                    )
                   ) {
                     return false;
                   }
@@ -132,12 +135,6 @@ export const stripEmpty = (sections) => {
   remove(sections, (section) => !section.folders.length);
   return sections;
 };
-
-// const expressionGroupHasAnswerFromSamePage = (expressionGroup, pageId) => {
-//   expressionGroup.expressions.forEach((expression) =>
-//     console.log("expression", expression)
-//   );
-// };
 
 export default ({
   questionnaire,
