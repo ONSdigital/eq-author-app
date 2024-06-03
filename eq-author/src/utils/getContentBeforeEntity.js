@@ -1,6 +1,7 @@
 import { remove } from "lodash";
 
 import isListCollectorPageType from "utils/isListCollectorPageType";
+import { getPageByAnswerId } from "utils/questionnaireUtils";
 
 import { MUTUALLY_EXCLUSIVE } from "constants/answer-types";
 
@@ -11,9 +12,11 @@ const getContentBeforeEntity = (
   id,
   preprocessAnswers,
   includeTarget,
-  expressionGroup
+  expressionGroup,
+  selectedId
 ) => {
   const sections = [];
+  const selectedAnswerPageId = getPageByAnswerId(questionnaire, selectedId)?.id;
 
   for (const section of questionnaire.sections) {
     if (section.id === id) {
@@ -52,20 +55,50 @@ const getContentBeforeEntity = (
         if (expressionGroup?.operator === "And") {
           expressionGroup.expressions.forEach((expression) => {
             if (expression?.left?.page?.id) {
-              answers = answers.filter((answer) => {
-                // If the expression's left side answer is on the same page as the looped answer
-                if (expression.left.page.id === answer.page.id) {
-                  // If the expression's left side answer is mutually exclusive, do not include the looped answer (as looped answer and expression answer are on the same page)
-                  if (expression.left.type === MUTUALLY_EXCLUSIVE) {
+              // Filters answers if the expression's left side page is not the selected answer's page - allows selection of answers on the same page as the selected answer
+              if (expression.left.page.id !== selectedAnswerPageId) {
+                answers = answers.filter((answer) => {
+                  // If the expression's left side answer is on the same page as the looped answer
+                  if (expression.left.page.id === answer.page.id) {
+                    // If the expression's left side answer is mutually exclusive, do not include the looped answer (as looped answer and expression answer are on the same page)
+                    if (expression.left.type === MUTUALLY_EXCLUSIVE) {
+                      return false;
+                    }
+                    // If the expression's left side answer is not mutually exclusive, only include the looped answer if it is also not mutually exclusive (as looped answer and expression answer are on the same page)
+                    else {
+                      return answer.type !== MUTUALLY_EXCLUSIVE;
+                    }
+                  }
+                  return true;
+                });
+              }
+              // Filters answers if the expression's left side page matches the selected answer's page - allows selection of answers on the same page as the selected answer
+              else {
+                // Gets all expressions using answers from the same page as the selected answer
+                const expressionsFromSamePage =
+                  expressionGroup.expressions.filter(
+                    (expression) =>
+                      expression?.left?.page?.id === selectedAnswerPageId
+                  );
+
+                /* 
+                Checks if the expression group includes more than one expression using the selected answer's page 
+                (to allow selection of answers on the same page as the selected answer when it is the only expression using the selected answer's page) 
+                */
+                const expressionGroupIncludesExpressionFromSamePage =
+                  expressionsFromSamePage.length > 1; // Checks length to see if there is more than one expression in the expression group using the selected answer's page
+
+                // Filters out answers on the same page as the selected answer if the expression group includes more than one expression using the selected answer's page
+                answers = answers.filter((answer) => {
+                  if (
+                    answer.page.id === selectedAnswerPageId &&
+                    expressionGroupIncludesExpressionFromSamePage
+                  ) {
                     return false;
                   }
-                  // If the expression's left side answer is not mutually exclusive, only include the looped answer if it is also not mutually exclusive (as looped answer and expression answer are on the same page)
-                  else {
-                    return answer.type !== MUTUALLY_EXCLUSIVE;
-                  }
-                }
-                return true;
-              });
+                  return true;
+                });
+              }
             }
           });
         }
@@ -100,12 +133,19 @@ export const stripEmpty = (sections) => {
   return sections;
 };
 
+// const expressionGroupHasAnswerFromSamePage = (expressionGroup, pageId) => {
+//   expressionGroup.expressions.forEach((expression) =>
+//     console.log("expression", expression)
+//   );
+// };
+
 export default ({
   questionnaire,
   id,
   preprocessAnswers = identity,
   includeTargetPage = false,
   expressionGroup,
+  selectedId,
 } = {}) => {
   if (!questionnaire || !id || questionnaire?.introduction?.id === id) {
     return [];
@@ -117,7 +157,8 @@ export default ({
       id,
       preprocessAnswers,
       includeTargetPage,
-      expressionGroup
+      expressionGroup,
+      selectedId
     ).filter(({ folders }) => folders.length)
   );
 };

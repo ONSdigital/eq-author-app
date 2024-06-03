@@ -27,6 +27,7 @@ const RoutingAnswerContentPicker = ({
   includeSelf,
   selectedContentDisplayName,
   expressionGroup,
+  selectedId,
   ...otherProps
 }) => {
   const { questionnaire } = useQuestionnaire();
@@ -40,8 +41,9 @@ const RoutingAnswerContentPicker = ({
         includeTargetPage: includeSelf,
         preprocessAnswers,
         expressionGroup,
+        selectedId,
       }),
-    [questionnaire, pageId, includeSelf, expressionGroup]
+    [questionnaire, pageId, includeSelf, expressionGroup, selectedId]
   );
 
   const filteredPreviousAnswers = previousAnswers.map((answer) => {
@@ -80,6 +82,7 @@ RoutingAnswerContentPicker.propTypes = {
     PropTypes.object,
     PropTypes.string,
   ]),
+  selectedId: PropTypes.string,
   expressionGroup: PropTypes.object, //eslint-disable-line
 };
 
