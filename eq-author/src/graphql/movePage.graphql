@@ -49,6 +49,10 @@ mutation MovePage($input: MovePageInput!) {
               listId
             }
           }
+          section {
+            id
+            repeatingSectionListId
+          }
           ... on QuestionPage {
             answers {
               ...Answer

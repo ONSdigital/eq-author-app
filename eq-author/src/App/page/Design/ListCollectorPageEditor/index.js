@@ -782,6 +782,9 @@ UnwrappedListCollectorPageEditor.fragments = {
       folder {
         id
         position
+        ... on ListCollectorFolder {
+          listId
+        }
       }
       section {
         id
