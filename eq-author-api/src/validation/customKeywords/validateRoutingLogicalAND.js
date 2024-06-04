@@ -46,11 +46,6 @@ module.exports = (ajv) => {
 
         const answer = getAnswerById({ questionnaire }, answerId);
         const page = getPageByAnswerId({ questionnaire }, answerId);
-        const expressionsContainMutuallyExclusive = allExpressions.some(
-          (expression) =>
-            getAnswerById({ questionnaire }, expression.left.answerId)?.type ===
-            MUTUALLY_EXCLUSIVE
-        );
         const allExpressionAnswerIds = allExpressions.map(
           (expression) => expression.left.answerId
         );
@@ -58,28 +53,41 @@ module.exports = (ajv) => {
           (answerId) => getPageByAnswerId({ questionnaire }, answerId)?.id
         );
 
-        // Creates an array of all pageIds that are found in pageIdsForExpressionAnswers more than once - self represents the pageIdsForExpressionAnswers array itself
-        // If the index of the looped id is not equal to the looping index then the id is a duplicate
-        const duplicatePageIds = pageIdsForExpressionAnswers.filter(
-          (id, index, self) => {
-            return self.indexOf(id) !== index;
+        /*
+        Creates an array of all pageIds that are found in pageIdsForExpressionAnswers more than once
+        If the index of the looped id is not equal to the looping index then the id is a duplicate
+        */
+        const duplicatedPageIds = pageIdsForExpressionAnswers.filter(
+          (id, index) => {
+            return pageIdsForExpressionAnswers.indexOf(id) !== index;
           }
         );
 
-        // If any of the expressions contain a mutually exclusive answer and there are multiple answers from the same page
-        if (
-          expressionsContainMutuallyExclusive &&
-          duplicatePageIds.length > 0
-        ) {
-          // Prevents the error being added to answers that are not on the same page as the mutually exclusive answer
-          if (
-            duplicatePageIds.includes(page.id) &&
-            page.answers.some((answer) => answer.type === MUTUALLY_EXCLUSIVE)
-          ) {
+        // If there are multiple answers from the same page
+        if (duplicatedPageIds.length > 0) {
+          /* 
+          Checks if any of the expressions' answers conflict with a mutually exclusive answer
+          Conflicts (returns true) if all of the following are met:
+            - The looping expression's answer in the expression group is a mutually exclusive answer
+            - The same expression's answer is on a page that has other answers from the same page in the logic rule
+            - The same expression's answer is on the same page as the current answer being validated
+          */
+          const conflictsWithMutuallyExclusive = allExpressions.some(
+            (expression) =>
+              getAnswerById({ questionnaire }, expression.left.answerId)
+                ?.type === MUTUALLY_EXCLUSIVE &&
+              duplicatedPageIds.includes(
+                getPageByAnswerId({ questionnaire }, expression.left.answerId)
+                  ?.id
+              ) &&
+              getPageByAnswerId({ questionnaire }, expression.left.answerId)
+                ?.id === page.id
+          );
+
+          if (conflictsWithMutuallyExclusive) {
             return addError(answerId);
           }
         }
-
         // Bail out if answer isn't numerical or checkbox - remaining code validates number-type answers
         if (
           !answer ||
