@@ -101,10 +101,53 @@ const CalculatedSummaryPagePreview = ({ page }) => {
 
   const usedPageIds = [];
 
+  const getAnswerIndexInPage = (answer) => {
+    const page = getPageByAnswerId(questionnaire, answer.id);
+
+    // Finds the index of the answer argument within its page
+    return page?.answers?.findIndex(
+      (pageAnswer) => pageAnswer.id === answer.id
+    );
+  };
+
+  /* 
+  Sorts summaryAnswers by page and answers (keeps pages in the order they appear in summaryAnswers, and sorts answers by their order in their page)
+  Ensures answers are always displayed underneath their page, and in the order they appear in the page
+  .slice() creates a copy of page.summaryAnswers to prevent mutating the original page.summaryAnswers array
+  */
+  const sortedSummaryAnswers = page.summaryAnswers.slice().sort((a, b) => {
+    const pageContainingAnswerA = getPageByAnswerId(questionnaire, a.id);
+    const pageContainingAnswerB = getPageByAnswerId(questionnaire, b.id);
+
+    // If the answers are on the same page, sort the answers in the order they appear in the page
+    if (pageContainingAnswerA?.id === pageContainingAnswerB?.id) {
+      return getAnswerIndexInPage(a) - getAnswerIndexInPage(b);
+    }
+
+    // Gets the first answer from page A that appears in summaryAnswers
+    const firstAnswerFromPageA = page.summaryAnswers.find(
+      (answer) =>
+        getPageByAnswerId(questionnaire, answer.id)?.id ===
+        pageContainingAnswerA?.id
+    );
+    // Gets the first answer from page B that appears in summaryAnswers
+    const firstAnswerFromPageB = page.summaryAnswers.find(
+      (answer) =>
+        getPageByAnswerId(questionnaire, answer.id)?.id ===
+        pageContainingAnswerB?.id
+    );
+
+    // Sorts answers based on the order of their pages in summaryAnswers (keeps pages in the order they appear in summaryAnswers)
+    return (
+      page.summaryAnswers.indexOf(firstAnswerFromPageA) -
+      page.summaryAnswers.indexOf(firstAnswerFromPageB)
+    );
+  });
+
   const getDuplicatedPageIds = () => {
     const allPageIds = [];
 
-    page.summaryAnswers.forEach((summaryAnswer) => {
+    sortedSummaryAnswers.forEach((summaryAnswer) => {
       const summaryAnswerPage = getPageByAnswerId(
         questionnaire,
         summaryAnswer.id
@@ -132,9 +175,9 @@ const CalculatedSummaryPagePreview = ({ page }) => {
         <Container>
           <PageTitle title={page.title} />
 
-          {page.summaryAnswers.length > 0 ? (
+          {sortedSummaryAnswers.length > 0 ? (
             <Summary>
-              {page.summaryAnswers.map((answer) => {
+              {sortedSummaryAnswers.map((answer) => {
                 const answerPage = getPageByAnswerId(questionnaire, answer.id);
                 const hasAnswerPageIdBeenUsed = usedPageIds.includes(
                   answerPage?.id
