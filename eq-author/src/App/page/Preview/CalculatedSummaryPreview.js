@@ -48,15 +48,19 @@ const Button = styled.div`
 `;
 
 const Summary = styled.div`
-  border-bottom: 1px solid #999;
   margin-bottom: 2rem;
 `;
 
 const SummaryItem = styled.div`
-  border-top: 1px solid #999;
   border-radius: 0;
   position: relative;
   padding: 1rem 0;
+`;
+
+const TitleQuestion = styled.div`
+  &:not(:first-of-type) {
+    border-top: ${(props) => (props.questionTitle ? "1px solid #999" : "none")};
+  }
 `;
 
 const SummaryLabel = styled.div`
@@ -187,12 +191,18 @@ const CalculatedSummaryPagePreview = ({ page }) => {
                 }
 
                 const duplicatedPageIds = getDuplicatedPageIds();
+                const questionTitle =
+                  !hasAnswerPageIdBeenUsed &&
+                  duplicatedPageIds.includes(answerPage?.id) &&
+                  answerPage?.title.replace(/<p>|<\/p>/g, "");
+
+                console.log("questionpage", questionTitle);
 
                 return (
                   <>
-                    {!hasAnswerPageIdBeenUsed &&
-                      duplicatedPageIds.includes(answerPage?.id) &&
-                      answerPage?.title.replace(/<p>|<\/p>/g, "")}
+                    <TitleQuestion questionTitle={questionTitle}>
+                      {questionTitle}
+                    </TitleQuestion>
                     <SummaryItem key={answer.id}>
                       <Grid>
                         <Column cols={7}>
