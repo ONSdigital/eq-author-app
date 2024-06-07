@@ -60,7 +60,6 @@ const SummaryItem = styled.div`
 `;
 
 const QuestionPageTitle = styled.div`
-  margin-top: 1rem;
   margin-bottom: 1rem;
 `;
 
@@ -207,29 +206,28 @@ const CalculatedSummaryPagePreview = ({ page }) => {
                   answer.id === lastSummaryAnswerFromPage.id;
 
                 return (
-                  <>
+                  <SummaryItem
+                    key={answer.id}
+                    isLastSummaryAnswerFromPage={isLastSummaryAnswerFromPage}
+                  >
                     <QuestionPageTitle questionTitle={questionTitle}>
                       {questionTitle}
                     </QuestionPageTitle>
-                    <SummaryItem
-                      key={answer.id}
-                      isLastSummaryAnswerFromPage={isLastSummaryAnswerFromPage}
-                    >
-                      <Grid>
-                        <Column cols={7}>
-                          <SummaryLabel data-test="answer-item">
-                            {answer.displayName}
-                          </SummaryLabel>
-                        </Column>
-                        <Column cols={3}>
-                          <SummaryValue>Value</SummaryValue>
-                        </Column>
-                        <Column cols={2}>
-                          <SummaryLink>Change</SummaryLink>
-                        </Column>
-                      </Grid>
-                    </SummaryItem>
-                  </>
+
+                    <Grid>
+                      <Column cols={7}>
+                        <SummaryLabel data-test="answer-item">
+                          {answer.displayName}
+                        </SummaryLabel>
+                      </Column>
+                      <Column cols={3}>
+                        <SummaryValue>Value</SummaryValue>
+                      </Column>
+                      <Column cols={2}>
+                        <SummaryLink>Change</SummaryLink>
+                      </Column>
+                    </Grid>
+                  </SummaryItem>
                 );
               })}
 
