@@ -55,12 +55,13 @@ const SummaryItem = styled.div`
   border-radius: 0;
   position: relative;
   padding: 1rem 0;
+  border-bottom: ${(props) =>
+    props.isLastSummaryAnswerFromPage ? "1px solid #999" : "none"};
 `;
 
-const TitleQuestion = styled.div`
-  &:not(:first-of-type) {
-    border-top: ${(props) => (props.questionTitle ? "1px solid #999" : "none")};
-  }
+const QuestionPageTitle = styled.div`
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 `;
 
 const SummaryLabel = styled.div`
@@ -207,10 +208,13 @@ const CalculatedSummaryPagePreview = ({ page }) => {
 
                 return (
                   <>
-                    <TitleQuestion questionTitle={questionTitle}>
+                    <QuestionPageTitle questionTitle={questionTitle}>
                       {questionTitle}
-                    </TitleQuestion>
-                    <SummaryItem key={answer.id}>
+                    </QuestionPageTitle>
+                    <SummaryItem
+                      key={answer.id}
+                      isLastSummaryAnswerFromPage={isLastSummaryAnswerFromPage}
+                    >
                       <Grid>
                         <Column cols={7}>
                           <SummaryLabel data-test="answer-item">
