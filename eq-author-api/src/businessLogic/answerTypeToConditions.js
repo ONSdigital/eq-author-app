@@ -31,6 +31,7 @@ const answerConditions = {
     conditions.COUNT_OF,
   ],
   [answerTypes.SELECT]: [conditions.ONE_OF, conditions.UNANSWERED],
+  [answerTypes.MUTUALLY_EXCLUSIVE]: [conditions.ONE_OF, conditions.UNANSWERED],
 };
 
 const isAnswerTypeSupported = (answerType) =>

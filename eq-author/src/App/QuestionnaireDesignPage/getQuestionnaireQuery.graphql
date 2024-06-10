@@ -365,6 +365,9 @@ fragment Answers on Answer {
   type
   properties
   advancedProperties
+  page {
+    id
+  }
   ... on BasicAnswer {
     secondaryQCode
   }
