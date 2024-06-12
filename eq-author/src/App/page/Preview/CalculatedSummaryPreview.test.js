@@ -8,7 +8,7 @@ import { byTestAttr } from "tests/utils/selectors";
 
 import CalculatedSummaryPreview from "./CalculatedSummaryPreview";
 import { publishStatusSubscription } from "components/EditorLayout/Header";
-import { useQuestionnaire } from "components/QuestionnaireContext";
+import useQuestionnaire from "components/QuestionnaireContext";
 
 jest.mock("components/QuestionnaireContext", () => ({
   useQuestionnaire: jest.fn(),
@@ -52,6 +52,12 @@ const questionnaire = {
                   questionPageId: "456",
                 },
               ],
+            },
+            {
+              id: "9",
+              title: "calculated summary page 1",
+              pageType: "CalculatedSummaryPage",
+              summaryAnswers: ["4", "5", "7", "8"],
             },
           ],
         },
