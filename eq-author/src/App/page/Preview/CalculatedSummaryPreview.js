@@ -196,11 +196,13 @@ const CalculatedSummaryPagePreview = ({ page }) => {
                   duplicatedPageIds.includes(answerPage?.id) &&
                   answerPage?.title.replace(/<p>|<\/p>/g, "");
 
-                const lastSummaryAnswerFromPage = sortedSummaryAnswers.findLast(
+                const summaryAnswersOnSamePage = sortedSummaryAnswers.filter(
                   (summaryAnswer) =>
                     getPageByAnswerId(questionnaire, summaryAnswer.id)?.id ===
                     answerPage?.id
                 );
+                const lastSummaryAnswerFromPage =
+                  summaryAnswersOnSamePage[summaryAnswersOnSamePage.length - 1];
 
                 const isLastSummaryAnswerFromPage =
                   answer.id === lastSummaryAnswerFromPage.id;
