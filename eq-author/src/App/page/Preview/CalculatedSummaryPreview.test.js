@@ -8,6 +8,61 @@ import { byTestAttr } from "tests/utils/selectors";
 
 import CalculatedSummaryPreview from "./CalculatedSummaryPreview";
 import { publishStatusSubscription } from "components/EditorLayout/Header";
+import { useQuestionnaire } from "components/QuestionnaireContext";
+
+jest.mock("components/QuestionnaireContext", () => ({
+  useQuestionnaire: jest.fn(),
+}));
+
+const questionnaire = {
+  id: "questionnaire-1",
+  sections: [
+    {
+      id: "1",
+      folders: [
+        {
+          id: "2",
+          pages: [
+            {
+              id: "3",
+              pageType: "QuestionPage",
+              title: "Page 1",
+              answers: [
+                { id: "4", label: "answer 1", questionPageId: "123" },
+                {
+                  id: "5",
+                  label: "answer 2",
+                  questionPageId: "234",
+                },
+              ],
+            },
+            {
+              id: "6",
+              pageType: "QuestionPage",
+              title: "Page 2",
+              answers: [
+                {
+                  id: "7",
+                  label: "answer 3",
+                  questionPageId: "345",
+                },
+                {
+                  id: "8",
+                  label: "answer 4",
+                  questionPageId: "456",
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+// useQuestionnaire.mockImplementation(() => ({
+//   questionnaire:
+// }));
 
 describe("CalculatedSummaryPreview", () => {
   let page, me, mocks, questionnaireId;
@@ -133,4 +188,6 @@ describe("CalculatedSummaryPreview", () => {
     );
     expect(wrapper.find(byTestAttr("no-answers-selected"))).toBeTruthy();
   });
+
+  it("should order the summary answers correctly ", () => {});
 });
