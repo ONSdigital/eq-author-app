@@ -54,7 +54,12 @@ const questionnaire = {
               id: "9",
               title: "calculated summary page 1",
               pageType: "CalculatedSummaryPage",
-              summaryAnswers: ["8", "5", "7", "4"],
+              summaryAnswers: [
+                { id: "8", displayName: "Answer 8" },
+                { id: "5", displayName: "Answer 5" },
+                { id: "7", displayName: "Answer 7" },
+                { id: "4", displayName: "Answer 4" },
+              ],
             },
           ],
         },
@@ -188,9 +193,12 @@ describe("CalculatedSummaryPreview", () => {
     expect(wrapper.find(byTestAttr("no-answers-selected"))).toBeTruthy();
   });
 
+  // test the answer.display name is rendered in the page.
+  // change the code where it test based on the data-test id(data-test id need to be unique for each answer) no functions need to be mock at all.
+  // check the text of answer found from the data test id is equal to the answer.displayName
+
   it("should order the summary answers correctly ", () => {
-    const sortedSummaryAnswers = jest.fn();
-    const { getByTestId, getByText, getAllByTestId } = render(
+    const { getByTestId, getByText } = render(
       <QuestionnaireContext.Provider value={{ questionnaire }}>
         <MeContext.Provider value={{ me }}>
           <CalculatedSummaryPreview page={page} />
@@ -202,7 +210,11 @@ describe("CalculatedSummaryPreview", () => {
         mocks,
       }
     );
-
-    expect(sortedSummaryAnswers).toHaveBeenCalled();
+    questionnaire.sections[0].folders[0].pages[2].summaryAnswers.forEach(
+      (answer) => {
+        const renderDisplayName = getByText(answer.displayName);
+        expect(renderDisplayName).toBeInTheDocument();
+      }
+    );
   });
 });
