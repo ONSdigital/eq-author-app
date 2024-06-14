@@ -4,24 +4,21 @@ import { render, flushPromises, act } from "tests/utils/rtl";
 
 import commentsSubscription from "graphql/subscriptions/commentSubscription.graphql";
 import { MeContext } from "App/MeContext";
+
 import { byTestAttr } from "tests/utils/selectors";
 
 import CalculatedSummaryPreview from "./CalculatedSummaryPreview";
 import { publishStatusSubscription } from "components/EditorLayout/Header";
-import useQuestionnaire from "components/QuestionnaireContext";
-
-jest.mock("components/QuestionnaireContext", () => ({
-  useQuestionnaire: jest.fn(),
-}));
+import QuestionnaireContext from "components/QuestionnaireContext";
 
 const questionnaire = {
   id: "questionnaire-1",
   sections: [
     {
-      id: "1",
+      id: "section-1",
       folders: [
         {
-          id: "2",
+          id: "folder-1",
           pages: [
             {
               id: "3",
@@ -57,7 +54,7 @@ const questionnaire = {
               id: "9",
               title: "calculated summary page 1",
               pageType: "CalculatedSummaryPage",
-              summaryAnswers: ["4", "5", "7", "8"],
+              summaryAnswers: ["8", "5", "7", "4"],
             },
           ],
         },
@@ -65,10 +62,6 @@ const questionnaire = {
     },
   ],
 };
-
-// useQuestionnaire.mockImplementation(() => ({
-//   questionnaire:
-// }));
 
 describe("CalculatedSummaryPreview", () => {
   let page, me, mocks, questionnaireId;
@@ -195,5 +188,21 @@ describe("CalculatedSummaryPreview", () => {
     expect(wrapper.find(byTestAttr("no-answers-selected"))).toBeTruthy();
   });
 
-  it("should order the summary answers correctly ", () => {});
+  it("should order the summary answers correctly ", () => {
+    const sortedSummaryAnswers = jest.fn();
+    const { getByTestId, getByText, getAllByTestId } = render(
+      <QuestionnaireContext.Provider value={{ questionnaire }}>
+        <MeContext.Provider value={{ me }}>
+          <CalculatedSummaryPreview page={page} />
+        </MeContext.Provider>
+      </QuestionnaireContext.Provider>,
+      {
+        route: `/q/${questionnaireId}/page/9/preview`,
+        urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+        mocks,
+      }
+    );
+
+    expect(sortedSummaryAnswers).toHaveBeenCalled();
+  });
 });
