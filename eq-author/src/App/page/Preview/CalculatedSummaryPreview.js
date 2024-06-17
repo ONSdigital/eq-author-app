@@ -218,7 +218,7 @@ const CalculatedSummaryPagePreview = ({ page }) => {
 
                     <Grid>
                       <Column cols={7}>
-                        <SummaryLabel data-test="answer-item">
+                        <SummaryLabel data-test={`answer-item-${answer.id}`}>
                           {answer.displayName}
                         </SummaryLabel>
                       </Column>

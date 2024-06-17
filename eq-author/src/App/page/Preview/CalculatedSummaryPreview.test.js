@@ -37,7 +37,7 @@ const questionnaire = {
               id: "6",
               pageType: "QuestionPage",
               title: "Page 2",
-              answers: [
+              answer: [
                 {
                   id: "7",
                   label: "answer 3",
@@ -196,13 +196,17 @@ describe("CalculatedSummaryPreview", () => {
   // test the answer.display name is rendered in the page.
   // change the code where it test based on the data-test id(data-test id need to be unique for each answer) no functions need to be mock at all.
   // check the text of answer found from the data test id is equal to the answer.displayName
+  // check if the question page title appear in the correct order with the answer display name
 
   it("should order the summary answers correctly ", () => {
-    const { getByTestId, getByText } = render(
+    const { getByTestId } = render(
       <QuestionnaireContext.Provider value={{ questionnaire }}>
         <MeContext.Provider value={{ me }}>
-          <CalculatedSummaryPreview page={page} />
+          <CalculatedSummaryPreview
+            page={questionnaire.sections[0].folders[0].pages[2]}
+          />
         </MeContext.Provider>
+        ,
       </QuestionnaireContext.Provider>,
       {
         route: `/q/${questionnaireId}/page/9/preview`,
@@ -210,11 +214,19 @@ describe("CalculatedSummaryPreview", () => {
         mocks,
       }
     );
-    questionnaire.sections[0].folders[0].pages[2].summaryAnswers.forEach(
-      (answer) => {
-        const renderDisplayName = getByText(answer.displayName);
-        expect(renderDisplayName).toBeInTheDocument();
-      }
+
+    const answer = questionnaire.sections[0].folders[0].pages[2].summaryAnswers;
+    expect(getByTestId(`answer-item-${answer[0].id}`)).toHaveTextContent(
+      "Answer 8"
+    );
+    expect(getByTestId(`answer-item-${answer[1].id}`)).toHaveTextContent(
+      "Answer 5"
+    );
+    expect(getByTestId(`answer-item-${answer[2].id}`)).toHaveTextContent(
+      "Answer 7"
+    );
+    expect(getByTestId(`answer-item-${answer[3].id}`)).toHaveTextContent(
+      "Answer 4"
     );
   });
 });
