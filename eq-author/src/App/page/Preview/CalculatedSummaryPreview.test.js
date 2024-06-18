@@ -206,10 +206,9 @@ describe("CalculatedSummaryPreview", () => {
   // change the code where it test based on the data-test id(data-test id need to be unique for each answer) no functions need to be mock at all.
   // check the text of answer found from the data test id is equal to the answer.displayName
   // check if the question page title appear in the correct order with the answer display name
-  // index for each loop
 
   it.only("should order the summary answers correctly ", () => {
-    const { getByTestId } = render(
+    const { getByTestId, getByText } = render(
       <QuestionnaireContext.Provider value={{ questionnaire }}>
         <MeContext.Provider value={{ me }}>
           <CalculatedSummaryPreview
@@ -224,9 +223,13 @@ describe("CalculatedSummaryPreview", () => {
         mocks,
       }
     );
+    expect(getByTestId("question-title-0")).toHaveTextContent("Page 2");
 
     expect(getByTestId("answer-item-0")).toHaveTextContent("Answer 3");
     expect(getByTestId("answer-item-1")).toHaveTextContent("Answer 4");
+
+    expect(getByTestId("question-title-2")).toHaveTextContent("Page 1");
+
     expect(getByTestId("answer-item-2")).toHaveTextContent("Answer 1");
     expect(getByTestId("answer-item-3")).toHaveTextContent("Answer 2");
   });

@@ -213,7 +213,7 @@ const CalculatedSummaryPagePreview = ({ page }) => {
                     isLastSummaryAnswerFromPage={isLastSummaryAnswerFromPage}
                   >
                     <QuestionPageTitle
-                      data-test="question-page-title"
+                      data-test={`question-title-${index}`}
                       questionTitle={questionTitle}
                     >
                       {questionTitle}
