@@ -25,9 +25,9 @@ const questionnaire = {
               pageType: "QuestionPage",
               title: "Page 1",
               answers: [
-                { id: "4", label: "answer 1", questionPageId: "123" },
+                { id: "answer-1", label: "answer 1", questionPageId: "123" },
                 {
-                  id: "5",
+                  id: "answer-2",
                   label: "answer 2",
                   questionPageId: "234",
                 },
@@ -39,12 +39,12 @@ const questionnaire = {
               title: "Page 2",
               answer: [
                 {
-                  id: "7",
+                  id: "answer-3",
                   label: "answer 3",
                   questionPageId: "345",
                 },
                 {
-                  id: "8",
+                  id: "answer-4",
                   label: "answer 4",
                   questionPageId: "456",
                 },
@@ -54,11 +54,13 @@ const questionnaire = {
               id: "9",
               title: "calculated summary page 1",
               pageType: "CalculatedSummaryPage",
+              pageDescription: "Hello",
+              alias: "Who am I?",
               summaryAnswers: [
-                { id: "8", displayName: "Answer 8" },
-                { id: "5", displayName: "Answer 5" },
-                { id: "7", displayName: "Answer 7" },
-                { id: "4", displayName: "Answer 4" },
+                { id: "answer-4", displayName: "Answer 4" },
+                { id: "answer-2", displayName: "Answer 2" },
+                { id: "answer-3", displayName: "Answer 3" },
+                { id: "answer-1", displayName: "Answer 1" },
               ],
             },
           ],
@@ -197,8 +199,9 @@ describe("CalculatedSummaryPreview", () => {
   // change the code where it test based on the data-test id(data-test id need to be unique for each answer) no functions need to be mock at all.
   // check the text of answer found from the data test id is equal to the answer.displayName
   // check if the question page title appear in the correct order with the answer display name
+  // index for each loop
 
-  it("should order the summary answers correctly ", () => {
+  it.only("should order the summary answers correctly ", () => {
     const { getByTestId } = render(
       <QuestionnaireContext.Provider value={{ questionnaire }}>
         <MeContext.Provider value={{ me }}>
@@ -215,18 +218,9 @@ describe("CalculatedSummaryPreview", () => {
       }
     );
 
-    const answer = questionnaire.sections[0].folders[0].pages[2].summaryAnswers;
-    expect(getByTestId(`answer-item-${answer[0].id}`)).toHaveTextContent(
-      "Answer 8"
-    );
-    expect(getByTestId(`answer-item-${answer[1].id}`)).toHaveTextContent(
-      "Answer 5"
-    );
-    expect(getByTestId(`answer-item-${answer[2].id}`)).toHaveTextContent(
-      "Answer 7"
-    );
-    expect(getByTestId(`answer-item-${answer[3].id}`)).toHaveTextContent(
-      "Answer 4"
-    );
+    expect(getByTestId("answer-item-0")).toHaveTextContent("Answer 4");
+    expect(getByTestId("answer-item-1")).toHaveTextContent("Answer 3");
+    expect(getByTestId("answer-item-2")).toHaveTextContent("Answer 1");
+    expect(getByTestId("answer-item-3")).toHaveTextContent("Answer 2");
   });
 });

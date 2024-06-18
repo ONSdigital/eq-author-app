@@ -181,7 +181,7 @@ const CalculatedSummaryPagePreview = ({ page }) => {
 
           {sortedSummaryAnswers.length > 0 ? (
             <Summary>
-              {sortedSummaryAnswers.map((answer) => {
+              {sortedSummaryAnswers.map((answer, index) => {
                 const answerPage = getPageByAnswerId(questionnaire, answer.id);
                 const hasAnswerPageIdBeenUsed = usedPageIds.includes(
                   answerPage?.id
@@ -212,13 +212,16 @@ const CalculatedSummaryPagePreview = ({ page }) => {
                     key={answer.id}
                     isLastSummaryAnswerFromPage={isLastSummaryAnswerFromPage}
                   >
-                    <QuestionPageTitle questionTitle={questionTitle}>
+                    <QuestionPageTitle
+                      data-test="question-page-title"
+                      questionTitle={questionTitle}
+                    >
                       {questionTitle}
                     </QuestionPageTitle>
 
                     <Grid>
                       <Column cols={7}>
-                        <SummaryLabel data-test={`answer-item-${answer.id}`}>
+                        <SummaryLabel data-test={`answer-item-${index}`}>
                           {answer.displayName}
                         </SummaryLabel>
                       </Column>
