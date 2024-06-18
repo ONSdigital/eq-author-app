@@ -11,6 +11,12 @@ import CalculatedSummaryPreview from "./CalculatedSummaryPreview";
 import { publishStatusSubscription } from "components/EditorLayout/Header";
 import QuestionnaireContext from "components/QuestionnaireContext";
 
+jest.mock("@apollo/react-hooks", () => ({
+  ...jest.requireActual("@apollo/react-hooks"),
+  useQuery: jest.fn(),
+  useMutation: jest.fn(() => [() => null]),
+}));
+
 const questionnaire = {
   id: "questionnaire-1",
   sections: [
@@ -25,11 +31,13 @@ const questionnaire = {
               pageType: "QuestionPage",
               title: "Page 1",
               answers: [
-                { id: "answer-1", label: "answer 1", questionPageId: "123" },
+                {
+                  id: "answer-1",
+                  label: "answer 1",
+                },
                 {
                   id: "answer-2",
                   label: "answer 2",
-                  questionPageId: "234",
                 },
               ],
             },
@@ -37,16 +45,14 @@ const questionnaire = {
               id: "6",
               pageType: "QuestionPage",
               title: "Page 2",
-              answer: [
+              answers: [
                 {
                   id: "answer-3",
                   label: "answer 3",
-                  questionPageId: "345",
                 },
                 {
                   id: "answer-4",
                   label: "answer 4",
-                  questionPageId: "456",
                 },
               ],
             },
@@ -56,6 +62,7 @@ const questionnaire = {
               pageType: "CalculatedSummaryPage",
               pageDescription: "Hello",
               alias: "Who am I?",
+
               summaryAnswers: [
                 { id: "answer-4", displayName: "Answer 4" },
                 { id: "answer-2", displayName: "Answer 2" },
@@ -218,8 +225,8 @@ describe("CalculatedSummaryPreview", () => {
       }
     );
 
-    expect(getByTestId("answer-item-0")).toHaveTextContent("Answer 4");
-    expect(getByTestId("answer-item-1")).toHaveTextContent("Answer 3");
+    expect(getByTestId("answer-item-0")).toHaveTextContent("Answer 3");
+    expect(getByTestId("answer-item-1")).toHaveTextContent("Answer 4");
     expect(getByTestId("answer-item-2")).toHaveTextContent("Answer 1");
     expect(getByTestId("answer-item-3")).toHaveTextContent("Answer 2");
   });
