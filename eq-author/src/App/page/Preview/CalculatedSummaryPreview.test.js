@@ -58,10 +58,15 @@ const questionnaire = {
             },
             {
               id: "9",
-              title: "calculated summary page 1",
-              pageType: "CalculatedSummaryPage",
-              pageDescription: "Hello",
+              displayName: "Cal Sum",
+              position: 1,
+              title: "Calculated summary page 1",
+              totalTitle: "Total bills:",
+              pageDescription: "This page calculates the total bills",
               alias: "Who am I?",
+              type: "Number",
+              answers: [],
+              comments: [],
 
               summaryAnswers: [
                 { id: "answer-4", displayName: "Answer 4" },
@@ -69,6 +74,24 @@ const questionnaire = {
                 { id: "answer-3", displayName: "Answer 3" },
                 { id: "answer-1", displayName: "Answer 1" },
               ],
+              pageType: "CalculatedSummaryPage",
+              section: {
+                id: "1",
+                position: 0,
+                questionnaire: {
+                  id: "1",
+                  metadata: [],
+                },
+              },
+              validationErrorInfo: {
+                id: "test",
+                totalCount: 0,
+                errors: [],
+              },
+              folder: {
+                id: "folder-1",
+                position: 0,
+              },
             },
           ],
         },
@@ -202,13 +225,8 @@ describe("CalculatedSummaryPreview", () => {
     expect(wrapper.find(byTestAttr("no-answers-selected"))).toBeTruthy();
   });
 
-  // test the answer.display name is rendered in the page.
-  // change the code where it test based on the data-test id(data-test id need to be unique for each answer) no functions need to be mock at all.
-  // check the text of answer found from the data test id is equal to the answer.displayName
-  // check if the question page title appear in the correct order with the answer display name
-
-  it.only("should order the summary answers correctly ", () => {
-    const { getByTestId, getByText } = render(
+  it("should sort the summary answers based on the first selection and ensure that the display names and question titles match this order ", () => {
+    const { getByTestId } = render(
       <QuestionnaireContext.Provider value={{ questionnaire }}>
         <MeContext.Provider value={{ me }}>
           <CalculatedSummaryPreview
