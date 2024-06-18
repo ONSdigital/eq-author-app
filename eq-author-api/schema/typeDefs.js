@@ -895,6 +895,7 @@ type PublishHistoryEvent {
 
 type Query {
   questionnaires(input: QuestionnairesInput): [Questionnaire]
+  firstPageQuestionnaires(input: FirstPageQuestionnairesInput): [Questionnaire]
   questionnaire(input: QueryInput!): Questionnaire
   history(input: QueryInput!): [History]
   section(input: QueryInput!): Section
@@ -933,6 +934,10 @@ input QuestionnairesFilter {
 
 input QuestionnairesInput {
   filter: QuestionnairesFilter
+}
+
+input FirstPageQuestionnairesInput {
+  limit: Int
 }
 
 input QueryInput {

@@ -374,37 +374,16 @@ const listQuestionnaires = async () => {
   }
 };
 
-const listFilteredQuestionnaires = async (limit, currentPage) => {
+const listFirstPageQuestionnaires = async (input) => {
   try {
-    // TODO: Replace with limit and current page from GraphQL query's input
-    const limit = 10;
-    const currentPage = 2;
+    const { limit } = input;
+
     // Orders questionnaires by when they were created
     let questionnairesQuery = db
       .collection("questionnaires")
       .orderBy("createdAt");
 
-    // Gets the number of questionnaire documents to skip based on the current page
-    const questionnairesToSkip = (currentPage - 1) * limit;
-
-    if (questionnairesToSkip > 0) {
-      // Based on the number of questionnaires to skip, gets questionnaire documents that need to be skipped to get to the first questionnaire document of the current page
-      const startAtSnapshot = await questionnairesQuery
-        .limit(questionnairesToSkip)
-        .get();
-
-      // Gets the last questionnaire document on the previous page (from the questionnaires to skip)
-      const lastDocumentSnapshot =
-        startAtSnapshot.docs[startAtSnapshot.docs.length - 1];
-
-      // Starts the query after the last questionnaire document on the previous page
-      questionnairesQuery =
-        questionnairesQuery.startAfter(lastDocumentSnapshot);
-    }
-
-    if (limit) {
-      questionnairesQuery = questionnairesQuery.limit(limit);
-    }
+    questionnairesQuery = questionnairesQuery.limit(limit);
 
     const questionnairesSnapshot = await questionnairesQuery.get();
 
@@ -724,7 +703,7 @@ module.exports = {
   saveQuestionnaire,
   deleteQuestionnaire,
   listQuestionnaires,
-  listFilteredQuestionnaires,
+  listFirstPageQuestionnaires,
   getQuestionnaire,
   getQuestionnaireMetaById,
   getQuestionnaireByVersionId,
