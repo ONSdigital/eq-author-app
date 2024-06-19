@@ -1,4 +1,7 @@
-const { listFirstPageQuestionnaires } = require("../../../db/datastore");
+const {
+  listFirstPageQuestionnaires,
+  listNextPageQuestionnaires,
+} = require("../../../db/datastore");
 
 const Resolvers = {
   Query: {
@@ -10,6 +13,17 @@ const Resolvers = {
       });
 
       return questionnaires;
+    },
+
+    nextPageQuestionnaires: async (_, { input = {} }, ctx) => {
+      const { limit = 10, lastQuestionnaireIdOnPage } = input;
+
+      const nextQuestionnaires = await listNextPageQuestionnaires({
+        limit,
+        lastQuestionnaireIdOnPage,
+      });
+
+      return nextQuestionnaires;
     },
   },
 };
