@@ -225,7 +225,7 @@ describe("CalculatedSummaryPreview", () => {
     expect(wrapper.find(byTestAttr("no-answers-selected"))).toBeTruthy();
   });
 
-  it("should sort the summary answers based on the first selection and ensure that the display names and question titles match this order ", () => {
+  it("should sort the summary answers based on the first selection and ensure that the display names and question titles match this order", () => {
     const { getByTestId } = render(
       <QuestionnaireContext.Provider value={{ questionnaire }}>
         <MeContext.Provider value={{ me }}>
@@ -246,7 +246,7 @@ describe("CalculatedSummaryPreview", () => {
     expect(getByTestId("answer-item-0")).toHaveTextContent("Answer 3");
     expect(getByTestId("answer-item-1")).toHaveTextContent("Answer 4");
 
-    expect(getByTestId("question-title-2")).toHaveTextContent("Page 1");
+    expect(getByTestId("question-title-1")).toHaveTextContent("Page 1");
 
     expect(getByTestId("answer-item-2")).toHaveTextContent("Answer 1");
     expect(getByTestId("answer-item-3")).toHaveTextContent("Answer 2");

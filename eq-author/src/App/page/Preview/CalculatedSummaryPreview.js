@@ -186,15 +186,16 @@ const CalculatedSummaryPagePreview = ({ page }) => {
                 const hasAnswerPageIdBeenUsed = usedPageIds.includes(
                   answerPage?.id
                 );
+
                 if (!hasAnswerPageIdBeenUsed) {
                   usedPageIds.push(answerPage?.id);
                 }
 
                 const duplicatedPageIds = getDuplicatedPageIds();
-                const questionTitle =
-                  !hasAnswerPageIdBeenUsed &&
-                  duplicatedPageIds.includes(answerPage?.id) &&
-                  answerPage?.title.replace(/<p>|<\/p>/g, "");
+                const questionTitle = answerPage?.title.replace(
+                  /<p>|<\/p>/g,
+                  ""
+                );
 
                 const summaryAnswersOnSamePage = sortedSummaryAnswers.filter(
                   (summaryAnswer) =>
@@ -212,12 +213,17 @@ const CalculatedSummaryPagePreview = ({ page }) => {
                     key={answer.id}
                     isLastSummaryAnswerFromPage={isLastSummaryAnswerFromPage}
                   >
-                    <QuestionPageTitle
-                      data-test={`question-title-${index}`}
-                      questionTitle={questionTitle}
-                    >
-                      {questionTitle}
-                    </QuestionPageTitle>
+                    {!hasAnswerPageIdBeenUsed &&
+                      duplicatedPageIds.includes(answerPage?.id) && (
+                        <QuestionPageTitle
+                          data-test={`question-title-${duplicatedPageIds?.findIndex(
+                            (pageId) => pageId === answerPage?.id
+                          )}`}
+                          questionTitle={questionTitle}
+                        >
+                          {questionTitle}
+                        </QuestionPageTitle>
+                      )}
 
                     <Grid>
                       <Column cols={7}>
