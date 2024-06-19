@@ -2,26 +2,24 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors, radius, focusStyle, getTextHoverStyle } from "constants/theme";
-import { stripHtmlToText } from "utils/stripHTML";
 
 import Wizard, {
   Header,
   Heading,
-  Subheading,
   Content,
   Warning,
   SpacedRow,
 } from "components/modals/Wizard";
 import Button from "components/buttons/Button";
 
-const SectionsPane = styled.div`
+const FoldersPane = styled.div`
   max-height: 17em;
   overflow: hidden;
   overflow-y: scroll;
   margin-bottom: 0.5em;
 `;
 
-const SectionContainer = styled.div`
+const FolderContainer = styled.div`
   background-color: ${colors.blue};
   border-radius: ${radius};
   margin: 0 0 0.5em;
@@ -74,34 +72,44 @@ const WarningWrapper = styled.div`
   }
 `;
 
-const SectionRow = ({ section: { alias, title, displayName }, onRemove }) => (
-  <SectionContainer>
+const Subheading = styled.h3`
+  margin: 0 0.5em 0 0;
+  display: block;
+  font-weight: bold;
+  font-size: 1em;
+`;
+
+const FolderRow = ({ folder: { id, alias, title, displayName }, onRemove }) => (
+  <FolderContainer>
     <SpacedRow>
       <div>
-        <p>{alias}</p>
-        <p>{stripHtmlToText(title) || displayName} </p>
+        <p>{title && alias}</p>
+        <p>{title || displayName} </p>
       </div>
-      <RemoveButton onClick={onRemove}>
+      <RemoveButton
+        onClick={onRemove}
+        data-test={`folder-review-item-remove-button-${id}`}
+      >
         <span role="img" aria-label="Remove">
           ✕
         </span>
       </RemoveButton>
     </SpacedRow>
-  </SectionContainer>
+  </FolderContainer>
 );
 
-SectionRow.propTypes = {
-  section: PropTypes.shape({
-    alias: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
+FolderRow.propTypes = {
+  folder: PropTypes.shape({
+    alias: PropTypes.string,
+    title: PropTypes.string,
     displayName: PropTypes.string,
   }),
   onRemove: PropTypes.func.isRequired,
 };
 
-const ImportSectionReviewModal = ({
+const ImportFolderReviewModal = ({
   questionnaire,
-  startingSelectedSections,
+  startingSelectedFolders,
   isOpen,
   onConfirm,
   onCancel,
@@ -115,10 +123,10 @@ const ImportSectionReviewModal = ({
   <Wizard
     isOpen={isOpen}
     confirmText="Import"
-    onConfirm={() => onConfirm(startingSelectedSections)}
+    onConfirm={() => onConfirm(startingSelectedFolders)}
     onCancel={onCancel}
     onBack={onBack}
-    confirmEnabled={Boolean(startingSelectedSections?.length) || false}
+    confirmEnabled={Boolean(startingSelectedFolders?.length) || false}
   >
     <Header>
       <Heading> Import content from {questionnaire.title} </Heading>
@@ -132,23 +140,23 @@ const ImportSectionReviewModal = ({
       </Subheading>
     </Header>
     <Content>
-      {startingSelectedSections?.length ? (
+      {startingSelectedFolders?.length ? (
         <>
           <SpacedRow>
             <ContentHeading>
-              Section{startingSelectedSections.length > 1 ? "s" : ""} to import
+              Folder{startingSelectedFolders.length > 1 && "s"} to import
             </ContentHeading>
             <RemoveAllButton onClick={onRemoveAll}>Remove all</RemoveAllButton>
           </SpacedRow>
-          <SectionsPane>
-            {startingSelectedSections.map((section, index) => (
-              <SectionRow
-                section={section}
+          <FoldersPane>
+            {startingSelectedFolders.map((folder, index) => (
+              <FolderRow
+                folder={folder}
                 key={index}
                 onRemove={() => onRemoveSingle(index)}
               />
             ))}
-          </SectionsPane>
+          </FoldersPane>
         </>
       ) : (
         <ContentHeading>
@@ -156,26 +164,26 @@ const ImportSectionReviewModal = ({
         </ContentHeading>
       )}
       <Container>
-        <Button
-          onClick={onSelectSections}
-          data-test="section-review-select-sections-button"
-        >
-          {startingSelectedSections?.length >= 1
-            ? "Select more sections"
-            : "Sections"}
-        </Button>
-        {startingSelectedSections?.length === 0 && (
+        {startingSelectedFolders?.length === 0 && (
           <Button
-            onClick={onSelectFolders}
-            data-test="section-review-select-folders-button"
+            onClick={onSelectSections}
+            data-test="folder-review-select-sections-button"
           >
-            Folders
+            Sections
           </Button>
         )}
-        {startingSelectedSections?.length === 0 && (
+        <Button
+          onClick={onSelectFolders}
+          data-test="folder-review-select-folders-button"
+        >
+          {startingSelectedFolders?.length >= 1
+            ? "Select more folders"
+            : "Folders"}
+        </Button>
+        {startingSelectedFolders?.length === 0 && (
           <Button
             onClick={onSelectQuestions}
-            data-test="section-review-select-questions-button"
+            data-test="folder-review-select-questions-button"
           >
             Questions
           </Button>
@@ -185,20 +193,20 @@ const ImportSectionReviewModal = ({
   </Wizard>
 );
 
-ImportSectionReviewModal.propTypes = {
+ImportFolderReviewModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onConfirm: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   onBack: PropTypes.func.isRequired,
-  onSelectSections: PropTypes.func.isRequired,
-  onSelectFolders: PropTypes.func.isRequired,
   onSelectQuestions: PropTypes.func.isRequired,
+  onSelectFolders: PropTypes.func.isRequired,
+  onSelectSections: PropTypes.func.isRequired,
   onRemoveSingle: PropTypes.func.isRequired,
   onRemoveAll: PropTypes.func.isRequired,
   questionnaire: PropTypes.shape({
     title: PropTypes.string.isRequired,
   }),
-  startingSelectedSections: PropTypes.array, // eslint-disable-line
+  startingSelectedFolders: PropTypes.array, // eslint-disable-line
 };
 
-export default ImportSectionReviewModal;
+export default ImportFolderReviewModal;

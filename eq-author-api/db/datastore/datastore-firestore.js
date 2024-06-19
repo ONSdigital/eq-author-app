@@ -4,7 +4,10 @@ const { logger } = require("../../utils/logger");
 const { pick } = require("lodash/fp");
 const { omit } = require("lodash");
 const { removeEmpty } = require("../../utils/removeEmpty");
-const { baseQuestionnaireFields } = require("../baseQuestionnaireSchema");
+const {
+  baseQuestionnaireFields,
+  saveQuestionnaireFields,
+} = require("../baseQuestionnaireSchema");
 const {
   questionnaireCreationEvent,
   historyCreationForImport,
@@ -31,6 +34,14 @@ const BASE_FIELDS = [
 ];
 
 const justListFields = pick(BASE_FIELDS);
+
+const SAVE_FIELDS = [
+  ...Object.keys(saveQuestionnaireFields),
+  "updatedAt",
+  "history",
+];
+
+const justListSaveFields = pick(SAVE_FIELDS);
 
 const saveSections = (parentDoc, sections) =>
   Promise.all(
@@ -271,8 +282,7 @@ const saveQuestionnaire = async (changedQuestionnaire) => {
         "Unable to save questionnaire; cannot find required field: ID (from saveQuestionnaire)"
       );
     }
-    const createdAt = new Date();
-    const updatedAt = createdAt;
+    const updatedAt = new Date();
 
     const originalQuestionnaire = await getQuestionnaire(id);
 
@@ -297,7 +307,7 @@ const saveQuestionnaire = async (changedQuestionnaire) => {
 
     const baseDoc = db.collection("questionnaires").doc(id);
     await baseDoc.update({
-      ...justListFields(updatedQuestionnaire),
+      ...justListSaveFields(updatedQuestionnaire),
       updatedAt,
     });
 

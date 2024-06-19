@@ -11,6 +11,7 @@ export const DATE_RANGE = "DateRange";
 export const UNIT = "Unit";
 export const DURATION = "Duration";
 export const SELECT = "Select";
+export const MUTUALLY_EXCLUSIVE = "MutuallyExclusive";
 
 export const ROUTING_ANSWER_TYPES = [
   RADIO,
@@ -21,6 +22,7 @@ export const ROUTING_ANSWER_TYPES = [
   UNIT,
   DATE,
   SELECT,
+  MUTUALLY_EXCLUSIVE,
 ];
 
 export const ROUTING_METADATA_TYPES = [TEXT.value, TEXT_OPTIONAL.value];
@@ -28,7 +30,6 @@ export const ROUTING_METADATA_TYPES = [TEXT.value, TEXT_OPTIONAL.value];
 export const RADIO_OPTION = "RadioOption";
 export const CHECKBOX_OPTION = "CheckboxOption";
 export const SELECT_OPTION = "SelectOption";
-export const MUTUALLY_EXCLUSIVE = "MutuallyExclusive";
 export const MUTUALLY_EXCLUSIVE_OPTION = "MutuallyExclusiveOption";
 
 export const ANSWER_OPTION_TYPES = {

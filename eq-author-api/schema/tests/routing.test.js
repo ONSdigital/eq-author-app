@@ -1,5 +1,10 @@
 const { buildContext } = require("../../tests/utils/contextBuilder");
-const { RADIO, NUMBER, DATE } = require("../../constants/answerTypes");
+const {
+  RADIO,
+  NUMBER,
+  DATE,
+  MUTUALLY_EXCLUSIVE,
+} = require("../../constants/answerTypes");
 
 const executeQuery = require("../../tests/utils/executeQuery");
 const {
@@ -21,6 +26,7 @@ const {
   ERR_ANSWER_NOT_SELECTED,
   ERR_RIGHTSIDE_NO_VALUE,
   ERR_RIGHTSIDE_NO_CONDITION,
+  ERR_LOGICAL_AND,
 } = require("../../constants/validationErrorCodes");
 
 const {
@@ -58,6 +64,10 @@ describe("routing", () => {
                   answers: [
                     {
                       type: NUMBER,
+                    },
+                    {
+                      id: "mutually-exclusive-answer",
+                      type: MUTUALLY_EXCLUSIVE,
                     },
                   ],
                   routing: {},
@@ -274,6 +284,105 @@ describe("routing", () => {
         result.routing.rules[0].expressionGroup.validationErrorInfo.errors;
       expect(errors).toHaveLength(1);
       expect(errors[0].errorCode).toBe(ERR_ANSWER_NOT_SELECTED);
+    });
+
+    it("should have validation errors when expression group contains mutually exclusive answer and answer from same page", async () => {
+      config.sections[0].folders[0].pages[0].routing = {
+        rules: [{ expressionGroup: {} }],
+      };
+
+      const ctx = await buildContext(config);
+      const { questionnaire } = ctx;
+
+      const firstPage = questionnaire.sections[0].folders[0].pages[0];
+      const expressionGroup = firstPage.routing.rules[0].expressionGroup;
+      const expressions = expressionGroup.expressions;
+
+      await executeQuery(
+        createBinaryExpressionMutation,
+        {
+          input: {
+            expressionGroupId: expressionGroup.id,
+          },
+        },
+        ctx
+      );
+
+      await executeQuery(
+        updateExpressionGroupMutation,
+        {
+          input: {
+            id: expressionGroup.id,
+            operator: "And",
+          },
+        },
+        ctx
+      );
+
+      await executeQuery(
+        updateLeftSideMutation,
+        {
+          input: {
+            expressionId: expressions[0].id,
+            answerId: firstPage.answers[0].id,
+          },
+        },
+        ctx
+      );
+
+      await executeQuery(
+        updateLeftSideMutation,
+        {
+          input: {
+            expressionId: expressions[1].id,
+            answerId: firstPage.answers[1].id,
+          },
+        },
+        ctx
+      );
+
+      await executeQuery(
+        updateBinaryExpressionMutation,
+        {
+          input: {
+            id: expressions[0].id,
+            condition: "Equal",
+          },
+        },
+        ctx
+      );
+
+      await executeQuery(
+        updateRightSideMutation,
+        {
+          input: {
+            expressionId: expressions[0].id,
+            customValue: {
+              number: 5,
+            },
+          },
+        },
+        ctx
+      );
+
+      await executeQuery(
+        updateRightSideMutation,
+        {
+          input: {
+            expressionId: expressions[1].id,
+            selectedOptions: [firstPage.answers[1].options[0].id],
+          },
+        },
+        ctx
+      );
+
+      const result = await queryPage(ctx, firstPage.id);
+
+      const errors =
+        result.routing.rules[0].expressionGroup.validationErrorInfo.errors;
+      expect(errors).toHaveLength(2);
+      expect(errors[0].errorCode).toBe(ERR_LOGICAL_AND);
+      expect(errors[1].errorCode).toBe(ERR_LOGICAL_AND);
     });
 
     it("does not have validation errors if there are none", async () => {
