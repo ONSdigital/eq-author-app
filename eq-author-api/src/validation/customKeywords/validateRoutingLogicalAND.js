@@ -1,11 +1,16 @@
 const { groupBy } = require("lodash");
-const { getAnswerById } = require("../../../schema/resolvers/utils");
+const {
+  getAnswerById,
+  getPageByAnswerId,
+} = require("../../../schema/resolvers/utils");
+
 const {
   CURRENCY,
   NUMBER,
   PERCENTAGE,
   UNIT,
   CHECKBOX,
+  MUTUALLY_EXCLUSIVE,
 } = require("../../../constants/answerTypes");
 const createValidationError = require("../createValidationError");
 const { ERR_LOGICAL_AND } = require("../../../constants/validationErrorCodes");
@@ -21,6 +26,7 @@ module.exports = (ajv) => {
       _parentSchema,
       { rootData: questionnaire, instancePath }
     ) {
+      const allExpressions = expressions;
       const invalidAnswerIds = new Set();
       const expressionsByAnswerId = groupBy(expressions, "left.answerId");
       const potentialConflicts = Object.entries(expressionsByAnswerId).filter(
@@ -38,8 +44,51 @@ module.exports = (ajv) => {
           return addError(answerId);
         }
 
-        // Bail out if answer isn't numerical or checkbox - remaining code validates number-type answers
         const answer = getAnswerById({ questionnaire }, answerId);
+        const page = getPageByAnswerId({ questionnaire }, answerId);
+        const allExpressionAnswerIds = allExpressions.map(
+          (expression) => expression.left.answerId
+        );
+        const pageIdsForExpressionAnswers = allExpressionAnswerIds.map(
+          (answerId) => getPageByAnswerId({ questionnaire }, answerId)?.id
+        );
+
+        /*
+        Creates an array of all pageIds that are found in pageIdsForExpressionAnswers more than once
+        If the index of the looped id is not equal to the looping index then the id is a duplicate
+        */
+        const duplicatedPageIds = pageIdsForExpressionAnswers.filter(
+          (id, index) => {
+            return pageIdsForExpressionAnswers.indexOf(id) !== index;
+          }
+        );
+
+        // If there are multiple answers from the same page
+        if (duplicatedPageIds.length > 0) {
+          /* 
+          Checks if any of the expressions' answers conflict with a mutually exclusive answer
+          Conflicts (returns true) if all of the following are met:
+            - The looping expression's answer in the expression group is a mutually exclusive answer
+            - The same expression's answer is on a page that has other answers from the same page in the logic rule
+            - The same expression's answer is on the same page as the current answer being validated
+          */
+          const conflictsWithMutuallyExclusive = allExpressions.some(
+            (expression) =>
+              getAnswerById({ questionnaire }, expression.left.answerId)
+                ?.type === MUTUALLY_EXCLUSIVE &&
+              duplicatedPageIds.includes(
+                getPageByAnswerId({ questionnaire }, expression.left.answerId)
+                  ?.id
+              ) &&
+              getPageByAnswerId({ questionnaire }, expression.left.answerId)
+                ?.id === page.id
+          );
+
+          if (conflictsWithMutuallyExclusive) {
+            return addError(answerId);
+          }
+        }
+        // Bail out if answer isn't numerical or checkbox - remaining code validates number-type answers
         if (
           !answer ||
           ![CURRENCY, NUMBER, UNIT, PERCENTAGE, CHECKBOX].includes(answer.type)

@@ -26,6 +26,8 @@ export const preprocessMetadata = (metadata) =>
 const RoutingAnswerContentPicker = ({
   includeSelf,
   selectedContentDisplayName,
+  expressionGroup,
+  selectedId,
   ...otherProps
 }) => {
   const { questionnaire } = useQuestionnaire();
@@ -38,8 +40,10 @@ const RoutingAnswerContentPicker = ({
         id: pageId,
         includeTargetPage: includeSelf,
         preprocessAnswers,
+        expressionGroup,
+        selectedId,
       }),
-    [questionnaire, pageId, includeSelf]
+    [questionnaire, pageId, includeSelf, expressionGroup, selectedId]
   );
 
   const filteredPreviousAnswers = previousAnswers.map((answer) => {
@@ -78,6 +82,8 @@ RoutingAnswerContentPicker.propTypes = {
     PropTypes.object,
     PropTypes.string,
   ]),
+  selectedId: PropTypes.string,
+  expressionGroup: PropTypes.object, //eslint-disable-line
 };
 
 export default RoutingAnswerContentPicker;
