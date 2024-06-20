@@ -3,6 +3,7 @@ import {
   NUMBER,
   CURRENCY,
   RADIO,
+  SELECT,
   // MUTUALLY_EXCLUSIVE,
 } from "constants/answer-types";
 
@@ -14,7 +15,6 @@ import {
 } from "tests/utils/rtl";
 
 import AnswerTypeSelector from ".";
-
 describe("Answer Type Selector", () => {
   let props;
   beforeEach(() => {
@@ -152,6 +152,17 @@ describe("Answer Type Selector", () => {
 
     it("should disable mutually exclusive if there is a radio answer", () => {
       props.page.answers[0] = { type: RADIO };
+      const { getByText, getByTestId } = render(
+        <AnswerTypeSelector {...props} />
+      );
+      fireEvent.click(getByText(/Add another answer/));
+      expect(getByTestId("btn-answer-type-mutuallyexclusive")).toHaveAttribute(
+        "disabled"
+      );
+    });
+
+    it("should disbale mutually exclusive if there is a select answer", () => {
+      props.page.answers[0] = { type: SELECT };
       const { getByText, getByTestId } = render(
         <AnswerTypeSelector {...props} />
       );
