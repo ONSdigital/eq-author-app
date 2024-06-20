@@ -374,21 +374,57 @@ const listQuestionnaires = async () => {
   }
 };
 
-const listFirstPageQuestionnaires = async (input) => {
+const listFilteredQuestionnaires = async (input) => {
   try {
-    const { limit } = input;
+    const { limit, firstQuestionnaireIdOnPage, lastQuestionnaireIdOnPage } =
+      input;
 
     // Orders questionnaires by when they were created, starting with the newest
     let questionnairesQuery = db
       .collection("questionnaires")
       .orderBy("createdAt", "desc");
 
-    questionnairesQuery = questionnairesQuery.limit(limit);
+    // Gets questionnaires on first page when firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage are not provided
+    if (!firstQuestionnaireIdOnPage && !lastQuestionnaireIdOnPage) {
+      questionnairesQuery = questionnairesQuery.limit(limit);
+    }
+    // Gets questionnaires on previous page when firstQuestionnaireIdOnPage is provided without lastQuestionnaireIdOnPage
+    else if (firstQuestionnaireIdOnPage && !lastQuestionnaireIdOnPage) {
+      // Gets first questionnaire on current page based on firstQuestionnaireIdOnPage
+      const firstQuestionnaireOnPage = await db
+        .collection("questionnaires")
+        .doc(firstQuestionnaireIdOnPage)
+        .get();
+
+      // Gets previous questionnaires before firstQuestionnaireOnPage, limiting the number of questionnaires to `limit`
+      questionnairesQuery = questionnairesQuery
+        .endBefore(firstQuestionnaireOnPage)
+        .limitToLast(limit);
+    }
+    // Gets questionnaires on next page when lastQuestionnaireIdOnPage is provided without firstQuestionnaireIdOnPage
+    else if (lastQuestionnaireIdOnPage && !firstQuestionnaireIdOnPage) {
+      // Gets last questionnaire on current page based on lastQuestionnaireIdOnPage
+      const lastQuestionnaireOnPage = await db
+        .collection("questionnaires")
+        .doc(lastQuestionnaireIdOnPage)
+        .get();
+
+      // Gets next questionnaires after lastQuestionnaireOnPage, limiting the number of questionnaires to `limit`
+      questionnairesQuery = questionnairesQuery
+        .startAfter(lastQuestionnaireOnPage)
+        .limit(limit);
+    }
+    // Throws an error when both firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage are provided
+    else {
+      logger.error(
+        "Invalid input - both firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage have been provided (from listFilteredQuestionnaires)"
+      );
+    }
 
     const questionnairesSnapshot = await questionnairesQuery.get();
 
     if (questionnairesSnapshot.empty) {
-      logger.info("No questionnaires found (from listQuestionnaires)");
+      logger.info("No questionnaires found (from listFilteredQuestionnaires)");
       return [];
     }
 
@@ -402,51 +438,7 @@ const listFirstPageQuestionnaires = async (input) => {
   } catch (error) {
     logger.error(
       error,
-      "Unable to retrieve questionnaires (from listFirstPageQuestionnaires)"
-    );
-    return;
-  }
-};
-
-const listNextPageQuestionnaires = async (input) => {
-  try {
-    const { limit, lastQuestionnaireIdOnPage } = input;
-
-    // Orders questionnaires by when they were created, starting with the newest
-    let questionnairesQuery = db
-      .collection("questionnaires")
-      .orderBy("createdAt", "desc");
-
-    // Gets last questionnaire on current page based on lastQuestionnaireIdOnPage
-    const lastQuestionnaireOnPage = await db
-      .collection("questionnaires")
-      .doc(lastQuestionnaireIdOnPage)
-      .get();
-
-    // Gets next questionnaires after lastQuestionnaireOnPage, limiting the number of questionnaires to limit
-    questionnairesQuery = questionnairesQuery
-      .startAfter(lastQuestionnaireOnPage)
-      .limit(limit);
-
-    const questionnairesSnapshot = await questionnairesQuery.get();
-
-    if (questionnairesSnapshot.empty) {
-      logger.info("No questionnaires found (from listQuestionnaires)");
-      return [];
-    }
-
-    const questionnaires = questionnairesSnapshot.docs.map((doc) => ({
-      ...doc.data(),
-      editors: doc.data().editors || [],
-      createdAt: doc.data().createdAt.toDate(),
-      updatedAt: doc.data().updatedAt.toDate(),
-    }));
-
-    return questionnaires || [];
-  } catch (error) {
-    logger.error(
-      error,
-      "Unable to retrieve questionnaires (from listNextPageQuestionnaires)"
+      "Unable to retrieve questionnaires (from listQuestionnaires)"
     );
     return;
   }
@@ -744,8 +736,7 @@ module.exports = {
   saveQuestionnaire,
   deleteQuestionnaire,
   listQuestionnaires,
-  listFirstPageQuestionnaires,
-  listNextPageQuestionnaires,
+  listFilteredQuestionnaires,
   getQuestionnaire,
   getQuestionnaireMetaById,
   getQuestionnaireByVersionId,

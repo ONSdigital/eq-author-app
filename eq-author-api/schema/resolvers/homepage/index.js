@@ -1,29 +1,21 @@
-const {
-  listFirstPageQuestionnaires,
-  listNextPageQuestionnaires,
-} = require("../../../db/datastore");
+const { listFilteredQuestionnaires } = require("../../../db/datastore");
 
 const Resolvers = {
   Query: {
-    firstPageQuestionnaires: async (_, { input = {} }, ctx) => {
-      const { limit = 10 } = input;
+    filteredQuestionnaires: async (_, { input = {} }, ctx) => {
+      const {
+        limit = 10,
+        firstQuestionnaireIdOnPage,
+        lastQuestionnaireIdOnPage,
+      } = input;
 
-      const questionnaires = await listFirstPageQuestionnaires({
+      const questionnaires = await listFilteredQuestionnaires({
         limit,
-      });
-
-      return questionnaires;
-    },
-
-    nextPageQuestionnaires: async (_, { input = {} }, ctx) => {
-      const { limit = 10, lastQuestionnaireIdOnPage } = input;
-
-      const nextQuestionnaires = await listNextPageQuestionnaires({
-        limit,
+        firstQuestionnaireIdOnPage,
         lastQuestionnaireIdOnPage,
       });
 
-      return nextQuestionnaires;
+      return questionnaires;
     },
   },
 };
