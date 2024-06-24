@@ -290,6 +290,93 @@ const listQuestionnaires = async () => {
   }
 };
 
+const listFilteredQuestionnaires = async (input) => {
+  try {
+    const { limit, firstQuestionnaireIdOnPage, lastQuestionnaireIdOnPage } =
+      input;
+
+    // Gets the questionnaires collection
+    const questionnairesCollection = dbo.collection("questionnaires");
+    let questionnairesQuery;
+
+    // Gets questionnaires on first page when firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage are not provided
+    if (!firstQuestionnaireIdOnPage && !lastQuestionnaireIdOnPage) {
+      questionnairesQuery = questionnairesCollection
+        .find()
+        .sort({ createdAt: -1 })
+        .limit(limit);
+    }
+    // Gets questionnaires on previous page when firstQuestionnaireIdOnPage is provided without lastQuestionnaireIdOnPage
+    else if (firstQuestionnaireIdOnPage && !lastQuestionnaireIdOnPage) {
+      // Gets first questionnaire on current page based on firstQuestionnaireIdOnPage
+      const firstQuestionnaireOnPage = await questionnairesCollection.findOne({
+        id: firstQuestionnaireIdOnPage,
+      });
+
+      /* 
+        Gets questionnaires on previous page based on firstQuestionnaireOnPage
+        Uses `gt` (greater than) to find questionnaires created after firstQuestionnaireOnPage, sorts from earliest created first, and limits to `limit` number of questionnaires
+      */
+      questionnairesQuery = questionnairesCollection
+        .find({ createdAt: { $gt: firstQuestionnaireOnPage.createdAt } })
+        .sort({ createdAt: 1 })
+        .limit(limit);
+    }
+    // Gets questionnaires on next page when lastQuestionnaireIdOnPage is provided without firstQuestionnaireIdOnPage
+    else if (!firstQuestionnaireIdOnPage && lastQuestionnaireIdOnPage) {
+      // Gets last questionnaire on current page based on lastQuestionnaireIdOnPage
+      const lastQuestionnaireOnPage = await questionnairesCollection.findOne({
+        id: lastQuestionnaireIdOnPage,
+      });
+
+      /* 
+        Gets questionnaires on next page based on lastQuestionnaireOnPage
+        Uses `lt` (less than) to find questionnaires created before lastQuestionnaireOnPage, sorts from most recently created first, and limits to `limit` number of questionnaires
+      */
+      questionnairesQuery = questionnairesCollection
+        .find({ createdAt: { $lt: lastQuestionnaireOnPage.createdAt } })
+        .sort({ createdAt: -1 })
+        .limit(limit);
+    } else {
+      logger.error(
+        "Invalid input - both firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage have been provided (from listFilteredQuestionnaires)"
+      );
+    }
+
+    const questionnaires = await questionnairesQuery.toArray();
+
+    if (questionnaires.length === 0) {
+      logger.info("No questionnaires found (from listFilteredQuestionnaires)");
+      return [];
+    }
+
+    // Adds empty `editors` to each questionnaire if it does not already have `editors`, otherwise uses existing `editors`
+    let transformedQuestionnaires = questionnaires.map((questionnaire) => ({
+      ...questionnaire,
+      editors: questionnaire.editors || [],
+    }));
+
+    /* 
+      Sorts questionnaires by most recently created first if firstQuestionnaireIdOnPage is provided without lastQuestionnaireIdOnPage 
+      This condition's query previously sorted by earliest created questionnaire first to get the `limit` number of questionnaires created after firstQuestionnaireOnPage
+      This ensures questionnaires are displayed in order from most recently created first in this condition
+    */
+    if (firstQuestionnaireIdOnPage && !lastQuestionnaireIdOnPage) {
+      transformedQuestionnaires = transformedQuestionnaires.sort((a, b) =>
+        a.createdAt > b.createdAt ? -1 : 1
+      );
+    }
+
+    return transformedQuestionnaires;
+  } catch (error) {
+    logger.error(
+      error,
+      "Unable to retrieve questionnaires (from listFilteredQuestionnaires)"
+    );
+    return;
+  }
+};
+
 const createComments = async (questionnaireId) => {
   try {
     if (!questionnaireId) {
@@ -486,6 +573,7 @@ module.exports = {
   saveQuestionnaire,
   deleteQuestionnaire,
   listQuestionnaires,
+  listFilteredQuestionnaires,
   getQuestionnaire,
   getQuestionnaireMetaById,
   createComments,
