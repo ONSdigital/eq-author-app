@@ -161,7 +161,7 @@ describe("Answer Type Selector", () => {
       );
     });
 
-    it("should disbale mutually exclusive if there is a select answer", () => {
+    it("should disable mutually exclusive if there is a select answer", () => {
       props.page.answers[0] = { type: SELECT };
       const { getByText, getByTestId } = render(
         <AnswerTypeSelector {...props} />
