@@ -376,8 +376,11 @@ const listQuestionnaires = async () => {
 
 const listFilteredQuestionnaires = async (input) => {
   try {
-    const { limit, firstQuestionnaireIdOnPage, lastQuestionnaireIdOnPage } =
-      input;
+    const {
+      resultsPerPage,
+      firstQuestionnaireIdOnPage,
+      lastQuestionnaireIdOnPage,
+    } = input;
 
     // Orders questionnaires by when they were created, starting with the newest
     let questionnairesQuery = db
@@ -386,7 +389,7 @@ const listFilteredQuestionnaires = async (input) => {
 
     // Gets questionnaires on first page when firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage are not provided
     if (!firstQuestionnaireIdOnPage && !lastQuestionnaireIdOnPage) {
-      questionnairesQuery = questionnairesQuery.limit(limit);
+      questionnairesQuery = questionnairesQuery.limit(resultsPerPage);
     }
     // Gets questionnaires on previous page when firstQuestionnaireIdOnPage is provided without lastQuestionnaireIdOnPage
     else if (firstQuestionnaireIdOnPage && !lastQuestionnaireIdOnPage) {
@@ -396,10 +399,10 @@ const listFilteredQuestionnaires = async (input) => {
         .doc(firstQuestionnaireIdOnPage)
         .get();
 
-      // Gets previous questionnaires before firstQuestionnaireOnPage, limiting the number of questionnaires to `limit`
+      // Gets previous questionnaires before firstQuestionnaireOnPage, limiting the number of questionnaires to `resultsPerPage`
       questionnairesQuery = questionnairesQuery
         .endBefore(firstQuestionnaireOnPage)
-        .limitToLast(limit);
+        .limitToLast(resultsPerPage);
     }
     // Gets questionnaires on next page when lastQuestionnaireIdOnPage is provided without firstQuestionnaireIdOnPage
     else if (lastQuestionnaireIdOnPage && !firstQuestionnaireIdOnPage) {
@@ -409,10 +412,10 @@ const listFilteredQuestionnaires = async (input) => {
         .doc(lastQuestionnaireIdOnPage)
         .get();
 
-      // Gets next questionnaires after lastQuestionnaireOnPage, limiting the number of questionnaires to `limit`
+      // Gets next questionnaires after lastQuestionnaireOnPage, limiting the number of questionnaires to `resultsPerPage`
       questionnairesQuery = questionnairesQuery
         .startAfter(lastQuestionnaireOnPage)
-        .limit(limit);
+        .limit(resultsPerPage);
     }
     // Throws an error when both firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage are provided
     else {

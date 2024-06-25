@@ -937,7 +937,7 @@ input QuestionnairesInput {
 }
 
 input FilteredQuestionnairesInput {
-  limit: Int
+  resultsPerPage: Int
   firstQuestionnaireIdOnPage: ID
   lastQuestionnaireIdOnPage: ID
 }

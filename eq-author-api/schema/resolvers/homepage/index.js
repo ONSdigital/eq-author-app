@@ -4,13 +4,13 @@ const Resolvers = {
   Query: {
     filteredQuestionnaires: async (_, { input = {} }, ctx) => {
       const {
-        limit = 10,
+        resultsPerPage = 10,
         firstQuestionnaireIdOnPage,
         lastQuestionnaireIdOnPage,
       } = input;
 
       const questionnaires = await listFilteredQuestionnaires({
-        limit,
+        resultsPerPage,
         firstQuestionnaireIdOnPage,
         lastQuestionnaireIdOnPage,
       });

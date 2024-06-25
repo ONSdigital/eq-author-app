@@ -292,8 +292,11 @@ const listQuestionnaires = async () => {
 
 const listFilteredQuestionnaires = async (input) => {
   try {
-    const { limit, firstQuestionnaireIdOnPage, lastQuestionnaireIdOnPage } =
-      input;
+    const {
+      resultsPerPage,
+      firstQuestionnaireIdOnPage,
+      lastQuestionnaireIdOnPage,
+    } = input;
 
     // Gets the questionnaires collection
     const questionnairesCollection = dbo.collection("questionnaires");
@@ -304,7 +307,7 @@ const listFilteredQuestionnaires = async (input) => {
       questionnairesQuery = questionnairesCollection
         .find()
         .sort({ createdAt: -1 })
-        .limit(limit);
+        .limit(resultsPerPage);
     }
     // Gets questionnaires on previous page when firstQuestionnaireIdOnPage is provided without lastQuestionnaireIdOnPage
     else if (firstQuestionnaireIdOnPage && !lastQuestionnaireIdOnPage) {
@@ -315,12 +318,12 @@ const listFilteredQuestionnaires = async (input) => {
 
       /* 
         Gets questionnaires on previous page based on firstQuestionnaireOnPage
-        Uses `gt` (greater than) to find questionnaires created after firstQuestionnaireOnPage, sorts from earliest created first, and limits to `limit` number of questionnaires
+        Uses `gt` (greater than) to find questionnaires created after firstQuestionnaireOnPage, sorts from earliest created first, and limits to `resultsPerPage` number of questionnaires
       */
       questionnairesQuery = questionnairesCollection
         .find({ createdAt: { $gt: firstQuestionnaireOnPage.createdAt } })
         .sort({ createdAt: 1 })
-        .limit(limit);
+        .limit(resultsPerPage);
     }
     // Gets questionnaires on next page when lastQuestionnaireIdOnPage is provided without firstQuestionnaireIdOnPage
     else if (!firstQuestionnaireIdOnPage && lastQuestionnaireIdOnPage) {
@@ -331,12 +334,12 @@ const listFilteredQuestionnaires = async (input) => {
 
       /* 
         Gets questionnaires on next page based on lastQuestionnaireOnPage
-        Uses `lt` (less than) to find questionnaires created before lastQuestionnaireOnPage, sorts from most recently created first, and limits to `limit` number of questionnaires
+        Uses `lt` (less than) to find questionnaires created before lastQuestionnaireOnPage, sorts from most recently created first, and limits to `resultsPerPage` number of questionnaires
       */
       questionnairesQuery = questionnairesCollection
         .find({ createdAt: { $lt: lastQuestionnaireOnPage.createdAt } })
         .sort({ createdAt: -1 })
-        .limit(limit);
+        .limit(resultsPerPage);
     } else {
       logger.error(
         "Invalid input - both firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage have been provided (from listFilteredQuestionnaires)"
@@ -358,7 +361,7 @@ const listFilteredQuestionnaires = async (input) => {
 
     /* 
       Sorts questionnaires by most recently created first if firstQuestionnaireIdOnPage is provided without lastQuestionnaireIdOnPage 
-      This condition's query previously sorted by earliest created questionnaire first to get the `limit` number of questionnaires created after firstQuestionnaireOnPage
+      This condition's query previously sorted by earliest created questionnaire first to get the `resultsPerPage` number of questionnaires created after firstQuestionnaireOnPage
       This ensures questionnaires are displayed in order from most recently created first in this condition
     */
     if (firstQuestionnaireIdOnPage && !lastQuestionnaireIdOnPage) {
