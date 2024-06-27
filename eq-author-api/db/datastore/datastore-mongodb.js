@@ -296,6 +296,7 @@ const listFilteredQuestionnaires = async (input) => {
       resultsPerPage,
       firstQuestionnaireIdOnPage,
       lastQuestionnaireIdOnPage,
+      search,
     } = input;
 
     // Gets the questionnaires collection
@@ -305,7 +306,13 @@ const listFilteredQuestionnaires = async (input) => {
     // Gets questionnaires on first page when firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage are not provided
     if (!firstQuestionnaireIdOnPage && !lastQuestionnaireIdOnPage) {
       questionnairesQuery = questionnairesCollection
-        .find()
+        .find({
+          // Searches for questionnaires with title or shortTitle (short code) containing the search term
+          $or: [
+            { title: { $regex: search, $options: "i" } },
+            { shortTitle: { $regex: search, $options: "i" } },
+          ],
+        })
         .sort({ createdAt: -1 })
         .limit(resultsPerPage);
     }
@@ -321,7 +328,19 @@ const listFilteredQuestionnaires = async (input) => {
         Uses `gt` (greater than) to find questionnaires created after firstQuestionnaireOnPage, sorts from earliest created first, and limits to `resultsPerPage` number of questionnaires
       */
       questionnairesQuery = questionnairesCollection
-        .find({ createdAt: { $gt: firstQuestionnaireOnPage.createdAt } })
+        .find({
+          // Searches for questionnaires created after firstQuestionnaireOnPage AND with title or shortTitle (short code) containing the search term
+          $and: [
+            { createdAt: { $gt: firstQuestionnaireOnPage.createdAt } },
+            // Searches for questionnaires with title or shortTitle (short code) containing the search term
+            {
+              $or: [
+                { title: { $regex: search, $options: "i" } },
+                { shortTitle: { $regex: search, $options: "i" } },
+              ],
+            },
+          ],
+        })
         .sort({ createdAt: 1 })
         .limit(resultsPerPage);
     }
@@ -337,7 +356,19 @@ const listFilteredQuestionnaires = async (input) => {
         Uses `lt` (less than) to find questionnaires created before lastQuestionnaireOnPage, sorts from most recently created first, and limits to `resultsPerPage` number of questionnaires
       */
       questionnairesQuery = questionnairesCollection
-        .find({ createdAt: { $lt: lastQuestionnaireOnPage.createdAt } })
+        .find({
+          // Searches for questionnaires created before lastQuestionnaireOnPage AND with title or shortTitle (short code) containing the search term
+          $and: [
+            { createdAt: { $lt: lastQuestionnaireOnPage.createdAt } },
+            // Searches for questionnaires with title or shortTitle (short code) containing the search term
+            {
+              $or: [
+                { title: { $regex: search, $options: "i" } },
+                { shortTitle: { $regex: search, $options: "i" } },
+              ],
+            },
+          ],
+        })
         .sort({ createdAt: -1 })
         .limit(resultsPerPage);
     } else {

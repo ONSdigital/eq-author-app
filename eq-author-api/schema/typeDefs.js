@@ -940,6 +940,7 @@ input FilteredQuestionnairesInput {
   resultsPerPage: Int
   firstQuestionnaireIdOnPage: ID
   lastQuestionnaireIdOnPage: ID
+  search: String
 }
 
 input QueryInput {
