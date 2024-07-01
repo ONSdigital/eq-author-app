@@ -8,6 +8,7 @@ const Resolvers = {
         firstQuestionnaireIdOnPage,
         lastQuestionnaireIdOnPage,
         search,
+        owner,
       } = input;
 
       const questionnaires = await listFilteredQuestionnaires({
@@ -15,6 +16,7 @@ const Resolvers = {
         firstQuestionnaireIdOnPage,
         lastQuestionnaireIdOnPage,
         search,
+        owner,
       });
 
       return questionnaires;

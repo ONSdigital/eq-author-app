@@ -297,6 +297,7 @@ const listFilteredQuestionnaires = async (input) => {
       firstQuestionnaireIdOnPage,
       lastQuestionnaireIdOnPage,
       search,
+      owner,
     } = input;
 
     // Gets the questionnaires collection
@@ -305,16 +306,34 @@ const listFilteredQuestionnaires = async (input) => {
 
     // Gets questionnaires on first page when firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage are not provided
     if (!firstQuestionnaireIdOnPage && !lastQuestionnaireIdOnPage) {
-      questionnairesQuery = questionnairesCollection
-        .find({
-          // Searches for questionnaires with title or shortTitle (short code) containing the search term
-          $or: [
-            { title: { $regex: search, $options: "i" } },
-            { shortTitle: { $regex: search, $options: "i" } },
-          ],
-        })
-        .sort({ createdAt: -1 })
-        .limit(resultsPerPage);
+      questionnairesQuery = questionnairesCollection.aggregate([
+        {
+          // From the `users` collection, gets the owner (based on `createdBy`) of each questionnaire by performing a join to match questionnaire `createdBy` with user `id`
+          $lookup: {
+            from: "users",
+            localField: "createdBy",
+            foreignField: "id",
+            as: "owner",
+          },
+        },
+        {
+          $match: {
+            // Searches for questionnaires with owner name (based on `createdBy`) containing the search term
+            "owner.name": { $regex: owner, $options: "i" },
+            // Searches for questionnaires with `title` or `shortTitle` (short code) containing the search term
+            $or: [
+              { title: { $regex: search, $options: "i" } },
+              { shortTitle: { $regex: search, $options: "i" } },
+            ],
+          },
+        },
+        {
+          $sort: { createdAt: -1 },
+        },
+        {
+          $limit: resultsPerPage,
+        },
+      ]);
     }
     // Gets questionnaires on previous page when firstQuestionnaireIdOnPage is provided without lastQuestionnaireIdOnPage
     else if (firstQuestionnaireIdOnPage && !lastQuestionnaireIdOnPage) {
@@ -323,26 +342,45 @@ const listFilteredQuestionnaires = async (input) => {
         id: firstQuestionnaireIdOnPage,
       });
 
-      /* 
+      /*
         Gets questionnaires on previous page based on firstQuestionnaireOnPage
-        Uses `gt` (greater than) to find questionnaires created after firstQuestionnaireOnPage, sorts from earliest created first, and limits to `resultsPerPage` number of questionnaires
+        Only finds questionnaires that meet the search conditions (e.g. owner name matching `owner` search field)
+        Uses `gt` (greater than) to find questionnaires meeting the conditions created after firstQuestionnaireOnPage, sorts from earliest created first, and limits to `resultsPerPage` number of questionnaires
       */
-      questionnairesQuery = questionnairesCollection
-        .find({
-          // Searches for questionnaires created after firstQuestionnaireOnPage AND with title or shortTitle (short code) containing the search term
-          $and: [
-            { createdAt: { $gt: firstQuestionnaireOnPage.createdAt } },
-            // Searches for questionnaires with title or shortTitle (short code) containing the search term
-            {
-              $or: [
-                { title: { $regex: search, $options: "i" } },
-                { shortTitle: { $regex: search, $options: "i" } },
-              ],
-            },
-          ],
-        })
-        .sort({ createdAt: 1 })
-        .limit(resultsPerPage);
+      questionnairesQuery = questionnairesCollection.aggregate([
+        // From the `users` collection, gets the owner (based on `createdBy`) of each questionnaire by performing a join to match questionnaire `createdBy` with user `id`
+        {
+          $lookup: {
+            from: "users",
+            localField: "createdBy",
+            foreignField: "id",
+            as: "owner",
+          },
+        },
+        {
+          $match: {
+            // Searches for questionnaires created after firstQuestionnaireOnPage AND meeting all the search conditions
+            $and: [
+              { createdAt: { $gt: firstQuestionnaireOnPage.createdAt } },
+              // Searches for questionnaires with owner name (based on `createdBy`) containing the search term
+              { "owner.name": { $regex: owner, $options: "i" } },
+              {
+                // Searches for questionnaires with `title` or `shortTitle` (short code) containing the search term
+                $or: [
+                  { title: { $regex: search, $options: "i" } },
+                  { shortTitle: { $regex: search, $options: "i" } },
+                ],
+              },
+            ],
+          },
+        },
+        {
+          $sort: { createdAt: 1 },
+        },
+        {
+          $limit: resultsPerPage,
+        },
+      ]);
     }
     // Gets questionnaires on next page when lastQuestionnaireIdOnPage is provided without firstQuestionnaireIdOnPage
     else if (!firstQuestionnaireIdOnPage && lastQuestionnaireIdOnPage) {
@@ -353,24 +391,43 @@ const listFilteredQuestionnaires = async (input) => {
 
       /* 
         Gets questionnaires on next page based on lastQuestionnaireOnPage
-        Uses `lt` (less than) to find questionnaires created before lastQuestionnaireOnPage, sorts from most recently created first, and limits to `resultsPerPage` number of questionnaires
+        Only finds questionnaires that meet the search conditions (e.g. owner name matching `owner` search field)
+        Uses `lt` (less than) to find questionnaires meeting the conditions created before lastQuestionnaireOnPage, sorts from most recently created first, and limits to `resultsPerPage` number of questionnaires
       */
-      questionnairesQuery = questionnairesCollection
-        .find({
-          // Searches for questionnaires created before lastQuestionnaireOnPage AND with title or shortTitle (short code) containing the search term
-          $and: [
-            { createdAt: { $lt: lastQuestionnaireOnPage.createdAt } },
-            // Searches for questionnaires with title or shortTitle (short code) containing the search term
-            {
-              $or: [
-                { title: { $regex: search, $options: "i" } },
-                { shortTitle: { $regex: search, $options: "i" } },
-              ],
-            },
-          ],
-        })
-        .sort({ createdAt: -1 })
-        .limit(resultsPerPage);
+      questionnairesQuery = questionnairesCollection.aggregate([
+        // From the `users` collection, gets the owner (based on `createdBy`) of each questionnaire by performing a join to match questionnaire `createdBy` with user `id`
+        {
+          $lookup: {
+            from: "users",
+            localField: "createdBy",
+            foreignField: "id",
+            as: "owner",
+          },
+        },
+        {
+          $match: {
+            // Searches for questionnaires created before lastQuestionnaireOnPage AND meeting all the search conditions
+            $and: [
+              { createdAt: { $lt: lastQuestionnaireOnPage.createdAt } },
+              // Searches for questionnaires with owner name (based on `createdBy`) containing the search term
+              { "owner.name": { $regex: owner, $options: "i" } },
+              {
+                // Searches for questionnaires with `title` or `shortTitle` (short code) containing the search term
+                $or: [
+                  { title: { $regex: search, $options: "i" } },
+                  { shortTitle: { $regex: search, $options: "i" } },
+                ],
+              },
+            ],
+          },
+        },
+        {
+          $sort: { createdAt: -1 },
+        },
+        {
+          $limit: resultsPerPage,
+        },
+      ]);
     } else {
       logger.error(
         "Invalid input - both firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage have been provided (from listFilteredQuestionnaires)"
