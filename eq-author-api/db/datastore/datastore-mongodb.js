@@ -298,11 +298,36 @@ const listFilteredQuestionnaires = async (input) => {
       lastQuestionnaireIdOnPage,
       search,
       owner,
+      createdAfter,
+      createdBefore,
     } = input;
 
     // Gets the questionnaires collection
     const questionnairesCollection = dbo.collection("questionnaires");
     let questionnairesQuery;
+
+    const matchQuery = {
+      // Searches for questionnaires with `title` or `shortTitle` (short code) containing the search term
+      $or: [
+        { title: { $regex: search, $options: "i" } },
+        { shortTitle: { $regex: search, $options: "i" } },
+      ],
+      // Searches for questionnaires with owner name (based on `createdBy`) containing the search term
+      "owner.name": { $regex: owner, $options: "i" },
+    };
+
+    // If both `createdAfter` and `createdBefore` are provided, searches for questionnaires created between `createdAfter` and `createdBefore`
+    if (createdAfter && createdBefore) {
+      matchQuery.createdAt = { $gt: createdAfter, $lt: createdBefore };
+    }
+    // If `createdAfter` is provided without `createdBefore`, searches for questionnaires created after `createdAfter`
+    else if (createdAfter) {
+      matchQuery.createdAt = { $gt: createdAfter };
+    }
+    // If `createdBefore` is provided without `createdAfter`, searches for questionnaires created before `createdBefore`
+    else if (createdBefore) {
+      matchQuery.createdAt = { $lt: createdBefore };
+    }
 
     // Gets questionnaires on first page when firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage are not provided
     if (!firstQuestionnaireIdOnPage && !lastQuestionnaireIdOnPage) {
@@ -317,15 +342,7 @@ const listFilteredQuestionnaires = async (input) => {
           },
         },
         {
-          $match: {
-            // Searches for questionnaires with owner name (based on `createdBy`) containing the search term
-            "owner.name": { $regex: owner, $options: "i" },
-            // Searches for questionnaires with `title` or `shortTitle` (short code) containing the search term
-            $or: [
-              { title: { $regex: search, $options: "i" } },
-              { shortTitle: { $regex: search, $options: "i" } },
-            ],
-          },
+          $match: matchQuery,
         },
         {
           $sort: { createdAt: -1 },
@@ -359,18 +376,10 @@ const listFilteredQuestionnaires = async (input) => {
         },
         {
           $match: {
-            // Searches for questionnaires created after firstQuestionnaireOnPage AND meeting all the search conditions
+            // Searches for questionnaires created after firstQuestionnaireOnPage AND meeting all the search conditions from `matchQuery`
             $and: [
               { createdAt: { $gt: firstQuestionnaireOnPage.createdAt } },
-              // Searches for questionnaires with owner name (based on `createdBy`) containing the search term
-              { "owner.name": { $regex: owner, $options: "i" } },
-              {
-                // Searches for questionnaires with `title` or `shortTitle` (short code) containing the search term
-                $or: [
-                  { title: { $regex: search, $options: "i" } },
-                  { shortTitle: { $regex: search, $options: "i" } },
-                ],
-              },
+              matchQuery,
             ],
           },
         },
@@ -406,18 +415,10 @@ const listFilteredQuestionnaires = async (input) => {
         },
         {
           $match: {
-            // Searches for questionnaires created before lastQuestionnaireOnPage AND meeting all the search conditions
+            // Searches for questionnaires created before lastQuestionnaireOnPage AND meeting all the search conditions from `matchQuery`
             $and: [
               { createdAt: { $lt: lastQuestionnaireOnPage.createdAt } },
-              // Searches for questionnaires with owner name (based on `createdBy`) containing the search term
-              { "owner.name": { $regex: owner, $options: "i" } },
-              {
-                // Searches for questionnaires with `title` or `shortTitle` (short code) containing the search term
-                $or: [
-                  { title: { $regex: search, $options: "i" } },
-                  { shortTitle: { $regex: search, $options: "i" } },
-                ],
-              },
+              matchQuery,
             ],
           },
         },

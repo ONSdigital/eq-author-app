@@ -942,6 +942,8 @@ input FilteredQuestionnairesInput {
   lastQuestionnaireIdOnPage: ID
   search: String
   owner: String
+  createdAfter: DateTime
+  createdBefore: DateTime
 }
 
 input QueryInput {

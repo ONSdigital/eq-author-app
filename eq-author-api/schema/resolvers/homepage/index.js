@@ -9,6 +9,8 @@ const Resolvers = {
         lastQuestionnaireIdOnPage,
         search,
         owner,
+        createdAfter,
+        createdBefore,
       } = input;
 
       const questionnaires = await listFilteredQuestionnaires({
@@ -17,6 +19,8 @@ const Resolvers = {
         lastQuestionnaireIdOnPage,
         search,
         owner,
+        createdAfter,
+        createdBefore,
       });
 
       return questionnaires;
