@@ -44,6 +44,7 @@ enum QuestionnaireType {
 enum Permission {
   Read
   Write
+  ReadOnlyEditor
 }
 
 type Questionnaire {
@@ -944,6 +945,7 @@ input FilteredQuestionnairesInput {
   owner: String
   createdAfter: DateTime
   createdBefore: DateTime
+  access: Permission
 }
 
 input QueryInput {

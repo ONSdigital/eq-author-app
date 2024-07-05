@@ -11,17 +11,22 @@ const Resolvers = {
         owner,
         createdAfter,
         createdBefore,
+        access,
       } = input;
 
-      const questionnaires = await listFilteredQuestionnaires({
-        resultsPerPage,
-        firstQuestionnaireIdOnPage,
-        lastQuestionnaireIdOnPage,
-        search,
-        owner,
-        createdAfter,
-        createdBefore,
-      });
+      const questionnaires = await listFilteredQuestionnaires(
+        {
+          resultsPerPage,
+          firstQuestionnaireIdOnPage,
+          lastQuestionnaireIdOnPage,
+          search,
+          owner,
+          createdAfter,
+          createdBefore,
+          access,
+        },
+        ctx
+      );
 
       return questionnaires;
     },

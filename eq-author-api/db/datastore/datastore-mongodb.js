@@ -290,7 +290,7 @@ const listQuestionnaires = async () => {
   }
 };
 
-const listFilteredQuestionnaires = async (input) => {
+const listFilteredQuestionnaires = async (input, ctx) => {
   try {
     const {
       resultsPerPage,
@@ -300,7 +300,10 @@ const listFilteredQuestionnaires = async (input) => {
       owner,
       createdAfter,
       createdBefore,
+      access,
     } = input;
+
+    const { id: userId } = ctx.user;
 
     // Gets the questionnaires collection
     const questionnairesCollection = dbo.collection("questionnaires");
@@ -327,6 +330,26 @@ const listFilteredQuestionnaires = async (input) => {
     // If `createdBefore` is provided without `createdAfter`, searches for questionnaires created before `createdBefore`
     else if (createdBefore) {
       matchQuery.createdAt = { $lt: createdBefore };
+    }
+
+    // TODO: Implement "Read-only for editors" code
+    if (access === "Write") {
+      if (!matchQuery.$and) {
+        matchQuery.$and = [];
+      }
+      matchQuery.$and.push({
+        $or: [{ editors: { $in: [userId] } }, { createdBy: userId }],
+      });
+    } else if (access === "Read") {
+      if (!matchQuery.$and) {
+        matchQuery.$and = [];
+      }
+      matchQuery.$and.push(
+        {
+          editors: { $nin: [userId] },
+        },
+        { createdBy: { $ne: userId } }
+      );
     }
 
     // Gets questionnaires on first page when firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage are not provided
