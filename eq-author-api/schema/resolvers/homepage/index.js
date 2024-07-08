@@ -12,6 +12,7 @@ const Resolvers = {
         createdAfter,
         createdBefore,
         access,
+        myQuestionnaires,
       } = input;
 
       const questionnaires = await listFilteredQuestionnaires(
@@ -24,6 +25,7 @@ const Resolvers = {
           createdAfter,
           createdBefore,
           access,
+          myQuestionnaires,
         },
         ctx
       );

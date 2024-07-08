@@ -301,6 +301,7 @@ const listFilteredQuestionnaires = async (input, ctx) => {
       createdAfter,
       createdBefore,
       access,
+      myQuestionnaires,
     } = input;
 
     const { id: userId } = ctx.user;
@@ -350,6 +351,16 @@ const listFilteredQuestionnaires = async (input, ctx) => {
         },
         { createdBy: { $ne: userId } }
       );
+    }
+
+    // TODO: When "My questionnaires" feature is implemented, implement code to filter questionnaires based on questionnaires marked as "My questionnaires"
+    if (myQuestionnaires) {
+      if (!matchQuery.$and) {
+        matchQuery.$and = [];
+      }
+      matchQuery.$and.push({
+        $or: [{ editors: { $in: [userId] } }, { createdBy: userId }],
+      });
     }
 
     // Gets questionnaires on first page when firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage are not provided
