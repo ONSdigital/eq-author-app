@@ -1,4 +1,7 @@
-const { listFilteredQuestionnaires } = require("../../../db/datastore");
+const {
+  listFilteredQuestionnaires,
+  getTotalPages,
+} = require("../../../db/datastore");
 
 const Resolvers = {
   Query: {
@@ -33,6 +36,12 @@ const Resolvers = {
       );
 
       return questionnaires;
+    },
+
+    totalPages: async (_, { input = {} }) => {
+      const { resultsPerPage = 10 } = input;
+
+      return getTotalPages(resultsPerPage);
     },
   },
 };

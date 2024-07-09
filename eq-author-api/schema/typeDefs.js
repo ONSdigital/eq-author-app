@@ -923,6 +923,7 @@ type Query {
   listNames: [ListName]
   collectionListNames: [ListName]
   supplementaryDataListNames: [ListName]
+  totalPages(input: TotalPagesInput): Int
 }
 
 input CommonFilters {
@@ -948,6 +949,10 @@ input FilteredQuestionnairesInput {
   access: Permission
   myQuestionnaires: Boolean
   sortBy: String
+}
+
+input TotalPagesInput {
+  resultsPerPage: Int
 }
 
 input QueryInput {

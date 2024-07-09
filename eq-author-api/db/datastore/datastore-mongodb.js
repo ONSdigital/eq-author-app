@@ -527,6 +527,17 @@ const listFilteredQuestionnaires = async (input, ctx) => {
   }
 };
 
+const getTotalPages = async (resultsPerPage) => {
+  try {
+    const collection = dbo.collection("questionnaires");
+    const totalQuestionnaires = await collection.countDocuments();
+    return Math.ceil(totalQuestionnaires / resultsPerPage) - 1;
+  } catch (error) {
+    logger.error(error, "Unable to get total pages");
+    return;
+  }
+};
+
 const createComments = async (questionnaireId) => {
   try {
     if (!questionnaireId) {
@@ -724,6 +735,7 @@ module.exports = {
   deleteQuestionnaire,
   listQuestionnaires,
   listFilteredQuestionnaires,
+  getTotalPages,
   getQuestionnaire,
   getQuestionnaireMetaById,
   createComments,
