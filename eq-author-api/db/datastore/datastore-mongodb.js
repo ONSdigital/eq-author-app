@@ -334,7 +334,6 @@ const listFilteredQuestionnaires = async (input, ctx) => {
       matchQuery.createdAt = { $lt: createdBefore };
     }
 
-    // TODO: Implement "Read-only for editors" code
     if (access === "All") {
       if (matchQuery.$and) {
         delete matchQuery.$and;
@@ -347,7 +346,8 @@ const listFilteredQuestionnaires = async (input, ctx) => {
       matchQuery.$and.push({
         $or: [{ editors: { $in: [userId] } }, { createdBy: userId }],
       });
-    } else if (access === "Read") {
+    }
+    if (access === "Read") {
       if (!matchQuery.$and) {
         matchQuery.$and = [];
       }
@@ -357,6 +357,14 @@ const listFilteredQuestionnaires = async (input, ctx) => {
         },
         { createdBy: { $ne: userId } }
       );
+    }
+    if (access === "PrivateQuestionnaires") {
+      if (!matchQuery.$and) {
+        matchQuery.$and = [];
+      }
+      matchQuery.$and.push({
+        isPublic: false,
+      });
     }
 
     // TODO: When "My questionnaires" feature is implemented, implement code to filter questionnaires based on questionnaires marked as "My questionnaires"

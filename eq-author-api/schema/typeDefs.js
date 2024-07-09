@@ -45,7 +45,7 @@ enum Permission {
   All
   Read
   Write
-  ReadOnlyEditor
+  PrivateQuestionnaires
 }
 
 type Questionnaire {
