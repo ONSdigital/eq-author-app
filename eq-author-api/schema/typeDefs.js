@@ -947,6 +947,7 @@ input FilteredQuestionnairesInput {
   createdBefore: DateTime
   access: Permission
   myQuestionnaires: Boolean
+  sortBy: String
 }
 
 input QueryInput {

@@ -302,6 +302,7 @@ const listFilteredQuestionnaires = async (input, ctx) => {
       createdBefore,
       access,
       myQuestionnaires,
+      sortBy,
     } = input;
 
     const { id: userId } = ctx.user;
@@ -379,7 +380,7 @@ const listFilteredQuestionnaires = async (input, ctx) => {
           $match: matchQuery,
         },
         {
-          $sort: { createdAt: -1 },
+          $sort: { createdAt: sortBy === "createdDateDesc" ? -1 : 1 }, // Sorts by either most recently created first or earliest created first based on `sortBy`
         },
         {
           $limit: resultsPerPage,
@@ -396,7 +397,8 @@ const listFilteredQuestionnaires = async (input, ctx) => {
       /*
         Gets questionnaires on previous page based on firstQuestionnaireOnPage
         Only finds questionnaires that meet the search conditions (e.g. owner name matching `owner` search field)
-        Uses `gt` (greater than) to find questionnaires meeting the conditions created after firstQuestionnaireOnPage, sorts from earliest created first, and limits to `resultsPerPage` number of questionnaires
+        Uses `gt` (greater than) or `lt` (less than) to find questionnaires created after or before firstQuestionnaireOnPage (based on `sortBy`) meeting the conditions, 
+        sorts from earliest created or most recently created first (based on `sortBy`), and limits to `resultsPerPage` number of questionnaires
       */
       questionnairesQuery = questionnairesCollection.aggregate([
         // From the `users` collection, gets the owner (based on `createdBy`) of each questionnaire by performing a join to match questionnaire `createdBy` with user `id`
@@ -410,15 +412,25 @@ const listFilteredQuestionnaires = async (input, ctx) => {
         },
         {
           $match: {
-            // Searches for questionnaires created after firstQuestionnaireOnPage AND meeting all the search conditions from `matchQuery`
+            // Searches for questionnaires created after or before firstQuestionnaireOnPage (based on `sortBy`) AND meeting all the search conditions from `matchQuery`
             $and: [
-              { createdAt: { $gt: firstQuestionnaireOnPage.createdAt } },
+              {
+                createdAt:
+                  sortBy === "createdDateDesc"
+                    ? { $gt: firstQuestionnaireOnPage.createdAt }
+                    : { $lt: firstQuestionnaireOnPage.createdAt },
+              },
               matchQuery,
             ],
           },
         },
         {
-          $sort: { createdAt: 1 },
+          /* 
+            Sorts by either earliest created first or most recently created first based on `sortBy` 
+            (previous page, so to get the previous questionnaires, sorts by earliest created first when `sortBy` is `createdDateDesc`
+            as otherwise previous page's questionnaires would be the most recently created ones)
+          */
+          $sort: { createdAt: sortBy === "createdDateDesc" ? 1 : -1 },
         },
         {
           $limit: resultsPerPage,
@@ -435,7 +447,8 @@ const listFilteredQuestionnaires = async (input, ctx) => {
       /* 
         Gets questionnaires on next page based on lastQuestionnaireOnPage
         Only finds questionnaires that meet the search conditions (e.g. owner name matching `owner` search field)
-        Uses `lt` (less than) to find questionnaires meeting the conditions created before lastQuestionnaireOnPage, sorts from most recently created first, and limits to `resultsPerPage` number of questionnaires
+        Uses `lt` (less than) or `gt` (greater than) to find questionnaires created before or after lastQuestionnaireOnPage (based on `sortBy`) meeting the conditions, 
+        sorts from most recently created or earliest created first (based on `sortBy`), and limits to `resultsPerPage` number of questionnaires
       */
       questionnairesQuery = questionnairesCollection.aggregate([
         // From the `users` collection, gets the owner (based on `createdBy`) of each questionnaire by performing a join to match questionnaire `createdBy` with user `id`
@@ -449,15 +462,20 @@ const listFilteredQuestionnaires = async (input, ctx) => {
         },
         {
           $match: {
-            // Searches for questionnaires created before lastQuestionnaireOnPage AND meeting all the search conditions from `matchQuery`
+            // Searches for questionnaires created before or after lastQuestionnaireOnPage (based on `sortBy`) AND meeting all the search conditions from `matchQuery`
             $and: [
-              { createdAt: { $lt: lastQuestionnaireOnPage.createdAt } },
+              {
+                createdAt:
+                  sortBy === "createdDateDesc"
+                    ? { $lt: lastQuestionnaireOnPage.createdAt }
+                    : { $gt: lastQuestionnaireOnPage.createdAt },
+              },
               matchQuery,
             ],
           },
         },
         {
-          $sort: { createdAt: -1 },
+          $sort: { createdAt: sortBy === "createdDateDesc" ? -1 : 1 }, // Sorts by either most recently created first or earliest created first based on `sortBy`
         },
         {
           $limit: resultsPerPage,
@@ -484,13 +502,19 @@ const listFilteredQuestionnaires = async (input, ctx) => {
 
     /* 
       Sorts questionnaires by most recently created first if firstQuestionnaireIdOnPage is provided without lastQuestionnaireIdOnPage 
-      This condition's query previously sorted by earliest created questionnaire first to get the `resultsPerPage` number of questionnaires created after firstQuestionnaireOnPage
-      This ensures questionnaires are displayed in order from most recently created first in this condition
+      This condition's query previously sorted in reverse order to get the `resultsPerPage` number of questionnaires created after or before firstQuestionnaireOnPage
+      This ensures questionnaires are displayed in the correct order (based on `sortBy`) in this condition
     */
     if (firstQuestionnaireIdOnPage && !lastQuestionnaireIdOnPage) {
-      transformedQuestionnaires = transformedQuestionnaires.sort((a, b) =>
-        a.createdAt > b.createdAt ? -1 : 1
-      );
+      if (sortBy === "createdDateDesc") {
+        transformedQuestionnaires = transformedQuestionnaires.sort((a, b) =>
+          a.createdAt > b.createdAt ? -1 : 1
+        );
+      } else {
+        transformedQuestionnaires = transformedQuestionnaires.sort((a, b) =>
+          a.createdAt > b.createdAt ? 1 : -1
+        );
+      }
     }
 
     return transformedQuestionnaires;
