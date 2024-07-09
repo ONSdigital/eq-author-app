@@ -335,6 +335,11 @@ const listFilteredQuestionnaires = async (input, ctx) => {
     }
 
     // TODO: Implement "Read-only for editors" code
+    if (access === "All") {
+      if (matchQuery.$and) {
+        delete matchQuery.$and;
+      }
+    }
     if (access === "Write") {
       if (!matchQuery.$and) {
         matchQuery.$and = [];

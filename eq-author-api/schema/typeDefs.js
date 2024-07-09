@@ -42,6 +42,7 @@ enum QuestionnaireType {
 }
 
 enum Permission {
+  All
   Read
   Write
   ReadOnlyEditor
