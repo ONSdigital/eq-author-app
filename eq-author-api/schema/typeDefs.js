@@ -954,6 +954,12 @@ input FilteredQuestionnairesInput {
 
 input TotalPagesInput {
   resultsPerPage: Int
+  search: String
+  owner: String
+  createdAfter: DateTime
+  createdBefore: DateTime
+  access: Permission
+  myQuestionnaires: Boolean
 }
 
 input QueryInput {

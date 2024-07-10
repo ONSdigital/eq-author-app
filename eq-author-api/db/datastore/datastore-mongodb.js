@@ -290,26 +290,18 @@ const listQuestionnaires = async () => {
   }
 };
 
-const listFilteredQuestionnaires = async (input, ctx) => {
+const getMatchQuery = async (input, ctx) => {
   try {
     const {
-      resultsPerPage,
-      firstQuestionnaireIdOnPage,
-      lastQuestionnaireIdOnPage,
       search,
       owner,
       createdAfter,
       createdBefore,
       access,
       myQuestionnaires,
-      sortBy,
     } = input;
 
     const { id: userId } = ctx.user;
-
-    // Gets the questionnaires collection
-    const questionnairesCollection = dbo.collection("questionnaires");
-    let questionnairesQuery;
 
     const matchQuery = {
       // Searches for questionnaires with `title` or `shortTitle` (short code) containing the search term
@@ -335,10 +327,19 @@ const listFilteredQuestionnaires = async (input, ctx) => {
     }
 
     if (access === "All") {
-      if (matchQuery.$and) {
-        delete matchQuery.$and;
+      if (!matchQuery.$and) {
+        matchQuery.$and = [];
       }
+      // Searches for all questionnaires that are public, the user is an editor of, or the user created (all questionnaires the user has access to)
+      matchQuery.$and.push({
+        $or: [
+          { isPublic: true },
+          { editors: { $in: [userId] } },
+          { createdBy: userId },
+        ],
+      });
     }
+    // Searches for all questionnaires the user can edit (all questionnaires the user is an editor of or the user created)
     if (access === "Write") {
       if (!matchQuery.$and) {
         matchQuery.$and = [];
@@ -347,6 +348,7 @@ const listFilteredQuestionnaires = async (input, ctx) => {
         $or: [{ editors: { $in: [userId] } }, { createdBy: userId }],
       });
     }
+    // Searches for all questionnaires the user can view but not edit (all public questionnaires the user is not an editor of and did not create)
     if (access === "Read") {
       if (!matchQuery.$and) {
         matchQuery.$and = [];
@@ -355,14 +357,17 @@ const listFilteredQuestionnaires = async (input, ctx) => {
         {
           editors: { $nin: [userId] },
         },
-        { createdBy: { $ne: userId } }
+        { createdBy: { $ne: userId } },
+        { isPublic: true }
       );
     }
+    // Searches for all non-public questionnaires the user can edit (all questionnaires the user is an editor of or the user created that are not public)
     if (access === "PrivateQuestionnaires") {
       if (!matchQuery.$and) {
         matchQuery.$and = [];
       }
       matchQuery.$and.push({
+        $or: [{ editors: { $in: [userId] } }, { createdBy: userId }],
         isPublic: false,
       });
     }
@@ -376,6 +381,30 @@ const listFilteredQuestionnaires = async (input, ctx) => {
         $or: [{ editors: { $in: [userId] } }, { createdBy: userId }],
       });
     }
+
+    return matchQuery;
+  } catch (error) {
+    logger.error(
+      { error, input },
+      "Unable to get match query for filtering questionnaires (from getMatchQuery)"
+    );
+  }
+};
+
+const listFilteredQuestionnaires = async (input, ctx) => {
+  try {
+    const {
+      resultsPerPage,
+      firstQuestionnaireIdOnPage,
+      lastQuestionnaireIdOnPage,
+      sortBy,
+    } = input;
+
+    // Gets the questionnaires collection
+    const questionnairesCollection = dbo.collection("questionnaires");
+    let questionnairesQuery;
+
+    const matchQuery = await getMatchQuery(input, ctx);
 
     // Gets questionnaires on first page when firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage are not provided
     if (!firstQuestionnaireIdOnPage && !lastQuestionnaireIdOnPage) {
@@ -503,7 +532,11 @@ const listFilteredQuestionnaires = async (input, ctx) => {
     const questionnaires = await questionnairesQuery.toArray();
 
     if (questionnaires.length === 0) {
-      logger.info("No questionnaires found (from listFilteredQuestionnaires)");
+      logger.debug(
+        `No questionnaires found with input: ${JSON.stringify(
+          input
+        )} (from listFilteredQuestionnaires)`
+      );
       return [];
     }
 
@@ -540,11 +573,39 @@ const listFilteredQuestionnaires = async (input, ctx) => {
   }
 };
 
-const getTotalPages = async (resultsPerPage) => {
+const getTotalPages = async (input, ctx) => {
   try {
-    const collection = dbo.collection("questionnaires");
-    const totalQuestionnaires = await collection.countDocuments();
-    return Math.ceil(totalQuestionnaires / resultsPerPage) - 1;
+    const { resultsPerPage } = input;
+
+    // Gets the questionnaires collection
+    const questionnairesCollection = dbo.collection("questionnaires");
+
+    const matchQuery = await getMatchQuery(input, ctx);
+
+    // Gets the total number of questionnaires that meet the search conditions
+    const { totalFilteredQuestionnaires } = await questionnairesCollection
+      .aggregate([
+        {
+          $lookup: {
+            from: "users",
+            localField: "createdBy",
+            foreignField: "id",
+            as: "owner",
+          },
+        },
+        {
+          $match: matchQuery,
+        },
+        {
+          $count: "totalFilteredQuestionnaires",
+        },
+      ])
+      .next();
+
+    // Calculates the total number of pages by dividing the total number of filtered questionnaires by the number of results per page, and rounding up
+    const totalPages = Math.ceil(totalFilteredQuestionnaires / resultsPerPage);
+
+    return totalPages;
   } catch (error) {
     logger.error(error, "Unable to get total pages");
     return;

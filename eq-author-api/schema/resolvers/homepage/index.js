@@ -38,10 +38,30 @@ const Resolvers = {
       return questionnaires;
     },
 
-    totalPages: async (_, { input = {} }) => {
-      const { resultsPerPage = 10 } = input;
+    totalPages: async (_, { input = {} }, ctx) => {
+      const {
+        resultsPerPage = 10,
+        search,
+        owner,
+        createdAfter,
+        createdBefore,
+        access,
+        myQuestionnaires,
+      } = input;
 
-      return getTotalPages(resultsPerPage);
+      const totalPages = await getTotalPages(
+        {
+          resultsPerPage,
+          search,
+          owner,
+          createdAfter,
+          createdBefore,
+          access,
+          myQuestionnaires,
+        },
+        ctx
+      );
+      return totalPages;
     },
   },
 };
