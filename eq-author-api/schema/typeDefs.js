@@ -945,8 +945,8 @@ input FilteredQuestionnairesInput {
   lastQuestionnaireIdOnPage: ID
   search: String
   owner: String
-  createdAfter: DateTime
-  createdBefore: DateTime
+  createdOnOrAfter: DateTime
+  createdOnOrBefore: DateTime
   access: Permission
   myQuestionnaires: Boolean
   sortBy: String
@@ -956,8 +956,8 @@ input TotalPagesInput {
   resultsPerPage: Int
   search: String
   owner: String
-  createdAfter: DateTime
-  createdBefore: DateTime
+  createdOnOrAfter: DateTime
+  createdOnOrBefore: DateTime
   access: Permission
   myQuestionnaires: Boolean
 }

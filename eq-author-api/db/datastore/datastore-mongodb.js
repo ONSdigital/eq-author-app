@@ -295,8 +295,8 @@ const getMatchQuery = async (input, ctx) => {
     const {
       search,
       owner,
-      createdAfter,
-      createdBefore,
+      createdOnOrAfter,
+      createdOnOrBefore,
       access,
       myQuestionnaires,
     } = input;
@@ -313,17 +313,20 @@ const getMatchQuery = async (input, ctx) => {
       "owner.name": { $regex: owner, $options: "i" },
     };
 
-    // If both `createdAfter` and `createdBefore` are provided, searches for questionnaires created between `createdAfter` and `createdBefore`
-    if (createdAfter && createdBefore) {
-      matchQuery.createdAt = { $gt: createdAfter, $lt: createdBefore };
+    // If both `createdOnOrAfter` and `createdOnOrBefore` are provided, searches for questionnaires created between `createdOnOrAfter` and `createdOnOrBefore` inclusive
+    if (createdOnOrAfter && createdOnOrBefore) {
+      matchQuery.createdAt = {
+        $gte: createdOnOrAfter, // gte: Greater than or equal to
+        $lte: createdOnOrBefore, // lte: Less than or equal to
+      };
     }
-    // If `createdAfter` is provided without `createdBefore`, searches for questionnaires created after `createdAfter`
-    else if (createdAfter) {
-      matchQuery.createdAt = { $gt: createdAfter };
+    // If `createdOnOrAfter` is provided without `createdOnOrBefore`, searches for questionnaires created on or after `createdOnOrAfter`
+    else if (createdOnOrAfter) {
+      matchQuery.createdAt = { $gte: createdOnOrAfter }; // gte: Greater than or equal to
     }
-    // If `createdBefore` is provided without `createdAfter`, searches for questionnaires created before `createdBefore`
-    else if (createdBefore) {
-      matchQuery.createdAt = { $lt: createdBefore };
+    // If `createdOnOrBefore` is provided without `createdOnOrAfter`, searches for questionnaires created on or before `createdOnOrBefore`
+    else if (createdOnOrBefore) {
+      matchQuery.createdAt = { $lte: createdOnOrBefore }; // lte: Less than or equal to
     }
 
     if (access === "All") {
@@ -385,7 +388,7 @@ const getMatchQuery = async (input, ctx) => {
     return matchQuery;
   } catch (error) {
     logger.error(
-      { error, input },
+      { error: error.stack, input },
       "Unable to get match query for filtering questionnaires (from getMatchQuery)"
     );
   }
@@ -566,7 +569,7 @@ const listFilteredQuestionnaires = async (input, ctx) => {
     return transformedQuestionnaires;
   } catch (error) {
     logger.error(
-      error,
+      { error: error.stack, input },
       "Unable to retrieve questionnaires (from listFilteredQuestionnaires)"
     );
     return;
@@ -607,7 +610,10 @@ const getTotalPages = async (input, ctx) => {
 
     return totalPages;
   } catch (error) {
-    logger.error(error, "Unable to get total pages");
+    logger.error(
+      { error: error.stack, input },
+      "Unable to get total pages (from getTotalPages)"
+    );
     return;
   }
 };
