@@ -1297,6 +1297,7 @@ input CreateQuestionnaireInput {
   type: QuestionnaireType
   shortTitle: String
   isPublic: Boolean
+  editors: [ID!]
 }
 
 input UpdateQuestionnaireInput {
