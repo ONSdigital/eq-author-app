@@ -470,6 +470,24 @@ describe("MongoDB Datastore", () => {
         expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 1");
         expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 2");
       });
+
+      it("Should return questionnaires created between the searched dates", async () => {
+        const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "",
+            owner: "",
+            createdOnOrAfter: new Date(2021, 2, 10),
+            createdOnOrBefore: new Date(2021, 2, 20),
+            resultsPerPage: 10,
+          },
+          ctx
+        );
+
+        expect(listOfQuestionnaires.length).toBe(3);
+        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 2");
+        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 3");
+        expect(listOfQuestionnaires[2].title).toEqual("Test questionnaire 4");
+      });
     });
 
     describe("Creating a history event", () => {
