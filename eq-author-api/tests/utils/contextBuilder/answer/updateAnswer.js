@@ -30,6 +30,8 @@ const updateAnswer = async (ctx, input) => {
             secondaryLabel
             properties
             qCode
+            repeatingLabelAndInput
+            repeatingLabelAndInputListId
           }
         `,
         input

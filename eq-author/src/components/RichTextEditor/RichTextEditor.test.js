@@ -31,7 +31,7 @@ const content = `
   <ul>
     <li>Regular</li>
     <li><strong>Bold</strong></li>
-    <li><em>Emphasis</em></li>
+    <li><strong>Highlight</strong></li>
   </ul>
 `;
 
@@ -43,6 +43,10 @@ describe("components/RichTextEditor", function () {
       id: "test",
       name: "test-name",
       testSelector: "test-selector-foo",
+      controls: {
+        bold: true,
+        highlight: false,
+      },
     };
     editorFocus = jest.fn();
     editorInstance = {

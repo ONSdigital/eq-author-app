@@ -107,6 +107,7 @@
     "draft-js-block-breakout-plugin": "latest",
     "draft-js-plugins-editor": "latest",
     "draft-js-raw-content-state": "latest",
+    "draft-js-import-html": "latest",
     "draftjs-filters": "^2.5.0",
     "firebase": "latest",
     "firebaseui": "latest",

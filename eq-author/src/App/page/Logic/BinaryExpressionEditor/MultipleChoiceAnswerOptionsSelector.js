@@ -16,7 +16,7 @@ import {
   ERR_COUNT_OF_GREATER_THAN_AVAILABLE_OPTIONS,
 } from "constants/validationMessages";
 import { colors } from "constants/theme";
-import { RADIO, SELECT } from "constants/answer-types";
+import { RADIO, SELECT, MUTUALLY_EXCLUSIVE } from "constants/answer-types";
 import { Select } from "components/Forms";
 
 import TextButton from "components/buttons/TextButton";
@@ -31,6 +31,8 @@ const answerConditions = {
   ONEOF: "OneOf",
   NOTANYOF: "NotAnyOf",
 };
+
+const exclusiveAnswers = [RADIO, SELECT, MUTUALLY_EXCLUSIVE];
 
 const MultipleChoiceAnswerOptions = styled.div`
   align-items: center;
@@ -206,7 +208,7 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
     return message ? <ValidationError>{message}</ValidationError> : null;
   };
 
-  renderRadioOptionSelector(hasError) {
+  renderExclusiveOptionSelector(hasError) {
     const { expression } = this.props;
     const options = get(expression, "left.options", []);
 
@@ -331,8 +333,8 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
     const hasConditionError =
       errors.filter(({ field }) => field === "condition").length > 0;
 
-    if (answerType === RADIO || answerType === SELECT) {
-      return this.renderRadioOptionSelector(hasError);
+    if (exclusiveAnswers.includes(answerType)) {
+      return this.renderExclusiveOptionSelector(hasError);
     } else {
       return this.renderCheckboxOptionSelector(hasError, hasConditionError);
     }

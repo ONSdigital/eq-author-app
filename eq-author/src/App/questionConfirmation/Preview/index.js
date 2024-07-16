@@ -32,11 +32,6 @@ const Container = styled.div`
   p:last-of-type {
     margin-bottom: 0;
   }
-  em {
-    background-color: #dce5b0;
-    padding: 0 0.125em;
-    font-style: normal;
-  }
   span[data-piped] {
     background-color: #5f7682;
     border-radius: 4px;

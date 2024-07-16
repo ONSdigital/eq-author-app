@@ -28,7 +28,6 @@ const Detail = styled.div`
   position: relative;
 `;
 
-
 const DetailHeader = styled.div`
   position: absolute;
   top: 0.5em;
@@ -100,7 +99,6 @@ export const CollapsibleEditor = ({
         onUpdate={onChangeUpdate}
         multiline
         controls={{
-          emphasis: true,
           piping: true,
           list: true,
           bold: true,
