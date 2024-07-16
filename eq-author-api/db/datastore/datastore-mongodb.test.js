@@ -366,6 +366,7 @@ describe("MongoDB Datastore", () => {
           mockQuestionnaire({
             title: "Test questionnaire 1",
             ownerId: "user-1",
+            createdAt: new Date(2021, 2, 5, 5, 0, 0, 0),
           }),
           ctx
         );
@@ -373,6 +374,7 @@ describe("MongoDB Datastore", () => {
           mockQuestionnaire({
             title: "Test questionnaire 2",
             ownerId: "user-1",
+            createdAt: new Date(2021, 2, 10, 5, 0, 0, 0),
           }),
           ctx
         );
@@ -380,6 +382,7 @@ describe("MongoDB Datastore", () => {
           mockQuestionnaire({
             title: "Test questionnaire 3",
             ownerId: "user-2",
+            createdAt: new Date(2021, 2, 15, 5, 0, 0, 0),
           }),
           ctx
         );
@@ -387,6 +390,7 @@ describe("MongoDB Datastore", () => {
           mockQuestionnaire({
             title: "Test questionnaire 4",
             ownerId: "user-2",
+            createdAt: new Date(2021, 2, 20, 5, 0, 0, 0),
           }),
           ctx
         );
@@ -422,6 +426,33 @@ describe("MongoDB Datastore", () => {
         expect(listOfQuestionnaires.length).toBe(2);
         expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 3");
         expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 4");
+      });
+
+      it("Should return questionnaires created on or after the searched date", async () => {
+        const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "",
+            owner: "",
+            createdOnOrAfter: new Date(2021, 2, 10),
+            resultsPerPage: 10,
+          },
+          ctx
+        );
+
+        expect(listOfQuestionnaires.length).toBe(6);
+        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 2");
+        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 3");
+        expect(listOfQuestionnaires[2].title).toEqual("Test questionnaire 4");
+        // Questionnaires created in previous tests
+        expect(listOfQuestionnaires[3].title).toEqual(
+          "Default questionnaire title"
+        );
+        expect(listOfQuestionnaires[4].title).toEqual(
+          "Default questionnaire title"
+        );
+        expect(listOfQuestionnaires[5].title).toEqual(
+          "Default questionnaire title"
+        );
       });
     });
 

@@ -1,8 +1,8 @@
 const { v4: uuidv4 } = require("uuid");
 
-const mockQuestionnaire = ({ title, ownerId }) => {
+const mockQuestionnaire = ({ title, ownerId, createdAt }) => {
   const questionnaire = {
-    title: title || "Working from home",
+    title: title || "Default questionnaire title",
     theme: "business",
     legalBasis: "Voluntary",
     navigation: false,
@@ -37,6 +37,7 @@ const mockQuestionnaire = ({ title, ownerId }) => {
     isPublic: true,
     publishStatus: "Unpublished",
     createdBy: ownerId || "user-1",
+    createdAt,
   };
   return questionnaire;
 };
