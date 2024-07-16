@@ -1,4 +1,4 @@
-const mockQuestionnnaire = require("./mock-questionnaire");
+const mockQuestionnaire = require("./mock-questionnaire");
 const { noteCreationEvent } = require("../../utils/questionnaireEvents");
 const { v4: uuidv4 } = require("uuid");
 
@@ -13,7 +13,7 @@ describe("MongoDB Datastore", () => {
   });
 
   beforeEach(() => {
-    questionnaire = mockQuestionnnaire();
+    questionnaire = mockQuestionnaire({});
     ctx = {
       user: {
         id: 123,
@@ -56,6 +56,10 @@ describe("MongoDB Datastore", () => {
 
     it("Should not throw error on listQuestionnaires", async () => {
       expect(() => mongoDB.listQuestionnaires()).not.toThrow();
+    });
+
+    it("Should not throw error on listFilteredQuestionnaires", async () => {
+      expect(() => mongoDB.listFilteredQuestionnaires({}, ctx)).not.toThrow();
     });
 
     it("Should not throw error on createQuestionnaire", async () => {
@@ -337,6 +341,87 @@ describe("MongoDB Datastore", () => {
         expect(userFromDb.updatedAt instanceof Date).toBeTruthy();
 
         expect(userFromDb).toMatchObject(changedUser);
+      });
+    });
+
+    describe("Getting a list of filtered questionnaires", () => {
+      beforeAll(async () => {
+        await mongoDB.createUser({
+          id: "user-1",
+          email: "user1@example.com",
+          name: "Joe Bloggs",
+          externalId: "user-1",
+          picture: "",
+        });
+
+        await mongoDB.createUser({
+          id: "user-2",
+          email: "user2@example.com",
+          name: "Jane Smith",
+          externalId: "user-2",
+          picture: "",
+        });
+
+        await mongoDB.createQuestionnaire(
+          mockQuestionnaire({
+            title: "Test questionnaire 1",
+            ownerId: "user-1",
+          }),
+          ctx
+        );
+        await mongoDB.createQuestionnaire(
+          mockQuestionnaire({
+            title: "Test questionnaire 2",
+            ownerId: "user-1",
+          }),
+          ctx
+        );
+        await mongoDB.createQuestionnaire(
+          mockQuestionnaire({
+            title: "Test questionnaire 3",
+            ownerId: "user-2",
+          }),
+          ctx
+        );
+        await mongoDB.createQuestionnaire(
+          mockQuestionnaire({
+            title: "Test questionnaire 4",
+            ownerId: "user-2",
+          }),
+          ctx
+        );
+      });
+
+      it("Should return questionnaires with title containing the search term", async () => {
+        const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "Test questionnaire",
+            owner: "",
+            resultsPerPage: 10,
+          },
+          ctx
+        );
+
+        expect(listOfQuestionnaires.length).toBe(4);
+        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 1");
+        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 2");
+        expect(listOfQuestionnaires[2].title).toEqual("Test questionnaire 3");
+        expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 4");
+      });
+
+      it("Should return questionnaires with owner containing the `owner` search term", async () => {
+        const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "",
+            owner: "Jane",
+            resultsPerPage: 10,
+          },
+          ctx
+        );
+
+        expect(listOfQuestionnaires.length).toBe(2);
+        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 3");
+        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 4");
       });
     });
 
