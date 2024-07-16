@@ -302,6 +302,9 @@ const getMatchQuery = async (input, ctx) => {
     } = input;
 
     const { id: userId } = ctx.user;
+    if (createdOnOrBefore) {
+      createdOnOrBefore.setHours(23, 59, 59, 999); // Sets `createdOnOrBefore` time to 23:59:59.999 to include all questionnaires created on that day
+    }
 
     const matchQuery = {
       // Searches for questionnaires with `title` or `shortTitle` (short code) containing the search term
