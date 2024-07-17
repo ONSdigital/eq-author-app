@@ -611,6 +611,25 @@ describe("MongoDB Datastore", () => {
         expect(listOfQuestionnaires.length).toBe(1);
         expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 6");
       });
+
+      it("Should return relevant questionnaires when `myQuestionnaires` is true", async () => {
+        const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "",
+            owner: "",
+            access: "All",
+            resultsPerPage: 10,
+            myQuestionnaires: true,
+          },
+          ctx
+        );
+
+        expect(listOfQuestionnaires.length).toBe(4);
+        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 1");
+        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 2");
+        expect(listOfQuestionnaires[2].title).toEqual("Test questionnaire 3");
+        expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 6");
+      });
     });
 
     describe("Creating a history event", () => {
