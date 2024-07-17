@@ -362,6 +362,14 @@ describe("MongoDB Datastore", () => {
           picture: "",
         });
 
+        await mongoDB.createUser({
+          id: "test-user",
+          email: "test-user@example.com",
+          name: "Test User",
+          externalId: "test-user",
+          picture: "",
+        });
+
         await mongoDB.createQuestionnaire(
           mockQuestionnaire({
             title: "Test questionnaire 1",
@@ -382,6 +390,7 @@ describe("MongoDB Datastore", () => {
           mockQuestionnaire({
             title: "Test questionnaire 3",
             ownerId: "user-2",
+            editors: ["user-1"],
             createdAt: new Date(2021, 2, 15, 5, 0, 0, 0),
           }),
           ctx
@@ -529,6 +538,24 @@ describe("MongoDB Datastore", () => {
         expect(listOfQuestionnaires[6].title).toEqual(
           "Default questionnaire title"
         );
+      });
+
+      it("Should return relevant questionnaires when searching by access `Write`", async () => {
+        const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "",
+            owner: "",
+            access: "Write",
+            resultsPerPage: 10,
+          },
+          ctx
+        );
+
+        // Expects all questionnaires where `ctx.user` is the owner (`ctx.user` created the questionnaire) or an editor
+        expect(listOfQuestionnaires.length).toBe(3);
+        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 1"); // "user-1" created the questionnaire
+        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 2"); // "user-1" created the questionnaire
+        expect(listOfQuestionnaires[2].title).toEqual("Test questionnaire 3"); // "user-1" is an editor
       });
     });
 
