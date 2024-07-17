@@ -630,6 +630,39 @@ describe("MongoDB Datastore", () => {
         expect(listOfQuestionnaires[2].title).toEqual("Test questionnaire 3");
         expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 6");
       });
+
+      it("Should return questionnaires on previous page when `firstQuestionnaireIdOnPage` is provided without `lastQuestionnaireIdOnPage`", async () => {
+        // Gets questionnaires with "All" access to get a questionnaire ID to use as `firstQuestionnaireIdOnPage`
+        const allQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "",
+            owner: "",
+            access: "All",
+            resultsPerPage: 10,
+          },
+          ctx
+        );
+
+        const listOfPreviousPageQuestionnaires =
+          await mongoDB.listFilteredQuestionnaires(
+            {
+              search: "",
+              owner: "",
+              access: "All",
+              resultsPerPage: 2, // Limits to 2 questionnaires per page to test a small number of questionnaires on previous page
+              firstQuestionnaireIdOnPage: allQuestionnaires[2].id,
+            },
+            ctx
+          );
+
+        expect(listOfPreviousPageQuestionnaires.length).toBe(2);
+        expect(listOfPreviousPageQuestionnaires[0].title).toEqual(
+          "Test questionnaire 1"
+        );
+        expect(listOfPreviousPageQuestionnaires[1].title).toEqual(
+          "Test questionnaire 2"
+        );
+      });
     });
 
     describe("Creating a history event", () => {
