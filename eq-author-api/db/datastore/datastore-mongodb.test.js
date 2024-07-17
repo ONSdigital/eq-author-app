@@ -403,11 +403,21 @@ describe("MongoDB Datastore", () => {
           }),
           ctx
         );
+        // ** "Test questionnaire 5" is not included in several test assertions as it is not public and `ctx.user` is not owner/editor
         await mongoDB.createQuestionnaire(
           mockQuestionnaire({
             title: "Test questionnaire 5",
             ownerId: "user-2",
             createdAt: new Date(2021, 2, 25, 5, 0, 0, 0),
+            isPublic: false,
+          }),
+          ctx
+        );
+        await mongoDB.createQuestionnaire(
+          mockQuestionnaire({
+            title: "Test questionnaire 6",
+            ownerId: "user-1",
+            createdAt: new Date(2021, 2, 30, 5, 0, 0, 0),
             isPublic: false,
           }),
           ctx
@@ -425,11 +435,12 @@ describe("MongoDB Datastore", () => {
           ctx
         );
 
-        expect(listOfQuestionnaires.length).toBe(4);
+        expect(listOfQuestionnaires.length).toBe(5);
         expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 1");
         expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 2");
         expect(listOfQuestionnaires[2].title).toEqual("Test questionnaire 3");
         expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 4");
+        expect(listOfQuestionnaires[4].title).toEqual("Test questionnaire 6");
       });
 
       it("Should return questionnaires with owner containing the `owner` search term", async () => {
@@ -460,18 +471,19 @@ describe("MongoDB Datastore", () => {
           ctx
         );
 
-        expect(listOfQuestionnaires.length).toBe(6);
+        expect(listOfQuestionnaires.length).toBe(7);
         expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 2");
         expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 3");
         expect(listOfQuestionnaires[2].title).toEqual("Test questionnaire 4");
+        expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 6");
         // Questionnaires created in previous tests
-        expect(listOfQuestionnaires[3].title).toEqual(
-          "Default questionnaire title"
-        );
         expect(listOfQuestionnaires[4].title).toEqual(
           "Default questionnaire title"
         );
         expect(listOfQuestionnaires[5].title).toEqual(
+          "Default questionnaire title"
+        );
+        expect(listOfQuestionnaires[6].title).toEqual(
           "Default questionnaire title"
         );
       });
@@ -523,19 +535,20 @@ describe("MongoDB Datastore", () => {
           ctx
         );
 
-        expect(listOfQuestionnaires.length).toBe(7);
+        expect(listOfQuestionnaires.length).toBe(8);
         expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 1");
         expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 2");
         expect(listOfQuestionnaires[2].title).toEqual("Test questionnaire 3");
         expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 4");
+        expect(listOfQuestionnaires[4].title).toEqual("Test questionnaire 6");
         // Questionnaires created in previous tests
-        expect(listOfQuestionnaires[4].title).toEqual(
-          "Default questionnaire title"
-        );
         expect(listOfQuestionnaires[5].title).toEqual(
           "Default questionnaire title"
         );
         expect(listOfQuestionnaires[6].title).toEqual(
+          "Default questionnaire title"
+        );
+        expect(listOfQuestionnaires[7].title).toEqual(
           "Default questionnaire title"
         );
       });
@@ -552,10 +565,11 @@ describe("MongoDB Datastore", () => {
         );
 
         // Expects all questionnaires where `ctx.user` is the owner (`ctx.user` created the questionnaire) or an editor
-        expect(listOfQuestionnaires.length).toBe(3);
+        expect(listOfQuestionnaires.length).toBe(4);
         expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 1"); // "user-1" created the questionnaire
         expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 2"); // "user-1" created the questionnaire
         expect(listOfQuestionnaires[2].title).toEqual("Test questionnaire 3"); // "user-1" is an editor
+        expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 6"); // "user-1" created the questionnaire
       });
 
       it("Should return relevant questionnaires when searching by access `Read`", async () => {
@@ -581,6 +595,21 @@ describe("MongoDB Datastore", () => {
         expect(listOfQuestionnaires[3].title).toEqual(
           "Default questionnaire title"
         );
+      });
+
+      it("Should return relevant questionnaires when searching by access `PrivateQuestionnaires`", async () => {
+        const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "",
+            owner: "",
+            access: "PrivateQuestionnaires",
+            resultsPerPage: 10,
+          },
+          ctx
+        );
+
+        expect(listOfQuestionnaires.length).toBe(1);
+        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 6");
       });
     });
 
