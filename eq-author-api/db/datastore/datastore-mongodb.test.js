@@ -557,6 +557,31 @@ describe("MongoDB Datastore", () => {
         expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 2"); // "user-1" created the questionnaire
         expect(listOfQuestionnaires[2].title).toEqual("Test questionnaire 3"); // "user-1" is an editor
       });
+
+      it("Should return relevant questionnaires when searching by access `Read`", async () => {
+        const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "",
+            owner: "",
+            access: "Read",
+            resultsPerPage: 10,
+          },
+          ctx
+        );
+
+        expect(listOfQuestionnaires.length).toBe(4);
+        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 4");
+        // Questionnaires created in previous tests
+        expect(listOfQuestionnaires[1].title).toEqual(
+          "Default questionnaire title"
+        );
+        expect(listOfQuestionnaires[2].title).toEqual(
+          "Default questionnaire title"
+        );
+        expect(listOfQuestionnaires[3].title).toEqual(
+          "Default questionnaire title"
+        );
+      });
     });
 
     describe("Creating a history event", () => {
