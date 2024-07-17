@@ -2,6 +2,10 @@ const mockQuestionnaire = require("./mock-questionnaire");
 const { noteCreationEvent } = require("../../utils/questionnaireEvents");
 const { v4: uuidv4 } = require("uuid");
 
+const mockLoggerDebug = jest.fn();
+const mockLoggerInfo = jest.fn();
+const mockLoggerError = jest.fn();
+
 describe("MongoDB Datastore", () => {
   let questionnaire, user, firstUser, mockComment, ctx;
   let mongoDB;
@@ -10,6 +14,18 @@ describe("MongoDB Datastore", () => {
   });
   beforeAll(() => {
     jest.resetModules();
+  });
+
+  jest.mock("../../utils/logger", () => ({
+    logger: {
+      debug: mockLoggerDebug,
+      info: mockLoggerInfo,
+      error: mockLoggerError,
+    },
+  }));
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   beforeEach(() => {
@@ -696,6 +712,30 @@ describe("MongoDB Datastore", () => {
         );
         expect(listOfNextPageQuestionnaires[1].title).toEqual(
           "Default questionnaire title"
+        );
+      });
+
+      it("Should log an error when both `firstQuestionnaireIdOnPage` and `lastQuestionnaireIdOnPage` are provided", async () => {
+        const listFilteredQuestionnairesInput = {
+          search: "",
+          owner: "",
+          access: "All",
+          resultsPerPage: 10,
+          firstQuestionnaireIdOnPage: "123",
+          lastQuestionnaireIdOnPage: "456",
+        };
+
+        await mongoDB.listFilteredQuestionnaires(
+          listFilteredQuestionnairesInput,
+          ctx
+        );
+
+        expect(mockLoggerError).toHaveBeenCalledTimes(1);
+        expect(mockLoggerError).toHaveBeenCalledWith(
+          {
+            input: listFilteredQuestionnairesInput,
+          },
+          "Invalid input - received both firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage, expected only one of these values or neither (from listFilteredQuestionnaires)"
         );
       });
     });

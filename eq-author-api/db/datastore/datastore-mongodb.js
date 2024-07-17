@@ -531,8 +531,10 @@ const listFilteredQuestionnaires = async (input, ctx) => {
       ]);
     } else {
       logger.error(
-        "Invalid input - both firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage have been provided (from listFilteredQuestionnaires)"
+        { input },
+        "Invalid input - received both firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage, expected only one of these values or neither (from listFilteredQuestionnaires)"
       );
+      return;
     }
 
     const questionnaires = await questionnairesQuery.toArray();
