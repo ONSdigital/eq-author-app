@@ -16,7 +16,7 @@ describe("MongoDB Datastore", () => {
     questionnaire = mockQuestionnaire({});
     ctx = {
       user: {
-        id: 123,
+        id: "user-1",
       },
     };
     user = {
@@ -394,6 +394,15 @@ describe("MongoDB Datastore", () => {
           }),
           ctx
         );
+        await mongoDB.createQuestionnaire(
+          mockQuestionnaire({
+            title: "Test questionnaire 5",
+            ownerId: "user-2",
+            createdAt: new Date(2021, 2, 25, 5, 0, 0, 0),
+            isPublic: false,
+          }),
+          ctx
+        );
       });
 
       it("Should return questionnaires with title containing the search term", async () => {
@@ -401,6 +410,7 @@ describe("MongoDB Datastore", () => {
           {
             search: "Test questionnaire",
             owner: "",
+            access: "All",
             resultsPerPage: 10,
           },
           ctx
@@ -418,6 +428,7 @@ describe("MongoDB Datastore", () => {
           {
             search: "",
             owner: "Jane",
+            access: "All",
             resultsPerPage: 10,
           },
           ctx
@@ -434,6 +445,7 @@ describe("MongoDB Datastore", () => {
             search: "",
             owner: "",
             createdOnOrAfter: new Date(2021, 2, 10),
+            access: "All",
             resultsPerPage: 10,
           },
           ctx
@@ -461,6 +473,7 @@ describe("MongoDB Datastore", () => {
             search: "",
             owner: "",
             createdOnOrBefore: new Date(2021, 2, 10),
+            access: "All",
             resultsPerPage: 10,
           },
           ctx
@@ -478,6 +491,7 @@ describe("MongoDB Datastore", () => {
             owner: "",
             createdOnOrAfter: new Date(2021, 2, 10),
             createdOnOrBefore: new Date(2021, 2, 20),
+            access: "All",
             resultsPerPage: 10,
           },
           ctx
@@ -487,6 +501,34 @@ describe("MongoDB Datastore", () => {
         expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 2");
         expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 3");
         expect(listOfQuestionnaires[2].title).toEqual("Test questionnaire 4");
+      });
+
+      it("Should return relevant questionnaires when searching by access `All`", async () => {
+        const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "",
+            owner: "",
+            access: "All",
+            resultsPerPage: 10,
+          },
+          ctx
+        );
+
+        expect(listOfQuestionnaires.length).toBe(7);
+        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 1");
+        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 2");
+        expect(listOfQuestionnaires[2].title).toEqual("Test questionnaire 3");
+        expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 4");
+        // Questionnaires created in previous tests
+        expect(listOfQuestionnaires[4].title).toEqual(
+          "Default questionnaire title"
+        );
+        expect(listOfQuestionnaires[5].title).toEqual(
+          "Default questionnaire title"
+        );
+        expect(listOfQuestionnaires[6].title).toEqual(
+          "Default questionnaire title"
+        );
       });
     });
 
