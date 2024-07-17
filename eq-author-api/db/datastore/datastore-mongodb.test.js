@@ -715,7 +715,7 @@ describe("MongoDB Datastore", () => {
         );
       });
 
-      it("Should log an error when both `firstQuestionnaireIdOnPage` and `lastQuestionnaireIdOnPage` are provided", async () => {
+      it("Should log an error message when both `firstQuestionnaireIdOnPage` and `lastQuestionnaireIdOnPage` are provided", async () => {
         const listFilteredQuestionnairesInput = {
           search: "",
           owner: "",
@@ -737,6 +737,29 @@ describe("MongoDB Datastore", () => {
           },
           "Invalid input - received both firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage, expected only one of these values or neither (from listFilteredQuestionnaires)"
         );
+      });
+
+      it("Should log a debug message when no questionnaires are found", async () => {
+        const listFilteredQuestionnairesInput = {
+          search: "Lorem ipsum", // Search term contained in no questionnaires
+          owner: "",
+          access: "All",
+          resultsPerPage: 10,
+        };
+
+        // `listOfQuestionnaires` should be an empty array as no questionnaires contain the search term
+        const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          listFilteredQuestionnairesInput,
+          ctx
+        );
+
+        expect(mockLoggerDebug).toHaveBeenCalledTimes(1);
+        expect(mockLoggerDebug).toHaveBeenCalledWith(
+          `No questionnaires found with input: ${JSON.stringify(
+            listFilteredQuestionnairesInput
+          )} (from listFilteredQuestionnaires)`
+        );
+        expect(listOfQuestionnaires).toEqual([]);
       });
     });
 
