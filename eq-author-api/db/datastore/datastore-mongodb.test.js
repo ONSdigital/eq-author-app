@@ -656,11 +656,46 @@ describe("MongoDB Datastore", () => {
           );
 
         expect(listOfPreviousPageQuestionnaires.length).toBe(2);
+        // The two questionnaires before the first questionnaire on the page (based on firstQuestionnaireIdOnPage)
         expect(listOfPreviousPageQuestionnaires[0].title).toEqual(
           "Test questionnaire 1"
         );
         expect(listOfPreviousPageQuestionnaires[1].title).toEqual(
           "Test questionnaire 2"
+        );
+      });
+
+      it("Should return questionnaires on next page when `lastQuestionnaireIdOnPage` is provided without `firstQuestionnaireIdOnPage`", async () => {
+        // Gets questionnaires with "All" access to get a questionnaire ID to use as `lastQuestionnaireIdOnPage`
+        const allQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "",
+            owner: "",
+            access: "All",
+            resultsPerPage: 10,
+          },
+          ctx
+        );
+
+        const listOfNextPageQuestionnaires =
+          await mongoDB.listFilteredQuestionnaires(
+            {
+              search: "",
+              owner: "",
+              access: "All",
+              resultsPerPage: 2, // Limits to 2 questionnaires per page to test a small number of questionnaires on next page
+              lastQuestionnaireIdOnPage: allQuestionnaires[3].id,
+            },
+            ctx
+          );
+
+        expect(listOfNextPageQuestionnaires.length).toBe(2);
+        // The two questionnaires after the last questionnaire on the page (based on lastQuestionnaireIdOnPage)
+        expect(listOfNextPageQuestionnaires[0].title).toEqual(
+          "Test questionnaire 6"
+        );
+        expect(listOfNextPageQuestionnaires[1].title).toEqual(
+          "Default questionnaire title"
         );
       });
     });
