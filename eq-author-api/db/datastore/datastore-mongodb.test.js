@@ -793,6 +793,42 @@ describe("MongoDB Datastore", () => {
         expect(listOfQuestionnaires[6].title).toEqual("Test questionnaire 2");
         expect(listOfQuestionnaires[7].title).toEqual("Test questionnaire 1");
       });
+
+      it("Should sort questionnaires on next page from newest to oldest when `sortBy` is `createdDateDesc`", async () => {
+        // Gets questionnaires with "All" access to get a questionnaire ID to use as `lastQuestionnaireIdOnPage`
+        const allQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "",
+            owner: "",
+            access: "All",
+            resultsPerPage: 10,
+            sortBy: "createdDateDesc",
+          },
+          ctx
+        );
+
+        const listOfNextPageQuestionnaires =
+          await mongoDB.listFilteredQuestionnaires(
+            {
+              search: "",
+              owner: "",
+              access: "All",
+              resultsPerPage: 2,
+              lastQuestionnaireIdOnPage: allQuestionnaires[3].id,
+              sortBy: "createdDateDesc",
+            },
+            ctx
+          );
+
+        expect(listOfNextPageQuestionnaires.length).toBe(2);
+        // The two questionnaires after the last questionnaire on the page (based on lastQuestionnaireIdOnPage)
+        expect(listOfNextPageQuestionnaires[0].title).toEqual(
+          "Test questionnaire 4"
+        );
+        expect(listOfNextPageQuestionnaires[1].title).toEqual(
+          "Test questionnaire 3"
+        );
+      });
     });
 
     describe("Creating a history event", () => {
