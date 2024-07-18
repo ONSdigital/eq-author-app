@@ -881,6 +881,19 @@ describe("MongoDB Datastore", () => {
 
         expect(totalPageCount).toBe(3); // (8 questionnaires) / (3 results per page) gives 3 total pages after rounding up
       });
+
+      it("Should log an error message on exception", async () => {
+        await mongoDB.getTotalPages(); // No arguments to trigger exception
+
+        expect(mockLoggerError).toHaveBeenCalledTimes(1);
+        expect(mockLoggerError).toHaveBeenCalledWith(
+          {
+            input: undefined,
+            error: expect.any(String),
+          },
+          "Unable to get total pages (from getTotalPages)"
+        );
+      });
     });
 
     describe("Creating a history event", () => {
