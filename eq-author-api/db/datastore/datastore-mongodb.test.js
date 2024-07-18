@@ -12,9 +12,6 @@ describe("MongoDB Datastore", () => {
   jest.isolateModules(() => {
     mongoDB = require("./datastore-mongodb");
   });
-  beforeAll(() => {
-    jest.resetModules();
-  });
 
   jest.mock("../../utils/logger", () => ({
     logger: {
@@ -23,6 +20,10 @@ describe("MongoDB Datastore", () => {
       error: mockLoggerError,
     },
   }));
+
+  beforeAll(() => {
+    jest.resetModules();
+  });
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -760,6 +761,37 @@ describe("MongoDB Datastore", () => {
           )} (from listFilteredQuestionnaires)`
         );
         expect(listOfQuestionnaires).toEqual([]);
+      });
+
+      it("Should sort questionnaires on first page from newest to oldest when `sortBy` is `createdDateDesc`", async () => {
+        const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "",
+            owner: "",
+            access: "All",
+            resultsPerPage: 10,
+            sortBy: "createdDateDesc",
+          },
+          ctx
+        );
+
+        expect(listOfQuestionnaires.length).toBe(8);
+        // First created are questionnaires created in previous tests as all `Test questionnaires` have `createdAt` dates in the past
+        expect(listOfQuestionnaires[0].title).toEqual(
+          "Default questionnaire title"
+        );
+        expect(listOfQuestionnaires[1].title).toEqual(
+          "Default questionnaire title"
+        );
+        expect(listOfQuestionnaires[2].title).toEqual(
+          "Default questionnaire title"
+        );
+        // `Test questionnaire 6` has the most recent `createdAt` date of the `Test questionnaires`
+        expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 6");
+        expect(listOfQuestionnaires[4].title).toEqual("Test questionnaire 4");
+        expect(listOfQuestionnaires[5].title).toEqual("Test questionnaire 3");
+        expect(listOfQuestionnaires[6].title).toEqual("Test questionnaire 2");
+        expect(listOfQuestionnaires[7].title).toEqual("Test questionnaire 1");
       });
     });
 
