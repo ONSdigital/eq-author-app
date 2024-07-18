@@ -867,6 +867,22 @@ describe("MongoDB Datastore", () => {
       });
     });
 
+    describe("Getting total page count", () => {
+      it("Should get the total number of pages based on the number of questionnaires and results per page", async () => {
+        const totalPageCount = await mongoDB.getTotalPages(
+          {
+            resultsPerPage: 3, // As 8 questionnaires should be returned (from previously created questionnaires), uses 3 questionnaires per page to test total page count is rounded up
+            search: "",
+            owner: "",
+            access: "All",
+          },
+          ctx
+        );
+
+        expect(totalPageCount).toBe(3); // (8 questionnaires) / (3 results per page) gives 3 total pages after rounding up
+      });
+    });
+
     describe("Creating a history event", () => {
       let mockHistoryEvent;
       beforeEach(() => {
