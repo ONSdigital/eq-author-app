@@ -794,6 +794,42 @@ describe("MongoDB Datastore", () => {
         expect(listOfQuestionnaires[7].title).toEqual("Test questionnaire 1");
       });
 
+      it("Should sort questionnaires on previous page from newest to oldest when `sortBy` is `createdDateDesc`", async () => {
+        // Gets questionnaires with "All" access to get a questionnaire ID to use as `firstQuestionnaireIdOnPage`
+        const allQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "",
+            owner: "",
+            access: "All",
+            resultsPerPage: 10,
+            sortBy: "createdDateDesc",
+          },
+          ctx
+        );
+
+        const listOfPreviousPageQuestionnaires =
+          await mongoDB.listFilteredQuestionnaires(
+            {
+              search: "",
+              owner: "",
+              access: "All",
+              resultsPerPage: 2,
+              firstQuestionnaireIdOnPage: allQuestionnaires[6].id,
+              sortBy: "createdDateDesc",
+            },
+            ctx
+          );
+
+        expect(listOfPreviousPageQuestionnaires.length).toBe(2);
+        // The two questionnaires before the first questionnaire on the page (based on firstQuestionnaireIdOnPage)
+        expect(listOfPreviousPageQuestionnaires[0].title).toEqual(
+          "Test questionnaire 4"
+        );
+        expect(listOfPreviousPageQuestionnaires[1].title).toEqual(
+          "Test questionnaire 3"
+        );
+      });
+
       it("Should sort questionnaires on next page from newest to oldest when `sortBy` is `createdDateDesc`", async () => {
         // Gets questionnaires with "All" access to get a questionnaire ID to use as `lastQuestionnaireIdOnPage`
         const allQuestionnaires = await mongoDB.listFilteredQuestionnaires(
