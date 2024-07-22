@@ -22,7 +22,7 @@ const getFilteredQuestionnairesQuery = `
 const queryFilteredQuestionnaires = async (user, input) => {
   const result = await executeQuery(
     getFilteredQuestionnairesQuery,
-    { input },
+    input ? { input } : undefined, // Passes `undefined` when `input` is falsy to test when `input` is not provided
     {
       user,
     }

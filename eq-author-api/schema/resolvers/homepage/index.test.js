@@ -37,7 +37,30 @@ describe("homepage", () => {
   });
 
   describe("filteredQuestionnaires", () => {
-    it("should return filtered questionnaires", async () => {
+    it("should return all questionnaires when input is not provided", async () => {
+      const user = {
+        id: "user-1",
+      };
+
+      const filteredQuestionnaires = await queryFilteredQuestionnaires(user);
+
+      expect(filteredQuestionnaires).toEqual([
+        expect.objectContaining({
+          title: "Test Questionnaire 1",
+        }),
+        expect.objectContaining({
+          title: "Test Questionnaire 2",
+        }),
+        expect.objectContaining({
+          title: "Test Questionnaire 10",
+        }),
+        expect.objectContaining({
+          title: "Test Questionnaire 11",
+        }),
+      ]);
+    });
+
+    it("should filter questionnaires when input is provided", async () => {
       const user = {
         id: "user-1",
       };
