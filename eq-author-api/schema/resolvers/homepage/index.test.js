@@ -3,14 +3,15 @@ const {
 } = require("../../../tests/utils/contextBuilder/questionnaire");
 const {
   queryFilteredQuestionnaires,
+  queryTotalPages,
 } = require("../../../tests/utils/contextBuilder/homepage");
 
 const { buildContext } = require("../../../tests/utils/contextBuilder");
 
-describe("filteredQuestionnaires", () => {
+describe("homepage", () => {
   let ctx;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     ctx = await buildContext();
 
     await createQuestionnaire(ctx, {
@@ -35,31 +36,51 @@ describe("filteredQuestionnaires", () => {
     });
   });
 
-  it("should return filtered questionnaires", async () => {
-    const user = {
-      id: "user-1",
-    };
+  describe("filteredQuestionnaires", () => {
+    it("should return filtered questionnaires", async () => {
+      const user = {
+        id: "user-1",
+      };
 
-    const input = {
-      search: "Test Questionnaire 1",
-      owner: "",
-    };
+      const input = {
+        search: "Test Questionnaire 1",
+        owner: "",
+      };
 
-    const filteredQuestionnaires = await queryFilteredQuestionnaires(
-      user,
-      input
-    );
+      const filteredQuestionnaires = await queryFilteredQuestionnaires(
+        user,
+        input
+      );
 
-    expect(filteredQuestionnaires).toEqual([
-      expect.objectContaining({
-        title: "Test Questionnaire 1",
-      }),
-      expect.objectContaining({
-        title: "Test Questionnaire 10",
-      }),
-      expect.objectContaining({
-        title: "Test Questionnaire 11",
-      }),
-    ]);
+      expect(filteredQuestionnaires).toEqual([
+        expect.objectContaining({
+          title: "Test Questionnaire 1",
+        }),
+        expect.objectContaining({
+          title: "Test Questionnaire 10",
+        }),
+        expect.objectContaining({
+          title: "Test Questionnaire 11",
+        }),
+      ]);
+    });
+  });
+
+  describe("totalPages", () => {
+    it("should return total pages", async () => {
+      const user = {
+        id: "user-1",
+      };
+
+      const input = {
+        resultsPerPage: 2,
+        search: "Test Questionnaire",
+        owner: "",
+      };
+
+      const totalPages = await queryTotalPages(user, input);
+
+      expect(totalPages).toEqual(2);
+    });
   });
 });
