@@ -441,7 +441,7 @@ const listFilteredQuestionnaires = async (input) => {
   } catch (error) {
     logger.error(
       error,
-      "Unable to retrieve questionnaires (from listQuestionnaires)"
+      "Unable to retrieve questionnaires (from listFilteredQuestionnaires)"
     );
     return;
   }

@@ -25,6 +25,11 @@ describe("homepage", () => {
       surveyId: "",
     });
     await createQuestionnaire(ctx, {
+      title: "Test Questionnaire 3",
+      theme: "business",
+      surveyId: "",
+    });
+    await createQuestionnaire(ctx, {
       title: "Test Questionnaire 10",
       theme: "business",
       surveyId: "",
@@ -50,6 +55,9 @@ describe("homepage", () => {
         }),
         expect.objectContaining({
           title: "Test Questionnaire 2",
+        }),
+        expect.objectContaining({
+          title: "Test Questionnaire 3",
         }),
         expect.objectContaining({
           title: "Test Questionnaire 10",
@@ -79,6 +87,7 @@ describe("homepage", () => {
         expect.objectContaining({
           title: "Test Questionnaire 1",
         }),
+        // `filteredQuestionnaires` should contain `Test Questionnaire 10` and `Test Questionnaire 11` as these contain the string `Test Questionnaire 1`
         expect.objectContaining({
           title: "Test Questionnaire 10",
         }),
@@ -86,9 +95,15 @@ describe("homepage", () => {
           title: "Test Questionnaire 11",
         }),
       ]);
+      // `filteredQuestionnaires` should not contain `Test Questionnaire 2` and `Test Questionnaire 3` as these do not contain the string `Test Questionnaire 1`
       expect(filteredQuestionnaires).not.toContainEqual(
         expect.objectContaining({
           title: "Test Questionnaire 2",
+        })
+      );
+      expect(filteredQuestionnaires).not.toContainEqual(
+        expect.objectContaining({
+          title: "Test Questionnaire 3",
         })
       );
     });
@@ -102,6 +117,7 @@ describe("homepage", () => {
 
       const totalPages = await queryTotalPages(user);
 
+      // `totalPages` should be 1 as default resultsPerPage is 10
       expect(totalPages).toEqual(1);
     });
 
@@ -118,7 +134,8 @@ describe("homepage", () => {
 
       const totalPages = await queryTotalPages(user, input);
 
-      expect(totalPages).toEqual(2);
+      // `totalPages` should be 3 - (5 questionnaires) / (2 resultsPerPage) gives 3 total pages after rounding up
+      expect(totalPages).toEqual(3);
     });
   });
 });
