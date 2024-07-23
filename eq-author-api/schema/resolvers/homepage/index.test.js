@@ -86,10 +86,25 @@ describe("homepage", () => {
           title: "Test Questionnaire 11",
         }),
       ]);
+      expect(filteredQuestionnaires).not.toContainEqual(
+        expect.objectContaining({
+          title: "Test Questionnaire 2",
+        })
+      );
     });
   });
 
   describe("totalPages", () => {
+    it("should return total pages for all questionnaires when input is not provided", async () => {
+      const user = {
+        id: "user-1",
+      };
+
+      const totalPages = await queryTotalPages(user);
+
+      expect(totalPages).toEqual(1);
+    });
+
     it("should return total pages", async () => {
       const user = {
         id: "user-1",

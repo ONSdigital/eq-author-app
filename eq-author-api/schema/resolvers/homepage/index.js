@@ -41,8 +41,8 @@ const Resolvers = {
     totalPages: async (_, { input = {} }, ctx) => {
       const {
         resultsPerPage = 10,
-        search,
-        owner,
+        search = "",
+        owner = "",
         createdOnOrAfter,
         createdOnOrBefore,
         access,

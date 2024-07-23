@@ -9,7 +9,7 @@ const getTotalPagesQuery = `
 const queryTotalPages = async (user, input) => {
   const result = await executeQuery(
     getTotalPagesQuery,
-    { input },
+    input ? { input } : undefined, // Passes `undefined` when `input` is falsy to test when `input` is not provided
     {
       user,
     }
