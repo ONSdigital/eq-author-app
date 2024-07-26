@@ -591,7 +591,7 @@ const getTotalPages = async (input, ctx) => {
     const matchQuery = await getMatchQuery(input, ctx);
 
     // Gets the total number of questionnaires that meet the search conditions
-    const { totalFilteredQuestionnaires } = await questionnairesCollection
+    const aggregationResult = await questionnairesCollection
       .aggregate([
         {
           $lookup: {
@@ -609,6 +609,9 @@ const getTotalPages = async (input, ctx) => {
         },
       ])
       .next();
+
+    // Sets default `totalFilteredQuestionnaires` to 0 if no questionnaires are returned - prevents error when destructuring `totalFilteredQuestionnaires` with no results
+    const { totalFilteredQuestionnaires = 0 } = aggregationResult || {};
 
     // Calculates the total number of pages by dividing the total number of filtered questionnaires by the number of results per page, and rounding up
     const totalPages = Math.ceil(totalFilteredQuestionnaires / resultsPerPage);
