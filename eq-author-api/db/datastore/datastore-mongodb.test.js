@@ -882,6 +882,21 @@ describe("MongoDB Datastore", () => {
         expect(totalPageCount).toBe(3); // (8 questionnaires) / (3 results per page) gives 3 total pages after rounding up
       });
 
+      it("Should return 0 when no questionnaires are found", async () => {
+        const totalPageCount = await mongoDB.getTotalPages(
+          {
+            resultsPerPage: 10,
+            search: "Lorem ipsum", // Search term contained in no questionnaires
+            owner: "",
+            access: "All",
+          },
+          ctx
+        );
+
+        expect(mockLoggerError).not.toHaveBeenCalled();
+        expect(totalPageCount).toBe(0);
+      });
+
       it("Should log an error message on exception", async () => {
         await mongoDB.getTotalPages(); // No arguments to trigger exception
 
