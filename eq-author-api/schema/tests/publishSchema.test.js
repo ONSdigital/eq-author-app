@@ -15,7 +15,7 @@ fetch.mockImplementation(() =>
   Promise.resolve({
     status: 200,
     json: () => ({
-      id: "cir-id-1",
+      guid: "cir-id-1",
       // eslint-disable-next-line camelcase
       ci_version: "1",
     }),
