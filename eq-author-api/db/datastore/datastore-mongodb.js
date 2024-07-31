@@ -401,7 +401,7 @@ const listFilteredQuestionnaires = async (input = {}, ctx) => {
       resultsPerPage = 10,
       firstQuestionnaireIdOnPage,
       lastQuestionnaireIdOnPage,
-      sortBy,
+      sortBy = "createdDateDesc",
     } = input;
 
     // Gets the questionnaires collection

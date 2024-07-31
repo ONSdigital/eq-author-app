@@ -453,11 +453,12 @@ describe("MongoDB Datastore", () => {
         );
 
         expect(listOfQuestionnaires.length).toBe(5);
-        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 1");
-        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 2");
+        // "Test questionnaire 6" is first as default sort is newest to oldest
+        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 6");
+        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 4");
         expect(listOfQuestionnaires[2].title).toEqual("Test questionnaire 3");
-        expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 4");
-        expect(listOfQuestionnaires[4].title).toEqual("Test questionnaire 6");
+        expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 2");
+        expect(listOfQuestionnaires[4].title).toEqual("Test questionnaire 1");
       });
 
       it("Should return questionnaires with owner containing the `owner` search term", async () => {
@@ -472,8 +473,8 @@ describe("MongoDB Datastore", () => {
         );
 
         expect(listOfQuestionnaires.length).toBe(2);
-        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 3");
-        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 4");
+        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 4");
+        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 3");
       });
 
       it("Should return questionnaires created on or after the searched date", async () => {
@@ -489,20 +490,23 @@ describe("MongoDB Datastore", () => {
         );
 
         expect(listOfQuestionnaires.length).toBe(7);
-        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 2");
-        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 3");
-        expect(listOfQuestionnaires[2].title).toEqual("Test questionnaire 4");
+        /* 
+          Questionnaires with titles "Default questionnaire title" are created in previous tests.
+          These appear first when sorted by newest to oldest as their `createdAt` dates are most recent.
+        */
+        expect(listOfQuestionnaires[0].title).toEqual(
+          "Default questionnaire title"
+        );
+        expect(listOfQuestionnaires[1].title).toEqual(
+          "Default questionnaire title"
+        );
+        expect(listOfQuestionnaires[2].title).toEqual(
+          "Default questionnaire title"
+        );
+        expect(listOfQuestionnaires[6].title).toEqual("Test questionnaire 2");
+        expect(listOfQuestionnaires[5].title).toEqual("Test questionnaire 3");
+        expect(listOfQuestionnaires[4].title).toEqual("Test questionnaire 4");
         expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 6");
-        // Questionnaires created in previous tests
-        expect(listOfQuestionnaires[4].title).toEqual(
-          "Default questionnaire title"
-        );
-        expect(listOfQuestionnaires[5].title).toEqual(
-          "Default questionnaire title"
-        );
-        expect(listOfQuestionnaires[6].title).toEqual(
-          "Default questionnaire title"
-        );
       });
 
       it("Should return questionnaires created on or before the searched date", async () => {
@@ -518,8 +522,8 @@ describe("MongoDB Datastore", () => {
         );
 
         expect(listOfQuestionnaires.length).toBe(2);
-        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 1");
-        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 2");
+        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 2");
+        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 1");
       });
 
       it("Should return questionnaires created between the searched dates", async () => {
@@ -536,9 +540,9 @@ describe("MongoDB Datastore", () => {
         );
 
         expect(listOfQuestionnaires.length).toBe(3);
-        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 2");
+        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 4");
         expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 3");
-        expect(listOfQuestionnaires[2].title).toEqual("Test questionnaire 4");
+        expect(listOfQuestionnaires[2].title).toEqual("Test questionnaire 2");
       });
 
       it("Should return relevant questionnaires when searching by access `All`", async () => {
@@ -553,21 +557,24 @@ describe("MongoDB Datastore", () => {
         );
 
         expect(listOfQuestionnaires.length).toBe(8);
-        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 1");
-        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 2");
-        expect(listOfQuestionnaires[2].title).toEqual("Test questionnaire 3");
-        expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 4");
-        expect(listOfQuestionnaires[4].title).toEqual("Test questionnaire 6");
-        // Questionnaires created in previous tests
-        expect(listOfQuestionnaires[5].title).toEqual(
+        /* 
+          Questionnaires with titles "Default questionnaire title" are created in previous tests.
+          These appear first when sorted by newest to oldest as their `createdAt` dates are most recent.
+        */
+        expect(listOfQuestionnaires[0].title).toEqual(
           "Default questionnaire title"
         );
-        expect(listOfQuestionnaires[6].title).toEqual(
+        expect(listOfQuestionnaires[1].title).toEqual(
           "Default questionnaire title"
         );
-        expect(listOfQuestionnaires[7].title).toEqual(
+        expect(listOfQuestionnaires[2].title).toEqual(
           "Default questionnaire title"
         );
+        expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 6");
+        expect(listOfQuestionnaires[4].title).toEqual("Test questionnaire 4");
+        expect(listOfQuestionnaires[5].title).toEqual("Test questionnaire 3");
+        expect(listOfQuestionnaires[6].title).toEqual("Test questionnaire 2");
+        expect(listOfQuestionnaires[7].title).toEqual("Test questionnaire 1");
       });
 
       it("Should return relevant questionnaires when searching by access `Write`", async () => {
@@ -583,10 +590,10 @@ describe("MongoDB Datastore", () => {
 
         // Expects all questionnaires where `ctx.user` is the owner (`ctx.user` created the questionnaire) or an editor
         expect(listOfQuestionnaires.length).toBe(4);
-        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 1"); // "user-1" created the questionnaire
-        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 2"); // "user-1" created the questionnaire
-        expect(listOfQuestionnaires[2].title).toEqual("Test questionnaire 3"); // "user-1" is an editor
-        expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 6"); // "user-1" created the questionnaire
+        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 6"); // "user-1" created the questionnaire
+        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 3"); // "user-1" is an editor
+        expect(listOfQuestionnaires[2].title).toEqual("Test questionnaire 2"); // "user-1" created the questionnaire
+        expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 1"); // "user-1" created the questionnaire
       });
 
       it("Should return relevant questionnaires when searching by access `Read`", async () => {
@@ -601,17 +608,20 @@ describe("MongoDB Datastore", () => {
         );
 
         expect(listOfQuestionnaires.length).toBe(4);
-        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 4");
-        // Questionnaires created in previous tests
+        /* 
+          Questionnaires with titles "Default questionnaire title" are created in previous tests.
+          These appear first when sorted by newest to oldest as their `createdAt` dates are most recent.
+        */
+        expect(listOfQuestionnaires[0].title).toEqual(
+          "Default questionnaire title"
+        );
         expect(listOfQuestionnaires[1].title).toEqual(
           "Default questionnaire title"
         );
         expect(listOfQuestionnaires[2].title).toEqual(
           "Default questionnaire title"
         );
-        expect(listOfQuestionnaires[3].title).toEqual(
-          "Default questionnaire title"
-        );
+        expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 4");
       });
 
       it("Should return relevant questionnaires when searching by access `PrivateQuestionnaires`", async () => {
@@ -642,10 +652,10 @@ describe("MongoDB Datastore", () => {
         );
 
         expect(listOfQuestionnaires.length).toBe(4);
-        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 1");
-        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 2");
-        expect(listOfQuestionnaires[2].title).toEqual("Test questionnaire 3");
-        expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 6");
+        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 6");
+        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 3");
+        expect(listOfQuestionnaires[2].title).toEqual("Test questionnaire 2");
+        expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 1");
       });
 
       it("Should return questionnaires on previous page when `firstQuestionnaireIdOnPage` is provided without `lastQuestionnaireIdOnPage`", async () => {
@@ -667,7 +677,7 @@ describe("MongoDB Datastore", () => {
               owner: "",
               access: "All",
               resultsPerPage: 2, // Limits to 2 questionnaires per page to test a small number of questionnaires on previous page
-              firstQuestionnaireIdOnPage: allQuestionnaires[2].id,
+              firstQuestionnaireIdOnPage: allQuestionnaires[6].id,
             },
             ctx
           );
@@ -675,10 +685,10 @@ describe("MongoDB Datastore", () => {
         expect(listOfPreviousPageQuestionnaires.length).toBe(2);
         // The two questionnaires before the first questionnaire on the page (based on firstQuestionnaireIdOnPage)
         expect(listOfPreviousPageQuestionnaires[0].title).toEqual(
-          "Test questionnaire 1"
+          "Test questionnaire 4"
         );
         expect(listOfPreviousPageQuestionnaires[1].title).toEqual(
-          "Test questionnaire 2"
+          "Test questionnaire 3"
         );
       });
 
@@ -709,10 +719,10 @@ describe("MongoDB Datastore", () => {
         expect(listOfNextPageQuestionnaires.length).toBe(2);
         // The two questionnaires after the last questionnaire on the page (based on lastQuestionnaireIdOnPage)
         expect(listOfNextPageQuestionnaires[0].title).toEqual(
-          "Test questionnaire 6"
+          "Test questionnaire 4"
         );
         expect(listOfNextPageQuestionnaires[1].title).toEqual(
-          "Default questionnaire title"
+          "Test questionnaire 3"
         );
       });
 
@@ -763,38 +773,40 @@ describe("MongoDB Datastore", () => {
         expect(listOfQuestionnaires).toEqual([]);
       });
 
-      it("Should sort questionnaires on first page from newest to oldest when `sortBy` is `createdDateDesc`", async () => {
+      it("Should sort questionnaires on first page from oldest to newest when `sortBy` is `createdDateAsc`", async () => {
         const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
           {
             search: "",
             owner: "",
             access: "All",
             resultsPerPage: 10,
-            sortBy: "createdDateDesc",
+            sortBy: "createdDateAsc",
           },
           ctx
         );
 
         expect(listOfQuestionnaires.length).toBe(8);
-        // First created are questionnaires created in previous tests as all `Test questionnaires` have `createdAt` dates in the past
-        expect(listOfQuestionnaires[0].title).toEqual(
+        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 1");
+        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 2");
+        expect(listOfQuestionnaires[2].title).toEqual("Test questionnaire 3");
+        expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 4");
+        expect(listOfQuestionnaires[4].title).toEqual("Test questionnaire 6");
+        /* 
+          Questionnaires with titles "Default questionnaire title" are created in previous tests.
+          These appear last when sorted by oldest to newest as their `createdAt` dates are most recent.
+        */
+        expect(listOfQuestionnaires[5].title).toEqual(
           "Default questionnaire title"
         );
-        expect(listOfQuestionnaires[1].title).toEqual(
+        expect(listOfQuestionnaires[6].title).toEqual(
           "Default questionnaire title"
         );
-        expect(listOfQuestionnaires[2].title).toEqual(
+        expect(listOfQuestionnaires[7].title).toEqual(
           "Default questionnaire title"
         );
-        // `Test questionnaire 6` has the most recent `createdAt` date of the `Test questionnaires`
-        expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 6");
-        expect(listOfQuestionnaires[4].title).toEqual("Test questionnaire 4");
-        expect(listOfQuestionnaires[5].title).toEqual("Test questionnaire 3");
-        expect(listOfQuestionnaires[6].title).toEqual("Test questionnaire 2");
-        expect(listOfQuestionnaires[7].title).toEqual("Test questionnaire 1");
       });
 
-      it("Should sort questionnaires on previous page from newest to oldest when `sortBy` is `createdDateDesc`", async () => {
+      it("Should sort questionnaires on previous page from oldest to newest when `sortBy` is `createdDateAsc`", async () => {
         // Gets questionnaires with "All" access to get a questionnaire ID to use as `firstQuestionnaireIdOnPage`
         const allQuestionnaires = await mongoDB.listFilteredQuestionnaires(
           {
@@ -802,7 +814,7 @@ describe("MongoDB Datastore", () => {
             owner: "",
             access: "All",
             resultsPerPage: 10,
-            sortBy: "createdDateDesc",
+            sortBy: "createdDateAsc",
           },
           ctx
         );
@@ -814,8 +826,8 @@ describe("MongoDB Datastore", () => {
               owner: "",
               access: "All",
               resultsPerPage: 2,
-              firstQuestionnaireIdOnPage: allQuestionnaires[6].id,
-              sortBy: "createdDateDesc",
+              firstQuestionnaireIdOnPage: allQuestionnaires[4].id,
+              sortBy: "createdDateAsc",
             },
             ctx
           );
@@ -823,14 +835,14 @@ describe("MongoDB Datastore", () => {
         expect(listOfPreviousPageQuestionnaires.length).toBe(2);
         // The two questionnaires before the first questionnaire on the page (based on firstQuestionnaireIdOnPage)
         expect(listOfPreviousPageQuestionnaires[0].title).toEqual(
-          "Test questionnaire 4"
+          "Test questionnaire 3"
         );
         expect(listOfPreviousPageQuestionnaires[1].title).toEqual(
-          "Test questionnaire 3"
+          "Test questionnaire 4"
         );
       });
 
-      it("Should sort questionnaires on next page from newest to oldest when `sortBy` is `createdDateDesc`", async () => {
+      it("Should sort questionnaires on next page from oldest to newest when `sortBy` is `createdDateAsc`", async () => {
         // Gets questionnaires with "All" access to get a questionnaire ID to use as `lastQuestionnaireIdOnPage`
         const allQuestionnaires = await mongoDB.listFilteredQuestionnaires(
           {
@@ -838,7 +850,7 @@ describe("MongoDB Datastore", () => {
             owner: "",
             access: "All",
             resultsPerPage: 10,
-            sortBy: "createdDateDesc",
+            sortBy: "createdDateAsc",
           },
           ctx
         );
@@ -850,8 +862,8 @@ describe("MongoDB Datastore", () => {
               owner: "",
               access: "All",
               resultsPerPage: 2,
-              lastQuestionnaireIdOnPage: allQuestionnaires[3].id,
-              sortBy: "createdDateDesc",
+              lastQuestionnaireIdOnPage: allQuestionnaires[1].id,
+              sortBy: "createdDateAsc",
             },
             ctx
           );
@@ -859,10 +871,10 @@ describe("MongoDB Datastore", () => {
         expect(listOfNextPageQuestionnaires.length).toBe(2);
         // The two questionnaires after the last questionnaire on the page (based on lastQuestionnaireIdOnPage)
         expect(listOfNextPageQuestionnaires[0].title).toEqual(
-          "Test questionnaire 4"
+          "Test questionnaire 3"
         );
         expect(listOfNextPageQuestionnaires[1].title).toEqual(
-          "Test questionnaire 3"
+          "Test questionnaire 4"
         );
       });
     });

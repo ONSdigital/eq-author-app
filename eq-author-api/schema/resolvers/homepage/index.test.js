@@ -49,21 +49,22 @@ describe("homepage", () => {
 
       const filteredQuestionnaires = await queryFilteredQuestionnaires(user);
 
+      // Sorted from newest created first to oldest created last as `listFilteredQuestionnaires` is sorted in this order by default
       expect(filteredQuestionnaires).toEqual([
         expect.objectContaining({
-          title: "Test Questionnaire 1",
-        }),
-        expect.objectContaining({
-          title: "Test Questionnaire 2",
-        }),
-        expect.objectContaining({
-          title: "Test Questionnaire 3",
+          title: "Test Questionnaire 11",
         }),
         expect.objectContaining({
           title: "Test Questionnaire 10",
         }),
         expect.objectContaining({
-          title: "Test Questionnaire 11",
+          title: "Test Questionnaire 3",
+        }),
+        expect.objectContaining({
+          title: "Test Questionnaire 2",
+        }),
+        expect.objectContaining({
+          title: "Test Questionnaire 1",
         }),
       ]);
     });
@@ -84,15 +85,15 @@ describe("homepage", () => {
       );
 
       expect(filteredQuestionnaires).toEqual([
+        // `filteredQuestionnaires` should contain `Test Questionnaire 11` and `Test Questionnaire 10` as these contain the string `Test Questionnaire 1`
         expect.objectContaining({
-          title: "Test Questionnaire 1",
+          title: "Test Questionnaire 11",
         }),
-        // `filteredQuestionnaires` should contain `Test Questionnaire 10` and `Test Questionnaire 11` as these contain the string `Test Questionnaire 1`
         expect.objectContaining({
           title: "Test Questionnaire 10",
         }),
         expect.objectContaining({
-          title: "Test Questionnaire 11",
+          title: "Test Questionnaire 1",
         }),
       ]);
       // `filteredQuestionnaires` should not contain `Test Questionnaire 2` and `Test Questionnaire 3` as these do not contain the string `Test Questionnaire 1`
