@@ -332,50 +332,48 @@ const getMatchQuery = async (input = {}, ctx) => {
       matchQuery.createdAt = { $lte: createdOnOrBefore }; // lte: Less than or equal to
     }
 
-    if (access === "All") {
-      if (!matchQuery.$and) {
-        matchQuery.$and = [];
-      }
+    switch (access) {
       // Searches for all questionnaires that are public, the user is an editor of, or the user created (all questionnaires the user has access to)
-      matchQuery.$and.push({
-        $or: [
-          { isPublic: true },
-          { editors: { $in: [userId] } },
-          { createdBy: userId },
-        ],
-      });
-    }
-    // Searches for all questionnaires the user can edit (all questionnaires the user is an editor of or the user created)
-    if (access === "Write") {
-      if (!matchQuery.$and) {
-        matchQuery.$and = [];
-      }
-      matchQuery.$and.push({
-        $or: [{ editors: { $in: [userId] } }, { createdBy: userId }],
-      });
-    }
-    // Searches for all questionnaires the user can view but not edit (all public questionnaires the user is not an editor of and did not create)
-    if (access === "Read") {
-      if (!matchQuery.$and) {
-        matchQuery.$and = [];
-      }
-      matchQuery.$and.push(
-        {
-          editors: { $nin: [userId] },
-        },
-        { createdBy: { $ne: userId } },
-        { isPublic: true }
-      );
-    }
-    // Searches for all non-public questionnaires the user can edit (all questionnaires the user is an editor of or the user created that are not public)
-    if (access === "PrivateQuestionnaires") {
-      if (!matchQuery.$and) {
-        matchQuery.$and = [];
-      }
-      matchQuery.$and.push({
-        $or: [{ editors: { $in: [userId] } }, { createdBy: userId }],
-        isPublic: false,
-      });
+      case "All":
+        matchQuery.$and = matchQuery.$and || [];
+        matchQuery.$and.push({
+          $or: [
+            { isPublic: true },
+            { editors: { $in: [userId] } },
+            { createdBy: userId },
+          ],
+        });
+
+        break;
+      // Searches for all questionnaires the user can edit (all questionnaires the user is an editor of or the user created)
+      case "Write":
+        matchQuery.$and = matchQuery.$and || [];
+        matchQuery.$and.push({
+          $or: [{ editors: { $in: [userId] } }, { createdBy: userId }],
+        });
+
+        break;
+      // Searches for all questionnaires the user can view but not edit (all public questionnaires the user is not an editor of and did not create)
+      case "Read":
+        matchQuery.$and = matchQuery.$and || [];
+        matchQuery.$and.push(
+          {
+            editors: { $nin: [userId] },
+          },
+          { createdBy: { $ne: userId } },
+          { isPublic: true }
+        );
+
+        break;
+      // Searches for all non-public questionnaires the user can edit (all questionnaires the user is an editor of or the user created that are not public)
+      case "PrivateQuestionnaires":
+        matchQuery.$and = matchQuery.$and || [];
+        matchQuery.$and.push({
+          $or: [{ editors: { $in: [userId] } }, { createdBy: userId }],
+          isPublic: false,
+        });
+
+        break;
     }
 
     // TODO: When "My questionnaires" feature is implemented, implement code to filter questionnaires based on questionnaires marked as "My questionnaires"
