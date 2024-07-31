@@ -581,9 +581,9 @@ const listFilteredQuestionnaires = async (input = {}, ctx) => {
   }
 };
 
-const getTotalPages = async (input, ctx) => {
+const getTotalPages = async (input = {}, ctx) => {
   try {
-    const { resultsPerPage } = input;
+    const { resultsPerPage = 10 } = input;
 
     // Gets the questionnaires collection
     const questionnairesCollection = dbo.collection("questionnaires");

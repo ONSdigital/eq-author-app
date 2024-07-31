@@ -900,10 +900,18 @@ describe("MongoDB Datastore", () => {
       it("Should log an error message on exception", async () => {
         await mongoDB.getTotalPages(); // No arguments to trigger exception
 
-        expect(mockLoggerError).toHaveBeenCalledTimes(1);
+        // Two calls as `getMatchQuery` also throws an error due to no context object
+        expect(mockLoggerError).toHaveBeenCalledTimes(2);
         expect(mockLoggerError).toHaveBeenCalledWith(
           {
-            input: undefined,
+            input: {},
+            error: expect.any(String),
+          },
+          "Unable to get match query for filtering questionnaires (from getMatchQuery)"
+        );
+        expect(mockLoggerError).toHaveBeenCalledWith(
+          {
+            input: {},
             error: expect.any(String),
           },
           "Unable to get total pages (from getTotalPages)"
