@@ -1636,8 +1636,8 @@ const Resolvers = {
         .then(async (res) => {
           if (res.status === 200) {
             const responseJson = res.data;
-
-            publishResult.cirId = responseJson.id;
+            console.log(responseJson);
+            publishResult.cirId = responseJson.guid;
             publishResult.cirVersion = responseJson.ci_version;
             publishResult.success = true;
           } else {
