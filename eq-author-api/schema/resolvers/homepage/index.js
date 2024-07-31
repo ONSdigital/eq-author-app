@@ -6,34 +6,7 @@ const {
 const Resolvers = {
   Query: {
     filteredQuestionnaires: async (_, { input = {} }, ctx) => {
-      const {
-        resultsPerPage = 10,
-        firstQuestionnaireIdOnPage,
-        lastQuestionnaireIdOnPage,
-        search = "",
-        owner = "",
-        createdOnOrAfter,
-        createdOnOrBefore,
-        access,
-        myQuestionnaires,
-        sortBy,
-      } = input;
-
-      const questionnaires = await listFilteredQuestionnaires(
-        {
-          resultsPerPage,
-          firstQuestionnaireIdOnPage,
-          lastQuestionnaireIdOnPage,
-          search,
-          owner,
-          createdOnOrAfter,
-          createdOnOrBefore,
-          access,
-          myQuestionnaires,
-          sortBy,
-        },
-        ctx
-      );
+      const questionnaires = await listFilteredQuestionnaires(input, ctx);
 
       return questionnaires;
     },

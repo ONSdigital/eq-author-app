@@ -290,11 +290,11 @@ const listQuestionnaires = async () => {
   }
 };
 
-const getMatchQuery = async (input, ctx) => {
+const getMatchQuery = async (input = {}, ctx) => {
   try {
     const {
-      search,
-      owner,
+      search = "",
+      owner = "",
       createdOnOrAfter,
       createdOnOrBefore,
       access,
@@ -397,10 +397,10 @@ const getMatchQuery = async (input, ctx) => {
   }
 };
 
-const listFilteredQuestionnaires = async (input, ctx) => {
+const listFilteredQuestionnaires = async (input = {}, ctx) => {
   try {
     const {
-      resultsPerPage,
+      resultsPerPage = 10,
       firstQuestionnaireIdOnPage,
       lastQuestionnaireIdOnPage,
       sortBy,
