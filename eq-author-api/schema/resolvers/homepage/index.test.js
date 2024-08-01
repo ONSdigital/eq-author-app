@@ -77,6 +77,7 @@ describe("homepage", () => {
       const input = {
         search: "Test Questionnaire 1",
         owner: "",
+        access: "All",
       };
 
       const filteredQuestionnaires = await queryFilteredQuestionnaires(
@@ -131,6 +132,7 @@ describe("homepage", () => {
         resultsPerPage: 2,
         search: "Test Questionnaire",
         owner: "",
+        access: "All",
       };
 
       const totalPages = await queryTotalPages(user, input);

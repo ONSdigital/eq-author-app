@@ -346,7 +346,7 @@ const getMatchQuery = async (input = {}, ctx) => {
 
         break;
       // Searches for all questionnaires the user can edit (all questionnaires the user is an editor of or the user created)
-      case "Write":
+      case "Editor":
         matchQuery.$and = matchQuery.$and || [];
         matchQuery.$and.push({
           $or: [{ editors: { $in: [userId] } }, { createdBy: userId }],
@@ -354,7 +354,7 @@ const getMatchQuery = async (input = {}, ctx) => {
 
         break;
       // Searches for all questionnaires the user can view but not edit (all public questionnaires the user is not an editor of and did not create)
-      case "Read":
+      case "ViewOnly":
         matchQuery.$and = matchQuery.$and || [];
         matchQuery.$and.push(
           {

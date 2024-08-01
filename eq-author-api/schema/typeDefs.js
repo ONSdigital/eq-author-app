@@ -42,9 +42,14 @@ enum QuestionnaireType {
 }
 
 enum Permission {
-  All
   Read
   Write
+}
+
+enum Access {
+  All
+  Editor
+  ViewOnly
   PrivateQuestionnaires
 }
 
@@ -947,7 +952,7 @@ input FilteredQuestionnairesInput {
   owner: String
   createdOnOrAfter: DateTime
   createdOnOrBefore: DateTime
-  access: Permission
+  access: Access!
   myQuestionnaires: Boolean
   sortBy: String
 }
@@ -958,7 +963,7 @@ input TotalPagesInput {
   owner: String
   createdOnOrAfter: DateTime
   createdOnOrBefore: DateTime
-  access: Permission
+  access: Access!
   myQuestionnaires: Boolean
 }
 

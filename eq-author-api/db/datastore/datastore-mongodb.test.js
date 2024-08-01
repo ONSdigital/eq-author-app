@@ -577,12 +577,12 @@ describe("MongoDB Datastore", () => {
         expect(listOfQuestionnaires[7].title).toEqual("Test questionnaire 1");
       });
 
-      it("Should return relevant questionnaires when searching by access `Write`", async () => {
+      it("Should return relevant questionnaires when searching by access `Editor`", async () => {
         const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
           {
             search: "",
             owner: "",
-            access: "Write",
+            access: "Editor",
             resultsPerPage: 10,
           },
           ctx
@@ -596,12 +596,12 @@ describe("MongoDB Datastore", () => {
         expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 1"); // "user-1" created the questionnaire
       });
 
-      it("Should return relevant questionnaires when searching by access `Read`", async () => {
+      it("Should return relevant questionnaires when searching by access `ViewOnly`", async () => {
         const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
           {
             search: "",
             owner: "",
-            access: "Read",
+            access: "ViewOnly",
             resultsPerPage: 10,
           },
           ctx
