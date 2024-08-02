@@ -75,8 +75,26 @@ describe("MongoDB Datastore", () => {
       expect(() => mongoDB.listQuestionnaires()).not.toThrow();
     });
 
-    it("Should not throw error on listFilteredQuestionnaires", async () => {
+    it("Should log error message without throwing error on listFilteredQuestionnaires", async () => {
       expect(() => mongoDB.listFilteredQuestionnaires({}, ctx)).not.toThrow();
+      expect(mockLoggerError).toHaveBeenCalledWith(
+        {
+          error: expect.any(String),
+          input: {},
+        },
+        "Unable to retrieve questionnaires (from listFilteredQuestionnaires)"
+      );
+    });
+
+    it("Should log error message without throwing error on getTotalPages", async () => {
+      expect(() => mongoDB.getTotalPages({}, ctx)).not.toThrow();
+      expect(mockLoggerError).toHaveBeenCalledWith(
+        {
+          error: expect.any(String),
+          input: {},
+        },
+        "Unable to get total pages (from getTotalPages)"
+      );
     });
 
     it("Should not throw error on createQuestionnaire", async () => {
