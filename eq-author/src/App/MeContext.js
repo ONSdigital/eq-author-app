@@ -93,6 +93,24 @@ const ContextProvider = ({ history, client, children }) => {
     auth.onAuthStateChanged((user) => {
       setFirebaseUser(user);
       setAwaitingFirebase(false);
+      auth.onAuthStateChanged((user) => {
+        let sessionTimeout = null;
+        if (user === null || user === undefined) {
+          sessionTimeout && clearTimeout(sessionTimeout);
+          sessionTimeout = null;
+        } else {
+          user.getIdTokenResult().then((idTokenResult) => {
+            const authTime = idTokenResult.claims.auth_time * 1000;
+            const sessionDuration = 10000; // 10 seconds
+            const millisecondsUntilExpiration =
+              sessionDuration - (Date.now() - authTime);
+            sessionTimeout = setTimeout(
+              () => auth.signOut(),
+              millisecondsUntilExpiration
+            );
+          });
+        }
+      });
     });
   }, []);
 
