@@ -101,9 +101,12 @@ const ContextProvider = ({ history, client, children }) => {
         } else {
           user.getIdTokenResult().then((idTokenResult) => {
             const authTime = idTokenResult.claims.auth_time * 1000;
-            const sessionDuration = 10000; // 10 seconds
+            // Seven days in milliseconds
+            // const sessionDuration = 1000 * 60 * 60 * 24 * 7;
+            const sessionDuration = 20000; // 10 seconds
             const millisecondsUntilExpiration =
               sessionDuration - (Date.now() - authTime);
+            console.log(millisecondsUntilExpiration);
             sessionTimeout = setTimeout(
               () => auth.signOut(),
               millisecondsUntilExpiration
