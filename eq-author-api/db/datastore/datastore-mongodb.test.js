@@ -417,6 +417,7 @@ describe("MongoDB Datastore", () => {
           mockQuestionnaire({
             title: "Test questionnaire 1",
             ownerId: "user-1",
+            shortTitle: "Alias 1",
             createdAt: new Date(2021, 2, 5, 5, 0, 0, 0),
           }),
           ctx
@@ -494,6 +495,21 @@ describe("MongoDB Datastore", () => {
         expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 3");
         expect(listOfQuestionnaires[4].title).toEqual("Test questionnaire 2");
         expect(listOfQuestionnaires[5].title).toEqual("Test questionnaire 1");
+      });
+
+      it("Should return questionnaires with shortTitle containing the search term", async () => {
+        const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "Alias",
+            owner: "",
+            access: "All",
+            resultsPerPage: 10,
+          },
+          ctx
+        );
+
+        expect(listOfQuestionnaires.length).toBe(1);
+        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 1"); // "Test questionnaire 1" has `shortTitle` "Alias 1" - this `shortTitle` contains the search term
       });
 
       it("Should return questionnaires with owner name containing the `owner` search term", async () => {

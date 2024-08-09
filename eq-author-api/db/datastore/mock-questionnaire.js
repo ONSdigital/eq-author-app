@@ -6,9 +6,11 @@ const mockQuestionnaire = ({
   createdAt,
   isPublic,
   editors,
+  shortTitle,
 }) => {
   const questionnaire = {
     title: title || "Default questionnaire title",
+    shortTitle,
     theme: "business",
     legalBasis: "Voluntary",
     navigation: false,
