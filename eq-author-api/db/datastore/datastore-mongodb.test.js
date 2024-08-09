@@ -496,11 +496,27 @@ describe("MongoDB Datastore", () => {
         expect(listOfQuestionnaires[5].title).toEqual("Test questionnaire 1");
       });
 
-      it("Should return questionnaires with owner containing the `owner` search term", async () => {
+      it("Should return questionnaires with owner name containing the `owner` search term", async () => {
         const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
           {
             search: "",
             owner: "Jane",
+            access: "All",
+            resultsPerPage: 10,
+          },
+          ctx
+        );
+
+        expect(listOfQuestionnaires.length).toBe(2);
+        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 4");
+        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 3");
+      });
+
+      it("Should return questionnaires with owner email containing the `owner` search term", async () => {
+        const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "",
+            owner: "user2@example.com",
             access: "All",
             resultsPerPage: 10,
           },
