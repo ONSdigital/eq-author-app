@@ -1,6 +1,10 @@
-const mockQuestionnnaire = require("./mock-questionnaire");
+const mockQuestionnaire = require("./mock-questionnaire");
 const { noteCreationEvent } = require("../../utils/questionnaireEvents");
 const { v4: uuidv4 } = require("uuid");
+
+const mockLoggerDebug = jest.fn();
+const mockLoggerInfo = jest.fn();
+const mockLoggerError = jest.fn();
 
 describe("MongoDB Datastore", () => {
   let questionnaire, user, firstUser, mockComment, ctx;
@@ -8,15 +12,28 @@ describe("MongoDB Datastore", () => {
   jest.isolateModules(() => {
     mongoDB = require("./datastore-mongodb");
   });
+
+  jest.mock("../../utils/logger", () => ({
+    logger: {
+      debug: mockLoggerDebug,
+      info: mockLoggerInfo,
+      error: mockLoggerError,
+    },
+  }));
+
   beforeAll(() => {
     jest.resetModules();
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   beforeEach(() => {
-    questionnaire = mockQuestionnnaire();
+    questionnaire = mockQuestionnaire({});
     ctx = {
       user: {
-        id: 123,
+        id: "user-1",
       },
     };
     user = {
@@ -56,6 +73,28 @@ describe("MongoDB Datastore", () => {
 
     it("Should not throw error on listQuestionnaires", async () => {
       expect(() => mongoDB.listQuestionnaires()).not.toThrow();
+    });
+
+    it("Should log error message without throwing error on listFilteredQuestionnaires", async () => {
+      expect(() => mongoDB.listFilteredQuestionnaires({}, ctx)).not.toThrow();
+      expect(mockLoggerError).toHaveBeenCalledWith(
+        {
+          error: expect.any(String),
+          input: {},
+        },
+        "Unable to retrieve questionnaires (from listFilteredQuestionnaires)"
+      );
+    });
+
+    it("Should log error message without throwing error on getTotalPages", async () => {
+      expect(() => mongoDB.getTotalPages({}, ctx)).not.toThrow();
+      expect(mockLoggerError).toHaveBeenCalledWith(
+        {
+          error: expect.any(String),
+          input: {},
+        },
+        "Unable to get total pages (from getTotalPages)"
+      );
     });
 
     it("Should not throw error on createQuestionnaire", async () => {
@@ -337,6 +376,649 @@ describe("MongoDB Datastore", () => {
         expect(userFromDb.updatedAt instanceof Date).toBeTruthy();
 
         expect(userFromDb).toMatchObject(changedUser);
+      });
+    });
+
+    describe("Getting a list of filtered questionnaires", () => {
+      beforeAll(async () => {
+        await mongoDB.createUser({
+          id: "user-1",
+          email: "user1@example.com",
+          name: "Joe Bloggs",
+          externalId: "user-1",
+          picture: "",
+        });
+
+        await mongoDB.createUser({
+          id: "user-2",
+          email: "user2@example.com",
+          name: "Jane Smith",
+          externalId: "user-2",
+          picture: "",
+        });
+
+        await mongoDB.createUser({
+          id: "test-user",
+          email: "test-user@example.com",
+          name: "Test User",
+          externalId: "test-user",
+          picture: "",
+        });
+
+        await mongoDB.createUser({
+          id: "user-4",
+          email: "null@example.com",
+          name: null, // `name` is null to test questionnaires created by users with null `name` are returned
+          externalId: "user-4",
+          picture: "",
+        });
+
+        await mongoDB.createQuestionnaire(
+          mockQuestionnaire({
+            title: "Test questionnaire 1",
+            ownerId: "user-1",
+            shortTitle: "Alias 1",
+            createdAt: new Date(2021, 2, 5, 5, 0, 0, 0),
+          }),
+          ctx
+        );
+        await mongoDB.createQuestionnaire(
+          mockQuestionnaire({
+            title: "Test questionnaire 2",
+            ownerId: "user-1",
+            createdAt: new Date(2021, 2, 10, 5, 0, 0, 0),
+          }),
+          ctx
+        );
+        await mongoDB.createQuestionnaire(
+          mockQuestionnaire({
+            title: "Test questionnaire 3",
+            ownerId: "user-2",
+            editors: ["user-1"],
+            createdAt: new Date(2021, 2, 15, 5, 0, 0, 0),
+          }),
+          ctx
+        );
+        await mongoDB.createQuestionnaire(
+          mockQuestionnaire({
+            title: "Test questionnaire 4",
+            ownerId: "user-2",
+            createdAt: new Date(2021, 2, 20, 5, 0, 0, 0),
+          }),
+          ctx
+        );
+        // ** "Test questionnaire 5" is not included in several test assertions as it is not public and `ctx.user` is not owner/editor
+        await mongoDB.createQuestionnaire(
+          mockQuestionnaire({
+            title: "Test questionnaire 5",
+            ownerId: "user-2",
+            createdAt: new Date(2021, 2, 25, 5, 0, 0, 0),
+            isPublic: false,
+          }),
+          ctx
+        );
+        await mongoDB.createQuestionnaire(
+          mockQuestionnaire({
+            title: "Test questionnaire 6",
+            ownerId: "user-1",
+            createdAt: new Date(2021, 2, 30, 5, 0, 0, 0),
+            isPublic: false,
+          }),
+          ctx
+        );
+        await mongoDB.createQuestionnaire(
+          mockQuestionnaire({
+            title: "Test questionnaire 7",
+            ownerId: "user-4",
+            createdAt: new Date(2021, 4, 10, 5, 0, 0, 0),
+          }),
+          ctx
+        );
+      });
+
+      it("Should return questionnaires with title containing the search term", async () => {
+        const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "Test questionnaire",
+            owner: "",
+            access: "All",
+            resultsPerPage: 10,
+          },
+          ctx
+        );
+
+        expect(listOfQuestionnaires.length).toBe(6);
+        // "Test questionnaire 7" is first as default sort is newest to oldest
+        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 7");
+        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 6");
+        expect(listOfQuestionnaires[2].title).toEqual("Test questionnaire 4");
+        expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 3");
+        expect(listOfQuestionnaires[4].title).toEqual("Test questionnaire 2");
+        expect(listOfQuestionnaires[5].title).toEqual("Test questionnaire 1");
+      });
+
+      it("Should return questionnaires with shortTitle containing the search term", async () => {
+        const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "Alias",
+            owner: "",
+            access: "All",
+            resultsPerPage: 10,
+          },
+          ctx
+        );
+
+        expect(listOfQuestionnaires.length).toBe(1);
+        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 1"); // "Test questionnaire 1" has `shortTitle` "Alias 1" - this `shortTitle` contains the search term
+      });
+
+      it("Should return questionnaires with owner name containing the `owner` search term", async () => {
+        const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "",
+            owner: "Jane",
+            access: "All",
+            resultsPerPage: 10,
+          },
+          ctx
+        );
+
+        expect(listOfQuestionnaires.length).toBe(2);
+        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 4");
+        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 3");
+      });
+
+      it("Should return questionnaires with owner email containing the `owner` search term", async () => {
+        const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "",
+            owner: "user2@example.com",
+            access: "All",
+            resultsPerPage: 10,
+          },
+          ctx
+        );
+
+        expect(listOfQuestionnaires.length).toBe(2);
+        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 4");
+        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 3");
+      });
+
+      it("Should return questionnaires created on or after the searched date", async () => {
+        const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "",
+            owner: "",
+            createdOnOrAfter: new Date(2021, 2, 10),
+            access: "All",
+            resultsPerPage: 10,
+          },
+          ctx
+        );
+
+        expect(listOfQuestionnaires.length).toBe(8);
+        /* 
+          Questionnaires with titles "Default questionnaire title" are created in previous tests.
+          These appear first when sorted by newest to oldest as their `createdAt` dates are most recent.
+        */
+        expect(listOfQuestionnaires[0].title).toEqual(
+          "Default questionnaire title"
+        );
+        expect(listOfQuestionnaires[1].title).toEqual(
+          "Default questionnaire title"
+        );
+        expect(listOfQuestionnaires[2].title).toEqual(
+          "Default questionnaire title"
+        );
+        expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 7");
+        expect(listOfQuestionnaires[4].title).toEqual("Test questionnaire 6");
+        expect(listOfQuestionnaires[5].title).toEqual("Test questionnaire 4");
+        expect(listOfQuestionnaires[6].title).toEqual("Test questionnaire 3");
+        expect(listOfQuestionnaires[7].title).toEqual("Test questionnaire 2");
+      });
+
+      it("Should return questionnaires created on or before the searched date", async () => {
+        const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "",
+            owner: "",
+            createdOnOrBefore: new Date(2021, 2, 10),
+            access: "All",
+            resultsPerPage: 10,
+          },
+          ctx
+        );
+
+        expect(listOfQuestionnaires.length).toBe(2);
+        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 2");
+        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 1");
+      });
+
+      it("Should return questionnaires created between the searched dates", async () => {
+        const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "",
+            owner: "",
+            createdOnOrAfter: new Date(2021, 2, 10),
+            createdOnOrBefore: new Date(2021, 2, 20),
+            access: "All",
+            resultsPerPage: 10,
+          },
+          ctx
+        );
+
+        expect(listOfQuestionnaires.length).toBe(3);
+        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 4");
+        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 3");
+        expect(listOfQuestionnaires[2].title).toEqual("Test questionnaire 2");
+      });
+
+      it("Should return relevant questionnaires when searching by access `All`", async () => {
+        const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "",
+            owner: "",
+            access: "All",
+            resultsPerPage: 10,
+          },
+          ctx
+        );
+
+        expect(listOfQuestionnaires.length).toBe(9);
+        /* 
+          Questionnaires with titles "Default questionnaire title" are created in previous tests.
+          These appear first when sorted by newest to oldest as their `createdAt` dates are most recent.
+        */
+        expect(listOfQuestionnaires[0].title).toEqual(
+          "Default questionnaire title"
+        );
+        expect(listOfQuestionnaires[1].title).toEqual(
+          "Default questionnaire title"
+        );
+        expect(listOfQuestionnaires[2].title).toEqual(
+          "Default questionnaire title"
+        );
+        expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 7");
+        expect(listOfQuestionnaires[4].title).toEqual("Test questionnaire 6");
+        expect(listOfQuestionnaires[5].title).toEqual("Test questionnaire 4");
+        expect(listOfQuestionnaires[6].title).toEqual("Test questionnaire 3");
+        expect(listOfQuestionnaires[7].title).toEqual("Test questionnaire 2");
+        expect(listOfQuestionnaires[8].title).toEqual("Test questionnaire 1");
+      });
+
+      it("Should return relevant questionnaires when searching by access `Editor`", async () => {
+        const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "",
+            owner: "",
+            access: "Editor",
+            resultsPerPage: 10,
+          },
+          ctx
+        );
+
+        // Expects all questionnaires where `ctx.user` is the owner (`ctx.user` created the questionnaire) or an editor
+        expect(listOfQuestionnaires.length).toBe(4);
+        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 6"); // "user-1" created the questionnaire
+        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 3"); // "user-1" is an editor
+        expect(listOfQuestionnaires[2].title).toEqual("Test questionnaire 2"); // "user-1" created the questionnaire
+        expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 1"); // "user-1" created the questionnaire
+      });
+
+      it("Should return relevant questionnaires when searching by access `ViewOnly`", async () => {
+        const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "",
+            owner: "",
+            access: "ViewOnly",
+            resultsPerPage: 10,
+          },
+          ctx
+        );
+
+        expect(listOfQuestionnaires.length).toBe(5);
+        /* 
+          Questionnaires with titles "Default questionnaire title" are created in previous tests.
+          These appear first when sorted by newest to oldest as their `createdAt` dates are most recent.
+        */
+        expect(listOfQuestionnaires[0].title).toEqual(
+          "Default questionnaire title"
+        );
+        expect(listOfQuestionnaires[1].title).toEqual(
+          "Default questionnaire title"
+        );
+        expect(listOfQuestionnaires[2].title).toEqual(
+          "Default questionnaire title"
+        );
+        expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 7");
+        expect(listOfQuestionnaires[4].title).toEqual("Test questionnaire 4");
+      });
+
+      it("Should return relevant questionnaires when searching by access `PrivateQuestionnaires`", async () => {
+        const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "",
+            owner: "",
+            access: "PrivateQuestionnaires",
+            resultsPerPage: 10,
+          },
+          ctx
+        );
+
+        expect(listOfQuestionnaires.length).toBe(1);
+        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 6");
+      });
+
+      it("Should return relevant questionnaires when `myQuestionnaires` is true", async () => {
+        const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "",
+            owner: "",
+            access: "All",
+            resultsPerPage: 10,
+            myQuestionnaires: true,
+          },
+          ctx
+        );
+
+        expect(listOfQuestionnaires.length).toBe(4);
+        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 6");
+        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 3");
+        expect(listOfQuestionnaires[2].title).toEqual("Test questionnaire 2");
+        expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 1");
+      });
+
+      it("Should return questionnaires on previous page when `firstQuestionnaireIdOnPage` is provided without `lastQuestionnaireIdOnPage`", async () => {
+        // Gets questionnaires with "All" access to get a questionnaire ID to use as `firstQuestionnaireIdOnPage`
+        const allQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "",
+            owner: "",
+            access: "All",
+            resultsPerPage: 10,
+          },
+          ctx
+        );
+
+        const listOfPreviousPageQuestionnaires =
+          await mongoDB.listFilteredQuestionnaires(
+            {
+              search: "",
+              owner: "",
+              access: "All",
+              resultsPerPage: 2, // Limits to 2 questionnaires per page to test a small number of questionnaires on previous page
+              firstQuestionnaireIdOnPage: allQuestionnaires[6].id,
+            },
+            ctx
+          );
+
+        expect(listOfPreviousPageQuestionnaires.length).toBe(2);
+        // The two questionnaires before the first questionnaire on the page (based on firstQuestionnaireIdOnPage)
+        expect(listOfPreviousPageQuestionnaires[0].title).toEqual(
+          "Test questionnaire 6"
+        );
+        expect(listOfPreviousPageQuestionnaires[1].title).toEqual(
+          "Test questionnaire 4"
+        );
+      });
+
+      it("Should return questionnaires on next page when `lastQuestionnaireIdOnPage` is provided without `firstQuestionnaireIdOnPage`", async () => {
+        // Gets questionnaires with "All" access to get a questionnaire ID to use as `lastQuestionnaireIdOnPage`
+        const allQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "",
+            owner: "",
+            access: "All",
+            resultsPerPage: 10,
+          },
+          ctx
+        );
+
+        const listOfNextPageQuestionnaires =
+          await mongoDB.listFilteredQuestionnaires(
+            {
+              search: "",
+              owner: "",
+              access: "All",
+              resultsPerPage: 2, // Limits to 2 questionnaires per page to test a small number of questionnaires on next page
+              lastQuestionnaireIdOnPage: allQuestionnaires[3].id,
+            },
+            ctx
+          );
+
+        expect(listOfNextPageQuestionnaires.length).toBe(2);
+        // The two questionnaires after the last questionnaire on the page (based on lastQuestionnaireIdOnPage)
+        expect(listOfNextPageQuestionnaires[0].title).toEqual(
+          "Test questionnaire 6"
+        );
+        expect(listOfNextPageQuestionnaires[1].title).toEqual(
+          "Test questionnaire 4"
+        );
+      });
+
+      it("Should log an error message when both `firstQuestionnaireIdOnPage` and `lastQuestionnaireIdOnPage` are provided", async () => {
+        const listFilteredQuestionnairesInput = {
+          search: "",
+          owner: "",
+          access: "All",
+          resultsPerPage: 10,
+          firstQuestionnaireIdOnPage: "123",
+          lastQuestionnaireIdOnPage: "456",
+        };
+
+        await mongoDB.listFilteredQuestionnaires(
+          listFilteredQuestionnairesInput,
+          ctx
+        );
+
+        expect(mockLoggerError).toHaveBeenCalledTimes(1);
+        expect(mockLoggerError).toHaveBeenCalledWith(
+          {
+            input: listFilteredQuestionnairesInput,
+          },
+          "Invalid input - received both firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage, expected only one of these values or neither (from listFilteredQuestionnaires)"
+        );
+      });
+
+      it("Should log a debug message when no questionnaires are found", async () => {
+        const listFilteredQuestionnairesInput = {
+          search: "Lorem ipsum", // Search term contained in no questionnaires
+          owner: "",
+          access: "All",
+          resultsPerPage: 10,
+        };
+
+        // `listOfQuestionnaires` should be an empty array as no questionnaires contain the search term
+        const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          listFilteredQuestionnairesInput,
+          ctx
+        );
+
+        expect(mockLoggerDebug).toHaveBeenCalledTimes(1);
+        expect(mockLoggerDebug).toHaveBeenCalledWith(
+          `No questionnaires found with input: ${JSON.stringify(
+            listFilteredQuestionnairesInput
+          )} (from listFilteredQuestionnaires)`
+        );
+        expect(listOfQuestionnaires).toEqual([]);
+      });
+
+      it("Should sort questionnaires on first page from oldest to newest when `sortBy` is `createdDateAsc`", async () => {
+        const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "",
+            owner: "",
+            access: "All",
+            resultsPerPage: 10,
+            sortBy: "createdDateAsc",
+          },
+          ctx
+        );
+
+        expect(listOfQuestionnaires.length).toBe(9);
+        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 1");
+        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 2");
+        expect(listOfQuestionnaires[2].title).toEqual("Test questionnaire 3");
+        expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 4");
+        expect(listOfQuestionnaires[4].title).toEqual("Test questionnaire 6");
+        expect(listOfQuestionnaires[5].title).toEqual("Test questionnaire 7");
+        /* 
+          Questionnaires with titles "Default questionnaire title" are created in previous tests.
+          These appear last when sorted by oldest to newest as their `createdAt` dates are most recent.
+        */
+        expect(listOfQuestionnaires[6].title).toEqual(
+          "Default questionnaire title"
+        );
+        expect(listOfQuestionnaires[7].title).toEqual(
+          "Default questionnaire title"
+        );
+        expect(listOfQuestionnaires[8].title).toEqual(
+          "Default questionnaire title"
+        );
+      });
+
+      it("Should sort questionnaires on previous page from oldest to newest when `sortBy` is `createdDateAsc`", async () => {
+        // Gets questionnaires with "All" access to get a questionnaire ID to use as `firstQuestionnaireIdOnPage`
+        const allQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "",
+            owner: "",
+            access: "All",
+            resultsPerPage: 10,
+            sortBy: "createdDateAsc",
+          },
+          ctx
+        );
+
+        const listOfPreviousPageQuestionnaires =
+          await mongoDB.listFilteredQuestionnaires(
+            {
+              search: "",
+              owner: "",
+              access: "All",
+              resultsPerPage: 2,
+              firstQuestionnaireIdOnPage: allQuestionnaires[4].id,
+              sortBy: "createdDateAsc",
+            },
+            ctx
+          );
+
+        expect(listOfPreviousPageQuestionnaires.length).toBe(2);
+        // The two questionnaires before the first questionnaire on the page (based on firstQuestionnaireIdOnPage)
+        expect(listOfPreviousPageQuestionnaires[0].title).toEqual(
+          "Test questionnaire 3"
+        );
+        expect(listOfPreviousPageQuestionnaires[1].title).toEqual(
+          "Test questionnaire 4"
+        );
+      });
+
+      it("Should sort questionnaires on next page from oldest to newest when `sortBy` is `createdDateAsc`", async () => {
+        // Gets questionnaires with "All" access to get a questionnaire ID to use as `lastQuestionnaireIdOnPage`
+        const allQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "",
+            owner: "",
+            access: "All",
+            resultsPerPage: 10,
+            sortBy: "createdDateAsc",
+          },
+          ctx
+        );
+
+        const listOfNextPageQuestionnaires =
+          await mongoDB.listFilteredQuestionnaires(
+            {
+              search: "",
+              owner: "",
+              access: "All",
+              resultsPerPage: 2,
+              lastQuestionnaireIdOnPage: allQuestionnaires[1].id,
+              sortBy: "createdDateAsc",
+            },
+            ctx
+          );
+
+        expect(listOfNextPageQuestionnaires.length).toBe(2);
+        // The two questionnaires after the last questionnaire on the page (based on lastQuestionnaireIdOnPage)
+        expect(listOfNextPageQuestionnaires[0].title).toEqual(
+          "Test questionnaire 3"
+        );
+        expect(listOfNextPageQuestionnaires[1].title).toEqual(
+          "Test questionnaire 4"
+        );
+      });
+
+      it("Should return relevant questionnaires when searching with multiple filters", async () => {
+        const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "Test questionnaire",
+            owner: "Joe",
+            access: "Editor",
+            createdOnOrBefore: new Date(2021, 2, 15),
+            createdOnOrAfter: new Date(2021, 2, 5),
+            resultsPerPage: 10,
+            sortBy: "createdDateAsc",
+          },
+          ctx
+        );
+
+        expect(listOfQuestionnaires.length).toBe(2);
+        // These questionnaires meet all of the filter conditions
+        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 1");
+        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 2");
+      });
+    });
+
+    describe("Getting total page count", () => {
+      it("Should get the total number of pages based on the number of questionnaires and results per page", async () => {
+        const totalPageCount = await mongoDB.getTotalPages(
+          {
+            resultsPerPage: 3, // As 8 questionnaires should be returned (from previously created questionnaires), uses 3 questionnaires per page to test total page count is rounded up
+            search: "",
+            owner: "",
+            access: "All",
+          },
+          ctx
+        );
+
+        expect(totalPageCount).toBe(3); // (8 questionnaires) / (3 results per page) gives 3 total pages after rounding up
+      });
+
+      it("Should return 0 when no questionnaires are found", async () => {
+        const totalPageCount = await mongoDB.getTotalPages(
+          {
+            resultsPerPage: 10,
+            search: "Lorem ipsum", // Search term contained in no questionnaires
+            owner: "",
+            access: "All",
+          },
+          ctx
+        );
+
+        expect(mockLoggerError).not.toHaveBeenCalled();
+        expect(totalPageCount).toBe(0);
+      });
+
+      it("Should log an error message on exception", async () => {
+        await mongoDB.getTotalPages(); // No arguments to trigger exception
+
+        // Two calls as `getMatchQuery` also throws an error due to no context object
+        expect(mockLoggerError).toHaveBeenCalledTimes(2);
+        expect(mockLoggerError).toHaveBeenCalledWith(
+          {
+            input: {},
+            error: expect.any(String),
+          },
+          "Unable to get match query for filtering questionnaires (from getMatchQuery)"
+        );
+        expect(mockLoggerError).toHaveBeenCalledWith(
+          {
+            input: {},
+            error: expect.any(String),
+          },
+          "Unable to get total pages (from getTotalPages)"
+        );
       });
     });
 
