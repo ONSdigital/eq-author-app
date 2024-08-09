@@ -89,23 +89,28 @@ const ContextProvider = ({ history, client, children }) => {
 
   useEffect(() => {
     // be aware that the return from auth.onAuthStateChanged will change on firebase ver 4.0
-    // https://firebase.google.com/docs/reference/js/v8/firebase.auth.Auth#onauthstatechanged
+    // https://firebase.google.com/docs/reference/js/v8/firebase.auth.Auth#onauthstatechanged]
+    // This useEffect hook is responsible for handling the authentication state changes in Firebase.
+    // It listens for changes in the authentication state using the onAuthStateChanged method.
+    // When the authentication state changes, it updates the firebaseUser state and sets awaitingFirebase to false.
     auth.onAuthStateChanged((user) => {
       setFirebaseUser(user);
       setAwaitingFirebase(false);
+      // It also sets up a session timeout for the user if they are authenticated.
+      // If the user is not authenticated, the session timeout is cleared using clearTimeout.
       let sessionTimeout = null;
       if (user === null || user === undefined) {
         sessionTimeout && clearTimeout(sessionTimeout);
         sessionTimeout = null;
       } else {
+        // If the user is authenticated, it retrieves the ID token result and calculates the session duration.
         user.getIdTokenResult().then((idTokenResult) => {
           const authTime = idTokenResult.claims.auth_time * 1000;
-          // Seven days in milliseconds
-          // const sessionDuration = 1000 * 60 * 60 * 24 * 7;
-          const sessionDuration = 10000; // 10 seconds
+          // The session duration is set to 7 days in this example.
+          const sessionDuration = 1000 * 60 * 60 * 24 * 7;
           const millisecondsUntilExpiration =
             sessionDuration - (Date.now() - authTime);
-          // console.log(millisecondsUntilExpiration);
+          // It then sets up a session timeout using setTimeout, which will automatically sign out the user after the session duration expires.
           sessionTimeout = setTimeout(
             () => auth.signOut(),
             millisecondsUntilExpiration
