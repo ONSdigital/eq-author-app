@@ -307,13 +307,22 @@ const getMatchQuery = async (input = {}, ctx) => {
     }
 
     const matchQuery = {
-      // Searches for questionnaires with `title` or `shortTitle` (short code) containing the search term
-      $or: [
-        { title: { $regex: search, $options: "i" } },
-        { shortTitle: { $regex: search, $options: "i" } },
+      $and: [
+        // Searches for questionnaires with `title` or `shortTitle` (short code) containing the search term
+        {
+          $or: [
+            { title: { $regex: search, $options: "i" } },
+            { shortTitle: { $regex: search, $options: "i" } },
+          ],
+        },
+        // Searches for questionnaires with owner name OR email containing the search term - email also handles owner name being null
+        {
+          $or: [
+            { "owner.name": { $regex: owner, $options: "i" } },
+            { "owner.email": { $regex: owner, $options: "i" } },
+          ],
+        },
       ],
-      // Searches for questionnaires with owner name (based on `createdBy`) containing the search term
-      "owner.name": { $regex: owner, $options: "i" },
     };
 
     // If both `createdOnOrAfter` and `createdOnOrBefore` are provided, searches for questionnaires created between `createdOnOrAfter` and `createdOnOrBefore` inclusive
