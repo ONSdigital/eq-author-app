@@ -948,6 +948,26 @@ describe("MongoDB Datastore", () => {
           "Test questionnaire 4"
         );
       });
+
+      it("Should return relevant questionnaires when searching with multiple filters", async () => {
+        const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            search: "Test questionnaire",
+            owner: "Joe",
+            access: "Editor",
+            createdOnOrBefore: new Date(2021, 2, 15),
+            createdOnOrAfter: new Date(2021, 2, 5),
+            resultsPerPage: 10,
+            sortBy: "createdDateAsc",
+          },
+          ctx
+        );
+
+        expect(listOfQuestionnaires.length).toBe(2);
+        // These questionnaires meet all of the filter conditions
+        expect(listOfQuestionnaires[0].title).toEqual("Test questionnaire 1");
+        expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 2");
+      });
     });
 
     describe("Getting total page count", () => {
