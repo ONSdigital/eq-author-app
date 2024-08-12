@@ -107,7 +107,7 @@ const ContextProvider = ({ history, client, children }) => {
         user.getIdTokenResult().then((idTokenResult) => {
           const authTime = idTokenResult.claims.auth_time * 1000;
           // The session duration is set to 7 days in this example.
-          const sessionDuration = 1000 * 60 * 60 * 24 * 7;
+          const sessionDuration = 7 * 24 * 60 * 60 * 1000;
           const millisecondsUntilExpiration =
             sessionDuration - (Date.now() - authTime);
           // It then sets up a session timeout using setTimeout, which will automatically sign out the user after the session duration expires.
