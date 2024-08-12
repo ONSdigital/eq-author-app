@@ -4,7 +4,7 @@ const binaryExpression2 = require("./logic/binaryExpression2");
 const page = require("./pages");
 const questionnaireIntroduction = require("./questionnaireIntroduction");
 const importing = require("./importing");
-const homepage = require("./homepage");
+const questionnaires = require("./questionnaires");
 
 module.exports = [
   base,
@@ -13,5 +13,5 @@ module.exports = [
   ...page,
   ...questionnaireIntroduction,
   importing,
-  homepage,
+  questionnaires,
 ];

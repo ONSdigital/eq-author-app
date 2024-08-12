@@ -4,11 +4,11 @@ const {
 const {
   queryFilteredQuestionnaires,
   queryTotalPages,
-} = require("../../../tests/utils/contextBuilder/homepage");
+} = require("../../../tests/utils/contextBuilder/questionnaires");
 
 const { buildContext } = require("../../../tests/utils/contextBuilder");
 
-describe("homepage", () => {
+describe("questionnaires", () => {
   let ctx;
 
   beforeAll(async () => {
