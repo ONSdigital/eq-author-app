@@ -293,7 +293,7 @@ const listQuestionnaires = async () => {
 const getMatchQuery = async (input = {}, ctx) => {
   try {
     const {
-      search = "",
+      searchByTitleOrShortCode = "",
       owner = "",
       createdOnOrAfter,
       createdOnOrBefore,
@@ -311,8 +311,8 @@ const getMatchQuery = async (input = {}, ctx) => {
         // Searches for questionnaires with `title` or `shortTitle` (short code) containing the search term
         {
           $or: [
-            { title: { $regex: search, $options: "i" } },
-            { shortTitle: { $regex: search, $options: "i" } },
+            { title: { $regex: searchByTitleOrShortCode, $options: "i" } },
+            { shortTitle: { $regex: searchByTitleOrShortCode, $options: "i" } },
           ],
         },
         // Searches for questionnaires with owner name OR email containing the search term - email also handles owner name being null

@@ -75,7 +75,7 @@ describe("questionnaires", () => {
       };
 
       const input = {
-        search: "Test Questionnaire 1",
+        searchByTitleOrShortCode: "Test Questionnaire 1",
         owner: "",
         access: "All",
       };
@@ -130,7 +130,7 @@ describe("questionnaires", () => {
 
       const input = {
         resultsPerPage: 2,
-        search: "Test Questionnaire",
+        searchByTitleOrShortCode: "Test Questionnaire",
         owner: "",
         access: "All",
       };

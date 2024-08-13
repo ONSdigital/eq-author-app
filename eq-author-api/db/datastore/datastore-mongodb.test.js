@@ -476,10 +476,10 @@ describe("MongoDB Datastore", () => {
         );
       });
 
-      it("should return questionnaires with title containing the search term", async () => {
+      it("should return questionnaires with title containing the `searchByTitleOrShortCode` search term", async () => {
         const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
           {
-            search: "Test questionnaire",
+            searchByTitleOrShortCode: "Test questionnaire",
             owner: "",
             access: "All",
             resultsPerPage: 10,
@@ -497,10 +497,10 @@ describe("MongoDB Datastore", () => {
         expect(listOfQuestionnaires[5].title).toEqual("Test questionnaire 1");
       });
 
-      it("should return questionnaires with shortTitle containing the search term", async () => {
+      it("should return questionnaires with shortTitle containing the `searchByTitleOrShortCode` search term", async () => {
         const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
           {
-            search: "Alias",
+            searchByTitleOrShortCode: "Alias",
             owner: "",
             access: "All",
             resultsPerPage: 10,
@@ -515,7 +515,7 @@ describe("MongoDB Datastore", () => {
       it("should return questionnaires with owner name containing the `owner` search term", async () => {
         const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
           {
-            search: "",
+            searchByTitleOrShortCode: "",
             owner: "Jane",
             access: "All",
             resultsPerPage: 10,
@@ -531,7 +531,7 @@ describe("MongoDB Datastore", () => {
       it("should return questionnaires with owner email containing the `owner` search term", async () => {
         const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
           {
-            search: "",
+            searchByTitleOrShortCode: "",
             owner: "user2@example.com",
             access: "All",
             resultsPerPage: 10,
@@ -547,7 +547,7 @@ describe("MongoDB Datastore", () => {
       it("should return questionnaires created on or after the searched date", async () => {
         const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
           {
-            search: "",
+            searchByTitleOrShortCode: "",
             owner: "",
             createdOnOrAfter: new Date(2021, 2, 10),
             access: "All",
@@ -580,7 +580,7 @@ describe("MongoDB Datastore", () => {
       it("should return questionnaires created on or before the searched date", async () => {
         const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
           {
-            search: "",
+            searchByTitleOrShortCode: "",
             owner: "",
             createdOnOrBefore: new Date(2021, 2, 10),
             access: "All",
@@ -597,7 +597,7 @@ describe("MongoDB Datastore", () => {
       it("should return questionnaires created between the searched dates", async () => {
         const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
           {
-            search: "",
+            searchByTitleOrShortCode: "",
             owner: "",
             createdOnOrAfter: new Date(2021, 2, 10),
             createdOnOrBefore: new Date(2021, 2, 20),
@@ -616,7 +616,7 @@ describe("MongoDB Datastore", () => {
       it("should return relevant questionnaires when searching by access `All`", async () => {
         const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
           {
-            search: "",
+            searchByTitleOrShortCode: "",
             owner: "",
             access: "All",
             resultsPerPage: 10,
@@ -649,7 +649,7 @@ describe("MongoDB Datastore", () => {
       it("should return relevant questionnaires when searching by access `Editor`", async () => {
         const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
           {
-            search: "",
+            searchByTitleOrShortCode: "",
             owner: "",
             access: "Editor",
             resultsPerPage: 10,
@@ -668,7 +668,7 @@ describe("MongoDB Datastore", () => {
       it("should return relevant questionnaires when searching by access `ViewOnly`", async () => {
         const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
           {
-            search: "",
+            searchByTitleOrShortCode: "",
             owner: "",
             access: "ViewOnly",
             resultsPerPage: 10,
@@ -697,7 +697,7 @@ describe("MongoDB Datastore", () => {
       it("should return relevant questionnaires when searching by access `PrivateQuestionnaires`", async () => {
         const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
           {
-            search: "",
+            searchByTitleOrShortCode: "",
             owner: "",
             access: "PrivateQuestionnaires",
             resultsPerPage: 10,
@@ -712,7 +712,7 @@ describe("MongoDB Datastore", () => {
       it("should return relevant questionnaires when `myQuestionnaires` is true", async () => {
         const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
           {
-            search: "",
+            searchByTitleOrShortCode: "",
             owner: "",
             access: "All",
             resultsPerPage: 10,
@@ -732,7 +732,7 @@ describe("MongoDB Datastore", () => {
         // Gets questionnaires with "All" access to get a questionnaire ID to use as `firstQuestionnaireIdOnPage`
         const allQuestionnaires = await mongoDB.listFilteredQuestionnaires(
           {
-            search: "",
+            searchByTitleOrShortCode: "",
             owner: "",
             access: "All",
             resultsPerPage: 10,
@@ -743,7 +743,7 @@ describe("MongoDB Datastore", () => {
         const listOfPreviousPageQuestionnaires =
           await mongoDB.listFilteredQuestionnaires(
             {
-              search: "",
+              searchByTitleOrShortCode: "",
               owner: "",
               access: "All",
               resultsPerPage: 2, // Limits to 2 questionnaires per page to test a small number of questionnaires on previous page
@@ -766,7 +766,7 @@ describe("MongoDB Datastore", () => {
         // Gets questionnaires with "All" access to get a questionnaire ID to use as `lastQuestionnaireIdOnPage`
         const allQuestionnaires = await mongoDB.listFilteredQuestionnaires(
           {
-            search: "",
+            searchByTitleOrShortCode: "",
             owner: "",
             access: "All",
             resultsPerPage: 10,
@@ -777,7 +777,7 @@ describe("MongoDB Datastore", () => {
         const listOfNextPageQuestionnaires =
           await mongoDB.listFilteredQuestionnaires(
             {
-              search: "",
+              searchByTitleOrShortCode: "",
               owner: "",
               access: "All",
               resultsPerPage: 2, // Limits to 2 questionnaires per page to test a small number of questionnaires on next page
@@ -798,7 +798,7 @@ describe("MongoDB Datastore", () => {
 
       it("should log an error message when both `firstQuestionnaireIdOnPage` and `lastQuestionnaireIdOnPage` are provided", async () => {
         const listFilteredQuestionnairesInput = {
-          search: "",
+          searchByTitleOrShortCode: "",
           owner: "",
           access: "All",
           resultsPerPage: 10,
@@ -822,7 +822,7 @@ describe("MongoDB Datastore", () => {
 
       it("should log a debug message when no questionnaires are found", async () => {
         const listFilteredQuestionnairesInput = {
-          search: "Lorem ipsum", // Search term contained in no questionnaires
+          searchByTitleOrShortCode: "Lorem ipsum", // Search term contained in no questionnaires
           owner: "",
           access: "All",
           resultsPerPage: 10,
@@ -846,7 +846,7 @@ describe("MongoDB Datastore", () => {
       it("should sort questionnaires on first page from oldest to newest when `sortBy` is `createdDateAsc`", async () => {
         const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
           {
-            search: "",
+            searchByTitleOrShortCode: "",
             owner: "",
             access: "All",
             resultsPerPage: 10,
@@ -881,7 +881,7 @@ describe("MongoDB Datastore", () => {
         // Gets questionnaires with "All" access to get a questionnaire ID to use as `firstQuestionnaireIdOnPage`
         const allQuestionnaires = await mongoDB.listFilteredQuestionnaires(
           {
-            search: "",
+            searchByTitleOrShortCode: "",
             owner: "",
             access: "All",
             resultsPerPage: 10,
@@ -893,7 +893,7 @@ describe("MongoDB Datastore", () => {
         const listOfPreviousPageQuestionnaires =
           await mongoDB.listFilteredQuestionnaires(
             {
-              search: "",
+              searchByTitleOrShortCode: "",
               owner: "",
               access: "All",
               resultsPerPage: 2,
@@ -917,7 +917,7 @@ describe("MongoDB Datastore", () => {
         // Gets questionnaires with "All" access to get a questionnaire ID to use as `lastQuestionnaireIdOnPage`
         const allQuestionnaires = await mongoDB.listFilteredQuestionnaires(
           {
-            search: "",
+            searchByTitleOrShortCode: "",
             owner: "",
             access: "All",
             resultsPerPage: 10,
@@ -929,7 +929,7 @@ describe("MongoDB Datastore", () => {
         const listOfNextPageQuestionnaires =
           await mongoDB.listFilteredQuestionnaires(
             {
-              search: "",
+              searchByTitleOrShortCode: "",
               owner: "",
               access: "All",
               resultsPerPage: 2,
@@ -952,7 +952,7 @@ describe("MongoDB Datastore", () => {
       it("should return relevant questionnaires when searching with multiple filters", async () => {
         const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
           {
-            search: "Test questionnaire",
+            searchByTitleOrShortCode: "Test questionnaire",
             owner: "Joe",
             access: "Editor",
             createdOnOrBefore: new Date(2021, 2, 15),
@@ -975,7 +975,7 @@ describe("MongoDB Datastore", () => {
         const totalPageCount = await mongoDB.getTotalPages(
           {
             resultsPerPage: 3, // As 8 questionnaires should be returned (from previously created questionnaires), uses 3 questionnaires per page to test total page count is rounded up
-            search: "",
+            searchByTitleOrShortCode: "",
             owner: "",
             access: "All",
           },
@@ -989,7 +989,7 @@ describe("MongoDB Datastore", () => {
         const totalPageCount = await mongoDB.getTotalPages(
           {
             resultsPerPage: 10,
-            search: "Lorem ipsum", // Search term contained in no questionnaires
+            searchByTitleOrShortCode: "Lorem ipsum", // Search term contained in no questionnaires
             owner: "",
             access: "All",
           },

@@ -948,7 +948,7 @@ input FilteredQuestionnairesInput {
   resultsPerPage: Int
   firstQuestionnaireIdOnPage: ID
   lastQuestionnaireIdOnPage: ID
-  search: String
+  searchByTitleOrShortCode: String
   owner: String
   createdOnOrAfter: DateTime
   createdOnOrBefore: DateTime
@@ -959,7 +959,7 @@ input FilteredQuestionnairesInput {
 
 input TotalPagesInput {
   resultsPerPage: Int
-  search: String
+  searchByTitleOrShortCode: String
   owner: String
   createdOnOrAfter: DateTime
   createdOnOrBefore: DateTime
