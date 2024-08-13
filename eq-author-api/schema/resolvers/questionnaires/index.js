@@ -1,5 +1,6 @@
 const {
   listFilteredQuestionnaires,
+  getTotalFilteredQuestionnaires,
   getTotalPages,
 } = require("../../../db/datastore");
 
@@ -9,6 +10,15 @@ const Resolvers = {
       const questionnaires = await listFilteredQuestionnaires(input, ctx);
 
       return questionnaires;
+    },
+
+    totalFilteredQuestionnaires: async (_, { input }, ctx) => {
+      const totalFilteredQuestionnaires = await getTotalFilteredQuestionnaires(
+        input,
+        ctx
+      );
+
+      return totalFilteredQuestionnaires;
     },
 
     totalPages: async (_, { input }, ctx) => {

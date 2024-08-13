@@ -929,6 +929,7 @@ type Query {
   listNames: [ListName]
   collectionListNames: [ListName]
   supplementaryDataListNames: [ListName]
+  totalFilteredQuestionnaires(input: TotalFilteredQuestionnairesInput): Int
   totalPages(input: TotalPagesInput): Int
 }
 
@@ -955,6 +956,15 @@ input FilteredQuestionnairesInput {
   access: Access!
   myQuestionnaires: Boolean
   sortBy: String
+}
+
+input TotalFilteredQuestionnairesInput {
+    searchByTitleOrShortCode: String
+    owner: String
+    createdOnOrAfter: DateTime
+    createdOnOrBefore: DateTime
+    access: Access!
+    myQuestionnaires: Boolean
 }
 
 input TotalPagesInput {

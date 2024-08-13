@@ -588,10 +588,8 @@ const listFilteredQuestionnaires = async (input = {}, ctx) => {
   }
 };
 
-const getTotalPages = async (input = {}, ctx) => {
+const getTotalFilteredQuestionnaires = async (input = {}, ctx) => {
   try {
-    const { resultsPerPage = 10 } = input;
-
     // Gets the questionnaires collection
     const questionnairesCollection = dbo.collection("questionnaires");
 
@@ -619,6 +617,25 @@ const getTotalPages = async (input = {}, ctx) => {
 
     // Sets default `totalFilteredQuestionnaires` to 0 if no questionnaires are returned - prevents error when destructuring `totalFilteredQuestionnaires` with no results
     const { totalFilteredQuestionnaires = 0 } = aggregationResult || {};
+
+    return totalFilteredQuestionnaires;
+  } catch (error) {
+    logger.error(
+      { error: error.stack, input },
+      "Unable to get total filtered questionnaires (from getTotalFilteredQuestionnaires)"
+    );
+    return;
+  }
+};
+
+const getTotalPages = async (input = {}, ctx) => {
+  try {
+    const { resultsPerPage = 10 } = input;
+
+    const totalFilteredQuestionnaires = await getTotalFilteredQuestionnaires(
+      input,
+      ctx
+    );
 
     // Calculates the total number of pages by dividing the total number of filtered questionnaires by the number of results per page, and rounding up
     const totalPages = Math.ceil(totalFilteredQuestionnaires / resultsPerPage);
@@ -830,6 +847,7 @@ module.exports = {
   deleteQuestionnaire,
   listQuestionnaires,
   listFilteredQuestionnaires,
+  getTotalFilteredQuestionnaires,
   getTotalPages,
   getQuestionnaire,
   getQuestionnaireMetaById,
