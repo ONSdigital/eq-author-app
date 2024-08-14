@@ -93,7 +93,7 @@ describe("MongoDB Datastore", () => {
           error: expect.any(String),
           input: {},
         },
-        "Unable to get total pages (from getTotalPages)"
+        "Unable to get total filtered questionnaires (from getTotalFilteredQuestionnaires)" // The error from `getTotalFilteredQuestionnaires` is triggered by `getTotalPages`
       );
     });
 
@@ -1017,7 +1017,7 @@ describe("MongoDB Datastore", () => {
             input: {},
             error: expect.any(String),
           },
-          "Unable to get total pages (from getTotalPages)"
+          "Unable to get total filtered questionnaires (from getTotalFilteredQuestionnaires)" // The error from `getTotalFilteredQuestionnaires` is triggered by `getTotalPages`
         );
       });
     });
