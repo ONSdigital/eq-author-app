@@ -3,6 +3,7 @@ const {
 } = require("../../../tests/utils/contextBuilder/questionnaire");
 const {
   queryFilteredQuestionnaires,
+  queryTotalFilteredQuestionnaires,
   queryTotalPages,
 } = require("../../../tests/utils/contextBuilder/questionnaires");
 
@@ -111,6 +112,37 @@ describe("questionnaires", () => {
     });
   });
 
+  describe("totalFilteredQuestionnaires", () => {
+    it("should return total questionnaires when input is not provided", async () => {
+      const user = {
+        id: "user-1",
+      };
+
+      const totalFilteredQuestionnaires =
+        await queryTotalFilteredQuestionnaires(user);
+
+      expect(totalFilteredQuestionnaires).toEqual(5);
+    });
+
+    it("should return total filtered questionnaires", async () => {
+      const user = {
+        id: "user-1",
+      };
+
+      const input = {
+        searchByTitleOrShortCode: "Test Questionnaire 1",
+        owner: "",
+        access: "All",
+      };
+
+      const totalFilteredQuestionnaires =
+        await queryTotalFilteredQuestionnaires(user, input);
+
+      // `totalFilteredQuestionnaires` should be 3 as there are 3 questionnaires containing the string `Test Questionnaire 1`
+      expect(totalFilteredQuestionnaires).toEqual(3);
+    });
+  });
+
   describe("totalPages", () => {
     it("should return total pages for all questionnaires when input is not provided", async () => {
       const user = {
@@ -137,7 +169,7 @@ describe("questionnaires", () => {
 
       const totalPages = await queryTotalPages(user, input);
 
-      // `totalPages` should be 3 - (5 questionnaires) / (2 resultsPerPage) gives 3 total pages after rounding up
+      // `totalPages` should be 3: (5 questionnaires) / (2 resultsPerPage) gives 3 total pages after rounding up
       expect(totalPages).toEqual(3);
     });
   });
