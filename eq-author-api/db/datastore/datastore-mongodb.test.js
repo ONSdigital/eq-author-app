@@ -970,6 +970,41 @@ describe("MongoDB Datastore", () => {
       });
     });
 
+    describe("Getting total filtered questionnaires", () => {
+      it("should get the total number of questionnaires with no filters applied", async () => {
+        const totalFilteredQuestionnaires =
+          await mongoDB.getTotalFilteredQuestionnaires(
+            {
+              searchByTitleOrShortCode: "",
+              owner: "",
+              access: "All",
+              resultsPerPage: 2, // Limits to 2 questionnaires per page to test the total includes questionnaires on other pages
+            },
+            ctx
+          );
+
+        expect(totalFilteredQuestionnaires).toBe(9); // 9 questionnaires created in previous tests
+      });
+
+      it("should get the total number of questionnaires with filters applied", async () => {
+        const totalFilteredQuestionnaires =
+          await mongoDB.getTotalFilteredQuestionnaires(
+            {
+              searchByTitleOrShortCode: "Test questionnaire",
+              owner: "Joe",
+              access: "Editor",
+              createdOnOrBefore: new Date(2021, 2, 15),
+              createdOnOrAfter: new Date(2021, 2, 5),
+              resultsPerPage: 1, // Limits to 1 questionnaire per page to test the total includes questionnaires on other pages
+              sortBy: "createdDateAsc",
+            },
+            ctx
+          );
+
+        expect(totalFilteredQuestionnaires).toBe(2);
+      });
+    });
+
     describe("Getting total page count", () => {
       it("should get the total number of pages based on the number of questionnaires and results per page", async () => {
         const totalPageCount = await mongoDB.getTotalPages(
