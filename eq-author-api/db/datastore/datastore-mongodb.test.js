@@ -978,7 +978,6 @@ describe("MongoDB Datastore", () => {
               searchByTitleOrShortCode: "",
               owner: "",
               access: "All",
-              resultsPerPage: 2, // Limits to 2 questionnaires per page to test the total includes questionnaires on other pages
             },
             ctx
           );
@@ -995,7 +994,6 @@ describe("MongoDB Datastore", () => {
               access: "Editor",
               createdOnOrBefore: new Date(2021, 2, 15),
               createdOnOrAfter: new Date(2021, 2, 5),
-              resultsPerPage: 1, // Limits to 1 questionnaire per page to test the total includes questionnaires on other pages
               sortBy: "createdDateAsc",
             },
             ctx
@@ -1009,7 +1007,7 @@ describe("MongoDB Datastore", () => {
       it("should get the total number of pages based on the number of questionnaires and results per page", async () => {
         const totalPageCount = await mongoDB.getTotalPages(
           {
-            resultsPerPage: 3, // As 8 questionnaires should be returned (from previously created questionnaires), uses 3 questionnaires per page to test total page count is rounded up
+            resultsPerPage: 2, // As 9 questionnaires should be returned (from previously created questionnaires), uses 2 questionnaires per page to test total page count is rounded up
             searchByTitleOrShortCode: "",
             owner: "",
             access: "All",
@@ -1017,7 +1015,7 @@ describe("MongoDB Datastore", () => {
           ctx
         );
 
-        expect(totalPageCount).toBe(3); // (8 questionnaires) / (3 results per page) gives 3 total pages after rounding up
+        expect(totalPageCount).toBe(5); // (9 questionnaires) / (2 results per page) gives 5 total pages after rounding up
       });
 
       it("should return 0 when no questionnaires are found", async () => {
