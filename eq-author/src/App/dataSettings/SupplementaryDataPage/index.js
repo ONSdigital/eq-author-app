@@ -220,16 +220,16 @@ const SupplementaryDataPage = () => {
                         {!tableData && (
                           <>
                             <Common.TabTitle>
-                              Select a supplementary dataset to link to
+                              Select a supplementary schema to link to
                             </Common.TabTitle>
                             <Common.TabContent>
-                              Linking to a supplementary dataset will allow you
+                              Linking to a supplementary schema will allow you
                               to pipe data that respondents have provided in
                               previous questionnaires into question titles or
                               percentage answer type labels.
                             </Common.TabContent>
                             <Common.TabContent>
-                              Only one dataset can be linked per questionnaire.
+                              Only one schema can be linked per questionnaire.
                             </Common.TabContent>
                             <StyledTitle>Select a survey ID</StyledTitle>
                             <CustomSelect
