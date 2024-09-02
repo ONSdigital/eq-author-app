@@ -374,6 +374,79 @@ const listQuestionnaires = async () => {
   }
 };
 
+const listFilteredQuestionnaires = async (input) => {
+  try {
+    const {
+      resultsPerPage,
+      firstQuestionnaireIdOnPage,
+      lastQuestionnaireIdOnPage,
+    } = input;
+
+    // Orders questionnaires by when they were created, starting with the newest
+    let questionnairesQuery = db
+      .collection("questionnaires")
+      .orderBy("createdAt", "desc");
+
+    // Gets questionnaires on first page when firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage are not provided
+    if (!firstQuestionnaireIdOnPage && !lastQuestionnaireIdOnPage) {
+      questionnairesQuery = questionnairesQuery.limit(resultsPerPage);
+    }
+    // Gets questionnaires on previous page when firstQuestionnaireIdOnPage is provided without lastQuestionnaireIdOnPage
+    else if (firstQuestionnaireIdOnPage && !lastQuestionnaireIdOnPage) {
+      // Gets first questionnaire on current page based on firstQuestionnaireIdOnPage
+      const firstQuestionnaireOnPage = await db
+        .collection("questionnaires")
+        .doc(firstQuestionnaireIdOnPage)
+        .get();
+
+      // Gets previous questionnaires before firstQuestionnaireOnPage, limiting the number of questionnaires to `resultsPerPage`
+      questionnairesQuery = questionnairesQuery
+        .endBefore(firstQuestionnaireOnPage)
+        .limitToLast(resultsPerPage);
+    }
+    // Gets questionnaires on next page when lastQuestionnaireIdOnPage is provided without firstQuestionnaireIdOnPage
+    else if (lastQuestionnaireIdOnPage && !firstQuestionnaireIdOnPage) {
+      // Gets last questionnaire on current page based on lastQuestionnaireIdOnPage
+      const lastQuestionnaireOnPage = await db
+        .collection("questionnaires")
+        .doc(lastQuestionnaireIdOnPage)
+        .get();
+
+      // Gets next questionnaires after lastQuestionnaireOnPage, limiting the number of questionnaires to `resultsPerPage`
+      questionnairesQuery = questionnairesQuery
+        .startAfter(lastQuestionnaireOnPage)
+        .limit(resultsPerPage);
+    }
+    // Throws an error when both firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage are provided
+    else {
+      logger.error(
+        "Invalid input - both firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage have been provided (from listFilteredQuestionnaires)"
+      );
+    }
+
+    const questionnairesSnapshot = await questionnairesQuery.get();
+
+    if (questionnairesSnapshot.empty) {
+      logger.info("No questionnaires found (from listFilteredQuestionnaires)");
+      return [];
+    }
+
+    const questionnaires = questionnairesSnapshot.docs.map((doc) => ({
+      ...doc.data(),
+      editors: doc.data().editors || [],
+      createdAt: doc.data().createdAt.toDate(),
+      updatedAt: doc.data().updatedAt.toDate(),
+    }));
+    return questionnaires || [];
+  } catch (error) {
+    logger.error(
+      error,
+      "Unable to retrieve questionnaires (from listFilteredQuestionnaires)"
+    );
+    return;
+  }
+};
+
 const deleteQuestionnaire = async (id) => {
   try {
     await db.collection("questionnaires").doc(id).delete();
@@ -666,6 +739,7 @@ module.exports = {
   saveQuestionnaire,
   deleteQuestionnaire,
   listQuestionnaires,
+  listFilteredQuestionnaires,
   getQuestionnaire,
   getQuestionnaireMetaById,
   getQuestionnaireByVersionId,
