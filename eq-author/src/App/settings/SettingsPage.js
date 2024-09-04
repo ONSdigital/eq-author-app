@@ -24,6 +24,7 @@ import {
   SURVEY_ID_ERRORS,
   FORM_TYPE_ERRORS,
   EQ_ID_ERRORS,
+  SURVEY_ID_VALIDATION_ERRORS,
 } from "constants/validationMessages";
 
 import { reduceMultipleSpaces } from "utils/reduceMultipleSpaces";
