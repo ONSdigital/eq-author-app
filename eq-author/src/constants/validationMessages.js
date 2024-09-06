@@ -349,8 +349,8 @@ export const SURVEY_ID_ERRORS = {
 };
 
 export const SURVEY_ID_VALIDATION_ERRORS = {
-  ERR_INVALID:
-    "The Survey ID does not match the linked supplementary data schema",
+  errorCode: "ERR_INVALID_SURVEY_ID",
+  message: "The Survey ID does not match the linked supplementary data schema",
 };
 
 export const FORM_TYPE_ERRORS = {
