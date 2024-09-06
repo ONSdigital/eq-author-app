@@ -1,39 +1,38 @@
-const {
-  ERR_INVALID_SURVEY_ID,
-} = require("../../../constants/validationErrorCodes");
 const createValidationError = require("../createValidationError");
+const {
+  ERR_SURVEY_ID_MISMATCH,
+} = require("../../../constants/validationErrorCodes");
 
 module.exports = (ajv) =>
   ajv.addKeyword({
     keyword: "validateSurveyID",
-    $data: true,
-    validate: function isValid(
-      _schema,
-      surveyId,
-      _parentSchema,
-      { parentDataProperty: fieldName, instancePath, rootData: questionnaire }
-    ) {
-      const ctx = {
-        questionnaire,
-      };
-      const surveyID = ctx.questionnaire.surveyId;
-      const SDS = ctx.questionnaire.supplementaryData;
-      const sdsSurveyID = ctx.questionnaire.supplementaryData.surveyId;
+    validate: function isValid(_schema, data, _parentSchema, ctx) {
+      const {
+        instancePath,
+        parentDataProperty: fieldName,
+        rootData: questionnaire,
+      } = ctx;
 
-      if (SDS) {
-        if (surveyID !== sdsSurveyID) {
-          isValid.errors = [
-            createValidationError(
-              instancePath,
-              fieldName,
-              ERR_INVALID_SURVEY_ID,
-              questionnaire
-            ),
-          ];
-          return false;
-        } else {
-          return true;
-        }
+      const surveyID = questionnaire.surveyId;
+      const SDS = questionnaire.supplementaryData;
+
+      // If supplementaryData exists, retrieve its surveyId
+      const sdsSurveyID = SDS ? SDS.surveyId : null;
+
+      // If supplementaryData exists, compare surveyId values
+      if (SDS && surveyID !== sdsSurveyID) {
+        isValid.errors = [
+          createValidationError(
+            instancePath,
+            fieldName,
+            ERR_SURVEY_ID_MISMATCH,
+            questionnaire
+          ),
+        ];
+        return false;
       }
+
+      // If supplementaryData is missing or surveyIds match, return true
+      return true;
     },
   });
