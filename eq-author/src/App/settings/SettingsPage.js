@@ -148,6 +148,12 @@ const SettingsPage = ({ questionnaire }) => {
 
   const getValidationErrorMessage = (contentType) => {
     if (contentType === "surveyId") {
+      console.log(contentType);
+      const error = questionnaire.validationErrorInfo.errors;
+      console.log(error);
+
+      error?.find(({ errorCode }) => errorCode);
+
       return SURVEY_ID_ERRORS[
         questionnaire?.validationErrorInfo?.errors?.find(
           ({ field }) => field === "surveyId"
