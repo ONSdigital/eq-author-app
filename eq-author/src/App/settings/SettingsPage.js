@@ -24,7 +24,6 @@ import {
   SURVEY_ID_ERRORS,
   FORM_TYPE_ERRORS,
   EQ_ID_ERRORS,
-  SURVEY_ID_VALIDATION_ERRORS,
 } from "constants/validationMessages";
 
 import { reduceMultipleSpaces } from "utils/reduceMultipleSpaces";
@@ -148,12 +147,6 @@ const SettingsPage = ({ questionnaire }) => {
 
   const getValidationErrorMessage = (contentType) => {
     if (contentType === "surveyId") {
-      console.log(contentType);
-      const error = questionnaire.validationErrorInfo.errors;
-      console.log(error);
-
-      error?.find(({ errorCode }) => errorCode);
-
       return SURVEY_ID_ERRORS[
         questionnaire?.validationErrorInfo?.errors?.find(
           ({ field }) => field === "surveyId"
