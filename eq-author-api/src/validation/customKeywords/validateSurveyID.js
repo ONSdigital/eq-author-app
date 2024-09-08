@@ -46,7 +46,7 @@ module.exports = (ajv) =>
             fieldName,
             ERR_SURVEY_ID_MISMATCH,
             questionnaire,
-            "ERR_SURVEY_ID_MISMATCH"
+            ERR_SURVEY_ID_MISMATCH
           ),
         ];
         return false;
