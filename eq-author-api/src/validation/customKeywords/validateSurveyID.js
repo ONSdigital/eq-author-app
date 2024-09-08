@@ -21,11 +21,11 @@ module.exports = (ajv) =>
       // console.log("instancePath", instancePath);
       // console.log("schema", schema);
       // console.log("parentSchema", parentSchema);
-      // console.log("data", data);
+      console.log("data", data);
       // console.log("questionnaire", questionnaire.supplementaryData.surveyId);
       // Get the supplementary data from rootData
       const supplementaryData = questionnaire.supplementaryData; // gives the supplementary data field
-      // console.log("supplementaryData", supplementaryData.surveyID);
+      console.log("supplementaryData", supplementaryData.surveyId);
 
       // const questionnaireSurveyId = questionnaire.surveyId; // gives the data entered into the survey ID field
       // console.log("questionnaireSurveyId", questionnaireSurveyId);
@@ -39,13 +39,14 @@ module.exports = (ajv) =>
         supplementaryData.surveyId &&
         data !== supplementaryData.surveyId
       ) {
-        console.log("meow", ERR_SURVEY_ID_MISMATCH);
+        // console.log("meow", ERR_SURVEY_ID_MISMATCH);
         isValid.errors = [
           createValidationError(
             instancePath,
             fieldName,
             ERR_SURVEY_ID_MISMATCH,
-            questionnaire
+            questionnaire,
+            "ERR_SURVEY_ID_MISMATCH"
           ),
         ];
         return false;
