@@ -168,7 +168,7 @@ describe("Supplementary dataset page", () => {
       const select = getByTestId("list-select");
       fireEvent.change(select, { target: { value: "121" } });
       await waitFor(() => {
-        expect(getByText("Datasets schema for survey ID 121")).toBeTruthy();
+        expect(getByText("Datasets schemas for survey ID 121")).toBeTruthy();
         expect(getByTestId("datasets-table")).toBeTruthy();
         expect(findAllByText("Date created")).toBeTruthy();
         expect(getAllByTestId("dataset-row")).toBeTruthy();

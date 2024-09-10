@@ -68,7 +68,7 @@ const SchemaVersionTable = ({ surveyId, linkSupplementaryData }) => {
 
   return (
     <>
-      <Title>Datasets schema for survey ID {surveyId}</Title>
+      <Title>Datasets schemas for survey ID {surveyId}</Title>
       <Table data-test="datasets-table">
         <TableHead>
           <TableRow>
