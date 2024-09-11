@@ -139,9 +139,11 @@ describe("Supplementary dataset page", () => {
       user,
       mocks
     );
-    expect(getByText("Select a supplementary dataset to link to")).toBeTruthy();
     expect(
-      getByText("Only one dataset can be linked per questionnaire.")
+      getByText("Select a supplementary dataset schema to link to")
+    ).toBeTruthy();
+    expect(
+      getByText("Only one dataset schema can be linked per questionnaire.")
     ).toBeTruthy();
   });
 
@@ -166,7 +168,7 @@ describe("Supplementary dataset page", () => {
       const select = getByTestId("list-select");
       fireEvent.change(select, { target: { value: "121" } });
       await waitFor(() => {
-        expect(getByText("Datasets for survey ID 121")).toBeTruthy();
+        expect(getByText("Dataset schemas for survey ID 121")).toBeTruthy();
         expect(getByTestId("datasets-table")).toBeTruthy();
         expect(findAllByText("Date created")).toBeTruthy();
         expect(getAllByTestId("dataset-row")).toBeTruthy();
