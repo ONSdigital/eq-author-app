@@ -14,11 +14,9 @@ module.exports = (ajv) =>
       {
         instancePath, // gives the path /surveyId
         rootData: questionnaire, // gives the whole object of questionnaire
-        // parentData, // gives the whole object of questionnaire
         parentDataProperty: fieldName, // gives the field name surveyId
       }
     ) {
-      console.log("data", data);
       // Get the supplementary data from the questionnaire object
       const supplementaryData = questionnaire.supplementaryData;
 

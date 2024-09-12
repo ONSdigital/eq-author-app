@@ -4,7 +4,6 @@ module.exports = (dataPath, field, errorCode, questionnaire, errMessage) => {
   if (!dataPath || (typeof dataPath !== "string" && !Array.isArray(dataPath))) {
     throw new Error("Parameter 'dataPath' must be one of: String, Array");
   }
-  console.log("errorcode", dataPath, errorCode, field, errMessage);
 
   if (!field) {
     throw new Error("Parameter 'field' must be supplied");
