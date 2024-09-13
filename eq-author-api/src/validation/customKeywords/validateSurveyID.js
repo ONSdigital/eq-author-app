@@ -13,7 +13,7 @@ module.exports = (ajv) =>
       parentSchema,
       {
         instancePath, // gives the path /surveyId
-        rootData: questionnaire, // gives the whole questionnaire object of
+        rootData: questionnaire, // gives the whole questionnaire object
         parentDataProperty: fieldName, // gives the field name surveyId
       }
     ) {
