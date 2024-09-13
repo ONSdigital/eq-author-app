@@ -290,7 +290,7 @@ const FlatSectionMenu = ({ data, isCalculatedSummary, ...otherProps }) =>
 FlatSectionMenu.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string.isRequired,
+      id: PropTypes.string,
     })
   ),
 };
