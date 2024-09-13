@@ -46,6 +46,13 @@ enum Permission {
   Write
 }
 
+enum Access {
+  All
+  Editor
+  ViewOnly
+  PrivateQuestionnaires
+}
+
 type Questionnaire {
   id: ID!
   title: String
@@ -895,6 +902,7 @@ type PublishHistoryEvent {
 
 type Query {
   questionnaires(input: QuestionnairesInput): [Questionnaire]
+  filteredQuestionnaires(input: FilteredQuestionnairesInput): [Questionnaire]
   questionnaire(input: QueryInput!): Questionnaire
   history(input: QueryInput!): [History]
   section(input: QueryInput!): Section
@@ -921,6 +929,8 @@ type Query {
   listNames: [ListName]
   collectionListNames: [ListName]
   supplementaryDataListNames: [ListName]
+  totalFilteredQuestionnaires(input: TotalFilteredQuestionnairesInput): Int
+  totalPages(input: TotalPagesInput): Int
 }
 
 input CommonFilters {
@@ -933,6 +943,38 @@ input QuestionnairesFilter {
 
 input QuestionnairesInput {
   filter: QuestionnairesFilter
+}
+
+input FilteredQuestionnairesInput {
+  resultsPerPage: Int
+  firstQuestionnaireIdOnPage: ID
+  lastQuestionnaireIdOnPage: ID
+  searchByTitleOrShortCode: String
+  owner: String
+  createdOnOrAfter: DateTime
+  createdOnOrBefore: DateTime
+  access: Access!
+  myQuestionnaires: Boolean
+  sortBy: String
+}
+
+input TotalFilteredQuestionnairesInput {
+    searchByTitleOrShortCode: String
+    owner: String
+    createdOnOrAfter: DateTime
+    createdOnOrBefore: DateTime
+    access: Access!
+    myQuestionnaires: Boolean
+}
+
+input TotalPagesInput {
+  resultsPerPage: Int
+  searchByTitleOrShortCode: String
+  owner: String
+  createdOnOrAfter: DateTime
+  createdOnOrBefore: DateTime
+  access: Access!
+  myQuestionnaires: Boolean
 }
 
 input QueryInput {

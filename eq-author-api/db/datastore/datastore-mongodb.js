@@ -290,6 +290,366 @@ const listQuestionnaires = async () => {
   }
 };
 
+const getMatchQuery = async (input = {}, ctx) => {
+  try {
+    const {
+      searchByTitleOrShortCode = "",
+      owner = "",
+      createdOnOrAfter,
+      createdOnOrBefore,
+      access,
+      myQuestionnaires,
+    } = input;
+
+    const { id: userId } = ctx.user;
+    if (createdOnOrBefore) {
+      createdOnOrBefore.setHours(23, 59, 59, 999); // Sets `createdOnOrBefore` time to 23:59:59.999 to include all questionnaires created on that day
+    }
+
+    const matchQuery = {
+      $and: [
+        // Searches for questionnaires with `title` or `shortTitle` (short code) containing the search term
+        {
+          $or: [
+            { title: { $regex: searchByTitleOrShortCode, $options: "i" } },
+            { shortTitle: { $regex: searchByTitleOrShortCode, $options: "i" } },
+          ],
+        },
+        // Searches for questionnaires with owner name OR email containing the search term - email also handles owner name being null
+        {
+          $or: [
+            { "owner.name": { $regex: owner, $options: "i" } },
+            { "owner.email": { $regex: owner, $options: "i" } },
+          ],
+        },
+      ],
+    };
+
+    // If both `createdOnOrAfter` and `createdOnOrBefore` are provided, searches for questionnaires created between `createdOnOrAfter` and `createdOnOrBefore` inclusive
+    if (createdOnOrAfter && createdOnOrBefore) {
+      matchQuery.createdAt = {
+        $gte: createdOnOrAfter, // gte: Greater than or equal to
+        $lte: createdOnOrBefore, // lte: Less than or equal to
+      };
+    }
+    // If `createdOnOrAfter` is provided without `createdOnOrBefore`, searches for questionnaires created on or after `createdOnOrAfter`
+    else if (createdOnOrAfter) {
+      matchQuery.createdAt = { $gte: createdOnOrAfter }; // gte: Greater than or equal to
+    }
+    // If `createdOnOrBefore` is provided without `createdOnOrAfter`, searches for questionnaires created on or before `createdOnOrBefore`
+    else if (createdOnOrBefore) {
+      matchQuery.createdAt = { $lte: createdOnOrBefore }; // lte: Less than or equal to
+    }
+
+    switch (access) {
+      // Searches for all questionnaires that are public, the user is an editor of, or the user created (all questionnaires the user has access to)
+      case "All":
+        matchQuery.$and = matchQuery.$and || [];
+        matchQuery.$and.push({
+          $or: [
+            { isPublic: true },
+            { editors: { $in: [userId] } },
+            { createdBy: userId },
+          ],
+        });
+
+        break;
+      // Searches for all questionnaires the user can edit (all questionnaires the user is an editor of or the user created)
+      case "Editor":
+        matchQuery.$and = matchQuery.$and || [];
+        matchQuery.$and.push({
+          $or: [{ editors: { $in: [userId] } }, { createdBy: userId }],
+        });
+
+        break;
+      // Searches for all questionnaires the user can view but not edit (all public questionnaires the user is not an editor of and did not create)
+      case "ViewOnly":
+        matchQuery.$and = matchQuery.$and || [];
+        matchQuery.$and.push(
+          {
+            editors: { $nin: [userId] },
+          },
+          { createdBy: { $ne: userId } },
+          { isPublic: true }
+        );
+
+        break;
+      // Searches for all non-public questionnaires the user can edit (all questionnaires the user is an editor of or the user created that are not public)
+      case "PrivateQuestionnaires":
+        matchQuery.$and = matchQuery.$and || [];
+        matchQuery.$and.push({
+          $or: [{ editors: { $in: [userId] } }, { createdBy: userId }],
+          isPublic: false,
+        });
+
+        break;
+    }
+
+    // TODO: When "My questionnaires" feature is implemented, implement code to filter questionnaires based on questionnaires marked as "My questionnaires"
+    if (myQuestionnaires) {
+      if (!matchQuery.$and) {
+        matchQuery.$and = [];
+      }
+      matchQuery.$and.push({
+        $or: [{ editors: { $in: [userId] } }, { createdBy: userId }],
+      });
+    }
+
+    return matchQuery;
+  } catch (error) {
+    logger.error(
+      { error: error.stack, input },
+      "Unable to get match query for filtering questionnaires (from getMatchQuery)"
+    );
+  }
+};
+
+const listFilteredQuestionnaires = async (input = {}, ctx) => {
+  try {
+    const {
+      resultsPerPage = 10,
+      firstQuestionnaireIdOnPage,
+      lastQuestionnaireIdOnPage,
+      sortBy = "createdDateDesc",
+    } = input;
+
+    // Gets the questionnaires collection
+    const questionnairesCollection = dbo.collection("questionnaires");
+    let questionnairesQuery;
+
+    const matchQuery = await getMatchQuery(input, ctx);
+
+    // Gets questionnaires on first page when firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage are not provided
+    if (!firstQuestionnaireIdOnPage && !lastQuestionnaireIdOnPage) {
+      questionnairesQuery = questionnairesCollection.aggregate([
+        {
+          // From the `users` collection, gets the owner (based on `createdBy`) of each questionnaire by performing a join to match questionnaire `createdBy` with user `id`
+          $lookup: {
+            from: "users",
+            localField: "createdBy",
+            foreignField: "id",
+            as: "owner",
+          },
+        },
+        {
+          $match: matchQuery,
+        },
+        {
+          $sort: { createdAt: sortBy === "createdDateDesc" ? -1 : 1 }, // Sorts by either most recently created first or earliest created first based on `sortBy`
+        },
+        {
+          $limit: resultsPerPage,
+        },
+      ]);
+    }
+    // Gets questionnaires on previous page when firstQuestionnaireIdOnPage is provided without lastQuestionnaireIdOnPage
+    else if (firstQuestionnaireIdOnPage && !lastQuestionnaireIdOnPage) {
+      // Gets first questionnaire on current page based on firstQuestionnaireIdOnPage
+      const firstQuestionnaireOnPage = await questionnairesCollection.findOne({
+        id: firstQuestionnaireIdOnPage,
+      });
+
+      /*
+        Gets questionnaires on previous page based on firstQuestionnaireOnPage
+        Only finds questionnaires that meet the search conditions (e.g. owner name matching `owner` search field)
+        Uses `gt` (greater than) or `lt` (less than) to find questionnaires created after or before firstQuestionnaireOnPage (based on `sortBy`) meeting the conditions, 
+        sorts from earliest created or most recently created first (based on `sortBy`), and limits to `resultsPerPage` number of questionnaires
+      */
+      questionnairesQuery = questionnairesCollection.aggregate([
+        // From the `users` collection, gets the owner (based on `createdBy`) of each questionnaire by performing a join to match questionnaire `createdBy` with user `id`
+        {
+          $lookup: {
+            from: "users",
+            localField: "createdBy",
+            foreignField: "id",
+            as: "owner",
+          },
+        },
+        {
+          $match: {
+            // Searches for questionnaires created after or before firstQuestionnaireOnPage (based on `sortBy`) AND meeting all the search conditions from `matchQuery`
+            $and: [
+              {
+                createdAt:
+                  sortBy === "createdDateDesc"
+                    ? { $gt: firstQuestionnaireOnPage.createdAt }
+                    : { $lt: firstQuestionnaireOnPage.createdAt },
+              },
+              matchQuery,
+            ],
+          },
+        },
+        {
+          /* 
+            Sorts by either earliest created first or most recently created first based on `sortBy` 
+            (previous page, so to get the previous questionnaires, sorts by earliest created first when `sortBy` is `createdDateDesc`
+            as otherwise previous page's questionnaires would be the most recently created ones)
+          */
+          $sort: { createdAt: sortBy === "createdDateDesc" ? 1 : -1 },
+        },
+        {
+          $limit: resultsPerPage,
+        },
+      ]);
+    }
+    // Gets questionnaires on next page when lastQuestionnaireIdOnPage is provided without firstQuestionnaireIdOnPage
+    else if (!firstQuestionnaireIdOnPage && lastQuestionnaireIdOnPage) {
+      // Gets last questionnaire on current page based on lastQuestionnaireIdOnPage
+      const lastQuestionnaireOnPage = await questionnairesCollection.findOne({
+        id: lastQuestionnaireIdOnPage,
+      });
+
+      /* 
+        Gets questionnaires on next page based on lastQuestionnaireOnPage
+        Only finds questionnaires that meet the search conditions (e.g. owner name matching `owner` search field)
+        Uses `lt` (less than) or `gt` (greater than) to find questionnaires created before or after lastQuestionnaireOnPage (based on `sortBy`) meeting the conditions, 
+        sorts from most recently created or earliest created first (based on `sortBy`), and limits to `resultsPerPage` number of questionnaires
+      */
+      questionnairesQuery = questionnairesCollection.aggregate([
+        // From the `users` collection, gets the owner (based on `createdBy`) of each questionnaire by performing a join to match questionnaire `createdBy` with user `id`
+        {
+          $lookup: {
+            from: "users",
+            localField: "createdBy",
+            foreignField: "id",
+            as: "owner",
+          },
+        },
+        {
+          $match: {
+            // Searches for questionnaires created before or after lastQuestionnaireOnPage (based on `sortBy`) AND meeting all the search conditions from `matchQuery`
+            $and: [
+              {
+                createdAt:
+                  sortBy === "createdDateDesc"
+                    ? { $lt: lastQuestionnaireOnPage.createdAt }
+                    : { $gt: lastQuestionnaireOnPage.createdAt },
+              },
+              matchQuery,
+            ],
+          },
+        },
+        {
+          $sort: { createdAt: sortBy === "createdDateDesc" ? -1 : 1 }, // Sorts by either most recently created first or earliest created first based on `sortBy`
+        },
+        {
+          $limit: resultsPerPage,
+        },
+      ]);
+    } else {
+      logger.error(
+        { input },
+        "Invalid input - received both firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage, expected only one of these values or neither (from listFilteredQuestionnaires)"
+      );
+      return;
+    }
+
+    const questionnaires = await questionnairesQuery.toArray();
+
+    if (questionnaires.length === 0) {
+      logger.debug(
+        `No questionnaires found with input: ${JSON.stringify(
+          input
+        )} (from listFilteredQuestionnaires)`
+      );
+      return [];
+    }
+
+    // Adds empty `editors` to each questionnaire if it does not already have `editors`, otherwise uses existing `editors`
+    let transformedQuestionnaires = questionnaires.map((questionnaire) => ({
+      ...questionnaire,
+      editors: questionnaire.editors || [],
+    }));
+
+    /* 
+      Sorts questionnaires by most recently created first if firstQuestionnaireIdOnPage is provided without lastQuestionnaireIdOnPage 
+      This condition's query previously sorted in reverse order to get the `resultsPerPage` number of questionnaires created after or before firstQuestionnaireOnPage
+      This ensures questionnaires are displayed in the correct order (based on `sortBy`) in this condition
+    */
+    if (firstQuestionnaireIdOnPage && !lastQuestionnaireIdOnPage) {
+      if (sortBy === "createdDateDesc") {
+        transformedQuestionnaires = transformedQuestionnaires.sort((a, b) =>
+          a.createdAt > b.createdAt ? -1 : 1
+        );
+      } else {
+        transformedQuestionnaires = transformedQuestionnaires.sort((a, b) =>
+          a.createdAt > b.createdAt ? 1 : -1
+        );
+      }
+    }
+
+    return transformedQuestionnaires;
+  } catch (error) {
+    logger.error(
+      { error: error.stack, input },
+      "Unable to retrieve questionnaires (from listFilteredQuestionnaires)"
+    );
+    return;
+  }
+};
+
+const getTotalFilteredQuestionnaires = async (input = {}, ctx) => {
+  try {
+    // Gets the questionnaires collection
+    const questionnairesCollection = dbo.collection("questionnaires");
+
+    const matchQuery = await getMatchQuery(input, ctx);
+
+    // Gets the total number of questionnaires that meet the search conditions
+    const aggregationResult = await questionnairesCollection
+      .aggregate([
+        {
+          $lookup: {
+            from: "users",
+            localField: "createdBy",
+            foreignField: "id",
+            as: "owner",
+          },
+        },
+        {
+          $match: matchQuery,
+        },
+        {
+          $count: "totalFilteredQuestionnaires",
+        },
+      ])
+      .next();
+
+    // Sets default `totalFilteredQuestionnaires` to 0 if no questionnaires are returned - prevents error when destructuring `totalFilteredQuestionnaires` with no results
+    const { totalFilteredQuestionnaires = 0 } = aggregationResult || {};
+
+    return totalFilteredQuestionnaires;
+  } catch (error) {
+    logger.error(
+      { error: error.stack, input },
+      "Unable to get total filtered questionnaires (from getTotalFilteredQuestionnaires)"
+    );
+    return;
+  }
+};
+
+const getTotalPages = async (input = {}, ctx) => {
+  try {
+    const { resultsPerPage = 10 } = input;
+
+    const totalFilteredQuestionnaires = await getTotalFilteredQuestionnaires(
+      input,
+      ctx
+    );
+
+    // Calculates the total number of pages by dividing the total number of filtered questionnaires by the number of results per page, and rounding up
+    const totalPages = Math.ceil(totalFilteredQuestionnaires / resultsPerPage);
+
+    return totalPages;
+  } catch (error) {
+    logger.error(
+      { error: error.stack, input },
+      "Unable to get total pages (from getTotalPages)"
+    );
+    return;
+  }
+};
+
 const createComments = async (questionnaireId) => {
   try {
     if (!questionnaireId) {
@@ -486,6 +846,9 @@ module.exports = {
   saveQuestionnaire,
   deleteQuestionnaire,
   listQuestionnaires,
+  listFilteredQuestionnaires,
+  getTotalFilteredQuestionnaires,
+  getTotalPages,
   getQuestionnaire,
   getQuestionnaireMetaById,
   createComments,
