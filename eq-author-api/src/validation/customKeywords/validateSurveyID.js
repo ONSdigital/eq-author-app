@@ -8,12 +8,12 @@ module.exports = (ajv) =>
     keyword: "validateSurveyID",
     $data: true,
     validate: function isValid(
-      schema, // schema true
+      schema,
       data, // gives the data entered into the survey ID field
-      parentSchema, // parentSchema { validateSurveyID: true }
+      parentSchema,
       {
         instancePath, // gives the path /surveyId
-        rootData: questionnaire, // gives the whole object of questionnaire
+        rootData: questionnaire, // gives the whole questionnaire object of
         parentDataProperty: fieldName, // gives the field name surveyId
       }
     ) {
