@@ -457,6 +457,19 @@ const Resolvers = {
 
       return ctx.questionnaire;
     },
+    createQuestionnaireV2: async (root, args, ctx) => {
+      const questionnaire = createNewQuestionnaire({
+        ...args.input,
+        createdBy: ctx.user.id,
+      });
+
+      await createComments(questionnaire.id);
+      // Saving to ctx so it can be used by all other resolvers and read by tests
+      ctx.questionnaire = await createQuestionnaire(questionnaire, ctx);
+      logger.info(`Questionnaire Created with ID ${ctx.questionnaire.id}`);
+
+      return ctx.questionnaire;
+    },
     updateQuestionnaire: createMutation((_, { input }, ctx) => {
       Object.assign(ctx.questionnaire, input);
       onQuestionnaireUpdated(ctx.questionnaire);
