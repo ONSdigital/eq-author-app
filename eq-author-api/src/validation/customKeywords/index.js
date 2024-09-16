@@ -5,7 +5,7 @@ module.exports = (ajv) => {
   require("./calculatedSummaryPosition")(ajv);
   require("./validateLatestAfterEarliest")(ajv);
   require("./validateDuration")(ajv);
-  require("./validateSurveyID")(ajv);
+  require("./validateSurveyId")(ajv);
   require("./validateMultipleChoiceCondition")(ajv);
   require("./validateExpression")(ajv);
   require("./validateRoutingDestination")(ajv);
