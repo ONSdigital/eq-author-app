@@ -8,7 +8,7 @@ module.exports = (ajv) =>
     keyword: "validateSurveyID",
     validate: function isValid(
       _schema,
-      _data, // gives the data entered into the survey ID field
+      _questionnaireSurveyId, // gives the data entered into the survey ID field
       _parentSchema,
       {
         instancePath, // gives the path /surveyId
@@ -23,7 +23,7 @@ module.exports = (ajv) =>
       if (
         supplementaryData &&
         supplementaryData.surveyId &&
-        _data !== supplementaryData.surveyId
+        _questionnaireSurveyId !== supplementaryData.surveyId
       ) {
         isValid.errors = [
           createValidationError(
