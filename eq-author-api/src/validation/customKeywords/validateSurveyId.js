@@ -19,7 +19,7 @@ module.exports = (ajv) =>
       // Get the supplementary data from the questionnaire object
       const supplementaryData = questionnaire.supplementaryData;
 
-      // If supplementaryData is not available or doesn't contain surveyId, or if surveyId doesn't match, throw an error
+      // If supplementaryData exists and contains a surveyId, and supplementaryData's surveyId doesn't match the questionnaire's surveyId, throw a validation error
       if (
         supplementaryData &&
         supplementaryData.surveyId &&
