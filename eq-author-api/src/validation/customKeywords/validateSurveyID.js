@@ -35,7 +35,6 @@ module.exports = (ajv) =>
           ),
         ];
         return false;
-        console.log("hello");
       }
 
       return true;
