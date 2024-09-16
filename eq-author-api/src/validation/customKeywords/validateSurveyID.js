@@ -34,6 +34,7 @@ module.exports = (ajv) =>
             ERR_SURVEY_ID_MISMATCH
           ),
         ];
+
         return false;
       }
 
