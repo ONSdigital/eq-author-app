@@ -271,7 +271,7 @@ export const QCodeTable = () => {
             (dataVersion === "3" || item.type !== "CheckboxOption")
           ) {
             return (
-              <>
+              <React.Fragment key={`${item.id}-${index}`}>
                 <Row
                   key={`${item.id}-${index}`}
                   dataVersion={dataVersion}
@@ -284,7 +284,7 @@ export const QCodeTable = () => {
                   {...item.additionalAnswer}
                   errorMessage={getErrorMessage(item.additionalAnswer.qCode)}
                 />
-              </>
+              </React.Fragment>
             );
           } else {
             return (
