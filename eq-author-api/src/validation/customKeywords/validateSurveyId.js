@@ -5,10 +5,10 @@ const {
 
 module.exports = (ajv) =>
   ajv.addKeyword({
-    keyword: "validateSurveyID",
+    keyword: "validateSurveyId",
     validate: function isValid(
       _schema,
-      _questionnaireSurveyId, // gives the data entered into the survey ID field
+      questionnaireSurveyId, // gives the data entered into the survey ID field
       _parentSchema,
       {
         instancePath, // gives the path /surveyId
@@ -23,7 +23,7 @@ module.exports = (ajv) =>
       if (
         supplementaryData &&
         supplementaryData.surveyId &&
-        _questionnaireSurveyId !== supplementaryData.surveyId
+        questionnaireSurveyId !== supplementaryData.surveyId
       ) {
         isValid.errors = [
           createValidationError(
