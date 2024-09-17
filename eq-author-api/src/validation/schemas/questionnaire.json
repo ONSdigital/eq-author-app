@@ -42,7 +42,7 @@
           }
         },
         {
-          "validateSurveyID": true
+          "validateSurveyId": true
         }
       ]
     },
