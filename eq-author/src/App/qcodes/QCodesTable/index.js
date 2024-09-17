@@ -197,7 +197,7 @@ const Row = memo((props) => {
               data-test={`${id}${secondary ? "-secondary" : ""}${
                 listAnswerType === DRIVING ? "-driving" : ""
               }${listAnswerType === ANOTHER ? "-another" : ""}-test-input`}
-              value={qCode}
+              value={qCode || ""} // Ensure the input always has a value (empty string if qCode is null or undefined)
               onChange={(e) => setQcode(e.value)}
               onBlur={() => handleBlur(qCode)}
               hasError={Boolean(errorMessage)}
