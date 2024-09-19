@@ -26,18 +26,25 @@
       "$ref": "submission.json"
     },
     "surveyId": {
-      "if": {
-        "type": "string",
-        "minLength": 1
-      },
-      "then": {
-        "type": "string",
-        "pattern": "^\\d{3}$",
-        "errorMessage": "ERR_INVALID"
-      },
-      "else": {
-        "$ref": "definitions.json#/definitions/populatedString"
-      }
+      "allOf": [
+        {
+          "if": {
+            "type": "string",
+            "minLength": 1
+          },
+          "then": {
+            "type": "string",
+            "pattern": "^\\d{3}$",
+            "errorMessage": "ERR_INVALID"
+          },
+          "else": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          }
+        },
+        {
+          "validateSurveyId": true
+        }
+      ]
     },
     "formType": {
       "if": {
