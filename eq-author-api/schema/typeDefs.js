@@ -53,12 +53,6 @@ enum Access {
   PrivateQuestionnaires
 }
 
-type BasicQuestionnaire {
-  id: ID!
-  title: String
-  shortTitle: String
-}
-
 type Questionnaire {
   id: ID!
   title: String
@@ -1047,7 +1041,6 @@ input ImportSectionsInput {
 
 type Mutation {
   createQuestionnaire(input: CreateQuestionnaireInput!): Questionnaire
-  createQuestionnaireV2(input: CreateQuestionnaireInputV2!): BasicQuestionnaire
   updateQuestionnaire(input: UpdateQuestionnaireInput!): Questionnaire
   deleteQuestionnaire(input: DeleteQuestionnaireInput!): DeletedQuestionnaire
   duplicateQuestionnaire(input: DuplicateQuestionnaireInput!): Questionnaire
@@ -1334,21 +1327,6 @@ input CustomRightSideInput {
 }
 
 input CreateQuestionnaireInput {
-  title: String!
-  description: String
-  additionalGuidancePanelSwitch: Boolean
-  additionalGuidancePanel: String
-  theme: String!
-  navigation: Boolean
-  hub: Boolean
-  surveyId: String!
-  summary: Boolean
-  type: QuestionnaireType
-  shortTitle: String
-  isPublic: Boolean
-}
-
-input CreateQuestionnaireInputV2 {
   title: String!
   description: String
   additionalGuidancePanelSwitch: Boolean
