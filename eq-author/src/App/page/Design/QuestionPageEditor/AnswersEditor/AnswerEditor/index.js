@@ -139,10 +139,17 @@ class AnswerEditor extends React.Component {
     if (type === DATE_RANGE) {
       return <DateRange {...this.props} />;
     }
-    // Only option left is Date as validation done in prop types
+    const updatedProps = {
+      ...this.props,
+      answer: {
+        ...this.props.answer,
+        page: this.props.page,
+      },
+    };
+
     return (
       <DateSingle
-        {...this.props}
+        {...updatedProps}
         showDay={this.formatIncludes("dd")(answer)}
         showMonth={this.formatIncludes("mm")(answer)}
         showYear={this.formatIncludes("yyyy")(answer)}

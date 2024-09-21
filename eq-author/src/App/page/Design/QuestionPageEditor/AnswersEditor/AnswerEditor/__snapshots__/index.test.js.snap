@@ -371,6 +371,10 @@ exports[`Answer Editor should render Date 1`] = `
           "guidance": "",
           "id": "1",
           "label": "",
+          "page": Object {
+            "id": "page-1",
+            "pageType": "QuestionPage",
+          },
           "properties": Object {},
           "qCode": "",
           "secondaryLabel": "",
