@@ -67,7 +67,10 @@ const getMultipleErrorsByField = (field, errorMessages, validationErrors) => {
 
 export class SectionEditor extends React.Component {
   static propTypes = {
-    section: propType(sectionFragment),
+    section: PropTypes.shape({
+      ...propType(sectionFragment).type,
+      sectionSummaryPageDescription: PropTypes.string, // Make sectionSummaryPageDescription optional
+    }).isRequired,
     onChange: PropTypes.func.isRequired,
     onUpdate: PropTypes.func.isRequired,
     onDeleteSectionConfirm: PropTypes.func.isRequired,
@@ -77,7 +80,7 @@ export class SectionEditor extends React.Component {
     showMoveSectionDialog: PropTypes.bool.isRequired,
     onCloseMoveSectionDialog: PropTypes.func.isRequired,
     match: CustomPropTypes.match.isRequired,
-    getValidationError: PropTypes.func.isRequired,
+    getValidationError: PropTypes.func,
   };
 
   state = {
