@@ -61,6 +61,7 @@ exports[`SectionEditor should render 1`] = `
           "comments": Array [],
           "id": "section-1",
           "introductionContent": "Intro content",
+          "introductionEnabled": true,
           "introductionPageDescription": "Intro description",
           "introductionTitle": "Intro title",
           "questionnaire": Object {
@@ -73,7 +74,6 @@ exports[`SectionEditor should render 1`] = `
           "repeatingSectionListId": null,
           "requiredCompleted": true,
           "sectionSummary": false,
-          "sectionSummaryPageDescription": "Summary description",
           "showOnHub": true,
           "title": "Section 1",
           "validationErrorInfo": Object {
@@ -89,7 +89,6 @@ exports[`SectionEditor should render 1`] = `
       errors={Array []}
       id="section-1"
       sectionSummary={false}
-      sectionSummaryPageDescription="Summary description"
     />
     <SectionEditor__HorizontalRule />
     <RepeatingSection
@@ -101,6 +100,7 @@ exports[`SectionEditor should render 1`] = `
           "comments": Array [],
           "id": "section-1",
           "introductionContent": "Intro content",
+          "introductionEnabled": true,
           "introductionPageDescription": "Intro description",
           "introductionTitle": "Intro title",
           "questionnaire": Object {
@@ -113,7 +113,6 @@ exports[`SectionEditor should render 1`] = `
           "repeatingSectionListId": null,
           "requiredCompleted": true,
           "sectionSummary": false,
-          "sectionSummaryPageDescription": "Summary description",
           "showOnHub": true,
           "title": "Section 1",
           "validationErrorInfo": Object {
@@ -189,6 +188,8 @@ exports[`SectionEditor should render 2`] = `
           "comments": Array [],
           "id": "section-2",
           "introductionContent": "Intro content",
+          "introductionEnabled": true,
+          "introductionPageDescription": "Intro description",
           "introductionTitle": "Intro title",
           "questionnaire": Object {
             "collapsibleSummary": false,
@@ -226,6 +227,8 @@ exports[`SectionEditor should render 2`] = `
           "comments": Array [],
           "id": "section-2",
           "introductionContent": "Intro content",
+          "introductionEnabled": true,
+          "introductionPageDescription": "Intro description",
           "introductionTitle": "Intro title",
           "questionnaire": Object {
             "collapsibleSummary": false,
