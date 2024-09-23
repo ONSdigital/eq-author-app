@@ -264,7 +264,7 @@ SubMenu.propTypes = {
   onSelected: PropTypes.func.isRequired,
   isSelected: PropTypes.func.isRequired,
   isDisabled: PropTypes.func,
-  isCalculatedSummary: PropTypes.boolean,
+  isCalculatedSummary: PropTypes.func,
 };
 
 const FlatSectionMenu = ({ data, isCalculatedSummary, ...otherProps }) =>
