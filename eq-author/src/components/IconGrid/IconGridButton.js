@@ -52,12 +52,14 @@ const IconGridButton = ({
   doNotShowDR,
   mutuallyExclusiveEnabled,
   radioEnabled,
+  selectEnabled,
   ...otherProps
 }) => {
   if (
     (doNotShowDR && title === "Date range") ||
     (!mutuallyExclusiveEnabled && title === "OR answer") ||
-    (!radioEnabled && title === "Radio")
+    (!radioEnabled && title === "Radio") ||
+    (!selectEnabled && title === "Select")
   ) {
     disabled = true;
   }
@@ -87,6 +89,7 @@ IconGridButton.propTypes = {
   doNotShowDR: PropTypes.bool,
   mutuallyExclusiveEnabled: PropTypes.bool,
   radioEnabled: PropTypes.bool,
+  selectEnabled: PropTypes.bool,
 };
 
 export default IconGridButton;

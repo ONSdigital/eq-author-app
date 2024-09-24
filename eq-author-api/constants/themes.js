@@ -13,6 +13,7 @@ const THEME_SHORT_NAMES = [
   "ukhsa-ons",
   "desnz",
   "desnz-ni",
+  "ons-nhs",
 ];
 
 module.exports = { THEME_SHORT_NAMES };

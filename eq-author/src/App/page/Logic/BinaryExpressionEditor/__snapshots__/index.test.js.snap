@@ -24,6 +24,36 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
     >
       <RoutingAnswerContentPicker
         data-test="routing-answer-picker"
+        expressionGroup={
+          Object {
+            "expressions": Array [
+              Object {
+                "condition": "Equal",
+                "expressionGroup": Object {
+                  "__typename": "ExpressionGroup2",
+                  "id": "1",
+                  "validationErrorInfo": Object {
+                    "errors": Array [],
+                    "id": "1",
+                    "totalCount": 0,
+                  },
+                },
+                "id": "1",
+                "left": Object {
+                  "id": "2",
+                  "type": "Radio",
+                },
+                "right": null,
+                "secondaryCondition": null,
+                "validationErrorInfo": Object {
+                  "errors": Array [],
+                  "id": "6dd",
+                  "totalCount": 0,
+                },
+              },
+            ],
+          }
+        }
         hasError={false}
         onSubmit={[Function]}
         selectedId="2"

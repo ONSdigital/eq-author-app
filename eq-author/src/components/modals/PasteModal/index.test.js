@@ -1,26 +1,10 @@
 import React from "react";
 import { render, fireEvent } from "tests/utils/rtl";
-import PasteModal, { preserveRichFormatting } from ".";
+import PasteModal from ".";
 
 import { keyCodes } from "constants/keyCodes";
 
 const { Escape } = keyCodes;
-
-describe("preserveRichFormatting function", () => {
-  it("should replace multiple spaces and tabs with a single space", () => {
-    const inputText = "   Hello \t\t World    ";
-    const expectedOutput = "Hello World";
-    const result = preserveRichFormatting(inputText);
-    expect(result).toBe(expectedOutput);
-  });
-
-  it("should remove leading and trailing spaces from each line", () => {
-    const inputText = "   Line 1   \n   Line 2   \n   Line 3   ";
-    const expectedOutput = "Line 1\nLine 2\nLine 3";
-    const result = preserveRichFormatting(inputText);
-    expect(result).toBe(expectedOutput);
-  });
-});
 
 describe("PasteModal", () => {
   let onConfirm, onCancel;

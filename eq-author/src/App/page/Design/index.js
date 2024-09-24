@@ -63,6 +63,10 @@ export const PAGE_QUERY = gql`
           listId
         }
       }
+      section {
+        id
+        repeatingSectionListId
+      }
     }
   }
   ${CalculatedSummaryPageEditor.fragments.CalculatedSummaryPage}

@@ -69,16 +69,6 @@ const EventText = styled.div`
   p {
     margin: 0 0 1em;
     word-break: break-all;
-    em {
-      background-color: ${colors.highlightGreen};
-      font-style: normal;
-    }
-  }
-  h2 {
-    em {
-      background-color: ${colors.highlightGreen};
-      font-style: normal;
-    }
   }
   ul {
     margin-top: 0;
@@ -88,10 +78,6 @@ const EventText = styled.div`
       margin-left: 1em;
       span {
         font-weight: bold;
-      }
-      em {
-        background-color: ${colors.highlightGreen};
-        font-style: normal;
       }
     }
   }
@@ -160,7 +146,6 @@ const HistoryItem = ({
               value={noteState}
               controls={{
                 heading: true,
-                emphasis: true,
                 list: true,
                 bold: true,
               }}

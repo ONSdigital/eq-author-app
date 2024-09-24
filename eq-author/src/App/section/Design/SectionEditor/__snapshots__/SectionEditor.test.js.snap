@@ -24,7 +24,7 @@ exports[`SectionEditor should render 1`] = `
       autoFocus={false}
       controls={
         Object {
-          "emphasis": true,
+          "highlight": true,
           "piping": true,
         }
       }
@@ -152,7 +152,7 @@ exports[`SectionEditor should render 2`] = `
       autoFocus={false}
       controls={
         Object {
-          "emphasis": true,
+          "highlight": true,
           "piping": true,
         }
       }

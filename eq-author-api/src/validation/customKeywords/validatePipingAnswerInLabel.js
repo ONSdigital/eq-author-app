@@ -9,6 +9,7 @@ const {
   idExists,
   getListByAnswerId,
   getSupplementaryDataAsCollectionListbyFieldId,
+  getFolderByAnswerId,
 } = require("../../../schema/resolvers/utils");
 
 const pipedAnswerIdRegex =
@@ -31,6 +32,7 @@ module.exports = (ajv) =>
         rootData: questionnaire,
       }
     ) {
+      const folder = getFolderByAnswerId({ questionnaire }, parentData.id);
       isValid.errors = [];
       const pipedIdList = [];
 
@@ -78,8 +80,9 @@ module.exports = (ajv) =>
         if (list) {
           if (!(dataPiped === "supplementary" && list.listName === "")) {
             if (
-              list.id !== parentData.repeatingLabelAndInputListId ||
-              !parentData.repeatingLabelAndInput
+              !folder.listId &&
+              (list.id !== parentData.repeatingLabelAndInputListId ||
+                !parentData.repeatingLabelAndInput)
             ) {
               return hasError(PIPING_TITLE_DELETED);
             }

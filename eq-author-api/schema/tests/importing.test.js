@@ -1,9 +1,17 @@
 const { buildContext } = require("../../tests/utils/contextBuilder");
-const { getPages, getSections } = require("../resolvers/utils");
+const { getPages, getFolders, getSections } = require("../resolvers/utils");
+
 const {
   importQuestions,
+  importFolders,
   importSections,
 } = require("../../tests/utils/contextBuilder/importing");
+const {
+  updateFolder,
+} = require("../../tests/utils/contextBuilder/folder/updateFolder");
+const {
+  updateAnswer,
+} = require("../../tests/utils/contextBuilder/answer/updateAnswer");
 
 describe("Importing questions", () => {
   describe("Error conditions", () => {
@@ -186,6 +194,317 @@ describe("Importing questions", () => {
             ],
           },
         ],
+      });
+    });
+  });
+});
+
+describe("Importing folders", () => {
+  describe("Error conditions", () => {
+    const defaultInput = {
+      questionnaireId: "questionnaire-id",
+      folderIds: ["folder-1", "folder-2", "folder-3"],
+      position: {
+        index: 0,
+        sectionId: "section-1",
+      },
+    };
+
+    it("should throw error if sectionId is not provided", async () => {
+      expect(
+        importFolders(await buildContext({}), {
+          questionnaireId: "questionnaire-id",
+          folderIds: ["folder-1", "folder-2", "folder-3"],
+          position: {
+            index: 0,
+            sectionId: null,
+          },
+        })
+      ).rejects.toThrow("Target section ID must be provided");
+    });
+
+    it("should throw error if source questionnaireID doesn't exist", async () => {
+      expect(
+        importFolders(await buildContext({}), defaultInput)
+      ).rejects.toThrow(/Questionnaire with ID .+ does not exist/);
+    });
+
+    it("should throw error if not all folders are present in source questionnaire", async () => {
+      const { questionnaire: sourceQuestionnaire } = await buildContext({});
+      const ctx = await buildContext({});
+
+      expect(
+        importFolders(ctx, {
+          ...defaultInput,
+          questionnaireId: sourceQuestionnaire.id,
+        })
+      ).rejects.toThrow(/Not all folder IDs .+ exist in source questionnaire/);
+    });
+
+    it("should throw error if target section doesn't exist", async () => {
+      const { questionnaire: sourceQuestionnaire } = await buildContext({
+        sections: [{ folders: [{ pages: [{}, {}] }] }],
+      });
+      const ctx = await buildContext({});
+      const folderIds = getFolders({ questionnaire: sourceQuestionnaire }).map(
+        ({ id }) => id
+      );
+
+      expect(
+        importFolders(ctx, {
+          questionnaireId: sourceQuestionnaire.id,
+          folderIds,
+          position: {
+            index: 0,
+            sectionId: "undefined-section",
+          },
+        })
+      ).rejects.toThrow(
+        /Section with ID .+ doesn't exist in target questionnaire/
+      );
+    });
+  });
+
+  describe("Success conditions", () => {
+    const setup = async (
+      sourceStructure = {
+        sections: [
+          {
+            folders: [
+              {
+                pages: [{ title: "Page 1" }, { title: "Page 2" }],
+              },
+            ],
+          },
+        ],
+      }
+    ) => {
+      const { questionnaire: sourceQuestionnaire } = await buildContext(
+        sourceStructure
+      );
+
+      const folderIds = getFolders({ questionnaire: sourceQuestionnaire }).map(
+        ({ id }) => id
+      );
+
+      const ctx = await buildContext({
+        sections: [{ folders: [{ pages: [{}, {}] }] }],
+      });
+
+      return { ctx, folderIds, sourceQuestionnaire };
+    };
+
+    it("should import folders into a section", async () => {
+      const { ctx, folderIds, sourceQuestionnaire } = await setup();
+      const destinationSection = ctx.questionnaire.sections[0];
+      expect(destinationSection.folders).toHaveLength(1);
+
+      await importFolders(ctx, {
+        questionnaireId: sourceQuestionnaire.id,
+        folderIds,
+        position: {
+          index: 0,
+          sectionId: destinationSection.id,
+        },
+      });
+
+      expect(destinationSection.folders).toHaveLength(2);
+      expect(destinationSection.folders[0].pages[0]).toMatchObject({
+        ...sourceQuestionnaire.sections[0].folders[0].pages[0],
+        id: expect.any(String),
+      });
+      expect(destinationSection.folders[0].pages[1]).toMatchObject({
+        ...sourceQuestionnaire.sections[0].folders[0].pages[1],
+        id: expect.any(String),
+      });
+    });
+
+    it("should remove qCodes from imported content", async () => {
+      const { ctx, folderIds, sourceQuestionnaire } = await setup({
+        sections: [
+          {
+            folders: [
+              {
+                pages: [
+                  {
+                    answers: [
+                      {
+                        type: "Checkbox",
+                        qCode: "answer-qCode",
+                        options: [
+                          {
+                            qCode: "option-qCode",
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+      const destinationSection = ctx.questionnaire.sections[0];
+
+      await importFolders(ctx, {
+        questionnaireId: sourceQuestionnaire.id,
+        folderIds,
+        position: {
+          index: 0,
+          sectionId: destinationSection.id,
+        },
+      });
+
+      expect(destinationSection.folders[0].pages[0]).toMatchObject({
+        ...sourceQuestionnaire.sections[0].folders[0].pages[0],
+        id: expect.any(String),
+        answers: [
+          {
+            ...sourceQuestionnaire.sections[0].folders[0].pages[0].answers[0],
+            id: expect.any(String),
+            qCode: null,
+            questionPageId: destinationSection.folders[0].pages[0].id,
+            options: [
+              {
+                ...sourceQuestionnaire.sections[0].folders[0].pages[0]
+                  .answers[0].options[0],
+                id: expect.any(String),
+                qCode: null,
+              },
+            ],
+          },
+        ],
+      });
+    });
+
+    it("should set folder listId to empty string when importing a folder with listId", async () => {
+      const sourceStructure = {
+        sections: [
+          {
+            folders: [
+              {
+                pages: [{ title: "Page 1" }, { title: "Page 2" }],
+              },
+            ],
+          },
+        ],
+      };
+
+      const { ctx } = await setup(sourceStructure);
+      const destinationSection = ctx.questionnaire.sections[0];
+      const sourceQuestionnaireCtx = await buildContext(sourceStructure);
+      const { questionnaire: sourceQuestionnaire } = sourceQuestionnaireCtx;
+
+      await updateFolder(sourceQuestionnaireCtx, {
+        folderId: sourceQuestionnaire.sections[0].folders[0].id,
+        listId: "list-1",
+      });
+
+      await importFolders(ctx, {
+        questionnaireId: sourceQuestionnaire.id,
+        folderIds: [sourceQuestionnaire.sections[0].folders[0].id],
+        position: {
+          index: 0,
+          sectionId: destinationSection.id,
+        },
+      });
+
+      expect(sourceQuestionnaire.sections[0].folders[0].listId).not.toEqual("");
+      expect(sourceQuestionnaire.sections[0].folders[0].listId).toEqual(
+        "list-1"
+      );
+
+      expect(destinationSection.folders[0]).toMatchObject({
+        ...sourceQuestionnaire.sections[0].folders[0],
+        id: expect.any(String),
+        folderId: expect.any(String),
+        listId: "",
+        pages: [
+          {
+            ...sourceQuestionnaire.sections[0].folders[0].pages[0],
+            id: expect.any(String),
+          },
+          {
+            ...sourceQuestionnaire.sections[0].folders[0].pages[1],
+            id: expect.any(String),
+          },
+        ],
+      });
+    });
+
+    it("should set repeatingLabelAndInputListId to empty string when importing a folder containing a repeating answer", async () => {
+      const sourceStructure = {
+        sections: [
+          {
+            folders: [
+              {
+                pages: [
+                  {
+                    title: "Page 1",
+                    answers: [
+                      {
+                        label: "Answer 1",
+                        repeatingLabelAndInput: true,
+                        type: "TextField",
+                      },
+                    ],
+                  },
+                  { title: "Page 2" },
+                ],
+              },
+            ],
+          },
+        ],
+      };
+
+      const { ctx } = await setup(sourceStructure);
+      const destinationSection = ctx.questionnaire.sections[0];
+
+      const sourceQuestionnaireCtx = await buildContext(sourceStructure);
+      const { questionnaire: sourceQuestionnaire } = sourceQuestionnaireCtx;
+
+      const sourceQuestionnaireFirstPage =
+        sourceQuestionnaire.sections[0].folders[0].pages[0];
+
+      await updateAnswer(sourceQuestionnaireCtx, {
+        id: sourceQuestionnaireFirstPage.answers[0].id,
+        repeatingLabelAndInput: true,
+        repeatingLabelAndInputListId: "list-1",
+      });
+
+      expect(
+        sourceQuestionnaireFirstPage.answers[0].repeatingLabelAndInputListId
+      ).toEqual("list-1");
+      expect(
+        sourceQuestionnaireFirstPage.answers[0].repeatingLabelAndInput
+      ).toEqual(true);
+
+      await importFolders(ctx, {
+        questionnaireId: sourceQuestionnaire.id,
+        folderIds: [sourceQuestionnaire.sections[0].folders[0].id],
+        position: {
+          index: 0,
+          sectionId: destinationSection.id,
+        },
+      });
+
+      expect(destinationSection.folders[0].pages[0]).toMatchObject({
+        ...sourceQuestionnaireFirstPage,
+        id: expect.any(String),
+        answers: [
+          {
+            ...sourceQuestionnaireFirstPage.answers[0],
+            id: expect.any(String),
+            questionPageId: expect.any(String),
+            repeatingLabelAndInput: true,
+            repeatingLabelAndInputListId: "",
+          },
+        ],
+        totalValidation: {
+          ...sourceQuestionnaireFirstPage.totalValidation,
+          id: expect.any(String),
+        },
       });
     });
   });

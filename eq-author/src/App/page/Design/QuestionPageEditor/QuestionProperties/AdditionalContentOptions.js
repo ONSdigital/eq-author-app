@@ -26,20 +26,18 @@ import {
 
 const contentControls = {
   bold: true,
-  emphasis: true,
   list: true,
   link: true,
 };
 
 const descriptionControls = {
-  emphasis: true,
+  bold: true,
   piping: true,
   link: true,
 };
 
 const definitionControls = {
   list: true,
-  emphasis: true,
   bold: true,
   link: true,
 };
