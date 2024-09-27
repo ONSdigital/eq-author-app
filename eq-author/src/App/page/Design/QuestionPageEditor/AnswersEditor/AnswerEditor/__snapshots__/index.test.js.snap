@@ -110,6 +110,9 @@ exports[`Answer Editor should render Checkbox 1`] = `
               "label": "",
             },
           ],
+          "page": Object {
+            "id": "1",
+          },
           "properties": Object {},
           "qCode": "",
           "secondaryLabel": "",
@@ -240,6 +243,9 @@ exports[`Answer Editor should render Currency 1`] = `
           "guidance": "",
           "id": "1",
           "label": "",
+          "page": Object {
+            "id": "1",
+          },
           "properties": Object {},
           "qCode": "",
           "secondaryLabel": "",
@@ -372,8 +378,7 @@ exports[`Answer Editor should render Date 1`] = `
           "id": "1",
           "label": "",
           "page": Object {
-            "id": "page-1",
-            "pageType": "QuestionPage",
+            "id": "1",
           },
           "properties": Object {},
           "qCode": "",
@@ -508,6 +513,9 @@ exports[`Answer Editor should render DateRange 1`] = `
           "guidance": "",
           "id": "1",
           "label": "",
+          "page": Object {
+            "id": "1",
+          },
           "properties": Object {},
           "qCode": "",
           "secondaryLabel": "",
@@ -637,6 +645,9 @@ exports[`Answer Editor should render Duration 1`] = `
           "guidance": "",
           "id": "1",
           "label": "",
+          "page": Object {
+            "id": "1",
+          },
           "properties": Object {
             "unit": "YearsMonths",
           },
@@ -779,6 +790,9 @@ exports[`Answer Editor should render Mutually Exclusive 1`] = `
               "label": "",
             },
           ],
+          "page": Object {
+            "id": "1",
+          },
           "properties": Object {},
           "qCode": "",
           "secondaryLabel": "",
@@ -909,6 +923,9 @@ exports[`Answer Editor should render Number 1`] = `
           "guidance": "",
           "id": "1",
           "label": "",
+          "page": Object {
+            "id": "1",
+          },
           "properties": Object {},
           "qCode": "",
           "secondaryLabel": "",
@@ -1040,6 +1057,9 @@ exports[`Answer Editor should render Percentage 1`] = `
           "guidance": "",
           "id": "1",
           "label": "",
+          "page": Object {
+            "id": "1",
+          },
           "properties": Object {},
           "qCode": "",
           "secondaryLabel": "",
@@ -1178,6 +1198,9 @@ exports[`Answer Editor should render Radio 1`] = `
               "label": "",
             },
           ],
+          "page": Object {
+            "id": "1",
+          },
           "properties": Object {},
           "qCode": "",
           "secondaryLabel": "",
@@ -1317,6 +1340,9 @@ exports[`Answer Editor should render Select 1`] = `
               "label": "",
             },
           ],
+          "page": Object {
+            "id": "1",
+          },
           "properties": Object {},
           "qCode": "",
           "secondaryLabel": "",
@@ -1448,6 +1474,9 @@ exports[`Answer Editor should render TextArea 1`] = `
           "guidance": "",
           "id": "1",
           "label": "",
+          "page": Object {
+            "id": "1",
+          },
           "properties": Object {},
           "qCode": "",
           "secondaryLabel": "",
@@ -1578,6 +1607,9 @@ exports[`Answer Editor should render TextField 1`] = `
           "guidance": "",
           "id": "1",
           "label": "",
+          "page": Object {
+            "id": "1",
+          },
           "properties": Object {},
           "qCode": "",
           "secondaryLabel": "",
@@ -1709,6 +1741,9 @@ exports[`Answer Editor should render Unit 1`] = `
           "guidance": "",
           "id": "1",
           "label": "",
+          "page": Object {
+            "id": "1",
+          },
           "properties": Object {
             "unit": "Centimetres",
           },
