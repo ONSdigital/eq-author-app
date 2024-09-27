@@ -173,6 +173,7 @@ describe("SectionEditor", () => {
       validationErrorInfo: {
         errors: [
           {
+            id: "1",
             type: "section",
             field: "title",
             errorCode: "ERR_REQUIRED_WHEN_SETTING",
@@ -233,6 +234,7 @@ describe("SectionEditor", () => {
         validationErrorInfo: {
           errors: [
             {
+              id: "2",
               type: "section",
               field: "title",
               errorCode: "ERR_REQUIRED_WHEN_SETTING",
