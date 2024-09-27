@@ -74,6 +74,7 @@ exports[`SectionEditor should render 1`] = `
           "repeatingSectionListId": null,
           "requiredCompleted": true,
           "sectionSummary": false,
+          "sectionSummaryPageDescription": "Section summary 1",
           "showOnHub": true,
           "title": "Section 1",
           "validationErrorInfo": Object {
@@ -89,6 +90,7 @@ exports[`SectionEditor should render 1`] = `
       errors={Array []}
       id="section-1"
       sectionSummary={false}
+      sectionSummaryPageDescription="Section summary 1"
     />
     <SectionEditor__HorizontalRule />
     <RepeatingSection
@@ -113,6 +115,7 @@ exports[`SectionEditor should render 1`] = `
           "repeatingSectionListId": null,
           "requiredCompleted": true,
           "sectionSummary": false,
+          "sectionSummaryPageDescription": "Section summary 1",
           "showOnHub": true,
           "title": "Section 1",
           "validationErrorInfo": Object {
@@ -201,6 +204,7 @@ exports[`SectionEditor should render 2`] = `
           "repeatingSectionListId": null,
           "requiredCompleted": true,
           "sectionSummary": false,
+          "sectionSummaryPageDescription": "Section summary 2",
           "showOnHub": true,
           "title": "Section 2",
           "validationErrorInfo": Object {
@@ -216,6 +220,7 @@ exports[`SectionEditor should render 2`] = `
       errors={Array []}
       id="section-2"
       sectionSummary={false}
+      sectionSummaryPageDescription="Section summary 2"
     />
     <SectionEditor__HorizontalRule />
     <RepeatingSection
@@ -240,6 +245,7 @@ exports[`SectionEditor should render 2`] = `
           "repeatingSectionListId": null,
           "requiredCompleted": true,
           "sectionSummary": false,
+          "sectionSummaryPageDescription": "Section summary 2",
           "showOnHub": true,
           "title": "Section 2",
           "validationErrorInfo": Object {

@@ -37,6 +37,7 @@ describe("SectionEditor", () => {
     requiredCompleted: true,
     showOnHub: true,
     sectionSummary: false,
+    sectionSummaryPageDescription: "Section summary 1",
     collapsibleSummary: false,
     repeatingSection: false,
     repeatingSectionListId: null,
@@ -65,6 +66,7 @@ describe("SectionEditor", () => {
     requiredCompleted: true,
     showOnHub: true,
     sectionSummary: false,
+    sectionSummaryPageDescription: "Section summary 2",
     collapsibleSummary: false,
     repeatingSection: false,
     repeatingSectionListId: null,
@@ -171,6 +173,8 @@ describe("SectionEditor", () => {
       showOnHub: false,
       sectionSummary: true,
       validationErrorInfo: {
+        id: "1",
+        totalCount: 1,
         errors: [
           {
             id: "1",
@@ -232,6 +236,8 @@ describe("SectionEditor", () => {
         ...section1,
         title: "",
         validationErrorInfo: {
+          id: "2",
+          totalCount: 1,
           errors: [
             {
               id: "2",
