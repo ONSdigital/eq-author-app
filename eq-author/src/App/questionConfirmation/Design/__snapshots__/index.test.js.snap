@@ -45,6 +45,7 @@ exports[`QuestionConfirmationRoute should render 1`] = `
             "displayName": "My question",
             "id": "1",
           },
+          "pageDescription": "Page description 1",
           "positive": Object {
             "description": "Positive description",
             "id": "1",
