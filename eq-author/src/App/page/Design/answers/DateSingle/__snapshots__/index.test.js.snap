@@ -17,6 +17,9 @@ exports[`Date should render 1`] = `
           "mutuallyExclusive": false,
         },
       ],
+      "page": Object {
+        "id": "Page 1",
+      },
       "properties": Object {},
       "qCode": "",
       "secondaryLabel": null,
