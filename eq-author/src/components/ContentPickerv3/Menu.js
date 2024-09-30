@@ -157,7 +157,6 @@ export const SectionTitle = styled.div`
 
 const Menu = ({ data, onSelected, isSelected }) => {
   const onEnterUp = (event, section) => {
-    console.log("Test");
     if (event.keyCode === 13) {
       //13 is the enter keycode
       onSelected(section);
