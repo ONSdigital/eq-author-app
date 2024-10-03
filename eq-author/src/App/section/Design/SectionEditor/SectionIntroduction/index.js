@@ -103,8 +103,8 @@ const SectionIntroduction = ({
 SectionIntroduction.propTypes = {
   section: CustomPropTypes.section.isRequired,
   handleUpdate: PropTypes.func.isRequired,
-  introductionTitleErrorMessage: PropTypes.string,
-  introductionContentErrorMessage: PropTypes.string,
+  introductionTitleErrorMessage: PropTypes.array, //eslint-disable-line
+  introductionContentErrorMessage: PropTypes.array, //eslint-disable-line
 };
 
 export default SectionIntroduction;

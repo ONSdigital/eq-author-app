@@ -191,9 +191,10 @@ export const UnwrappedBinaryExpressionEditor = ({
   const MetadataEditor =
     METADATA_TYPE_TO_RIGHT_EDITOR[expression?.left?.metadataType];
 
-  const shouldRenderEditor =
+  const shouldRenderEditor = Boolean(
     (AnswerEditor && !expression.left.reason && !answerPickerError) ||
-    MetadataEditor;
+      MetadataEditor
+  );
 
   const isLastExpression =
     expressionIndex === expressionGroup.expressions.length - 1;

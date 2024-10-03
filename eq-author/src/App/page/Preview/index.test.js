@@ -39,6 +39,9 @@ describe("page previews", () => {
       additionalInfoLabel: "<p>Additional Info Label</p>",
       additionalInfoContent: "<p>Additional Info Content</p>",
       additionalInfoEnabled: true,
+      confirmation: {
+        id: "confirmation-1",
+      },
       validationErrorInfo: [],
       comments: [],
       answers: [],

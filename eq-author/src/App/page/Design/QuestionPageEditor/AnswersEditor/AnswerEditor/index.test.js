@@ -55,6 +55,7 @@ describe("Answer Editor", () => {
     mockAnswer = {
       id: "1",
       title: "",
+      page: { id: "1" },
       description: "",
       type: TEXTFIELD,
       guidance: "",

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { render, fireEvent } from "tests/utils/rtl";
+import { render, fireEvent, waitFor } from "tests/utils/rtl";
 import RepeatingLabelAndInput from "./index";
 
 const handleUpdate = jest.fn();
@@ -25,8 +25,10 @@ const renderRepeatingLabelAndInput = (handleUpdate, answer) =>
   );
 
 describe("Repeating label and input", () => {
-  it("should render component", () => {
-    const { getByText } = renderRepeatingLabelAndInput(handleUpdate, answer);
+  it("should render component", async () => {
+    const { getByText } = await waitFor(() =>
+      renderRepeatingLabelAndInput(handleUpdate, answer)
+    );
     expect(getByText("Repeat label and input")).toBeTruthy();
   });
 
@@ -35,7 +37,9 @@ describe("Repeating label and input", () => {
       answer.repeatingLabelAndInput = !answer.repeatingLabelAndInput;
     });
 
-    const { getByTestId } = renderRepeatingLabelAndInput(handleUpdate, answer);
+    const { getByTestId } = await waitFor(() =>
+      renderRepeatingLabelAndInput(handleUpdate, answer)
+    );
     const toggle = getByTestId("repeat-label-and-input-toggle-input");
 
     fireEvent.change(toggle, { target: { value: "On" } });
@@ -44,10 +48,12 @@ describe("Repeating label and input", () => {
     expect(handleUpdate).toHaveBeenCalled();
   });
 
-  it("should display collection lists", () => {
+  it("should display collection lists", async () => {
     answer.repeatingLabelAndInput = true;
 
-    const { getByText } = renderRepeatingLabelAndInput(handleUpdate, answer);
+    const { getByText } = await waitFor(() =>
+      renderRepeatingLabelAndInput(handleUpdate, answer)
+    );
     expect(getByText("Select a collection list")).toBeTruthy();
   });
 });
