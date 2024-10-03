@@ -57,8 +57,11 @@ import ValidationError from "components/ValidationError";
 import gql from "graphql-tag";
 import RichTextEditor from "components/RichTextEditor";
 
-const { PIPING_TITLE_DELETED, ERR_VALID_PIPED_ANSWER_REQUIRED } =
-  richTextEditorErrors;
+const {
+  PIPING_TITLE_DELETED,
+  ERR_VALID_PIPED_ANSWER_REQUIRED,
+  PIPING_TITLE_MOVED,
+} = richTextEditorErrors;
 
 const Caption = styled.div`
   margin-bottom: 0.2em;
@@ -136,20 +139,28 @@ export const StatelessBasicAnswer = ({
         {answer.validationErrorInfo?.errors?.map((error) => {
           let message;
 
-          if (error.errorCode === "ERR_VALID_REQUIRED") {
-            message = buildLabelError(
-              MISSING_LABEL,
-              `${lowerCase(type)}`,
-              8,
-              7
-            );
+          switch (error.errorCode) {
+            case "ERR_VALID_REQUIRED":
+              message = buildLabelError(
+                MISSING_LABEL,
+                `${lowerCase(type)}`,
+                8,
+                7
+              );
+              break;
+            case "ERR_VALID_PIPED_ANSWER_REQUIRED":
+              message = ERR_VALID_PIPED_ANSWER_REQUIRED.message;
+              break;
+            case "PIPING_TITLE_DELETED":
+              message = PIPING_TITLE_DELETED.message;
+              break;
+            case "PIPING_TITLE_MOVED":
+              message = PIPING_TITLE_MOVED.message;
+              break;
+            default:
+              message = "";
           }
-          if (error.errorCode === "ERR_VALID_PIPED_ANSWER_REQUIRED") {
-            message = ERR_VALID_PIPED_ANSWER_REQUIRED.message;
-          }
-          if (error.errorCode === "PIPING_TITLE_DELETED") {
-            message = PIPING_TITLE_DELETED.message;
-          }
+
           return (
             error.field === "label" && (
               <ValidationError key={error.id}>{message}</ValidationError>
