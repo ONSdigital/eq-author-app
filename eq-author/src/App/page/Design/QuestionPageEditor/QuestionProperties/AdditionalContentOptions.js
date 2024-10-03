@@ -220,7 +220,7 @@ export const StatelessAdditionalInfo = ({
 StatelessAdditionalInfo.propTypes = {
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  fetchAnswers: PropTypes.func.isRequired,
+  fetchAnswers: PropTypes.func,
   page: propType(pageFragment).isRequired,
   onChangeUpdate: PropTypes.func.isRequired,
   option: PropTypes.string.isRequired,
