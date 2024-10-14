@@ -27,6 +27,7 @@ exports[`Editor Editor Component should autoFocus the title when there is not on
     marginless={true}
     onChange={[MockFunction]}
     onUpdate={[MockFunction]}
+    pageDescription="Page description 1"
   />
   <Editor__HorizontalRule />
   <Editor__OptionsWrapper>
@@ -108,6 +109,7 @@ exports[`Editor Editor Component should render 1`] = `
     marginless={true}
     onChange={[MockFunction]}
     onUpdate={[MockFunction]}
+    pageDescription="Page description 1"
   />
   <Editor__HorizontalRule />
   <Editor__OptionsWrapper>

@@ -77,7 +77,7 @@ export class SectionEditor extends React.Component {
     showMoveSectionDialog: PropTypes.bool.isRequired,
     onCloseMoveSectionDialog: PropTypes.func.isRequired,
     match: CustomPropTypes.match.isRequired,
-    getValidationError: PropTypes.func.isRequired,
+    getValidationError: PropTypes.func,
   };
 
   state = {

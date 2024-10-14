@@ -23,7 +23,7 @@ module.exports = (metadata) => {
     additionalGuidancePanelSwitch: false,
     additionalGuidancePanel: "",
     description:
-      "<ul><li>Data should relate to all sites in England, Scotland, Wales and Northern Ireland unless otherwise stated. </li><li>You can provide info estimates if actual figures are not available.</li><li>We will treat your data securely and confidentially.</li></ul>",
+      "<ul><li>Data should relate to all sites in England, Scotland, Wales and Northern Ireland unless otherwise stated.</li><li>You can provide info estimates if actual figures are not available.</li><li>We will treat your data securely and confidentially.</li></ul>",
     legalBasis: NOTICE_1,
     // TODO: previewQuestions
     previewQuestions: false,

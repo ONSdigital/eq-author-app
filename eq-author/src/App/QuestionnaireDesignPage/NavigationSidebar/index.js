@@ -110,7 +110,9 @@ const NavigationSidebar = ({ questionnaire }) => {
   const [openSections, toggleSections] = useState(true);
   const [entity, setEntity] = useState({}); // Allows data for entity being dragged by user to be used in other droppables
 
-  const [movePage] = useMutation(MOVE_PAGE_MUTATION);
+  const [movePage] = useMutation(MOVE_PAGE_MUTATION, {
+    refetchQueries: ["GetPage"],
+  });
   const [moveFolder] = useMutation(MOVE_FOLDER_MUTATION);
   const [moveSection] = useMutation(MOVE_SECTION_MUTATION);
 

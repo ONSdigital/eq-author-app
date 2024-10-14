@@ -46,6 +46,7 @@ export default class AnswerTypeButton extends React.Component {
     doNotShowDR: PropTypes.bool,
     mutuallyExclusiveEnabled: PropTypes.bool,
     radioEnabled: PropTypes.bool,
+    selectEnabled: PropTypes.bool,
   };
 
   handleClick = () => {
@@ -58,6 +59,7 @@ export default class AnswerTypeButton extends React.Component {
         doNotShowDR={this.props.doNotShowDR}
         mutuallyExclusiveEnabled={this.props.mutuallyExclusiveEnabled}
         radioEnabled={this.props.radioEnabled}
+        selectEnabled={this.props.selectEnabled}
         disabled={this.props.disabled}
         iconSrc={icons[this.props.type]}
         onClick={this.handleClick}

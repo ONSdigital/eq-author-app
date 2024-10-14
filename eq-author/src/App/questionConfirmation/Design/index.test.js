@@ -19,6 +19,7 @@ describe("QuestionConfirmationRoute", () => {
         id: "1",
         displayName: "My first displayname",
         title: "My first confirmation",
+        pageDescription: "Page description 1",
         qCode: "",
         page: {
           id: "1",
