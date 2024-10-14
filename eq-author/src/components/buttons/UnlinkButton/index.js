@@ -41,7 +41,7 @@ const UnlinkTooltip = ({ children }) => (
 
 const UnlinkButton = ({
   hideText,
-  iconText = "Unlink dataset",
+  iconText = "Unlink dataset schema",
   ...otherProps
 }) => {
   const Wrapper = hideText ? UnlinkTooltip : React.Fragment;
@@ -68,7 +68,7 @@ UnlinkButton.propTypes = {
 
 UnlinkButton.defaultProps = {
   hideText: false,
-  iconText: "Unlink dataset",
+  iconText: "Unlink dataset schema",
   disabledIcon: false,
 };
 

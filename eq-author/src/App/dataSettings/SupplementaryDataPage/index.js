@@ -193,9 +193,9 @@ const SupplementaryDataPage = () => {
   return (
     <>
       <Modal
-        title="Unlink dataset"
+        title="Unlink dataset schema"
         positiveButtonText="Unlink"
-        warningMessage="The dataset will be unlinked from the questionnaire. You will not be able to pipe data fields from this dataset. Any piped answers or example values will be deleted."
+        warningMessage="The dataset schema will be unlinked from the questionnaire. You will not be able to pipe data fields from this dataset schema. Any piped answers or example values will be deleted."
         isOpen={showUnlinkModal}
         onConfirm={() => unlinkDataset()}
         onClose={() => setShowUnlinkModal(false)}
