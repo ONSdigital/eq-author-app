@@ -312,8 +312,9 @@ const SupplementaryDataPage = () => {
                               <Common.TabContent>
                                 A respondent&apos;s answers to previous
                                 questions are stored in supplementary datasets
-                                as data fields. Data fields can be piped into
-                                question and section pages using the toolbar.
+                                schemas as data fields. Data fields can be piped
+                                into question and section pages using the
+                                toolbar.
                               </Common.TabContent>
                               <Common.TabContent>
                                 Data fields are defined as either:

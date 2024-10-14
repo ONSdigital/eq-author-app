@@ -34,7 +34,11 @@ const StyledUnlinkButton = styled(Button).attrs({
 `;
 
 const UnlinkTooltip = ({ children }) => (
-  <Tooltip content="Unlink dataset" place="top" offset={{ top: 0, bottom: 10 }}>
+  <Tooltip
+    content="Unlink dataset schema"
+    place="top"
+    offset={{ top: 0, bottom: 10 }}
+  >
     {children}
   </Tooltip>
 );
