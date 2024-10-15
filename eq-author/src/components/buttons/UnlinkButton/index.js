@@ -18,7 +18,7 @@ const StyledUnlinkButton = styled(Button).attrs({
     fill: ${colors.blue};
   }
 
-  width: 11em;
+  width: 14em;
   height: 2.5em;
   align-items: center;
   margin: 0 0 0 auto;
