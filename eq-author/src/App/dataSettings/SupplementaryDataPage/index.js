@@ -267,7 +267,8 @@ const SupplementaryDataPage = () => {
                             <Grid>
                               <Column gutters={false} cols={8}>
                                 <Common.TabTitle>
-                                  Dataset for survey ID {tableData.surveyId}
+                                  Dataset schema for survey ID{" "}
+                                  {tableData.surveyId}
                                 </Common.TabTitle>
                               </Column>
                               <Column gutters={false} cols={4}>
@@ -276,7 +277,7 @@ const SupplementaryDataPage = () => {
                                     data-test="btn-unlink-dataset"
                                     onClick={handleUnlinkClick}
                                   >
-                                    Unlink dataset
+                                    Unlink dataset schema
                                   </UnlinkButton>
                                 </UnlinkButtonWrapper>
                               </Column>
@@ -311,7 +312,7 @@ const SupplementaryDataPage = () => {
                               </StyledTitle>
                               <Common.TabContent>
                                 A respondent&apos;s answers to previous
-                                questions are stored in supplementary datasets
+                                questions are stored in supplementary dataset
                                 schemas as data fields. Data fields can be piped
                                 into question and section pages using the
                                 toolbar.
