@@ -236,7 +236,7 @@ describe("Supplementary dataset page", () => {
         user,
         mocks
       );
-      expect(getByText("Dataset for survey ID 068")).toBeTruthy();
+      expect(getByText("Dataset schema for survey ID 068")).toBeTruthy();
       expect(getByText("ID:")).toBeTruthy();
       expect(getByText("Version:")).toBeTruthy();
       expect(getByText("Date created:")).toBeTruthy();

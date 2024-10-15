@@ -183,11 +183,13 @@ const SupplementaryDataPage = () => {
   };
 
   if (surveyLoading) {
-    return <Loading height="100%">Dataset page is loading...</Loading>;
+    return (
+      <Loading height="100%"> Supplementary data page is loading...</Loading>
+    );
   }
 
   if (surveyError) {
-    return <Error>Dataset page error</Error>;
+    return <Error>Supplementary data page error</Error>;
   }
 
   return (
