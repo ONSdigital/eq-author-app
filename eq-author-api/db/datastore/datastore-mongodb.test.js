@@ -1057,6 +1057,24 @@ describe("MongoDB Datastore", () => {
 
         expect(totalFilteredQuestionnaires).toBe(2);
       });
+
+      it("should get the total number of questionnaires when `questionnairesToExclude` filter is applied", async () => {
+        const totalFilteredQuestionnaires =
+          await mongoDB.getTotalFilteredQuestionnaires(
+            {
+              searchByTitleOrShortCode: "",
+              owner: "",
+              access: "All",
+              questionnairesToExclude: [
+                "test-questionnaire-3",
+                "test-questionnaire-4",
+              ],
+            },
+            ctx
+          );
+
+        expect(totalFilteredQuestionnaires).toBe(7);
+      });
     });
 
     describe("Getting total page count", () => {
