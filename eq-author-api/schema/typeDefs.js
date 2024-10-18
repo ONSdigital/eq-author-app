@@ -956,6 +956,7 @@ input FilteredQuestionnairesInput {
   access: Access!
   myQuestionnaires: Boolean
   sortBy: String
+  questionnairesToExclude: [ID!]
 }
 
 input TotalFilteredQuestionnairesInput {
@@ -965,6 +966,7 @@ input TotalFilteredQuestionnairesInput {
     createdOnOrBefore: DateTime
     access: Access!
     myQuestionnaires: Boolean
+    questionnairesToExclude: [ID!]
 }
 
 input TotalPagesInput {
@@ -975,6 +977,7 @@ input TotalPagesInput {
   createdOnOrBefore: DateTime
   access: Access!
   myQuestionnaires: Boolean
+  questionnairesToExclude: [ID!]
 }
 
 input QueryInput {
