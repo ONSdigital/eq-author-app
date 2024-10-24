@@ -236,7 +236,7 @@ describe("Supplementary dataset page", () => {
         user,
         mocks
       );
-      expect(getByText("Dataset for survey ID 068")).toBeTruthy();
+      expect(getByText("Dataset schema for survey ID 068")).toBeTruthy();
       expect(getByText("ID:")).toBeTruthy();
       expect(getByText("Version:")).toBeTruthy();
       expect(getByText("Date created:")).toBeTruthy();
@@ -246,7 +246,7 @@ describe("Supplementary dataset page", () => {
   });
 
   describe("Unlink dataset", () => {
-    it("should display the Unlink dataset modal", async () => {
+    it("should display the Unlink dataset schema modal", async () => {
       useQuery.mockImplementation(() => ({
         loading: false,
         error: false,
@@ -315,7 +315,7 @@ describe("Supplementary dataset page", () => {
       expect(queryByTestId("modal")).not.toBeInTheDocument();
     });
 
-    it("should close the Unlink dataset modal", async () => {
+    it("should close the Unlink dataset schema modal", async () => {
       useQuery.mockImplementationOnce(() => ({
         loading: false,
         error: false,
