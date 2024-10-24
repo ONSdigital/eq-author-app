@@ -79,6 +79,7 @@ const {
   getAnswerByOptionId,
   setDataVersion,
   authorisedRequest,
+  returnAllValidationErrors,
 } = require("./utils");
 
 const createAnswer = require("../../src/businessLogic/createAnswer");
@@ -1721,6 +1722,10 @@ const Resolvers = {
     },
     validationErrorInfo: ({ id }, _, ctx) =>
       returnValidationErrors(ctx, id, ({ type }) => type === "root"),
+
+    allValidationErrorInfo: ({ id }, _, ctx) =>
+      returnAllValidationErrors(ctx, id),
+
     totalErrorCount: (questionnaire, args, ctx) => {
       return ctx.validationErrorInfo.length;
     },

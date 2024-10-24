@@ -92,6 +92,7 @@ type Questionnaire {
   locked: Boolean
   publishHistory: [PublishHistoryEvent]
   validationErrorInfo: ValidationErrorInfo
+  allValidationErrorInfo: AllValidationErrorInfo
   submission: Submission
   supplementaryData: SupplementaryData
 }
@@ -487,12 +488,25 @@ type ValidationError {
   errorCode: String!
 }
 
+type AllValidationError {
+  id: String!
+  type: String!
+  field: String!
+  errorCode: String!
+  pageId: String
+}
+
 type ValidationErrorInfo {
   id: ID!
   errors: [ValidationError!]!
   totalCount: Int!
 }
 
+type AllValidationErrorInfo {
+  id: ID!
+  errors: [AllValidationError!]!
+  totalCount: Int!
+}
 
 union ValidationType = NumberValidation | DateValidation | DateRangeValidation
 

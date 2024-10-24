@@ -45,8 +45,27 @@ const returnValidationErrors = (ctx, id, ...conditions) => {
   };
 };
 
+const returnAllValidationErrors = (ctx, id) => {
+  const errors = getValidationErrorInfo(ctx);
+
+  if (!errors.length) {
+    return {
+      id,
+      errors: [],
+      totalCount: 0,
+    };
+  }
+
+  return {
+    id,
+    errors,
+    totalCount: errors.length,
+  };
+};
+
 module.exports = {
   getValidationById,
   getValidationErrorInfo,
   returnValidationErrors,
+  returnAllValidationErrors,
 };
