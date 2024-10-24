@@ -493,12 +493,7 @@ type AllValidationError {
   type: String!
   field: String!
   errorCode: String!
-  sectionId: String
-  folderId: String
   pageId: String
-  routingRuleId: String
-  expressionGroupId: String
-  expressionId: String
 }
 
 type ValidationErrorInfo {
