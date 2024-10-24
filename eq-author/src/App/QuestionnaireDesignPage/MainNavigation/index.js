@@ -61,6 +61,10 @@ export const UtilityBtns = styled.div`
   }
 `;
 
+const StyledIconText = styled(IconText)`
+  line-height: 1.2;
+`;
+
 export const UnwrappedMainNavigation = ({
   hasQuestionnaire,
   totalErrorCount,
@@ -195,9 +199,9 @@ export const UnwrappedMainNavigation = ({
                   title === "QCodes" || totalErrorCount > 0 || !qcodesEnabled
                 }
               >
-                <IconText nav icon={qcodeIcon}>
-                  QCodes
-                </IconText>
+                <StyledIconText nav icon={qcodeIcon}>
+                  Q Codes and values
+                </StyledIconText>
                 {qcodesEnabled && hasQCodeError && (
                   <Badge data-test="small-badge" variant="main-nav" />
                 )}
