@@ -89,12 +89,12 @@ const CollapsiblesContent = styled.div`
   padding: 0.2em 0 0.2em 1em;
 `;
 
-const DummyLink = styled.text`
+const DummyLink = styled.span`
   color: ${colors.blue};
   text-decoration: underline;
 `;
 
-const MissingText = styled.text`
+const MissingText = styled.span`
   font-weight: bold;
   background-color: ${colors.errorSecondary};
   text-align: center;

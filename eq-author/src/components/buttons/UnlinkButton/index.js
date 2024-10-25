@@ -18,7 +18,7 @@ const StyledUnlinkButton = styled(Button).attrs({
     fill: ${colors.blue};
   }
 
-  width: 11em;
+  width: 14em;
   height: 2.5em;
   align-items: center;
   margin: 0 0 0 auto;
@@ -34,14 +34,18 @@ const StyledUnlinkButton = styled(Button).attrs({
 `;
 
 const UnlinkTooltip = ({ children }) => (
-  <Tooltip content="Unlink dataset" place="top" offset={{ top: 0, bottom: 10 }}>
+  <Tooltip
+    content="Unlink dataset schema"
+    place="top"
+    offset={{ top: 0, bottom: 10 }}
+  >
     {children}
   </Tooltip>
 );
 
 const UnlinkButton = ({
   hideText,
-  iconText = "Unlink dataset",
+  iconText = "Unlink dataset schema",
   ...otherProps
 }) => {
   const Wrapper = hideText ? UnlinkTooltip : React.Fragment;
@@ -68,7 +72,7 @@ UnlinkButton.propTypes = {
 
 UnlinkButton.defaultProps = {
   hideText: false,
-  iconText: "Unlink dataset",
+  iconText: "Unlink dataset schema",
   disabledIcon: false,
 };
 

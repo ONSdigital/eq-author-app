@@ -13,6 +13,9 @@ exports[`DateRange should render 1`] = `
         "guidance": "",
         "id": "1",
         "label": "",
+        "page": Object {
+          "id": "Page 1",
+        },
         "properties": Object {
           "required": false,
         },
@@ -42,6 +45,9 @@ exports[`DateRange should render 1`] = `
         "guidance": "",
         "id": "1",
         "label": "",
+        "page": Object {
+          "id": "Page 1",
+        },
         "properties": Object {
           "required": false,
         },
@@ -71,6 +77,9 @@ exports[`DateRange should render 1`] = `
         "guidance": "",
         "id": "1",
         "label": "",
+        "page": Object {
+          "id": "Page 1",
+        },
         "properties": Object {
           "required": false,
         },
@@ -94,6 +103,9 @@ exports[`DateRange should render 1`] = `
         "guidance": "",
         "id": "1",
         "label": "",
+        "page": Object {
+          "id": "Page 1",
+        },
         "properties": Object {
           "required": false,
         },
@@ -118,6 +130,9 @@ exports[`DateRange should render 1`] = `
           "guidance": "",
           "id": "1",
           "label": "",
+          "page": Object {
+            "id": "Page 1",
+          },
           "properties": Object {
             "required": false,
           },
@@ -140,6 +155,9 @@ exports[`DateRange should render 1`] = `
           "guidance": "",
           "id": "1",
           "label": "",
+          "page": Object {
+            "id": "Page 1",
+          },
           "properties": Object {
             "required": false,
           },

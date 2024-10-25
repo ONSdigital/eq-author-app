@@ -22,6 +22,9 @@ describe("DateRange", () => {
         id: "1",
         label: "",
         type: "DateRange",
+        page: {
+          id: "Page 1",
+        },
         description: "test",
         guidance: "",
         secondaryLabel: "",
