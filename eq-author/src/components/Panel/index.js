@@ -31,7 +31,7 @@ const InformationPanel = ({ children }) => {
   );
 };
 InformationPanel.propTypes = {
-  children: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export { Panel, InformationPanel };
