@@ -299,6 +299,7 @@ const getMatchQuery = async (input = {}, ctx) => {
       createdOnOrBefore,
       access,
       myQuestionnaires,
+      questionnairesToExclude,
     } = input;
 
     const { id: userId } = ctx.user;
@@ -393,6 +394,12 @@ const getMatchQuery = async (input = {}, ctx) => {
       matchQuery.$and.push({
         $or: [{ editors: { $in: [userId] } }, { createdBy: userId }],
       });
+    }
+
+    // Excludes questionnaires with IDs in `questionnairesToExclude` array
+    if (questionnairesToExclude?.length) {
+      matchQuery.$and = matchQuery.$and || [];
+      matchQuery.$and.push({ id: { $nin: questionnairesToExclude } });
     }
 
     return matchQuery;

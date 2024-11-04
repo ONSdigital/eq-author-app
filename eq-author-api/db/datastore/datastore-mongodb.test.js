@@ -414,64 +414,85 @@ describe("MongoDB Datastore", () => {
         });
 
         await mongoDB.createQuestionnaire(
-          mockQuestionnaire({
-            title: "Test questionnaire 1",
-            ownerId: "user-1",
-            shortTitle: "Alias 1",
-            createdAt: new Date(2021, 2, 5, 5, 0, 0, 0),
-          }),
+          {
+            id: "test-questionnaire-1",
+            ...mockQuestionnaire({
+              title: "Test questionnaire 1",
+              ownerId: "user-1",
+              shortTitle: "Alias 1",
+              createdAt: new Date(2021, 2, 5, 5, 0, 0, 0),
+            }),
+          },
           ctx
         );
         await mongoDB.createQuestionnaire(
-          mockQuestionnaire({
-            title: "Test questionnaire 2",
-            ownerId: "user-1",
-            createdAt: new Date(2021, 2, 10, 5, 0, 0, 0),
-          }),
+          {
+            id: "test-questionnaire-2",
+            ...mockQuestionnaire({
+              title: "Test questionnaire 2",
+              ownerId: "user-1",
+              createdAt: new Date(2021, 2, 10, 5, 0, 0, 0),
+            }),
+          },
           ctx
         );
         await mongoDB.createQuestionnaire(
-          mockQuestionnaire({
-            title: "Test questionnaire 3",
-            ownerId: "user-2",
-            editors: ["user-1"],
-            createdAt: new Date(2021, 2, 15, 5, 0, 0, 0),
-          }),
+          {
+            id: "test-questionnaire-3",
+            ...mockQuestionnaire({
+              title: "Test questionnaire 3",
+              ownerId: "user-2",
+              editors: ["user-1"],
+              createdAt: new Date(2021, 2, 15, 5, 0, 0, 0),
+            }),
+          },
           ctx
         );
         await mongoDB.createQuestionnaire(
-          mockQuestionnaire({
-            title: "Test questionnaire 4",
-            ownerId: "user-2",
-            createdAt: new Date(2021, 2, 20, 5, 0, 0, 0),
-          }),
+          {
+            id: "test-questionnaire-4",
+            ...mockQuestionnaire({
+              title: "Test questionnaire 4",
+              ownerId: "user-2",
+              createdAt: new Date(2021, 2, 20, 5, 0, 0, 0),
+            }),
+          },
           ctx
         );
         // ** "Test questionnaire 5" is not included in several test assertions as it is not public and `ctx.user` is not owner/editor
         await mongoDB.createQuestionnaire(
-          mockQuestionnaire({
-            title: "Test questionnaire 5",
-            ownerId: "user-2",
-            createdAt: new Date(2021, 2, 25, 5, 0, 0, 0),
-            isPublic: false,
-          }),
+          {
+            id: "test-questionnaire-5",
+            ...mockQuestionnaire({
+              title: "Test questionnaire 5",
+              ownerId: "user-2",
+              createdAt: new Date(2021, 2, 25, 5, 0, 0, 0),
+              isPublic: false,
+            }),
+          },
           ctx
         );
         await mongoDB.createQuestionnaire(
-          mockQuestionnaire({
-            title: "Test questionnaire 6",
-            ownerId: "user-1",
-            createdAt: new Date(2021, 2, 30, 5, 0, 0, 0),
-            isPublic: false,
-          }),
+          {
+            id: "test-questionnaire-6",
+            ...mockQuestionnaire({
+              title: "Test questionnaire 6",
+              ownerId: "user-1",
+              createdAt: new Date(2021, 2, 30, 5, 0, 0, 0),
+              isPublic: false,
+            }),
+          },
           ctx
         );
         await mongoDB.createQuestionnaire(
-          mockQuestionnaire({
-            title: "Test questionnaire 7",
-            ownerId: "user-4",
-            createdAt: new Date(2021, 4, 10, 5, 0, 0, 0),
-          }),
+          {
+            id: "test-questionnaire-7",
+            ...mockQuestionnaire({
+              title: "Test questionnaire 7",
+              ownerId: "user-4",
+              createdAt: new Date(2021, 4, 10, 5, 0, 0, 0),
+            }),
+          },
           ctx
         );
       });
@@ -726,6 +747,41 @@ describe("MongoDB Datastore", () => {
         expect(listOfQuestionnaires[1].title).toEqual("Test questionnaire 3");
         expect(listOfQuestionnaires[2].title).toEqual("Test questionnaire 2");
         expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 1");
+      });
+
+      it("should not return questionnaires in `questionnairesToExclude` array", async () => {
+        const listOfQuestionnaires = await mongoDB.listFilteredQuestionnaires(
+          {
+            searchByTitleOrShortCode: "",
+            owner: "",
+            access: "All",
+            resultsPerPage: 10,
+            questionnairesToExclude: [
+              "test-questionnaire-1",
+              "test-questionnaire-2",
+            ],
+          },
+          ctx
+        );
+
+        expect(listOfQuestionnaires.length).toBe(7);
+        /* 
+          Questionnaires with titles "Default questionnaire title" are created in previous tests.
+          These appear first when sorted by newest to oldest as their `createdAt` dates are most recent.
+        */
+        expect(listOfQuestionnaires[0].title).toEqual(
+          "Default questionnaire title"
+        );
+        expect(listOfQuestionnaires[1].title).toEqual(
+          "Default questionnaire title"
+        );
+        expect(listOfQuestionnaires[2].title).toEqual(
+          "Default questionnaire title"
+        );
+        expect(listOfQuestionnaires[3].title).toEqual("Test questionnaire 7");
+        expect(listOfQuestionnaires[4].title).toEqual("Test questionnaire 6");
+        expect(listOfQuestionnaires[5].title).toEqual("Test questionnaire 4");
+        expect(listOfQuestionnaires[6].title).toEqual("Test questionnaire 3");
       });
 
       it("should return questionnaires on previous page when `firstQuestionnaireIdOnPage` is provided without `lastQuestionnaireIdOnPage`", async () => {
@@ -1000,6 +1056,24 @@ describe("MongoDB Datastore", () => {
           );
 
         expect(totalFilteredQuestionnaires).toBe(2);
+      });
+
+      it("should get the total number of questionnaires when `questionnairesToExclude` filter is applied", async () => {
+        const totalFilteredQuestionnaires =
+          await mongoDB.getTotalFilteredQuestionnaires(
+            {
+              searchByTitleOrShortCode: "",
+              owner: "",
+              access: "All",
+              questionnairesToExclude: [
+                "test-questionnaire-3",
+                "test-questionnaire-4",
+              ],
+            },
+            ctx
+          );
+
+        expect(totalFilteredQuestionnaires).toBe(7);
       });
     });
 
