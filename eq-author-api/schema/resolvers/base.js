@@ -1722,8 +1722,10 @@ const Resolvers = {
     },
     validationErrorInfo: ({ id }, _, ctx) =>
       returnValidationErrors(ctx, id, ({ type }) => type === "root"),
+
     allValidationErrorInfo: ({ id }, _, ctx) =>
       returnAllValidationErrors(ctx, id),
+
     totalErrorCount: (questionnaire, args, ctx) => {
       return ctx.validationErrorInfo.length;
     },
