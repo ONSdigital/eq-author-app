@@ -1,6 +1,8 @@
 const createValidationError = require("../createValidationError");
 const {
   ERR_SURVEY_ID_MISMATCH,
+  ERR_INVALID,
+  ERR_VALID_REQUIRED,
 } = require("../../../constants/validationErrorCodes");
 
 module.exports = (ajv) =>
@@ -35,8 +37,40 @@ module.exports = (ajv) =>
           ),
         ];
         return false;
-      }
+      } else {
+        if (
+          typeof questionnaire.surveyId === "string" &&
+          questionnaire.surveyId.length > 0 &&
+          !questionnaire.surveyId.match(/^\d{3}$/)
+        ) {
+          isValid.errors = [
+            createValidationError(
+              instancePath,
+              fieldName,
+              ERR_INVALID,
+              questionnaire,
+              ERR_INVALID
+            ),
+          ];
+          return false;
+        } else if (
+          typeof questionnaire.surveyId === "string" &&
+          questionnaire.surveyId.length === 0
+        ) {
+          isValid.errors = [
+            createValidationError(
+              instancePath,
+              fieldName,
+              ERR_VALID_REQUIRED,
+              questionnaire,
+              ERR_VALID_REQUIRED
+            ),
+          ];
 
-      return true;
+          return false;
+        }
+
+        return true;
+      }
     },
   });
