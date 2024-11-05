@@ -198,7 +198,7 @@ describe("schema validation", () => {
 
   describe("Themes validation", () => {
     it("should return an error if survey ID missing", () => {
-      questionnaire.surveyId = null;
+      questionnaire.surveyId = "";
       const errors = validation(questionnaire);
       expect(errors[0].errorCode).toBe(ERR_VALID_REQUIRED);
     });
@@ -210,7 +210,7 @@ describe("schema validation", () => {
     });
 
     it("should return an error if survey ID is missing on a social survey", () => {
-      questionnaire.surveyId = null;
+      questionnaire.surveyId = "";
       questionnaire.type = "Social";
       const errors = validation(questionnaire);
       expect(errors[0].errorCode).toBe(ERR_VALID_REQUIRED);
