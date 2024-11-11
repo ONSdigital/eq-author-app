@@ -226,7 +226,7 @@ const Row = memo((props) => {
               }${listAnswerType === ANOTHER ? "-another" : ""}-test-input`}
               value={qCode || ""} // Ensure the input always has a value (empty string if qCode is null or undefined)
               onChange={(e) => setQcode(e.value)}
-              onBlur={() => handleBlur(qCode)}
+              onBlur={() => handleBlur(qCode.trim())}
               hasError={Boolean(errorMessage)}
               aria-label="QCode input field"
             />
@@ -249,7 +249,7 @@ const Row = memo((props) => {
             data-test={`${id}${secondary ? "-secondary" : ""}-test-input`}
             value={qCode}
             onChange={(e) => setQcode(e.value)}
-            onBlur={() => handleBlur(qCode)}
+            onBlur={() => handleBlur(qCode.trim())}
             hasError={Boolean(errorMessage)}
             aria-label="QCode input field"
           />
@@ -272,7 +272,7 @@ const Row = memo((props) => {
             data-test={`${id}-value-test-input`}
             value={value}
             onChange={(e) => setValue(e.value)}
-            onBlur={() => handleBlurOptionValue(value)}
+            onBlur={() => handleBlurOptionValue(value.trim())}
             hasError={Boolean(valueErrorMessage)}
             aria-label="Option Value input field"
           />
