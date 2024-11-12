@@ -21,19 +21,17 @@ module.exports = (ajv) =>
       // Get the supplementary data from the questionnaire object
       const supplementaryData = questionnaire.supplementaryData;
 
-      // If supplementaryData exists and contains a surveyId, and supplementaryData's surveyId doesn't match the questionnaire's surveyId, throw a validation error
       if (
-        supplementaryData &&
-        supplementaryData.surveyId &&
-        questionnaireSurveyId !== supplementaryData.surveyId
+        typeof questionnaire.surveyId === "string" &&
+        questionnaire.surveyId.length === 0
       ) {
         isValid.errors = [
           createValidationError(
             instancePath,
             fieldName,
-            ERR_SURVEY_ID_MISMATCH,
+            ERR_VALID_REQUIRED,
             questionnaire,
-            ERR_SURVEY_ID_MISMATCH
+            ERR_VALID_REQUIRED
           ),
         ];
         return false;
@@ -53,17 +51,19 @@ module.exports = (ajv) =>
             ),
           ];
           return false;
+          // If supplementaryData exists and contains a surveyId, and supplementaryData's surveyId doesn't match the questionnaire's surveyId, throw a validation error
         } else if (
-          typeof questionnaire.surveyId === "string" &&
-          questionnaire.surveyId.length === 0
+          supplementaryData &&
+          supplementaryData.surveyId &&
+          questionnaireSurveyId !== supplementaryData.surveyId
         ) {
           isValid.errors = [
             createValidationError(
               instancePath,
               fieldName,
-              ERR_VALID_REQUIRED,
+              ERR_SURVEY_ID_MISMATCH,
               questionnaire,
-              ERR_VALID_REQUIRED
+              ERR_SURVEY_ID_MISMATCH
             ),
           ];
 
