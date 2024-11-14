@@ -724,14 +724,33 @@ describe("Qcode Table", () => {
 
       it("should save qCode for checkbox answer", () => {
         fireEvent.change(utils.getByTestId("checkbox-answer-id-test-input"), {
-          target: { value: "123" },
+          target: { value: " test  qcode " },
         });
 
         fireEvent.blur(utils.getByTestId("checkbox-answer-id-test-input"));
 
         expect(mock).toHaveBeenCalledWith({
           variables: {
-            input: { id: "checkbox-answer-id", qCode: "123" },
+            input: { id: "checkbox-answer-id", qCode: "test qcode" },
+          },
+        });
+      });
+
+      it("should save option value for checkbox answer", () => {
+        fireEvent.change(
+          utils.getByTestId("checkbox-option-1-id-value-test-input"),
+          {
+            target: { value: " test  option value " },
+          }
+        );
+
+        fireEvent.blur(
+          utils.getByTestId("checkbox-option-1-id-value-test-input")
+        );
+
+        expect(mock).toHaveBeenCalledWith({
+          variables: {
+            input: { id: "checkbox-option-1-id", value: "test option value" },
           },
         });
       });
