@@ -155,19 +155,25 @@ const Row = memo((props) => {
 
   const handleBlur = useCallback(
     (qCode) => {
+      const trimmedQcode = qCode.trim().replace(/\s+/g, " ");
+      setQcode(trimmedQcode);
       if (qCode !== initialQcode) {
         if (option) {
-          updateOption(mutationVariables({ id, qCode }));
+          updateOption(mutationVariables({ id, qCode: trimmedQcode }));
         } else if (listAnswerType === DRIVING) {
           // id represents the list collector page ID
-          updateListCollector(mutationVariables({ id, drivingQCode: qCode }));
+          updateListCollector(
+            mutationVariables({ id, drivingQCode: trimmedQcode })
+          );
         } else if (listAnswerType === ANOTHER) {
-          updateListCollector(mutationVariables({ id, anotherQCode: qCode }));
+          updateListCollector(
+            mutationVariables({ id, anotherQCode: trimmedQcode })
+          );
         } else {
           updateAnswer(
             mutationVariables({
               id,
-              [secondary ? "secondaryQCode" : "qCode"]: qCode,
+              [secondary ? "secondaryQCode" : "qCode"]: trimmedQcode,
             })
           );
         }
@@ -187,7 +193,9 @@ const Row = memo((props) => {
 
   const handleBlurOptionValue = useCallback(
     (value) => {
-      updateValue(mutationVariables({ id, value }));
+      const trimmedValue = value.trim().replace(/\s+/g, " ");
+      setValue(trimmedValue);
+      updateValue(mutationVariables({ id, value: trimmedValue }));
     },
     [id, updateValue]
   );
@@ -226,7 +234,7 @@ const Row = memo((props) => {
               }${listAnswerType === ANOTHER ? "-another" : ""}-test-input`}
               value={qCode || ""} // Ensure the input always has a value (empty string if qCode is null or undefined)
               onChange={(e) => setQcode(e.value)}
-              onBlur={() => handleBlur(qCode.trim())}
+              onBlur={() => handleBlur(qCode)}
               hasError={Boolean(errorMessage)}
               aria-label="QCode input field"
             />
@@ -249,7 +257,7 @@ const Row = memo((props) => {
             data-test={`${id}${secondary ? "-secondary" : ""}-test-input`}
             value={qCode}
             onChange={(e) => setQcode(e.value)}
-            onBlur={() => handleBlur(qCode.trim())}
+            onBlur={() => handleBlur(qCode)}
             hasError={Boolean(errorMessage)}
             aria-label="QCode input field"
           />
@@ -272,7 +280,7 @@ const Row = memo((props) => {
             data-test={`${id}-value-test-input`}
             value={value}
             onChange={(e) => setValue(e.value)}
-            onBlur={() => handleBlurOptionValue(value.trim())}
+            onBlur={() => handleBlurOptionValue(value)}
             hasError={Boolean(valueErrorMessage)}
             aria-label="Option Value input field"
           />
