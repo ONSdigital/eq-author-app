@@ -38,6 +38,7 @@ const {
   CALCSUM_MOVED,
   ERR_SEC_CONDITION_NOT_SELECTED,
   ERR_COUNT_OF_GREATER_THAN_AVAILABLE_OPTIONS,
+  ERR_SURVEY_ID_MISMATCH,
 } = require("../../constants/validationErrorCodes");
 
 const validation = require(".");
@@ -151,6 +152,10 @@ describe("schema validation", () => {
           ],
         },
       ],
+      supplementaryData: {
+        id: "supplementary_dataset_schema",
+        surveyId: "123",
+      },
       metadata: [
         {
           id: "87c64b20-9662-408b-b674-e2403e90dad3",
@@ -214,6 +219,11 @@ describe("schema validation", () => {
       questionnaire.type = "Social";
       const errors = validation(questionnaire);
       expect(errors[0].errorCode).toBe(ERR_VALID_REQUIRED);
+    });
+    it("should return an error if survey ID does not match with supplementary dataset schema’s survey ID", () => {
+      questionnaire.surveyId = "111";
+      const errors = validation(questionnaire);
+      expect(errors[0].errorCode).toBe(ERR_SURVEY_ID_MISMATCH);
     });
   });
 
