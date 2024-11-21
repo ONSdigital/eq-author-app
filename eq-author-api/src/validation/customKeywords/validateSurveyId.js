@@ -35,41 +35,39 @@ module.exports = (ajv) =>
           ),
         ];
         return false;
+      } else if (
+        typeof questionnaire.surveyId === "string" &&
+        questionnaire.surveyId.length > 0 &&
+        !questionnaire.surveyId.match(/^\d{3}$/)
+      ) {
+        isValid.errors = [
+          createValidationError(
+            instancePath,
+            fieldName,
+            ERR_INVALID,
+            questionnaire,
+            ERR_INVALID
+          ),
+        ];
+        return false;
+        // If supplementaryData exists and contains a surveyId, and supplementaryData's surveyId doesn't match the questionnaire's surveyId, throw a validation error
+      } else if (
+        supplementaryData &&
+        supplementaryData.surveyId &&
+        questionnaireSurveyId !== supplementaryData.surveyId
+      ) {
+        isValid.errors = [
+          createValidationError(
+            instancePath,
+            fieldName,
+            ERR_SURVEY_ID_MISMATCH,
+            questionnaire,
+            ERR_SURVEY_ID_MISMATCH
+          ),
+        ];
+
+        return false;
       } else {
-        if (
-          typeof questionnaire.surveyId === "string" &&
-          questionnaire.surveyId.length > 0 &&
-          !questionnaire.surveyId.match(/^\d{3}$/)
-        ) {
-          isValid.errors = [
-            createValidationError(
-              instancePath,
-              fieldName,
-              ERR_INVALID,
-              questionnaire,
-              ERR_INVALID
-            ),
-          ];
-          return false;
-          // If supplementaryData exists and contains a surveyId, and supplementaryData's surveyId doesn't match the questionnaire's surveyId, throw a validation error
-        } else if (
-          supplementaryData &&
-          supplementaryData.surveyId &&
-          questionnaireSurveyId !== supplementaryData.surveyId
-        ) {
-          isValid.errors = [
-            createValidationError(
-              instancePath,
-              fieldName,
-              ERR_SURVEY_ID_MISMATCH,
-              questionnaire,
-              ERR_SURVEY_ID_MISMATCH
-            ),
-          ];
-
-          return false;
-        }
-
         return true;
       }
     },
