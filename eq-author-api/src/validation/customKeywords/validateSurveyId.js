@@ -1,6 +1,8 @@
 const createValidationError = require("../createValidationError");
 const {
   ERR_SURVEY_ID_MISMATCH,
+  ERR_INVALID,
+  ERR_VALID_REQUIRED,
 } = require("../../../constants/validationErrorCodes");
 
 module.exports = (ajv) =>
@@ -19,8 +21,37 @@ module.exports = (ajv) =>
       // Get the supplementary data from the questionnaire object
       const supplementaryData = questionnaire.supplementaryData;
 
-      // If supplementaryData exists and contains a surveyId, and supplementaryData's surveyId doesn't match the questionnaire's surveyId, throw a validation error
       if (
+        typeof questionnaire.surveyId === "string" &&
+        questionnaire.surveyId.length === 0
+      ) {
+        isValid.errors = [
+          createValidationError(
+            instancePath,
+            fieldName,
+            ERR_VALID_REQUIRED,
+            questionnaire,
+            ERR_VALID_REQUIRED
+          ),
+        ];
+        return false;
+      } else if (
+        typeof questionnaire.surveyId === "string" &&
+        questionnaire.surveyId.length > 0 &&
+        !questionnaire.surveyId.match(/^\d{3}$/)
+      ) {
+        isValid.errors = [
+          createValidationError(
+            instancePath,
+            fieldName,
+            ERR_INVALID,
+            questionnaire,
+            ERR_INVALID
+          ),
+        ];
+        return false;
+        // If supplementaryData exists and contains a surveyId, and supplementaryData's surveyId doesn't match the questionnaire's surveyId, throw a validation error
+      } else if (
         supplementaryData &&
         supplementaryData.surveyId &&
         questionnaireSurveyId !== supplementaryData.surveyId
@@ -34,9 +65,10 @@ module.exports = (ajv) =>
             ERR_SURVEY_ID_MISMATCH
           ),
         ];
-        return false;
-      }
 
-      return true;
+        return false;
+      } else {
+        return true;
+      }
     },
   });
