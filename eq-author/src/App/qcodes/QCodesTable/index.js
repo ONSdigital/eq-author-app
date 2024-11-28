@@ -193,7 +193,7 @@ const Row = memo((props) => {
 
   const handleBlurOptionValue = useCallback(
     (value) => {
-      const trimmedValue = value.trim().replace(/\s+/g, " ");
+      const trimmedValue = value?.trim().replace(/\s+/g, " ");
       setValue(trimmedValue);
       updateValue(mutationVariables({ id, value: trimmedValue }));
     },
