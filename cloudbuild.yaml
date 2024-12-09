@@ -11,7 +11,7 @@ steps:
           yarn build
         else
           echo "*************************************************************"
-          echo "* Yarn install and build not required                                        *"
+          echo "* Yarn install and build not required                       *"
           echo "*************************************************************"
         fi
 
@@ -25,8 +25,8 @@ steps:
       - "-c"
       - |
         if [ $_ENV = "staging" ]; then
-          docker build -t "eu.gcr.io/ons-eqbs-images/eq-author:$SHORT_SHA" .
-          docker push "eu.gcr.io/ons-eqbs-images/eq-author:$SHORT_SHA"
+          docker build -t "$_EQ_AUTHOR_IMAGE_REPO:$SHORT_SHA" .
+          docker push "$_EQ_AUTHOR_IMAGE_REPO:$SHORT_SHA"
         else
           echo "*************************************************************"
           echo "* Build not required                                        *"
@@ -43,8 +43,8 @@ steps:
       - "-c"
       - |
         if [ $_ENV = "staging" ]; then
-          docker build -t "eu.gcr.io/ons-eqbs-images/eq-author-api:$SHORT_SHA" .
-          docker push "eu.gcr.io/ons-eqbs-images/eq-author-api:$SHORT_SHA"
+          docker build -t "$_EQ_AUTHOR_API_IMAGE_REPO:$SHORT_SHA" .
+          docker push "$_EQ_AUTHOR_API_IMAGE_REPO:$SHORT_SHA"
         else
           echo "*************************************************************"
           echo "* Build not required                                        *"
@@ -59,8 +59,8 @@ steps:
       - |
         if [ $_ENV = "preprod" ]; then
           gcloud container images add-tag \
-          eu.gcr.io/ons-eqbs-images/eq-author:$SHORT_SHA \
-          eu.gcr.io/ons-eqbs-images/eq-author:$TAG_NAME
+          $_EQ_AUTHOR_IMAGE_REPO:$SHORT_SHA \
+          $_EQ_AUTHOR_IMAGE_REPO:$TAG_NAME
         else
           echo "*************************************************************"
           echo "* Tagging not required                                      *"
@@ -75,8 +75,8 @@ steps:
       - |
         if [ $_ENV = "preprod" ]; then
           gcloud container images add-tag \
-          eu.gcr.io/ons-eqbs-images/eq-author-api:$SHORT_SHA \
-          eu.gcr.io/ons-eqbs-images/eq-author-api:$TAG_NAME
+          $_EQ_AUTHOR_API_IMAGE_REPO:$SHORT_SHA \
+          $_EQ_AUTHOR_API_IMAGE_REPO:$TAG_NAME
         else
           echo "*************************************************************"
           echo "* Tagging not required                                      *"
@@ -91,12 +91,12 @@ steps:
       - |
         if [ $_ENV = "staging" ]; then
           gcloud run deploy eq-author-api \
-          --image "eu.gcr.io/ons-eqbs-images/eq-author-api:$SHORT_SHA" \
+          --image "$_EQ_AUTHOR_API_IMAGE_REPO:$SHORT_SHA" \
           --region europe-west2 \
           --platform managed
         else
           gcloud run deploy eq-author-api \
-          --image "eu.gcr.io/ons-eqbs-images/eq-author-api:$TAG_NAME" \
+          --image "$_EQ_AUTHOR_API_IMAGE_REPO:$TAG_NAME" \
           --region europe-west2 \
           --platform managed
         fi
@@ -109,12 +109,12 @@ steps:
       - |
         if [ $_ENV = "staging" ]; then
           gcloud run deploy eq-author \
-          --image "eu.gcr.io/ons-eqbs-images/eq-author:$SHORT_SHA" \
+          --image "$_EQ_AUTHOR_IMAGE_REPO:$SHORT_SHA" \
           --region europe-west2 \
           --platform managed
         else
           gcloud run deploy eq-author \
-          --image "eu.gcr.io/ons-eqbs-images/eq-author:$TAG_NAME" \
+          --image "$_EQ_AUTHOR_IMAGE_REPO:$TAG_NAME" \
           --region europe-west2 \
           --platform managed
         fi
