@@ -14,7 +14,7 @@ describe("removeConfirmationPageQCodes", () => {
                   id: "page-1",
                   confirmation: {
                     id: "confirmation-page-1",
-                    qCode: "123",
+                    qCode: "confirmation-page-1-qcode",
                   },
                 },
               ],
@@ -45,12 +45,12 @@ describe("removeConfirmationPageQCodes", () => {
                   answers: [
                     {
                       id: "answer-1",
-                      qCode: "123",
+                      qCode: "answer-1-qCode",
                     },
                   ],
                   confirmation: {
                     id: "confirmation-page-1",
-                    qCode: "123",
+                    qCode: "confirmation-page-1-qCode",
                   },
                 },
               ],
@@ -65,7 +65,9 @@ describe("removeConfirmationPageQCodes", () => {
     expect(
       result.sections[0].folders[0].pages[0].confirmation.qCode
     ).toBeUndefined();
-    expect(result.sections[0].folders[0].pages[0].answers[0].qCode).toBe("123");
+    expect(result.sections[0].folders[0].pages[0].answers[0].qCode).toBe(
+      "answer-1-qCode"
+    );
   });
 
   it("should not amend questionnaire data if the questionnaire does not contain any confirmation pages", () => {
@@ -82,7 +84,7 @@ describe("removeConfirmationPageQCodes", () => {
                   answers: [
                     {
                       id: "answer-1",
-                      qCode: "123",
+                      qCode: "answer-1-qCode",
                     },
                   ],
                 },
@@ -95,7 +97,9 @@ describe("removeConfirmationPageQCodes", () => {
 
     const result = removeConfirmationPageQCodes(questionnaire);
 
-    expect(result.sections[0].folders[0].pages[0].answers[0].qCode).toBe("123");
+    expect(result.sections[0].folders[0].pages[0].answers[0].qCode).toBe(
+      "answer-1-qCode"
+    );
     expect(result).toEqual(questionnaire);
   });
 
