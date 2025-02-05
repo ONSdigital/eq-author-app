@@ -55,6 +55,7 @@ const migrations = [
   require("./updateHealthThemeToPandemicMonitoring"),
   require("./addAllowableDataVersions"),
   require("./convertEmTagsToStrongTags"),
+  require("./removeExtraSpaces"),
 ];
 
 const currentVersion = migrations.length;
