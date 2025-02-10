@@ -43,9 +43,9 @@ const getContentBeforeEntity = (
           return sections;
         }
 
-        let answers =
-          !isListCollectorPageType(page.pageType) &&
-          (page?.answers?.flatMap(preprocessAnswers) || []);
+        let answers = !isListCollectorPageType(page.pageType)
+          ? page?.answers?.flatMap(preprocessAnswers) || []
+          : [];
 
         /*
           When expression group's condition is "And":

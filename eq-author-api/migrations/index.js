@@ -55,6 +55,7 @@ const migrations = [
   require("./updateHealthThemeToPandemicMonitoring"),
   require("./addAllowableDataVersions"),
   require("./convertEmTagsToStrongTags"),
+  require("./removeConfirmationPageQCodes"),
   require("./removeExtraSpaces"),
 ];
 
