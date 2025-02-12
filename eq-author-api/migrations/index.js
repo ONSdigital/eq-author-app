@@ -56,6 +56,7 @@ const migrations = [
   require("./addAllowableDataVersions"),
   require("./convertEmTagsToStrongTags"),
   require("./removeConfirmationPageQCodes"),
+  require("./removeExtraSpaces"),
 ];
 
 const currentVersion = migrations.length;
