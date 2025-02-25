@@ -33,7 +33,7 @@ const processSupplementaryData = (schema) => {
   const processProperties = (schemaFields, properties, identifier = "") => {
     const keys = Object.keys(properties).filter(
       (key) =>
-        key !== "items" && key !== "identifier" && key !== "schema_version"
+        key !== "items" && key !== "identifier" && key !== "schema_version" && key !== "survey_id"
     );
 
     keys.forEach((key) => {
