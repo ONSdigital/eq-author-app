@@ -48,7 +48,7 @@
     "moment": "latest",
     "mongodb": "^3.7.3",
     "node-fetch": "2.6.1",
-    "node-jose": "latest",
+    "node-jose": "2.1.0",
     "pino-noir": "latest",
     "pino-pretty": "^5.1.0",
     "prom-client": "latest",
