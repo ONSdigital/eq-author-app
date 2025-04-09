@@ -19,7 +19,7 @@ steps:
         cd eq-author-api
         yarn --frozen-lockfile
         yarn lint
-        yarn test:ci --coverage
+        yarn test:ci --coverage -w=7
         [ $? -eq 0 ]  || exit 1
         export percent=$(jq .total.lines.pct coverage/coverage-summary.json)
         echo "************************"
