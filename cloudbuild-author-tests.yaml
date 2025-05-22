@@ -4,6 +4,8 @@ steps:
       - BABEL_ENV=test
       - NODE_ENV=test
       - PUBLIC_URL=test
+      - REACT_APP_FIREBASE_API_KEY=$_FIREBASE_API_KEY
+      - REACT_APP_FIREBASE_PROJECT_ID=$_FIREBASE_PROJECT_ID
       - CI=true
     args:
       - "-c"
