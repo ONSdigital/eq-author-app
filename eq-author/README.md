@@ -50,7 +50,7 @@ See [docs on authentication](../docs/AUTHENTICATION.md) on setting up a Firebase
 | `REACT_APP_FIREBASE_PROJECT_ID` | Your firebase project id | Yes      |
 | `REACT_APP_FIREBASE_API_KEY`    | Your firebase API key    | Yes      |
 
-They can be added to an `.env.development.local` file in the eq-author folder:
+They can be added to an `.env.development.local` and `.env.test` files in the eq-author folder:
 
 Or you can run:
 
