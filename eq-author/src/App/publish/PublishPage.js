@@ -16,6 +16,8 @@ import Button from "components-themed/buttons";
 import PUBLISH_SCHEMA from "graphql/publishSchema.graphql";
 
 import PublishHistory from "./GetPublishHistory";
+import { useQuestionnaire } from "components/QuestionnaireContext";
+import { useQCodeContext } from "components/QCodeContext";
 
 const Container = styled.div`
   display: flex;
@@ -49,9 +51,12 @@ const StyledButton = styled(Button)`
 `;
 
 const PublishPage = () => {
+  const { questionnaire } = useQuestionnaire();
   const [publishSchema] = useMutation(PUBLISH_SCHEMA, {
     refetchQueries: ["GetPublishHistory"],
   });
+  const totalErrorCount = questionnaire?.totalErrorCount || 0;
+  const { hasQCodeError } = useQCodeContext();
   return (
     <Theme themeName="onsLegacyFont">
       <Container data-test="publish-page-container">
@@ -77,6 +82,7 @@ const PublishPage = () => {
               variant="primary"
               onClick={() => publishSchema()}
               data-test="btn-publish-schema"
+              disabled={totalErrorCount > 0 || hasQCodeError} // Disabled if there are any errors
             >
               Publish questionnaire
             </StyledButton>
