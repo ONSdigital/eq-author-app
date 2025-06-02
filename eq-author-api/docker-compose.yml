@@ -34,7 +34,7 @@ services:
       - JAEGER_SAMPLER_PARAM=1
       - REDIS_DOMAIN_NAME=redis
       - REDIS_PORT=6379
-      - DATABASE=firestore
+      - DATABASE=mongodb
       - FIRESTORE_EMULATOR_HOST=host.docker.internal:8070
       - FIRESTORE_PROJECT_ID=eq-author-api
       - GOOGLE_AUTH_PROJECT_ID=eq-author-api
