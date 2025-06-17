@@ -53,6 +53,7 @@ const publishSchemaMutation = `
             cirId
             cirVersion
             errorMessage
+            displayErrorMessage
             formType
             publishDate
             success

@@ -912,6 +912,7 @@ type PublishHistoryEvent {
   publishDate: DateTime
   success: Boolean
   errorMessage: String
+  displayErrorMessage: String
 }
 
 type Query {

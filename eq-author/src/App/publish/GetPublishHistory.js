@@ -75,7 +75,6 @@ const PublishHistory = () => {
   if (data) {
     if (data.publishHistory) {
       historyItems = data.publishHistory
-        .filter((event) => event.success)
         .map((obj) => {
           return { ...obj, publishDate: new Date(obj.publishDate) };
         })
@@ -105,6 +104,7 @@ const PublishHistory = () => {
                 <th>Form type</th>
                 <th>CIR ID</th>
                 <th>CIR version</th>
+                <th>Publish result</th>
               </tr>
             </thead>
             <tbody>
@@ -116,6 +116,11 @@ const PublishHistory = () => {
                     <td>{historyItem.formType}</td>
                     <td>{historyItem.cirId}</td>
                     <td>{historyItem.cirVersion}</td>
+                    <td>
+                      {historyItem.success
+                        ? "Success"
+                        : "Failed: " + historyItem.displayErrorMessage}
+                    </td>
                   </tr>
                 );
               })}
