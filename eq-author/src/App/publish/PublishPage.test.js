@@ -35,6 +35,10 @@ describe("Publish page", () => {
     hasQCodeError = false;
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("should render publish page", () => {
     const { getByTestId } = renderPublishPage();
 
@@ -75,5 +79,38 @@ describe("Publish page", () => {
     fireEvent.click(publishButton);
 
     expect(mockUseMutation).toHaveBeenCalledTimes(1);
+  });
+
+  describe("Button state", () => {
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it("should disable the publish button while publishing", () => {
+      const { getByTestId } = renderPublishPage();
+
+      const publishButton = getByTestId("btn-publish-schema");
+      expect(publishButton).not.toBeDisabled();
+
+      fireEvent.click(publishButton);
+
+      expect(mockUseMutation).toHaveBeenCalledTimes(1);
+      expect(publishButton).toBeDisabled();
+    });
+
+    it("should re-enable the publish button after publishing is complete", async () => {
+      const { getByTestId } = renderPublishPage();
+
+      const publishButton = getByTestId("btn-publish-schema");
+      fireEvent.click(publishButton);
+
+      expect(mockUseMutation).toHaveBeenCalledTimes(1);
+      expect(publishButton).toBeDisabled();
+
+      // Mocks the completion of the mutation
+      await new Promise((resolve) => setTimeout(resolve, 0));
+
+      expect(publishButton).not.toBeDisabled();
+    });
   });
 });
