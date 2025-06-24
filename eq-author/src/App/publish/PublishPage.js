@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { useMutation } from "@apollo/react-hooks";
@@ -18,6 +18,8 @@ import PUBLISH_SCHEMA from "graphql/publishSchema.graphql";
 import PublishHistory from "./GetPublishHistory";
 import { useQuestionnaire } from "components/QuestionnaireContext";
 import { useQCodeContext } from "components/QCodeContext";
+
+import { ToastContext } from "components/Toasts";
 
 const Container = styled.div`
   display: flex;
@@ -52,8 +54,19 @@ const StyledButton = styled(Button)`
 
 const PublishPage = () => {
   const { questionnaire } = useQuestionnaire();
+  const { showToast } = useContext(ToastContext);
+
   const [publishSchema] = useMutation(PUBLISH_SCHEMA, {
     refetchQueries: ["GetPublishHistory"],
+    onCompleted: (data) => {
+      const history = data?.publishSchema?.publishHistory;
+      const latestEntry = history && history[history.length - 1];
+      if (latestEntry && !latestEntry.success) {
+        showToast("Publish failed");
+      } else {
+        showToast("Publish successful");
+      }
+    },
   });
   const totalErrorCount = questionnaire?.totalErrorCount || 0;
   const { hasQCodeError } = useQCodeContext();
