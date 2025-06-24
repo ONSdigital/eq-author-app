@@ -55,14 +55,14 @@ const PublishPage = () => {
   const [publishSchema] = useMutation(PUBLISH_SCHEMA, {
     refetchQueries: ["GetPublishHistory"],
   });
-  const [isLoading, setIsLoading] = useState(false);
+  const [isPublishing, setIsPublishing] = useState(false);
 
   const handlePublishButtonClick = async () => {
-    setIsLoading(true);
+    setIsPublishing(true);
     try {
       await publishSchema();
     } finally {
-      setIsLoading(false);
+      setIsPublishing(false);
     }
   };
 
@@ -94,7 +94,7 @@ const PublishPage = () => {
               variant="primary"
               onClick={handlePublishButtonClick}
               data-test="btn-publish-schema"
-              disabled={totalErrorCount > 0 || hasQCodeError || isLoading} // Disabled if there are any errors or if the publishSchema mutation is loading
+              disabled={totalErrorCount > 0 || hasQCodeError || isPublishing} // Disabled if there are any errors or if the publishSchema mutation is running
             >
               Publish questionnaire
             </StyledButton>
