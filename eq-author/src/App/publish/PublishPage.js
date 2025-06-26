@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { useMutation } from "@apollo/react-hooks";
@@ -68,8 +68,20 @@ const PublishPage = () => {
       }
     },
   });
+  const [isPublishing, setIsPublishing] = useState(false);
+
+  const handlePublishButtonClick = async () => {
+    setIsPublishing(true);
+    try {
+      await publishSchema();
+    } finally {
+      setIsPublishing(false);
+    }
+  };
+
   const totalErrorCount = questionnaire?.totalErrorCount || 0;
   const { hasQCodeError } = useQCodeContext();
+
   return (
     <Theme themeName="onsLegacyFont">
       <Container data-test="publish-page-container">
@@ -93,9 +105,9 @@ const PublishPage = () => {
             </Panel>
             <StyledButton
               variant="primary"
-              onClick={() => publishSchema()}
+              onClick={handlePublishButtonClick}
               data-test="btn-publish-schema"
-              disabled={totalErrorCount > 0 || hasQCodeError} // Disabled if there are any errors
+              disabled={totalErrorCount > 0 || hasQCodeError || isPublishing} // Disabled if there are any errors or if the publishSchema mutation is running
             >
               Publish questionnaire
             </StyledButton>

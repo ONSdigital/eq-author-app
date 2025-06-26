@@ -10,6 +10,7 @@ const {
   getListByAnswerId,
   getSupplementaryDataAsCollectionListbyFieldId,
   getFolderByAnswerId,
+  getSectionByFolderId,
 } = require("../../../schema/resolvers/utils");
 
 const pipedAnswerIdRegex =
@@ -32,7 +33,13 @@ module.exports = (ajv) =>
         rootData: questionnaire,
       }
     ) {
-      const folder = getFolderByAnswerId({ questionnaire }, parentData.id);
+      const folder =
+        getFolderByAnswerId({ questionnaire }, parentData.id) || {};
+      let section = {};
+      if (folder.id) {
+        section = getSectionByFolderId({ questionnaire }, folder.id);
+      }
+
       isValid.errors = [];
       const pipedIdList = [];
 
@@ -80,9 +87,19 @@ module.exports = (ajv) =>
         if (list) {
           if (!(dataPiped === "supplementary" && list.listName === "")) {
             if (
-              !folder.listId &&
-              (list.id !== parentData.repeatingLabelAndInputListId ||
-                !parentData.repeatingLabelAndInput)
+              !parentData.repeatingLabelAndInput &&
+              !section.repeatingSection &&
+              !folder.listId
+            ) {
+              return hasError(PIPING_TITLE_DELETED);
+            }
+
+            if (
+              (parentData.repeatingLabelAndInput &&
+                list.id !== parentData.repeatingLabelAndInputListId) ||
+              (folder.listId && list.id !== folder.listId) ||
+              (section.repeatingSection &&
+                list.id !== section.repeatingSectionListId)
             ) {
               return hasError(PIPING_TITLE_DELETED);
             }
