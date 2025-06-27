@@ -57,13 +57,13 @@ const PublishPage = () => {
   });
   const [isPublishing, setIsPublishing] = useState(false);
 
-  const handlePublishButtonClick = async () => {
+  const handlePublishButtonClick = () => {
     setIsPublishing(true);
-    try {
-      await publishSchema();
-    } finally {
-      setIsPublishing(false);
-    }
+    publishSchema()
+      .then(() => {})
+      .finally(() => {
+        setIsPublishing(false);
+      });
   };
 
   const totalErrorCount = questionnaire?.totalErrorCount || 0;
