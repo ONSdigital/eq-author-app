@@ -90,7 +90,7 @@ const PublishPage = () => {
             </Panel>
             <StyledButton
               variant="primary"
-              onClick={() => handlePublishButtonClick()}
+              onClick={handlePublishButtonClick}
               data-test="btn-publish-schema"
               disabled={totalErrorCount > 0 || hasQCodeError || isPublishing} // Disabled if there are any errors or if the publishSchema mutation is running
             >
