@@ -119,7 +119,7 @@ const PublishHistory = () => {
                     <td>
                       {historyItem.success
                         ? "Success"
-                        : "Failed: " + historyItem.displayErrorMessage}
+                        : `Failed: ${historyItem.displayErrorMessage}`}
                     </td>
                   </tr>
                 );
