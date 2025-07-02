@@ -10,7 +10,9 @@ const mockUseMutation = jest.fn();
 const mockUseQuery = jest.fn();
 
 jest.mock("@apollo/react-hooks", () => ({
-  useMutation: () => [mockUseMutation],
+  useMutation: jest.fn(() => [
+    mockUseMutation.mockImplementation(() => Promise.resolve({ data: {} })),
+  ]),
   useSubscription: () => [mockUseSubscription],
   useQuery: () => [mockUseQuery],
 }));
