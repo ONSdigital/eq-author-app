@@ -6,7 +6,7 @@ import ToastContainer from "./ToastContainer";
 
 let id = 0;
 
-const ToastContext = createContext({
+export const ToastContext = createContext({
   showToast: () => {},
 });
 

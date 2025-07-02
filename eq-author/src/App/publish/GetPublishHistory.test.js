@@ -65,6 +65,8 @@ describe("Test valid return", () => {
           formType: "0005",
           publishDate: "2023-05-18T13:33:16.465Z",
           success: false,
+          errorMessage: "Error message",
+          displayErrorMessage: "Publish error, please try later",
         },
         {
           id: "459f73a5-5522-454f-8bda-dfa97ad65376",
@@ -106,17 +108,27 @@ describe("Test valid return", () => {
     expect(text).not.toBeInTheDocument();
   });
 
-  it("Should return history table and have 3 rows", async () => {
+  it("Should return history table and have 4 rows", async () => {
     render(<PublishHistory />);
-    // Row count of 4, to include header, but remove entry with 'success: false'
     const trElements = screen.getAllByRole("row");
-    expect(trElements).toHaveLength(4);
+    expect(trElements).toHaveLength(5);
   });
 
   it("Should return history table and be in date order, most recent first", async () => {
     render(<PublishHistory />);
     expect(screen.getAllByRole("row")[1]).toHaveTextContent("22/05/2023");
     expect(screen.getAllByRole("row")[2]).toHaveTextContent("19/05/2023");
-    expect(screen.getAllByRole("row")[3]).toHaveTextContent("17/05/2023");
+    expect(screen.getAllByRole("row")[3]).toHaveTextContent("18/05/2023");
+    expect(screen.getAllByRole("row")[4]).toHaveTextContent("17/05/2023");
+  });
+
+  it("Should return history table with success or failure message", async () => {
+    render(<PublishHistory />);
+    expect(screen.getAllByRole("row")[1]).toHaveTextContent("Success");
+    expect(screen.getAllByRole("row")[2]).toHaveTextContent("Success");
+    expect(screen.getAllByRole("row")[3]).toHaveTextContent(
+      "Failed: Publish error, please try later"
+    );
+    expect(screen.getAllByRole("row")[4]).toHaveTextContent("Success");
   });
 });

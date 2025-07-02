@@ -8,5 +8,6 @@ query GetPublishHistory {
     publishDate
     success
     errorMessage
+    displayErrorMessage
   }
 }
