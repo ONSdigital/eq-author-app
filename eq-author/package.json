@@ -58,7 +58,7 @@
     "fs-extra": "latest",
     "html-webpack-plugin": "^4.5.2",
     "jest": "^26.6.3",
-    "jest-styled-components": "6.3.4",
+    "jest-styled-components": "7.1.1",
     "jest-transform-graphql": "latest",
     "mini-css-extract-plugin": "latest",
     "optimize-css-assets-webpack-plugin": "latest",
