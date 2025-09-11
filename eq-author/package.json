@@ -41,7 +41,7 @@
     "babel-plugin-styled-components": "latest",
     "bfj": "latest",
     "case-sensitive-paths-webpack-plugin": "latest",
-    "chalk": "latest",
+    "chalk": "4.1.1",
     "css-loader": "latest",
     "dotenv": "latest",
     "dotenv-expand": "latest",

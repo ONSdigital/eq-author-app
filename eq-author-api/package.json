@@ -20,7 +20,7 @@
     "apollo-opentracing": "latest",
     "apollo-server-express": "latest",
     "body-parser": "latest",
-    "chalk": "latest",
+    "chalk": "4.1.1",
     "cheerio": "^1.0.0-rc.10",
     "cors": "latest",
     "deep-map": "^1.5",
