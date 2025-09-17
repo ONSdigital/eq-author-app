@@ -5,6 +5,7 @@ mutation publishSchema {
       cirId
       cirVersion
       errorMessage
+      displayErrorMessage
       formType
       publishDate
       success
