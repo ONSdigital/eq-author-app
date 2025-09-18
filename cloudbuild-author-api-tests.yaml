@@ -5,7 +5,7 @@ steps:
       - "-feq-author-api/docker-compose-ci.yml"
       - up
       - "-d"
-  - name: "node:16"
+  - name: "node:18"
     env:
       - BABEL_ENV=test
       - NODE_ENV=test
