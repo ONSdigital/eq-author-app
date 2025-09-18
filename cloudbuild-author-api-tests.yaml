@@ -1,6 +1,7 @@
 steps:
-  - name: gcr.io/$PROJECT_ID/docker-compose
+  - name: gcr.io/cloud-builders/docker
     args:
+      - "compose"
       - "-feq-author-api/docker-compose-ci.yml"
       - up
       - "-d"
