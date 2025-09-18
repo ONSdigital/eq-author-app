@@ -5,7 +5,7 @@ steps:
       - "-feq-author-api/docker-compose-ci.yml"
       - up
       - "-d"
-  - name: "node:14"
+  - name: "node:16"
     env:
       - BABEL_ENV=test
       - NODE_ENV=test
@@ -14,8 +14,8 @@ steps:
     args:
       - "-c"
       - |
-        apt-get update
-        apt-get install -y jq bc
+        apt update
+        apt install -y jq bc
         yarn --frozen-lockfile
         cd eq-author-api
         yarn --frozen-lockfile
