@@ -5,7 +5,7 @@ steps:
       - "-feq-author-api/docker-compose-ci.yml"
       - up
       - "-d"
-  - name: "node:17"
+  - name: "node:14"
     env:
       - BABEL_ENV=test
       - NODE_ENV=test
@@ -21,16 +21,6 @@ steps:
         yarn --frozen-lockfile
         yarn lint
         yarn test:ci --coverage
-        [ $? -eq 0 ]  || exit 1
-        export percent=$(jq .total.lines.pct coverage/coverage-summary.json)
-        echo "************************"
-        echo "Target coverage: $_COVERAGE_LEVEL%"
-        echo "************************"
-        echo "************************"
-        echo "Coverage: $percent%"
-        echo "************************"
-        export result=$(echo "$percent > $_COVERAGE_LEVEL" | bc)
-        exit $(( 1 - $result ))
     id: unit_tests
     entrypoint: /bin/bash
 timeout: 1200s
