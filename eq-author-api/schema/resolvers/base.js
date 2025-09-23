@@ -1611,6 +1611,7 @@ const Resolvers = {
       ).catch((e) => {
         publishResult.success = false;
         publishResult.errorMessage = `Failed to fetch questionnaire - ${e.message}`;
+        publishResult.displayErrorMessage = "Publish error, please try later";
       });
 
       if (publishResult.success === false) {
@@ -1620,6 +1621,7 @@ const Resolvers = {
       if (convertedResponse.status !== 200) {
         publishResult.success = false;
         publishResult.errorMessage = `Publisher failed to convert questionnaire - ${convertedResponse.statusText}`;
+        publishResult.displayErrorMessage = "Contact eQ services team";
         return ctx.questionnaire;
       }
 
@@ -1643,11 +1645,13 @@ const Resolvers = {
           } else {
             publishResult.success = false;
             publishResult.errorMessage = `Invalid response - failed with error code ${res.status}`;
+            publishResult.displayErrorMessage = "Contact eQ services team";
           }
         })
         .catch((e) => {
           publishResult.success = false;
           publishResult.errorMessage = `Failed to publish questionnaire - ${e.message}`;
+          publishResult.displayErrorMessage = "Publish error, please try later";
         });
 
       return ctx.questionnaire;

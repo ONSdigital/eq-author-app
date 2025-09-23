@@ -4,13 +4,16 @@ import { render, fireEvent } from "tests/utils/rtl";
 import PublishPage from "./PublishPage";
 import QuestionnaireContext from "components/QuestionnaireContext";
 import { QCodeContext } from "components/QCodeContext";
+import { ToastContext } from "components/Toasts";
 
 const mockUseSubscription = jest.fn();
 const mockUseMutation = jest.fn();
 const mockUseQuery = jest.fn();
 
 jest.mock("@apollo/react-hooks", () => ({
-  useMutation: () => [mockUseMutation],
+  useMutation: jest.fn(() => [
+    mockUseMutation.mockImplementation(() => Promise.resolve({ data: {} })),
+  ]),
   useSubscription: () => [mockUseSubscription],
   useQuery: () => [mockUseQuery],
 }));
@@ -112,5 +115,91 @@ describe("Publish page", () => {
 
       expect(publishButton).not.toBeDisabled();
     });
+  });
+});
+describe("onCompleted callback in useMutation", () => {
+  let questionnaire, hasQCodeError, showToastMock, onCompletedCallback;
+
+  beforeEach(() => {
+    questionnaire = { id: "1", totalErrorCount: 0 };
+    hasQCodeError = false;
+    showToastMock = jest.fn();
+
+    // Capture the onCompleted callback passed to useMutation
+    jest
+      .spyOn(require("@apollo/react-hooks"), "useMutation")
+      .mockImplementation((_, opts) => {
+        onCompletedCallback = opts.onCompleted;
+        return [jest.fn()];
+      });
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  const renderWithToast = () =>
+    render(
+      <QuestionnaireContext.Provider value={{ questionnaire }}>
+        <QCodeContext.Provider value={{ hasQCodeError }}>
+          <ToastContext.Provider value={{ showToast: showToastMock }}>
+            <PublishPage />
+          </ToastContext.Provider>
+        </QCodeContext.Provider>
+      </QuestionnaireContext.Provider>
+    );
+
+  it("should show 'Publish successful' when latest publish entry is successful", () => {
+    renderWithToast();
+    const data = {
+      publishSchema: {
+        publishHistory: [
+          { id: "1", success: false },
+          { id: "2", success: true },
+        ],
+      },
+    };
+    onCompletedCallback(data);
+    expect(showToastMock).toHaveBeenCalledWith("Publish successful");
+  });
+
+  it("should show 'Publish failed' when latest publish entry is not successful", () => {
+    renderWithToast();
+    const data = {
+      publishSchema: {
+        publishHistory: [
+          { id: "1", success: true },
+          { id: "2", success: false },
+        ],
+      },
+    };
+    onCompletedCallback(data);
+    expect(showToastMock).toHaveBeenCalledWith("Publish failed");
+  });
+
+  it("should show 'Publish successful' when publishHistory is empty", () => {
+    renderWithToast();
+    const data = {
+      publishSchema: {
+        publishHistory: [],
+      },
+    };
+    onCompletedCallback(data);
+    expect(showToastMock).toHaveBeenCalledWith("Publish successful");
+  });
+
+  it("should show 'Publish successful' when publishHistory is undefined", () => {
+    renderWithToast();
+    const data = {
+      publishSchema: {},
+    };
+    onCompletedCallback(data);
+    expect(showToastMock).toHaveBeenCalledWith("Publish successful");
+  });
+
+  it("should show 'Publish successful' when data is undefined", () => {
+    renderWithToast();
+    onCompletedCallback(undefined);
+    expect(showToastMock).toHaveBeenCalledWith("Publish successful");
   });
 });
