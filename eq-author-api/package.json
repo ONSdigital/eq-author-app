@@ -45,7 +45,7 @@
     "jsonwebtoken": "latest",
     "jsrsasign": "^10.3.0",
     "lodash": "4.17.21",
-    "moment": "latest",
+    "moment": "2.29.4",
     "mongodb": "^3.7.3",
     "node-fetch": "2.6.1",
     "node-jose": "latest",
