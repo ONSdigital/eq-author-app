@@ -25,7 +25,7 @@
     "cors": "latest",
     "deep-map": "^1.5",
     "dotenv": "latest",
-    "dynamoose": "latest",
+    "dynamoose": "2.0.0",
     "express": "latest",
     "express-pino-logger": "latest",
     "firebase-admin": "^9.11.0",
