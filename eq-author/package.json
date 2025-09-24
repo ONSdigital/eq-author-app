@@ -109,7 +109,7 @@
     "draft-js-raw-content-state": "latest",
     "draft-js-import-html": "latest",
     "draftjs-filters": "^2.5.0",
-    "firebase": "latest",
+    "firebase": "7.22.0",
     "firebaseui": "latest",
     "focus-trap-react": "^10.0.0",
     "graphql": "latest",
