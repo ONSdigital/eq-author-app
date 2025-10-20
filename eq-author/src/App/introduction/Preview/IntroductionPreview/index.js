@@ -22,11 +22,6 @@ const Container = styled.div`
   p:last-of-type {
     margin-bottom: 0;
   }
-  em {
-    background-color: ${colors.highlightGreen};
-    padding: 0 0.125em;
-    font-style: normal;
-  }
   span[data-piped] {
     background-color: #e0e0e0;
     padding: 0 0.125em;
@@ -94,12 +89,12 @@ const CollapsiblesContent = styled.div`
   padding: 0.2em 0 0.2em 1em;
 `;
 
-const BlueUnderlined = styled.text`
+const DummyLink = styled.span`
   color: ${colors.blue};
   text-decoration: underline;
 `;
 
-const MissingText = styled.text`
+const MissingText = styled.span`
   font-weight: bold;
   background-color: ${colors.errorSecondary};
   text-align: center;
@@ -135,13 +130,13 @@ const IntroductionPreview = ({ introduction }) => {
       <PageTitle missingText="Missing introduction title" title={title} />
       If the company details or structure have changed contact us on{" "}
       {contactDetailsPhoneNumber !== "" ? (
-        <BlueUnderlined>{contactDetailsPhoneNumber}</BlueUnderlined>
+        <DummyLink>{contactDetailsPhoneNumber}</DummyLink>
       ) : (
         <MissingText>Phone number missing</MissingText>
       )}{" "}
       or email{" "}
       {contactDetailsEmailAddress !== "" ? (
-        <BlueUnderlined>{contactDetailsEmailAddress}</BlueUnderlined>
+        <DummyLink>{contactDetailsEmailAddress}</DummyLink>
       ) : (
         <MissingText>Email address missing </MissingText>
       )}
@@ -155,18 +150,26 @@ const IntroductionPreview = ({ introduction }) => {
         data-test="description"
         dangerouslySetInnerHTML={{ __html: description }}
       />
+      {previewQuestions && (
+        <>
+          <Description>
+            <DummyLink>
+              View the questions you will be asked in this survey
+            </DummyLink>
+          </Description>
+        </>
+      )}
       {legalBasisCode !== "VOLUNTARY" && (
         <>
           <PageTitle title="Your response is legally required" />
-          <Description>{legalBasisDescription}</Description>
-        </>
-      )}
-      {previewQuestions && (
-        <>
-          <PageTitle title="Preview the questions before starting the survey" />
           <Description>
-            You can <BlueUnderlined>preview the questions</BlueUnderlined> you
-            may be asked in this survey.
+            {`Notice is given under ${
+              legalBasisCode === "NOTICE_FUELS"
+                ? `the ${legalBasisDescription}`
+                : `${legalBasisDescription
+                    ?.charAt(0)
+                    .toLowerCase()}${legalBasisDescription?.slice(1)}`
+            }`}
           </Description>
         </>
       )}

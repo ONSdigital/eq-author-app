@@ -27,7 +27,7 @@ const TextArea = styled(AutoResizeTextArea)`
 
 class WrappingInput extends React.Component {
   static propTypes = {
-    value: PropTypes.string.isRequired,
+    value: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     onBlur: PropTypes.func.isRequired,
     onPaste: PropTypes.func,
@@ -54,6 +54,7 @@ class WrappingInput extends React.Component {
     const text = e.clipboardData.getData("text");
     e.persist();
     if (/\s{2,}/g.test(text)) {
+      e.preventDefault();
       this.setState({
         showPasteModal: true,
         text: text,

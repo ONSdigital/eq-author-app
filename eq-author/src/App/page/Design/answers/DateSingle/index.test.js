@@ -24,6 +24,9 @@ describe("Date", () => {
     answer = {
       id: "ansID1",
       title: "Date title",
+      page: {
+        id: "Page 1",
+      },
       description: "date description",
       label: "",
       type: "Date",

@@ -65,6 +65,15 @@ const Container = styled.div`
   gap: 0.5em;
 `;
 
+const WarningWrapper = styled.div`
+  .warning-icon {
+    margin-top: -1.1em;
+  }
+  .warning-flex-container {
+    width: 40em;
+  }
+`;
+
 const SectionRow = ({ section: { alias, title, displayName }, onRemove }) => (
   <SectionContainer>
     <SpacedRow>
@@ -98,6 +107,7 @@ const ImportSectionReviewModal = ({
   onCancel,
   onBack,
   onSelectQuestions,
+  onSelectFolders,
   onSelectSections,
   onRemoveSingle,
   onRemoveAll,
@@ -113,9 +123,12 @@ const ImportSectionReviewModal = ({
     <Header>
       <Heading> Import content from {questionnaire.title} </Heading>
       <Subheading>
-        <Warning>
-          Question logic, piping and Qcodes will not be imported.
-        </Warning>
+        <WarningWrapper>
+          <Warning>
+            Question logic, piping and Q codes will not be imported. Any extra
+            spaces in lines of text will be removed.
+          </Warning>
+        </WarningWrapper>
       </Subheading>
     </Header>
     <Content>
@@ -139,19 +152,10 @@ const ImportSectionReviewModal = ({
         </>
       ) : (
         <ContentHeading>
-          *Select individual questions or entire sections to be imported, you
-          cannot choose both*
+          Select sections, folders or questions to import
         </ContentHeading>
       )}
       <Container>
-        {startingSelectedSections?.length === 0 && (
-          <Button
-            onClick={onSelectQuestions}
-            data-test="section-review-select-questions-button"
-          >
-            Questions
-          </Button>
-        )}
         <Button
           onClick={onSelectSections}
           data-test="section-review-select-sections-button"
@@ -160,6 +164,22 @@ const ImportSectionReviewModal = ({
             ? "Select more sections"
             : "Sections"}
         </Button>
+        {startingSelectedSections?.length === 0 && (
+          <Button
+            onClick={onSelectFolders}
+            data-test="section-review-select-folders-button"
+          >
+            Folders
+          </Button>
+        )}
+        {startingSelectedSections?.length === 0 && (
+          <Button
+            onClick={onSelectQuestions}
+            data-test="section-review-select-questions-button"
+          >
+            Questions
+          </Button>
+        )}
       </Container>
     </Content>
   </Wizard>
@@ -170,8 +190,9 @@ ImportSectionReviewModal.propTypes = {
   onConfirm: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   onBack: PropTypes.func.isRequired,
-  onSelectQuestions: PropTypes.func.isRequired,
   onSelectSections: PropTypes.func.isRequired,
+  onSelectFolders: PropTypes.func.isRequired,
+  onSelectQuestions: PropTypes.func.isRequired,
   onRemoveSingle: PropTypes.func.isRequired,
   onRemoveAll: PropTypes.func.isRequired,
   questionnaire: PropTypes.shape({

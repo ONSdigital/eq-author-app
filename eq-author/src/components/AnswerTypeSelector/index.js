@@ -7,7 +7,7 @@ import IconText from "components/IconText";
 import Button from "components/buttons/Button";
 import ValidationError from "components/ValidationError";
 import { QUESTION_ANSWER_NOT_SELECTED } from "constants/validationMessages";
-import { RADIO, MUTUALLY_EXCLUSIVE } from "constants/answer-types";
+import { RADIO, MUTUALLY_EXCLUSIVE, SELECT } from "constants/answer-types";
 
 import answersHaveAnswerType from "utils/answersHaveAnswerType";
 
@@ -49,7 +49,7 @@ const ErrorContext = styled.div`
     `}
 `;
 
-const mutuallyExclusiveEnabled = (answers, hasRadioAnswer) => {
+const mutuallyExclusiveEnabled = (answers, hasRadioAnswer, hasSelectAnswer) => {
   let allowMutuallyExclusive = false;
   // Mutually exclusive button will be disabled when page has no answers, page has a radio answer, or page already has mutually exclusive answer
   // Does not need to handle date range as "Add an answer" button is disabled when page has a date range answer
@@ -57,6 +57,7 @@ const mutuallyExclusiveEnabled = (answers, hasRadioAnswer) => {
     answers.length === 0 ||
     !answers ||
     hasRadioAnswer ||
+    hasSelectAnswer ||
     answersHaveAnswerType(answers, MUTUALLY_EXCLUSIVE) ||
     answers.length > 1 // TODO: (Mutually exclusive) When Runner supports multiple answers with mutually exclusive, answers.length > 1 can be removed
   ) {
@@ -101,6 +102,7 @@ class AnswerTypeSelector extends React.Component {
     let hasDateRange = false;
     let hasOtherAnswerType = false;
     let hasRadioAnswer = false;
+    let hasSelectAnswer = false;
     let hasMutuallyExclusiveAnswer = false;
 
     const answers = Array.from(this.props.page.answers);
@@ -117,6 +119,9 @@ class AnswerTypeSelector extends React.Component {
       }
       if (answersHaveAnswerType(this.props.page.answers, RADIO)) {
         hasRadioAnswer = true;
+      }
+      if (answersHaveAnswerType(this.props.page.answers, SELECT)) {
+        hasSelectAnswer = true;
       }
       if (answersHaveAnswerType(this.props.page.answers, MUTUALLY_EXCLUSIVE)) {
         hasMutuallyExclusiveAnswer = true;
@@ -159,9 +164,11 @@ class AnswerTypeSelector extends React.Component {
               doNotShowDR={hasOtherAnswerType}
               mutuallyExclusiveEnabled={mutuallyExclusiveEnabled(
                 this.props.page.answers,
-                hasRadioAnswer
+                hasRadioAnswer,
+                hasSelectAnswer
               )}
               radioEnabled={!hasMutuallyExclusiveAnswer}
+              selectEnabled={!hasMutuallyExclusiveAnswer}
             />
           </Popout>
         </ErrorContext>

@@ -18,6 +18,7 @@ describe("Editor", () => {
           displayName: "My question",
           answers: [],
         },
+        pageDescription: "Page description 1",
         positive: {
           id: "1",
           label: "Positive label",

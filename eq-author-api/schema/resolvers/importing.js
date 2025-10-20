@@ -1,12 +1,14 @@
 const {
   getPagesByIds,
   getFolderById,
+  getFoldersByIds,
   getSectionById,
   getSectionByFolderId,
   stripQCodes,
   remapAllNestedIds,
   getSectionsByIds,
 } = require("./utils");
+const removeExtraSpaces = require("../../utils/removeExtraSpaces");
 
 const createFolder = require("../../src/businessLogic/createFolder");
 
@@ -14,6 +16,8 @@ const { getQuestionnaire } = require("../../db/datastore");
 const { UserInputError } = require("apollo-server-express");
 
 const { createMutation } = require("./createMutation");
+
+const { setDataVersion } = require("./utils");
 
 module.exports = {
   Mutation: {
@@ -45,6 +49,7 @@ module.exports = {
         }
 
         pages.forEach((page) => {
+          removeExtraSpaces(page);
           if (page.answers.length === 1) {
             if (page.answers[0].repeatingLabelAndInputListId) {
               page.answers[0].repeatingLabelAndInputListId = "";
@@ -89,6 +94,71 @@ module.exports = {
             ...strippedPages.map((page) => createFolder({ pages: [page] }))
           );
         }
+        setDataVersion(ctx);
+
+        return section;
+      }
+    ),
+    importFolders: createMutation(
+      async (_, { input: { questionnaireId, folderIds, position } }, ctx) => {
+        const { sectionId, index: insertionIndex } = position;
+
+        if (!sectionId) {
+          throw new UserInputError("Target section ID must be provided.");
+        }
+
+        const sourceQuestionnaire = await getQuestionnaire(questionnaireId);
+        if (!sourceQuestionnaire) {
+          throw new UserInputError(
+            `Questionnaire with ID ${questionnaireId} does not exist.`
+          );
+        }
+
+        const sourceFolders = getFoldersByIds(
+          { questionnaire: sourceQuestionnaire },
+          folderIds
+        );
+
+        if (sourceFolders.length !== folderIds.length) {
+          throw new UserInputError(
+            `Not all folder IDs in [${folderIds}] exist in source questionnaire ${questionnaireId}.`
+          );
+        }
+
+        sourceFolders.forEach((folder) => {
+          remapAllNestedIds(folder);
+          removeExtraSpaces(folder);
+          folder.skipConditions = null;
+          if (folder.listId) {
+            folder.listId = "";
+          }
+          folder.pages.forEach((page) => {
+            page.routing = null;
+            page.skipConditions = null;
+            if (page.answers !== undefined) {
+              page.answers.forEach((answer) => {
+                return stripQCodes(answer);
+              });
+            }
+
+            if (page.answers?.length === 1) {
+              if (page.answers[0].repeatingLabelAndInputListId) {
+                page.answers[0].repeatingLabelAndInputListId = "";
+              }
+            }
+          });
+        });
+
+        const section = getSectionById(ctx, sectionId);
+
+        if (!section) {
+          throw new UserInputError(
+            `Section with ID ${sectionId} doesn't exist in target questionnaire.`
+          );
+        }
+
+        section.folders.splice(insertionIndex, 0, ...sourceFolders);
+        setDataVersion(ctx);
 
         return section;
       }
@@ -121,22 +191,29 @@ module.exports = {
           );
         }
 
-        let sectionsWithoutLogic = [];
+        const strippedSections = [];
 
         // Re-create UUIDs, strip QCodes, routing and skip conditions from imported pages
         // Keep piping intact for now - will show "[Deleted answer]" to users when piped ID not resolvable
 
         sourceSections.forEach((section) => {
           remapAllNestedIds(section);
+          removeExtraSpaces(section);
           section.displayConditions = null;
           section.questionnaireId = ctx.questionnaire.id;
           section.folders.forEach((folder) => {
+            if (folder.listId) {
+              folder.listId = "";
+            }
             folder.skipConditions = null;
             folder.pages.forEach((page) => {
               page.routing = null;
               page.skipConditions = null;
 
-              if (page.pageType !== "ListCollectorPage") {
+              if (
+                page.pageType !== "ListCollectorPage" &&
+                page.answers !== undefined
+              ) {
                 page.answers.forEach((answer) => {
                   return stripQCodes(answer);
                 });
@@ -152,11 +229,12 @@ module.exports = {
               }
             });
           });
+
           // Fix for missing validation error after importing repeating section
           if (section.repeatingSectionListId) {
             section.repeatingSectionListId = "";
           }
-          sectionsWithoutLogic.push(section);
+          strippedSections.push(section);
         });
 
         const section = getSectionById(ctx, sectionId);
@@ -166,8 +244,10 @@ module.exports = {
           );
         }
 
-        destinationSections.splice(insertionIndex, 0, ...sectionsWithoutLogic);
+        destinationSections.splice(insertionIndex, 0, ...strippedSections);
         ctx.questionnaire.hub = ctx.questionnaire.sections.length > 1;
+        setDataVersion(ctx);
+
         return destinationSections;
       }
     ),

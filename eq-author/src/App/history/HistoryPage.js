@@ -124,7 +124,6 @@ const HistoryPageContent = ({ match }) => {
               value={noteState.value}
               controls={{
                 heading: true,
-                emphasis: true,
                 list: true,
                 bold: true,
               }}

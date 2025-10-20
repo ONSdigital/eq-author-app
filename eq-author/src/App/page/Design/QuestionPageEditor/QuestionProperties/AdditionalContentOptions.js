@@ -26,20 +26,18 @@ import {
 
 const contentControls = {
   bold: true,
-  emphasis: true,
   list: true,
   link: true,
 };
 
 const descriptionControls = {
-  emphasis: true,
+  bold: true,
   piping: true,
   link: true,
 };
 
 const definitionControls = {
   list: true,
-  emphasis: true,
   bold: true,
   link: true,
 };
@@ -222,7 +220,7 @@ export const StatelessAdditionalInfo = ({
 StatelessAdditionalInfo.propTypes = {
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  fetchAnswers: PropTypes.func.isRequired,
+  fetchAnswers: PropTypes.func,
   page: propType(pageFragment).isRequired,
   onChangeUpdate: PropTypes.func.isRequired,
   option: PropTypes.string.isRequired,

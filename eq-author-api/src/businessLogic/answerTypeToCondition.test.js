@@ -16,6 +16,7 @@ const VALID_TYPES = [
   answerTypes.CHECKBOX,
   answerTypes.DATE,
   answerTypes.SELECT,
+  answerTypes.MUTUALLY_EXCLUSIVE,
 ];
 
 describe("AnswerTypeToCondition", () => {
@@ -29,7 +30,7 @@ describe("AnswerTypeToCondition", () => {
   });
 
   describe("getDefault()", () => {
-    it("should return equal for all apart from radio", () => {
+    it("should return correct default condition for all valid answer types", () => {
       const expectedDefaults = {
         [answerTypes.NUMBER]: conditions.SELECT,
         [answerTypes.PERCENTAGE]: conditions.SELECT,
@@ -39,6 +40,7 @@ describe("AnswerTypeToCondition", () => {
         [answerTypes.CHECKBOX]: conditions.ALL_OF,
         [answerTypes.DATE]: conditions.SELECT,
         [answerTypes.SELECT]: conditions.ONE_OF,
+        [answerTypes.MUTUALLY_EXCLUSIVE]: conditions.ONE_OF,
       };
       VALID_TYPES.forEach((type) => {
         expect(getDefault(type)).toEqual(expectedDefaults[type]);

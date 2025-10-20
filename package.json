@@ -21,10 +21,10 @@
   },
   "homepage": "https://github.com/ONSdigital/eq-author-app#readme",
   "dependencies": {
-    "husky": "latest",
+    "husky": "7.0.4",
     "lint-staged": "10.5.4",
-    "prettier": "^2.5.1",
-    "prettylint": "latest"
+    "prettier": "2.5.1",
+    "prettylint": "1.0.0"
   },
   "lint-staged": {
     "*.js": [

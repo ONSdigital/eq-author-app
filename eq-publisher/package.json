@@ -10,23 +10,23 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "apollo-fetch": "latest",
-    "cheerio": "latest",
-    "eslint-config-eq-author": "latest",
-    "express": "latest",
-    "express-pino-logger": "latest",
-    "graphql": "latest",
-    "helmet": "latest",
-    "jsonwebtoken": "latest",
+    "apollo-fetch": "0.7.0",
+    "cheerio": "1.0.0-rc.10",
+    "eslint-config-eq-author": "2.0.2",
+    "express": "4.17.1",
+    "express-pino-logger": "7.0.0",
+    "graphql": "16.1.0",
+    "helmet": "4.6.0",
+    "jsonwebtoken": "8.5.1",
     "lodash": "4.17.21",
     "nodemon": "2.0.15",
-    "request": "latest",
-    "request-promise": "latest",
-    "uuid": "latest"
+    "request": "2.88.2",
+    "request-promise": "4.2.6",
+    "uuid": "8.3.2"
   },
   "devDependencies": {
-    "eslint": "latest",
-    "jest": "latest"
+    "eslint": "7.31.0",
+    "jest": "27.4.3"
   },
   "moduleRoots": [
     "src/"

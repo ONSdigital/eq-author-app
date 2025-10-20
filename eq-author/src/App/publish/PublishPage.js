@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { useMutation } from "@apollo/react-hooks";
@@ -16,6 +16,10 @@ import Button from "components-themed/buttons";
 import PUBLISH_SCHEMA from "graphql/publishSchema.graphql";
 
 import PublishHistory from "./GetPublishHistory";
+import { useQuestionnaire } from "components/QuestionnaireContext";
+import { useQCodeContext } from "components/QCodeContext";
+
+import { ToastContext } from "components/Toasts";
 
 const Container = styled.div`
   display: flex;
@@ -49,9 +53,33 @@ const StyledButton = styled(Button)`
 `;
 
 const PublishPage = () => {
+  const { questionnaire } = useQuestionnaire();
+  const { showToast } = useContext(ToastContext);
+
   const [publishSchema] = useMutation(PUBLISH_SCHEMA, {
     refetchQueries: ["GetPublishHistory"],
+    onCompleted: (data) => {
+      const history = data?.publishSchema?.publishHistory;
+      const latestEntry = history && history[history.length - 1];
+      if (latestEntry && !latestEntry.success) {
+        showToast("Publish failed");
+      } else {
+        showToast("Publish successful");
+      }
+    },
   });
+  const [isPublishing, setIsPublishing] = useState(false);
+
+  const handlePublishButtonClick = () => {
+    setIsPublishing(true);
+    publishSchema().finally(() => {
+      setIsPublishing(false);
+    });
+  };
+
+  const totalErrorCount = questionnaire?.totalErrorCount || 0;
+  const { hasQCodeError } = useQCodeContext();
+
   return (
     <Theme themeName="onsLegacyFont">
       <Container data-test="publish-page-container">
@@ -75,8 +103,9 @@ const PublishPage = () => {
             </Panel>
             <StyledButton
               variant="primary"
-              onClick={() => publishSchema()}
+              onClick={handlePublishButtonClick}
               data-test="btn-publish-schema"
+              disabled={totalErrorCount > 0 || hasQCodeError || isPublishing} // Disabled if there are any errors or if the publishSchema mutation is running
             >
               Publish questionnaire
             </StyledButton>

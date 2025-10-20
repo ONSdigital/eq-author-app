@@ -15,7 +15,7 @@ fetch.mockImplementation(() =>
   Promise.resolve({
     status: 200,
     json: () => ({
-      id: "cir-id-1",
+      guid: "cir-id-1",
       // eslint-disable-next-line camelcase
       ci_version: "1",
     }),
@@ -102,6 +102,7 @@ describe("publish schema", () => {
         publishDate: expect.any(Date),
         success: false,
         errorMessage: "Failed to fetch questionnaire - Test error",
+        displayErrorMessage: "Publish error, please try later",
       },
     ]);
   });
@@ -133,6 +134,7 @@ describe("publish schema", () => {
         success: false,
         errorMessage:
           "Publisher failed to convert questionnaire - Server error",
+        displayErrorMessage: "Contact eQ services team",
       },
     ]);
   });
@@ -158,6 +160,7 @@ describe("publish schema", () => {
         publishDate: expect.any(Date),
         success: false,
         errorMessage: "Failed to publish questionnaire - Test error",
+        displayErrorMessage: "Publish error, please try later",
       },
     ]);
   });

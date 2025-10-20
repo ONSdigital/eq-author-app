@@ -9,6 +9,7 @@ const mockQuestionnaire = {
 };
 
 const mockOnSelectQuestions = jest.fn();
+const mockOnSelectFolders = jest.fn();
 const mockOnSelectSections = jest.fn();
 const mockOnRemoveSingle = jest.fn();
 const mockOnRemoveAll = jest.fn();
@@ -21,6 +22,7 @@ const setup = (props) =>
       questionnaire={mockQuestionnaire}
       isOpen
       onSelectQuestions={mockOnSelectQuestions}
+      onSelectFolders={mockOnSelectFolders}
       onSelectSections={mockOnSelectSections}
       startingSelectedQuestions={[]}
       onConfirm={jest.fn()}

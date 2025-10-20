@@ -4,7 +4,10 @@ const { logger } = require("../../utils/logger");
 const { pick } = require("lodash/fp");
 const { omit } = require("lodash");
 const { removeEmpty } = require("../../utils/removeEmpty");
-const { baseQuestionnaireFields } = require("../baseQuestionnaireSchema");
+const {
+  baseQuestionnaireFields,
+  saveQuestionnaireFields,
+} = require("../baseQuestionnaireSchema");
 const {
   questionnaireCreationEvent,
   historyCreationForImport,
@@ -31,6 +34,14 @@ const BASE_FIELDS = [
 ];
 
 const justListFields = pick(BASE_FIELDS);
+
+const SAVE_FIELDS = [
+  ...Object.keys(saveQuestionnaireFields),
+  "updatedAt",
+  "history",
+];
+
+const justListSaveFields = pick(SAVE_FIELDS);
 
 const saveSections = (parentDoc, sections) =>
   Promise.all(
@@ -271,8 +282,7 @@ const saveQuestionnaire = async (changedQuestionnaire) => {
         "Unable to save questionnaire; cannot find required field: ID (from saveQuestionnaire)"
       );
     }
-    const createdAt = new Date();
-    const updatedAt = createdAt;
+    const updatedAt = new Date();
 
     const originalQuestionnaire = await getQuestionnaire(id);
 
@@ -297,7 +307,7 @@ const saveQuestionnaire = async (changedQuestionnaire) => {
 
     const baseDoc = db.collection("questionnaires").doc(id);
     await baseDoc.update({
-      ...justListFields(updatedQuestionnaire),
+      ...justListSaveFields(updatedQuestionnaire),
       updatedAt,
     });
 
@@ -359,6 +369,79 @@ const listQuestionnaires = async () => {
     logger.error(
       error,
       "Unable to retrieve questionnaires (from listQuestionnaires)"
+    );
+    return;
+  }
+};
+
+const listFilteredQuestionnaires = async (input) => {
+  try {
+    const {
+      resultsPerPage,
+      firstQuestionnaireIdOnPage,
+      lastQuestionnaireIdOnPage,
+    } = input;
+
+    // Orders questionnaires by when they were created, starting with the newest
+    let questionnairesQuery = db
+      .collection("questionnaires")
+      .orderBy("createdAt", "desc");
+
+    // Gets questionnaires on first page when firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage are not provided
+    if (!firstQuestionnaireIdOnPage && !lastQuestionnaireIdOnPage) {
+      questionnairesQuery = questionnairesQuery.limit(resultsPerPage);
+    }
+    // Gets questionnaires on previous page when firstQuestionnaireIdOnPage is provided without lastQuestionnaireIdOnPage
+    else if (firstQuestionnaireIdOnPage && !lastQuestionnaireIdOnPage) {
+      // Gets first questionnaire on current page based on firstQuestionnaireIdOnPage
+      const firstQuestionnaireOnPage = await db
+        .collection("questionnaires")
+        .doc(firstQuestionnaireIdOnPage)
+        .get();
+
+      // Gets previous questionnaires before firstQuestionnaireOnPage, limiting the number of questionnaires to `resultsPerPage`
+      questionnairesQuery = questionnairesQuery
+        .endBefore(firstQuestionnaireOnPage)
+        .limitToLast(resultsPerPage);
+    }
+    // Gets questionnaires on next page when lastQuestionnaireIdOnPage is provided without firstQuestionnaireIdOnPage
+    else if (lastQuestionnaireIdOnPage && !firstQuestionnaireIdOnPage) {
+      // Gets last questionnaire on current page based on lastQuestionnaireIdOnPage
+      const lastQuestionnaireOnPage = await db
+        .collection("questionnaires")
+        .doc(lastQuestionnaireIdOnPage)
+        .get();
+
+      // Gets next questionnaires after lastQuestionnaireOnPage, limiting the number of questionnaires to `resultsPerPage`
+      questionnairesQuery = questionnairesQuery
+        .startAfter(lastQuestionnaireOnPage)
+        .limit(resultsPerPage);
+    }
+    // Throws an error when both firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage are provided
+    else {
+      logger.error(
+        "Invalid input - both firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage have been provided (from listFilteredQuestionnaires)"
+      );
+    }
+
+    const questionnairesSnapshot = await questionnairesQuery.get();
+
+    if (questionnairesSnapshot.empty) {
+      logger.info("No questionnaires found (from listFilteredQuestionnaires)");
+      return [];
+    }
+
+    const questionnaires = questionnairesSnapshot.docs.map((doc) => ({
+      ...doc.data(),
+      editors: doc.data().editors || [],
+      createdAt: doc.data().createdAt.toDate(),
+      updatedAt: doc.data().updatedAt.toDate(),
+    }));
+    return questionnaires || [];
+  } catch (error) {
+    logger.error(
+      error,
+      "Unable to retrieve questionnaires (from listFilteredQuestionnaires)"
     );
     return;
   }
@@ -656,6 +739,7 @@ module.exports = {
   saveQuestionnaire,
   deleteQuestionnaire,
   listQuestionnaires,
+  listFilteredQuestionnaires,
   getQuestionnaire,
   getQuestionnaireMetaById,
   getQuestionnaireByVersionId,

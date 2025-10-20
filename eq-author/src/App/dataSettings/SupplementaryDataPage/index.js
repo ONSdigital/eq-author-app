@@ -183,19 +183,21 @@ const SupplementaryDataPage = () => {
   };
 
   if (surveyLoading) {
-    return <Loading height="100%">Dataset page is loading...</Loading>;
+    return (
+      <Loading height="100%"> Supplementary data page is loading...</Loading>
+    );
   }
 
   if (surveyError) {
-    return <Error>Dataset page error</Error>;
+    return <Error>Supplementary data page error</Error>;
   }
 
   return (
     <>
       <Modal
-        title="Unlink dataset"
+        title="Unlink dataset schema"
         positiveButtonText="Unlink"
-        warningMessage="The dataset will be unlinked from the questionnaire. You will not be able to pipe data fields from this dataset. Any piped answers or example values will be deleted."
+        warningMessage="The dataset schema will be unlinked from the questionnaire. You will not be able to pipe data fields from this dataset schema. Any piped answers or example values will be deleted."
         isOpen={showUnlinkModal}
         onConfirm={() => unlinkDataset()}
         onClose={() => setShowUnlinkModal(false)}
@@ -220,16 +222,17 @@ const SupplementaryDataPage = () => {
                         {!tableData && (
                           <>
                             <Common.TabTitle>
-                              Select a supplementary dataset to link to
+                              Select a supplementary dataset schema to link to
                             </Common.TabTitle>
                             <Common.TabContent>
-                              Linking to a supplementary dataset will allow you
-                              to pipe data that respondents have provided in
-                              previous questionnaires into question titles or
-                              percentage answer type labels.
+                              Linking to a supplementary dataset schema will
+                              allow you to pipe data that respondents have
+                              provided in previous questionnaires into question
+                              titles or percentage answer type labels.
                             </Common.TabContent>
                             <Common.TabContent>
-                              Only one dataset can be linked per questionnaire.
+                              Only one dataset schema can be linked per
+                              questionnaire.
                             </Common.TabContent>
                             <StyledTitle>Select a survey ID</StyledTitle>
                             <CustomSelect
@@ -266,7 +269,8 @@ const SupplementaryDataPage = () => {
                             <Grid>
                               <Column gutters={false} cols={8}>
                                 <Common.TabTitle>
-                                  Dataset for survey ID {tableData.surveyId}
+                                  Dataset schema for survey ID{" "}
+                                  {tableData.surveyId}
                                 </Common.TabTitle>
                               </Column>
                               <Column gutters={false} cols={4}>
@@ -275,7 +279,7 @@ const SupplementaryDataPage = () => {
                                     data-test="btn-unlink-dataset"
                                     onClick={handleUnlinkClick}
                                   >
-                                    Unlink dataset
+                                    Unlink dataset schema
                                   </UnlinkButton>
                                 </UnlinkButtonWrapper>
                               </Column>
@@ -310,9 +314,10 @@ const SupplementaryDataPage = () => {
                               </StyledTitle>
                               <Common.TabContent>
                                 A respondent&apos;s answers to previous
-                                questions are stored in supplementary datasets
-                                as data fields. Data fields can be piped into
-                                question and section pages using the toolbar.
+                                questions are stored in supplementary dataset
+                                schemas as data fields. Data fields can be piped
+                                into question and section pages using the
+                                toolbar.
                               </Common.TabContent>
                               <Common.TabContent>
                                 Data fields are defined as either:

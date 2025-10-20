@@ -10,6 +10,7 @@ mutation UpdateAnswer($input: UpdateAnswerInput!) {
     ... on BasicAnswer {
       secondaryQCode
       repeatingLabelAndInput
+      limitCharacter
       repeatingLabelAndInputListId
       validationErrorInfo {
         ...ValidationErrorInfo

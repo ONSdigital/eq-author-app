@@ -26,6 +26,7 @@ const {
   AWAITING_APPROVAL,
   UPDATES_REQUIRED,
 } = require("../../constants/publishStatus");
+const allDataVersions = require("../../constants/allDataVersions");
 
 const { DURATION_LOOKUP } = require("../../constants/durationTypes");
 const {
@@ -78,6 +79,7 @@ const {
   getAnswerByOptionId,
   setDataVersion,
   authorisedRequest,
+  returnAllValidationErrors,
 } = require("./utils");
 
 const createAnswer = require("../../src/businessLogic/createAnswer");
@@ -149,7 +151,8 @@ const createNewQuestionnaire = (input) => {
     qcodes: true,
     navigation: false,
     hub: false,
-    dataVersion: "1",
+    dataVersion: "3",
+    allowableDataVersions: allDataVersions,
     createdAt: new Date(),
     metadata: [],
     sections: [createSection()],
@@ -658,6 +661,7 @@ const Resolvers = {
       const pages = getPages(ctx);
 
       onSectionDeleted(ctx, removedSection, pages);
+      setDataVersion(ctx);
 
       if (!ctx.questionnaire.sections.length) {
         ctx.questionnaire.sections.push(createSection());
@@ -727,6 +731,7 @@ const Resolvers = {
       const pages = getPages(ctx);
 
       onFolderDeleted(ctx, removedFolder, pages);
+      setDataVersion(ctx);
 
       if (!section.folders.length) {
         section.folders.push(createFolder());
@@ -862,6 +867,7 @@ const Resolvers = {
       const deletedAnswer = first(remove(page.answers, { id: input.id }));
 
       onAnswerDeleted(ctx, page, deletedAnswer, pages);
+      setDataVersion(ctx);
 
       return page;
     }),
@@ -1605,6 +1611,7 @@ const Resolvers = {
       ).catch((e) => {
         publishResult.success = false;
         publishResult.errorMessage = `Failed to fetch questionnaire - ${e.message}`;
+        publishResult.displayErrorMessage = "Publish error, please try later";
       });
 
       if (publishResult.success === false) {
@@ -1614,6 +1621,7 @@ const Resolvers = {
       if (convertedResponse.status !== 200) {
         publishResult.success = false;
         publishResult.errorMessage = `Publisher failed to convert questionnaire - ${convertedResponse.statusText}`;
+        publishResult.displayErrorMessage = "Contact eQ services team";
         return ctx.questionnaire;
       }
 
@@ -1631,18 +1639,19 @@ const Resolvers = {
         .then(async (res) => {
           if (res.status === 200) {
             const responseJson = res.data;
-
-            publishResult.cirId = responseJson.id;
+            publishResult.cirId = responseJson.guid;
             publishResult.cirVersion = responseJson.ci_version;
             publishResult.success = true;
           } else {
             publishResult.success = false;
             publishResult.errorMessage = `Invalid response - failed with error code ${res.status}`;
+            publishResult.displayErrorMessage = "Contact eQ services team";
           }
         })
         .catch((e) => {
           publishResult.success = false;
           publishResult.errorMessage = `Failed to publish questionnaire - ${e.message}`;
+          publishResult.displayErrorMessage = "Publish error, please try later";
         });
 
       return ctx.questionnaire;
@@ -1717,6 +1726,10 @@ const Resolvers = {
     },
     validationErrorInfo: ({ id }, _, ctx) =>
       returnValidationErrors(ctx, id, ({ type }) => type === "root"),
+
+    allValidationErrorInfo: ({ id }, _, ctx) =>
+      returnAllValidationErrors(ctx, id),
+
     totalErrorCount: (questionnaire, args, ctx) => {
       return ctx.validationErrorInfo.length;
     },

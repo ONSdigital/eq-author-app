@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "tests/utils/rtl";
 import userEvent from "@testing-library/user-event";
-import ImportQuestionReviewModal from ".";
+import ImportSectionReviewModal from ".";
 import mockSections from "../../../tests/mocks/mockSections.json";
 
 const mockQuestionnaire = {
@@ -11,15 +11,17 @@ const mockQuestionnaire = {
 const mockOnSelectSections = jest.fn();
 const mockOnRemoveSingle = jest.fn();
 const mockOnRemoveAll = jest.fn();
+const mockOnSelectFolders = jest.fn();
 const mockOnSelectQuestions = jest.fn();
 
 describe("Import sections review modal", () => {
   it("Should call onSelectSections when the sections button is clicked", () => {
     render(
-      <ImportQuestionReviewModal
+      <ImportSectionReviewModal
         questionnaire={mockQuestionnaire}
         isOpen
         onSelectSections={mockOnSelectSections}
+        onSelectFolders={mockOnSelectFolders}
         onSelectQuestions={mockOnSelectQuestions}
         startingSelectedSections={[]}
         onConfirm={jest.fn()}
@@ -31,9 +33,7 @@ describe("Import sections review modal", () => {
     );
 
     expect(
-      screen.queryByText(
-        /Select individual questions or entire sections to be imported, you cannot choose both/
-      )
+      screen.queryByText(/Select sections, folders or questions to import/)
     ).toBeTruthy();
     // Import button should be disabled when no questions selected
     expect(screen.getByText(/^Import$/)).toBeDisabled();
@@ -49,11 +49,12 @@ describe("Import sections review modal", () => {
 
   it("Should display the selected sections when there are some", () => {
     render(
-      <ImportQuestionReviewModal
+      <ImportSectionReviewModal
         questionnaire={mockQuestionnaire}
         isOpen
         startingSelectedSections={mockSections}
         onSelectSections={mockOnSelectSections}
+        onSelectFolders={mockOnSelectFolders}
         onSelectQuestions={mockOnSelectQuestions}
         onConfirm={jest.fn()}
         onCancel={jest.fn()}
@@ -72,11 +73,12 @@ describe("Import sections review modal", () => {
 
   it("Should call onRemoveSingle with the index of the item that is signaled to be removed", () => {
     render(
-      <ImportQuestionReviewModal
+      <ImportSectionReviewModal
         questionnaire={mockQuestionnaire}
         isOpen
         startingSelectedSections={mockSections}
         onSelectSections={mockOnSelectSections}
+        onSelectFolders={mockOnSelectFolders}
         onSelectQuestions={mockOnSelectQuestions}
         onConfirm={jest.fn()}
         onCancel={jest.fn()}
@@ -93,11 +95,12 @@ describe("Import sections review modal", () => {
 
   it("Should delete all items", () => {
     render(
-      <ImportQuestionReviewModal
+      <ImportSectionReviewModal
         questionnaire={mockQuestionnaire}
         isOpen
         startingSelectedSections={mockSections}
         onSelectSections={mockOnSelectSections}
+        onSelectFolders={mockOnSelectFolders}
         onSelectQuestions={mockOnSelectQuestions}
         onConfirm={jest.fn()}
         onCancel={jest.fn()}
@@ -115,10 +118,11 @@ describe("Import sections review modal", () => {
     const mockHandleConfirm = jest.fn();
 
     render(
-      <ImportQuestionReviewModal
+      <ImportSectionReviewModal
         questionnaire={mockQuestionnaire}
         isOpen
         onSelectSections={mockOnSelectSections}
+        onSelectFolders={mockOnSelectFolders}
         onSelectQuestions={mockOnSelectQuestions}
         startingSelectedSections={mockSections}
         onConfirm={mockHandleConfirm}
@@ -140,10 +144,11 @@ describe("Import sections review modal", () => {
       const mockHandleConfirm = jest.fn();
 
       render(
-        <ImportQuestionReviewModal
+        <ImportSectionReviewModal
           questionnaire={mockQuestionnaire}
           isOpen
           onSelectSections={mockOnSelectSections}
+          onSelectFolders={mockOnSelectFolders}
           onSelectQuestions={mockOnSelectQuestions}
           startingSelectedSections={[]}
           onConfirm={mockHandleConfirm}
@@ -163,10 +168,11 @@ describe("Import sections review modal", () => {
       const mockHandleConfirm = jest.fn();
 
       render(
-        <ImportQuestionReviewModal
+        <ImportSectionReviewModal
           questionnaire={mockQuestionnaire}
           isOpen
           onSelectSections={mockOnSelectSections}
+          onSelectFolders={mockOnSelectFolders}
           onSelectQuestions={mockOnSelectQuestions}
           startingSelectedSections={mockSections}
           onConfirm={mockHandleConfirm}
@@ -186,10 +192,11 @@ describe("Import sections review modal", () => {
       const mockHandleConfirm = jest.fn();
 
       render(
-        <ImportQuestionReviewModal
+        <ImportSectionReviewModal
           questionnaire={mockQuestionnaire}
           isOpen
           onSelectSections={mockOnSelectSections}
+          onSelectFolders={mockOnSelectFolders}
           onSelectQuestions={mockOnSelectQuestions}
           startingSelectedSections={[]}
           onConfirm={mockHandleConfirm}

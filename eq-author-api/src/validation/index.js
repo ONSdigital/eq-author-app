@@ -55,7 +55,7 @@ module.exports = (questionnaire) => {
 
   for (const err of validate.errors) {
     if (err.keyword === "errorMessage") {
-      const key = `${err.instancePath} ${err.message}`;
+      const key = `${err.instancePath} ${err.message} ${err.field}`;
 
       if (uniqueErrorMessages[key]) {
         continue;

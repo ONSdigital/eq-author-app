@@ -46,6 +46,13 @@ enum Permission {
   Write
 }
 
+enum Access {
+  All
+  Editor
+  ViewOnly
+  PrivateQuestionnaires
+}
+
 type Questionnaire {
   id: ID!
   title: String
@@ -62,6 +69,7 @@ type Questionnaire {
   navigation: Boolean
   hub: Boolean
   dataVersion: String
+  allowableDataVersions: [String]
   createdAt: DateTime
   updatedAt: DateTime
   createdBy: User!
@@ -84,6 +92,7 @@ type Questionnaire {
   locked: Boolean
   publishHistory: [PublishHistoryEvent]
   validationErrorInfo: ValidationErrorInfo
+  allValidationErrorInfo: AllValidationErrorInfo
   submission: Submission
   supplementaryData: SupplementaryData
 }
@@ -425,6 +434,7 @@ type BasicAnswer implements Answer {
   mutuallyExclusiveOption: Option
   repeatingLabelAndInput: Boolean
   repeatingLabelAndInputListId: ID
+  limitCharacter: Boolean
 }
 
 type MultipleChoiceAnswer implements Answer {
@@ -478,12 +488,25 @@ type ValidationError {
   errorCode: String!
 }
 
+type AllValidationError {
+  id: String!
+  type: String!
+  field: String!
+  errorCode: String!
+  pageId: String
+}
+
 type ValidationErrorInfo {
   id: ID!
   errors: [ValidationError!]!
   totalCount: Int!
 }
 
+type AllValidationErrorInfo {
+  id: ID!
+  errors: [AllValidationError!]!
+  totalCount: Int!
+}
 
 union ValidationType = NumberValidation | DateValidation | DateRangeValidation
 
@@ -889,10 +912,12 @@ type PublishHistoryEvent {
   publishDate: DateTime
   success: Boolean
   errorMessage: String
+  displayErrorMessage: String
 }
 
 type Query {
   questionnaires(input: QuestionnairesInput): [Questionnaire]
+  filteredQuestionnaires(input: FilteredQuestionnairesInput): [Questionnaire]
   questionnaire(input: QueryInput!): Questionnaire
   history(input: QueryInput!): [History]
   section(input: QueryInput!): Section
@@ -919,6 +944,8 @@ type Query {
   listNames: [ListName]
   collectionListNames: [ListName]
   supplementaryDataListNames: [ListName]
+  totalFilteredQuestionnaires(input: TotalFilteredQuestionnairesInput): Int
+  totalPages(input: TotalPagesInput): Int
 }
 
 input CommonFilters {
@@ -931,6 +958,41 @@ input QuestionnairesFilter {
 
 input QuestionnairesInput {
   filter: QuestionnairesFilter
+}
+
+input FilteredQuestionnairesInput {
+  resultsPerPage: Int
+  firstQuestionnaireIdOnPage: ID
+  lastQuestionnaireIdOnPage: ID
+  searchByTitleOrShortCode: String
+  owner: String
+  createdOnOrAfter: DateTime
+  createdOnOrBefore: DateTime
+  access: Access!
+  myQuestionnaires: Boolean
+  sortBy: String
+  questionnairesToExclude: [ID!]
+}
+
+input TotalFilteredQuestionnairesInput {
+    searchByTitleOrShortCode: String
+    owner: String
+    createdOnOrAfter: DateTime
+    createdOnOrBefore: DateTime
+    access: Access!
+    myQuestionnaires: Boolean
+    questionnairesToExclude: [ID!]
+}
+
+input TotalPagesInput {
+  resultsPerPage: Int
+  searchByTitleOrShortCode: String
+  owner: String
+  createdOnOrAfter: DateTime
+  createdOnOrBefore: DateTime
+  access: Access!
+  myQuestionnaires: Boolean
+  questionnairesToExclude: [ID!]
 }
 
 input QueryInput {
@@ -983,6 +1045,12 @@ input ImportQuestionsInput {
   position: Position!
 }
 
+input ImportFoldersInput {
+  questionnaireId: ID!
+  folderIds: [ID!]!
+  position: Position!
+}
+
 input ImportSectionsInput {
   questionnaireId: ID!
   sectionIds: [ID!]!
@@ -997,6 +1065,7 @@ type Mutation {
   setQuestionnaireLocked(input: SetQuestionnaireLockedInput!): Questionnaire
 
   importQuestions(input: ImportQuestionsInput!): Section
+  importFolders(input: ImportFoldersInput!): Section
   importSections(input: ImportSectionsInput!): [Section]
 
   createHistoryNote(input: createHistoryNoteInput!): [History!]!
@@ -1288,6 +1357,7 @@ input CreateQuestionnaireInput {
   type: QuestionnaireType
   shortTitle: String
   isPublic: Boolean
+  editors: [ID!]
 }
 
 input UpdateQuestionnaireInput {
@@ -1310,6 +1380,7 @@ input UpdateQuestionnaireInput {
   editors: [ID!] 
   isPublic: Boolean
   permission: String
+  dataVersion: String
 }
 
 
@@ -1533,6 +1604,7 @@ input UpdateAnswerInput {
   defaultAnswer: Boolean
   repeatingLabelAndInput: Boolean
   repeatingLabelAndInputListId: ID
+  limitCharacter: Boolean
 }
 
 input UpdateAnswersOfTypeInput {

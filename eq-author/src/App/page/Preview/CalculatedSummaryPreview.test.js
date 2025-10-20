@@ -4,10 +4,101 @@ import { render, flushPromises, act } from "tests/utils/rtl";
 
 import commentsSubscription from "graphql/subscriptions/commentSubscription.graphql";
 import { MeContext } from "App/MeContext";
+
 import { byTestAttr } from "tests/utils/selectors";
 
 import CalculatedSummaryPreview from "./CalculatedSummaryPreview";
 import { publishStatusSubscription } from "components/EditorLayout/Header";
+import QuestionnaireContext from "components/QuestionnaireContext";
+
+jest.mock("@apollo/react-hooks", () => ({
+  ...jest.requireActual("@apollo/react-hooks"),
+  useQuery: jest.fn(),
+  useMutation: jest.fn(() => [() => null]),
+}));
+
+const questionnaire = {
+  id: "questionnaire-1",
+  sections: [
+    {
+      id: "section-1",
+      folders: [
+        {
+          id: "folder-1",
+          pages: [
+            {
+              id: "3",
+              pageType: "QuestionPage",
+              title: "Page 1",
+              answers: [
+                {
+                  id: "answer-1",
+                  label: "answer 1",
+                },
+                {
+                  id: "answer-2",
+                  label: "answer 2",
+                },
+              ],
+            },
+            {
+              id: "6",
+              pageType: "QuestionPage",
+              title: "Page 2",
+              answers: [
+                {
+                  id: "answer-3",
+                  label: "answer 3",
+                },
+                {
+                  id: "answer-4",
+                  label: "answer 4",
+                },
+              ],
+            },
+            {
+              id: "9",
+              displayName: "Cal Sum",
+              position: 1,
+              title: "Calculated summary page 1",
+              totalTitle: "Total bills:",
+              pageDescription: "This page calculates the total bills",
+              alias: "Who am I?",
+              type: "Number",
+              answers: [],
+              comments: [],
+
+              summaryAnswers: [
+                { id: "answer-4", displayName: "Answer 4" },
+                { id: "answer-2", displayName: "Answer 2" },
+                { id: "answer-3", displayName: "Answer 3" },
+                { id: "answer-1", displayName: "Answer 1" },
+              ],
+              pageType: "CalculatedSummaryPage",
+              section: {
+                id: "1",
+                position: 0,
+                questionnaire: {
+                  id: "1",
+                  metadata: [],
+                },
+              },
+              validationErrorInfo: {
+                id: "test",
+                totalCount: 0,
+                errors: [],
+              },
+              folder: {
+                id: "folder-1",
+                position: 0,
+              },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
 
 describe("CalculatedSummaryPreview", () => {
   let page, me, mocks, questionnaireId;
@@ -132,5 +223,32 @@ describe("CalculatedSummaryPreview", () => {
       }
     );
     expect(wrapper.find(byTestAttr("no-answers-selected"))).toBeTruthy();
+  });
+
+  it("should sort the summary answers based on the first selection and ensure that the display names and question titles match this order", () => {
+    const { getByTestId } = render(
+      <QuestionnaireContext.Provider value={{ questionnaire }}>
+        <MeContext.Provider value={{ me }}>
+          <CalculatedSummaryPreview
+            page={questionnaire.sections[0].folders[0].pages[2]}
+          />
+        </MeContext.Provider>
+        ,
+      </QuestionnaireContext.Provider>,
+      {
+        route: `/q/${questionnaireId}/page/9/preview`,
+        urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+        mocks,
+      }
+    );
+    expect(getByTestId("question-title-0")).toHaveTextContent("Page 2");
+
+    expect(getByTestId("answer-item-0")).toHaveTextContent("Answer 3");
+    expect(getByTestId("answer-item-1")).toHaveTextContent("Answer 4");
+
+    expect(getByTestId("question-title-1")).toHaveTextContent("Page 1");
+
+    expect(getByTestId("answer-item-2")).toHaveTextContent("Answer 1");
+    expect(getByTestId("answer-item-3")).toHaveTextContent("Answer 2");
   });
 });

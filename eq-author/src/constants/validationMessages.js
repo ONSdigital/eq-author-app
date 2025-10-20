@@ -149,10 +149,19 @@ export const questionDefinitionErrors = {
 };
 
 export const sectionErrors = {
-  SECTION_TITLE_NOT_ENTERED: "Enter a section title",
-  SUMMARY_TITLE_NOT_ENTERED: "Enter a summary title",
-  SECTION_INTRO_TITLE_NOT_ENTERED: "Enter an introduction title",
-  SECTION_INTRO_CONTENT_NOT_ENTERED: "Enter introduction content",
+  TITLE: {
+    ERR_REQUIRED_WHEN_SETTING: "Enter a section title",
+    SUMMARY_TITLE_NOT_ENTERED: "Enter a summary title",
+    PIPING_TITLE_DELETED: "The answer being piped has been deleted",
+  },
+  INTRO_TITLE: {
+    ERR_VALID_REQUIRED: "Enter an introduction title",
+    PIPING_TITLE_DELETED: "The answer being piped has been deleted",
+  },
+  INTRO_CONTENT: {
+    ERR_VALID_REQUIRED: "Enter introduction content",
+    PIPING_TITLE_DELETED: "The answer being piped has been deleted",
+  },
 };
 
 export const listErrors = {
@@ -169,6 +178,17 @@ export const pageDescriptionErrors = {
   ANOTHER_PAGE_DESCRIPTION_MISSING: "Page description required",
   ERR_UNIQUE_PAGE_DESCRIPTION:
     "The page description entered has already been used for another page. Enter a unique page description.",
+};
+
+export const textFieldErrors = {
+  ERR_MAX_LENGTH_TOO_LARGE: {
+    errorCode: "ERR_MAX_LENGTH_TOO_LARGE",
+    message: "Enter a character limit less than or equal to 100",
+  },
+  ERR_MAX_LENGTH_TOO_SMALL: {
+    errorCode: "ERR_MAX_LENGTH_TOO_SMALL",
+    message: "Enter a character limit greater than or equal to 8",
+  },
 };
 
 export const textAreaErrors = {
@@ -204,8 +224,12 @@ export const dynamicAnswer = {
   ERR_REFERENCE_MOVED: "Answer must be from a previous question",
 };
 
-export const QCODE_IS_NOT_UNIQUE = "Qcode must be unique";
-export const QCODE_REQUIRED = "Qcode required";
+export const QCODE_IS_NOT_UNIQUE =
+  "This Q code has been assigned to another answer type. Enter a unique Q code.";
+export const QCODE_REQUIRED = "Q code required";
+export const VALUE_IS_NOT_UNIQUE =
+  "This value has been assigned to another option for this answer type. Enter a unique value.";
+export const VALUE_REQUIRED = "Value required";
 export const QUESTION_ANSWER_NOT_SELECTED = "Answer required";
 export const CALCSUM_ANSWER_NOT_SELECTED =
   "Select at least two answers to be calculated";
@@ -326,6 +350,8 @@ export const destinationErrors = {
 export const SURVEY_ID_ERRORS = {
   ERR_VALID_REQUIRED: "Enter a survey ID",
   ERR_INVALID: "Enter a survey ID in the correct format",
+  ERR_SURVEY_ID_MISMATCH:
+    "The survey ID does not match the linked supplementary data schema",
 };
 
 export const FORM_TYPE_ERRORS = {

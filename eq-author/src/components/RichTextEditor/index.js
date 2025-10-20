@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
 import Editor from "draft-js-plugins-editor";
 import { EditorState, RichUtils, Modifier, CompositeDecorator } from "draft-js";
+import { stateFromHTML } from "draft-js-import-html";
 import "draft-js/dist/Draft.css";
 import createBlockBreakoutPlugin from "draft-js-block-breakout-plugin";
 
@@ -27,14 +28,17 @@ import { sharedStyles } from "components/Forms/css";
 import { Field, Label } from "components/Forms";
 import ValidationError from "components/ValidationError";
 
-import PasteModal, {
-  preserveRichFormatting,
-} from "components/modals/PasteModal";
+import PasteModal from "components/modals/PasteModal";
 
-const styleMap = {
-  ITALIC: {
-    backgroundColor: "#cbe2c8",
-  },
+import { colors } from "../../constants/theme";
+
+const styleMap = (controls) => {
+  return {
+    BOLD: {
+      backgroundColor: controls.highlight && colors.neonYellow,
+      fontWeight: controls.bold && "bold",
+    },
+  };
 };
 
 const heading = css`
@@ -158,7 +162,7 @@ class RichTextEditor extends React.Component {
       piping: PropTypes.bool,
       link: PropTypes.bool,
       bold: PropTypes.bool,
-      emphasis: PropTypes.bool,
+      highlight: PropTypes.bool,
       list: PropTypes.bool,
       heading: PropTypes.bool,
     }),
@@ -177,6 +181,7 @@ class RichTextEditor extends React.Component {
     linkCount: PropTypes.number,
     linkLimit: PropTypes.number,
     withoutMargin: PropTypes.bool,
+    isRepeatingSection: PropTypes.bool,
     allCalculatedSummaryPages: PropTypes.array, //eslint-disable-line
   };
 
@@ -370,8 +375,17 @@ class RichTextEditor extends React.Component {
   hasInlineStyle = (editorState, style) =>
     editorState.getCurrentInlineStyle().has(style);
 
-  isActiveControl = ({ style, type }) => {
+  isActiveControl = ({ id, style, type }) => {
     const { editorState } = this.state;
+    const { controls } = this.props;
+
+    // Displays bold and highlight buttons as inactive when the control is not enabled
+    if (
+      (id === "bold" && !controls.bold) ||
+      (id === "highlight" && !controls.highlight)
+    ) {
+      return false;
+    }
 
     return type === STYLE_BLOCK
       ? this.hasBlockStyle(editorState, style)
@@ -380,12 +394,12 @@ class RichTextEditor extends React.Component {
 
   state = { showPasteModal: false, text: "", multiline: false };
 
-  handlePaste = (text) => {
+  handlePaste = (text, html) => {
     if (/\s{2,}/g.test(text)) {
       this.setState({
         showPasteModal: true,
         multiline: false,
-        text: text,
+        text: html || text,
       });
     } else {
       this.handleChange(
@@ -403,12 +417,12 @@ class RichTextEditor extends React.Component {
     return "handled";
   };
 
-  handlePasteMultiline = (text) => {
+  handlePasteMultiline = (text, html) => {
     if (/\s{2,}/g.test(text)) {
       this.setState({
         showPasteModal: true,
         multiline: true,
-        text: text,
+        text: html || text,
       });
       return "handled";
     } else {
@@ -421,27 +435,76 @@ class RichTextEditor extends React.Component {
     const currentContent = editorState.getCurrentContent();
     const currentSelection = editorState.getSelection();
 
-    let modifiedText;
+    let newEditorState;
+    let processedText = text;
+
+    // Simple HTML sanitization function
+    const sanitizeHtml = (html) => {
+      const doc = new DOMParser().parseFromString(html, "text/html");
+      return doc.body.innerHTML;
+    };
+
+    // Sanitize the input HTML
+    const sanitizedHtml = sanitizeHtml(processedText);
 
     if (multiline) {
-      modifiedText = preserveRichFormatting(text);
+      // Process the text to remove multiple spaces
+      const div = document.createElement("div");
+      div.innerHTML = sanitizedHtml;
+      const walker = document.createTreeWalker(
+        div,
+        NodeFilter.SHOW_TEXT,
+        null,
+        false
+      );
+      while (walker.nextNode()) {
+        walker.currentNode.nodeValue = walker.currentNode.nodeValue.replace(
+          /\s+/g,
+          " "
+        );
+      }
+      processedText = div.innerHTML;
+
+      // Convert processed text from HTML to ContentState
+      const contentState = stateFromHTML(processedText);
+      const fragment = contentState.getBlockMap();
+
+      // Replace the selected text with the pasted content
+      const newContentState = Modifier.replaceWithFragment(
+        currentContent,
+        currentSelection,
+        fragment
+      );
+
+      // Create a new EditorState with the updated content
+      newEditorState = EditorState.push(
+        editorState,
+        newContentState,
+        "insert-characters"
+      );
     } else {
-      modifiedText = text.replace(/\n/g, " ").trim().replace(/\s+/g, " ");
+      // For single line pastes, replace multiple spaces with a single space
+      processedText = processedText
+        .replace(/\n/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+      const contentState = stateFromHTML(processedText);
+      const fragment = contentState.getBlockMap();
+
+      // Replace the selected text with the pasted content
+      const newContentState = Modifier.replaceWithFragment(
+        currentContent,
+        currentSelection,
+        fragment
+      );
+
+      // Create a new EditorState with the updated content
+      newEditorState = EditorState.push(
+        editorState,
+        newContentState,
+        "insert-characters"
+      );
     }
-
-    // Replace the selected text with the pasted content
-    const newContentState = Modifier.replaceText(
-      currentContent,
-      currentSelection,
-      modifiedText
-    );
-
-    // Create a new EditorState with the updated content
-    const newEditorState = EditorState.push(
-      editorState,
-      newContentState,
-      "insert-characters"
-    );
 
     // Set the new editor state and close the paste modal
     this.setState({
@@ -483,6 +546,7 @@ class RichTextEditor extends React.Component {
       linkLimit,
       withoutMargin,
       allCalculatedSummaryPages,
+      isRepeatingSection,
       ...otherProps
     } = this.props;
 
@@ -527,6 +591,7 @@ class RichTextEditor extends React.Component {
                 linkCount={linkCount}
                 linkLimit={linkLimit}
                 allCalculatedSummaryPages={allCalculatedSummaryPages}
+                isRepeatingSection={isRepeatingSection}
                 {...otherProps}
               />
 
@@ -536,7 +601,7 @@ class RichTextEditor extends React.Component {
                 editorState={editorState}
                 onChange={this.handleChange}
                 ref={this.setEditorInstance}
-                customStyleMap={styleMap}
+                customStyleMap={styleMap(this.props.controls)}
                 blockStyleFn={getBlockStyle}
                 handleReturn={multiline ? undefined : this.handleReturn}
                 handlePastedText={

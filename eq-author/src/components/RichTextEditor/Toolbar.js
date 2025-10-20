@@ -31,11 +31,11 @@ export const styleButtons = [
     style: "BOLD",
   },
   {
-    id: "emphasis",
+    id: "highlight",
     title: "Highlight",
     icon: iconEmphasis,
     type: STYLE_INLINE,
-    style: "ITALIC",
+    style: "BOLD", // BOLD style wraps text in strong tags - used for highlighting
   },
 ];
 
@@ -86,7 +86,7 @@ class ToolBar extends React.Component {
     selectionIsCollapsed: PropTypes.bool.isRequired,
     controls: PropTypes.shape({
       bold: PropTypes.bool,
-      emphasis: PropTypes.bool,
+      highlight: PropTypes.bool,
       heading: PropTypes.bool,
       list: PropTypes.bool,
       piping: PropTypes.bool,
@@ -102,6 +102,7 @@ class ToolBar extends React.Component {
     linkLimit: PropTypes.number,
     allCalculatedSummaryPages: PropTypes.array, //eslint-disable-line
     listId: PropTypes.string,
+    isRepeatingSection: PropTypes.bool,
   };
 
   renderButton = (button) => {
@@ -138,6 +139,7 @@ class ToolBar extends React.Component {
       linkLimit,
       allCalculatedSummaryPages,
       listId,
+      isRepeatingSection,
     } = this.props;
 
     const isPipingDisabled = !(piping && selectionIsCollapsed);
@@ -170,6 +172,7 @@ class ToolBar extends React.Component {
                 defaultTab={defaultTab}
                 allCalculatedSummaryPages={allCalculatedSummaryPages}
                 listId={listId}
+                isRepeatingSection={isRepeatingSection}
               />
             </>
           )}

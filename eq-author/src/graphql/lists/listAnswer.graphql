@@ -20,6 +20,7 @@ fragment ListAnswer on Answer {
   advancedProperties
   ... on BasicAnswer {
     secondaryQCode
+    limitCharacter
     options {
       id
       mutuallyExclusive
@@ -79,6 +80,7 @@ fragment ListAnswer on Answer {
       mutuallyExclusive
       label
       description
+      value
       validationErrorInfo {
         ...ValidationErrorInfo
       }

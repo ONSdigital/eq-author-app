@@ -14,6 +14,7 @@ import {
   CHECKBOX,
   DATE,
   SELECT,
+  MUTUALLY_EXCLUSIVE,
 } from "constants/answer-types";
 
 import { TEXT, TEXT_OPTIONAL } from "constants/metadata-types";
@@ -110,6 +111,7 @@ const ANSWER_TYPE_TO_RIGHT_EDITOR = {
   [RADIO]: MultipleChoiceAnswerOptionsSelector,
   [SELECT]: MultipleChoiceAnswerOptionsSelector,
   [CHECKBOX]: MultipleChoiceAnswerOptionsSelector,
+  [MUTUALLY_EXCLUSIVE]: MultipleChoiceAnswerOptionsSelector,
   [NUMBER]: NumberAnswerSelector,
   [PERCENTAGE]: NumberAnswerSelector,
   [CURRENCY]: NumberAnswerSelector,
@@ -189,9 +191,10 @@ export const UnwrappedBinaryExpressionEditor = ({
   const MetadataEditor =
     METADATA_TYPE_TO_RIGHT_EDITOR[expression?.left?.metadataType];
 
-  const shouldRenderEditor =
+  const shouldRenderEditor = Boolean(
     (AnswerEditor && !expression.left.reason && !answerPickerError) ||
-    MetadataEditor;
+      MetadataEditor
+  );
 
   const isLastExpression =
     expressionIndex === expressionGroup.expressions.length - 1;
@@ -211,6 +214,7 @@ export const UnwrappedBinaryExpressionEditor = ({
                 ? expression.left
                 : undefined
             }
+            expressionGroup={expressionGroup}
             onSubmit={handleLeftSideChange}
             selectedId={expression?.left?.id}
             data-test="routing-answer-picker"

@@ -59,7 +59,7 @@ const StyledCollapsible = styled(Collapsible)`
   margin-top: 1em;
 `;
 const titleControls = {
-  emphasis: true,
+  highlight: true,
   piping: true,
 };
 
@@ -148,6 +148,7 @@ const AddItemPageEditor = ({ fetchAnswers, page }) => {
             })
           }
           errorValidationMsg={getErrorMessage("title")}
+          size="large"
           controls={titleControls}
           allowableTypes={[ANSWER, METADATA, VARIABLES]}
           testSelector="add-item-question"

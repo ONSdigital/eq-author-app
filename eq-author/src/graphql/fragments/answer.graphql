@@ -10,4 +10,7 @@ fragment Answer on Answer {
   displayName
   qCode
   advancedProperties
+  page {
+    id
+  }
 }

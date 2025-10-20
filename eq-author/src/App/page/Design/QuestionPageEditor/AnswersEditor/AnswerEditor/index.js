@@ -139,7 +139,7 @@ class AnswerEditor extends React.Component {
     if (type === DATE_RANGE) {
       return <DateRange {...this.props} />;
     }
-    // Only option left is Date as validation done in prop types
+
     return (
       <DateSingle
         {...this.props}
