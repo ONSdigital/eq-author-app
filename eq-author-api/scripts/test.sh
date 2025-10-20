@@ -8,7 +8,7 @@ FIREBASE_PROJECT_ID=test-firebase-id
 
 echo "starting docker..."
 
-REDIS_CONTAINER_ID=$(docker run -tid -P redis:5-alpine)
+REDIS_CONTAINER_ID=$(docker run -tid -P redis:8.2.2-alpine)
 REDIS_PORT=$(docker port $REDIS_CONTAINER_ID 6379 | cut -d ':' -f 2)
 
 echo "redis start at: $REDIS_PORT"
