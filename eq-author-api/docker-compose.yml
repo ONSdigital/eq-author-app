@@ -51,7 +51,7 @@ services:
       - 8070:8080
 
   redis:
-    image: redis:5-alpine
+    image: redis:8.2.2-alpine
     ports:
       - 6379:6379
 
