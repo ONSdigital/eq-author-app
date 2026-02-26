@@ -15,7 +15,7 @@ steps:
           echo "*************************************************************"
         fi
 
-  - name: docker
+  - name: gcr.io/cloud-builders/docker
     id: build_and_push_author
     dir: eq-author
     entrypoint: sh
@@ -33,7 +33,7 @@ steps:
           echo "*************************************************************"
         fi
 
-  - name: docker
+  - name: gcr.io/cloud-builders/docker
     id: build_and_push_author_api
     dir: eq-author-api
     entrypoint: sh
