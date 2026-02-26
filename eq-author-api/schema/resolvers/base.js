@@ -1627,12 +1627,49 @@ const Resolvers = {
 
       const convertedQuestionnaire = convertedResponse.data;
 
+      const validatedResponse = await authorisedRequest(
+        `${process.env.AJV_VALIDATOR_URL}`,
+        null,
+        {
+          method: "POST",
+          body: JSON.stringify(convertedQuestionnaire),
+          headers: { "Content-Type": "application/json" },
+        }
+      ).catch((e) => {
+        publishResult.success = false;
+        publishResult.errorMessage = `Failed to connect to validator - ${e.message}`;
+        publishResult.displayErrorMessage = "Publish error, please try later";
+      });
+
+      if (publishResult.success === false) {
+        return ctx.questionnaire;
+      }
+
+      if (
+        validatedResponse.status === 200 &&
+        validatedResponse.data.success === false
+      ) {
+        publishResult.success = false;
+        publishResult.errorMessage = `Questionnaire validation failed`;
+        publishResult.displayErrorMessage = "Contact eQ services team";
+        return ctx.questionnaire;
+      }
+
+      if (validatedResponse.status !== 200) {
+        publishResult.success = false;
+        publishResult.errorMessage = `Validator returned non-200 error`;
+        publishResult.displayErrorMessage = "Contact eQ services team";
+        return ctx.questionnaire;
+      }
+
+      const validatedQuestionnaire = validatedResponse.data;
+
       await authorisedRequest(
         `${process.env.CIR_PUBLISH_SCHEMA_GATEWAY}publish_collection_instrument`,
         process.env.CIR_PUBLISH_SCHEMA_GATEWAY_AUDIENCE,
         {
           method: "POST",
-          body: JSON.stringify(convertedQuestionnaire),
+          body: JSON.stringify(validatedQuestionnaire),
           headers: { "Content-Type": "application/json" },
         }
       )

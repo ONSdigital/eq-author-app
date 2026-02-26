@@ -139,9 +139,112 @@ describe("publish schema", () => {
     ]);
   });
 
-  it("should handle error if there is an error fetching CIR API gateway", async () => {
-    // Mocks conversion fetch followed by API gateway rejected value
+  it("should handle error if there is an error fetching from Validator", async () => {
+    // Mocks conversion fetch followed by validator rejected value
     fetch
+      .mockResolvedValueOnce({
+        status: 200,
+        json: () => ({
+          survey_id: "123", // eslint-disable-line
+        }),
+      })
+      .mockRejectedValueOnce(new Error("Test error"));
+
+    await publishSchema(ctx);
+
+    expect(ctx.questionnaire.publishHistory).toEqual([
+      {
+        id: expect.any(String),
+        surveyId: "123",
+        formType: "",
+        publishDate: expect.any(Date),
+        success: false,
+        errorMessage: "Failed to connect to validator - Test error",
+        displayErrorMessage: "Publish error, please try later",
+      },
+    ]);
+  });
+
+  it("should handle error if there is an error fetching from Validator with 200 response", async () => {
+    // Mocks conversion fetch followed by validator rejected value
+    fetch
+      .mockResolvedValueOnce({
+        status: 200,
+        json: () => ({
+          survey_id: "123", // eslint-disable-line
+        }),
+      })
+      .mockResolvedValueOnce({
+        status: 200,
+        json: () => ({
+          success: false,
+          errors: [
+            {
+              instancePath: "",
+              schemaPath: "#/required",
+              keyword: "required",
+              params: {
+                missingProperty: "survey_id",
+              },
+              message: "must have required property 'survey_id'",
+            },
+          ],
+        }),
+      });
+
+    await publishSchema(ctx);
+
+    expect(ctx.questionnaire.publishHistory).toEqual([
+      {
+        id: expect.any(String),
+        surveyId: "123",
+        formType: "",
+        publishDate: expect.any(Date),
+        success: false,
+        errorMessage: "Questionnaire validation failed",
+        displayErrorMessage: "Contact eQ services team",
+      },
+    ]);
+  });
+
+  it("should handle error if there is an error fetching from Validator with non 200 response", async () => {
+    // Mocks conversion fetch followed by validator rejected value
+    fetch
+      .mockResolvedValueOnce({
+        status: 200,
+        json: () => ({
+          survey_id: "123", // eslint-disable-line
+        }),
+      })
+      .mockResolvedValueOnce({
+        status: 404,
+        json: () => ({}),
+      });
+
+    await publishSchema(ctx);
+
+    expect(ctx.questionnaire.publishHistory).toEqual([
+      {
+        id: expect.any(String),
+        surveyId: "123",
+        formType: "",
+        publishDate: expect.any(Date),
+        success: false,
+        errorMessage: "Validator returned non-200 error",
+        displayErrorMessage: "Contact eQ services team",
+      },
+    ]);
+  });
+
+  it("should handle error if there is an error fetching CIR API gateway", async () => {
+    // Mocks conversion fetch, then mocks validator fetch, followed by API gateway rejected value
+    fetch
+      .mockResolvedValueOnce({
+        status: 200,
+        json: () => ({
+          survey_id: "123", // eslint-disable-line
+        }),
+      })
       .mockResolvedValueOnce({
         status: 200,
         json: () => ({
