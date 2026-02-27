@@ -1672,7 +1672,7 @@ const Resolvers = {
         return questionnaireMetadata.publishHistory;
       }
 
-      const validatedQuestionnaire = validatedResponse.data;
+      const validatedQuestionnaire = convertedQuestionnaire;
 
       await authorisedRequest(
         `${process.env.CIR_PUBLISH_SCHEMA_GATEWAY}publish_collection_instrument?guid=${ctx.questionnaire.questionnnaireVersionId}&validator_version=0.0.0`,
