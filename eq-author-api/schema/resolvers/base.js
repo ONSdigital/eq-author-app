@@ -1630,7 +1630,7 @@ const Resolvers = {
       const convertedQuestionnaire = convertedResponse.data;
 
       await authorisedRequest(
-        `${process.env.CIR_PUBLISH_SCHEMA_GATEWAY}publish_collection_instrument`,
+        `${process.env.CIR_PUBLISH_SCHEMA_GATEWAY}publish_collection_instrument?guid=${ctx.questionnaire.questionnnaireVersionId}&validator_version=0.0.0`,
         process.env.CIR_PUBLISH_SCHEMA_GATEWAY_AUDIENCE,
         {
           method: "POST",
@@ -1643,6 +1643,7 @@ const Resolvers = {
             const responseJson = res.data;
             publishResult.cirId = responseJson.guid || null;
             publishResult.cirVersion = responseJson.ci_version || null;
+            publishResult.validatorVersion = responseJson.validator_version || null;
             publishResult.success = true;
           } else {
             publishResult.success = false;
