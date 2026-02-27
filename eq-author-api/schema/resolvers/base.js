@@ -1628,7 +1628,7 @@ const Resolvers = {
       const convertedQuestionnaire = convertedResponse.data;
 
       const validatedResponse = await authorisedRequest(
-        `${process.env.AJV_VALIDATOR_URL}`,
+        `${process.env.VALIDATOR_URL}`,
         null,
         {
           method: "POST",
