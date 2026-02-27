@@ -1,4 +1,3 @@
-
 const { buildContext } = require("../../tests/utils/contextBuilder");
 //const { saveMetadata } = require("../../db/datastore");
 
@@ -42,7 +41,6 @@ describe("publish schema", () => {
   });
 
   it("should return a successful publish result", async () => {
-
     expect(await publishSchema(ctx)).toEqual([
       {
         id: expect.any(String),
@@ -59,7 +57,6 @@ describe("publish schema", () => {
   });
 
   it("should add to publishHistory if publishHistory is defined", async () => {
-
     await publishSchema(ctx);
 
     expect(await publishSchema(ctx)).toEqual([
@@ -149,17 +146,17 @@ describe("publish schema", () => {
       })
       .mockRejectedValueOnce(new Error("Test error"));
 
-    await publishSchema(ctx);
-
-    expect(ctx.questionnaire.publishHistory).toEqual([
+    expect(await publishSchema(ctx)).toEqual([
       {
         id: expect.any(String),
         surveyId: "123",
         formType: "",
-        publishDate: expect.any(Date),
+        publishDate: expect.any(String),
         success: false,
         errorMessage: "Failed to connect to validator - Test error",
         displayErrorMessage: "Publish error, please try later",
+        cirId: null,
+        cirVersion: null,
       },
     ]);
   });
@@ -191,17 +188,17 @@ describe("publish schema", () => {
         }),
       });
 
-    await publishSchema(ctx);
-
-    expect(ctx.questionnaire.publishHistory).toEqual([
+    expect(await publishSchema(ctx)).toEqual([
       {
         id: expect.any(String),
         surveyId: "123",
         formType: "",
-        publishDate: expect.any(Date),
+        publishDate: expect.any(String),
         success: false,
         errorMessage: "Questionnaire validation failed",
         displayErrorMessage: "Contact eQ services team",
+        cirId: null,
+        cirVersion: null,
       },
     ]);
   });
@@ -220,17 +217,17 @@ describe("publish schema", () => {
         json: () => ({}),
       });
 
-    await publishSchema(ctx);
-
-    expect(ctx.questionnaire.publishHistory).toEqual([
+    expect(await publishSchema(ctx)).toEqual([
       {
         id: expect.any(String),
         surveyId: "123",
         formType: "",
-        publishDate: expect.any(Date),
+        publishDate: expect.any(String),
         success: false,
         errorMessage: "Validator returned non-200 error",
         displayErrorMessage: "Contact eQ services team",
+        cirId: null,
+        cirVersion: null,
       },
     ]);
   });
