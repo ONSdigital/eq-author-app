@@ -135,12 +135,6 @@ const transformedQuestionnaire = (sections, version) => {
     : new Date(version.createdAt);
   version.editors = version.editors || [];
 
-  version?.publishHistory?.forEach((publishHistoryEvent) => {
-    publishHistoryEvent.publishDate = publishHistoryEvent.publishDate.seconds
-      ? publishHistoryEvent.publishDate.toDate()
-      : new Date(publishHistoryEvent.publishDate);
-  });
-
   return {
     ...version,
     sections: newSections || [],
@@ -224,14 +218,12 @@ const getQuestionnaireMetaById = async (id) => {
       updatedAt: questionnaireSnapshot.data().updatedAt.toDate(),
       createdAt: questionnaireSnapshot.data().createdAt.toDate(),
     };
-    if (questionnaire.publishHistory) {
-      questionnaire.publishHistory = questionnaire.publishHistory.map((publishEvent) => ({
-        ...publishEvent,
-        publishDate: publishEvent.publishDate.seconds
-          ? publishEvent.publishDate.toDate()
-          : new Date(publishEvent.publishDate),
-      }))
-    }
+    questionnaire?.publishHistory?.forEach((publishHistoryEvent) => {
+    publishHistoryEvent.publishDate = publishHistoryEvent.publishDate.seconds
+      ? publishHistoryEvent.publishDate.toDate()
+      : new Date(publishHistoryEvent.publishDate);
+    });
+    
     return questionnaire;
   } catch (error) {
     logger.error(
