@@ -1,15 +1,13 @@
 mutation publishSchema {
   publishSchema {
-    publishHistory {
-      id
-      cirId
-      cirVersion
-      errorMessage
-      displayErrorMessage
-      formType
-      publishDate
-      success
-      surveyId
-    }
+    id
+    cirId
+    cirVersion
+    errorMessage
+    displayErrorMessage
+    formType
+    publishDate
+    success
+    surveyId
   }
 }
