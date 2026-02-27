@@ -4,61 +4,14 @@ const publishSchemaMutation = `
   mutation PublishSchema {
     publishSchema {
         id
-        title
-        shortTitle
-        displayName
-        description
-        navigation
-        type
-        surveyId
+        cirId
+        cirVersion
+        errorMessage
+        displayErrorMessage
         formType
-        eqId
-        theme
-        legalBasis
-        createdAt
-        createdBy {
-          id
-        }
-        sections {
-          id
-          folders {
-            id
-            pages {
-              id
-            }
-          }
-        }
-        summary
-        questionnaireInfo {
-          totalSectionCount
-        }
-        metadata {
-          id
-        }
-        introduction {
-          id
-          title
-          collapsibles {
-            id
-          }
-        }
-        submission {
-          id
-          furtherContent
-          viewPrintAnswers
-          feedback
-        }
-        publishHistory {
-            id
-            cirId
-            cirVersion
-            errorMessage
-            displayErrorMessage
-            formType
-            publishDate
-            success
-            surveyId
-        }
+        publishDate
+        success
+        surveyId
     }
   }
 `;

@@ -296,7 +296,7 @@ const Resolvers = {
     submission: (root, _, ctx) => ctx.questionnaire.submission,
     introduction: (root, _, ctx) => ctx.questionnaire.introduction,
     collectionLists: (_, args, ctx) => ctx.questionnaire.collectionLists,
-    publishHistory: (_, args, ctx) => ctx.questionnaire.publishHistory,
+    publishHistory: async (root, args, ctx ) => getQuestionnaireMetaById(ctx.questionnaire.id).then(({ publishHistory }) => publishHistory),
     list: (root, { input: { listId } }, ctx) =>
       find(ctx.questionnaire.collectionLists.lists, { id: listId }),
     supplementaryDataVersions: async (_, args) => {
@@ -1585,7 +1585,7 @@ const Resolvers = {
       delete section.displayConditions;
       return section;
     }),
-    publishSchema: createMutation(async (root, args, ctx) => {
+    publishSchema: async (_, args , ctx) =>  {
       const publishDate = new Date();
       const publishResult = {
         id: uuidv4(),
@@ -1593,11 +1593,11 @@ const Resolvers = {
         formType: ctx.questionnaire.formType,
         publishDate,
       };
-
-      if (ctx.questionnaire.publishHistory) {
-        ctx.questionnaire.publishHistory.push(publishResult);
+      const questionnaireMetadata = await getQuestionnaireMetaById(ctx.questionnaire.id);
+      if (questionnaireMetadata.publishHistory) {
+        questionnaireMetadata.publishHistory.push(publishResult);
       } else {
-        ctx.questionnaire.publishHistory = [publishResult];
+        questionnaireMetadata.publishHistory = [publishResult];
       }
 
       const convertedResponse = await authorisedRequest(
@@ -1615,20 +1615,22 @@ const Resolvers = {
       });
 
       if (publishResult.success === false) {
-        return ctx.questionnaire;
+        await saveMetadata(questionnaireMetadata);
+        return questionnaireMetadata.publishHistory;
       }
 
       if (convertedResponse.status !== 200) {
         publishResult.success = false;
         publishResult.errorMessage = `Publisher failed to convert questionnaire - ${convertedResponse.statusText}`;
         publishResult.displayErrorMessage = "Contact eQ services team";
-        return ctx.questionnaire;
+        await saveMetadata(questionnaireMetadata);
+        return questionnaireMetadata.publishHistory;
       }
 
       const convertedQuestionnaire = convertedResponse.data;
 
       await authorisedRequest(
-        `${process.env.CIR_PUBLISH_SCHEMA_GATEWAY}publish_collection_instrument`,
+        `${process.env.CIR_PUBLISH_SCHEMA_GATEWAY}publish_collection_instrument?guid=${ctx.questionnaire.questionnnaireVersionId}&validator_version=0.0.0`,
         process.env.CIR_PUBLISH_SCHEMA_GATEWAY_AUDIENCE,
         {
           method: "POST",
@@ -1639,8 +1641,9 @@ const Resolvers = {
         .then(async (res) => {
           if (res.status === 200) {
             const responseJson = res.data;
-            publishResult.cirId = responseJson.guid;
-            publishResult.cirVersion = responseJson.ci_version;
+            publishResult.cirId = responseJson.guid || null;
+            publishResult.cirVersion = responseJson.ci_version || null;
+            publishResult.validatorVersion = responseJson.validator_version || null;
             publishResult.success = true;
           } else {
             publishResult.success = false;
@@ -1653,9 +1656,9 @@ const Resolvers = {
           publishResult.errorMessage = `Failed to publish questionnaire - ${e.message}`;
           publishResult.displayErrorMessage = "Publish error, please try later";
         });
-
-      return ctx.questionnaire;
-    }),
+      await saveMetadata(questionnaireMetadata);
+      return questionnaireMetadata.publishHistory;
+    },
     updateSupplementaryData: createMutation(async (root, { input }, ctx) => {
       const { id, surveyId, version } = input;
       const url = `${process.env.SUPPLEMENTARY_DATA_GATEWAY}schema?survey_id=${surveyId}&version=${version}`;

@@ -135,12 +135,6 @@ const transformedQuestionnaire = (sections, version) => {
     : new Date(version.createdAt);
   version.editors = version.editors || [];
 
-  version?.publishHistory?.forEach((publishHistoryEvent) => {
-    publishHistoryEvent.publishDate = publishHistoryEvent.publishDate.seconds
-      ? publishHistoryEvent.publishDate.toDate()
-      : new Date(publishHistoryEvent.publishDate);
-  });
-
   return {
     ...version,
     sections: newSections || [],
@@ -168,6 +162,7 @@ const getQuestionnaire = async (id) => {
       }
 
       version = latestVersionSnapshot.data();
+      version.questionnnaireVersionId = latestVersionSnapshot.id
 
       if (version.documentStatus && version.documentStatus !== "clean") {
         await sleep(500);
@@ -223,6 +218,12 @@ const getQuestionnaireMetaById = async (id) => {
       updatedAt: questionnaireSnapshot.data().updatedAt.toDate(),
       createdAt: questionnaireSnapshot.data().createdAt.toDate(),
     };
+    questionnaire?.publishHistory?.forEach((publishHistoryEvent) => {
+    publishHistoryEvent.publishDate = publishHistoryEvent.publishDate.seconds
+      ? publishHistoryEvent.publishDate.toDate()
+      : new Date(publishHistoryEvent.publishDate);
+    });
+    
     return questionnaire;
   } catch (error) {
     logger.error(

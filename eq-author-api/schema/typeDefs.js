@@ -1162,7 +1162,7 @@ type Mutation {
   createListCollectorPage(input: CreateListCollectorPageInput!): ListCollectorPage
   updateListCollectorPage(input: UpdateListCollectorPageInput!): ListCollectorPage
   updateCommentsAsRead(input: UpdateCommentsAsReadInput!): [Comment]
-  publishSchema: Questionnaire!
+  publishSchema: [PublishHistoryEvent]
   updateSupplementaryData(input: UpdateSupplementaryDataInput!): SupplementaryData
   unlinkSupplementaryData: Questionnaire
 }
