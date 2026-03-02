@@ -63,6 +63,7 @@ const saveSections = (parentDoc, sections) =>
 const createQuestionnaire = async (questionnaire, ctx, imported) => {
   const updatedAt = new Date();
   const id = questionnaire.id ?? uuidv4();
+  const versionId = uuidv4();
   const { sections } = questionnaire;
 
   const historyArray = imported
@@ -78,6 +79,7 @@ const createQuestionnaire = async (questionnaire, ctx, imported) => {
 
   const versionQuestionnaire = removeEmpty({
     id,
+    versionId,
     ...questionnaire,
     updatedAt,
     sections: undefined,
@@ -86,7 +88,7 @@ const createQuestionnaire = async (questionnaire, ctx, imported) => {
   try {
     const baseDoc = db.collection("questionnaires").doc(id);
     await baseDoc.set(baseQuestionnaire);
-    const versionDoc = baseDoc.collection("versions").doc(uuidv4());
+    const versionDoc = baseDoc.collection("versions").doc(versionId);
     await versionDoc.set(versionQuestionnaire);
     await saveSections(versionDoc, sections);
   } catch (error) {
@@ -162,7 +164,9 @@ const getQuestionnaire = async (id) => {
       }
 
       version = latestVersionSnapshot.data();
-      version.questionnnaireVersionId = latestVersionSnapshot.id
+      if (!version.versionId) {
+        version.versionId = latestVersionSnapshot.id;
+      }
 
       if (version.documentStatus && version.documentStatus !== "clean") {
         await sleep(500);
@@ -180,8 +184,8 @@ const getQuestionnaire = async (id) => {
       !sectionsSnapshot || sectionsSnapshot.empty
         ? []
         : sectionsSnapshot.docs
-            .map((snap) => snap.data())
-            .sort(({ position: a }, { position: b }) => a - b);
+          .map((snap) => snap.data())
+          .sort(({ position: a }, { position: b }) => a - b);
 
     return transformedQuestionnaire(sections, version);
   } catch (error) {
@@ -219,11 +223,11 @@ const getQuestionnaireMetaById = async (id) => {
       createdAt: questionnaireSnapshot.data().createdAt.toDate(),
     };
     questionnaire?.publishHistory?.forEach((publishHistoryEvent) => {
-    publishHistoryEvent.publishDate = publishHistoryEvent.publishDate.seconds
-      ? publishHistoryEvent.publishDate.toDate()
-      : new Date(publishHistoryEvent.publishDate);
+      publishHistoryEvent.publishDate = publishHistoryEvent.publishDate.seconds
+        ? publishHistoryEvent.publishDate.toDate()
+        : new Date(publishHistoryEvent.publishDate);
     });
-    
+
     return questionnaire;
   } catch (error) {
     logger.error(
@@ -234,22 +238,22 @@ const getQuestionnaireMetaById = async (id) => {
   }
 };
 
-const getQuestionnaireByVersionId = async (id, versionId) => {
+const getQuestionnaireByVersionId = async (versionId) => {
   try {
     const versionSnapshot = await db
-      .collection("questionnaires")
-      .doc(id)
-      .collection("versions")
-      .doc(versionId)
+      .collectionGroup("versions")
+      .where("versionId", "==", versionId)
       .get();
 
-    if (versionSnapshot.empty) {
+    const versionDoc = versionSnapshot.docs?.[0];
+
+    if (versionDoc.empty) {
       throw new Error(
         "Document doesn't exist (from getQuestionnaireByVersionId)"
       );
     }
 
-    const sectionsSnapshot = await versionSnapshot?.ref
+    const sectionsSnapshot = await versionDoc?.ref
       ?.collection("sections")
       ?.get();
 
@@ -257,13 +261,13 @@ const getQuestionnaireByVersionId = async (id, versionId) => {
       !sectionsSnapshot || sectionsSnapshot.empty
         ? []
         : sectionsSnapshot.docs
-            .map((snap) => snap.data())
-            .sort(({ position: a }, { position: b }) => a - b);
+          .map((snap) => snap.data())
+          .sort(({ position: a }, { position: b }) => a - b);
 
     logger.info(
       `getQuestionnaireByVersionId called on version with ID: ${versionId} in questionnaire with ID: ${id}`
     );
-    const version = versionSnapshot.data();
+    const version = versionDoc.data();
     return transformedQuestionnaire(sections, version);
   } catch (error) {
     logger.error(
@@ -312,7 +316,11 @@ const saveQuestionnaire = async (changedQuestionnaire) => {
       updatedAt,
     });
 
-    const versionDoc = baseDoc.collection("versions").doc(uuidv4());
+    const versionId = uuidv4();
+
+    const versionDoc = baseDoc.collection("versions").doc(versionId);
+
+    updatedQuestionnaire.versionId = versionId;
 
     await versionDoc.set({
       ...omit(updatedQuestionnaire, "sections"),
