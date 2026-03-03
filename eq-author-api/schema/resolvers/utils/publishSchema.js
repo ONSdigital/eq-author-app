@@ -115,10 +115,11 @@ const publishSchema = async (ctx) => {
         ctx.questionnaire.id
     );
 
-    if( !questionnaireMetadata.publishHistory ) {
-        questionnaireMetadata.publishHistory = [];
+    if (questionnaireMetadata.publishHistory) {
+        questionnaireMetadata.publishHistory.push(publishResult);
+    } else {
+        questionnaireMetadata.publishHistory = [publishResult];
     }
-    questionnaireMetadata.publishHistory.push(publishResult);
 
     try {
         const convertedQuestionnaire = await convertQuestionniare(
@@ -144,7 +145,7 @@ const publishSchema = async (ctx) => {
 
         // post to second gateway if enabled and first gateway publish was successful
         // The ci_vserion is added to the second post to ensure the CI in both environments caan be referenced by the same ci version number
-        if(process.env.CIR_PUBLISH_SCHEMA_GATEWAY_SECOND !== "nopublish" && publishResult.success) {
+        if (process.env.CIR_PUBLISH_SCHEMA_GATEWAY_SECOND !== "nopublish" && publishResult.success) {
             await postSchema(
                 convertedQuestionnaire,
                 process.env.CIR_PUBLISH_SCHEMA_GATEWAY_SECOND,
