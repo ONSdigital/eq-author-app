@@ -1630,7 +1630,7 @@ const Resolvers = {
       const convertedQuestionnaire = convertedResponse.data;
 
       await authorisedRequest(
-        `${process.env.CIR_PUBLISH_SCHEMA_GATEWAY}publish_collection_instrument?guid=${ctx.questionnaire.versionId}&validator_version=0.0.0`,
+        `${process.env.CIR_PUBLISH_SCHEMA_GATEWAY}publish_collection_instrument?guid=${ctx.questionnaire.questionnaireVersionId}&validator_version=0.0.0`,
         process.env.CIR_PUBLISH_SCHEMA_GATEWAY_AUDIENCE,
         {
           method: "POST",

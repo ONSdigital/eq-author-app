@@ -63,7 +63,7 @@ const saveSections = (parentDoc, sections) =>
 const createQuestionnaire = async (questionnaire, ctx, imported) => {
   const updatedAt = new Date();
   const id = questionnaire.id ?? uuidv4();
-  const versionId = uuidv4();
+  const questionnaireVersionId = uuidv4();
   const { sections } = questionnaire;
 
   const historyArray = imported
@@ -79,7 +79,7 @@ const createQuestionnaire = async (questionnaire, ctx, imported) => {
 
   const versionQuestionnaire = removeEmpty({
     id,
-    versionId,
+    questionnaireVersionId,
     ...questionnaire,
     updatedAt,
     sections: undefined,
@@ -88,7 +88,7 @@ const createQuestionnaire = async (questionnaire, ctx, imported) => {
   try {
     const baseDoc = db.collection("questionnaires").doc(id);
     await baseDoc.set(baseQuestionnaire);
-    const versionDoc = baseDoc.collection("versions").doc(versionId);
+    const versionDoc = baseDoc.collection("versions").doc(questionnaireVersionId);
     await versionDoc.set(versionQuestionnaire);
     await saveSections(versionDoc, sections);
   } catch (error) {
@@ -164,8 +164,8 @@ const getQuestionnaire = async (id) => {
       }
 
       version = latestVersionSnapshot.data();
-      if (!version.versionId) {
-        version.versionId = latestVersionSnapshot.id;
+      if (!version.questionnaireVersionId) {
+        version.questionnaireVersionId = latestVersionSnapshot.id;
       }
 
       if (version.documentStatus && version.documentStatus !== "clean") {
@@ -238,11 +238,11 @@ const getQuestionnaireMetaById = async (id) => {
   }
 };
 
-const getQuestionnaireByVersionId = async (versionId) => {
+const getQuestionnaireByVersionId = async (questionnaireVersionId) => {
   try {
     const versionSnapshot = await db
       .collectionGroup("versions")
-      .where("versionId", "==", versionId)
+      .where("questionnaireVersionId", "==", questionnaireVersionId)
       .get();
 
     const versionDoc = versionSnapshot.docs?.[0];
@@ -265,14 +265,14 @@ const getQuestionnaireByVersionId = async (versionId) => {
           .sort(({ position: a }, { position: b }) => a - b);
 
     logger.info(
-      `getQuestionnaireByVersionId called on version with ID: ${versionId} in questionnaire with ID: ${id}`
+      `getQuestionnaireByVersionId called on version with ID: ${questionnaireVersionId} in questionnaire with ID: ${id}`
     );
     const version = versionDoc.data();
     return transformedQuestionnaire(sections, version);
   } catch (error) {
     logger.error(
       error,
-      `Unable to get version with ID: ${versionId} in questionnaire with ID: ${id} (from getQuestionnaireByVersionId)`
+      `Unable to get version with ID: ${questionnaireVersionId} in questionnaire with ID: ${id} (from getQuestionnaireByVersionId)`
     );
     return null;
   }
@@ -316,11 +316,11 @@ const saveQuestionnaire = async (changedQuestionnaire) => {
       updatedAt,
     });
 
-    const versionId = uuidv4();
+    const questionnaireVersionId = uuidv4();
 
-    const versionDoc = baseDoc.collection("versions").doc(versionId);
+    const versionDoc = baseDoc.collection("versions").doc(questionnaireVersionId);
 
-    updatedQuestionnaire.versionId = versionId;
+    updatedQuestionnaire.questionnaireVersionId = questionnaireVersionId;
 
     await versionDoc.set({
       ...omit(updatedQuestionnaire, "sections"),

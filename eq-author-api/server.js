@@ -199,7 +199,7 @@ const createApp = () => {
       );
   }
   app.get(
-    "/export/:questionnaireId/version/:versionId",
+    "/export/:questionnaireId/version/:questionnaireVersionId",
     exportQuestionnaireByVersionId
   );
 
