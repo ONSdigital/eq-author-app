@@ -167,7 +167,6 @@ const publishSchema = async (ctx) => {
         if (!publishResult.success) {
             logger.error(publishResult.errorMessage, "Publish failed");
         }
-        logger.info(questionnaireMetadata, "Updated publish history for questionnaire");
         await saveMetadata(questionnaireMetadata);
         return questionnaireMetadata.publishHistory;
     }
