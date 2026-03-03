@@ -144,7 +144,7 @@ const publishSchema = async (ctx) => {
         logger.info(publishResult, `publish questionnaire with version id ${ctx.questionnaire.questionnaireVersionId}  - posted to first CIR gateway`);
 
         // post to second gateway if enabled and first gateway publish was successful
-        // The ci_vserion is added to the second post to ensure the CI in both environments caan be referenced by the same ci version number
+        // The ci_vserion is added to the second post to ensure the CI in both environments can be referenced by the same ci version number
         if (process.env.CIR_PUBLISH_SCHEMA_GATEWAY_SECOND !== "nopublish" && publishResult.success) {
             await postSchema(
                 convertedQuestionnaire,
