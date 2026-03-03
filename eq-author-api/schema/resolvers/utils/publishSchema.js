@@ -155,12 +155,12 @@ const publishSchema = async (ctx) => {
         }
         logger.info(publishResult, `publish questionnaire with version id ${ctx.questionnaire.questionnaireVersionId}  - posted to second CIR gateway`);
 
-        //check CIR id matches the versionId to ensure the correct CI has been published
-        if(publishResult.cirId !== ctx.questionnaire.questionnaireVersionId) {
+        //check CIR id matches the versionId to ensure the correct CI has been published, commented out until CIR complete thier work to return the GUID
+        /* if(publishResult.cirId !== ctx.questionnaire.questionnaireVersionId) {
             publishResult.success = false;
             publishResult.errorMessage = `CIR gateway did not return expected guid - expected ${ctx.questionnaire.questionnaireVersionId} but got ${publishResult.cirId}`;
             publishResult.displayErrorMessage = "Contact eQ services team";
-        }
+        } */
     }
     finally {
         if (!publishResult.success) {
