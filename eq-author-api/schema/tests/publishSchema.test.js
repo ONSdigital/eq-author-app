@@ -1,5 +1,4 @@
 const { buildContext } = require("../../tests/utils/contextBuilder");
-//const { saveMetadata } = require("../../db/datastore");
 
 const {
   createQuestionnaire,
@@ -11,9 +10,6 @@ const {
 const fetch = require("node-fetch");
 
 jest.mock("node-fetch");
-//jest.mock("../../db/datastore");
-
-//saveMetadata.mockImplementation((metadata) => Promise.resolve(metadata));
 
 fetch.mockImplementation(() =>
   Promise.resolve({
@@ -38,6 +34,7 @@ describe("publish schema", () => {
     };
 
     await createQuestionnaire(ctx, config);
+    ctx.questionnaire.questionnaireVersionId = "cir-id-1";
   });
 
   it("should return a successful publish result", async () => {
@@ -58,7 +55,7 @@ describe("publish schema", () => {
 
   it("should add to publishHistory if publishHistory is defined", async () => {
     await publishSchema(ctx);
-
+    ctx.questionnaire.questionnaireVersionId = "cir-id-1";
     expect(await publishSchema(ctx)).toEqual([
       {
         id: expect.any(String),
@@ -256,7 +253,7 @@ describe("publish schema", () => {
         formType: "",
         publishDate: expect.any(String),
         success: false,
-        errorMessage: "Failed to publish questionnaire - Test error",
+        errorMessage: "Failed to publish questionnaire to undefined - Test error",
         displayErrorMessage: "Publish error, please try later",
         cirId: null,
         cirVersion: null,

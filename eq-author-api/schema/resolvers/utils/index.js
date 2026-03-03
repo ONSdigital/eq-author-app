@@ -10,6 +10,7 @@ const listGetters = require("./listGetters");
 const setDataVersion = require("./setDataVersion");
 const supplemntaryDataGetters = require("./supplementaryDataGetters");
 const authorisedRequest = require("./authorisedRequest");
+const publishSchema = require("./publishSchema");
 
 module.exports = {
   ...logicGetters,
@@ -24,4 +25,5 @@ module.exports = {
   ...setDataVersion,
   ...supplemntaryDataGetters,
   ...authorisedRequest,
+  ...publishSchema,
 };
