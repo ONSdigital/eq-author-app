@@ -211,7 +211,7 @@ const getQuestionnaireMetaById = async (id) => {
       ...questionnaireSnapshot.data(),
       history: questionnaireSnapshot.data().history.map((historyItem) => ({
         ...historyItem,
-        time: historyItem.time.seconds
+        time: historyItem.time.seconds || historyItem.time._seconds
           ? historyItem.time.toDate()
           : new Date(historyItem.time),
       })),
