@@ -296,7 +296,10 @@ const Resolvers = {
     submission: (root, _, ctx) => ctx.questionnaire.submission,
     introduction: (root, _, ctx) => ctx.questionnaire.introduction,
     collectionLists: (_, args, ctx) => ctx.questionnaire.collectionLists,
-    publishHistory: async (root, args, ctx ) => getQuestionnaireMetaById(ctx.questionnaire.id).then(({ publishHistory }) => publishHistory),
+    publishHistory: async (root, args, ctx) =>
+      getQuestionnaireMetaById(ctx.questionnaire.id).then(
+        ({ publishHistory }) => publishHistory
+      ),
     list: (root, { input: { listId } }, ctx) =>
       find(ctx.questionnaire.collectionLists.lists, { id: listId }),
     supplementaryDataVersions: async (_, args) => {
@@ -1585,7 +1588,7 @@ const Resolvers = {
       delete section.displayConditions;
       return section;
     }),
-    publishSchema: async (_, args , ctx) =>  {
+    publishSchema: async (_, args, ctx) => {
       const publishDate = new Date();
       const publishResult = {
         id: uuidv4(),
@@ -1593,7 +1596,9 @@ const Resolvers = {
         formType: ctx.questionnaire.formType,
         publishDate,
       };
-      const questionnaireMetadata = await getQuestionnaireMetaById(ctx.questionnaire.id);
+      const questionnaireMetadata = await getQuestionnaireMetaById(
+        ctx.questionnaire.id
+      );
       if (questionnaireMetadata.publishHistory) {
         questionnaireMetadata.publishHistory.push(publishResult);
       } else {
@@ -1629,12 +1634,52 @@ const Resolvers = {
 
       const convertedQuestionnaire = convertedResponse.data;
 
+      const validatedResponse = await authorisedRequest(
+        `${process.env.VALIDATOR_URL}`,
+        null,
+        {
+          method: "POST",
+          body: JSON.stringify(convertedQuestionnaire),
+          headers: { "Content-Type": "application/json" },
+        }
+      ).catch((e) => {
+        publishResult.success = false;
+        publishResult.errorMessage = `Failed to connect to validator - ${e.message}`;
+        publishResult.displayErrorMessage = "Publish error, please try later";
+      });
+
+      if (publishResult.success === false) {
+        await saveMetadata(questionnaireMetadata);
+        return questionnaireMetadata.publishHistory;
+      }
+
+      if (
+        validatedResponse.status === 200 &&
+        validatedResponse.data.success === false
+      ) {
+        publishResult.success = false;
+        publishResult.errorMessage = `Questionnaire validation failed`;
+        publishResult.displayErrorMessage = "Contact eQ services team";
+        await saveMetadata(questionnaireMetadata);
+        return questionnaireMetadata.publishHistory;
+      }
+
+      if (validatedResponse.status !== 200) {
+        publishResult.success = false;
+        publishResult.errorMessage = `Validator returned non-200 error`;
+        publishResult.displayErrorMessage = "Contact eQ services team";
+        await saveMetadata(questionnaireMetadata);
+        return questionnaireMetadata.publishHistory;
+      }
+
+      const validatedQuestionnaire = convertedQuestionnaire;
+
       await authorisedRequest(
         `${process.env.CIR_PUBLISH_SCHEMA_GATEWAY}publish_collection_instrument?guid=${ctx.questionnaire.questionnnaireVersionId}&validator_version=0.0.0`,
         process.env.CIR_PUBLISH_SCHEMA_GATEWAY_AUDIENCE,
         {
           method: "POST",
-          body: JSON.stringify(convertedQuestionnaire),
+          body: JSON.stringify(validatedQuestionnaire),
           headers: { "Content-Type": "application/json" },
         }
       )
@@ -1643,7 +1688,8 @@ const Resolvers = {
             const responseJson = res.data;
             publishResult.cirId = responseJson.guid || null;
             publishResult.cirVersion = responseJson.ci_version || null;
-            publishResult.validatorVersion = responseJson.validator_version || null;
+            publishResult.validatorVersion =
+              responseJson.validator_version || null;
             publishResult.success = true;
           } else {
             publishResult.success = false;
