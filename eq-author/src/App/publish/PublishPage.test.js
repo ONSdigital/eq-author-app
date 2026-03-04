@@ -152,12 +152,10 @@ describe("onCompleted callback in useMutation", () => {
   it("should show 'Publish successful' when latest publish entry is successful", () => {
     renderWithToast();
     const data = {
-      publishSchema: {
-        publishHistory: [
+      publishSchema: [
           { id: "1", success: false },
           { id: "2", success: true },
         ],
-      },
     };
     onCompletedCallback(data);
     expect(showToastMock).toHaveBeenCalledWith("Publish successful");
@@ -166,12 +164,10 @@ describe("onCompleted callback in useMutation", () => {
   it("should show 'Publish failed' when latest publish entry is not successful", () => {
     renderWithToast();
     const data = {
-      publishSchema: {
-        publishHistory: [
-          { id: "1", success: true },
-          { id: "2", success: false },
-        ],
-      },
+      publishSchema: [
+        { id: "1", success: true },
+        { id: "2", success: false },
+      ],
     };
     onCompletedCallback(data);
     expect(showToastMock).toHaveBeenCalledWith("Publish failed");

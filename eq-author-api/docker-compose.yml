@@ -26,7 +26,8 @@ services:
       - VALIDATOR_URL=http://host.docker.internal:5001/validate
       - SURVEY_REGISTER_URL=http://host.docker.internal:8080/submit
       - SUPPLEMENTARY_DATA_GATEWAY=https://sds-api-mock-gateway-74jbrn8r.nw.gateway.dev/
-      - CIR_PUBLISH_SCHEMA_GATEWAY=https://cir-api-mock-gateway-aomfyks5.nw.gateway.dev/
+      - CIR_PUBLISH_SCHEMA_GATEWAY_FIRST=https://cir-api-mock-gateway-aomfyks5.nw.gateway.dev/
+      - CIR_PUBLISH_SCHEMA_GATEWAY_SECOND=https://cir-api-mock-gateway-aomfyks5.nw.gateway.dev/
       - ENABLE_IMPORT=true
       - JAEGER_SERVICE_NAME=eq_author_api
       - JAEGER_ENDPOINT=http://jaeger:14268/api/traces
