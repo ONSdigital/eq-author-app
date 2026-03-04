@@ -1,6 +1,7 @@
 const {
     getQuestionnaireMetaById,
     saveMetadata,
+    getQuestionnaireByVersionId,
 } = require("../../../db/datastore");
 const {
     authorisedRequest,
@@ -173,6 +174,89 @@ const publishSchema = async (ctx) => {
 
 }
 
+
+const republishSchema = async (questionnaireVersionId, cirVersion) => {
+    const publishDate = new Date();
+    const publishResult = {
+        id: uuidv4(),
+        publishDate,
+    };
+
+    if (!cirVersion) {
+        publishResult.success = false;
+        publishResult.errorMessage = `CIR version is required for republish`;
+        publishResult.displayErrorMessage = "Republish error, please try later";
+        logger.error(publishResult.errorMessage, "Republish failed");
+        return publishResult;
+    }
+
+    const questionnaire = await getQuestionnaireByVersionId(questionnaireVersionId);
+
+    if (!questionnaire) {
+        publishResult.success = false;
+        publishResult.errorMessage = `Questionnaire with version id ${questionnaireVersionId} not found`;
+        publishResult.displayErrorMessage = "Republish error, please try later";
+        logger.error(publishResult.errorMessage, "Republish failed");
+        return publishResult;
+    }
+
+    publishResult.surveyId = questionnaire.surveyId;
+    publishResult.formType = questionnaire.formType;
+
+    const questionnaireMetadata = await getQuestionnaireMetaById(
+        questionnaire.id
+    );
+
+    if (questionnaireMetadata.publishHistory) {
+        questionnaireMetadata.publishHistory.push(publishResult);
+    } else {
+        questionnaireMetadata.publishHistory = [publishResult];
+    }
+
+    try {
+        const convertedQuestionnaire = await convertQuestionniare(
+            questionnaire,
+            publishResult
+        );
+        logger.info(`republish questionnaire with version id ${questionnaire.questionnaireVersionId}  - converted`);
+
+        await validateQuestionnaire(
+            convertedQuestionnaire,
+            publishResult
+        );
+        logger.info(`republish questionnaire with version id ${questionnaire.questionnaireVersionId}  - validated`);
+
+        await postSchema(
+            convertedQuestionnaire,
+            process.env.CIR_PUBLISH_SCHEMA_GATEWAY_FIRST,
+            process.env.CIR_PUBLISH_SCHEMA_GATEWAY_AUDIENCE_FIRST,
+            `guid=${questionnaire.questionnaireVersionId}&validator_version=0.0.0&&ci_version=${cirVersion}`,
+            publishResult
+        );
+        logger.info(publishResult, `republish questionnaire with version id ${questionnaire.questionnaireVersionId}  - posted to first CIR gateway`);
+
+        if (process.env.CIR_PUBLISH_SCHEMA_GATEWAY_SECOND !== "nopublish" && publishResult.success) {
+            await postSchema(
+                convertedQuestionnaire,
+                process.env.CIR_PUBLISH_SCHEMA_GATEWAY_SECOND,
+                process.env.CIR_PUBLISH_SCHEMA_GATEWAY_AUDIENCE_SECOND,
+                `guid=${questionnaire.questionnaireVersionId}&validator_version=0.0.0&&ci_version=${cirVersion}`,
+                publishResult
+            );
+        }
+        logger.info(publishResult, `republish questionnaire with version id ${questionnaire.questionnaireVersionId}  - posted to second CIR gateway`);
+    }
+    finally {        
+        if (!publishResult.success) {
+            logger.error(publishResult.errorMessage, "Republish failed");
+        }
+        await saveMetadata(questionnaireMetadata);
+        return publishResult
+    }
+
+}
+
 module.exports = {
     publishSchema,
+    republishSchema
 };

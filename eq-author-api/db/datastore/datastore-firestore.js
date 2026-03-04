@@ -265,14 +265,14 @@ const getQuestionnaireByVersionId = async (questionnaireVersionId) => {
           .sort(({ position: a }, { position: b }) => a - b);
 
     logger.info(
-      `getQuestionnaireByVersionId called on version with ID: ${questionnaireVersionId} in questionnaire with ID: ${id}`
+      `getQuestionnaireByVersionId called on version with ID: ${questionnaireVersionId}`
     );
     const version = versionDoc.data();
     return transformedQuestionnaire(sections, version);
   } catch (error) {
     logger.error(
       error,
-      `Unable to get version with ID: ${questionnaireVersionId} in questionnaire with ID: ${id} (from getQuestionnaireByVersionId)`
+      `Unable to get version with ID: ${questionnaireVersionId})`
     );
     return null;
   }
