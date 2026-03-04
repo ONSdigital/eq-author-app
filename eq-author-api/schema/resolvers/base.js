@@ -80,6 +80,7 @@ const {
   setDataVersion,
   authorisedRequest,
   returnAllValidationErrors,
+  publishSchema
 } = require("./utils");
 
 const createAnswer = require("../../src/businessLogic/createAnswer");
@@ -296,7 +297,10 @@ const Resolvers = {
     submission: (root, _, ctx) => ctx.questionnaire.submission,
     introduction: (root, _, ctx) => ctx.questionnaire.introduction,
     collectionLists: (_, args, ctx) => ctx.questionnaire.collectionLists,
-    publishHistory: async (root, args, ctx ) => getQuestionnaireMetaById(ctx.questionnaire.id).then(({ publishHistory }) => publishHistory),
+    publishHistory: async (root, args, ctx) =>
+      getQuestionnaireMetaById(ctx.questionnaire.id).then(
+        ({ publishHistory }) => publishHistory
+      ),
     list: (root, { input: { listId } }, ctx) =>
       find(ctx.questionnaire.collectionLists.lists, { id: listId }),
     supplementaryDataVersions: async (_, args) => {
@@ -1585,6 +1589,7 @@ const Resolvers = {
       delete section.displayConditions;
       return section;
     }),
+<<<<<<< HEAD
     publishSchema: async (_, args , ctx) =>  {
       const publishDate = new Date();
       const publishResult = {
@@ -1658,6 +1663,10 @@ const Resolvers = {
         });
       await saveMetadata(questionnaireMetadata);
       return questionnaireMetadata.publishHistory;
+=======
+    publishSchema: async (_, args, ctx) => {
+      return publishSchema(ctx);
+>>>>>>> master
     },
     updateSupplementaryData: createMutation(async (root, { input }, ctx) => {
       const { id, surveyId, version } = input;

@@ -1,6 +1,4 @@
-
 const { buildContext } = require("../../tests/utils/contextBuilder");
-//const { saveMetadata } = require("../../db/datastore");
 
 const {
   createQuestionnaire,
@@ -12,9 +10,6 @@ const {
 const fetch = require("node-fetch");
 
 jest.mock("node-fetch");
-//jest.mock("../../db/datastore");
-
-//saveMetadata.mockImplementation((metadata) => Promise.resolve(metadata));
 
 fetch.mockImplementation(() =>
   Promise.resolve({
@@ -39,10 +34,10 @@ describe("publish schema", () => {
     };
 
     await createQuestionnaire(ctx, config);
+    ctx.questionnaire.questionnaireVersionId = "cir-id-1";
   });
 
   it("should return a successful publish result", async () => {
-
     expect(await publishSchema(ctx)).toEqual([
       {
         id: expect.any(String),
@@ -59,9 +54,8 @@ describe("publish schema", () => {
   });
 
   it("should add to publishHistory if publishHistory is defined", async () => {
-
     await publishSchema(ctx);
-
+    ctx.questionnaire.questionnaireVersionId = "cir-id-1";
     expect(await publishSchema(ctx)).toEqual([
       {
         id: expect.any(String),
@@ -138,8 +132,8 @@ describe("publish schema", () => {
     ]);
   });
 
-  it("should handle error if there is an error fetching CIR API gateway", async () => {
-    // Mocks conversion fetch followed by API gateway rejected value
+  it("should handle error if there is an error fetching from Validator", async () => {
+    // Mocks conversion fetch followed by validator rejected value
     fetch
       .mockResolvedValueOnce({
         status: 200,
@@ -156,7 +150,110 @@ describe("publish schema", () => {
         formType: "",
         publishDate: expect.any(String),
         success: false,
-        errorMessage: "Failed to publish questionnaire - Test error",
+        errorMessage: "Failed to connect to validator - Test error",
+        displayErrorMessage: "Publish error, please try later",
+        cirId: null,
+        cirVersion: null,
+      },
+    ]);
+  });
+
+  it("should handle error if there is an error fetching from Validator with 200 response", async () => {
+    // Mocks conversion fetch followed by validator rejected value
+    fetch
+      .mockResolvedValueOnce({
+        status: 200,
+        json: () => ({
+          survey_id: "123", // eslint-disable-line
+        }),
+      })
+      .mockResolvedValueOnce({
+        status: 200,
+        json: () => ({
+          success: false,
+          errors: [
+            {
+              instancePath: "",
+              schemaPath: "#/required",
+              keyword: "required",
+              params: {
+                missingProperty: "survey_id",
+              },
+              message: "must have required property 'survey_id'",
+            },
+          ],
+        }),
+      });
+
+    expect(await publishSchema(ctx)).toEqual([
+      {
+        id: expect.any(String),
+        surveyId: "123",
+        formType: "",
+        publishDate: expect.any(String),
+        success: false,
+        errorMessage: "Questionnaire validation failed",
+        displayErrorMessage: "Contact eQ services team",
+        cirId: null,
+        cirVersion: null,
+      },
+    ]);
+  });
+
+  it("should handle error if there is an error fetching from Validator with non 200 response", async () => {
+    // Mocks conversion fetch followed by validator rejected value
+    fetch
+      .mockResolvedValueOnce({
+        status: 200,
+        json: () => ({
+          survey_id: "123", // eslint-disable-line
+        }),
+      })
+      .mockResolvedValueOnce({
+        status: 404,
+        json: () => ({}),
+      });
+
+    expect(await publishSchema(ctx)).toEqual([
+      {
+        id: expect.any(String),
+        surveyId: "123",
+        formType: "",
+        publishDate: expect.any(String),
+        success: false,
+        errorMessage: "Validator returned non-200 error",
+        displayErrorMessage: "Contact eQ services team",
+        cirId: null,
+        cirVersion: null,
+      },
+    ]);
+  });
+
+  it("should handle error if there is an error fetching CIR API gateway", async () => {
+    // Mocks conversion fetch, then mocks validator fetch, followed by API gateway rejected value
+    fetch
+      .mockResolvedValueOnce({
+        status: 200,
+        json: () => ({
+          survey_id: "123", // eslint-disable-line
+        }),
+      })
+      .mockResolvedValueOnce({
+        status: 200,
+        json: () => ({
+          survey_id: "123", // eslint-disable-line
+        }),
+      })
+      .mockRejectedValueOnce(new Error("Test error"));
+
+    expect(await publishSchema(ctx)).toEqual([
+      {
+        id: expect.any(String),
+        surveyId: "123",
+        formType: "",
+        publishDate: expect.any(String),
+        success: false,
+        errorMessage: "Failed to publish questionnaire to undefined - Test error",
         displayErrorMessage: "Publish error, please try later",
         cirId: null,
         cirVersion: null,
