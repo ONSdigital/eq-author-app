@@ -164,13 +164,9 @@ const getQuestionnaire = async (id) => {
       }
 
       version = latestVersionSnapshot.data();
-<<<<<<< HEAD
       if (!version.questionnaireVersionId) {
         version.questionnaireVersionId = latestVersionSnapshot.id;
       }
-=======
-      version.questionnaireVersionId = latestVersionSnapshot.id
->>>>>>> master
 
       if (version.documentStatus && version.documentStatus !== "clean") {
         await sleep(500);
