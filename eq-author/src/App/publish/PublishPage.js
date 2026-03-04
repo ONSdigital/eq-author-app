@@ -59,7 +59,7 @@ const PublishPage = () => {
   const [publishSchema] = useMutation(PUBLISH_SCHEMA, {
     refetchQueries: ["GetPublishHistory"],
     onCompleted: (data) => {
-      const history = data?.publishSchema?.publishHistory;
+      const history = data?.publishSchema;
       const latestEntry = history && history[history.length - 1];
       if (latestEntry && !latestEntry.success) {
         showToast("Publish failed");
