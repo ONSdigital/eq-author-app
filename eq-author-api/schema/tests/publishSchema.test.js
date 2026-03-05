@@ -1,11 +1,8 @@
 const { buildContext } = require("../../tests/utils/contextBuilder");
 
-const {
-  createQuestionnaire,
-} = require("../../tests/utils/contextBuilder/questionnaire");
-const {
-  publishSchema,
-} = require("../../tests/utils/contextBuilder/publishSchema/publishSchema");
+const { createQuestionnaire } = require("../../tests/utils/contextBuilder/questionnaire");
+const { publishSchema } = require("../../tests/utils/contextBuilder/publishSchema");
+const { republishSchema } = require("../resolvers/utils");
 
 const fetch = require("node-fetch");
 
@@ -34,7 +31,6 @@ describe("publish schema", () => {
     };
 
     await createQuestionnaire(ctx, config);
-    ctx.questionnaire.questionnaireVersionId = "cir-id-1";
   });
 
   it("should return a successful publish result", async () => {
@@ -260,4 +256,70 @@ describe("publish schema", () => {
       },
     ]);
   });
+});
+
+describe("republish schema", () => {
+  let ctx, config;
+  beforeEach(async () => {
+    ctx = await buildContext();
+    config = {
+      title: "Questionnaire title",
+      surveyId: "123",
+      theme: "business",
+      shortTitle: "",
+    };
+
+    await createQuestionnaire(ctx, config);
+    
+  });
+
+  it("should return a successful publish result", async () => {
+    fetch.mockImplementation(() =>
+      Promise.resolve({
+        status: 200,
+        json: () => ({
+          guid: "cir-id-1",
+          // eslint-disable-next-line camelcase
+          ci_version: "1",
+        }),
+      })
+    );
+    expect(await republishSchema( ctx.questionnaire.questionnaireVersionId, 1 )).toEqual(
+      {
+        id: expect.any(String),
+        surveyId: "123",
+        formType: "",
+        publishDate: expect.any(Date),
+        cirId: "cir-id-1",
+        cirVersion: "1",
+        success: true,
+        validatorVersion:null
+      }
+    );
+  });
+
+  it("should handle error if there is an error fetching from Validator", async () => {
+    // Mocks conversion fetch followed by validator rejected value
+    fetch
+      .mockResolvedValueOnce({
+        status: 200,
+        json: () => ({
+          survey_id: "123", // eslint-disable-line
+        }),
+      })
+      .mockRejectedValueOnce(new Error("Test error"));
+
+    expect(await republishSchema( ctx.questionnaire.questionnaireVersionId, 1 )).toEqual(
+      {
+        id: expect.any(String),
+        surveyId: "123",
+        formType: "",
+        publishDate: expect.any(Date),
+        success: false,
+        errorMessage: "Failed to connect to validator - Test error",
+        displayErrorMessage: "Publish error, please try later",
+      },
+    );
+  });
+
 });

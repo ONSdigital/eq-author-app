@@ -1,4 +1,4 @@
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 const { v4: uuidv4 } = require("uuid");
 const { removeEmpty } = require("../../utils/removeEmpty");
 const { pick } = require("lodash/fp");
@@ -127,6 +127,9 @@ const getQuestionnaire = async (id) => {
     if (!questionnaire.editors) {
       questionnaire.editors = [];
     }
+
+    questionnaire.questionnaireVersionId = questionnaire._id;
+
     return questionnaire;
   } catch (error) {
     logger.error(
@@ -153,6 +156,23 @@ const getQuestionnaireMetaById = async (id) => {
     return;
   }
 };
+
+const getQuestionnaireByVersionId = async (questionnaireVersionId) => {
+  try {
+    const collection = dbo.collection("versions");
+    let versionId = ObjectId(questionnaireVersionId);
+    const questionnaire = await collection.findOne({ _id: versionId });
+
+    if (!questionnaire) {
+      logger.info("No base questionnaire found");
+      return null;
+    }
+    return questionnaire;
+  } catch (error) {
+    logger.error(error, `Error getting questionnaire version with ID ${questionnaireVersionId}`);
+    return;
+  }
+}
 
 const saveQuestionnaire = async (changedQuestionnaire) => {
   const { id } = changedQuestionnaire;
@@ -868,6 +888,7 @@ module.exports = {
   getCommentsForQuestionnaire,
   saveComments,
   updateUser,
+  getQuestionnaireByVersionId,
   getUserByName,
   getUserByEmail,
   connectDB,
