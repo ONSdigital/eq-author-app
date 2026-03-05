@@ -21,6 +21,7 @@ const rejectUnidentifiedUsers = require("./middleware/identification/rejectUnide
 const validateQuestionnaire = require("./middleware/validateQuestionnaire");
 const convertQuestionnaire = require("./middleware/convertQuestionnaire");
 const loadComments = require("./middleware/loadComments");
+const republishSchema = require("./middleware/republishSchema");
 
 const schema = require("./schema");
 
@@ -187,6 +188,8 @@ const createApp = () => {
 
   app.get("/convert/:questionnaireId", convertQuestionnaire);
 
+  app.get("/republishschema/:questionnaireVersionId/cirversion/:cirVersion", republishSchema);
+
   app.get("/export/:questionnaireId", exportQuestionnaire);
   if (process.env.ENABLE_IMPORT === "true") {
     app
@@ -199,7 +202,7 @@ const createApp = () => {
       );
   }
   app.get(
-    "/export/:questionnaireId/version/:versionId",
+    "/export/version/:questionnaireVersionId",
     exportQuestionnaireByVersionId
   );
 
