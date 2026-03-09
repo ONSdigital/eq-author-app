@@ -88,7 +88,9 @@ const createQuestionnaire = async (questionnaire, ctx, imported) => {
   try {
     const baseDoc = db.collection("questionnaires").doc(id);
     await baseDoc.set(baseQuestionnaire);
-    const versionDoc = baseDoc.collection("versions").doc(questionnaireVersionId);
+    const versionDoc = baseDoc
+      .collection("versions")
+      .doc(questionnaireVersionId);
     await versionDoc.set(versionQuestionnaire);
     await saveSections(versionDoc, sections);
   } catch (error) {
@@ -184,8 +186,8 @@ const getQuestionnaire = async (id) => {
       !sectionsSnapshot || sectionsSnapshot.empty
         ? []
         : sectionsSnapshot.docs
-          .map((snap) => snap.data())
-          .sort(({ position: a }, { position: b }) => a - b);
+            .map((snap) => snap.data())
+            .sort(({ position: a }, { position: b }) => a - b);
 
     return transformedQuestionnaire(sections, version);
   } catch (error) {
@@ -261,8 +263,8 @@ const getQuestionnaireByVersionId = async (questionnaireVersionId) => {
       !sectionsSnapshot || sectionsSnapshot.empty
         ? []
         : sectionsSnapshot.docs
-          .map((snap) => snap.data())
-          .sort(({ position: a }, { position: b }) => a - b);
+            .map((snap) => snap.data())
+            .sort(({ position: a }, { position: b }) => a - b);
 
     logger.info(
       `getQuestionnaireByVersionId called on version with ID: ${questionnaireVersionId}`
@@ -318,7 +320,9 @@ const saveQuestionnaire = async (changedQuestionnaire) => {
 
     const questionnaireVersionId = uuidv4();
 
-    const versionDoc = baseDoc.collection("versions").doc(questionnaireVersionId);
+    const versionDoc = baseDoc
+      .collection("versions")
+      .doc(questionnaireVersionId);
 
     updatedQuestionnaire.questionnaireVersionId = questionnaireVersionId;
 
