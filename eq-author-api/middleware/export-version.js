@@ -1,12 +1,10 @@
 const { getQuestionnaireByVersionId } = require("../db/datastore");
 
 module.exports = async (req, res) => {
-  const questionnaireId = req.params.questionnaireId;
-  const versionId = req.params.versionId;
+  const questionnaireVersionId = req.params.questionnaireVersionId;
 
   const questionnaire = await getQuestionnaireByVersionId(
-    questionnaireId,
-    versionId
+    questionnaireVersionId
   );
 
   if (!questionnaire) {
