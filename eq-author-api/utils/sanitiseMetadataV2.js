@@ -58,7 +58,8 @@ module.exports.sanitiseMetadata = (metadata, questionnaire) => {
   );
   if(sanitisedMetadata.survey_metadata.data.cir_instrument_id) {
     delete sanitisedMetadata.schema_url;
-  }
+    sanitisedMetadata.cir_instrument_id = sanitisedMetadata.survey_metadata.data.cir_instrument_id;
+  };
   sanitisedMetadata.survey_metadata.data.survey_id = questionnaire.surveyId;
   return sanitisedMetadata;
 };
