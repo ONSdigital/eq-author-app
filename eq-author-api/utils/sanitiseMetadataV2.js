@@ -56,7 +56,7 @@ module.exports.sanitiseMetadata = (metadata, questionnaire) => {
     sanitisedMetadata.survey_metadata.data,
     refinedMetadata
   );
-  if(sanitisedMetadata.cir_instrument_id) {
+  if(sanitisedMetadata.survey_metadata.data.cir_instrument_id) {
     delete sanitisedMetadata.schema_url;
   }
   sanitisedMetadata.survey_metadata.data.survey_id = questionnaire.surveyId;
