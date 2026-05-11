@@ -193,9 +193,9 @@ const publishSchema = async (ctx) => {
     if (!publishResult.success) {
       logger.error(publishResult.errorMessage, "Publish failed");
     }
-    await saveMetadata(questionnaireMetadata);
-    return questionnaireMetadata.publishHistory;
   }
+  await saveMetadata(questionnaireMetadata);
+  return questionnaireMetadata.publishHistory;
 };
 
 const republishSchema = async (questionnaireVersionId, cirVersion) => {
@@ -284,9 +284,9 @@ const republishSchema = async (questionnaireVersionId, cirVersion) => {
     if (!publishResult.success) {
       logger.error(publishResult.errorMessage, "Republish failed");
     }
-    await saveMetadata(questionnaireMetadata);
-    return publishResult;
   }
+  await saveMetadata(questionnaireMetadata);
+  return publishResult;
 };
 
 module.exports = {
