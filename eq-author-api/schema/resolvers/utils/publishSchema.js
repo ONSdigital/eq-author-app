@@ -150,6 +150,14 @@ const publishSchema = async (ctx) => {
       `guid=${ctx.questionnaire.questionnaireVersionId}&validator_version=0.0.0`,
       publishResult
     );
+
+    //check CIR id matches the versionId to ensure the correct GUID has been used in CIR
+    if (publishResult.cirId !== ctx.questionnaire.questionnaireVersionId) {
+      publishResult.success = false;
+      publishResult.errorMessage = `CIR gateway did not return expected guid - expected ${ctx.questionnaire.questionnaireVersionId} but got ${publishResult.cirId}`;
+      publishResult.displayErrorMessage = "Contact eQ services team";
+    }
+
     logger.info(
       publishResult,
       `publish questionnaire with version id ${ctx.questionnaire.questionnaireVersionId}  - posted to first CIR gateway`
@@ -168,18 +176,19 @@ const publishSchema = async (ctx) => {
         `guid=${ctx.questionnaire.questionnaireVersionId}&validator_version=0.0.0&&ci_version=${publishResult.cirVersion}`,
         publishResult
       );
-    }
-    logger.info(
-      publishResult,
-      `publish questionnaire with version id ${ctx.questionnaire.questionnaireVersionId}  - posted to second CIR gateway`
-    );
 
-    //check CIR id matches the versionId to ensure the correct GUID has been used in CIR, commented out until CIR complete thier work to return the GUID
-    /* if(publishResult.cirId !== ctx.questionnaire.questionnaireVersionId) {
-            publishResult.success = false;
-            publishResult.errorMessage = `CIR gateway did not return expected guid - expected ${ctx.questionnaire.questionnaireVersionId} but got ${publishResult.cirId}`;
-            publishResult.displayErrorMessage = "Contact eQ services team";
-        } */
+      //check CIR id matches the versionId to ensure the correct GUID has been used in CIR
+      if (publishResult.cirId !== ctx.questionnaire.questionnaireVersionId) {
+        publishResult.success = false;
+        publishResult.errorMessage = `CIR gateway did not return expected guid - expected ${ctx.questionnaire.questionnaireVersionId} but got ${publishResult.cirId}`;
+        publishResult.displayErrorMessage = "Contact eQ services team";
+      }
+
+      logger.info(
+        publishResult,
+        `publish questionnaire with version id ${ctx.questionnaire.questionnaireVersionId}  - posted to second CIR gateway`
+      );
+    }
   } finally {
     if (!publishResult.success) {
       logger.error(publishResult.errorMessage, "Publish failed");

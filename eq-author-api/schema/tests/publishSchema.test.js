@@ -34,6 +34,7 @@ describe("publish schema", () => {
   });
 
   it("should return a successful publish result", async () => {
+    ctx.questionnaire.questionnaireVersionId = "cir-id-1";
     expect(await publishSchema(ctx)).toEqual([
       {
         id: expect.any(String),
@@ -50,6 +51,7 @@ describe("publish schema", () => {
   });
 
   it("should add to publishHistory if publishHistory is defined", async () => {
+    ctx.questionnaire.questionnaireVersionId = "cir-id-1";
     await publishSchema(ctx);
     ctx.questionnaire.questionnaireVersionId = "cir-id-1";
     expect(await publishSchema(ctx)).toEqual([
