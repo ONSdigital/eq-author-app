@@ -22,7 +22,7 @@
     "nodemon": "2.0.15",
     "request": "2.88.2",
     "request-promise": "4.2.6",
-    "uuid": "8.3.2"
+    "uuid": "13.0.0"
   },
   "devDependencies": {
     "eslint": "7.31.0",
