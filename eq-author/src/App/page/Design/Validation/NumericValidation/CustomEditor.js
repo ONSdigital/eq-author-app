@@ -12,7 +12,7 @@ import ValidationError from "components/ValidationError";
 import * as entityTypes from "constants/validation-entity-types";
 
 const StyledNumber = styled(Number)`
-  width: 10em;
+  width: 11em;
   ${({ hasError }) =>
     hasError &&
     `
