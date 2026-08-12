@@ -15,7 +15,7 @@
     "eslint-config-eq-author": "2.0.2",
     "express": "4.17.1",
     "express-pino-logger": "7.0.0",
-    "graphql": "16.1.0",
+    "graphql": "16.13.2",
     "helmet": "4.6.0",
     "jsonwebtoken": "8.5.1",
     "lodash": "4.17.21",
