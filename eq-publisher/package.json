@@ -13,7 +13,7 @@
     "apollo-fetch": "0.7.0",
     "cheerio": "1.0.0-rc.10",
     "eslint-config-eq-author": "2.0.2",
-    "express": "4.17.1",
+    "express": "5.2.1",
     "express-pino-logger": "7.0.0",
     "graphql": "16.1.0",
     "helmet": "4.6.0",
