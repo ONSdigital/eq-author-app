@@ -23,6 +23,15 @@ const {
 } = require("../../tests/utils/contextBuilder/page");
 
 const { getQuestionnaire } = require("../../db/datastore");
+const { logger } = require("../../utils/logger");
+
+jest.mock("../../db/datastore", () => {
+  const actual = jest.requireActual("../../db/datastore");
+  return {
+    ...actual,
+    createQuestionnaire: jest.fn((...args) => actual.createQuestionnaire(...args)),
+  };
+});
 
 describe("Duplication", () => {
   let ctx, questionnaire, section, folder;
@@ -217,6 +226,155 @@ describe("Duplication", () => {
       const copyDate = Date.parse(questionnaireCopy.createdAt);
       const queriedDate = Date.parse(queriedQuestionnaire.createdAt);
       expect(copyDate).toBeGreaterThan(queriedDate);
+    });
+  });
+
+  describe("duplicate a questionnaire with custom naming", () => {
+    let queriedQuestionnaire;
+    const createdDuplicateIds = [];
+
+    beforeEach(async () => {
+      queriedQuestionnaire = await queryQuestionnaire(ctx);
+    });
+
+    afterEach(async () => {
+      for (const id of createdDuplicateIds) {
+        const dbCopy = await getQuestionnaire(id);
+        if (dbCopy) {
+          const cleanupCtx = {
+            questionnaire: dbCopy,
+            user: ctx.user,
+            validationErrorInfo: validateQuestionnaire(dbCopy),
+          };
+          await deleteQuestionnaire(cleanupCtx, id);
+        }
+      }
+      createdDuplicateIds.length = 0;
+      jest.clearAllMocks();
+    });
+
+    it("should use supplied title and shortTitle when both are provided", async () => {
+      const result = await duplicateQuestionnaire(ctx, {
+        title: "My Title",
+        shortTitle: "my-short",
+      });
+      createdDuplicateIds.push(result.id);
+      expect(result.title).toEqual("My Title");
+      expect(result.shortTitle).toEqual("my-short");
+    });
+
+
+    it("should throw when supplied title is an empty string", async () => {
+      await expect(
+        duplicateQuestionnaire(ctx, { title: "" })
+      ).rejects.toThrow("title must be a non-empty string.");
+    });
+
+    it("should throw when supplied title is whitespace only", async () => {
+      await expect(
+        duplicateQuestionnaire(ctx, { title: "   " })
+      ).rejects.toThrow("title must be a non-empty string.");
+    });
+
+    it("should reject when supplied title is not a string", async () => {
+      await expect(
+        duplicateQuestionnaire(ctx, { title: 123 })
+      ).rejects.toThrow("Expected type String");
+    });
+
+    it("should apply default prefix to shortTitle when only title is supplied", async () => {
+      const result = await duplicateQuestionnaire(ctx, { title: "Only Title" });
+      createdDuplicateIds.push(result.id);
+      expect(result.title).toEqual("Only Title");
+      expect(result.shortTitle).toEqual(`Copy of ${queriedQuestionnaire.shortTitle}`);
+    });
+
+    it("should apply default prefix to title when only shortTitle is supplied", async () => {
+      const result = await duplicateQuestionnaire(ctx, { shortTitle: "only-short" });
+      createdDuplicateIds.push(result.id);
+      expect(result.title).toEqual(`Copy of ${queriedQuestionnaire.title}`);
+      expect(result.shortTitle).toEqual("only-short");
+    });
+
+    it("should succeed when shortTitle is supplied as an empty string", async () => {
+      const result = await duplicateQuestionnaire(ctx, { shortTitle: "" });
+      createdDuplicateIds.push(result.id);
+      expect(result.shortTitle).toEqual("");
+    });
+
+    it("should treat explicit null title as omitted and apply default prefix", async () => {
+      const result = await duplicateQuestionnaire(ctx, { title: null });
+      createdDuplicateIds.push(result.id);
+      expect(result.title).toEqual(`Copy of ${queriedQuestionnaire.title}`);
+    });
+
+    it("should treat explicit null shortTitle as omitted and apply default prefix", async () => {
+      const result = await duplicateQuestionnaire(ctx, { shortTitle: null });
+      createdDuplicateIds.push(result.id);
+      expect(result.shortTitle).toEqual(`Copy of ${queriedQuestionnaire.shortTitle}`);
+    });
+
+    it("should return the duplicate with the correct title without a separate update call", async () => {
+      const result = await duplicateQuestionnaire(ctx, { title: "Final Title" });
+      createdDuplicateIds.push(result.id);
+      // The returned questionnaire already has the correct title — no second call required
+      expect(result.title).toEqual("Final Title");
+      const dbRecord = await getQuestionnaire(result.id);
+      expect(dbRecord.title).toEqual("Final Title");
+    });
+
+    it("should reject duplication when the caller is unauthenticated", async () => {
+      const unauthCtx = { ...ctx, user: null };
+      await expect(
+        duplicateQuestionnaire(unauthCtx, { title: "Should Not Be Created" })
+      ).rejects.toThrow();
+    });
+
+    it("should reject duplication without custom naming when the caller is unauthenticated", async () => {
+      const unauthCtx = { ...ctx, user: null };
+      await expect(duplicateQuestionnaire(unauthCtx)).rejects.toThrow();
+    });
+
+    it("should log source and new questionnaire IDs on successful duplication", async () => {
+      const infoSpy = jest.spyOn(logger, "info");
+
+      const result = await duplicateQuestionnaire(ctx, { title: "Logged Title" });
+      createdDuplicateIds.push(result.id);
+
+      expect(infoSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          sourceQid: ctx.questionnaire.id,
+          newQid: result.id,
+          customTitle: true,
+          customShortTitle: false,
+        }),
+        expect.stringContaining("Duplicated questionnaire")
+      );
+
+      infoSpy.mockRestore();
+    });
+
+    it("should log the source questionnaire ID when duplication fails and re-throw the error", async () => {
+      const { createQuestionnaire: mockCreate } = require("../../db/datastore");
+      const dbError = new Error("Simulated DB failure");
+      mockCreate.mockRejectedValueOnce(dbError);
+
+      const errorSpy = jest.spyOn(logger, "error");
+
+      await expect(
+        duplicateQuestionnaire(ctx, { title: "Will Fail" })
+      ).rejects.toThrow("Simulated DB failure");
+
+      expect(errorSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          sourceQid: ctx.questionnaire.id,
+          customTitle: true,
+          customShortTitle: false,
+        }),
+        expect.stringContaining("Failed to duplicate questionnaire")
+      );
+
+      errorSpy.mockRestore();
     });
   });
 });

@@ -29,9 +29,10 @@ const duplicateQuestionnaireMutation = `
   }
 `;
 
-const duplicateQuestionnaire = async (ctx) => {
+const duplicateQuestionnaire = async (ctx, inputOverrides = {}) => {
   const input = {
     id: ctx.questionnaire.id,
+    ...inputOverrides,
   };
 
   const result = await executeQuery(
@@ -39,6 +40,11 @@ const duplicateQuestionnaire = async (ctx) => {
     { input },
     ctx
   );
+
+  if (result.errors) {
+    throw new Error(result.errors[0]);
+  }
+
   return result.data.duplicateQuestionnaire;
 };
 

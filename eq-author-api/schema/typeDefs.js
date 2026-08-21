@@ -1390,6 +1390,8 @@ input DeleteQuestionnaireInput {
 
 input DuplicateQuestionnaireInput {
   id: ID!
+  title: String
+  shortTitle: String
 }
 
 input createHistoryNoteInput {
