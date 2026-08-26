@@ -528,68 +528,29 @@ const Resolvers = {
       ctx.questionnaire = null;
       return { id: input.id };
     },
-     duplicateQuestionnaire: async (_, { input }, ctx) => {
-       const questionnaire = await getQuestionnaire(input.id);
-       if (!questionnaire) {
-         throw new UserInputError(
-           `Questionnaire with ID ${input.id} does not exist.`
-         );
-       }
+    duplicateQuestionnaire: async (_, { input }, ctx) => {
+      const questionnaire = await getQuestionnaire(input.id);
+      const newQuestionnaire = {
+        ...questionnaire,
+        title: addPrefix(questionnaire.title),
+        shortTitle: addPrefix(questionnaire.shortTitle),
+        id: uuidv4(),
+        createdBy: ctx.user.id,
+        createdAt: new Date(),
+        editors: [],
+        publishStatus: UNPUBLISHED,
+        publishHistory: [],
+        surveyVersion: 1,
+        locked: false,
+      };
 
-       const hasCustomTitle = !isNil(input.title);
-       const hasCustomShortTitle = !isNil(input.shortTitle);
+      logger.info(
+        { qid: questionnaire.id },
+        `Duplicated questionnire with title - ${questionnaire.title}`
+      );
 
-       if (hasCustomTitle) {
-         if (typeof input.title !== "string" || input.title.trim() === "") {
-           throw new UserInputError("title must be a non-empty string.");
-         }
-       }
-
-       const newQuestionnaire = {
-         ...questionnaire,
-         title: hasCustomTitle ? input.title : addPrefix(questionnaire.title),
-         shortTitle:
-           hasCustomShortTitle
-             ? input.shortTitle
-             : addPrefix(questionnaire.shortTitle),
-         id: uuidv4(),
-         createdBy: ctx.user.id,
-         createdAt: new Date(),
-         editors: [],
-         publishStatus: UNPUBLISHED,
-         publishHistory: [],
-         surveyVersion: 1,
-         locked: false,
-       };
-
-       let created;
-       try {
-         created = await createQuestionnaire(newQuestionnaire, ctx);
-       } catch (err) {
-         logger.error(
-           {
-             sourceQid: questionnaire.id,
-             customTitle: hasCustomTitle,
-             customShortTitle: hasCustomShortTitle,
-             err,
-           },
-           `Failed to duplicate questionnaire - source: "${questionnaire.title}"`
-         );
-         throw err;
-       }
-
-       logger.info(
-         {
-           sourceQid: questionnaire.id,
-           newQid: created.id,
-           customTitle: hasCustomTitle,
-           customShortTitle: hasCustomShortTitle,
-         },
-         `Duplicated questionnaire - source: "${questionnaire.title}", new: "${created.title}"`
-       );
-
-       return created;
-     },
+      return createQuestionnaire(newQuestionnaire, ctx);
+    },
     updateSurveyId: createMutation((root, { input: { surveyId } }, ctx) => {
       ctx.questionnaire.surveyId = surveyId;
       logger.info(
