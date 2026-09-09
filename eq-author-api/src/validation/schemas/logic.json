@@ -165,7 +165,13 @@
                   "number": {
                     "type": "number",
                     "nullable": false,
-                    "errorMessage": "ERR_RIGHTSIDE_NO_VALUE"
+                    "minimum": -999999999999999,
+                    "maximum": 999999999999999,
+                    "errorMessage": {
+                      "type": "ERR_RIGHTSIDE_NO_VALUE",
+                      "minimum": "ERR_RIGHTSIDE_VALUE_TOO_MANY_DIGITS",
+                      "maximum": "ERR_RIGHTSIDE_VALUE_TOO_MANY_DIGITS"
+                    }
                   },
                   "text": {
                     "type": "string",
@@ -180,7 +186,13 @@
                   "offset": {
                     "type": "number",
                     "nullable": false,
-                    "errorMessage": "ERR_RIGHTSIDE_NO_VALUE"
+                    "minimum": -999999999999999,
+                    "maximum": 999999999999999,
+                    "errorMessage": {
+                      "type": "ERR_RIGHTSIDE_NO_VALUE",
+                      "minimum": "ERR_RIGHTSIDE_VALUE_TOO_MANY_DIGITS",
+                      "maximum": "ERR_RIGHTSIDE_VALUE_TOO_MANY_DIGITS"
+                    }
                   },
                   "offsetDirection": {
                     "type": "string",

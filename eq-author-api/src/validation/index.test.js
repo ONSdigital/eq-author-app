@@ -19,6 +19,7 @@ const {
   ERR_MAX_LENGTH_TOO_SMALL,
   ERR_ANSWER_NOT_SELECTED,
   ERR_RIGHTSIDE_NO_VALUE,
+  ERR_RIGHTSIDE_VALUE_TOO_MANY_DIGITS,
   ERR_RIGHTSIDE_MIXING_OR_STND_OPTIONS_IN_AND_RULE,
   ERR_GROUP_MIXING_EXPRESSIONS_WITH_OR_STND_OPTIONS_IN_AND,
   ERR_LEFTSIDE_NO_LONGER_AVAILABLE,
@@ -1887,6 +1888,119 @@ describe("schema validation", () => {
       expect(routingErrors[0].errorCode).toBe(
         ERR_COUNT_OF_GREATER_THAN_AVAILABLE_OPTIONS
       );
+    });
+
+    it("should validate routing custom values with more than 15 digits", () => {
+      questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
+      questionnaire.sections[0].folders[0].pages[0].routing.rules[0].expressionGroup.expressions[0] =
+        {
+          id: "expression-1",
+          condition: "Equal",
+          left: {
+            type: "Answer",
+            answerId: "answer_1",
+          },
+          right: {
+            type: "Custom",
+            customValue: {
+              number: 1000000000000000,
+            },
+          },
+        };
+
+      const routingErrors = validation(questionnaire);
+
+      expect(routingErrors).toHaveLength(1);
+      expect(routingErrors[0].errorCode).toBe(
+        ERR_RIGHTSIDE_VALUE_TOO_MANY_DIGITS
+      );
+      expect(routingErrors[0].field).toBe("number");
+    });
+
+    it("should allow routing custom values with up to 15 digits", () => {
+      questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
+      questionnaire.sections[0].folders[0].pages[0].routing.rules[0].expressionGroup.expressions[0] =
+        {
+          id: "expression-1",
+          condition: "Equal",
+          left: {
+            type: "Answer",
+            answerId: "answer_1",
+          },
+          right: {
+            type: "Custom",
+            customValue: {
+              number: 999999999999999,
+            },
+          },
+        };
+
+      expect(validation(questionnaire)).toHaveLength(0);
+    });
+
+    it("should validate date routing offsets with more than 15 digits", () => {
+      questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
+      questionnaire.sections[0].folders[0].pages[0].routing.rules[0].expressionGroup.expressions[0] =
+        {
+          id: "expression-1",
+          condition: "LessThan",
+          left: {
+            type: "Answer",
+            answerId: "answer_1",
+          },
+          right: {
+            type: "DateValue",
+            dateValue: {
+              offset: 1000000000000000,
+              offsetDirection: "Before",
+            },
+          },
+        };
+
+      const routingErrors = validation(questionnaire);
+
+      expect(routingErrors).toHaveLength(1);
+      expect(routingErrors[0].errorCode).toBe(
+        ERR_RIGHTSIDE_VALUE_TOO_MANY_DIGITS
+      );
+      expect(routingErrors[0].field).toBe("offset");
+    });
+
+    it("should validate checkbox CountOf custom values with more than 15 digits", () => {
+      questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
+      questionnaire.sections[0].folders[0].pages[0].answers[0] = {
+        id: "answer_1",
+        qCode: "qcode1",
+        label: "answer_1",
+        secondaryQCode: "secQCode1",
+        repeatingLabelAndInput: false,
+        repeatingLabelAndInputListId: "",
+        options: [{ id: "optionID-1", label: "checkbox 1" }],
+      };
+      questionnaire.sections[0].folders[0].pages[0].routing.rules[0].expressionGroup.expressions[0] =
+        {
+          id: "expression-1",
+          condition: "CountOf",
+          secondaryCondition: "Equal",
+          left: {
+            type: "Checkbox",
+            answerId: "answer_1",
+          },
+          right: {
+            type: "Custom",
+            customValue: {
+              number: -1000000000000000,
+            },
+          },
+        };
+
+      const routingErrors = validation(questionnaire);
+
+      expect(routingErrors).toHaveLength(1);
+      expect(routingErrors[0].errorCode).toBe(
+        ERR_RIGHTSIDE_VALUE_TOO_MANY_DIGITS
+      );
+      expect(routingErrors[0].field).toBe("number");
     });
 
     it("should validate empty array in right of expression", () => {
