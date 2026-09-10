@@ -7,7 +7,10 @@ const {
   duplicateAndRenameQuestionnaire,
 } = require("../../tests/utils/contextBuilder/questionnaire");
 
-const { getQuestionnaire, createQuestionnaire } = require("../../db/datastore");
+const {
+  getQuestionnaire,
+  createQuestionnaire,
+} = require("../../db/datastore");
 const { logger } = require("../../utils/logger");
 
 jest.mock("../../db/datastore", () => {
