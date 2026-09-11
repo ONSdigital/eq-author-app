@@ -1,20 +1,20 @@
-const { buildContext } = require("tests/utils/contextBuilder");
-const validateQuestionnaire = require("src/validation");
+const { buildContext } = require("../../tests/utils/contextBuilder");
+const validateQuestionnaire = require("../../src/validation");
 
 const {
   queryQuestionnaire,
   deleteQuestionnaire,
   duplicateAndRenameQuestionnaire,
-} = require("tests/utils/contextBuilder/questionnaire");
+} = require("../../tests/utils/contextBuilder/questionnaire");
 
 const {
   getQuestionnaire,
   createQuestionnaire,
-} = require("db/datastore");
-const { logger } = require("utils/logger");
+} = require("../../db/datastore");
+const { logger } = require("../../utils/logger");
 
-jest.mock("db/datastore", () => {
-  const actualDatastore = jest.requireActual("db/datastore");
+jest.mock("../../db/datastore", () => {
+  const actualDatastore = jest.requireActual("../../db/datastore");
 
   return {
     ...actualDatastore,
@@ -112,13 +112,13 @@ describe("duplicateAndRenameQuestionnaire", () => {
   it("should throw when supplied title is an empty string", async () => {
     await expect(
       duplicateAndRenameQuestionnaire(context, { title: "" })
-    ).rejects.toThrow("title must be a non-empty string.");
+    ).rejects.toThrow('"title" must be a non-empty string.');
   });
 
   it("should throw when supplied title is whitespace only", async () => {
     await expect(
       duplicateAndRenameQuestionnaire(context, { title: "   " })
-    ).rejects.toThrow("title must be a non-empty string.");
+    ).rejects.toThrow('"title" must be a non-empty string.');
   });
 
   it("should reject when supplied title is not a string", async () => {
