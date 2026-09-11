@@ -1,20 +1,20 @@
-const { buildContext } = require("../../tests/utils/contextBuilder");
-const validateQuestionnaire = require("../../src/validation");
+const { buildContext } = require("tests/utils/contextBuilder");
+const validateQuestionnaire = require("src/validation");
 
 const {
   queryQuestionnaire,
   deleteQuestionnaire,
   duplicateAndRenameQuestionnaire,
-} = require("../../tests/utils/contextBuilder/questionnaire");
+} = require("tests/utils/contextBuilder/questionnaire");
 
 const {
   getQuestionnaire,
   createQuestionnaire,
-} = require("../../db/datastore");
-const { logger } = require("../../utils/logger");
+} = require("db/datastore");
+const { logger } = require("utils/logger");
 
-jest.mock("../../db/datastore", () => {
-  const actualDatastore = jest.requireActual("../../db/datastore");
+jest.mock("db/datastore", () => {
+  const actualDatastore = jest.requireActual("db/datastore");
 
   return {
     ...actualDatastore,
