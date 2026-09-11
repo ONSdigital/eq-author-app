@@ -26,7 +26,7 @@ const Resolvers = {
 
       if (hasCustomTitle) {
         if (typeof input.title !== "string" || input.title.trim() === "") {
-          throw new UserInputError("title must be a non-empty string.");
+          throw new UserInputError('"title" must be a non-empty string.');
         }
       }
 

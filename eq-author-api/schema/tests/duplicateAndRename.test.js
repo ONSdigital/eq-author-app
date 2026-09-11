@@ -244,7 +244,11 @@ describe("duplicateAndRenameQuestionnaire", () => {
         hasCustomTitle: true,
         hasCustomShortTitle: false,
       }),
-      expect.stringContaining("Duplicated questionnaire")
+      expect.stringMatching(
+        new RegExp(
+          `^Duplicated questionnaire - source: ".*", new: "${duplicatedQuestionnaire.title}"$`
+        )
+      )
     );
 
     infoLoggerSpy.mockRestore();
@@ -266,7 +270,9 @@ describe("duplicateAndRenameQuestionnaire", () => {
         hasCustomTitle: true,
         hasCustomShortTitle: false,
       }),
-      expect.stringContaining("Failed to duplicate questionnaire")
+      expect.stringMatching(
+        new RegExp(`^Failed to duplicate questionnaire - source: ".*"$`)
+      )
     );
 
     errorLoggerSpy.mockRestore();
