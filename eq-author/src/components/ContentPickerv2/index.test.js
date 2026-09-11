@@ -10,7 +10,7 @@ import {
 
 import ContentPicker from "./";
 
-import { EndOfQuestionnaire, NextPage } from "constants/destinations";
+import { EndOfCurrentSection, NextPage } from "constants/destinations";
 
 import { useQuestionnaire } from "components/QuestionnaireContext";
 
