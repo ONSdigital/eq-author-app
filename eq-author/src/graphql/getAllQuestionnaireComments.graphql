@@ -1,5 +1,5 @@
-query GetAllQuestionnaireComments {
-  allComments {
+query GetAllQuestionnaireComments($id: ID!) {
+  comments(id: $id) {
     id
     readBy
   }

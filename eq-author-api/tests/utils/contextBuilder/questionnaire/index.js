@@ -2,6 +2,7 @@ module.exports = {
   ...require("./createQuestionnaire"),
   ...require("./deleteQuestionnaire"),
   ...require("./duplicateQuestionnaire"),
+  ...require("./duplicateAndRenameQuestionnaire"),
   ...require("./updateQuestionnaire"),
   ...require("./queryQuestionnaire"),
   ...require("./listQuestionnaires"),
