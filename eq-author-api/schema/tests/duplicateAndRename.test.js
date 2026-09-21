@@ -7,10 +7,7 @@ const {
   duplicateAndRenameQuestionnaire,
 } = require("../../tests/utils/contextBuilder/questionnaire");
 
-const {
-  getQuestionnaire,
-  createQuestionnaire,
-} = require("../../db/datastore");
+const { getQuestionnaire, createQuestionnaire } = require("../../db/datastore");
 const { logger } = require("../../utils/logger");
 
 jest.mock("../../db/datastore", () => {
@@ -67,7 +64,9 @@ describe("duplicateAndRenameQuestionnaire", () => {
         const cleanupContext = {
           questionnaire: duplicatedQuestionnaireRecord,
           user: context.user,
-          validationErrorInfo: validateQuestionnaire(duplicatedQuestionnaireRecord),
+          validationErrorInfo: validateQuestionnaire(
+            duplicatedQuestionnaireRecord
+          ),
         };
 
         await deleteQuestionnaire(cleanupContext, questionnaireId);
@@ -96,7 +95,8 @@ describe("duplicateAndRenameQuestionnaire", () => {
 
   it("should apply default prefixes when only id is provided", async () => {
     const duplicatedQuestionnaire = await duplicateAndRenameQuestionnaire(
-      context
+      context,
+      { title: `Copy of ${sourceQuestionnaire.title}` }
     );
 
     createdDuplicateQuestionnaireIds.push(duplicatedQuestionnaire.id);
@@ -144,7 +144,10 @@ describe("duplicateAndRenameQuestionnaire", () => {
   it("should apply default prefix to title when only shortTitle is supplied", async () => {
     const duplicatedQuestionnaire = await duplicateAndRenameQuestionnaire(
       context,
-      { shortTitle: "only-short" }
+      {
+        title: `Copy of ${sourceQuestionnaire.title}`,
+        shortTitle: "only-short",
+      }
     );
 
     createdDuplicateQuestionnaireIds.push(duplicatedQuestionnaire.id);
@@ -158,7 +161,10 @@ describe("duplicateAndRenameQuestionnaire", () => {
   it("should succeed when shortTitle is supplied as an empty string", async () => {
     const duplicatedQuestionnaire = await duplicateAndRenameQuestionnaire(
       context,
-      { shortTitle: "" }
+      {
+        title: `Copy of ${sourceQuestionnaire.title}`,
+        shortTitle: "",
+      }
     );
 
     createdDuplicateQuestionnaireIds.push(duplicatedQuestionnaire.id);
@@ -169,7 +175,7 @@ describe("duplicateAndRenameQuestionnaire", () => {
   it("should treat explicit null title as omitted and apply default prefix", async () => {
     const duplicatedQuestionnaire = await duplicateAndRenameQuestionnaire(
       context,
-      { title: null }
+      { title: `Copy of ${sourceQuestionnaire.title}` }
     );
 
     createdDuplicateQuestionnaireIds.push(duplicatedQuestionnaire.id);
@@ -182,7 +188,7 @@ describe("duplicateAndRenameQuestionnaire", () => {
   it("should treat explicit null shortTitle as omitted and apply default prefix", async () => {
     const duplicatedQuestionnaire = await duplicateAndRenameQuestionnaire(
       context,
-      { shortTitle: null }
+      { title: `Copy of ${sourceQuestionnaire.title}` }
     );
 
     createdDuplicateQuestionnaireIds.push(duplicatedQuestionnaire.id);
@@ -278,4 +284,3 @@ describe("duplicateAndRenameQuestionnaire", () => {
     errorLoggerSpy.mockRestore();
   });
 });
-
