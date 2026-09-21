@@ -1395,7 +1395,7 @@ input DuplicateQuestionnaireInput {
 
 input DuplicateAndRenameQuestionnaireInput {
   id: ID!
-  title: String
+  title: String!
   shortTitle: String
 }
 
