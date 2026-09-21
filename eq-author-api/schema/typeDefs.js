@@ -1397,6 +1397,8 @@ input DuplicateAndRenameQuestionnaireInput {
   id: ID!
   title: String!
   shortTitle: String
+  isPublic: Boolean
+  selectedEditorIds: [ID!]
 }
 
 input createHistoryNoteInput {

@@ -7,7 +7,11 @@ const {
   duplicateAndRenameQuestionnaire,
 } = require("../../tests/utils/contextBuilder/questionnaire");
 
-const { getQuestionnaire, createQuestionnaire } = require("../../db/datastore");
+const {
+  createQuestionnaire,
+  createUser,
+  getQuestionnaire,
+} = require("../../db/datastore");
 const { logger } = require("../../utils/logger");
 
 jest.mock("../../db/datastore", () => {
@@ -139,6 +143,54 @@ describe("duplicateAndRenameQuestionnaire", () => {
     expect(duplicatedQuestionnaire.shortTitle).toEqual(
       `Copy of ${sourceQuestionnaire.shortTitle}`
     );
+  });
+
+  it("should apply supplied visibility and editors to the duplicate", async () => {
+    const editor = {
+      id: "editor-user-id",
+      name: "Editor User",
+      email: "editor@example.com",
+    };
+    await createUser(editor);
+
+    const duplicatedQuestionnaire = await duplicateAndRenameQuestionnaire(
+      context,
+      {
+        title: "Restricted Copy",
+        isPublic: false,
+        selectedEditorIds: [context.user.id, editor.id],
+      }
+    );
+
+    createdDuplicateQuestionnaireIds.push(duplicatedQuestionnaire.id);
+
+    expect(duplicatedQuestionnaire.isPublic).toBe(false);
+    expect(duplicatedQuestionnaire.editors.map(({ id }) => id)).toEqual(
+      expect.arrayContaining([context.user.id, editor.id])
+    );
+  });
+
+  it("should allow an empty selected editor list", async () => {
+    const duplicatedQuestionnaire = await duplicateAndRenameQuestionnaire(
+      context,
+      {
+        title: "No Editors Copy",
+        selectedEditorIds: [],
+      }
+    );
+
+    createdDuplicateQuestionnaireIds.push(duplicatedQuestionnaire.id);
+
+    expect(duplicatedQuestionnaire.editors).toEqual([]);
+  });
+
+  it("should reject unknown selected editor IDs before creating a duplicate", async () => {
+    await expect(
+      duplicateAndRenameQuestionnaire(context, {
+        title: "Invalid Editors Copy",
+        selectedEditorIds: ["missing-editor-id"],
+      })
+    ).rejects.toThrow("Editor user(s) do not exist: missing-editor-id.");
   });
 
   it("should apply default prefix to title when only shortTitle is supplied", async () => {

@@ -18,6 +18,10 @@ const duplicateAndRenameQuestionnaireMutation = `
       createdBy {
         id
       }
+      editors {
+        id
+      }
+      isPublic
       summary
       questionnaireInfo {
         totalSectionCount
@@ -54,4 +58,3 @@ const duplicateAndRenameQuestionnaire = async (
 module.exports = {
   duplicateAndRenameQuestionnaire,
 };
-
