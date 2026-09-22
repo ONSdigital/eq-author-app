@@ -14,6 +14,10 @@ const { logger } = require("../../../utils/logger");
 const Resolvers = {
   Mutation: {
     duplicateAndRenameQuestionnaire: async (root, { input }, context) => {
+      if (typeof input.title !== "string" || input.title.trim() === "") {
+        throw new UserInputError('"title" must be a non-empty string.');
+      }
+
       const sourceQuestionnaire = await getQuestionnaire(input.id);
 
       if (!sourceQuestionnaire) {
@@ -22,22 +26,13 @@ const Resolvers = {
         );
       }
 
-      const hasCustomTitle = !isNil(input.title);
       const hasCustomShortTitle = !isNil(input.shortTitle);
       const hasCustomVisibility = !isNil(input.isPublic);
       const hasCustomEditors = !isNil(input.selectedEditorIds);
 
-      if (hasCustomTitle) {
-        if (typeof input.title !== "string" || input.title.trim() === "") {
-          throw new UserInputError('"title" must be a non-empty string.');
-        }
-      }
-
       const duplicatedQuestionnaire = {
         ...sourceQuestionnaire,
-        title: hasCustomTitle
-          ? input.title
-          : addPrefix(sourceQuestionnaire.title),
+        title: input.title,
         shortTitle: hasCustomShortTitle
           ? input.shortTitle
           : addPrefix(sourceQuestionnaire.shortTitle),
@@ -79,7 +74,6 @@ const Resolvers = {
         logger.error(
           {
             sourceQuestionnaireId: sourceQuestionnaire.id,
-            hasCustomTitle,
             hasCustomShortTitle,
             error,
           },
@@ -92,7 +86,6 @@ const Resolvers = {
         {
           sourceQuestionnaireId: sourceQuestionnaire.id,
           duplicatedQuestionnaireId: createdQuestionnaire.id,
-          hasCustomTitle,
           hasCustomShortTitle,
         },
         `Duplicated questionnaire - source: "${sourceQuestionnaire.title}", new: "${createdQuestionnaire.title}"`
