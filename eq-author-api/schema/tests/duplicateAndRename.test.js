@@ -299,7 +299,6 @@ describe("duplicateAndRenameQuestionnaire", () => {
       expect.objectContaining({
         sourceQuestionnaireId: context.questionnaire.id,
         duplicatedQuestionnaireId: duplicatedQuestionnaire.id,
-        hasCustomTitle: true,
         hasCustomShortTitle: false,
       }),
       expect.stringMatching(
@@ -325,7 +324,6 @@ describe("duplicateAndRenameQuestionnaire", () => {
     expect(errorLoggerSpy).toHaveBeenCalledWith(
       expect.objectContaining({
         sourceQuestionnaireId: context.questionnaire.id,
-        hasCustomTitle: true,
         hasCustomShortTitle: false,
       }),
       expect.stringMatching(
