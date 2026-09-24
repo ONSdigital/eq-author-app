@@ -11,4 +11,5 @@ module.exports = {
   ...require("./toggleQuestionnaireStarred"),
   ...require("./setQuestionnaireLocked"),
   ...require("./updateSubmission"),
+  ...require("../../v2/contextBuilder/questionnaire"),
 };
