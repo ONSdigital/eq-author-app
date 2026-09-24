@@ -1062,6 +1062,7 @@ type Mutation {
   updateQuestionnaire(input: UpdateQuestionnaireInput!): Questionnaire
   deleteQuestionnaire(input: DeleteQuestionnaireInput!): DeletedQuestionnaire
   duplicateQuestionnaire(input: DuplicateQuestionnaireInput!): Questionnaire
+  duplicateAndRenameQuestionnaire(input: DuplicateAndRenameQuestionnaireInput!): Questionnaire
   setQuestionnaireLocked(input: SetQuestionnaireLockedInput!): Questionnaire
 
   importQuestions(input: ImportQuestionsInput!): Section
@@ -1391,6 +1392,14 @@ input DeleteQuestionnaireInput {
 
 input DuplicateQuestionnaireInput {
   id: ID!
+}
+
+input DuplicateAndRenameQuestionnaireInput {
+  id: ID!
+  title: String!
+  shortTitle: String
+  isPublic: Boolean
+  selectedEditorIds: [ID!]
 }
 
 input createHistoryNoteInput {

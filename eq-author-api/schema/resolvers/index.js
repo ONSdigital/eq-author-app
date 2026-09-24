@@ -6,6 +6,7 @@ const questionnaireIntroduction = require("./questionnaireIntroduction");
 const importing = require("./importing");
 const importQuestionsToNewFolder = require("./v2/importing/importQuestionsToNewFolder");
 const questionnaires = require("./questionnaires");
+const duplicateAndRenameQuestionnaire = require("./v2/duplicateAndRenameQuestionnaire");
 
 module.exports = [
   base,
@@ -16,4 +17,5 @@ module.exports = [
   importing,
   importQuestionsToNewFolder,
   questionnaires,
+  duplicateAndRenameQuestionnaire,
 ];
