@@ -2,7 +2,7 @@ const { Firestore } = require("@google-cloud/firestore");
 const { v4: uuidv4 } = require("uuid");
 const { logger } = require("../../utils/logger");
 const { pick } = require("lodash/fp");
-const { omit } = require("lodash");
+const { omit, has } = require("lodash");
 const { removeEmpty } = require("../../utils/removeEmpty");
 const {
   baseQuestionnaireFields,
@@ -12,6 +12,11 @@ const {
   questionnaireCreationEvent,
   historyCreationForImport,
 } = require("../../utils/questionnaireEvents");
+
+const normaliseStringValue = (value = "") =>
+  String(value ?? "")
+    .trim()
+    .toLowerCase();
 
 let db;
 
@@ -387,77 +392,152 @@ const listQuestionnaires = async () => {
   }
 };
 
-const listFilteredQuestionnaires = async (input) => {
-  try {
-    const {
-      resultsPerPage,
-      firstQuestionnaireIdOnPage,
-      lastQuestionnaireIdOnPage,
-    } = input;
+const buildPaginationQuery = async ({
+  questionnairesQuery,
+  resultsPerPage = 10,
+  firstQuestionnaireIdOnPage,
+  lastQuestionnaireIdOnPage,
+}) => {
+  // Query gets questionnaires on first page when firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage are not provided
+  if (!firstQuestionnaireIdOnPage && !lastQuestionnaireIdOnPage) {
+    return questionnairesQuery.limit(resultsPerPage);
+  }
 
-    // Orders questionnaires by when they were created, starting with the newest
-    let questionnairesQuery = db
+  // Query gets questionnaires on previous page when firstQuestionnaireIdOnPage is provided without lastQuestionnaireIdOnPage
+  if (firstQuestionnaireIdOnPage && !lastQuestionnaireIdOnPage) {
+    // Gets first questionnaire on current page based on firstQuestionnaireIdOnPage
+    const firstQuestionnaireOnPage = await db
       .collection("questionnaires")
-      .orderBy("createdAt", "desc");
+      .doc(firstQuestionnaireIdOnPage)
+      .get();
 
-    // Gets questionnaires on first page when firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage are not provided
-    if (!firstQuestionnaireIdOnPage && !lastQuestionnaireIdOnPage) {
-      questionnairesQuery = questionnairesQuery.limit(resultsPerPage);
+    // Query gets previous questionnaires before firstQuestionnaireOnPage, limiting the number of questionnaires to resultsPerPage
+    return questionnairesQuery
+      .endBefore(firstQuestionnaireOnPage)
+      .limitToLast(resultsPerPage);
+  }
+
+  // Query gets questionnaires on next page when lastQuestionnaireIdOnPage is provided without firstQuestionnaireIdOnPage
+  if (lastQuestionnaireIdOnPage && !firstQuestionnaireIdOnPage) {
+    // Gets last questionnaire on current page based on lastQuestionnaireIdOnPage
+    const lastQuestionnaireOnPage = await db
+      .collection("questionnaires")
+      .doc(lastQuestionnaireIdOnPage)
+      .get();
+
+    // Query gets next questionnaires after lastQuestionnaireOnPage, limiting the number of questionnaires to resultsPerPage
+    return questionnairesQuery
+      .startAfter(lastQuestionnaireOnPage)
+      .limit(resultsPerPage);
+  }
+  // Throws an error when both firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage are provided
+  throw new Error(
+    "Invalid input - both firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage have been provided (from applyFirestorePagination)"
+  );
+};
+
+const mapQuestionnaireDocuments = (snapshot) =>
+  snapshot.docs.map((doc) => ({
+    ...doc.data(),
+    editors: doc.data().editors || [],
+    createdAt: doc.data().createdAt.toDate(),
+    updatedAt: doc.data().updatedAt.toDate(),
+  }));
+
+const fetchAllQuestionnaires = async () => {
+  const snapshot = await db
+    .collection("questionnaires")
+    .orderBy("createdAt", "desc")
+    .get();
+
+  if (snapshot.empty) {
+    return [];
+  }
+
+  return mapQuestionnaireDocuments(snapshot);
+};
+
+const searchQuestionnaires = (questionnaires, input = {}) => {
+  const searchTerm = normaliseStringValue(input?.searchByTitleOrShortCode);
+
+  return questionnaires.filter(
+    ({ title = "", shortTitle = "" }) =>
+      !searchTerm ||
+      normaliseStringValue(title).includes(searchTerm) ||
+      normaliseStringValue(shortTitle).includes(searchTerm)
+  );
+};
+
+const getFilteredQuestionnaires = async (input = {}) => {
+  const questionnaires = await fetchAllQuestionnaires();
+
+  return searchQuestionnaires(questionnaires, input);
+};
+
+const listFilteredQuestionnaires = async (input = {}) => {
+  try {
+    const { resultsPerPage = 10, searchByTitleOrShortCode = "" } = input ?? {};
+
+    const hasSearchTerm =
+      normaliseStringValue(searchByTitleOrShortCode).length > 0;
+
+    // Paginates as part of the Firestore query if not searching by title or short code
+    if (!hasSearchTerm) {
+      let query = db.collection("questionnaires").orderBy("createdAt", "desc");
+
+      query = await buildPaginationQuery({
+        questionnairesQuery: query,
+        ...input,
+      });
+
+      const questionnairesSnapshot = await query.get();
+
+      if (questionnairesSnapshot.empty) {
+        logger.info(
+          "No questionnaires found (from listFilteredQuestionnaires)"
+        );
+        return [];
+      }
+
+      return mapQuestionnaireDocuments(questionnairesSnapshot);
     }
-    // Gets questionnaires on previous page when firstQuestionnaireIdOnPage is provided without lastQuestionnaireIdOnPage
-    else if (firstQuestionnaireIdOnPage && !lastQuestionnaireIdOnPage) {
-      // Gets first questionnaire on current page based on firstQuestionnaireIdOnPage
-      const firstQuestionnaireOnPage = await db
-        .collection("questionnaires")
-        .doc(firstQuestionnaireIdOnPage)
-        .get();
 
-      // Gets previous questionnaires before firstQuestionnaireOnPage, limiting the number of questionnaires to `resultsPerPage`
-      questionnairesQuery = questionnairesQuery
-        .endBefore(firstQuestionnaireOnPage)
-        .limitToLast(resultsPerPage);
-    }
-    // Gets questionnaires on next page when lastQuestionnaireIdOnPage is provided without firstQuestionnaireIdOnPage
-    else if (lastQuestionnaireIdOnPage && !firstQuestionnaireIdOnPage) {
-      // Gets last questionnaire on current page based on lastQuestionnaireIdOnPage
-      const lastQuestionnaireOnPage = await db
-        .collection("questionnaires")
-        .doc(lastQuestionnaireIdOnPage)
-        .get();
+    // Searches through all questionnaires if a search term is provided and returns the first page (further pagination is TODO)
+    const filteredQuestionnaires = await getFilteredQuestionnaires(input);
 
-      // Gets next questionnaires after lastQuestionnaireOnPage, limiting the number of questionnaires to `resultsPerPage`
-      questionnairesQuery = questionnairesQuery
-        .startAfter(lastQuestionnaireOnPage)
-        .limit(resultsPerPage);
-    }
-    // Throws an error when both firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage are provided
-    else {
-      logger.error(
-        "Invalid input - both firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage have been provided (from listFilteredQuestionnaires)"
-      );
-    }
-
-    const questionnairesSnapshot = await questionnairesQuery.get();
-
-    if (questionnairesSnapshot.empty) {
+    if (filteredQuestionnaires.length === 0) {
       logger.info("No questionnaires found (from listFilteredQuestionnaires)");
       return [];
     }
 
-    const questionnaires = questionnairesSnapshot.docs.map((doc) => ({
-      ...doc.data(),
-      editors: doc.data().editors || [],
-      createdAt: doc.data().createdAt.toDate(),
-      updatedAt: doc.data().updatedAt.toDate(),
-    }));
-    return questionnaires || [];
+    return filteredQuestionnaires.slice(0, resultsPerPage);
   } catch (error) {
     logger.error(
-      error,
+      { error: error.stack, input },
       "Unable to retrieve questionnaires (from listFilteredQuestionnaires)"
     );
-    return;
+    throw error;
   }
+};
+
+const getTotalFilteredQuestionnaires = async (input = {}) => {
+  try {
+    const questionnaires = await getFilteredQuestionnaires(input);
+    return questionnaires.length;
+  } catch (error) {
+    logger.error(
+      { error: error.stack, input },
+      "Unable to retrieve questionnaires (from getTotalFilteredQuestionnaires)"
+    );
+    throw error;
+  }
+};
+
+const getTotalPages = async (input = {}) => {
+  const resultsPerPage = input.resultsPerPage || 10;
+  const totalResults = await getTotalFilteredQuestionnaires(input);
+
+  return Math.ceil(totalResults / resultsPerPage);
 };
 
 const deleteQuestionnaire = async (id) => {
@@ -753,6 +833,8 @@ module.exports = {
   deleteQuestionnaire,
   listQuestionnaires,
   listFilteredQuestionnaires,
+  getTotalFilteredQuestionnaires,
+  getTotalPages,
   getQuestionnaire,
   getQuestionnaireMetaById,
   getQuestionnaireByVersionId,
