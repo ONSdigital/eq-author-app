@@ -5,7 +5,7 @@ const {
   queryQuestionnaire,
   deleteQuestionnaire,
   duplicateAndRenameQuestionnaire,
-} = require("../../tests/utils/contextBuilder/questionnaire");
+} = require("../../tests/utils/v2/contextBuilder/questionnaire");
 
 const {
   createQuestionnaire,

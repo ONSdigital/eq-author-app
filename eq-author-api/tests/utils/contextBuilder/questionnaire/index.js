@@ -2,7 +2,6 @@ module.exports = {
   ...require("./createQuestionnaire"),
   ...require("./deleteQuestionnaire"),
   ...require("./duplicateQuestionnaire"),
-  ...require("./duplicateAndRenameQuestionnaire"),
   ...require("./updateQuestionnaire"),
   ...require("./queryQuestionnaire"),
   ...require("./listQuestionnaires"),
@@ -12,4 +11,5 @@ module.exports = {
   ...require("./toggleQuestionnaireStarred"),
   ...require("./setQuestionnaireLocked"),
   ...require("./updateSubmission"),
+  ...require("../../v2/contextBuilder/questionnaire"),
 };

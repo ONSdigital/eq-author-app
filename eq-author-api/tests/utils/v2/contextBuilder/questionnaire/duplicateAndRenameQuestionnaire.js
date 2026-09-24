@@ -1,4 +1,4 @@
-const executeQuery = require("../../executeQuery");
+const executeQuery = require("../../../executeQuery");
 
 const duplicateAndRenameQuestionnaireMutation = `
   mutation duplicateAndRenameQuestionnaire($input: DuplicateAndRenameQuestionnaireInput!) {
