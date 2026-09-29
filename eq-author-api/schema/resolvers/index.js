@@ -4,6 +4,7 @@ const binaryExpression2 = require("./logic/binaryExpression2");
 const page = require("./pages");
 const questionnaireIntroduction = require("./questionnaireIntroduction");
 const importing = require("./importing");
+const importQuestionsToNewFolder = require("./v2/importing/importQuestionsToNewFolder");
 const questionnaires = require("./questionnaires");
 const duplicateAndRenameQuestionnaire = require("./v2/duplicateAndRenameQuestionnaire");
 
@@ -14,6 +15,7 @@ module.exports = [
   ...page,
   ...questionnaireIntroduction,
   importing,
+  importQuestionsToNewFolder,
   questionnaires,
   duplicateAndRenameQuestionnaire,
 ];
