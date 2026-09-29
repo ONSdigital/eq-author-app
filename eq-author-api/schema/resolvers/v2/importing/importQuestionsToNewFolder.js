@@ -24,6 +24,12 @@ module.exports = {
           throw new UserInputError("Target section ID must be provided.");
         }
 
+        if (questionIds.length === 0) {
+          throw new UserInputError(
+            "No questionIds provided. At least one question must be imported."
+          );
+        }
+
         const sourceQuestionnaire = await getQuestionnaire(questionnaireId);
         if (!sourceQuestionnaire) {
           throw new UserInputError(

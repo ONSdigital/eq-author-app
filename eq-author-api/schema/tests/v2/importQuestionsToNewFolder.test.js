@@ -35,6 +35,17 @@ describe("Importing questions to new folder", () => {
       );
     });
 
+    it("should throw if questionIds is empty", async () => {
+      expect(
+        importQuestionsToNewFolder(await buildContext({}), {
+          ...defaultInput,
+          questionIds: [],
+        })
+      ).rejects.toThrow(
+        "No questionIds provided. At least one question must be imported."
+      );
+    });
+
     it("should throw if not all questions present in source questionnaire", async () => {
       const { questionnaire: sourceQuestionnaire } = await buildContext({});
       const ctx = await buildContext({});
