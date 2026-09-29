@@ -49,7 +49,8 @@ module.exports = {
 
         pages.forEach((page) => {
           removeExtraSpaces(page);
-          if (page.answers.length === 1) {
+
+          if (Array.isArray(page.answers) && page.answers.length === 1) {
             if (page.answers[0].repeatingLabelAndInputListId) {
               page.answers[0].repeatingLabelAndInputListId = "";
             }
