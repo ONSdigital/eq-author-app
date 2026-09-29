@@ -19,7 +19,7 @@ describe("Importing questions to new folder", () => {
     };
 
     it("should throw if sectionId is not provided", async () => {
-      expect(
+      await expect(
         importQuestionsToNewFolder(await buildContext({}), {
           ...defaultInput,
           position: { index: 0, sectionId: null },
@@ -28,7 +28,7 @@ describe("Importing questions to new folder", () => {
     });
 
     it("should throw if source questionnaireId doesn't exist", async () => {
-      expect(
+      await expect(
         importQuestionsToNewFolder(await buildContext({}), defaultInput)
       ).rejects.toThrow(
         "Questionnaire with ID questionnaire-id does not exist."
@@ -36,7 +36,7 @@ describe("Importing questions to new folder", () => {
     });
 
     it("should throw if questionIds is empty", async () => {
-      expect(
+      await expect(
         importQuestionsToNewFolder(await buildContext({}), {
           ...defaultInput,
           questionIds: [],
@@ -50,7 +50,7 @@ describe("Importing questions to new folder", () => {
       const { questionnaire: sourceQuestionnaire } = await buildContext({});
       const ctx = await buildContext({});
 
-      expect(
+      await expect(
         importQuestionsToNewFolder(ctx, {
           ...defaultInput,
           questionnaireId: sourceQuestionnaire.id,
@@ -69,7 +69,7 @@ describe("Importing questions to new folder", () => {
         ({ id }) => id
       );
 
-      expect(
+      await expect(
         importQuestionsToNewFolder(ctx, {
           questionnaireId: sourceQuestionnaire.id,
           questionIds,
