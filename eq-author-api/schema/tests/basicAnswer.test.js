@@ -18,6 +18,7 @@ const {
   TEXTFIELD,
   DURATION,
   MUTUALLY_EXCLUSIVE,
+  DATE_RANGE,
 } = require("../../constants/answerTypes");
 
 describe("basic answer", () => {
@@ -62,6 +63,62 @@ describe("basic answer", () => {
           })
         );
       });
+    });
+
+    it("should create a DateRange answer with empty label and secondaryLabel by default", async () => {
+      ctx = await buildContext({
+        sections: [
+          {
+            folders: [
+              {
+                pages: [{}],
+              },
+            ],
+          },
+        ],
+      });
+      questionnaire = ctx.questionnaire;
+
+      const answer = await createAnswer(ctx, {
+        type: DATE_RANGE,
+        questionPageId: questionnaire.sections[0].folders[0].pages[0].id,
+      });
+
+      expect(answer).toEqual(
+        expect.objectContaining({
+          label: "",
+          secondaryLabel: "",
+        })
+      );
+    });
+
+    it("should preserve provided label and secondaryLabel for a DateRange answer", async () => {
+      ctx = await buildContext({
+        sections: [
+          {
+            folders: [
+              {
+                pages: [{}],
+              },
+            ],
+          },
+        ],
+      });
+      questionnaire = ctx.questionnaire;
+
+      const answer = await createAnswer(ctx, {
+        type: DATE_RANGE,
+        label: "From",
+        secondaryLabel: "To",
+        questionPageId: questionnaire.sections[0].folders[0].pages[0].id,
+      });
+
+      expect(answer).toEqual(
+        expect.objectContaining({
+          label: "From",
+          secondaryLabel: "To",
+        })
+      );
     });
   });
 
