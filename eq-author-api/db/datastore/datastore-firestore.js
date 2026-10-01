@@ -2,7 +2,7 @@ const { Firestore } = require("@google-cloud/firestore");
 const { v4: uuidv4 } = require("uuid");
 const { logger } = require("../../utils/logger");
 const { pick } = require("lodash/fp");
-const { omit, has } = require("lodash");
+const { omit } = require("lodash");
 const { removeEmpty } = require("../../utils/removeEmpty");
 const {
   baseQuestionnaireFields,
@@ -444,25 +444,38 @@ const mapQuestionnaireDocuments = (snapshot) =>
     updatedAt: doc.data().updatedAt.toDate(),
   }));
 
-const fetchAllQuestionnaires = async () => {
-  const snapshot = await db
-    .collection("questionnaires")
-    .orderBy("createdAt", "desc")
-    .get();
+let questionnairesInFlightPromise = null;
 
-  if (snapshot.empty) {
-    return [];
+const fetchAllQuestionnaires = async () => {
+  if (questionnairesInFlightPromise) {
+    return questionnairesInFlightPromise;
   }
 
-  return mapQuestionnaireDocuments(snapshot);
+  questionnairesInFlightPromise = (async () => {
+    const snapshot = await db
+      .collection("questionnaires")
+      .orderBy("createdAt", "desc")
+      .get();
+
+    return snapshot.empty ? [] : mapQuestionnaireDocuments(snapshot);
+  })();
+
+  try {
+    return await questionnairesInFlightPromise;
+  } finally {
+    questionnairesInFlightPromise = null;
+  }
 };
 
 const searchQuestionnaires = (questionnaires, input = {}) => {
   const searchTerm = normaliseStringValue(input?.searchByTitleOrShortCode);
 
+  if (!searchTerm) {
+    return questionnaires;
+  }
+
   return questionnaires.filter(
     ({ title = "", shortTitle = "" }) =>
-      !searchTerm ||
       normaliseStringValue(title).includes(searchTerm) ||
       normaliseStringValue(shortTitle).includes(searchTerm)
   );
@@ -476,21 +489,27 @@ const getFilteredQuestionnaires = async (input = {}) => {
 
 const listFilteredQuestionnaires = async (input = {}) => {
   try {
-    const { resultsPerPage = 10, searchByTitleOrShortCode = "" } = input ?? {};
-
-    const hasSearchTerm =
-      normaliseStringValue(searchByTitleOrShortCode).length > 0;
+    const {
+      resultsPerPage = 10,
+      searchByTitleOrShortCode = "",
+      firstQuestionnaireIdOnPage,
+      lastQuestionnaireIdOnPage,
+    } = input ?? {};
 
     // Paginates as part of the Firestore query if not searching by title or short code
-    if (!hasSearchTerm) {
-      let query = db.collection("questionnaires").orderBy("createdAt", "desc");
+    if (normaliseStringValue(searchByTitleOrShortCode).length === 0) {
+      let questionnairesQuery = db
+        .collection("questionnaires")
+        .orderBy("createdAt", "desc");
 
-      query = await buildPaginationQuery({
-        questionnairesQuery: query,
-        ...input,
+      questionnairesQuery = await buildPaginationQuery({
+        questionnairesQuery,
+        resultsPerPage,
+        firstQuestionnaireIdOnPage,
+        lastQuestionnaireIdOnPage,
       });
 
-      const questionnairesSnapshot = await query.get();
+      const questionnairesSnapshot = await questionnairesQuery.get();
 
       if (questionnairesSnapshot.empty) {
         logger.info(
@@ -516,7 +535,7 @@ const listFilteredQuestionnaires = async (input = {}) => {
       { error: error.stack, input },
       "Unable to retrieve questionnaires (from listFilteredQuestionnaires)"
     );
-    throw error;
+    return;
   }
 };
 
@@ -529,7 +548,7 @@ const getTotalFilteredQuestionnaires = async (input = {}) => {
       { error: error.stack, input },
       "Unable to retrieve questionnaires (from getTotalFilteredQuestionnaires)"
     );
-    throw error;
+    return;
   }
 };
 
