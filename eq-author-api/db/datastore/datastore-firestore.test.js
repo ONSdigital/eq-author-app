@@ -5,6 +5,9 @@ const {
   getQuestionnaireMetaById,
   saveQuestionnaire,
   listQuestionnaires,
+  listFilteredQuestionnaires,
+  getTotalFilteredQuestionnaires,
+  getTotalPages,
   deleteQuestionnaire,
   createUser,
   getUserByExternalId,
@@ -19,6 +22,7 @@ const {
   connectDB,
 } = require("./datastore-firestore");
 const { v4: uuidv4 } = require("uuid");
+const { logger } = require("../../utils/logger");
 
 const { noteCreationEvent } = require("../../utils/questionnaireEvents");
 
@@ -43,6 +47,9 @@ jest.mock("@google-cloud/firestore", () => {
   Firestore.prototype.orderBy = jest.fn(() => new Firestore());
   Firestore.prototype.where = jest.fn(() => new Firestore());
   Firestore.prototype.limit = jest.fn(() => new Firestore());
+  Firestore.prototype.endBefore = jest.fn(() => new Firestore());
+  Firestore.prototype.limitToLast = jest.fn(() => new Firestore());
+  Firestore.prototype.startAfter = jest.fn(() => new Firestore());
   Firestore.prototype.get = jest.fn(() => ({
     empty: true,
     docs: [],
@@ -59,11 +66,16 @@ describe("Firestore Datastore", () => {
     sections,
     baseQuestionnaire,
     user,
-    ctx;
+    ctx,
+    loggerInfoSpy,
+    loggerErrorSpy;
 
   beforeAll(connectDB);
 
   beforeEach(() => {
+    loggerInfoSpy = jest.spyOn(logger, "info").mockImplementation(() => {});
+    loggerErrorSpy = jest.spyOn(logger, "error").mockImplementation(() => {});
+
     baseQuestionnaire = {
       isPublic: true,
       title: "Working from home",
@@ -153,6 +165,9 @@ describe("Firestore Datastore", () => {
       empty: true,
       docs: [],
     }));
+
+    loggerInfoSpy.mockRestore();
+    loggerErrorSpy.mockRestore();
   });
 
   describe("Creating a questionnaire", () => {
@@ -290,6 +305,376 @@ describe("Firestore Datastore", () => {
 
       expect(listOfQuestionnaires[0].updatedAt instanceof Date).toBeTruthy();
       expect(listOfQuestionnaires[0].createdAt instanceof Date).toBeTruthy();
+    });
+  });
+
+  describe("Getting a filtered list of questionnaires", () => {
+    const firestoreTimestamp = {
+      toDate: () => new Date(),
+    };
+
+    const makeQuestionnaireDoc = (overrides = {}) => ({
+      data: () => ({
+        title: "Untitled questionnaire",
+        shortTitle: "UNT",
+        createdAt: firestoreTimestamp,
+        updatedAt: firestoreTimestamp,
+        ...overrides,
+      }),
+    });
+
+    it("Should return an empty array when the no-search paginated query is empty", async () => {
+      Firestore.prototype.get.mockImplementation(() => ({
+        empty: true,
+        docs: [],
+      }));
+
+      const questionnaires = await listFilteredQuestionnaires({
+        searchByTitleOrShortCode: "",
+      });
+
+      expect(Array.isArray(questionnaires)).toBeTruthy();
+      expect(questionnaires).toEqual([]);
+    });
+
+    it("Should return mapped questionnaire documents for default first page when no search is applied", async () => {
+      Firestore.prototype.get.mockImplementation(() => ({
+        empty: false,
+        docs: [makeQuestionnaireDoc()],
+      }));
+
+      const questionnaires = await listFilteredQuestionnaires({
+        searchByTitleOrShortCode: "",
+      });
+
+      expect(questionnaires.length).toBe(1);
+      expect(questionnaires[0].title).toBe("Untitled questionnaire");
+    });
+
+    it("Should paginate to the previous page when firstQuestionnaireIdOnPage is provided", async () => {
+      Firestore.prototype.get.mockImplementation(() => ({
+        empty: false,
+        docs: [makeQuestionnaireDoc()],
+      }));
+
+      await listFilteredQuestionnaires({
+        searchByTitleOrShortCode: "",
+        firstQuestionnaireIdOnPage: "first-id",
+      });
+
+      expect(Firestore.prototype.endBefore).toHaveBeenCalled();
+      expect(Firestore.prototype.limitToLast).toHaveBeenCalled();
+    });
+
+    it("Should paginate to the next page when lastQuestionnaireIdOnPage is provided", async () => {
+      Firestore.prototype.get.mockImplementation(() => ({
+        empty: false,
+        docs: [makeQuestionnaireDoc()],
+      }));
+
+      await listFilteredQuestionnaires({
+        searchByTitleOrShortCode: "",
+        lastQuestionnaireIdOnPage: "last-id",
+      });
+
+      expect(Firestore.prototype.startAfter).toHaveBeenCalled();
+      expect(Firestore.prototype.limit).toHaveBeenCalled();
+    });
+
+    it("Should return undefined when both pagination cursors are provided", async () => {
+      const input = {
+        searchByTitleOrShortCode: "",
+        firstQuestionnaireIdOnPage: "first-id",
+        lastQuestionnaireIdOnPage: "last-id",
+      };
+
+      const questionnaires = await listFilteredQuestionnaires({
+        ...input,
+      });
+
+      expect(questionnaires).toBeUndefined();
+      expect(loggerErrorSpy).toHaveBeenCalledWith(
+        {
+          error: expect.any(String),
+          input,
+        },
+        "Unable to retrieve questionnaires (from listFilteredQuestionnaires)"
+      );
+    });
+
+    it("Should return the first resultsPerPage matches when searching", async () => {
+      Firestore.prototype.get.mockImplementation(() => ({
+        empty: false,
+        docs: [
+          makeQuestionnaireDoc({
+            title: "Employee Check-In",
+            shortTitle: "HR-1",
+          }),
+          makeQuestionnaireDoc({ title: "Weather survey", shortTitle: "WX" }),
+          makeQuestionnaireDoc({
+            title: "Quarterly report",
+            shortTitle: "EMP-02",
+          }),
+        ],
+      }));
+
+      const questionnaires = await listFilteredQuestionnaires({
+        searchByTitleOrShortCode: "emp",
+        resultsPerPage: 1,
+      });
+
+      expect(questionnaires.length).toBe(1);
+      expect(questionnaires[0].title).toBe("Employee Check-In");
+    });
+
+    it("Should return matches for short title when searching", async () => {
+      Firestore.prototype.get.mockImplementation(() => ({
+        empty: false,
+        docs: [
+          makeQuestionnaireDoc({
+            title: "Employee Check-In",
+            shortTitle: "HR-1",
+          }),
+          makeQuestionnaireDoc({ title: "Weather survey", shortTitle: "WX" }),
+          makeQuestionnaireDoc({
+            title: "Quarterly report",
+            shortTitle: "QR-01",
+          }),
+          makeQuestionnaireDoc({
+            title: "Quarterly report v2",
+            shortTitle: "QR-02",
+          }),
+        ],
+      }));
+
+      const questionnaires = await listFilteredQuestionnaires({
+        searchByTitleOrShortCode: "QR",
+        resultsPerPage: 10,
+      });
+
+      expect(questionnaires.length).toBe(2);
+      expect(questionnaires[0].title).toBe("Quarterly report");
+      expect(questionnaires[1].title).toBe("Quarterly report v2");
+    });
+
+    it("Should normalise search term, titles and short titles when searching", async () => {
+      Firestore.prototype.get.mockImplementation(() => ({
+        empty: false,
+        docs: [
+          makeQuestionnaireDoc({
+            title: "  employee check-in  ",
+            shortTitle: "HR-1",
+          }),
+          makeQuestionnaireDoc({
+            title: "EmployEE Check-In v2  ",
+            shortTitle: "HR-2",
+          }),
+          makeQuestionnaireDoc({ title: "Weather survey", shortTitle: "WX" }),
+          makeQuestionnaireDoc({
+            title: "Quarterly report",
+            shortTitle: "EMP-02",
+          }),
+        ],
+      }));
+
+      const questionnaires = await listFilteredQuestionnaires({
+        searchByTitleOrShortCode: " EMP   ",
+      });
+
+      expect(questionnaires.length).toBe(3);
+      expect(questionnaires[0].title).toBe("  employee check-in  ");
+      expect(questionnaires[1].title).toBe("EmployEE Check-In v2  ");
+      expect(questionnaires[2].title).toBe("Quarterly report");
+    });
+
+    it("Should return an empty array when searching and no results match", async () => {
+      const input = {
+        searchByTitleOrShortCode: "gamma",
+      };
+
+      Firestore.prototype.get.mockImplementation(() => ({
+        empty: false,
+        docs: [
+          makeQuestionnaireDoc({ title: "Alpha", shortTitle: "A1" }),
+          makeQuestionnaireDoc({ title: "Beta", shortTitle: "B1" }),
+        ],
+      }));
+
+      const questionnaires = await listFilteredQuestionnaires(input);
+
+      expect(questionnaires).toEqual([]);
+      expect(loggerInfoSpy).toHaveBeenCalledWith(
+        "No questionnaires found (from listFilteredQuestionnaires)"
+      );
+    });
+
+    it("Should return undefined when a Firestore error is thrown", async () => {
+      const input = {
+        searchByTitleOrShortCode: "",
+      };
+
+      Firestore.prototype.get.mockRejectedValue(new Error("firestore failed"));
+
+      const questionnaires = await listFilteredQuestionnaires(input);
+
+      expect(questionnaires).toBeUndefined();
+      expect(loggerErrorSpy).toHaveBeenCalledWith(
+        {
+          error: expect.any(String),
+          input,
+        },
+        "Unable to retrieve questionnaires (from listFilteredQuestionnaires)"
+      );
+    });
+  });
+
+  describe("Getting filtered totals", () => {
+    const firestoreTimestamp = {
+      toDate: () => new Date(),
+    };
+
+    const makeQuestionnaireDoc = (overrides = {}) => ({
+      data: () => ({
+        title: "Untitled questionnaire",
+        shortTitle: "UNT",
+        createdAt: firestoreTimestamp,
+        updatedAt: firestoreTimestamp,
+        ...overrides,
+      }),
+    });
+
+    it("Should return the number of filtered questionnaires", async () => {
+      Firestore.prototype.get.mockImplementation(() => ({
+        empty: false,
+        docs: [
+          makeQuestionnaireDoc({ title: "Employee survey" }),
+          makeQuestionnaireDoc({ title: "Employee pulse" }),
+          makeQuestionnaireDoc({ title: "Weather survey" }),
+        ],
+      }));
+
+      const totalFiltered = await getTotalFilteredQuestionnaires({
+        searchByTitleOrShortCode: "employee",
+      });
+
+      expect(totalFiltered).toBe(2);
+    });
+
+    it("Should return all questionnaires when no search term is provided", async () => {
+      Firestore.prototype.get.mockImplementation(() => ({
+        empty: false,
+        docs: [
+          makeQuestionnaireDoc({ title: "Employee survey" }),
+          makeQuestionnaireDoc({ title: "Weather survey" }),
+          makeQuestionnaireDoc({ title: "Business survey" }),
+        ],
+      }));
+
+      const totalFiltered = await getTotalFilteredQuestionnaires({
+        searchByTitleOrShortCode: "",
+      });
+
+      expect(totalFiltered).toBe(3);
+    });
+
+    it("Should return undefined when counting filtered questionnaires fails", async () => {
+      const input = {
+        searchByTitleOrShortCode: "employee",
+      };
+
+      Firestore.prototype.get.mockRejectedValue(new Error("firestore failed"));
+
+      const totalFiltered = await getTotalFilteredQuestionnaires(input);
+
+      expect(totalFiltered).toBeUndefined();
+      expect(loggerErrorSpy).toHaveBeenCalledWith(
+        {
+          error: expect.any(String),
+          input,
+        },
+        "Unable to retrieve questionnaires (from getTotalFilteredQuestionnaires)"
+      );
+    });
+
+    it("Should deduplicate concurrent fetches when counting filtered questionnaires", async () => {
+      let resolveSnapshot;
+
+      Firestore.prototype.get.mockReset();
+
+      Firestore.prototype.get.mockImplementation(
+        () =>
+          new Promise((resolve) => {
+            resolveSnapshot = resolve;
+          })
+      );
+
+      const firstCountPromise = getTotalFilteredQuestionnaires({
+        searchByTitleOrShortCode: "employee",
+      });
+      const secondCountPromise = getTotalFilteredQuestionnaires({
+        searchByTitleOrShortCode: "employee",
+      });
+
+      await Promise.resolve();
+      const callsBeforeResolving = Firestore.prototype.get.mock.calls.length;
+
+      resolveSnapshot({
+        empty: false,
+        docs: [
+          makeQuestionnaireDoc({ title: "Employee survey" }),
+          makeQuestionnaireDoc({ title: "Employee pulse" }),
+          makeQuestionnaireDoc({ title: "Weather survey" }),
+        ],
+      });
+
+      const [firstCount, secondCount] = await Promise.all([
+        firstCountPromise,
+        secondCountPromise,
+      ]);
+
+      expect(firstCount).toBe(2);
+      expect(secondCount).toBe(2);
+      expect(callsBeforeResolving).toBe(1);
+    });
+
+    it("Should retry fetching questionnaires after an in-flight fetch fails", async () => {
+      Firestore.prototype.get.mockReset();
+
+      Firestore.prototype.get
+        .mockRejectedValueOnce(new Error("firestore failed"))
+        .mockResolvedValueOnce({
+          empty: false,
+          docs: [makeQuestionnaireDoc({ title: "Employee survey" })],
+        });
+
+      const firstTotalFiltered = await getTotalFilteredQuestionnaires({
+        searchByTitleOrShortCode: "employee",
+      });
+      const secondTotalFiltered = await getTotalFilteredQuestionnaires({
+        searchByTitleOrShortCode: "employee",
+      });
+
+      expect(firstTotalFiltered).toBeUndefined();
+      expect(secondTotalFiltered).toBe(1);
+      expect(Firestore.prototype.get).toHaveBeenCalledTimes(2);
+    });
+
+    it("Should return the total number of pages rounded up", async () => {
+      Firestore.prototype.get.mockImplementation(() => ({
+        empty: false,
+        docs: [
+          makeQuestionnaireDoc({ title: "Employee survey" }),
+          makeQuestionnaireDoc({ title: "Employee pulse" }),
+          makeQuestionnaireDoc({ title: "Employee feedback" }),
+        ],
+      }));
+
+      const totalPages = await getTotalPages({
+        searchByTitleOrShortCode: "employee",
+        resultsPerPage: 2,
+      });
+
+      expect(totalPages).toBe(2);
     });
   });
 
