@@ -316,7 +316,7 @@ describe("Firestore Datastore", () => {
     const makeQuestionnaireDoc = (overrides = {}) => ({
       data: () => ({
         title: "Untitled questionnaire",
-        shortTitle: "UNT",
+        shortTitle: "UNTITLED",
         createdAt: firestoreTimestamp,
         updatedAt: firestoreTimestamp,
         ...overrides,
@@ -536,7 +536,7 @@ describe("Firestore Datastore", () => {
     const makeQuestionnaireDoc = (overrides = {}) => ({
       data: () => ({
         title: "Untitled questionnaire",
-        shortTitle: "UNT",
+        shortTitle: "UNTITLED",
         createdAt: firestoreTimestamp,
         updatedAt: firestoreTimestamp,
         ...overrides,
