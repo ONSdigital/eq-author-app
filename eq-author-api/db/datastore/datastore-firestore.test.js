@@ -596,6 +596,25 @@ describe("Firestore Datastore", () => {
       );
     });
 
+    it("Should return undefined for total pages when counting filtered questionnaires fails", async () => {
+      const input = {
+        searchByTitleOrShortCode: "employee",
+      };
+
+      Firestore.prototype.get.mockRejectedValue(new Error("firestore failed"));
+
+      const totalPages = await getTotalPages(input);
+
+      expect(totalPages).toBeUndefined();
+      expect(loggerErrorSpy).toHaveBeenCalledWith(
+        {
+          error: expect.any(String),
+          input,
+        },
+        "Unable to retrieve questionnaires (from getTotalFilteredQuestionnaires)"
+      );
+    });
+
     it("Should deduplicate concurrent fetches when counting filtered questionnaires", async () => {
       let resolveSnapshot;
 
@@ -675,6 +694,21 @@ describe("Firestore Datastore", () => {
       });
 
       expect(totalPages).toBe(2);
+    });
+
+    it("Should default pagination to 10 results per page when called with null input", async () => {
+      Firestore.prototype.get.mockImplementation(() => ({
+        empty: false,
+        docs: [
+          makeQuestionnaireDoc({ title: "Employee survey" }),
+          makeQuestionnaireDoc({ title: "Employee pulse" }),
+          makeQuestionnaireDoc({ title: "Employee feedback" }),
+        ],
+      }));
+
+      const totalPages = await getTotalPages(null);
+
+      expect(totalPages).toBe(1);
     });
   });
 

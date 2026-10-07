@@ -556,8 +556,12 @@ const getTotalFilteredQuestionnaires = async (input = {}) => {
 };
 
 const getTotalPages = async (input = {}) => {
-  const resultsPerPage = input.resultsPerPage || 10;
+  const resultsPerPage = input?.resultsPerPage || 10;
   const totalResults = await getTotalFilteredQuestionnaires(input);
+
+  if (totalResults === undefined) {
+    return;
+  }
 
   return Math.ceil(totalResults / resultsPerPage);
 };
