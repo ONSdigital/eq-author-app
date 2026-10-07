@@ -171,7 +171,7 @@ describe("Firestore Datastore", () => {
   });
 
   describe("Creating a questionnaire", () => {
-    it("Should give the questionnaire an ID if one is not given", async () => {
+    it("should give the questionnaire an ID if one is not given", async () => {
       const uuidRegex =
         /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
       expect(questionnaire.id).toBeFalsy();
@@ -179,7 +179,7 @@ describe("Firestore Datastore", () => {
       expect(questionnaireFromDb.id).toMatch(uuidRegex);
     });
 
-    it("Should leave the questionnaire ID as is if one is given", async () => {
+    it("should leave the questionnaire ID as is if one is given", async () => {
       expect(questionnaire.id).toBeFalsy();
       questionnaire.id = "123";
       expect(questionnaire.id).toBeTruthy();
@@ -189,17 +189,17 @@ describe("Firestore Datastore", () => {
   });
 
   describe("Getting the latest questionnaire version", () => {
-    it("Should should handle when an ID is not provided", () => {
+    it("should should handle when an ID is not provided", () => {
       expect(() => getQuestionnaire()).not.toThrow();
     });
 
-    it("Should return null when it cannot find the questionnaire", async () => {
+    it("should return null when it cannot find the questionnaire", async () => {
       const questionnaireFromDb = await getQuestionnaire("123");
       expect(questionnaireFromDb).toBeNull();
       expect(getQuestionnaire("123")).resolves.toBeNull();
     });
 
-    it("Should transform Firestore Timestamps into JS Date objects", async () => {
+    it("should transform Firestore Timestamps into JS Date objects", async () => {
       Firestore.prototype.get.mockImplementation(() => ({
         empty: false,
         docs: [{ data: () => questionnaire }],
@@ -210,7 +210,7 @@ describe("Firestore Datastore", () => {
       expect(questionnaireFromDb.updatedAt instanceof Date).toBeTruthy();
     });
 
-    it("Should reconstruct sections from subcollection if present", async () => {
+    it("should reconstruct sections from subcollection if present", async () => {
       Firestore.prototype.get.mockImplementation(() => ({
         empty: false,
         docs: [
@@ -234,17 +234,17 @@ describe("Firestore Datastore", () => {
   });
 
   describe("Getting the base questionnaire", () => {
-    it("Should handle when an ID is not provided", () => {
+    it("should handle when an ID is not provided", () => {
       expect(() => getQuestionnaireMetaById()).not.toThrow();
     });
 
-    it("Should return null when it cannot find the questionnaire", async () => {
+    it("should return null when it cannot find the questionnaire", async () => {
       const baseQuestionnaireFromDb = await getQuestionnaireMetaById("123");
       expect(baseQuestionnaireFromDb).toBeNull();
       expect(getQuestionnaire("123")).resolves.toBeNull();
     });
 
-    it("Should transform Firestore Timestamps into JS Data objects", async () => {
+    it("should transform Firestore Timestamps into JS Data objects", async () => {
       Firestore.prototype.get.mockImplementation(() => ({
         empty: false,
         data: () => baseQuestionnaire,
@@ -260,11 +260,11 @@ describe("Firestore Datastore", () => {
   });
 
   describe("Saving a questionnaire", () => {
-    it("Should handle when an ID cannot be found within the given questionnaire", () => {
+    it("should handle when an ID cannot be found within the given questionnaire", () => {
       expect(() => saveQuestionnaire(questionnaire)).not.toThrow();
     });
 
-    it("Should update the 'updatedAt' property", async () => {
+    it("should update the 'updatedAt' property", async () => {
       const updatedAt = new Date();
       const savedQuestionnaire = await saveQuestionnaire({
         id: "123",
@@ -274,7 +274,7 @@ describe("Firestore Datastore", () => {
       expect(updatedAt !== savedQuestionnaire.updatedAt).toBeTruthy();
     });
 
-    it("Should not update the 'createdAt' property", async () => {
+    it("should not update the 'createdAt' property", async () => {
       const createdAt = questionnaire.createdAt;
       const savedQuestionnaire = await saveQuestionnaire({
         id: "123",
@@ -286,13 +286,13 @@ describe("Firestore Datastore", () => {
   });
 
   describe("Getting a list of questionnaires", () => {
-    it("Should return an empty array if no questionnaires are found", async () => {
+    it("should return an empty array if no questionnaires are found", async () => {
       const listOfQuestionnaires = await listQuestionnaires();
       expect(listOfQuestionnaires.length).toBe(0);
       expect(Array.isArray(listOfQuestionnaires)).toBeTruthy();
     });
 
-    it("Should transform Firestore Timestamps into JS Date objects", async () => {
+    it("should transform Firestore Timestamps into JS Date objects", async () => {
       Firestore.prototype.get.mockImplementation(() => ({
         docs: [
           {
@@ -323,7 +323,7 @@ describe("Firestore Datastore", () => {
       }),
     });
 
-    it("Should return an empty array when the no-search paginated query is empty", async () => {
+    it("should return an empty array when the no-search paginated query is empty", async () => {
       Firestore.prototype.get.mockImplementation(() => ({
         empty: true,
         docs: [],
@@ -337,7 +337,7 @@ describe("Firestore Datastore", () => {
       expect(questionnaires).toEqual([]);
     });
 
-    it("Should return mapped questionnaire documents for default first page when no search is applied", async () => {
+    it("should return mapped questionnaire documents for default first page when no search is applied", async () => {
       Firestore.prototype.get.mockImplementation(() => ({
         empty: false,
         docs: [makeQuestionnaireDoc()],
@@ -351,7 +351,7 @@ describe("Firestore Datastore", () => {
       expect(questionnaires[0].title).toBe("Untitled questionnaire");
     });
 
-    it("Should paginate to the previous page when firstQuestionnaireIdOnPage is provided", async () => {
+    it("should paginate to the previous page when firstQuestionnaireIdOnPage is provided", async () => {
       Firestore.prototype.get.mockImplementation(() => ({
         empty: false,
         docs: [makeQuestionnaireDoc()],
@@ -366,7 +366,7 @@ describe("Firestore Datastore", () => {
       expect(Firestore.prototype.limitToLast).toHaveBeenCalled();
     });
 
-    it("Should paginate to the next page when lastQuestionnaireIdOnPage is provided", async () => {
+    it("should paginate to the next page when lastQuestionnaireIdOnPage is provided", async () => {
       Firestore.prototype.get.mockImplementation(() => ({
         empty: false,
         docs: [makeQuestionnaireDoc()],
@@ -381,7 +381,7 @@ describe("Firestore Datastore", () => {
       expect(Firestore.prototype.limit).toHaveBeenCalled();
     });
 
-    it("Should return undefined when both pagination cursors are provided", async () => {
+    it("should return undefined when both pagination cursors are provided", async () => {
       const input = {
         searchByTitleOrShortCode: "",
         firstQuestionnaireIdOnPage: "first-id",
@@ -402,7 +402,7 @@ describe("Firestore Datastore", () => {
       );
     });
 
-    it("Should return the first resultsPerPage matches when searching", async () => {
+    it("should return the first resultsPerPage matches when searching", async () => {
       Firestore.prototype.get.mockImplementation(() => ({
         empty: false,
         docs: [
@@ -427,7 +427,7 @@ describe("Firestore Datastore", () => {
       expect(questionnaires[0].title).toBe("Employee Check-In");
     });
 
-    it("Should return matches for short title when searching", async () => {
+    it("should return matches for short title when searching", async () => {
       Firestore.prototype.get.mockImplementation(() => ({
         empty: false,
         docs: [
@@ -457,7 +457,7 @@ describe("Firestore Datastore", () => {
       expect(questionnaires[1].title).toBe("Quarterly report v2");
     });
 
-    it("Should normalise search term, titles and short titles when searching", async () => {
+    it("should normalise search term, titles and short titles when searching", async () => {
       Firestore.prototype.get.mockImplementation(() => ({
         empty: false,
         docs: [
@@ -487,7 +487,7 @@ describe("Firestore Datastore", () => {
       expect(questionnaires[2].title).toBe("Quarterly report");
     });
 
-    it("Should return an empty array when searching and no results match", async () => {
+    it("should return an empty array when searching and no results match", async () => {
       const input = {
         searchByTitleOrShortCode: "gamma",
       };
@@ -508,7 +508,7 @@ describe("Firestore Datastore", () => {
       );
     });
 
-    it("Should return undefined when a Firestore error is thrown", async () => {
+    it("should return undefined when a Firestore error is thrown", async () => {
       const input = {
         searchByTitleOrShortCode: "",
       };
@@ -543,7 +543,7 @@ describe("Firestore Datastore", () => {
       }),
     });
 
-    it("Should return the number of filtered questionnaires", async () => {
+    it("should return the number of filtered questionnaires", async () => {
       Firestore.prototype.get.mockImplementation(() => ({
         empty: false,
         docs: [
@@ -560,7 +560,7 @@ describe("Firestore Datastore", () => {
       expect(totalFiltered).toBe(2);
     });
 
-    it("Should return all questionnaires when no search term is provided", async () => {
+    it("should return all questionnaires when no search term is provided", async () => {
       Firestore.prototype.get.mockImplementation(() => ({
         empty: false,
         docs: [
@@ -577,7 +577,7 @@ describe("Firestore Datastore", () => {
       expect(totalFiltered).toBe(3);
     });
 
-    it("Should return undefined when counting filtered questionnaires fails", async () => {
+    it("should return undefined when counting filtered questionnaires fails", async () => {
       const input = {
         searchByTitleOrShortCode: "employee",
       };
@@ -596,7 +596,7 @@ describe("Firestore Datastore", () => {
       );
     });
 
-    it("Should return undefined for total pages when counting filtered questionnaires fails", async () => {
+    it("should return undefined for total pages when counting filtered questionnaires fails", async () => {
       const input = {
         searchByTitleOrShortCode: "employee",
       };
@@ -615,7 +615,7 @@ describe("Firestore Datastore", () => {
       );
     });
 
-    it("Should deduplicate concurrent fetches when counting filtered questionnaires", async () => {
+    it("should deduplicate concurrent fetches when counting filtered questionnaires", async () => {
       let resolveSnapshot;
 
       Firestore.prototype.get.mockReset();
@@ -656,7 +656,7 @@ describe("Firestore Datastore", () => {
       expect(callsBeforeResolving).toBe(1);
     });
 
-    it("Should retry fetching questionnaires after an in-flight fetch fails", async () => {
+    it("should retry fetching questionnaires after an in-flight fetch fails", async () => {
       Firestore.prototype.get.mockReset();
 
       Firestore.prototype.get
@@ -678,7 +678,7 @@ describe("Firestore Datastore", () => {
       expect(Firestore.prototype.get).toHaveBeenCalledTimes(2);
     });
 
-    it("Should return the total number of pages rounded up", async () => {
+    it("should return the total number of pages rounded up", async () => {
       Firestore.prototype.get.mockImplementation(() => ({
         empty: false,
         docs: [
@@ -696,7 +696,7 @@ describe("Firestore Datastore", () => {
       expect(totalPages).toBe(2);
     });
 
-    it("Should default pagination to 10 results per page when called with null input", async () => {
+    it("should default pagination to 10 results per page when called with null input", async () => {
       Firestore.prototype.get.mockImplementation(() => ({
         empty: false,
         docs: [
@@ -713,13 +713,13 @@ describe("Firestore Datastore", () => {
   });
 
   describe("Deleting a questionnaire", () => {
-    it("Should handle when an ID has not been given", () => {
+    it("should handle when an ID has not been given", () => {
       expect(() => deleteQuestionnaire()).not.toThrow();
     });
   });
 
   describe("Creating a user", () => {
-    it("Should give the user an ID if one is not given", async () => {
+    it("should give the user an ID if one is not given", async () => {
       const uuidRegex =
         /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
       const userFromDb = await createUser(user);
@@ -728,30 +728,30 @@ describe("Firestore Datastore", () => {
       expect(userFromDb.updatedAt instanceof Date).toBeTruthy();
     });
 
-    it("Should use the email as the users name if one is not given", async () => {
+    it("should use the email as the users name if one is not given", async () => {
       delete user.name;
       const userFromDb = await createUser(user);
       expect(userFromDb.name).toBeTruthy();
       expect(userFromDb.name).toMatch(userFromDb.email);
     });
 
-    it("Should handle any errors that may occur", () => {
+    it("should handle any errors that may occur", () => {
       delete user.email;
       expect(() => createUser(user)).not.toThrow();
     });
   });
 
   describe("Getting a user by their external ID", () => {
-    it("Should handle when an ID is not provided", () => {
+    it("should handle when an ID is not provided", () => {
       expect(() => getUserByExternalId()).not.toThrow();
     });
 
-    it("Should return nothing if the user cannot be found", async () => {
+    it("should return nothing if the user cannot be found", async () => {
       const user = await getUserByExternalId("123");
       expect(user).toBeUndefined();
     });
 
-    it("Should return the Firestore document ID as the ID for the user", async () => {
+    it("should return the Firestore document ID as the ID for the user", async () => {
       Firestore.prototype.get.mockImplementation(() => ({
         empty: false,
         docs: [
@@ -770,14 +770,14 @@ describe("Firestore Datastore", () => {
   });
 
   describe("Getting a user by their Firestore ID", () => {
-    it("Should handle when an ID is not provided", () => {
+    it("should handle when an ID is not provided", () => {
       expect(() => getUserById()).not.toThrow();
     });
-    it("Should return nothing if the user cannot be found", async () => {
+    it("should return nothing if the user cannot be found", async () => {
       const user = await getUserById("123");
       expect(user).toBeUndefined();
     });
-    it("Should return the Firestore document ID as the ID for the user", async () => {
+    it("should return the Firestore document ID as the ID for the user", async () => {
       Firestore.prototype.get.mockImplementation(() => ({
         empty: false,
         id: "123",
@@ -792,13 +792,13 @@ describe("Firestore Datastore", () => {
   });
 
   describe("Getting a list of users", () => {
-    it("Should return an empty array if no users are found", async () => {
+    it("should return an empty array if no users are found", async () => {
       const listOfUsers = await listUsers();
       expect(listOfUsers.length).toBe(0);
       expect(Array.isArray(listOfUsers)).toBeTruthy();
     });
 
-    it("Should use the Firestore document ID as the ID for each user", async () => {
+    it("should use the Firestore document ID as the ID for each user", async () => {
       Firestore.prototype.get.mockImplementation(() => ({
         empty: false,
         id: "123",
@@ -829,13 +829,13 @@ describe("Firestore Datastore", () => {
         "He defeated the dark lord!"
       );
     });
-    it("Should handle when a qid has not been given", () => {
+    it("should handle when a qid has not been given", () => {
       expect(() => createHistoryEvent(null, mockHistoryEvent)).not.toThrow();
     });
-    it("Should handle when an event has not been given", () => {
+    it("should handle when an event has not been given", () => {
       expect(() => createHistoryEvent("123", null)).not.toThrow();
     });
-    it("Should put the new history event at the front of the list", async () => {
+    it("should put the new history event at the front of the list", async () => {
       Firestore.prototype.get.mockImplementation(() => ({
         empty: false,
         data: () => baseQuestionnaire,
@@ -851,11 +851,11 @@ describe("Firestore Datastore", () => {
   });
 
   describe("Saving a base questionnaire", () => {
-    it("Should handle when an ID cannot be found within the given base questionnaire", async () => {
+    it("should handle when an ID cannot be found within the given base questionnaire", async () => {
       await expect(saveMetadata({})).rejects.toThrow();
     });
 
-    it("Should update the 'updatedAt' property", async () => {
+    it("should update the 'updatedAt' property", async () => {
       const updatedAt = new Date();
       const updatedBaseQuestionnaire = await saveMetadata({
         ...baseQuestionnaire,
@@ -868,10 +868,10 @@ describe("Firestore Datastore", () => {
   });
 
   describe("Creating default comments", () => {
-    it("Should handle when a questionnaireId has not been given", () => {
+    it("should handle when a questionnaireId has not been given", () => {
       expect(() => createComments()).not.toThrow();
     });
-    it("Should return a default comments object", async () => {
+    it("should return a default comments object", async () => {
       const commentsFromDb = await createComments("123");
       expect(commentsFromDb).toMatchObject({
         comments: {},
@@ -905,10 +905,10 @@ describe("Firestore Datastore", () => {
         ],
       };
     });
-    it("Should handle when a questionnareId has not been given", () => {
+    it("should handle when a questionnareId has not been given", () => {
       expect(() => getCommentsForQuestionnaire()).not.toThrow();
     });
-    it("Should transform Firestore Timestamps into JS Date objects", async () => {
+    it("should transform Firestore Timestamps into JS Date objects", async () => {
       Firestore.prototype.get.mockImplementation(() => ({
         data: () => ({
           comments: {
@@ -966,10 +966,10 @@ describe("Firestore Datastore", () => {
         },
       };
     });
-    it("Should handle a questionnaireId not being found within the given comments object", () => {
+    it("should handle a questionnaireId not being found within the given comments object", () => {
       expect(() => saveComments(mockCommentsObject)).not.toThrow();
     });
-    it("Should return the questionnaire comments object", async () => {
+    it("should return the questionnaire comments object", async () => {
       const commentsFromDb = await saveComments({
         ...mockCommentsObject,
         questionnaireId: "123",
@@ -980,10 +980,10 @@ describe("Firestore Datastore", () => {
   });
 
   describe("Updating a user", () => {
-    it("Should handle not finding an ID within the given user object", () => {
+    it("should handle not finding an ID within the given user object", () => {
       expect(() => updateUser(user)).not.toThrow();
     });
-    it("Should return the updated user object", async () => {
+    it("should return the updated user object", async () => {
       const changedUser = { ...user, name: "Harry James Potter", id: "123" };
       const userFromDb = await updateUser(changedUser);
       expect(userFromDb.updatedAt instanceof Date).toBeTruthy();
