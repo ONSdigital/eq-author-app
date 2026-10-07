@@ -437,6 +437,7 @@ const buildPaginationQuery = async ({
 };
 
 const mapQuestionnaireDocuments = (snapshot) =>
+  // Maps Firestore documents to JavaScript objects and converts timestamps to dates
   snapshot.docs.map((doc) => ({
     ...doc.data(),
     editors: doc.data().editors || [],
@@ -447,10 +448,12 @@ const mapQuestionnaireDocuments = (snapshot) =>
 let questionnairesInFlightPromise = null;
 
 const fetchAllQuestionnaires = async () => {
+  // Returns in-flight promise if available to avoid redundant Firestore queries
   if (questionnairesInFlightPromise) {
     return questionnairesInFlightPromise;
   }
 
+  // Otherwise, fetches all questionnaires from Firestore and stores the in-flight promise
   questionnairesInFlightPromise = (async () => {
     const snapshot = await db
       .collection("questionnaires")
