@@ -432,7 +432,7 @@ const buildPaginationQuery = async ({
   }
   // Throws an error when both firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage are provided
   throw new Error(
-    "Invalid input - both firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage have been provided (from applyFirestorePagination)"
+    "Invalid input - both firstQuestionnaireIdOnPage and lastQuestionnaireIdOnPage have been provided (from buildPaginationQuery)"
   );
 };
 
