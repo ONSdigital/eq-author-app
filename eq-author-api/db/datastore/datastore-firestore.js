@@ -22,6 +22,16 @@ let db;
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+const getValidatedResultsPerPage = (resultsPerPage) => {
+  const parsedResultsPerPage = Number(resultsPerPage);
+
+  if (!Number.isFinite(parsedResultsPerPage) || parsedResultsPerPage <= 0) {
+    return 10;
+  }
+
+  return parsedResultsPerPage;
+};
+
 const connectDB = () => {
   if (process.env.GOOGLE_AUTH_PROJECT_ID) {
     db = new Firestore({
@@ -493,11 +503,13 @@ const getFilteredQuestionnaires = async (input = {}) => {
 const listFilteredQuestionnaires = async (input = {}) => {
   try {
     const {
-      resultsPerPage = 10,
+      resultsPerPage,
       searchByTitleOrShortCode = "",
       firstQuestionnaireIdOnPage,
       lastQuestionnaireIdOnPage,
     } = input ?? {};
+
+    const validatedResultsPerPage = getValidatedResultsPerPage(resultsPerPage);
 
     // Paginates as part of the Firestore query if not searching by title or short code
     if (normaliseStringValue(searchByTitleOrShortCode).length === 0) {
@@ -507,7 +519,7 @@ const listFilteredQuestionnaires = async (input = {}) => {
 
       questionnairesQuery = await buildPaginationQuery({
         questionnairesQuery,
-        resultsPerPage,
+        resultsPerPage: validatedResultsPerPage,
         firstQuestionnaireIdOnPage,
         lastQuestionnaireIdOnPage,
       });
@@ -532,7 +544,7 @@ const listFilteredQuestionnaires = async (input = {}) => {
       return [];
     }
 
-    return filteredQuestionnaires.slice(0, resultsPerPage);
+    return filteredQuestionnaires.slice(0, validatedResultsPerPage);
   } catch (error) {
     logger.error(
       { error: error.stack, input },
@@ -556,7 +568,7 @@ const getTotalFilteredQuestionnaires = async (input = {}) => {
 };
 
 const getTotalPages = async (input = {}) => {
-  const resultsPerPage = input?.resultsPerPage || 10;
+  const resultsPerPage = getValidatedResultsPerPage(input?.resultsPerPage);
   const totalResults = await getTotalFilteredQuestionnaires(input);
 
   if (totalResults === undefined) {

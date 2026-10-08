@@ -351,6 +351,34 @@ describe("Firestore Datastore", () => {
       expect(questionnaires[0].title).toBe("Untitled questionnaire");
     });
 
+    it("should default null resultsPerPage to 10 when no search is applied", async () => {
+      Firestore.prototype.get.mockImplementation(() => ({
+        empty: false,
+        docs: [makeQuestionnaireDoc()],
+      }));
+
+      await listFilteredQuestionnaires({
+        searchByTitleOrShortCode: "",
+        resultsPerPage: null,
+      });
+
+      expect(Firestore.prototype.limit).toHaveBeenCalledWith(10);
+    });
+
+    it("should default non-positive resultsPerPage to 10 when no search is applied", async () => {
+      Firestore.prototype.get.mockImplementation(() => ({
+        empty: false,
+        docs: [makeQuestionnaireDoc()],
+      }));
+
+      await listFilteredQuestionnaires({
+        searchByTitleOrShortCode: "",
+        resultsPerPage: 0,
+      });
+
+      expect(Firestore.prototype.limit).toHaveBeenCalledWith(10);
+    });
+
     it("should paginate to the previous page when firstQuestionnaireIdOnPage is provided", async () => {
       Firestore.prototype.get.mockImplementation(() => ({
         empty: false,
@@ -410,7 +438,10 @@ describe("Firestore Datastore", () => {
             title: "Employee Check-In",
             shortTitle: "HR-1",
           }),
-          makeQuestionnaireDoc({ title: "Weather survey", shortTitle: "WX" }),
+          makeQuestionnaireDoc({
+            title: "Weather survey",
+            shortTitle: "WX",
+          }),
           makeQuestionnaireDoc({
             title: "Quarterly report",
             shortTitle: "EMP-02",
@@ -427,6 +458,64 @@ describe("Firestore Datastore", () => {
       expect(questionnaires[0].title).toBe("Employee Check-In");
     });
 
+    it("should default null resultsPerPage to 10 when searching", async () => {
+      Firestore.prototype.get.mockImplementation(() => ({
+        empty: false,
+        docs: [
+          makeQuestionnaireDoc({
+            title: "Employee Check-In",
+            shortTitle: "HR-1",
+          }),
+          makeQuestionnaireDoc({
+            title: "Quarterly report",
+            shortTitle: "EMP-02",
+          }),
+          makeQuestionnaireDoc({
+            title: "Weather survey",
+            shortTitle: "WX",
+          }),
+        ],
+      }));
+
+      const questionnaires = await listFilteredQuestionnaires({
+        searchByTitleOrShortCode: "emp",
+        resultsPerPage: null,
+      });
+
+      expect(questionnaires.length).toBe(2);
+      expect(questionnaires[0].title).toBe("Employee Check-In");
+      expect(questionnaires[1].title).toBe("Quarterly report");
+    });
+
+    it("should default non-positive resultsPerPage to 10 when searching", async () => {
+      Firestore.prototype.get.mockImplementation(() => ({
+        empty: false,
+        docs: [
+          makeQuestionnaireDoc({
+            title: "Employee Check-In",
+            shortTitle: "HR-1",
+          }),
+          makeQuestionnaireDoc({
+            title: "Quarterly report",
+            shortTitle: "EMP-02",
+          }),
+          makeQuestionnaireDoc({
+            title: "Weather survey",
+            shortTitle: "WX",
+          }),
+        ],
+      }));
+
+      const questionnaires = await listFilteredQuestionnaires({
+        searchByTitleOrShortCode: "emp",
+        resultsPerPage: -5,
+      });
+
+      expect(questionnaires.length).toBe(2);
+      expect(questionnaires[0].title).toBe("Employee Check-In");
+      expect(questionnaires[1].title).toBe("Quarterly report");
+    });
+
     it("should return matches for short title when searching", async () => {
       Firestore.prototype.get.mockImplementation(() => ({
         empty: false,
@@ -435,7 +524,10 @@ describe("Firestore Datastore", () => {
             title: "Employee Check-In",
             shortTitle: "HR-1",
           }),
-          makeQuestionnaireDoc({ title: "Weather survey", shortTitle: "WX" }),
+          makeQuestionnaireDoc({
+            title: "Weather survey",
+            shortTitle: "WX",
+          }),
           makeQuestionnaireDoc({
             title: "Quarterly report",
             shortTitle: "QR-01",
@@ -469,7 +561,10 @@ describe("Firestore Datastore", () => {
             title: "EmployEE Check-In v2  ",
             shortTitle: "HR-2",
           }),
-          makeQuestionnaireDoc({ title: "Weather survey", shortTitle: "WX" }),
+          makeQuestionnaireDoc({
+            title: "Weather survey",
+            shortTitle: "WX",
+          }),
           makeQuestionnaireDoc({
             title: "Quarterly report",
             shortTitle: "EMP-02",
@@ -707,6 +802,24 @@ describe("Firestore Datastore", () => {
       }));
 
       const totalPages = await getTotalPages(null);
+
+      expect(totalPages).toBe(1);
+    });
+
+    it("should default pagination to 10 results per page when called with non-positive input", async () => {
+      Firestore.prototype.get.mockImplementation(() => ({
+        empty: false,
+        docs: [
+          makeQuestionnaireDoc({ title: "Employee survey" }),
+          makeQuestionnaireDoc({ title: "Employee pulse" }),
+          makeQuestionnaireDoc({ title: "Employee feedback" }),
+        ],
+      }));
+
+      const totalPages = await getTotalPages({
+        searchByTitleOrShortCode: "employee",
+        resultsPerPage: 0,
+      });
 
       expect(totalPages).toBe(1);
     });
