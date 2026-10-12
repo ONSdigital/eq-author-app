@@ -1066,6 +1066,7 @@ type Mutation {
   setQuestionnaireLocked(input: SetQuestionnaireLockedInput!): Questionnaire
 
   importQuestions(input: ImportQuestionsInput!): Section
+  importQuestionsToNewFolder(input: ImportQuestionsInput!): Section
   importFolders(input: ImportFoldersInput!): Section
   importSections(input: ImportSectionsInput!): [Section]
 
