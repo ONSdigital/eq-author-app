@@ -156,8 +156,7 @@
                 "type": "array",
                 "items": {
                   "type": "string"
-                },
-                "minItems": 1
+                }
               },
               "customValue": {
                 "type": "object",
@@ -200,6 +199,17 @@
                     "errorMessage": "ERR_RIGHTSIDE_NO_CONDITION"
                   }
                 }
+              }
+            },
+            "if": {
+              "properties": {
+                "type": { "const": "SelectedOptions" }
+              },
+              "required": ["type"]
+            },
+            "then": {
+              "properties": {
+                "optionIds": { "minItems": 1 }
               }
             },
             "required": ["type"],

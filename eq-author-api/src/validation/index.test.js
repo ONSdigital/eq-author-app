@@ -1788,6 +1788,60 @@ describe("schema validation", () => {
       expect(routingErrors[0].errorCode).toBe(ERR_RIGHTSIDE_NO_VALUE);
     });
 
+    it("should accept a CountOf value with stale empty optionIds", () => {
+      questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
+      questionnaire.sections[0].folders[0].pages[0].answers[0] = {
+        id: "answer_1",
+        type: "Checkbox",
+        options: [{ id: "option-1" }, { id: "option-2" }],
+      };
+      questionnaire.sections[0].folders[0].pages[0].routing.rules[0].expressionGroup =
+        {
+          id: "group-1",
+          expressions: [
+            {
+              id: "express-1",
+              condition: "CountOf",
+              secondaryCondition: "Equal",
+              left: { type: "Answer", answerId: "answer_1" },
+              right: {
+                type: "Custom",
+                optionIds: [],
+                customValue: { number: 1 },
+              },
+            },
+          ],
+        };
+
+      expect(validation(questionnaire)).toEqual([]);
+    });
+
+    it.only("should return validation error for empty selected options", () => {
+      questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
+      questionnaire.sections[0].folders[0].pages[0].answers[0] = {
+        id: "answer_1",
+        type: "Checkbox",
+        options: [{ id: "option-1" }],
+      };
+      questionnaire.sections[0].folders[0].pages[0].routing.rules[0].expressionGroup =
+        {
+          id: "group-1",
+          expressions: [
+            {
+              id: "express-1",
+              condition: "AnyOf",
+              left: { type: "Answer", answerId: "answer_1" },
+              right: { type: "SelectedOptions", optionIds: [] },
+            },
+          ],
+        };
+
+      const routingErrors = validation(questionnaire);
+
+      expect(routingErrors).toHaveLength(1);
+      expect(routingErrors[0].errorCode).toBe(ERR_RIGHTSIDE_NO_VALUE);
+    });
+
     it("should validate that the count number does not exceed the number of options in the answer being routed", () => {
       expect(validation(questionnaire)).toHaveLength(0);
       questionnaire.sections[0].folders[0].pages[0].routing = defaultRouting;
