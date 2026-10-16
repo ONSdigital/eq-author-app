@@ -6,6 +6,7 @@ const {
   CURRENCY,
   PERCENTAGE,
   NUMBER,
+  DATE_RANGE,
 } = require("../../constants/answerTypes");
 
 const { includes, flatten, values, omit, find, get } = require("lodash/fp");
@@ -84,6 +85,16 @@ module.exports = (answer, page) => {
   if (answersWithRepeatingAnswersToggle.includes(answer.type)) {
     answer.repeatingLabelAndInput = false;
     answer.repeatingLabelAndInputListId = "";
+  }
+
+  // Creates date range answers with default empty labels
+  if (answer.type === DATE_RANGE) {
+    if (answer.label === null || answer.label === undefined) {
+      answer.label = "";
+    }
+    if (answer.secondaryLabel === null || answer.secondaryLabel === undefined) {
+      answer.secondaryLabel = "";
+    }
   }
 
   logger.info(`Answer created with Properties ${JSON.stringify(properties)}`);

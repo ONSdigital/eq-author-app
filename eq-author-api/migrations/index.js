@@ -57,6 +57,7 @@ const migrations = [
   require("./convertEmTagsToStrongTags"),
   require("./removeConfirmationPageQCodes"),
   require("./removeExtraSpaces"),
+  require("./addDefaultDateRangeLabels"),
 ];
 
 const currentVersion = migrations.length;
